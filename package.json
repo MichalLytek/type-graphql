@@ -1,0 +1,22 @@
+{
+  "name": "type-graphql",
+  "version": "0.0.1",
+  "keywords": [
+    "typescript",
+    "graphql",
+    "apollo",
+    "controllers"
+  ],
+  "author": {
+    "name": "Michał Lytek",
+    "url": "https://github.com/19majkel94"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.2",
+    "tslint": "^5.8.0"
+  }
+}
