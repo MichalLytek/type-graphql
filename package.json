@@ -13,10 +13,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^9.3.0",
+    "class-transformer": "^0.1.8",
     "typescript": "^2.6.2"
   },
   "devDependencies": {
     "prettier": "^1.9.2",
-    "tslint": "^5.8.0"
+    "reflect-metadata": "^0.1.10",
+    "tslint": "^5.8.0",
+    "typeorm": "^0.1.10"
   }
 }

@@ -6,6 +6,7 @@
     "jsRules": {},
     "rules": {
         "max-line-length": [true, 120],
+        "max-classes-per-file": false,
         "member-access": [true, "no-public"],
         "arrow-parens": [true, "ban-single-arg-parens"],
         "unified-signatures": false,
