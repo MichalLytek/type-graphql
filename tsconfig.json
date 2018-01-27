@@ -18,7 +18,7 @@
         "outDir": "./build",
         "rootDir": "./src",
         "sourceMap": true,
-        "target": "es2015",
+        "target": "es2017",
         "strictNullChecks": true,
         "suppressImplicitAnyIndexErrors": false,
         "removeComments": false,
