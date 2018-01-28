@@ -1,5 +1,5 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { getType } from "./getType";
+import { findType } from "./findType";
 import { ReturnTypeFunc, ClassType } from "../types";
 import { ParamDefinition } from "../metadata/definition-interfaces";
 
@@ -7,24 +7,24 @@ export function getParamInfo(
   prototype: Object,
   propertyKey: string | symbol,
   parameterIndex: number,
-  returnTypeOrFunc?: ReturnTypeFunc | ClassType,
+  returnTypeFunc?: ReturnTypeFunc,
 ) {
   if (typeof propertyKey === "symbol") {
     throw new Error("Symbol keys are not supported yet!");
   }
 
-  const { type } = getType({
+  const { getType } = findType({
     metadataKey: "design:paramtypes",
     prototype,
     propertyKey,
     parameterIndex,
-    returnTypeOrFunc,
+    returnTypeFunc,
   });
 
   return {
     target: prototype.constructor,
     methodName: propertyKey,
     index: parameterIndex,
-    type,
+    getType,
   };
 }

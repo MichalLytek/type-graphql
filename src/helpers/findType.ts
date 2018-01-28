@@ -1,9 +1,8 @@
-import { ReturnTypeFunc, TypeOptions, ClassType } from "../types";
-import { getTypeFromFunc } from "./getTypeFromFunc";
+import { ReturnTypeFunc, TypeOptions, ClassType, TypeValueResolver } from "../types";
 import { bannedTypes } from "./returnTypes";
 
 export interface TypeInfo {
-  type: Function;
+  getType: TypeValueResolver;
   typeOptions: TypeOptions;
 }
 
@@ -11,20 +10,19 @@ export interface GetTypeParams {
   metadataKey: "design:type" | "design:returntype" | "design:paramtypes";
   prototype: Object;
   propertyKey: string;
-  returnTypeOrFunc?: ReturnTypeFunc | ClassType;
+  returnTypeFunc?: ReturnTypeFunc;
   typeOptions?: TypeOptions;
   parameterIndex?: number;
 }
-export function getType({
+export function findType({
   metadataKey,
   prototype,
   propertyKey,
-  returnTypeOrFunc,
+  returnTypeFunc,
   typeOptions = {},
   parameterIndex,
 }: GetTypeParams): TypeInfo {
   const options: TypeOptions = { ...typeOptions };
-  const designType = returnTypeOrFunc && getTypeFromFunc(returnTypeOrFunc);
   let metadataDesignType: Function | undefined;
   const reflectedType: Function[] | Function | undefined = Reflect.getMetadata(
     metadataKey,
@@ -38,8 +36,8 @@ export function getType({
   }
 
   if (metadataDesignType && bannedTypes.includes(metadataDesignType)) {
-    if (!designType) {
-      console.error(
+    if (!returnTypeFunc) {
+      throw new Error(
         `You need to provide explicit type for ${prototype.constructor.name}#${propertyKey}.`,
       );
     }
@@ -48,14 +46,14 @@ export function getType({
     }
   }
 
-  if (designType) {
+  if (returnTypeFunc) {
     return {
-      type: designType,
+      getType: returnTypeFunc as TypeValueResolver,
       typeOptions: options,
     };
   } else if (metadataDesignType) {
     return {
-      type: metadataDesignType,
+      getType: () => metadataDesignType!,
       typeOptions: options,
     };
   } else {

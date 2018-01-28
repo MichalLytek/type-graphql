@@ -4,7 +4,7 @@ export function GraphQLResolver(type: any): ClassDecorator {
   return target => {
     MetadataStorage.registerResolver({
       target,
-      parentType: type,
+      getParentType: () => type,
     });
   };
 }

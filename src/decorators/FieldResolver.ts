@@ -8,7 +8,7 @@ export function FieldResolver(
 ): MethodDecorator {
   return (prototype, propertyKey) => {
     MetadataStorage.registerFieldResolver({
-      type: "external",
+      kind: "external",
       ...getHandlerInfo(prototype, propertyKey, returnTypeFunc),
     });
   };

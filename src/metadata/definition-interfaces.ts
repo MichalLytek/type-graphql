@@ -1,21 +1,21 @@
-import { TypeOptions } from "../types";
+import { TypeOptions, TypeValueResolver, TypeValue } from "../types";
 
 export interface HandlerDefinition {
   methodName: string;
   handler: Function;
   target: Function;
-  returnType: any;
+  getReturnType: TypeValueResolver;
   returnTypeOptions: TypeOptions;
   params?: ParamDefinition[];
 }
 export interface FieldResolverDefinition extends HandlerDefinition {
-  type: "internal" | "external";
-  parentType?: Function;
+  kind: "internal" | "external";
+  parentType?: TypeValue;
 }
 
 export interface ResolverDefinition {
   target: Function;
-  parentType: Function;
+  getParentType: TypeValueResolver;
 }
 
 export interface ClassDefinition {
@@ -27,7 +27,7 @@ export interface ClassDefinition {
 export interface FieldDefinition {
   target: Function;
   name: string;
-  type: object;
+  getType: TypeValueResolver;
   typeOptions: TypeOptions;
 }
 
@@ -43,11 +43,11 @@ export interface SimpleParamDefinition extends BasicParamDefinition {
 }
 export interface ArgParamDefinition extends BasicParamDefinition {
   kind: "arg";
-  type: Function;
+  getType: TypeValueResolver;
   name: string;
 }
 export interface ArgsParamDefinition extends BasicParamDefinition {
   kind: "args";
-  type: Function;
+  getType: TypeValueResolver;
 }
 export type ParamDefinition = SimpleParamDefinition | ArgParamDefinition | ArgsParamDefinition;

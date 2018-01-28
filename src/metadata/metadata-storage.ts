@@ -15,9 +15,9 @@ export abstract class MetadataStorage {
   static readonly inputTypes: ClassDefinition[] = [];
   static readonly argumentTypes: ClassDefinition[] = [];
 
-  static readonly resolvers: ResolverDefinition[] = [];
-  static readonly fields: FieldDefinition[] = [];
-  static readonly params: ParamDefinition[] = [];
+  private static readonly resolvers: ResolverDefinition[] = [];
+  private static readonly fields: FieldDefinition[] = [];
+  private static readonly params: ParamDefinition[] = [];
 
   static registerQueryHandler(definition: HandlerDefinition) {
     this.queries.push(definition);
@@ -77,8 +77,10 @@ export abstract class MetadataStorage {
     this.buildHandlerDefinitions(definition);
     definition.forEach(def => {
       def.parentType =
-        def.type === "external"
-          ? MetadataStorage.resolvers.find(resolver => resolver.target === def.target)!.parentType
+        def.kind === "external"
+          ? MetadataStorage.resolvers.find(
+              resolver => resolver.target === def.target,
+            )!.getParentType()
           : def.target;
     });
   }
