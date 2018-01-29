@@ -3,7 +3,7 @@ import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 
 export function Query(
-  returnTypeFunc: ReturnTypeFunc,
+  returnTypeFunc?: ReturnTypeFunc,
   options: TypeOptions = {},
 ): MethodDecorator {
   return (prototype, methodName) => {

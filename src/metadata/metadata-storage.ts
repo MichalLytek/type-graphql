@@ -76,12 +76,12 @@ export abstract class MetadataStorage {
   private static buildFieldResolverDefinitions(definition: FieldResolverDefinition[]) {
     this.buildHandlerDefinitions(definition);
     definition.forEach(def => {
-      def.parentType =
+      def.getParentType =
         def.kind === "external"
           ? MetadataStorage.resolvers.find(
               resolver => resolver.target === def.target,
-            )!.getParentType()
-          : def.target;
+            )!.getParentType
+          : () => def.target;
     });
   }
 }

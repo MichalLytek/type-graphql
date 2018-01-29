@@ -1,10 +1,10 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 
-export function GraphQLResolver(type: any): ClassDecorator {
+export function GraphQLResolver(typeFunc: () => any): ClassDecorator {
   return target => {
     MetadataStorage.registerResolver({
       target,
-      getParentType: () => type,
+      getParentType: typeFunc,
     });
   };
 }

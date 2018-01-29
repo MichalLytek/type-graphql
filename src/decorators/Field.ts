@@ -16,7 +16,8 @@ export function Field(
     if (typeof propertyKey === "symbol") {
       throw new Error("Symbol keys are not supported yet!");
     }
-    const isResolverMethod = descriptor && descriptor.value;
+    const isResolver = Boolean(descriptor);
+    const isResolverMethod = Boolean(descriptor && descriptor.value);
 
     const { getType, typeOptions } = findType({
       metadataKey: isResolverMethod ? "design:returntype" : "design:type",
@@ -33,10 +34,15 @@ export function Field(
       target: prototype.constructor,
     });
 
-    if (isResolverMethod) {
+    if (isResolver) {
       MetadataStorage.registerFieldResolver({
         kind: "internal",
-        ...getHandlerInfo(prototype, propertyKey, returnTypeFunc),
+        ...getHandlerInfo(
+          prototype,
+          propertyKey,
+          getType,
+          options,
+        ),
       });
     }
   };

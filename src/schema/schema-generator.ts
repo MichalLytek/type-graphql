@@ -26,6 +26,8 @@ import {
 } from "../metadata/definition-interfaces";
 import { TypeOptions, TypeValue } from "../types";
 import { Float, Int, ID } from "../scalars";
+import { wrapWithTypeOptions, convertTypeIfScalar } from "../utils/type-helpers";
+import { createResolver, createFieldResolver } from "../resolvers/create";
 
 interface TypeInfo {
   target: Function;
@@ -45,8 +47,8 @@ export abstract class SchemaGenerator {
 
     return new GraphQLSchema({
       query: this.buildRootQuery(),
-      types: this.buildTypes(),
       mutation: this.buildRootMutation(),
+      types: this.buildTypes(),
     });
   }
 
@@ -58,7 +60,14 @@ export abstract class SchemaGenerator {
         description: "Object description",
         fields: () =>
           objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
+            const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
+              resolver =>
+                resolver.getParentType!() === objectType.target &&
+                resolver.methodName === field.name,
+            );
+            // debugger
             fields[field.name] = {
+              resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
               type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
             };
             return fields;
@@ -111,6 +120,7 @@ export abstract class SchemaGenerator {
         type: this.getGraphQLOutputType(handler.getReturnType(), handler.returnTypeOptions),
         args: this.generateHandlerArgs(handler.params!),
         description: "Handler description",
+        resolve: createResolver(handler),
       };
       return fields;
     }, {});
@@ -137,10 +147,10 @@ export abstract class SchemaGenerator {
     typeOptions: TypeOptions = {},
   ): GraphQLOutputType {
     const gqlType: GraphQLOutputType =
-      this.convertTypeIfScalar(type) ||
+      convertTypeIfScalar(type) ||
       this.typesInfo.find(it => it.target === (type as Function))!.type;
 
-    return this.wrapWithTypeOptions(gqlType, typeOptions);
+    return wrapWithTypeOptions(gqlType, typeOptions);
   }
 
   private static getGraphQLInputType(
@@ -148,39 +158,9 @@ export abstract class SchemaGenerator {
     typeOptions: TypeOptions = {},
   ): GraphQLInputType {
     const gqlType: GraphQLInputType =
-      this.convertTypeIfScalar(type) ||
+      convertTypeIfScalar(type) ||
       this.inputsInfo.find(it => it.target === (type as Function))!.type;
 
-    return this.wrapWithTypeOptions(gqlType, typeOptions);
-  }
-
-  private static convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
-    switch (type) {
-      case String:
-        return GraphQLString;
-      case Number:
-      case Float:
-        return GraphQLFloat;
-      case Int:
-        return GraphQLInt;
-      case ID:
-        return GraphQLID;
-      default:
-        return undefined;
-    }
-  }
-
-  private static wrapWithTypeOptions<T extends GraphQLType>(
-    type: T,
-    typeOptions: TypeOptions = {},
-  ): T {
-    let gqlType: GraphQLType = type;
-    if (!typeOptions.nullable) {
-      gqlType = new GraphQLNonNull(gqlType);
-    }
-    if (typeOptions.array) {
-      gqlType = new GraphQLNonNull(new GraphQLList(gqlType));
-    }
-    return gqlType as T;
+    return wrapWithTypeOptions(gqlType, typeOptions);
   }
 }

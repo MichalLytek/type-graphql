@@ -24,7 +24,7 @@ app.listen(4000, () => {
   console.log("Running a GraphQL API server at localhost:4000/graphql");
 });
 
-MetadataStorage.build();
+// MetadataStorage.build();
 // MetadataStorage.objectTypes.forEach(objectType => {
 //   console.log("Object:", objectType.name, objectType.fields);
 // });
@@ -41,7 +41,7 @@ MetadataStorage.build();
 //   console.log("Mutation:", mutation.methodName, mutation.params);
 // });
 // MetadataStorage.fieldResolvers.forEach(resolver => {
-//   console.log("FieldResolver:", resolver.parentType!.name, resolver.methodName, resolver.params);
+//   console.log("FieldResolver:", (resolver.getParentType!() as any).name, resolver.methodName, resolver.params);
 // });
 
 // const recipe: Recipe = {

@@ -19,6 +19,7 @@ import {
   Root,
   Mutation,
 } from "../decorators";
+import { plainToClass } from "class-transformer";
 
 // mocks
 export type ContextType = {
@@ -48,6 +49,9 @@ export class Rate {
 
 @GraphQLObjectType()
 export class Recipe {
+  private instanceValue = Math.random();
+  private helloResponse = "World!";
+
   @Field(type => ID)
   readonly id: string;
 
@@ -59,7 +63,7 @@ export class Recipe {
 
   @Field()
   get hello(): string {
-    return "world";
+    return this.helloResponse;
   }
 
   @Field(type => Rate)
@@ -68,8 +72,10 @@ export class Recipe {
   @Field(type => Int)
   private ratingsCount(
     @Arg("minRate", type => Int)
-    minRate: number,
+    minRate: number = 0,
   ): number {
+    // check if this (instance) is not shared between objects
+    console.log("instanceValue", this.instanceValue);
     return this.ratings.filter(rating => rating.value >= minRate).length;
   }
 
@@ -95,25 +101,51 @@ export class RateInput {
 @GraphQLResolver(() => Recipe)
 // export class RecipeResolver implements Resolver<Recipe> {
 export class RecipeResolver {
-  // static test = true;
-
-  constructor(public recipeRepository: Repository<Recipe>) {}
+  private helloStr = "Secret hello";
+  private recipesData: Recipe[] = [
+    plainToClass(Recipe, {
+      id: 1,
+      title: "Recipe 1",
+      description: "Desc 2",
+      ratings: [
+        { user: null, value: 5},
+        { user: null, value: 3},
+        { user: null, value: 3},
+      ],
+    }),
+    plainToClass(Recipe, {
+      id: 2,
+      title: "Recipe 2",
+      description: "Desc",
+      ratings: [
+        { user: null, value: 5},
+        { user: null, value: 1},
+        { user: null, value: 4},
+        { user: null, value: 2},
+      ],
+    })
+  ];
 
   @Query(returnType => Recipe, { nullable: true })
-  recipe(@Args() { recipeId }: FindRecipeArgs) {
-    return this.recipeRepository.findOneById(recipeId);
+  recipe(@Args() { recipeId }: FindRecipeArgs): Recipe | undefined {
+    return this.recipesData.find(recipe => recipe.id == recipeId);
   }
 
   @Query(returnType => Recipe, { array: true })
-  recipes(): Promise<Array<Recipe>> {
-    return this.recipeRepository.find();
+  async recipes(): Promise<Array<Recipe>> {
+    return this.recipesData;
+  }
+
+  @Query()
+  hello(@Arg("name") name: string): string {
+    return `${this.helloStr}, ${name}!`;
   }
 
   // @Authorized()
   @Mutation(() => Recipe)
   async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput) {
     // find the document
-    const recipe = await this.recipeRepository.findOneById(rateInput.recipeId);
+    const recipe = await this.recipesData.find(recipe => recipe.id == rateInput.recipeId);
     if (!recipe) {
       throw new Error("Invalid recipe ID");
     }
@@ -124,9 +156,6 @@ export class RecipeResolver {
       value: rateInput.value,
       user,
     });
-
-    // and save it
-    return this.recipeRepository.save(recipe);
   }
 
   @FieldResolver(returnType => Float)

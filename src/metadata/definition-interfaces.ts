@@ -1,4 +1,4 @@
-import { TypeOptions, TypeValueResolver, TypeValue } from "../types";
+import { TypeOptions, TypeValueResolver, TypeValue, ClassTypeResolver } from "../types";
 
 export interface HandlerDefinition {
   methodName: string;
@@ -10,12 +10,12 @@ export interface HandlerDefinition {
 }
 export interface FieldResolverDefinition extends HandlerDefinition {
   kind: "internal" | "external";
-  parentType?: TypeValue;
+  getParentType?: ClassTypeResolver;
 }
 
 export interface ResolverDefinition {
   target: Function;
-  getParentType: TypeValueResolver;
+  getParentType: ClassTypeResolver;
 }
 
 export interface ClassDefinition {

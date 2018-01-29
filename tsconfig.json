@@ -5,6 +5,10 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "es2017",
+            "esnext.asynciterable"
+        ],
         "moduleResolution": "node",
         "module": "commonjs",
         "noImplicitAny": true,
