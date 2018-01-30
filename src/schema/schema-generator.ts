@@ -67,8 +67,10 @@ export abstract class SchemaGenerator {
             );
             // debugger
             fields[field.name] = {
+              description: "Object field description",
               resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
               type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+              args: this.generateHandlerArgs(field.params!),
             };
             return fields;
           }, {}),
@@ -83,6 +85,7 @@ export abstract class SchemaGenerator {
         fields: () =>
           inputType.fields!.reduce<GraphQLInputFieldConfigMap>((fields, field) => {
             fields[field.name] = {
+              description: "Input field description",
               type: this.getGraphQLInputType(field.getType(), field.typeOptions),
             };
             return fields;
@@ -129,13 +132,19 @@ export abstract class SchemaGenerator {
   private static generateHandlerArgs(params: ParamDefinition[]): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
-        args[param.name] = { type: this.getGraphQLInputType(param.getType()) };
+        args[param.name] = {
+          description: "Input argument field description",
+          type: this.getGraphQLInputType(param.getType(), param.typeOptions),
+        };
       } else if (param.kind === "args") {
         const argumentType = MetadataStorage.argumentTypes.find(
           it => it.target === param.getType(),
         )!;
         argumentType.fields!.forEach(field => {
-          args[field.name] = { type: this.getGraphQLInputType(field.getType()) };
+          args[field.name] = {
+            description: "Single argument field description",
+            type: this.getGraphQLInputType(field.getType(), field.typeOptions),
+          };
         });
       }
       return args;

@@ -29,6 +29,7 @@ export interface FieldDefinition {
   name: string;
   getType: TypeValueResolver;
   typeOptions: TypeOptions;
+  params?: ParamDefinition[];
 }
 
 /* Param definitions */
@@ -43,11 +44,13 @@ export interface SimpleParamDefinition extends BasicParamDefinition {
 }
 export interface ArgParamDefinition extends BasicParamDefinition {
   kind: "arg";
-  getType: TypeValueResolver;
   name: string;
+  getType: TypeValueResolver;
+  typeOptions: TypeOptions;
 }
 export interface ArgsParamDefinition extends BasicParamDefinition {
   kind: "args";
   getType: TypeValueResolver;
+  typeOptions: TypeOptions;
 }
 export type ParamDefinition = SimpleParamDefinition | ArgParamDefinition | ArgsParamDefinition;

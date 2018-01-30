@@ -63,7 +63,13 @@ export abstract class MetadataStorage {
 
   private static buildClassDefinitions(definitions: ClassDefinition[]) {
     definitions.forEach(def => {
-      def.fields = MetadataStorage.fields.filter(field => field.target === def.target);
+      const fields = MetadataStorage.fields.filter(field => field.target === def.target);
+      fields.forEach(field => {
+        field.params = MetadataStorage.params.filter(
+          param => param.target === field.target && field.name === param.methodName,
+        );
+      });
+      def.fields = fields;
     });
   }
   private static buildHandlerDefinitions(definition: HandlerDefinition[]) {
@@ -78,9 +84,8 @@ export abstract class MetadataStorage {
     definition.forEach(def => {
       def.getParentType =
         def.kind === "external"
-          ? MetadataStorage.resolvers.find(
-              resolver => resolver.target === def.target,
-            )!.getParentType
+          ? MetadataStorage.resolvers.find(resolver => resolver.target === def.target)!
+              .getParentType
           : () => def.target;
     });
   }

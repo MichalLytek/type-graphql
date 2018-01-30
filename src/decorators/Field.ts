@@ -41,7 +41,7 @@ export function Field(
           prototype,
           propertyKey,
           getType,
-          options,
+          typeOptions,
         ),
       });
     }

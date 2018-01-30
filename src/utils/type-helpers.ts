@@ -7,6 +7,7 @@ import {
   GraphQLType,
   GraphQLNonNull,
   GraphQLList,
+  GraphQLBoolean,
 } from "graphql";
 
 import { Float, Int, ID } from "../scalars";
@@ -16,6 +17,8 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   switch (type) {
     case String:
       return GraphQLString;
+    case Boolean:
+      return GraphQLBoolean;
     case Number:
     case Float:
       return GraphQLFloat;

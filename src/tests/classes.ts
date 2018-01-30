@@ -1,6 +1,7 @@
-// tslint:disable
+// tslint:disable:member-ordering
 import { Repository } from "typeorm";
 
+import { plainToClass } from "class-transformer";
 import { Int, ID, Float } from "../scalars";
 import { Resolver } from "../types";
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -19,12 +20,11 @@ import {
   Root,
   Mutation,
 } from "../decorators";
-import { plainToClass } from "class-transformer";
 
 // mocks
-export type ContextType = {
+export interface ContextType {
   user: User;
-};
+}
 
 @GraphQLObjectType()
 export class User {
@@ -47,11 +47,18 @@ export class Rate {
   user: User;
 }
 
+@GraphQLArgumentType()
+export class RecipeTestArgs {
+  @Field(type => Int, { nullable: true })
+  length?: number = 255;
+}
+
 @GraphQLObjectType()
 export class Recipe {
   private instanceValue = Math.random();
   private helloResponse = "World!";
 
+  // tslint:disable-next-line:member-ordering
   @Field(type => ID)
   readonly id: string;
 
@@ -69,13 +76,19 @@ export class Recipe {
   @Field(type => Rate)
   ratings: Rate[];
 
+  @Field()
+  private test(@Args() args: RecipeTestArgs): boolean {
+    console.log("test length:", args.length);
+    return true;
+  }
+
   @Field(type => Int)
   private ratingsCount(
-    @Arg("minRate", type => Int)
-    minRate: number = 0,
+    @Arg("minRate", type => Float, { nullable: true })
+    minRate: number = 0.0,
   ): number {
     // check if this (instance) is not shared between objects
-    console.log("instanceValue", this.instanceValue);
+    console.log("instanceValue", this.instanceValue, this.id);
     return this.ratings.filter(rating => rating.value >= minRate).length;
   }
 
@@ -104,7 +117,7 @@ export class RecipeResolver {
   private helloStr = "Secret hello";
   private recipesData: Recipe[] = [
     plainToClass(Recipe, {
-      id: 1,
+      id: "1",
       title: "Recipe 1",
       description: "Desc 2",
       ratings: [
@@ -114,7 +127,7 @@ export class RecipeResolver {
       ],
     }),
     plainToClass(Recipe, {
-      id: 2,
+      id: "2",
       title: "Recipe 2",
       description: "Desc",
       ratings: [
@@ -128,11 +141,11 @@ export class RecipeResolver {
 
   @Query(returnType => Recipe, { nullable: true })
   recipe(@Args() { recipeId }: FindRecipeArgs): Recipe | undefined {
-    return this.recipesData.find(recipe => recipe.id == recipeId);
+    return this.recipesData.find(recipe => recipe.id === recipeId);
   }
 
   @Query(returnType => Recipe, { array: true })
-  async recipes(): Promise<Array<Recipe>> {
+  async recipes(): Promise<Recipe[]> {
     return this.recipesData;
   }
 
@@ -143,9 +156,9 @@ export class RecipeResolver {
 
   // @Authorized()
   @Mutation(() => Recipe)
-  async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput) {
+  async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the document
-    const recipe = await this.recipesData.find(recipe => recipe.id == rateInput.recipeId);
+    const recipe = await this.recipesData.find(data => data.id === rateInput.recipeId);
     if (!recipe) {
       throw new Error("Invalid recipe ID");
     }
@@ -156,10 +169,12 @@ export class RecipeResolver {
       value: rateInput.value,
       user,
     });
+
+    return recipe;
   }
 
   @FieldResolver(returnType => Float)
-  averageRating(@Root() recipe: Recipe) {
+  private averageRatings(@Root() recipe: Recipe) {
     const ratingsCount = recipe.ratings.length;
     const ratingsSum = recipe.ratings.map(rating => rating.value).reduce((a, b) => a + b, 0);
 
