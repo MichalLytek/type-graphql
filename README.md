@@ -1,4 +1,7 @@
-# type-graphql
+![logo](https://github.com/19majkel94/type-graphql/blob/master/logo.png?raw=true)
+
+# TypeGraphQL
+Create GraphQL resolvers and schemas with TypeScript!
 
 ## Work in progress
 Please come back later! :wink:
