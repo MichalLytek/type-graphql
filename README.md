@@ -3,23 +3,20 @@
 # TypeGraphQL
 Create GraphQL resolvers and schemas with TypeScript!
 
-## Work in progress
-Please come back later! :wink:
-However, you can now see the API draft.
+## Design Goals
+We all love GraphQL but creating GraphQL API with TypeScript is a bit of pain.
+We have to mantain separate GQL schemas using SDL or JS API and keep the related TypeScript interfaces in sync with them. We also have separate ORM classes representing our db entities. This duplication is a really bad developer experience.
 
-## API Draft
-
-Let's start at the begining with an example.
-
-We have API for cooking recipes and we love using GraphQL for it.
-However, mantaining separate schemas (using SDL) with ORM classes and typescript interfaces is a bad developer experience.
-What if I told you that you can have only one source of truth with a little addition of decorators magic?
+What if I told you that you can have only one source of truth thanks to a little addition of decorators magic?
 Interested? So take a look at the quick intro to TypeGraphQL!
 
+## Getting started
+Let's start at the begining with an example.
+We have API for cooking recipes and we love using GraphQL for it.
 At first we will create the `Recipe` type, which is the foundations of our API:
 
 ```ts
-@GraphQLType()
+@GraphQLObjectType()
 class Recipe {
   @Field(type => ID)
   readonly id: string;
@@ -39,9 +36,9 @@ class Recipe {
 ```
 Take a look at the decorators:
 
-- `@GraphQLType()` marks the class as the `type` shape known from GraphQL SDL
-- `@Field()` marks the property as type field - it is also used to collect type metadata from TypeScript reflection system
-- the parameter in `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
+- `@GraphQLObjectType()` marks the class as the `object` shape known from GraphQL SDL as `type`
+- `@Field()` marks the property as the object's field - it is also used to collect type metadata from TypeScript reflection system
+- the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
 - we also have to declare `(type => Rate)` because of limitation of type reflection - emited type of `ratings` property is `Array`, so we need to know what is the type of items in the array
 
 This will generate GraphQL type corresponding to this:
@@ -55,10 +52,10 @@ type Recipe {
 }
 ```
 
-Then, we need to define what is the `Rate` type:
+Next, we need to define what is the `Rate` type:
 
 ```ts
-@GraphQLType()
+@GraphQLObjectType()
 class Rate {
   @Field(type => Int)
   value: number;
@@ -70,7 +67,7 @@ class Rate {
   user: User;
 }
 ```
-Again, take a look at `@Field(type => Int)` decorator - Javascript doesn't have integers so we have to mark that our number type will be `Int`, not `Float` (which is number by default).
+Again, take a look at `@Field(type => Int)` decorator - Javascript doesn't have integers so we have to mark that our number type will be `Int`, not `Float` (which is `number` by default).
 
 -----
 
@@ -78,31 +75,31 @@ So, as we have the base of our recipe related types, let's create a resolver!
 
 We will start by creating a class with apropiate decorator:
 ```ts
-@GraphQLResolver(Recipe)
-export class RecipeResolver implements Resolver<Recipe> {
+@GraphQLResolver(objectType => Recipe)
+export class RecipeResolver {
   // we will implement this later
 }
 ```
-`@GraphQLResolver` marks our class as a resolver of type `Recipe` (type info is needed for attaching field resolver to correct type). We can also implement `Resolver` interface to make sure that our field resolvers are correct.
+`@GraphQLResolver` marks our class as a resolver of type `Recipe` (type info is needed for attaching field resolver to correct type).
 
 Now let's create our first query:
 ```ts
-@GraphQLResolver(Recipe)
-export class RecipeResolver implements Resolver<Recipe> {
+@GraphQLResolver(objectType => Recipe)
+export class RecipeResolver {
   constructor(
     // declare to inject instance of our repository
     private readonly recipeRepository: Repository<Recipe>,
   ){}
 
   @Query(returnType => Recipe, { nullable: true })
-  async recipe(@Arguments() { recipeId }: FindRecipeArgs) {
+  async recipe(@Args() { recipeId }: FindRecipeArgs): Promise<Recipe | undefined> {
     return this.recipeRepository.findOneById(recipeId);
   }
 ```
 - our query needs to communicate with database, so we declare the repository in constructor and the DI framework will do the magic and injects the instance to our resolver
 - `@Query` decorator marks the class method as the query (who would have thought?)
 - our method is async, so we can't infer the return type from reflection system - we need to define it as `(returnType => Recipe)` and also mark it as nullable because `findOneById` might not return the recipe (no document with the id in DB)
-- `@Arguments()` marks the parameter as query arguments object, where `FindRecipeArgs` define it's fields - this will be injected in this place to this method
+- `@Args()` marks the parameter as query arguments object, where `FindRecipeArgs` define it's fields - this will be injected in this place to this method
 
 So, how the `FindRecipeArgs` looks like?
 ```ts
@@ -121,17 +118,19 @@ type Query {
 ```
 It is great, isn't it? :smiley:
 
-Ok, let's add another one query:
+Ok, let's add another query:
 ```ts
 class RecipeResolver {
   // ...
-  @Query(Recipe, { array: true })
+  @Query(() => Recipe, { array: true })
   recipes(): Promise<Array<Recipe>> {
     return this.recipeRepository.find();
   }
 }
 ```
-As you can see, the function `@Query(returnType => Recipe)` is only the convention (that helps resolve circular dependencies btw) and if you want, you can use the shorthand syntax like `@Query(Recipe)` which might be quite less readable for someone. Remember to declare `{ array: true }` if your method is async or returns the `Promise`.
+As you can see, the function parameter name `@Query(returnType => Recipe)` is only the convention and if you want, you can use the shorthand syntax like `@Query(() => Recipe)` which might be quite less readable for someone. We need to declare it as a function to help resolve circular dependencies.
+
+Also, remember to declare `{ array: true }` when your method is async or returns the `Promise<Array<T>>`.
 
 So now we have two queries in our schema:
 ```graphql
@@ -145,21 +144,19 @@ Now let's move to the mutations:
 ```ts
 class RecipeResolver {
   // ...
-  @Mutation(Recipe)
-  @Authorized()
+  @Mutation(returnType => Recipe)
   async rate(
-    @Argument("rate") rateInput: RateInput,
+    @Arg("rate") rateInput: RateInput,
     @Context() { user }: Context,
   ) {
     // implementation...
   }
 }
 ```
-- we declare the method as mutation using the `@Mutation` with shorthand return type syntax
-- as we allow only logged users to rate the recipe, we declare the `@Authorized()` on the mutation which will revoke access to the mutation for guests (it accepts also the roles as argument for complex authorizations)
-- the `@Argument()` decorator let's you declare single argument of the mutation
+- we declare the method as mutation using the `@Mutation()` with return type function syntax
+- the `@Arg()` decorator let's you declare single argument of the mutation
 - for complex arguments you can use as input types like `RateInput` in this case
-- injecting the context is also possible - using `@Context()` decorator, so you have an access to `request` or `user` data
+- injecting the context is also possible - using `@Context()` decorator, so you have an access to `request` or `user` data - whatever you define on server settings
 
 Here's how `RateInput` type looks:
 ```ts
@@ -172,7 +169,7 @@ class RateInput {
   value: number;
 }
 ```
-`@GraphQLInputType()` marks the class as the `input` in SDL, oposite to `type` or `scalar`
+`@GraphQLInputType()` marks the class as the `input` in SDL, in oposite to `type` or `scalar`
 
 The corresponding GraphQL schema:
 ```graphql
@@ -189,7 +186,9 @@ type Mutation {
 }
 ```
 
-The last one we discuss now is the field resolver. Let's assume we store array of ratings in our recipe documents and we want to expose the average rating value.
+The last one we discuss now is the field resolver. As we declared earlier, we store array of ratings in our recipe documents and we want to expose the average rating value.
+
+So all we need is to decorate the method with `@FieldResolver()` and the method parameter with `@Root()` decorator with the root value type of `Recipe` - as simple as that!
 
 ```ts
 class RecipeResolver {
@@ -200,31 +199,29 @@ class RecipeResolver {
   }
 }
 ```
-All we need is to decorate the method with `@FieldResolver()` and the method parameter with `@Root()` decorator with the root value type of `Recipe` - as simple as that!
 
 The whole `RecipeResolver` we discussed above with sample implementation of methods looks like this:
 ```ts
-@GraphQLResolver(Recipe)
-export class RecipeResolver implements Resolver<Recipe> {
+@GraphQLResolver(objectType => Recipe)
+export class RecipeResolver {
   constructor(
     // inject the repository (or other services)
     private readonly recipeRepository: Repository<Recipe>,
   ){}
 
   @Query(returnType => Recipe, { nullable: true })
-  recipe(@Arguments() { recipeId }: FindRecipeParams) {
+  recipe(@Args() { recipeId }: FindRecipeParams) {
     return this.recipeRepository.findOneById(recipeId);
   }
 
-  @Query(Recipe, { array: true })
+  @Query(() => Recipe, { array: true })
   recipes(): Promise<Array<Recipe>> {
     return this.recipeRepository.find();
   }
 
-  @Authorized()
   @Mutation(Recipe)
   async rate(
-    @Argument("rate") rateInput: RateInput,
+    @Arg("rate") rateInput: RateInput,
     @Context() { user }: Context,
   ) {
     // find the document
@@ -257,13 +254,13 @@ export class RecipeResolver implements Resolver<Recipe> {
 ```
 
 As I mentioned, in real life we want to reuse as much TypeScript definition as we can.
-So the GQL types would be also used by ORM and the inputs/params would be validated:
+So the GQL type classes would be also reused by ORM and the inputs/params could be validated:
 
 ```ts
 import { Entity, ObjectIdColumn, Column, OneToMany, CreateDateColumn } from "typeorm";
 
 @Entity()
-@GraphQLType()
+@GraphQLObjectType()
 export class Recipe {
   @ObjectIdColumn()
   @Field(type => ID)
@@ -282,7 +279,7 @@ export class Recipe {
   ratings: Rate[];
 
   // note that this field is not stored in DB
-  @Field(type => Float)
+  @Field()
   averageRating: number;
 
   // and this one is not exposed by GraphQL
@@ -307,6 +304,17 @@ class RateInput {
 }
 ```
 
-Of course TypeGraphQL will validate the input and params with `class-validator` for you too!
+Of course TypeGraphQL will validate the input and params with `class-validator` for you too! (in near future :wink:)
 
-Stay tuned, come later for more! :wink:
+## Work in progress
+
+Currently released version is an early alpha. However it's working quite well, so please feel free to test it and experiment with it.
+
+More feedback = less bugs thanks to you! :smiley:
+
+Also, you can find more examples of usage in `tests` folder - there are things like simple field resolvers and many more!
+
+## Roadmap
+You can keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
+
+Stay tuned and come back later for more! :wink:
