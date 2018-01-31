@@ -19,8 +19,6 @@
         // "noUnusedParameters": true,
         "noUnusedParameters": false,
         "strictFunctionTypes": false,
-        "outDir": "./build",
-        // "rootDir": "./src",
         "sourceMap": true,
         "target": "es2017",
         "strictNullChecks": true,
@@ -28,10 +26,6 @@
         "removeComments": false,
         "watch": false
     },
-    "include": [
-        "src/**/*",
-        "tests/**/*"
-    ],
     "exclude": [
         "node_modules",
         "build"

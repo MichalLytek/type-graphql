@@ -1,18 +1,29 @@
 {
   "name": "type-graphql",
-  "version": "0.0.1",
-  "keywords": [
-    "typescript",
-    "graphql",
-    "apollo",
-    "controllers"
-  ],
+  "version": "0.1.0",
+  "main": "./index.js",
   "author": {
     "name": "Michał Lytek",
     "url": "https://github.com/19majkel94"
   },
-  "main": "./build/index.js",
   "license": "MIT",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/19majkel94/type-graphql.git"
+  },
+  "bugs": {
+    "url": "https://github.com/19majkel94/type-graphql/issues"
+  },
+  "keywords": [
+    "typescript",
+    "graphql",
+    "schema",
+    "resolvers",
+    "api",
+    "decorators",
+    "controllers"
+  ],
   "scripts": {
     "dev": "ts-node --type-check tests/index.ts",
     "compile": "tsc",
@@ -25,16 +36,26 @@
     "graphql": "^0.12.3"
   },
   "devDependencies": {
+    "@types/del": "^3.0.0",
     "@types/express": "^4.11.0",
     "@types/express-graphql": "0.0.35",
+    "@types/gulp": "^4.0.5",
+    "@types/gulp-replace": "0.0.31",
+    "@types/gulp-shell": "0.0.31",
+    "core-js": "^2.5.1",
+    "del": "^3.0.0",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
-    "core-js": "^2.5.1",
+    "gulp-replace": "^0.6.1",
+    "gulp-shell": "^0.6.5",
+    "gulp-typescript": "^3.2.4",
+    "gulpclass": "^0.1.2",
     "prettier": "^1.9.2",
     "reflect-metadata": "^0.1.10",
     "ts-node": "^4.1.0",
-    "tslint": "^5.8.0",
+    "tslint": "^5.9.1",
     "typeorm": "^0.1.10",
     "typescript": "^2.6.2"
-  }
+  },
+  "private": true
 }
