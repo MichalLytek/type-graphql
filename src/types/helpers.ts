@@ -2,30 +2,26 @@ import {
   GraphQLScalarType,
   GraphQLString,
   GraphQLFloat,
-  GraphQLInt,
-  GraphQLID,
   GraphQLType,
   GraphQLNonNull,
   GraphQLList,
   GraphQLBoolean,
 } from "graphql";
 
-import { Float, Int, ID } from "../scalars";
-import { TypeOptions } from "../types";
+import { TypeOptions } from "../types/decorators";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
+  if (type instanceof GraphQLScalarType) {
+    return type;
+  }
   switch (type) {
     case String:
       return GraphQLString;
     case Boolean:
       return GraphQLBoolean;
     case Number:
-    case Float:
       return GraphQLFloat;
-    case Int:
-      return GraphQLInt;
-    case ID:
-      return GraphQLID;
+    // TODO: Date support
     default:
       return undefined;
   }

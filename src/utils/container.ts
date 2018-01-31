@@ -79,3 +79,10 @@ export abstract class IOCContainer {
     return this.defaultContainer.get<T>(someClass);
   }
 }
+
+export function useContainer(
+  iocContainer: { get(someClass: any): any },
+  options: UseContainerOptions = {},
+) {
+  IOCContainer.useContainer(iocContainer, options);
+}

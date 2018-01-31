@@ -4,12 +4,13 @@ import "reflect-metadata";
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 
-import { MetadataStorage } from "../metadata/metadata-storage";
+// import { MetadataStorage } from "../src/metadata/metadata-storage";
 import { RecipeResolver } from "./classes";
-import { SchemaGenerator } from "../schema/schema-generator";
-RecipeResolver; // prevent import cleaning
+import { buildSchema } from "../src/index";
 
-const schema = SchemaGenerator.generateFromMetadata();
+const schema = buildSchema({
+  resolvers: [RecipeResolver],
+});
 // debugger;
 
 const app = express();

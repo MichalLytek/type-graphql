@@ -1,7 +1,7 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { GraphQLScalarType} from "graphql";
+
 import { findType } from "./findType";
-import { ReturnTypeFunc, ClassType, TypeOptions } from "../types";
-import { ParamDefinition } from "../metadata/definition-interfaces";
+import { ReturnTypeFunc, ClassType, TypeOptions } from "../types/decorators";
 
 export function getParamInfo(
   prototype: Object,

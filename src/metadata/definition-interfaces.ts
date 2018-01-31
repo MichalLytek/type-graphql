@@ -1,14 +1,12 @@
-import { TypeOptions, TypeValueResolver, TypeValue, ClassTypeResolver } from "../types";
+import { TypeOptions, TypeValueResolver, ClassTypeResolver } from "../types/decorators";
+import { BaseResolverDefinitions } from "../types/resolvers";
 
-export interface HandlerDefinition {
-  methodName: string;
-  handler: Function;
-  target: Function;
+export interface HandlerDefinition extends BaseResolverDefinitions {
   getReturnType: TypeValueResolver;
   returnTypeOptions: TypeOptions;
-  params?: ParamDefinition[];
 }
-export interface FieldResolverDefinition extends HandlerDefinition {
+
+export interface FieldResolverDefinition extends BaseResolverDefinitions {
   kind: "internal" | "external";
   getParentType?: ClassTypeResolver;
 }

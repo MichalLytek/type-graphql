@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, TypeOptions } from "../types";
+import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
 
 export function Subscription(
   returnTypeFunc?: ReturnTypeFunc,

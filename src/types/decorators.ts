@@ -1,6 +1,8 @@
+import { GraphQLScalarType } from "graphql";
+
 export type Resolver<T extends object> = { [P in keyof T]?: (root: T) => T[P] } & {};
 
-export type TypeValue = ClassType | symbol | Function;
+export type TypeValue = ClassType | GraphQLScalarType | Function;
 
 export type TypeValueResolver = () => TypeValue;
 export type ClassTypeResolver = () => ClassType | Function;

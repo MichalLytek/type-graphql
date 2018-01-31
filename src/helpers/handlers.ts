@@ -1,5 +1,5 @@
 import { HandlerDefinition } from "../metadata/definition-interfaces";
-import { ReturnTypeFunc, TypeOptions, ClassType } from "../types";
+import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
 import { findType } from "./findType";
 
 export function getHandlerInfo<T extends Object>(

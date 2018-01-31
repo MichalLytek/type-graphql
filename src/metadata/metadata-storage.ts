@@ -6,6 +6,7 @@ import {
   FieldResolverDefinition,
   ResolverDefinition,
 } from "./definition-interfaces";
+import { BaseResolverDefinitions } from "../types/resolvers";
 
 export abstract class MetadataStorage {
   static readonly queries: HandlerDefinition[] = [];
@@ -55,8 +56,8 @@ export abstract class MetadataStorage {
     this.buildClassDefinitions(this.inputTypes);
     this.buildClassDefinitions(this.argumentTypes);
 
-    this.buildHandlerDefinitions(this.queries);
-    this.buildHandlerDefinitions(this.mutations);
+    this.buildResolversDefinitions(this.queries);
+    this.buildResolversDefinitions(this.mutations);
 
     this.buildFieldResolverDefinitions(this.fieldResolvers);
   }
@@ -72,16 +73,16 @@ export abstract class MetadataStorage {
       def.fields = fields;
     });
   }
-  private static buildHandlerDefinitions(definition: HandlerDefinition[]) {
-    definition.forEach(def => {
+  private static buildResolversDefinitions(definitions: BaseResolverDefinitions[]) {
+    definitions.forEach(def => {
       def.params = MetadataStorage.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
       );
     });
   }
-  private static buildFieldResolverDefinitions(definition: FieldResolverDefinition[]) {
-    this.buildHandlerDefinitions(definition);
-    definition.forEach(def => {
+  private static buildFieldResolverDefinitions(definitions: FieldResolverDefinition[]) {
+    this.buildResolversDefinitions(definitions);
+    definitions.forEach(def => {
       def.getParentType =
         def.kind === "external"
           ? MetadataStorage.resolvers.find(resolver => resolver.target === def.target)!

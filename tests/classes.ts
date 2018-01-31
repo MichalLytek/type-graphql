@@ -1,11 +1,11 @@
 // tslint:disable:member-ordering
 import { Repository } from "typeorm";
-
 import { plainToClass } from "class-transformer";
-import { Int, ID, Float } from "../scalars";
-import { Resolver } from "../types";
-import { MetadataStorage } from "../metadata/metadata-storage";
+
 import {
+  Int,
+  ID,
+  Float,
   Arg,
   Args,
   Authorized,
@@ -19,7 +19,9 @@ import {
   Query,
   Root,
   Mutation,
-} from "../decorators";
+  Resolver,
+} from "../src";
+import { createRecipe } from "./helpers";
 
 // mocks
 export interface ContextType {
@@ -65,7 +67,7 @@ export class Recipe {
   @Field()
   title: string;
 
-  @Field() 
+  @Field()
   description: string;
 
   @Field()
@@ -116,27 +118,27 @@ export class RateInput {
 export class RecipeResolver {
   private helloStr = "Secret hello";
   private recipesData: Recipe[] = [
-    plainToClass(Recipe, {
+    createRecipe({
       id: "1",
       title: "Recipe 1",
-      description: "Desc 2",
+      description: "Desc 1",
       ratings: [
-        { user: null, value: 5},
-        { user: null, value: 3},
-        { user: null, value: 3},
+        { user: null as any, value: 5 },
+        { user: null as any, value: 3 },
+        { user: null as any, value: 3 },
       ],
     }),
-    plainToClass(Recipe, {
+    createRecipe({
       id: "2",
       title: "Recipe 2",
-      description: "Desc",
+      description: "Desc 2",
       ratings: [
-        { user: null, value: 5},
-        { user: null, value: 1},
-        { user: null, value: 4},
-        { user: null, value: 2},
+        { user: null as any, value: 5 },
+        { user: null as any, value: 1 },
+        { user: null as any, value: 4 },
+        { user: null as any, value: 2 },
       ],
-    })
+    }),
   ];
 
   @Query(returnType => Recipe, { nullable: true })
@@ -150,7 +152,7 @@ export class RecipeResolver {
   }
 
   @Query()
-  hello(@Arg("name") name: string): string {
+  helloToYou(@Arg("name") name: string): string {
     return `${this.helloStr}, ${name}!`;
   }
 
@@ -173,8 +175,8 @@ export class RecipeResolver {
     return recipe;
   }
 
-  @FieldResolver(returnType => Float)
-  private averageRatings(@Root() recipe: Recipe) {
+  @FieldResolver()
+  averageRating(@Root() recipe: Recipe) {
     const ratingsCount = recipe.ratings.length;
     const ratingsSum = recipe.ratings.map(rating => rating.value).reduce((a, b) => a + b, 0);
 

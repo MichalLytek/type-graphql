@@ -1,15 +1,13 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { getHandlerInfo } from "../helpers/handlers";
-import { ReturnTypeFunc, TypeOptions } from "../types";
 
-export function FieldResolver(
-  returnTypeFunc?: ReturnTypeFunc,
-  options?: TypeOptions,
-): MethodDecorator {
+export function FieldResolver(): MethodDecorator {
   return (prototype, propertyKey) => {
+    const methodName = propertyKey as keyof typeof prototype;
     MetadataStorage.registerFieldResolver({
       kind: "external",
-      ...getHandlerInfo(prototype, propertyKey, returnTypeFunc),
+      methodName,
+      target: prototype.constructor,
+      handler: prototype[methodName],
     });
   };
 }

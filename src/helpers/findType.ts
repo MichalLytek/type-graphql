@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, TypeOptions, ClassType, TypeValueResolver } from "../types";
+import { ReturnTypeFunc, TypeOptions, TypeValueResolver } from "../types/decorators";
 import { bannedTypes } from "./returnTypes";
 
 export interface TypeInfo {

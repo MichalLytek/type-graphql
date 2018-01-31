@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, TypeOptions, ClassType } from "../types";
+import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 

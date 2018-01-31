@@ -1,7 +1,6 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, TypeOptions, ClassType } from "../types";
-import { findType, TypeInfo } from "../helpers/findType";
-import { getHandlerInfo } from "../helpers/handlers";
+import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
+import { findType } from "../helpers/findType";
 
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
@@ -35,14 +34,12 @@ export function Field(
     });
 
     if (isResolver) {
+      const methodName = propertyKey as keyof typeof prototype;
       MetadataStorage.registerFieldResolver({
         kind: "internal",
-        ...getHandlerInfo(
-          prototype,
-          propertyKey,
-          getType,
-          typeOptions,
-        ),
+        methodName,
+        target: prototype.constructor,
+        handler: prototype[methodName],
       });
     }
   };

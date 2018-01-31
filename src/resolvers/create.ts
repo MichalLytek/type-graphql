@@ -1,23 +1,18 @@
 import { GraphQLFieldResolver } from "graphql";
 import { plainToClass } from "class-transformer";
 
-import { MetadataStorage } from "../metadata/metadata-storage";
-import { IOCContainer } from "../container";
-import {
-  HandlerDefinition,
-  FieldDefinition,
-  FieldResolverDefinition,
-  ParamDefinition,
-} from "../metadata/definition-interfaces";
+import { IOCContainer } from "../utils/container";
+import { FieldResolverDefinition, ParamDefinition } from "../metadata/definition-interfaces";
 import { getParams } from "./helpers";
+import { BaseResolverDefinitions } from "../types/resolvers";
 
 export function createResolver(
-  handlerDefinition: HandlerDefinition,
+  resolverDefinition: BaseResolverDefinitions,
 ): GraphQLFieldResolver<any, any, any> {
-  const targetInstance = IOCContainer.getInstance(handlerDefinition.target);
+  const targetInstance = IOCContainer.getInstance(resolverDefinition.target);
   return (root, args, context, info) => {
-    const params = getParams(handlerDefinition.params!, { root, args, context, info });
-    return handlerDefinition.handler.apply(targetInstance, params);
+    const params = getParams(resolverDefinition.params!, { root, args, context, info });
+    return resolverDefinition.handler.apply(targetInstance, params);
   };
 }
 

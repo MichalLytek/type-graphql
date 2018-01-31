@@ -4,29 +4,19 @@ import {
   GraphQLNamedType,
   GraphQLFieldConfigMap,
   GraphQLOutputType,
-  GraphQLNonNull,
-  GraphQLList,
-  GraphQLString,
-  GraphQLFloat,
-  GraphQLInt,
   GraphQLInputObjectType,
   GraphQLFieldConfigArgumentMap,
-  GraphQLType,
-  GraphQLScalarType,
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
-  GraphQLID,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
 import {
   HandlerDefinition,
   ParamDefinition,
-  FieldDefinition,
 } from "../metadata/definition-interfaces";
-import { TypeOptions, TypeValue } from "../types";
-import { Float, Int, ID } from "../scalars";
-import { wrapWithTypeOptions, convertTypeIfScalar } from "../utils/type-helpers";
+import { TypeOptions, TypeValue } from "../types/decorators";
+import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
 import { createResolver, createFieldResolver } from "../resolvers/create";
 
 interface TypeInfo {

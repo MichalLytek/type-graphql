@@ -1,5 +1,5 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, ClassType, TypeOptions } from "../types";
+import { ReturnTypeFunc, ClassType, TypeOptions } from "../types/decorators";
 import { getParamInfo } from "../helpers/params";
 
 export function Arg(
