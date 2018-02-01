@@ -12,7 +12,7 @@ export function createResolver(
   const targetInstance = IOCContainer.getInstance(resolverDefinition.target);
   return (root, args, context, info) => {
     const params = getParams(resolverDefinition.params!, { root, args, context, info });
-    return resolverDefinition.handler.apply(targetInstance, params);
+    return resolverDefinition.handler!.apply(targetInstance, params);
   };
 }
 
@@ -25,7 +25,9 @@ export function createFieldResolver(
 
   const targetType = fieldResolverDefintion.getParentType!();
   return (root, args, context, info) => {
-    const targetInstance: any = plainToClass(targetType as any, root);
+    const targetData = { ...root }; // workaround for plainToClass bug
+    const targetInstance: any = plainToClass(targetType as any, targetData);
+
     // method
     if (fieldResolverDefintion.handler) {
       const params = getParams(fieldResolverDefintion.params!, { root, args, context, info });

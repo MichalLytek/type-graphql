@@ -2,8 +2,8 @@ import { HandlerDefinition } from "../metadata/definition-interfaces";
 import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
 import { findType } from "./findType";
 
-export function getHandlerInfo<T extends Object>(
-  prototype: T,
+export function getHandlerInfo(
+  prototype: object,
   propertyKey: string | symbol,
   returnTypeFunc?: ReturnTypeFunc,
   options: TypeOptions = {},
@@ -24,7 +24,7 @@ export function getHandlerInfo<T extends Object>(
 
   return {
     methodName,
-    handler: prototype[methodName],
+    handler: (prototype as any)[methodName],
     target: prototype.constructor,
     getReturnType: getType,
     returnTypeOptions: typeOptions,

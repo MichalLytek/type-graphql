@@ -3,11 +3,13 @@ import { BaseResolverDefinitions } from "../types/resolvers";
 
 export interface HandlerDefinition extends BaseResolverDefinitions {
   getReturnType: TypeValueResolver;
+  handler: Function;
   returnTypeOptions: TypeOptions;
 }
 
 export interface FieldResolverDefinition extends BaseResolverDefinitions {
   kind: "internal" | "external";
+  handler?: Function;
   getParentType?: ClassTypeResolver;
 }
 
