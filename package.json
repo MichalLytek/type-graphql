@@ -54,8 +54,9 @@
     "reflect-metadata": "^0.1.10",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
+    "typedi": "^0.6.0",
     "typeorm": "^0.1.10",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.1"
   },
   "private": true
 }

@@ -304,15 +304,18 @@ class RateInput {
 }
 ```
 
-Of course TypeGraphQL will validate the input and params with `class-validator` for you too! (in near future :wink:)
+Of course TypeGraphQL will automatically validate the input and params with `class-validator` for you too! (in near future :wink:)
+
+## Examples
+You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on the repo for more example of usage: simple fields resolvers, DI Container support, etc.
+
+[Tests](https://github.com/19majkel94/type-graphql/tree/master/tests) folder will also give you some tips how to make some things done.
 
 ## Work in progress
 
 Currently released version is an early alpha. However it's working quite well, so please feel free to test it and experiment with it.
 
 More feedback = less bugs thanks to you! :smiley:
-
-Also, you can find more examples of usage in `tests` folder - there are things like simple field resolvers and many more!
 
 ## Roadmap
 You can keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
