@@ -1,7 +1,7 @@
 ![logo](https://github.com/19majkel94/type-graphql/blob/master/logo.png?raw=true)
 
 # TypeGraphQL
-Create GraphQL resolvers and schemas with TypeScript!
+Create GraphQL resolvers and schemas with TypeScript, using classes and decorators!
 
 ## Design Goals
 We all love GraphQL but creating GraphQL API with TypeScript is a bit of pain.
@@ -30,15 +30,16 @@ class Recipe {
   @Field(type => Rate)
   ratings: Rate[];
 
-  @Field()
-  averageRating: number;
+  @Field({ nullable: true })
+  averageRating?: number;
 }
 ```
 Take a look at the decorators:
 
-- `@GraphQLObjectType()` marks the class as the `object` shape known from GraphQL SDL as `type`
+- `@GraphQLObjectType()` marks the class as the object shape known from GraphQL SDL as `type`
 - `@Field()` marks the property as the object's field - it is also used to collect type metadata from TypeScript reflection system
 - the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
+- due to reflection limitation, optional (nullable) fields has to be annotated with `{ nullable: true }` decorator param
 - we also have to declare `(type => Rate)` because of limitation of type reflection - emited type of `ratings` property is `Array`, so we need to know what is the type of items in the array
 
 This will generate GraphQL type corresponding to this:
@@ -48,7 +49,7 @@ type Recipe {
   title: String!
   description: String
   ratings: [Rate]!
-  averageRating: Float!
+  averageRating: Float
 }
 ```
 
@@ -248,13 +249,15 @@ export class RecipeResolver {
       .map(rating => rating.value)
       .reduce((a, b) => a + b, 0);
 
-    return ratingsCount ? ratingsSum / ratingsCount : 0;
+    return ratingsCount ? ratingsSum / ratingsCount : null;
   }
 }
 ```
 
+### Real world example
+
 As I mentioned, in real life we want to reuse as much TypeScript definition as we can.
-So the GQL type classes would be also reused by ORM and the inputs/params could be validated:
+So the GQL type classes would be also reused by ORM or validation lib:
 
 ```ts
 import { Entity, ObjectIdColumn, Column, OneToMany, CreateDateColumn } from "typeorm";
@@ -305,6 +308,61 @@ class RateInput {
 ```
 
 Of course TypeGraphQL will automatically validate the input and params with `class-validator` for you too! (in near future :wink:)
+
+## How to use
+
+### Installation
+
+1. Install module:
+```
+npm i type-graphql
+```
+
+2. reflect-metadata shim is required:
+```
+npm i reflect-metadata
+```
+
+and make sure to import it on top of your entry file (before you use/import `type-graphql` or your resolvers):
+```ts
+import "reflect-metadata";
+```
+
+3. Its important to set these options in tsconfig.json file of your project:
+```json
+{
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true
+}
+```
+
+### Usage
+All you need to do is to import your resolvers and register them in schema builder:
+```ts
+import { buildSchema } from "type-graphql";
+
+import { SampleResolver } from "./resolvers";
+
+const schema = buildSchema({
+  resolvers: [SampleResolver],
+});
+
+```
+And that's it! You can also create a HTTP-based GraphQL API server:
+```ts
+// remember to install "express" and "express-graphql" modules!
+const app = express();
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema, // this is our schema from TypeGraphQL
+    graphiql: true,
+  }),
+);
+app.listen(4000, () => {
+  console.log("Running a GraphQL API server at localhost:4000/graphql");
+});
+```
 
 ## Examples
 You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on the repo for more example of usage: simple fields resolvers, DI Container support, etc.
