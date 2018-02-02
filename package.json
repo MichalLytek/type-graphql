@@ -1,6 +1,6 @@
 {
   "name": "type-graphql",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "author": {
     "name": "Michał Lytek",
@@ -22,7 +22,8 @@
     "resolvers",
     "api",
     "decorators",
-    "controllers"
+    "controllers",
+    "apollo"
   ],
   "scripts": {
     "dev": "ts-node --type-check tests/index.ts",

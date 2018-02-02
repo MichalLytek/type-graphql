@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-### Unreleased
+### 0.1.1
 
 #### Features
 
