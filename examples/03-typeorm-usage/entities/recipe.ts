@@ -1,0 +1,33 @@
+import { Field, ID, GraphQLObjectType, Int, Float } from "../../../src";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+
+import { Rate } from "./rate";
+import { User } from "./user";
+import { RelationColumn } from "../helpers";
+
+@Entity()
+@GraphQLObjectType()
+export class Recipe {
+  @PrimaryGeneratedColumn()
+  @Field(type => ID)
+  readonly id: number;
+
+  @Field()
+  @Column()
+  title: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  description?: string;
+
+  @Field(type => Rate)
+  @OneToMany(type => Rate, rate => rate.recipe, { cascadeInsert: true })
+  ratings: Rate[];
+
+  @Field(type => User)
+  @ManyToOne(type => User)
+  author: User;
+
+  @RelationColumn()
+  authorId: number;
+}

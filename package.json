@@ -51,12 +51,14 @@
     "gulp-shell": "^0.6.5",
     "gulp-typescript": "^3.2.4",
     "gulpclass": "^0.1.2",
+    "mysql": "^2.15.0",
     "prettier": "^1.9.2",
     "reflect-metadata": "^0.1.10",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "typedi": "^0.6.0",
-    "typeorm": "^0.1.10",
+    "typeorm": "^0.1.12",
+    "typeorm-typedi-extensions": "^0.1.1",
     "typescript": "^2.7.1"
   },
   "private": true
