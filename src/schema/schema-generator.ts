@@ -11,10 +11,7 @@ import {
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
-import {
-  HandlerDefinition,
-  ParamDefinition,
-} from "../metadata/definition-interfaces";
+import { HandlerDefinition, ParamDefinition } from "../metadata/definition-interfaces";
 import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
 import { createResolver, createFieldResolver } from "../resolvers/create";
@@ -55,7 +52,6 @@ export abstract class SchemaGenerator {
                 resolver.getParentType!() === objectType.target &&
                 resolver.methodName === field.name,
             );
-            // debugger
             fields[field.name] = {
               description: "Object field description",
               resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),

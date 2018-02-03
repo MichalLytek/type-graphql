@@ -44,6 +44,7 @@ export function Field(
         kind: "internal",
         methodName,
         target: prototype.constructor,
+        handler: isResolverMethod ? prototype[methodName] : undefined,
       });
     }
   };

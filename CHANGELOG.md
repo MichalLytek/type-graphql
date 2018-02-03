@@ -3,6 +3,7 @@
 ### Unreleased
 #### Fixes
 - fix missing type args in schema when declared in field resolver
+- fix missing resolver function when defined as type field method
 
 ### 0.1.1
 #### Features
