@@ -176,7 +176,11 @@ export class RecipeResolver {
   }
 
   @FieldResolver()
-  averageRating(@Root() recipe: Recipe) {
+  averageRating(
+    @Root() recipe: Recipe,
+    @Arg("optionalArg", { nullable: true }) optionalArg: boolean = false,
+  ) {
+    console.log("optionalArg", optionalArg);
     const ratingsCount = recipe.ratings.length;
     const ratingsSum = recipe.ratings.map(rating => rating.value).reduce((a, b) => a + b, 0);
 

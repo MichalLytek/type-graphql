@@ -52,14 +52,14 @@ export abstract class MetadataStorage {
   static build() {
     // TODO: disable next build attempts
 
+    this.buildFieldResolverDefinitions(this.fieldResolvers);
+
     this.buildClassDefinitions(this.objectTypes);
     this.buildClassDefinitions(this.inputTypes);
     this.buildClassDefinitions(this.argumentTypes);
 
     this.buildResolversDefinitions(this.queries);
     this.buildResolversDefinitions(this.mutations);
-
-    this.buildFieldResolverDefinitions(this.fieldResolvers);
   }
 
   private static buildClassDefinitions(definitions: ClassDefinition[]) {
@@ -69,6 +69,16 @@ export abstract class MetadataStorage {
         field.params = MetadataStorage.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
+        if (field.params.length === 0) {
+          // no params = try to get params from field resolver
+          const fieldResolver = this.fieldResolvers.find(
+            resolver =>
+              resolver.methodName === field.name && resolver.getParentType!() === field.target,
+          );
+          if (fieldResolver) {
+            field.params = fieldResolver.params;
+          }
+        }
       });
       def.fields = fields;
     });
