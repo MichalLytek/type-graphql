@@ -258,7 +258,7 @@ export class RecipeResolver {
 }
 ```
 
-### Real world example
+### Real life example
 
 As I mentioned, in real life we want to reuse as much TypeScript definition as we can.
 So the GQL type classes would be also reused by ORM or validation lib:
