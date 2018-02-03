@@ -25,8 +25,10 @@ export function createFieldResolver(
 
   const targetType = fieldResolverDefintion.getParentType!();
   return (root, args, context, info) => {
-    const targetData = { ...root }; // workaround for plainToClass bug
-    const targetInstance: any = plainToClass(targetType as any, targetData);
+    // const targetData = { ...root }; // workaround for plainToClass bug
+    // const targetInstance: any = plainToClass(targetType as any, targetData);
+    const targetInstance: any = Object.assign({}, root);
+    Object.setPrototypeOf(targetInstance, targetType.prototype);
 
     // method
     if (fieldResolverDefintion.handler) {
