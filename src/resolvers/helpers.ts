@@ -1,6 +1,7 @@
 import { plainToClass } from "class-transformer";
 
 import { ParamDefinition } from "../metadata/definition-interfaces";
+import { convertToType } from "../types/convert";
 
 export interface ResolverData {
   root: any;
@@ -15,9 +16,9 @@ export function getParams(
   return params.sort((a, b) => a.index - b.index).map(paramInfo => {
     switch (paramInfo.kind) {
       case "args":
-        return plainToClass(paramInfo.getType() as any, args);
+        return convertToType(paramInfo.getType(), args);
       case "arg":
-        return plainToClass(paramInfo.getType() as any, args[paramInfo.name]);
+        return convertToType(paramInfo.getType(), args[paramInfo.name]);
       case "context":
         return context;
       case "root":

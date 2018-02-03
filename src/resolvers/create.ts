@@ -5,6 +5,7 @@ import { IOCContainer } from "../utils/container";
 import { FieldResolverDefinition, ParamDefinition } from "../metadata/definition-interfaces";
 import { getParams } from "./helpers";
 import { BaseResolverDefinitions } from "../types/resolvers";
+import { convertToType } from "../types/convert";
 
 export function createResolver(
   resolverDefinition: BaseResolverDefinitions,
@@ -25,10 +26,7 @@ export function createFieldResolver(
 
   const targetType = fieldResolverDefintion.getParentType!();
   return (root, args, context, info) => {
-    // const targetData = { ...root }; // workaround for plainToClass bug
-    // const targetInstance: any = plainToClass(targetType as any, targetData);
-    const targetInstance: any = Object.assign({}, root);
-    Object.setPrototypeOf(targetInstance, targetType.prototype);
+    const targetInstance: any = convertToType(targetType, root);
 
     // method
     if (fieldResolverDefintion.handler) {
