@@ -6,7 +6,7 @@ import * as graphqlHTTP from "express-graphql";
 
 // import { MetadataStorage } from "../src/metadata/metadata-storage";
 import { RecipeResolver } from "./classes";
-import { buildSchema } from "../src/index";
+import { buildSchema } from "../src";
 
 const schema = buildSchema({
   resolvers: [RecipeResolver],

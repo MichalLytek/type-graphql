@@ -42,8 +42,8 @@ export class Rate {
   @Field(type => Int)
   value: number;
 
-  // @Field()
-  // date: Date;
+  @Field({ nullable: true })
+  date?: Date;
 
   @Field()
   user: User;
@@ -167,7 +167,7 @@ export class RecipeResolver {
 
     // update the document
     recipe.ratings.push({
-      // date: new Date(),
+      date: new Date(),
       value: rateInput.value,
       user,
     });

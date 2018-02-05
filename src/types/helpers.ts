@@ -8,7 +8,8 @@ import {
   GraphQLBoolean,
 } from "graphql";
 
-import { TypeOptions } from "../types/decorators";
+import { TypeOptions } from "./decorators";
+import GraphQLTimestampType from "./date.scalar";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
@@ -21,7 +22,8 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
       return GraphQLBoolean;
     case Number:
       return GraphQLFloat;
-    // TODO: Date support
+      case Date:
+      return GraphQLTimestampType;
     default:
       return undefined;
   }

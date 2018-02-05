@@ -1,5 +1,7 @@
-import { GraphQLFloat, GraphQLString, GraphQLInt, GraphQLScalarType } from "graphql";
+import {GraphQLFloat, GraphQLInt, GraphQLScalarType, GraphQLString} from "graphql";
+import GraphQLTimestampType from "./date.scalar";
 
-export const Int = GraphQLInt;
-export const Float = GraphQLFloat;
-export const ID = GraphQLString;
+export const Int: GraphQLScalarType = GraphQLInt;
+export const Float: GraphQLScalarType = GraphQLFloat;
+export const ID: GraphQLScalarType = GraphQLString;
+export const Date: GraphQLScalarType = GraphQLTimestampType;
