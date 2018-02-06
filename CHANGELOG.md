@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.2.0
 ### Features
 - add support for Date type (built-in scalar)
 - add support for custom scalars (and mapping it to TS types)
