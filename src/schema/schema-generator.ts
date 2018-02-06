@@ -16,6 +16,7 @@ import { HandlerDefinition, ParamDefinition } from "../metadata/definition-inter
 import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
 import { createResolver, createFieldResolver } from "../resolvers/create";
+import { BuildContext, BuildContextOptions } from "./build-context";
 
 interface TypeInfo {
   target: Function;
@@ -26,22 +27,8 @@ interface InputInfo {
   type: GraphQLInputObjectType;
 }
 
-export type DateScalarMode = "isoDate" | "timestamp";
-
-export interface ScalarsTypeMap {
-  type: Function;
-  scalar: GraphQLScalarType;
-}
-
-export interface SchemaGeneratorOptions {
-  dateScalarMode?: DateScalarMode;
-  scalarsMap?: ScalarsTypeMap[];
-}
-
+export type SchemaGeneratorOptions = Partial<BuildContextOptions>;
 export abstract class SchemaGenerator {
-  static dateScalarMode: DateScalarMode = "isoDate";
-  static scalarsMap: ScalarsTypeMap[] = [];
-
   private static typesInfo: TypeInfo[] = [];
   private static inputsInfo: InputInfo[] = [];
 
@@ -49,17 +36,19 @@ export abstract class SchemaGenerator {
     dateScalarMode = "isoDate",
     scalarsMap = [],
   }: SchemaGeneratorOptions): GraphQLSchema {
-    this.dateScalarMode = dateScalarMode;
-    this.scalarsMap = scalarsMap;
 
+    BuildContext.create({ dateScalarMode, scalarsMap });
     MetadataStorage.build();
     this.buildTypesInfo();
 
-    return new GraphQLSchema({
+    const schema = new GraphQLSchema({
       query: this.buildRootQuery(),
       mutation: this.buildRootMutation(),
       types: this.buildTypes(),
     });
+
+    BuildContext.clear();
+    return schema;
   }
 
   private static buildTypesInfo() {

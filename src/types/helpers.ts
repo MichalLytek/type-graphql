@@ -12,14 +12,15 @@ import { TypeOptions } from "../types/decorators";
 import { SchemaGenerator } from "../schema/schema-generator";
 import { GraphQLTimestampScalar } from "../scalars/timestamp";
 import { GraphQLISODateScalar } from "../scalars/isodate";
+import { BuildContext } from "../schema/build-context";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
     return type;
   }
-  const scalarType = SchemaGenerator.scalarsMap.find(it => it.type === type);
-  if (scalarType) {
-    return scalarType.scalar;
+  const scalarMap = BuildContext.scalarsMaps.find(it => it.type === type);
+  if (scalarMap) {
+    return scalarMap.scalar;
   }
 
   switch (type) {
@@ -30,7 +31,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
     case Number:
       return GraphQLFloat;
     case Date:
-      return SchemaGenerator.dateScalarMode === "isoDate"
+      return BuildContext.dateScalarMode === "isoDate"
         ? GraphQLISODateScalar
         : GraphQLTimestampScalar;
     default:
