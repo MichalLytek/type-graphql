@@ -9,7 +9,7 @@ import {
   Arg,
   Args,
   Authorized,
-  Context,
+  Ctx,
   Field,
   FieldResolver,
   GraphQLResolver,
@@ -24,7 +24,7 @@ import {
 import { createRecipe } from "./helpers";
 
 // mocks
-export interface ContextType {
+export interface Context {
   user: User;
 }
 
@@ -157,7 +157,7 @@ export class RecipeResolver {
 
   // @Authorized()
   @Mutation(() => Recipe)
-  async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
+  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the document
     const recipe = await this.recipesData.find(data => data.id === rateInput.recipeId);
     if (!recipe) {

@@ -1,7 +1,7 @@
 export { Arg } from "./Arg";
 export { Args } from "./Args";
 export { Authorized } from "./Authorized";
-export { Context } from "./Context";
+export { Ctx } from "./Ctx";
 export { Field } from "./Field";
 export { FieldResolver } from "./FieldResolver";
 export { GraphQLArgumentType } from "./GraphQLArgumentType";

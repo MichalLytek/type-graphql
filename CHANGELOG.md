@@ -4,6 +4,7 @@
 ### Features
 - add support for Date type (built-in scalar)
 - add support for custom scalars (and mapping it to TS types)
+- change `@Context` decorator name to `@Ctx`
 
 ## v0.1.2
 ### Fixes

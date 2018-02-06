@@ -1,6 +1,6 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 
-export function Context(): ParameterDecorator {
+export function Ctx(): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     if (typeof propertyKey === "symbol") {
       throw new Error("Symbol keys are not supported yet!");

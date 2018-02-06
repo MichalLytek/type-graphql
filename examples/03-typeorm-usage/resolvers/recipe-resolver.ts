@@ -5,7 +5,7 @@ import {
   Arg,
   Root,
   Mutation,
-  Context,
+  Ctx,
 } from "../../../src/index";
 import { Repository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
@@ -14,7 +14,7 @@ import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
 import { RecipeInput } from "./types/recipe-input";
-import { ContextType } from "../index";
+import { Context } from "../index";
 import { RateInput } from "./types/rate-input";
 
 @GraphQLResolver(() => Recipe)
@@ -48,7 +48,7 @@ export class RecipeResolver {
   }
 
   @Mutation(() => Recipe)
-  async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
+  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the recipe
     const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {
       relations: ["ratings"],

@@ -12,7 +12,7 @@ import { Rate } from "./entities/rate";
 import { User } from "./entities/user";
 import { seedDatabase } from "./helpers";
 
-export interface ContextType {
+export interface Context {
   user?: User;
 }
 
