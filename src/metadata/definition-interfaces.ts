@@ -5,6 +5,7 @@ export interface HandlerDefinition extends BaseResolverDefinitions {
   getReturnType: TypeValueResolver;
   handler: Function;
   returnTypeOptions: TypeOptions;
+  description?: string;
 }
 
 export interface FieldResolverDefinition extends BaseResolverDefinitions {
@@ -22,6 +23,7 @@ export interface ClassDefinition {
   name: string;
   target: Function;
   fields?: FieldDefinition[];
+  description?: string;
 }
 
 export interface FieldDefinition {
@@ -30,6 +32,7 @@ export interface FieldDefinition {
   getType: TypeValueResolver;
   typeOptions: TypeOptions;
   params?: ParamDefinition[];
+  description?: string;
 }
 
 /* Param definitions */
@@ -47,6 +50,7 @@ export interface ArgParamDefinition extends BasicParamDefinition {
   name: string;
   getType: TypeValueResolver;
   typeOptions: TypeOptions;
+  description?: string;
 }
 export interface ArgsParamDefinition extends BasicParamDefinition {
   kind: "args";

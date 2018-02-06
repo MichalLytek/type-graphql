@@ -67,7 +67,7 @@ export abstract class SchemaGenerator {
       target: objectType.target,
       type: new GraphQLObjectType({
         name: objectType.name,
-        description: "Object description",
+        description: objectType.description,
         fields: () =>
           objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
             const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
@@ -76,7 +76,7 @@ export abstract class SchemaGenerator {
                 resolver.methodName === field.name,
             );
             fields[field.name] = {
-              description: "Object field description",
+              description: field.description,
               resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
               type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
               args: this.generateHandlerArgs(field.params!),
@@ -90,11 +90,11 @@ export abstract class SchemaGenerator {
       target: inputType.target,
       type: new GraphQLInputObjectType({
         name: inputType.name,
-        description: "Input description",
+        description: inputType.description,
         fields: () =>
           inputType.fields!.reduce<GraphQLInputFieldConfigMap>((fields, field) => {
             fields[field.name] = {
-              description: "Input field description",
+              description: field.description,
               type: this.getGraphQLInputType(field.getType(), field.typeOptions),
             };
             return fields;
@@ -131,7 +131,7 @@ export abstract class SchemaGenerator {
       fields[handler.methodName] = {
         type: this.getGraphQLOutputType(handler.getReturnType(), handler.returnTypeOptions),
         args: this.generateHandlerArgs(handler.params!),
-        description: "Handler description",
+        description: handler.description,
         resolve: createResolver(handler),
       };
       return fields;
@@ -142,7 +142,7 @@ export abstract class SchemaGenerator {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
         args[param.name] = {
-          description: "Input argument field description",
+          description: param.description,
           type: this.getGraphQLInputType(param.getType(), param.typeOptions),
         };
       } else if (param.kind === "args") {
@@ -151,7 +151,7 @@ export abstract class SchemaGenerator {
         )!;
         argumentType.fields!.forEach(field => {
           args[field.name] = {
-            description: "Single argument field description",
+            description: field.description,
             type: this.getGraphQLInputType(field.getType(), field.typeOptions),
           };
         });

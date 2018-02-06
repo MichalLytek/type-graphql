@@ -1,25 +1,28 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
+import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
 import { findType } from "../helpers/findType";
-import { getDecoratorParams } from "../helpers/decorators";
+import { getTypeDecoratorParams } from "../helpers/decorators";
 
+export function Field(options?: BasicOptions): PropertyDecorator;
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
-  options?: TypeOptions,
+  options?: BasicOptions,
 ): PropertyDecorator;
-export function Field(options?: TypeOptions): PropertyDecorator;
-export function Field(options?: TypeOptions): MethodDecorator;
-export function Field(returnTypeFunction?: ReturnTypeFunc, options?: TypeOptions): MethodDecorator;
+export function Field(options?: BasicOptions): MethodDecorator;
+export function Field(returnTypeFunction?: ReturnTypeFunc, options?: BasicOptions): MethodDecorator;
 export function Field(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | TypeOptions,
-  maybeOptions?: TypeOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | BasicOptions,
+  maybeOptions?: BasicOptions,
 ): PropertyDecorator | MethodDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new Error("Symbol keys are not supported yet!");
     }
 
-    const { options, returnTypeFunc } = getDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
+    const { options, returnTypeFunc } = getTypeDecoratorParams(
+      returnTypeFuncOrOptions,
+      maybeOptions,
+    );
     const isResolver = Boolean(descriptor);
     const isResolverMethod = Boolean(descriptor && descriptor.value);
 
@@ -36,6 +39,7 @@ export function Field(
       getType,
       typeOptions,
       target: prototype.constructor,
+      description: options.description,
     });
 
     if (isResolver) {

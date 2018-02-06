@@ -1,8 +1,8 @@
-import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
+import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
 
 export function Subscription(
   returnTypeFunc?: ReturnTypeFunc,
-  options?: TypeOptions,
+  options?: BasicOptions,
 ): MethodDecorator {
     throw new Error("Subscriptions have not been implemented yet!");
 }

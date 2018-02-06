@@ -1,12 +1,12 @@
 import { HandlerDefinition } from "../metadata/definition-interfaces";
-import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
+import { ReturnTypeFunc, TypeOptions, DescriptionOptions } from "../types/decorators";
 import { findType } from "./findType";
 
 export function getHandlerInfo(
   prototype: object,
   propertyKey: string | symbol,
   returnTypeFunc?: ReturnTypeFunc,
-  options: TypeOptions = {},
+  options: TypeOptions & DescriptionOptions = {},
 ): HandlerDefinition {
   if (typeof propertyKey === "symbol") {
     throw new Error("Symbol keys are not supported yet!");
@@ -28,5 +28,6 @@ export function getHandlerInfo(
     target: prototype.constructor,
     getReturnType: getType,
     returnTypeOptions: typeOptions,
+    description: options.description,
   };
 }

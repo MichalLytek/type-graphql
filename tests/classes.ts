@@ -30,14 +30,14 @@ export interface Context {
 
 @GraphQLObjectType()
 export class User {
-  @Field()
+  @Field({ description: "User email" })
   email: string;
 
   @Field(type => Recipe)
   recipes: Recipe[];
 }
 
-@GraphQLObjectType()
+@GraphQLObjectType({ description: "Rate object" })
 export class Rate {
   @Field(type => Int)
   value: number;
@@ -69,7 +69,7 @@ export class Recipe {
   @Field()
   description: string;
 
-  @Field()
+  @Field({ description: "Hello world!" })
   get hello(): string {
     return this.helloResponse;
   }
@@ -103,12 +103,12 @@ export class FindRecipeArgs {
   recipeId: string;
 }
 
-@GraphQLInputType()
+@GraphQLInputType({ description: "Rate mutation DTO" })
 export class RateInput {
   @Field(type => ID)
   recipeId: string;
 
-  @Field(type => Int)
+  @Field(type => Int, { description: "5 stars please!" })
   value: number;
 }
 
@@ -150,13 +150,13 @@ export class RecipeResolver {
     return this.recipesData;
   }
 
-  @Query()
-  helloToYou(@Arg("name") name: string): string {
+  @Query({ description: "Special query to say hello to you!" })
+  helloToYou(@Arg("name", { description: "Your name!" }) name: string): string {
     return `${this.helloStr}, ${name}!`;
   }
 
   // @Authorized()
-  @Mutation(() => Recipe)
+  @Mutation(() => Recipe, { description: "This recipe is great, give it 5 stars!" })
   async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the document
     const recipe = await this.recipesData.find(data => data.id === rateInput.recipeId);

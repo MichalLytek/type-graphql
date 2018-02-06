@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add support for descriptions in schema (types, args, queries, etc.)
+
 ## v0.2.0
 ### Features
 - add support for Date type (built-in scalar)

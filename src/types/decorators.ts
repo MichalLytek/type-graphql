@@ -13,6 +13,10 @@ export interface TypeOptions {
   array?: boolean;
   nullable?: boolean;
 }
+export interface DescriptionOptions {
+  description?: string;
+}
+export type BasicOptions = TypeOptions & DescriptionOptions;
 
 export interface ClassType {
   new (): any;

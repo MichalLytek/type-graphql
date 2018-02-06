@@ -1,17 +1,17 @@
-import { ReturnTypeFunc, TypeOptions } from "../types/decorators";
+import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
-import { getDecoratorParams } from "../helpers/decorators";
+import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Query(options?: TypeOptions): MethodDecorator;
-export function Query(returnTypeFunc: ReturnTypeFunc, options?: TypeOptions): MethodDecorator;
+export function Query(options?: BasicOptions): MethodDecorator;
+export function Query(returnTypeFunc: ReturnTypeFunc, options?: BasicOptions): MethodDecorator;
 export function Query(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | TypeOptions,
-  maybeOptions?: TypeOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | BasicOptions,
+  maybeOptions?: BasicOptions,
 ): MethodDecorator {
-  const { options, returnTypeFunc } = getDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
+  const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
-    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
+    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options, options);
     MetadataStorage.registerQueryHandler(handler);
   };
 }
