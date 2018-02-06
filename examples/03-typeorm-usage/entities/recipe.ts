@@ -8,8 +8,8 @@ import { RelationColumn } from "../helpers";
 @Entity()
 @GraphQLObjectType()
 export class Recipe {
-  @PrimaryGeneratedColumn()
   @Field(type => ID)
+  @PrimaryGeneratedColumn()
   readonly id: number;
 
   @Field()

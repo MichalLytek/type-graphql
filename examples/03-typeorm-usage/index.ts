@@ -12,6 +12,10 @@ import { Rate } from "./entities/rate";
 import { User } from "./entities/user";
 import { seedDatabase } from "./helpers";
 
+export interface ContextType {
+  user?: User;
+}
+
 // register 3rd party IOC container
 TypeGraphQL.useContainer(Container);
 TypeORM.useContainer(Container);
@@ -32,10 +36,11 @@ TypeORM.useContainer(Container);
       logging: "all",
       // logging: ["error"],
       dropSchema: true,
+      cache: true,
     });
 
     // seed database with some data
-    await seedDatabase();
+    const { defaultUser } = await seedDatabase();
 
     // build TypeGraphQL executable schema
     const schema = TypeGraphQL.buildSchema({
@@ -49,6 +54,7 @@ TypeORM.useContainer(Container);
       graphqlHTTP({
         schema,
         graphiql: true,
+        context: { user: defaultUser },
       }),
     );
     app.listen(4000, () => {

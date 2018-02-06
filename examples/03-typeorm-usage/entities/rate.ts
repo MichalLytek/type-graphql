@@ -1,5 +1,5 @@
 import { GraphQLObjectType, Field, Int} from "../../../src";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 import { User } from "./user";
 import { Recipe } from "./recipe";
@@ -18,6 +18,10 @@ export class Rate {
   @Field(type => User)
   @ManyToOne(type => User)
   user: User;
+
+  @Field()
+  @CreateDateColumn()
+  date: Date;
 
   @RelationColumn()
   userId: number;

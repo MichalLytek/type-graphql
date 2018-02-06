@@ -39,6 +39,10 @@ export async function seedDatabase() {
     },
   ]);
   await recipeRepository.save(recipes);
+
+  return {
+    defaultUser,
+  };
 }
 
 export type Lazy<T extends object> = Promise<T> | T;

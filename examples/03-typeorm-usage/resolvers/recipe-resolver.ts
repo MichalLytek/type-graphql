@@ -1,4 +1,12 @@
-import { GraphQLResolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src/index";
+import {
+  GraphQLResolver,
+  Query,
+  FieldResolver,
+  Arg,
+  Root,
+  Mutation,
+  Context,
+} from "../../../src/index";
 import { Repository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
@@ -6,6 +14,8 @@ import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
 import { RecipeInput } from "./types/recipe-input";
+import { ContextType } from "../index";
+import { RateInput } from "./types/rate-input";
 
 @GraphQLResolver(() => Recipe)
 export class RecipeResolver {
@@ -35,6 +45,29 @@ export class RecipeResolver {
       authorId: 1,
     });
     return this.recipeRepository.save(recipe);
+  }
+
+  @Mutation(() => Recipe)
+  async rate(@Context() { user }: ContextType, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
+    // find the recipe
+    const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {
+      relations: ["ratings"],
+    });
+    if (!recipe) {
+      throw new Error("Invalid recipe ID");
+    }
+
+    // set the new recipe rate
+    const newRate = this.ratingsRepository.create({
+      recipe,
+      value: rateInput.value,
+      user,
+    });
+    recipe.ratings.push(newRate);
+
+    // update the recipe
+    await this.recipeRepository.save(recipe);
+    return recipe;
   }
 
   @FieldResolver()

@@ -4,16 +4,16 @@ import { PrimaryGeneratedColumn, Column, Entity } from "typeorm";
 @GraphQLObjectType()
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
   @Field(type => ID)
+  @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column()
   @Field()
+  @Column()
   email: string;
 
-  @Column({ nullable: true })
   @Field({ nullable: true })
+  @Column({ nullable: true })
   nickname?: string;
 
   @Column()
