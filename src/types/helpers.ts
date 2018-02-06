@@ -9,11 +9,19 @@ import {
 } from "graphql";
 
 import { TypeOptions } from "../types/decorators";
+import { SchemaGenerator } from "../schema/schema-generator";
+import { GraphQLTimestampScalar } from "../scalars/timestamp";
+import { GraphQLISODateScalar } from "../scalars/isodate";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
     return type;
   }
+  const scalarType = SchemaGenerator.scalarsMap.find(it => it.type === type);
+  if (scalarType) {
+    return scalarType.scalar;
+  }
+
   switch (type) {
     case String:
       return GraphQLString;
@@ -21,7 +29,10 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
       return GraphQLBoolean;
     case Number:
       return GraphQLFloat;
-    // TODO: Date support
+    case Date:
+      return SchemaGenerator.dateScalarMode === "isoDate"
+        ? GraphQLISODateScalar
+        : GraphQLTimestampScalar;
     default:
       return undefined;
   }

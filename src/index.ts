@@ -1,5 +1,5 @@
 export * from "./decorators";
-export * from "./types/scalars";
+export * from "./scalars";
 
 export { buildSchema, BuildSchemaOptions } from "./utils/buildSchema";
 export { useContainer } from "./utils/container";

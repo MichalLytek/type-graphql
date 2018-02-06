@@ -26,7 +26,7 @@
     "apollo"
   ],
   "scripts": {
-    "dev": "ts-node --type-check tests/index.ts",
+    "dev": "node ./dev.js",
     "compile": "tsc",
     "verify": "tsc --noEmit"
   },

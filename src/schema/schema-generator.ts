@@ -8,6 +8,7 @@ import {
   GraphQLFieldConfigArgumentMap,
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
+  GraphQLScalarType,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -24,11 +25,33 @@ interface InputInfo {
   target: Function;
   type: GraphQLInputObjectType;
 }
+
+export type DateScalarMode = "isoDate" | "timestamp";
+
+export interface ScalarsTypeMap {
+  type: Function;
+  scalar: GraphQLScalarType;
+}
+
+export interface SchemaGeneratorOptions {
+  dateScalarMode?: DateScalarMode;
+  scalarsMap?: ScalarsTypeMap[];
+}
+
 export abstract class SchemaGenerator {
+  static dateScalarMode: DateScalarMode = "isoDate";
+  static scalarsMap: ScalarsTypeMap[] = [];
+
   private static typesInfo: TypeInfo[] = [];
   private static inputsInfo: InputInfo[] = [];
 
-  static generateFromMetadata(): GraphQLSchema {
+  static generateFromMetadata({
+    dateScalarMode = "isoDate",
+    scalarsMap = [],
+  }: SchemaGeneratorOptions): GraphQLSchema {
+    this.dateScalarMode = dateScalarMode;
+    this.scalarsMap = scalarsMap;
+
     MetadataStorage.build();
     this.buildTypesInfo();
 

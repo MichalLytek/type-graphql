@@ -6,10 +6,12 @@ import * as graphqlHTTP from "express-graphql";
 
 // import { MetadataStorage } from "../src/metadata/metadata-storage";
 import { RecipeResolver } from "./classes";
-import { buildSchema } from "../src/index";
+import { buildSchema, GraphQLISODateScalar } from "../src/index";
 
 const schema = buildSchema({
   resolvers: [RecipeResolver],
+  dateScalarMode: "timestamp",
+  scalarsMap: [{ type: Date, scalar: GraphQLISODateScalar }],
 });
 // debugger;
 
@@ -44,34 +46,3 @@ app.listen(4000, () => {
 // MetadataStorage.fieldResolvers.forEach(resolver => {
 //   console.log("FieldResolver:", (resolver.getParentType!() as any).name, resolver.methodName, resolver.params);
 // });
-
-// const recipe: Recipe = {
-//   id: "1",
-//   description: "none",
-//   averageRating: 0,
-//   title: "hehe",
-//   ratings: [
-//     {
-//       user: {},
-//       value: 2,
-//     },
-//     {
-//       user: {},
-//       value: 4,
-//     },
-//   ],
-// };
-
-// const MyResolver: any = MetadataStorage.queries[0].target;
-// const myResolver: RecipeResolver = new MyResolver();
-// myResolver.recipeRepository = {
-//   findOneById(id: string) {
-//     return {
-//       id,
-//       name: "Test",
-//     }
-//   }
-// } as any;
-
-// const result = MetadataStorage.queries[0].handler.call(myResolver, { recipeId: 2 });
-// console.log(result);

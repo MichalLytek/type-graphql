@@ -42,8 +42,8 @@ export class Rate {
   @Field(type => Int)
   value: number;
 
-  // @Field()
-  // date: Date;
+  @Field()
+  date: Date;
 
   @Field()
   user: User;
@@ -60,7 +60,6 @@ export class Recipe {
   private instanceValue = Math.random();
   private helloResponse = "World!";
 
-  // tslint:disable-next-line:member-ordering
   @Field(type => ID)
   readonly id: string;
 
@@ -123,9 +122,9 @@ export class RecipeResolver {
       title: "Recipe 1",
       description: "Desc 1",
       ratings: [
-        { user: null as any, value: 5 },
-        { user: null as any, value: 3 },
-        { user: null as any, value: 3 },
+        { user: null as any, value: 5, date: new Date() },
+        { user: null as any, value: 3, date: new Date() },
+        { user: null as any, value: 3, date: new Date() },
       ],
     }),
     createRecipe({
@@ -133,10 +132,10 @@ export class RecipeResolver {
       title: "Recipe 2",
       description: "Desc 2",
       ratings: [
-        { user: null as any, value: 5 },
-        { user: null as any, value: 1 },
-        { user: null as any, value: 4 },
-        { user: null as any, value: 2 },
+        { user: null as any, value: 5, date: new Date() },
+        { user: null as any, value: 1, date: new Date() },
+        { user: null as any, value: 4, date: new Date() },
+        { user: null as any, value: 2, date: new Date() },
       ],
     }),
   ];
@@ -167,7 +166,7 @@ export class RecipeResolver {
 
     // update the document
     recipe.ratings.push({
-      // date: new Date(),
+      date: new Date(),
       value: rateInput.value,
       user,
     });
