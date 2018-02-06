@@ -1,6 +1,6 @@
 import {GraphQLScalarType, Kind} from "graphql";
 
-export const GraphQLTimestampType = new GraphQLScalarType({
+export const GraphQLISODateType = new GraphQLScalarType({
     name: "Date",
     description: "Date scalar type",
     parseValue(value: string) {
@@ -17,4 +17,4 @@ export const GraphQLTimestampType = new GraphQLScalarType({
     },
 });
 
-export default GraphQLTimestampType;
+export default GraphQLISODateType;

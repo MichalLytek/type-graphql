@@ -9,7 +9,7 @@ import {
 } from "graphql";
 
 import { TypeOptions } from "./decorators";
-import GraphQLTimestampType from "./date.scalar";
+import GraphQLISODateType from "./date.scalar";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
@@ -23,7 +23,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
     case Number:
       return GraphQLFloat;
       case Date:
-      return GraphQLTimestampType;
+      return GraphQLISODateType;
     default:
       return undefined;
   }
