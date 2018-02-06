@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
+  "description": "Create GraphQL resolvers and schemas with TypeScript, using classes and decorators!",
   "repository": {
     "type": "git",
     "url": "https://github.com/19majkel94/type-graphql.git"
@@ -27,8 +28,8 @@
   ],
   "scripts": {
     "dev": "node ./dev.js",
-    "compile": "tsc",
-    "verify": "tsc --noEmit"
+    "verify": "tsc --noEmit",
+    "package": "gulp package"
   },
   "dependencies": {
     "@types/graphql": "^0.12.3",
