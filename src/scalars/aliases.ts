@@ -1,5 +1,5 @@
 import { GraphQLFloat, GraphQLString, GraphQLInt, GraphQLScalarType } from "graphql";
 
-export const Int = GraphQLInt;
-export const Float = GraphQLFloat;
-export const ID = GraphQLString;
+export const Int: GraphQLScalarType = GraphQLInt;
+export const Float: GraphQLScalarType = GraphQLFloat;
+export const ID: GraphQLScalarType = GraphQLString;
