@@ -65,10 +65,11 @@ export abstract class SchemaGenerator {
                 resolver.methodName === field.name,
             );
             fields[field.name] = {
-              description: field.description,
-              resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
               type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
               args: this.generateHandlerArgs(field.params!),
+              resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
+              description: field.description,
+              deprecationReason: field.deprecationReason,
             };
             return fields;
           }, {}),
@@ -120,8 +121,9 @@ export abstract class SchemaGenerator {
       fields[handler.methodName] = {
         type: this.getGraphQLOutputType(handler.getReturnType(), handler.returnTypeOptions),
         args: this.generateHandlerArgs(handler.params!),
-        description: handler.description,
         resolve: createResolver(handler),
+        description: handler.description,
+        deprecationReason: handler.deprecationReason,
       };
       return fields;
     }, {});

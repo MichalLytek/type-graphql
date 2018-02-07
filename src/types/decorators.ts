@@ -17,6 +17,10 @@ export interface DescriptionOptions {
   description?: string;
 }
 export type BasicOptions = TypeOptions & DescriptionOptions;
+export interface DepreciationOptions {
+  deprecationReason?: string;
+}
+export type AdvancedOptions = BasicOptions & DepreciationOptions;
 
 export interface ClassType {
   new (): any;

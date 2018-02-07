@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)
+- add support for declaring depreciation reason on object fields and queries/mutations
 
 ## v0.2.0
 ### Features

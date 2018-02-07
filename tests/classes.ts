@@ -66,6 +66,11 @@ export class Recipe {
   @Field()
   title: string;
 
+  @Field({ deprecationReason: "Use description instead" })
+  get specification(): string {
+    return this.description;
+  }
+
   @Field()
   description: string;
 
@@ -143,6 +148,11 @@ export class RecipeResolver {
   @Query(returnType => Recipe, { nullable: true })
   recipe(@Args() { recipeId }: FindRecipeArgs): Recipe | undefined {
     return this.recipesData.find(recipe => recipe.id === recipeId);
+  }
+
+  @Query(returnType => Recipe, { array: true, deprecationReason: "Typo - use `recipes` instead" })
+  async recipeses(): Promise<Recipe[]> {
+    return this.recipesData;
   }
 
   @Query(returnType => Recipe, { array: true })

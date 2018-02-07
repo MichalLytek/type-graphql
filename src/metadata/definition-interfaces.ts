@@ -6,6 +6,7 @@ export interface HandlerDefinition extends BaseResolverDefinitions {
   handler: Function;
   returnTypeOptions: TypeOptions;
   description?: string;
+  deprecationReason?: string;
 }
 
 export interface FieldResolverDefinition extends BaseResolverDefinitions {
@@ -33,6 +34,7 @@ export interface FieldDefinition {
   typeOptions: TypeOptions;
   params?: ParamDefinition[];
   description?: string;
+  deprecationReason?: string;
 }
 
 /* Param definitions */
