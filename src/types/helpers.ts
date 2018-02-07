@@ -9,7 +9,6 @@ import {
 } from "graphql";
 
 import { TypeOptions } from "../types/decorators";
-import { SchemaGenerator } from "../schema/schema-generator";
 import { GraphQLTimestampScalar } from "../scalars/timestamp";
 import { GraphQLISODateScalar } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";
