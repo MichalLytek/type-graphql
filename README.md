@@ -370,6 +370,29 @@ app.listen(4000, () => {
 
 ## Examples
 You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on the repo for more example of usage: simple fields resolvers, DI Container support, etc.
+Please notice that, do tue a [ts-node bug](https://github.com/rbuckton/reflect-metadata/issues/84) an additional parameter is needed when running with ts-node:
+```bash
+ts-node --type-check examples/01-simple-usage/index.ts 
+```
+
+Query example#01-simple-usage
+```graphql
+mutation add{
+  addRecipe(recipe: {title:"Open Source Pie"}) {
+    description
+    averageRating
+  }
+}
+
+query list{
+  recipes {
+    title
+    description
+    averageRating
+    created
+  }
+}
+```
 
 [Tests](https://github.com/19majkel94/type-graphql/tree/master/tests) folder will also give you some tips how to make some things done.
 
