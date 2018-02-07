@@ -32,7 +32,10 @@ export class RecipeResolver {
     return await this.items.find(recipe => recipe.title === title);
   }
 
-  @Query(returnType => Recipe, { array: true })
+  @Query(returnType => Recipe, {
+    array: true,
+    description: "Get all the recipes from around the world ",
+  })
   async recipes(): Promise<Recipe[]> {
     return await this.items;
   }
