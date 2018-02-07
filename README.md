@@ -379,6 +379,10 @@ Currently released version is an early alpha. However it's working quite well, s
 
 More feedback = less bugs thanks to you! :smiley:
 
+## Contribution
+PRs are welcome, but first check, test and build your code before committing it and use commit rules.
+For more information checkout this [commit rule guide](https://gist.github.com/stephenparish/9941e89d80e2bc58a153).
+
 ## Roadmap
 You can keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
 
