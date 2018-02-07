@@ -11,7 +11,7 @@ export function Mutation(
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
-    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options, options);
+    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
     MetadataStorage.registerMutationHandler(handler);
   };
 }
