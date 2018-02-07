@@ -1,5 +1,5 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, ClassType, BasicOptions } from "../types/decorators";
+import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
