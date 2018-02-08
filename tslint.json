@@ -5,6 +5,8 @@
     ],
     "jsRules": {},
     "rules": {
+        "no-console": [false],
+        "no-namespace": false,
         "object-literal-sort-keys": false,
         "max-line-length": [true, 100],
         "max-classes-per-file": false,

@@ -11,4 +11,3 @@ export { GraphQLResolver } from "./GraphQLResolver";
 export { Mutation } from "./Mutation";
 export { Query } from "./Query";
 export { Root } from "./Root";
-export { Subscription } from "./Subscription";

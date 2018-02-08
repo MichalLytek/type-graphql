@@ -1,8 +1,6 @@
 import { GraphQLFieldResolver } from "graphql";
-import { plainToClass } from "class-transformer";
-
 import { IOCContainer } from "../utils/container";
-import { FieldResolverDefinition, ParamDefinition } from "../metadata/definition-interfaces";
+import { FieldResolverDefinition } from "../metadata/definition-interfaces";
 import { getParams } from "./helpers";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { convertToType } from "../types/convert";

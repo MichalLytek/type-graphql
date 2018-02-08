@@ -16,6 +16,9 @@ export class Recipe {
   @Field(type => Int)
   ratings: number[];
 
+  @Field({description: "Creation date field.", nullable: false})
+  created: Date;
+
   @Field(type => Int)
   // declare the field as private because it won't exist in root object
   private ratingsCount: number;

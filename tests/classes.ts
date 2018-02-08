@@ -1,7 +1,4 @@
 // tslint:disable:member-ordering
-import { Repository } from "typeorm";
-import { plainToClass } from "class-transformer";
-
 import {
   Int,
   ID,
