@@ -12,3 +12,6 @@ src/**/*.d.ts
 examples/**/*.js
 examples/**/*.js.map
 examples/**/*.d.ts
+gulpfile.d.ts
+gulpfile.js
+gulpfile.js.map
