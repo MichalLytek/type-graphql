@@ -1,11 +1,16 @@
 import { Field, ID, GraphQLObjectType, Int, Float } from "../../src/index";
 
-@GraphQLObjectType()
+@GraphQLObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
   @Field()
   title: string;
 
-  @Field({ nullable: true })
+  @Field(type => String, { nullable: true, deprecationReason: "Use `description` field instead" })
+  get specification(): string | undefined {
+    return this.description;
+  }
+
+  @Field({ nullable: true, description: "The recipe description with preparation info" })
   description?: string;
 
   @Field(type => Int)
@@ -15,7 +20,7 @@ export class Recipe {
   created: Date;
 
   @Field(type => Int)
-  // declare field as private because it won't exist in root object
+  // declare the field as private because it won't exist in root object
   private ratingsCount: number;
 
   @Field(type => Float, { nullable: true })

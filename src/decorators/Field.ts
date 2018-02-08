@@ -1,18 +1,21 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Field(options?: BasicOptions): PropertyDecorator;
+export function Field(options?: AdvancedOptions): PropertyDecorator;
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
-  options?: BasicOptions,
+  options?: AdvancedOptions,
 ): PropertyDecorator;
-export function Field(options?: BasicOptions): MethodDecorator;
-export function Field(returnTypeFunction?: ReturnTypeFunc, options?: BasicOptions): MethodDecorator;
+export function Field(options?: AdvancedOptions): MethodDecorator;
 export function Field(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | BasicOptions,
-  maybeOptions?: BasicOptions,
+  returnTypeFunction?: ReturnTypeFunc,
+  options?: AdvancedOptions,
+): MethodDecorator;
+export function Field(
+  returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,
+  maybeOptions?: AdvancedOptions,
 ): PropertyDecorator | MethodDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
@@ -40,6 +43,7 @@ export function Field(
       typeOptions,
       target: prototype.constructor,
       description: options.description,
+      deprecationReason: options.deprecationReason,
     });
 
     if (isResolver) {

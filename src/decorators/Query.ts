@@ -1,13 +1,13 @@
-import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Query(options?: BasicOptions): MethodDecorator;
-export function Query(returnTypeFunc: ReturnTypeFunc, options?: BasicOptions): MethodDecorator;
+export function Query(options?: AdvancedOptions): MethodDecorator;
+export function Query(returnTypeFunc: ReturnTypeFunc, options?: AdvancedOptions): MethodDecorator;
 export function Query(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | BasicOptions,
-  maybeOptions?: BasicOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,
+  maybeOptions?: AdvancedOptions,
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {

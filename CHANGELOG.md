@@ -1,8 +1,12 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.3.0
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)
+- add support for declaring depreciation reason on object fields and queries/mutations
+
+### Fixes
+- fix scalars ID alias (GraphQLID not GraphQLString)
 
 ## v0.2.0
 ### Features
