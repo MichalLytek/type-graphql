@@ -1,14 +1,10 @@
 // tslint:disable:member-ordering
-import { Repository } from "typeorm";
-import { plainToClass } from "class-transformer";
-
 import {
   Int,
   ID,
   Float,
   Arg,
   Args,
-  Authorized,
   Ctx,
   Field,
   FieldResolver,
@@ -19,7 +15,6 @@ import {
   Query,
   Root,
   Mutation,
-  Resolver,
 } from "../src";
 import { createRecipe } from "./helpers";
 

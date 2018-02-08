@@ -11,4 +11,7 @@ export { GraphQLResolver } from "./GraphQLResolver";
 export { Mutation } from "./Mutation";
 export { Query } from "./Query";
 export { Root } from "./Root";
+/**
+ * Not yet implemented
+ */
 export { Subscription } from "./Subscription";
