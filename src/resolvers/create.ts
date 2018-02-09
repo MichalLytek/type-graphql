@@ -3,7 +3,7 @@ import { IOCContainer } from "../utils/container";
 import { FieldResolverDefinition } from "../metadata/definition-interfaces";
 import { getParams } from "./helpers";
 import { BaseResolverDefinitions } from "../types/resolvers";
-import { convertToType } from "../types/convert";
+import { convertToType } from "../types/helpers";
 
 export function createResolver(
   resolverDefinition: BaseResolverDefinitions,

@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
 
 import { ParamDefinition } from "../metadata/definition-interfaces";
-import { convertToType } from "../types/convert";
+import { convertToType } from "../types/helpers";
 
 export interface ResolverData {
   root: any;
