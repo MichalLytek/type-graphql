@@ -53,7 +53,7 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
 }
 
 const simpleTypes: Function[] = [String, Boolean, Number, Date, Array, Promise];
-export function convertToType(target: any, data?: object): object|undefined {
+export function convertToType(Target: any, data?: object): object | undefined {
   // skip converting undefined and null
   if (data == null) {
     return;
@@ -63,5 +63,5 @@ export function convertToType(target: any, data?: object): object|undefined {
     return data;
   }
 
-  return Object.assign(Object.create(target.prototype), data);
+  return Object.assign(new Target(), data);
 }

@@ -5,6 +5,9 @@
 - add basic support for automatic arguments and inputs validation using `class-validator`
 - add interface `ResolverInterface` for type checking of resolver class methods (field resolvers)
 
+### Fixes
+- fix default values for arg/input fields (class property initializers) - use `new` instead of `Object.create`
+
 ## v0.3.0
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)

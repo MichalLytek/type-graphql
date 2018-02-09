@@ -6,6 +6,7 @@ import {
   Root,
   Mutation,
   Ctx,
+  Int,
 } from "../../../src/index";
 import { Repository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
@@ -29,7 +30,7 @@ export class RecipeResolver {
   ) {}
 
   @Query(returnType => Recipe, { nullable: true })
-  recipe(@Arg("recipeId") recipeId: number) {
+  recipe(@Arg("recipeId", type => Int) recipeId: number) {
     return this.recipeRepository.findOneById(recipeId);
   }
 
