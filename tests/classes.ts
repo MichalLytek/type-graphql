@@ -17,6 +17,7 @@ import {
   Query,
   Root,
   Mutation,
+  ResolverInterface,
 } from "../src";
 import { createRecipe } from "./helpers";
 
@@ -98,7 +99,7 @@ export class Recipe {
   }
 
   @Field(type => Float, { nullable: true })
-  private averageRating?: number | null;
+  averageRating?: number | null;
 }
 
 @GraphQLArgumentType()
@@ -120,8 +121,7 @@ export class RateInput {
 }
 
 @GraphQLResolver(() => Recipe)
-// export class RecipeResolver implements Resolver<Recipe> {
-export class RecipeResolver {
+export class RecipeResolver implements ResolverInterface<Recipe> {
   private helloStr = "Secret hello";
   private recipesData: Recipe[] = [
     createRecipe({

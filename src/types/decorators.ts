@@ -1,8 +1,6 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-export type Resolver<T extends object> = { [P in keyof T]?: (root: T) => T[P] } & {};
-
 export type TypeValue = ClassType | GraphQLScalarType | Function;
 
 export type TypeValueResolver = () => TypeValue;

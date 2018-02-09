@@ -16,9 +16,11 @@ export class Recipe {
   @Field(type => Int)
   ratings: number[];
 
+  @Field()
+  creationDate: Date;
+
   @Field(type => Int)
-  // declare the field as private because it won't exist in root object
-  private ratingsCount: number;
+  ratingsCount: number;
 
   @Field(type => Float, { nullable: true })
   get averageRating(): number | null {

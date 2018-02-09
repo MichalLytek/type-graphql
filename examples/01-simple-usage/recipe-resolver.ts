@@ -7,13 +7,14 @@ import {
   Mutation,
   Float,
   Int,
+  ResolverInterface,
 } from "../../src/index";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 
 @GraphQLResolver(() => Recipe)
-export class RecipeResolver {
+export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[];
   constructor() {
     const recipe1 = new Recipe();
@@ -46,12 +47,13 @@ export class RecipeResolver {
     recipe.description = recipeInput.description;
     recipe.title = recipeInput.title;
     recipe.ratings = [];
+    recipe.creationDate = new Date();
+
     await this.items.push(recipe);
     return recipe;
   }
 
   @FieldResolver()
-  // implement the private field resolver with args
   ratingsCount(
     @Root() recipe: Recipe,
     @Arg("minRate", type => Int, { nullable: true })
