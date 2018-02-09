@@ -1,15 +1,24 @@
-import { GraphQLScalarType} from "graphql";
+import { GraphQLScalarType } from "graphql";
+import { ValidatorOptions } from "class-validator";
 
 import { findType } from "./findType";
-import { ReturnTypeFunc, ClassType, TypeOptions } from "../types/decorators";
+import { ReturnTypeFunc, ClassType, TypeOptions, ValidateOptions } from "../types/decorators";
+import { CommonArgDefinition } from "../metadata/definition-interfaces";
 
-export function getParamInfo(
-  prototype: Object,
-  propertyKey: string | symbol,
-  parameterIndex: number,
-  returnTypeFunc?: ReturnTypeFunc,
-  options: TypeOptions = {},
-) {
+export interface ParamInfo {
+  prototype: Object;
+  propertyKey: string | symbol;
+  parameterIndex: number;
+  returnTypeFunc?: ReturnTypeFunc;
+  options?: TypeOptions & ValidateOptions;
+}
+export function getParamInfo({
+  prototype,
+  propertyKey,
+  parameterIndex,
+  returnTypeFunc,
+  options = {},
+}: ParamInfo): CommonArgDefinition {
   if (typeof propertyKey === "symbol") {
     throw new Error("Symbol keys are not supported yet!");
   }
@@ -29,5 +38,6 @@ export function getParamInfo(
     index: parameterIndex,
     getType,
     typeOptions,
+    validate: options.validate,
   };
 }

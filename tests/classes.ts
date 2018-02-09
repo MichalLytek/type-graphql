@@ -1,4 +1,6 @@
 // tslint:disable:member-ordering
+import { Min, Max, MaxLength, IsOptional } from "class-validator";
+
 import {
   Int,
   ID,
@@ -28,7 +30,7 @@ export class User {
   @Field({ description: "User email" })
   email: string;
 
-  @Field(type => Recipe)
+  // @Field(type => Recipe)
   recipes: Recipe[];
 }
 
@@ -47,7 +49,9 @@ export class Rate {
 @GraphQLArgumentType()
 export class RecipeTestArgs {
   @Field(type => Int, { nullable: true })
-  length?: number = 255;
+  @Max(255)
+  @IsOptional()
+  length: number = 255;
 }
 
 @GraphQLObjectType()
@@ -78,9 +82,9 @@ export class Recipe {
   ratings: Rate[];
 
   @Field()
-  private test(@Args() args: RecipeTestArgs): boolean {
+  private test(@Args({ validate: true }) args: RecipeTestArgs): boolean {
     console.log("test length:", args.length);
-    return true;
+    return args.length <= 255;
   }
 
   @Field(type => Int)
@@ -100,6 +104,7 @@ export class Recipe {
 @GraphQLArgumentType()
 export class FindRecipeArgs {
   @Field(type => ID)
+  @MaxLength(1)
   recipeId: string;
 }
 
@@ -108,6 +113,8 @@ export class RateInput {
   @Field(type => ID)
   recipeId: string;
 
+  @Min(1)
+  @Max(5)
   @Field(type => Int, { description: "5 stars please!" })
   value: number;
 }
@@ -162,7 +169,7 @@ export class RecipeResolver {
 
   // @Authorized()
   @Mutation(() => Recipe, { description: "This recipe is great, give it 5 stars!" })
-  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
+  async rate(@Ctx() { user }: Context, @Arg("input") rateInput: RateInput): Promise<Recipe> {
     // find the document
     const recipe = await this.recipesData.find(data => data.id === rateInput.recipeId);
     if (!recipe) {

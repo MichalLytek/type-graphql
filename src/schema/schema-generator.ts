@@ -35,9 +35,10 @@ export abstract class SchemaGenerator {
   static generateFromMetadata({
     dateScalarMode = "isoDate",
     scalarsMap = [],
+    validate = true,
   }: SchemaGeneratorOptions): GraphQLSchema {
 
-    BuildContext.create({ dateScalarMode, scalarsMap });
+    BuildContext.create({ dateScalarMode, scalarsMap, validate });
     MetadataStorage.build();
     this.buildTypesInfo();
 

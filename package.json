@@ -36,6 +36,7 @@
     "@types/graphql": "^0.12.3",
     "@types/node": "^9.3.0",
     "class-transformer": "^0.1.8",
+    "class-validator": "^0.8.1",
     "graphql": "^0.12.3"
   },
   "devDependencies": {

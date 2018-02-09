@@ -1,18 +1,25 @@
+import {
+  ReturnTypeFunc,
+  TypeOptions,
+  DescriptionOptions,
+  ValidateOptions,
+} from "../types/decorators";
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ReturnTypeFunc, BasicOptions } from "../types/decorators";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Arg(name: string, BasicOptions?: BasicOptions): ParameterDecorator;
+export type Options = TypeOptions & DescriptionOptions & ValidateOptions;
+
+export function Arg(name: string, options?: Options): ParameterDecorator;
 export function Arg(
   name: string,
   returnTypeFunc: ReturnTypeFunc,
-  BasicOptions?: BasicOptions,
+  options?: Options,
 ): ParameterDecorator;
 export function Arg(
   name: string,
-  returnTypeFuncOrOptions?: ReturnTypeFunc | BasicOptions,
-  maybeOptions?: BasicOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | Options,
+  maybeOptions?: Options,
 ): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     const { options, returnTypeFunc } = getTypeDecoratorParams(
@@ -23,7 +30,7 @@ export function Arg(
       kind: "arg",
       name,
       description: options.description,
-      ...getParamInfo(prototype, propertyKey, parameterIndex, returnTypeFunc, options),
+      ...getParamInfo({ prototype, propertyKey, parameterIndex, returnTypeFunc, options }),
     });
   };
 }

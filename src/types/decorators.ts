@@ -1,4 +1,5 @@
 import { GraphQLScalarType } from "graphql";
+import { ValidatorOptions } from "class-validator";
 
 export type Resolver<T extends object> = { [P in keyof T]?: (root: T) => T[P] } & {};
 
@@ -16,10 +17,13 @@ export interface TypeOptions {
 export interface DescriptionOptions {
   description?: string;
 }
-export type BasicOptions = TypeOptions & DescriptionOptions;
 export interface DepreciationOptions {
   deprecationReason?: string;
 }
+export interface ValidateOptions {
+  validate?: boolean | ValidatorOptions;
+}
+export type BasicOptions = TypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions & DepreciationOptions;
 
 export interface ClassType {

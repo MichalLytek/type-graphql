@@ -1,11 +1,12 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getParamInfo } from "../helpers/params";
+import { ValidateOptions } from "../types/decorators";
 
-export function Args(): ParameterDecorator {
+export function Args(options: ValidateOptions = {}): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     MetadataStorage.registerHandlerParam({
       kind: "args",
-      ...getParamInfo(prototype, propertyKey, parameterIndex),
+      ...getParamInfo({ prototype, propertyKey, parameterIndex, options }),
     });
   };
 }

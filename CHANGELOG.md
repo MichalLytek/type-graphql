@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add basic support for automatic arguments and inputs validation using `class-validator`
+
 ## v0.3.0
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)

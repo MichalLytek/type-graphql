@@ -5,13 +5,14 @@ import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 
 // import { MetadataStorage } from "../src/metadata/metadata-storage";
-import { RecipeResolver } from "./classes";
-import { buildSchema, GraphQLISODateScalar } from "../src/index";
+import { RecipeResolver, User } from "./classes";
+import { buildSchema, GraphQLISODateScalar, formatArgumentValidationError } from "../src/index";
 
 const schema = buildSchema({
   resolvers: [RecipeResolver],
   dateScalarMode: "timestamp",
   scalarsMap: [{ type: Date, scalar: GraphQLISODateScalar }],
+  validate: false,
 });
 // debugger;
 
@@ -21,6 +22,8 @@ app.use(
   graphqlHTTP({
     schema,
     graphiql: true,
+    context: { user: { email: "test@test.test" } as User },
+    formatError: formatArgumentValidationError,
   }),
 );
 app.listen(4000, () => {
