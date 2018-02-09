@@ -1,13 +1,16 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended"
+        "tslint:recommended",
+        "tslint-eslint-rules"
     ],
     "jsRules": {},
     "rules": {
+        "adjacent-overload-signatures": true,
+        "ban-types": false,
         "no-console": [false],
         "no-namespace": false,
-        "array-bracket-spacing": [true, "always"],
+        "object-curly-spacing": [true, "always"],
         "object-literal-sort-keys": false,
         "max-line-length": [true, 100],
         "max-classes-per-file": [false],

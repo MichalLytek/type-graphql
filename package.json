@@ -29,7 +29,8 @@
   "scripts": {
     "dev": "node ./dev.js",
     "verify": "tsc --noEmit",
-    "package": "gulp package"
+    "package": "gulp package",
+    "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {
     "@types/graphql": "^0.12.3",
@@ -57,6 +58,7 @@
     "reflect-metadata": "^0.1.10",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
+    "tslint-eslint-rules": "^4.1.1",
     "typedi": "^0.6.0",
     "typeorm": "^0.1.12",
     "typeorm-typedi-extensions": "^0.1.1",

@@ -1,4 +1,4 @@
-import { GraphQLObjectType, Field, Int} from "../../../src";
+import { GraphQLObjectType, Field, Int } from "../../../src";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 import { User } from "./user";
