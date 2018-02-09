@@ -5,9 +5,12 @@
     ],
     "jsRules": {},
     "rules": {
+        "no-console": [false],
+        "no-namespace": false,
+        "array-bracket-spacing": [true, "always"],
         "object-literal-sort-keys": false,
         "max-line-length": [true, 100],
-        "max-classes-per-file": false,
+        "max-classes-per-file": [false],
         "member-access": [true, "no-public"],
         "member-ordering": [true, {
             "order": [
