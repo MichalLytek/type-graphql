@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.4.0
 ### Features
 - add basic support for automatic arguments and inputs validation using `class-validator`
 - add interface `ResolverInterface` for type checking of resolver class methods (field resolvers)
