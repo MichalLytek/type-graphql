@@ -26,19 +26,14 @@ interface InputInfo {
   target: Function;
   type: GraphQLInputObjectType;
 }
+export type SchemaGeneratorOptions = BuildContextOptions;
 
-export type SchemaGeneratorOptions = Partial<BuildContextOptions>;
 export abstract class SchemaGenerator {
   private static typesInfo: TypeInfo[] = [];
   private static inputsInfo: InputInfo[] = [];
 
-  static generateFromMetadata({
-    dateScalarMode = "isoDate",
-    scalarsMap = [],
-    validate = true,
-  }: SchemaGeneratorOptions): GraphQLSchema {
-
-    BuildContext.create({ dateScalarMode, scalarsMap, validate });
+  static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
+    BuildContext.create(options);
     MetadataStorage.build();
     this.buildTypesInfo();
 
@@ -48,7 +43,7 @@ export abstract class SchemaGenerator {
       types: this.buildTypes(),
     });
 
-    BuildContext.clear();
+    BuildContext.reset();
     return schema;
   }
 

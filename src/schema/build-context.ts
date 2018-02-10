@@ -9,13 +9,13 @@ export interface ScalarsTypeMap {
 }
 
 export interface BuildContextOptions {
-  dateScalarMode: DateScalarMode;
-  scalarsMap: ScalarsTypeMap[];
+  dateScalarMode?: DateScalarMode;
+  scalarsMap?: ScalarsTypeMap[];
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
    * You can also directly pass validator options to enable validator with a given options.
    */
-  validate: boolean | ValidatorOptions;
+  validate?: boolean | ValidatorOptions;
 }
 
 export abstract class BuildContext {
@@ -27,20 +27,26 @@ export abstract class BuildContext {
    * Set static fields with current building context data
    */
   static create(options: BuildContextOptions) {
-    this.dateScalarMode = options.dateScalarMode;
-    this.scalarsMaps = options.scalarsMap;
-    this.validate = options.validate;
+    if (options.dateScalarMode !== undefined) {
+      this.dateScalarMode = options.dateScalarMode;
+    }
+    if (options.scalarsMap !== undefined) {
+      this.scalarsMaps = options.scalarsMap;
+    }
+    if (options.validate !== undefined) {
+      this.validate = options.validate;
+    }
   }
 
   /**
    * Restore default settings
    */
-  static clear() {
+  static reset() {
     this.dateScalarMode = "isoDate";
     this.scalarsMaps = [];
-    this.validate = true;
+    this.validate = { skipMissingProperties: true };
   }
 }
 
 // initialize fields
-BuildContext.clear();
+BuildContext.reset();
