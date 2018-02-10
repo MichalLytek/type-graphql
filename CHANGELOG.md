@@ -8,6 +8,9 @@
 ### Fixes
 - fix default values for arg/input fields (class property initializers) - use `new` instead of `Object.create`
 
+### Changes
+- update `graphql` dependency from `^0.12.3` to `^0.13.0`
+
 ## v0.3.0
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)

@@ -35,37 +35,37 @@
   },
   "dependencies": {
     "@types/graphql": "^0.12.3",
-    "@types/node": "^9.3.0",
-    "class-transformer": "^0.1.8",
+    "@types/node": "^9.4.4",
+    "class-transformer": "^0.1.9",
     "class-validator": "^0.8.1",
-    "graphql": "^0.12.3"
+    "graphql": "^0.13.0"
   },
   "devDependencies": {
     "@types/del": "^3.0.0",
-    "@types/express": "^4.11.0",
-    "@types/express-graphql": "0.0.35",
+    "@types/express": "^4.11.1",
+    "@types/express-graphql": "0.0.36",
     "@types/gulp": "^4.0.5",
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-shell": "0.0.31",
-    "core-js": "^2.5.1",
+    "core-js": "^2.5.3",
     "del": "^3.0.0",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "gulp-replace": "^0.6.1",
     "gulp-shell": "^0.6.5",
-    "gulp-typescript": "^3.2.4",
+    "gulp-typescript": "^4.0.1",
     "gulpclass": "^0.1.2",
     "husky": "^0.15.0-rc.8",
     "mysql": "^2.15.0",
-    "prettier": "^1.9.2",
-    "reflect-metadata": "^0.1.10",
+    "prettier": "^1.10.2",
+    "reflect-metadata": "^0.1.12",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-eslint-rules": "^4.1.1",
-    "typedi": "^0.6.0",
+    "typedi": "^0.6.1",
     "typeorm": "^0.1.12",
     "typeorm-typedi-extensions": "^0.1.1",
-    "typescript": "^2.7.1"
+    "typescript": "~2.7.1"
   },
   "husky": {
     "hooks": {
