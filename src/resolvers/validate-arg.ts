@@ -13,10 +13,13 @@ export async function validateArg<T extends object>(
   }
 
   const validate = argValidate !== undefined ? argValidate : globalValidate;
-  const validatorOptions = typeof validate === "object" ? validate : undefined;
-
-  if (arg instanceof GraphQLScalarType || validate === false) {
+  if (validate === false || typeof arg !== "object") {
     return arg;
+  }
+
+  const validatorOptions = typeof validate === "object" ? validate : {};
+  if (validatorOptions.skipMissingProperties !== false) {
+    validatorOptions.skipMissingProperties = true;
   }
 
   try {

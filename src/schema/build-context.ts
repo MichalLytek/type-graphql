@@ -44,7 +44,7 @@ export abstract class BuildContext {
   static reset() {
     this.dateScalarMode = "isoDate";
     this.scalarsMaps = [];
-    this.validate = { skipMissingProperties: true };
+    this.validate = true;
   }
 }
 
