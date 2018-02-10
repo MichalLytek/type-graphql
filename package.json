@@ -27,9 +27,10 @@
     "apollo"
   ],
   "scripts": {
+    "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",
-    "verify": "tsc --noEmit",
     "package": "gulp package",
+    "check": "tsc --noEmit",
     "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {
@@ -54,6 +55,7 @@
     "gulp-shell": "^0.6.5",
     "gulp-typescript": "^3.2.4",
     "gulpclass": "^0.1.2",
+    "husky": "^0.15.0-rc.8",
     "mysql": "^2.15.0",
     "prettier": "^1.9.2",
     "reflect-metadata": "^0.1.10",
@@ -64,6 +66,11 @@
     "typeorm": "^0.1.12",
     "typeorm-typedi-extensions": "^0.1.1",
     "typescript": "^2.7.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run verify"
+    }
   },
   "private": true
 }
