@@ -277,8 +277,8 @@ export class Recipe {
   @Field()
   title: string;
 
-  @Field()
   @Column()
+  @Field()
   description: string;
 
   @OneToMany(type => Rate, rate => rate.recipe)
@@ -296,11 +296,11 @@ export class Recipe {
 ```
 
 ```ts
-import { Length, Min, Max } from "class-validator";
+import { IsMongoId, Min, Max } from "class-validator";
 
 @GraphQLInputType()
 class RateInput {
-  @Length(24)
+  @IsMongoId()
   @Field(type => ID)
   recipeId: string;
 
@@ -311,7 +311,9 @@ class RateInput {
 }
 ```
 
-Of course TypeGraphQL will automatically validate the input and params with `class-validator` for you too! (in near future :wink:)
+Of course TypeGraphQL will automatically validate the input and params with `class-validator` for you too!
+
+More details about this feature [here](https://github.com/19majkel94/type-graphql/blob/master/docs/validation.md).
 
 ## How to use
 
