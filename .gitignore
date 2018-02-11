@@ -1,17 +1,8 @@
+# node modules
 node_modules
-.vscode
+
+# builded sources
 build
-package
+
+# IntelliJ stuffs
 .idea/
-tests/**/*.js
-tests/**/*.js.map
-tests/**/*.d.ts
-src/**/*.js
-src/**/*.js.map
-src/**/*.d.ts
-examples/**/*.js
-examples/**/*.js.map
-examples/**/*.d.ts
-gulpfile.d.ts
-gulpfile.js
-gulpfile.js.map
