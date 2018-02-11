@@ -1,5 +1,13 @@
 import "reflect-metadata";
 import {
+  graphql,
+  introspectionQuery,
+  IntrospectionSchema,
+  IntrospectionObjectType,
+  IntrospectionInputObjectType,
+} from "graphql";
+
+import {
   GraphQLObjectType,
   GraphQLArgumentType,
   GraphQLInputType,
@@ -11,13 +19,7 @@ import {
   Args,
   buildSchema,
 } from "../../src";
-import {
-  graphql,
-  introspectionQuery,
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-} from "graphql";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Schema - descriptions", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -115,21 +117,13 @@ describe("Schema - descriptions", () => {
       }
     }
 
-    // build schema from definitions
-    const schema = buildSchema({
+    // get builded schema info from retrospection
+    const schemaInfo = await getSchemaInfo({
       resolvers: [SampleResolver],
     });
-
-    // get builded schema info from retrospection
-    const result = await graphql(schema, introspectionQuery);
-    schemaIntrospection = result.data!.__schema;
-    expect(schemaIntrospection).toBeDefined();
-    queryType = schemaIntrospection.types.find(
-      type => type.name === schemaIntrospection.queryType.name,
-    ) as IntrospectionObjectType;
-    mutationType = schemaIntrospection.types.find(
-      type => type.name === schemaIntrospection.mutationType!.name,
-    ) as IntrospectionObjectType;
+    schemaIntrospection = schemaInfo.schemaIntrospection;
+    queryType = schemaInfo.queryType;
+    mutationType = schemaInfo.mutationType;
   });
 
   it("should generate proper object type description", async () => {
@@ -145,15 +139,11 @@ describe("Schema - descriptions", () => {
       type => type.name === "SampleObject",
     ) as IntrospectionObjectType;
     const normalField = sampleObjectType.fields.find(field => field.name === "normalField")!;
-    const describedField = sampleObjectType.fields.find(
-      field => field.name === "describedField",
-    )!;
+    const describedField = sampleObjectType.fields.find(field => field.name === "describedField")!;
     const describedGetterField = sampleObjectType.fields.find(
       field => field.name === "describedGetterField",
     )!;
-    const methodField = sampleObjectType.fields.find(
-      field => field.name === "methodField",
-    )!;
+    const methodField = sampleObjectType.fields.find(field => field.name === "methodField")!;
 
     expect(normalField.description).toBeNull();
     expect(describedField.description).toEqual("sample object field description");
