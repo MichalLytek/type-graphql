@@ -5,9 +5,13 @@ import { Container } from "typedi";
 import { useContainer, buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe-resolver";
+import { sampleRecipes } from "./sample-recipes";
 
 // register 3rd party IOC container
 useContainer(Container);
+
+// put sample recipes in container
+Container.set("SAMPLE_RECIPES", sampleRecipes);
 
 // build TypeGraphQL executable schema
 const schema = buildSchema({

@@ -1,5 +1,5 @@
 import { plainToClass } from "class-transformer";
-import { Service } from "typedi";
+import { Service, Inject } from "typedi";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
@@ -7,35 +7,14 @@ import { RecipeInput } from "./recipe-input";
 @Service()
 export class RecipeService {
   private autoIncrementValue = 0;
+  private readonly items: Recipe[];
 
-  private items: Recipe[] = [
-    this.createRecipe({
-      title: "Recipe 1",
-      description: "Desc 1",
-      ingredients: [
-        "one",
-        "two",
-        "three",
-      ],
-    }),
-    this.createRecipe({
-      title: "Recipe 2",
-      description: "Desc 2",
-      ingredients: [
-        "four",
-        "five",
-        "six",
-      ],
-    }),
-    this.createRecipe({
-      title: "Recipe 3",
-      ingredients: [
-        "seven",
-        "eight",
-        "nine",
-      ],
-    }),
-  ];
+  constructor(
+    @Inject("SAMPLE_RECIPES")
+    sampleRecipes: ReadonlyArray<Recipe>,
+  ) {
+    this.items = sampleRecipes.slice();
+  }
 
   async getAll() {
     return this.items;
