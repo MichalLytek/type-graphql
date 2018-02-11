@@ -4,3 +4,7 @@ node_js:
   - 8
   - 6
 script: npm run verify
+notifications:
+  email:
+    on_success: never
+    on_failure: always
