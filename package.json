@@ -28,6 +28,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "test:ci": "jest --verbose --ci",
     "test:watch": "jest --watch",
     "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",

@@ -3,7 +3,9 @@ node_js:
   - stable
   - 8
   - 6
-script: npm run verify
+script:
+  - npm run verify
+  - npm run test:ci
 notifications:
   email:
     on_success: never
