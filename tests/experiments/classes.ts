@@ -18,7 +18,7 @@ import {
   Root,
   Mutation,
   ResolverInterface,
-} from "../src";
+} from "../../src";
 import { createRecipe } from "./helpers";
 
 // mocks

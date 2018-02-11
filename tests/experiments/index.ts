@@ -6,7 +6,7 @@ import * as graphqlHTTP from "express-graphql";
 
 // import { MetadataStorage } from "../src/metadata/metadata-storage";
 import { RecipeResolver, User } from "./classes";
-import { buildSchema, GraphQLISODateTime, formatArgumentValidationError } from "../src";
+import { buildSchema, GraphQLISODateTime, formatArgumentValidationError } from "../../src/";
 
 const schema = buildSchema({
   resolvers: [RecipeResolver],

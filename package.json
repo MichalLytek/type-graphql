@@ -27,6 +27,8 @@
     "apollo"
   ],
   "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
     "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",
     "package": "gulp package",
@@ -47,6 +49,7 @@
     "@types/gulp": "^4.0.5",
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-shell": "0.0.31",
+    "@types/jest": "^22.1.2",
     "core-js": "^2.5.3",
     "del": "^3.0.0",
     "express": "^4.16.2",
@@ -56,9 +59,11 @@
     "gulp-typescript": "^4.0.1",
     "gulpclass": "^0.1.2",
     "husky": "^0.15.0-rc.8",
+    "jest": "^22.2.2",
     "mysql": "^2.15.0",
     "prettier": "^1.10.2",
     "reflect-metadata": "^0.1.12",
+    "ts-jest": "^22.0.3",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-eslint-rules": "^4.1.1",
