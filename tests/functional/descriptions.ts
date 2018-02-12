@@ -123,7 +123,7 @@ describe("Schema - descriptions", () => {
     });
     schemaIntrospection = schemaInfo.schemaIntrospection;
     queryType = schemaInfo.queryType;
-    mutationType = schemaInfo.mutationType;
+    mutationType = schemaInfo.mutationType!;
   });
 
   it("should generate proper object type description", async () => {

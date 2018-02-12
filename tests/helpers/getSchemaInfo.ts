@@ -1,4 +1,11 @@
-import { graphql, introspectionQuery, IntrospectionObjectType, IntrospectionSchema } from "graphql";
+import {
+  graphql,
+  introspectionQuery,
+  IntrospectionObjectType,
+  IntrospectionSchema,
+  GraphQLSchema,
+} from "graphql";
+
 import { buildSchema, BuildSchemaOptions } from "../../src";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
@@ -15,11 +22,16 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
     type => type.name === schemaIntrospection.queryType.name,
   ) as IntrospectionObjectType;
 
-  const mutationType = schemaIntrospection.types.find(
-    type => type.name === schemaIntrospection.mutationType!.name,
-  ) as IntrospectionObjectType;
+  const mutationTypeName = schemaIntrospection.mutationType;
+  let mutationType: IntrospectionObjectType | undefined;
+  if (mutationTypeName) {
+    mutationType = schemaIntrospection.types.find(
+      type => type.name === schemaIntrospection.mutationType!.name,
+    ) as IntrospectionObjectType;
+  }
 
   return {
+    schema,
     schemaIntrospection,
     queryType,
     mutationType,
