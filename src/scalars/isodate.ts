@@ -9,7 +9,7 @@ export const GraphQLISODateScalar = new GraphQLScalarType({
     return new Date(value);
   },
   serialize(value: Date) {
-    return value.toISOString();
+    return new Date(value).toISOString();
   },
   parseLiteral(ast) {
     if (ast.kind === Kind.STRING) {
