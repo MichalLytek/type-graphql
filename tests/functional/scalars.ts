@@ -31,6 +31,9 @@ import {
   GraphQLTimestampScalar,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
+import { CustomScalar, CustomType } from "../helpers/customScalar";
+import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
+import { MetadataStorage } from "../../src/metadata/metadata-storage";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -46,13 +49,6 @@ describe("Scalars", () => {
 
   beforeAll(async () => {
     // create sample definitions
-
-    const CustomScalar = new GraphQLScalarType({
-      name: "Custom",
-      parseLiteral: () => "TypeGraphQL parseLiteral",
-      parseValue: () => "TypeGraphQL parseValue",
-      serialize: () => "TypeGraphQL serialize",
-    });
 
     @GraphQLObjectType()
     class SampleObject {
@@ -142,7 +138,7 @@ describe("Scalars", () => {
   });
 
   describe("Schema", () => {
-    function getSampleObjectFieldType(name: string) {
+    function getFieldType(name: string) {
       const field = sampleObject.fields.find(it => it.name === name)!;
       const fieldType = (field.type as IntrospectionNonNullTypeRef)
         .ofType as IntrospectionNamedTypeRef;
@@ -150,49 +146,49 @@ describe("Scalars", () => {
     }
 
     it("should generate ID scalar field type", async () => {
-      const idFieldType = getSampleObjectFieldType("idField");
+      const idFieldType = getFieldType("idField");
 
       expect(idFieldType.kind).toEqual("SCALAR");
       expect(idFieldType.name).toEqual("ID");
     });
 
     it("should generate Float scalar field type", async () => {
-      const explicitFloatFieldType = getSampleObjectFieldType("explicitFloatField");
+      const explicitFloatFieldType = getFieldType("explicitFloatField");
 
       expect(explicitFloatFieldType.kind).toEqual("SCALAR");
       expect(explicitFloatFieldType.name).toEqual("Float");
     });
 
     it("should generate Float scalar field type when prop type is number", async () => {
-      const implicitFloatFieldType = getSampleObjectFieldType("implicitFloatField");
+      const implicitFloatFieldType = getFieldType("implicitFloatField");
 
       expect(implicitFloatFieldType.kind).toEqual("SCALAR");
       expect(implicitFloatFieldType.name).toEqual("Float");
     });
 
     it("should generate Int scalar field type", async () => {
-      const intFieldType = getSampleObjectFieldType("intField");
+      const intFieldType = getFieldType("intField");
 
       expect(intFieldType.kind).toEqual("SCALAR");
       expect(intFieldType.name).toEqual("Int");
     });
 
     it("should generate String scalar field type", async () => {
-      const explicitStringFieldType = getSampleObjectFieldType("explicitStringField");
+      const explicitStringFieldType = getFieldType("explicitStringField");
 
       expect(explicitStringFieldType.kind).toEqual("SCALAR");
       expect(explicitStringFieldType.name).toEqual("String");
     });
 
     it("should generate String scalar field type when prop type is string", async () => {
-      const implicitStringFieldType = getSampleObjectFieldType("implicitStringField");
+      const implicitStringFieldType = getFieldType("implicitStringField");
 
       expect(implicitStringFieldType.kind).toEqual("SCALAR");
       expect(implicitStringFieldType.name).toEqual("String");
     });
 
     it("should generate Date scalar field type", async () => {
-      const explicitDateFieldType = getSampleObjectFieldType("explicitDateField");
+      const explicitDateFieldType = getFieldType("explicitDateField");
 
       expect(explicitDateFieldType.kind).toEqual("SCALAR");
       expect(explicitDateFieldType.name).toEqual("Date");
@@ -201,28 +197,28 @@ describe("Scalars", () => {
     // TODO: uncomment after ts-jest fix
 
     // it("should generate Date scalar field type when prop type is Date", async () => {
-    //   const implicitStringFieldType = getSampleObjectFieldType("implicitDateField");
+    //   const implicitStringFieldType = getFieldType("implicitDateField");
 
     //   expect(implicitStringFieldType.kind).toEqual("SCALAR");
     //   expect(implicitStringFieldType.name).toEqual("Date");
     // });
 
     it("should generate ISODate scalar field type", async () => {
-      const ISODateFieldType = getSampleObjectFieldType("ISODateField");
+      const ISODateFieldType = getFieldType("ISODateField");
 
       expect(ISODateFieldType.kind).toEqual("SCALAR");
       expect(ISODateFieldType.name).toEqual("Date");
     });
 
     it("should generate Timestamp scalar field type", async () => {
-      const timestampFieldType = getSampleObjectFieldType("timestampField");
+      const timestampFieldType = getFieldType("timestampField");
 
       expect(timestampFieldType.kind).toEqual("SCALAR");
       expect(timestampFieldType.name).toEqual("Timestamp");
     });
 
     it("should generate custom scalar field type", async () => {
-      const customScalarFieldType = getSampleObjectFieldType("customScalarField");
+      const customScalarFieldType = getFieldType("customScalarField");
 
       expect(customScalarFieldType.kind).toEqual("SCALAR");
       expect(customScalarFieldType.name).toEqual("Custom");
@@ -274,6 +270,112 @@ describe("Scalars", () => {
       expect(now.getTime()).toEqual(argDate!.getTime());
     });
   });
-});
 
-// TODO: test suite for scalarMap and dateScalarMode
+  describe("Settings", () => {
+    let sampleResolver: any;
+
+    beforeEach(() => {
+      MetadataStorage.clear();
+
+      @GraphQLObjectType()
+      class SampleObject {
+        @Field(type => Date)
+        dateField: any;
+      }
+
+      @GraphQLResolver(() => SampleObject)
+      class SampleResolver {
+        @Query()
+        mainQuery(): SampleObject {
+          return {} as any;
+        }
+      }
+      sampleResolver = SampleResolver;
+    });
+
+    it("should generate iso date scalar field type by default", async () => {
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [sampleResolver],
+      });
+      const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
+
+      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.name).toEqual("Date");
+    });
+
+    it("should generate date scalar field type when dateScalarMode is isoDate", async () => {
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [sampleResolver],
+        dateScalarMode: "isoDate",
+      });
+      const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
+
+      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.name).toEqual("Date");
+    });
+
+    it("should generate timestamp scalar field type when dateScalarMode is timestamp", async () => {
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [sampleResolver],
+        dateScalarMode: "timestamp",
+      });
+      const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
+
+      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.name).toEqual("Timestamp");
+    });
+
+    it("should generate custom scalar field type when defined in scalarMap", async () => {
+      MetadataStorage.clear();
+
+      @GraphQLObjectType()
+      class SampleObject {
+        @Field() customField: CustomType;
+      }
+
+      @GraphQLResolver(() => SampleObject)
+      class SampleResolver {
+        @Query()
+        mainQuery(): SampleObject {
+          return {} as any;
+        }
+      }
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [SampleResolver],
+        scalarsMap: [{ type: CustomType, scalar: CustomScalar }],
+      });
+      const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("customField");
+
+      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.name).toEqual("Custom");
+    });
+
+    it("should generate custom scalar field type when overwriteDate in scalarMap", async () => {
+      MetadataStorage.clear();
+
+      @GraphQLObjectType()
+      class SampleObject {
+        @Field(type => Date)
+        dateField: any;
+      }
+
+      @GraphQLResolver(() => SampleObject)
+      class SampleResolver {
+        @Query()
+        mainQuery(): SampleObject {
+          return {} as any;
+        }
+      }
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [SampleResolver],
+        scalarsMap: [{ type: Date, scalar: CustomScalar }],
+      });
+      const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
+
+      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.name).toEqual("Custom");
+    });
+  });
+});
