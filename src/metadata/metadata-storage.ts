@@ -9,16 +9,16 @@ import {
 import { BaseResolverDefinitions } from "../types/resolvers";
 
 export abstract class MetadataStorage {
-  static readonly queries: HandlerDefinition[] = [];
-  static readonly mutations: HandlerDefinition[] = [];
-  static readonly fieldResolvers: FieldResolverDefinition[] = [];
-  static readonly objectTypes: ClassDefinition[] = [];
-  static readonly inputTypes: ClassDefinition[] = [];
-  static readonly argumentTypes: ClassDefinition[] = [];
+  static queries: HandlerDefinition[] = [];
+  static mutations: HandlerDefinition[] = [];
+  static fieldResolvers: FieldResolverDefinition[] = [];
+  static objectTypes: ClassDefinition[] = [];
+  static inputTypes: ClassDefinition[] = [];
+  static argumentTypes: ClassDefinition[] = [];
 
-  private static readonly resolvers: ResolverDefinition[] = [];
-  private static readonly fields: FieldDefinition[] = [];
-  private static readonly params: ParamDefinition[] = [];
+  private static resolvers: ResolverDefinition[] = [];
+  private static fields: FieldDefinition[] = [];
+  private static params: ParamDefinition[] = [];
 
   static registerQueryHandler(definition: HandlerDefinition) {
     this.queries.push(definition);
@@ -60,6 +60,19 @@ export abstract class MetadataStorage {
 
     this.buildResolversDefinitions(this.queries);
     this.buildResolversDefinitions(this.mutations);
+  }
+
+  static clear() {
+    this.queries = [];
+    this.mutations = [];
+    this.fieldResolvers = [];
+    this.objectTypes = [];
+    this.inputTypes = [];
+    this.argumentTypes = [];
+
+    this.resolvers = [];
+    this.fields = [];
+    this.params = [];
   }
 
   private static buildClassDefinitions(definitions: ClassDefinition[]) {
