@@ -15,6 +15,8 @@
 
 ## How-To use resolvers
 ```ts
+import { Args, Mutation, Query, GraphQLResolver } from 'type-graphql';
+
 @GraphQLResolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
