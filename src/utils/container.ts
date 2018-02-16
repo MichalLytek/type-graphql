@@ -41,9 +41,18 @@ class DefaultContainer {
 }
 
 export abstract class IOCContainer {
-  static userContainer: { get<T>(someClass: SupportedType<T>): T };
+  static userContainer?: { get<T>(someClass: SupportedType<T>): T };
   static userContainerOptions: UseContainerOptions;
   private static defaultContainer = new DefaultContainer();
+
+  /**
+   * Sets the container to the basic, default one.
+   * Used mainly for testing purposes.
+   */
+  static restoreDefault() {
+    this.userContainer = undefined;
+    this.userContainerOptions = {};
+  }
 
   /**
    * Sets container to be used by this library.
