@@ -27,8 +27,8 @@
     "apollo"
   ],
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --verbose --ci",
+    "test": "jest --coverage",
+    "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
     "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",
