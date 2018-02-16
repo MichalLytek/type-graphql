@@ -60,7 +60,7 @@
     "gulp-typescript": "^4.0.1",
     "gulpclass": "^0.1.2",
     "husky": "^0.15.0-rc.8",
-    "jest": "^22.2.2",
+    "jest": "^22.3.0",
     "mysql": "^2.15.0",
     "prettier": "^1.10.2",
     "reflect-metadata": "^0.1.12",

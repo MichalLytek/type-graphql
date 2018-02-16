@@ -4,7 +4,10 @@ module.exports = {
   },
   testMatch: ["**/functional/**/*.ts", "**/units/**/*.ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  mapCoverage: true,
   rootDir: "./",
   roots: ["<rootDir>/tests", "<rootDir>/src"],
+  collectCoverage: true,
+  mapCoverage: true,
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/*.d.ts"],
+  coverageDirectory: "<rootDir>/coverage",
 };
