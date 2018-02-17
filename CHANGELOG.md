@@ -1,5 +1,8 @@
 # Changelog and release notes
 
+## Unreleased
+- **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
+
 ## v0.4.0
 ### Features
 - add basic support for automatic arguments and inputs validation using `class-validator`
