@@ -1,7 +1,10 @@
 # Changelog and release notes
 
 ## Unreleased
+
+### Fixes
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
+- add more detailed type reflection error message (parameters support)
 
 ## v0.4.0
 ### Features

@@ -37,9 +37,13 @@ export function findType({
 
   if (metadataDesignType && bannedTypes.includes(metadataDesignType)) {
     if (!returnTypeFunc) {
-      throw new Error(
-        `You need to provide explicit type for ${prototype.constructor.name}#${propertyKey}.`,
-      );
+      // tslint:disable-next-line:max-line-length
+      let errorMessage = `You need to provide explicit type for ${prototype.constructor.name}#${propertyKey}`;
+      if (parameterIndex !== undefined) {
+        errorMessage += ` parameter #${parameterIndex}`;
+      }
+      errorMessage += " !";
+      throw new Error(errorMessage);
     }
     if (metadataDesignType === Array) {
       options.array = true;
@@ -57,6 +61,11 @@ export function findType({
       typeOptions: options,
     };
   } else {
-    throw new Error(`Cannot determine type for ${prototype.constructor.name}#${propertyKey} !`);
+    let errorMessage = `Cannot determine type for ${prototype.constructor.name}#${propertyKey}`;
+    if (parameterIndex) {
+      errorMessage += ` parameter #${parameterIndex}`;
+    }
+    errorMessage += " .";
+    throw new Error(errorMessage);
   }
 }
