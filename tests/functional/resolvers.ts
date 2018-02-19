@@ -24,6 +24,7 @@ import {
   Args,
   GraphQLArgumentType,
   Int,
+  buildSchema,
 } from "../../src";
 
 describe("Resolvers", () => {
@@ -484,9 +485,108 @@ describe("Resolvers", () => {
       });
     });
 
-    // describe("Errors", () => {
-    //   // TODO: throwing errors checks
-    // });
+    describe("Errors", () => {
+      beforeEach(() => {
+        MetadataStorage.clear();
+      });
+
+      it("should throw error when arg type is not correct", async () => {
+        expect.assertions(5);
+
+        try {
+          @GraphQLResolver(null as any)
+          class SampleResolver {
+            @Query(() => String)
+            sampleQuery(@Arg("arg") arg: any): string {
+              return "sampleQuery";
+            }
+          }
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("provide explicit type");
+          expect(error.message).toContain("parameter");
+          expect(error.message).toContain("#0");
+          expect(error.message).toContain("sampleQuery");
+        }
+      });
+
+      it("should throw error when query return type not provided", async () => {
+        expect.assertions(3);
+
+        try {
+          @GraphQLResolver(null as any)
+          class SampleResolver {
+            @Query()
+            sampleQuery() {
+              return "sampleQuery";
+            }
+          }
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("Cannot determine type");
+          expect(error.message).toContain("sampleQuery");
+        }
+      });
+
+      it("should throw error when provided query return type is not correct", async () => {
+        expect.assertions(3);
+
+        try {
+          @GraphQLResolver(null as any)
+          class SampleResolver {
+            @Query()
+            sampleQuery(): any {
+              return "sampleQuery";
+            }
+          }
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("provide explicit type");
+          expect(error.message).toContain("sampleQuery");
+        }
+      });
+
+      it("should throw error when mutation return type not provided", async () => {
+        expect.assertions(3);
+
+        try {
+          @GraphQLResolver(null as any)
+          class SampleResolver {
+            @Mutation()
+            sampleMutation() {
+              return "sampleMutation";
+            }
+          }
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("Cannot determine type");
+          expect(error.message).toContain("sampleMutation");
+        }
+      });
+
+      it("should throw error provided mutation return type is not correct", async () => {
+        expect.assertions(3);
+
+        try {
+          @GraphQLResolver(null as any)
+          class SampleResolver {
+            @Mutation()
+            sampleMutation(): any {
+              return "sampleMutation";
+            }
+          }
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("provide explicit type");
+          expect(error.message).toContain("sampleMutation");
+        }
+      });
+    });
   });
 
   // describe("Functional", () => {
