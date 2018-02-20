@@ -34,7 +34,10 @@ export async function getParams(
         case "context":
           return context;
         case "root":
-          return root;
+          if (!paramInfo.getType) {
+            return root;
+          }
+          return convertToType(paramInfo.getType(), root);
       }
     }),
   );

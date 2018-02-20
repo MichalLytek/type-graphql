@@ -45,8 +45,12 @@ export interface BasicParamDefinition {
   methodName: string;
   index: number;
 }
-export interface SimpleParamDefinition extends BasicParamDefinition {
-  kind: "context" | "root";
+export interface ContextParamDefinition extends BasicParamDefinition {
+  kind: "context";
+}
+export interface RootParamDefinition extends BasicParamDefinition {
+  kind: "root";
+  getType?: TypeValueResolver;
 }
 export interface CommonArgDefinition extends BasicParamDefinition {
   getType: TypeValueResolver;
@@ -61,4 +65,8 @@ export interface ArgParamDefinition extends CommonArgDefinition {
 export interface ArgsParamDefinition extends CommonArgDefinition {
   kind: "args";
 }
-export type ParamDefinition = SimpleParamDefinition | ArgParamDefinition | ArgsParamDefinition;
+export type ParamDefinition =
+  | ContextParamDefinition
+  | RootParamDefinition
+  | ArgParamDefinition
+  | ArgsParamDefinition;

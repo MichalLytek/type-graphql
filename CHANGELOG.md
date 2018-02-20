@@ -1,6 +1,8 @@
 # Changelog and release notes
 
 ## Unreleased
+### Features
+- create instance of root object when it's type provided in resolver
 
 ### Fixes
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
