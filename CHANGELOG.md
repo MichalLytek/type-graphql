@@ -5,6 +5,7 @@
 ### Fixes
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
 - add more detailed type reflection error message (parameters support)
+- fix `ResolverInterface` resolver function type (allow additional parameters)
 
 ## v0.4.0
 ### Features
