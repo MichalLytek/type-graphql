@@ -1,4 +1,5 @@
 // tslint:disable:max-line-length
+// tslint:disable:member-ordering
 import "reflect-metadata";
 import {
   IntrospectionSchema,
@@ -7,6 +8,8 @@ import {
   IntrospectionNonNullTypeRef,
   IntrospectionListTypeRef,
   IntrospectionField,
+  GraphQLSchema,
+  graphql,
 } from "graphql";
 
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
@@ -25,7 +28,10 @@ import {
   GraphQLArgumentType,
   Int,
   buildSchema,
+  FieldResolver,
+  ResolverInterface,
 } from "../../src";
+import { plainToClass } from "class-transformer";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -54,6 +60,8 @@ describe("Resolvers", () => {
       @GraphQLObjectType()
       class SampleObject {
         @Field() normalField: string;
+
+        @Field() resolverFieldWithArgs: string;
 
         @Field()
         get getterField(): string {
@@ -154,6 +162,11 @@ describe("Resolvers", () => {
         @Mutation()
         emptyMutation(): boolean {
           return true;
+        }
+
+        @FieldResolver()
+        resolverFieldWithArgs(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+          return "resolverFieldWithArgs";
         }
       }
 
@@ -352,6 +365,27 @@ describe("Resolvers", () => {
         expect(inputObjectArg.name).toEqual("inputObjectArg");
         expect(inputObjectArgInnerType.kind).toEqual("INPUT_OBJECT");
         expect(inputObjectArgInnerType.name).toEqual("SampleInput");
+      });
+
+      it("should generate field args from field resolver args definition", async () => {
+        const resolverFieldWithArgs = sampleObjectType.fields.find(
+          field => field.name === "resolverFieldWithArgs",
+        )!;
+
+        const fieldResolverArgs = resolverFieldWithArgs.args;
+        expect(fieldResolverArgs).toHaveLength(2);
+
+        const arg1 = fieldResolverArgs.find(arg => arg.name === "arg1")!;
+        const arg1InnerType = (arg1.type as IntrospectionNonNullTypeRef)
+          .ofType as IntrospectionNamedTypeRef;
+        const arg2 = fieldResolverArgs.find(arg => arg.name === "arg2")!;
+        const arg2InnerType = (arg2.type as IntrospectionNonNullTypeRef)
+          .ofType as IntrospectionNamedTypeRef;
+
+        expect(arg1InnerType.kind).toEqual("SCALAR");
+        expect(arg1InnerType.name).toEqual("String");
+        expect(arg2InnerType.kind).toEqual("SCALAR");
+        expect(arg2InnerType.name).toEqual("Boolean");
       });
     });
 
@@ -589,14 +623,329 @@ describe("Resolvers", () => {
     });
   });
 
-  // describe("Functional", () => {
-  //   beforeAll(() => {
-  //     MetadataStorage.clear();
-  //   });
+  describe("Functional", () => {
+    let schema: GraphQLSchema;
 
-  //   it("will be implemented later", () => {
-  //     const willImplementItLater = true;
-  //     expect(willImplementItLater).toBeTruthy();
-  //   });
-  // });
+    beforeAll(() => {
+      MetadataStorage.clear();
+
+      @GraphQLArgumentType()
+      class SampleArgs {
+        private readonly TRUE = true;
+        instanceField = Math.random();
+
+        @Field() factor: number;
+
+        isTrue() {
+          return this.TRUE;
+        }
+      }
+
+      @GraphQLInputType()
+      class SampleInput {
+        private readonly TRUE = true;
+        instanceField = Math.random();
+
+        @Field() factor: number;
+
+        isTrue() {
+          return this.TRUE;
+        }
+      }
+
+      @GraphQLObjectType()
+      class SampleObject {
+        private readonly TRUE = true;
+        isTrue() {
+          return this.TRUE;
+        }
+
+        instanceValue = Math.random();
+
+        @Field() fieldResolverField: number;
+        @Field() fieldResolverGetter: number;
+        @Field() fieldResolverMethod: number;
+        @Field() fieldResolverMethodWithArgs: number;
+        @Field() fieldResolverWithRoot: number;
+
+        @Field()
+        get getterField(): number {
+          return this.instanceValue;
+        }
+
+        @Field()
+        methodField(): number {
+          return this.instanceValue;
+        }
+
+        @Field()
+        methodFieldWithArg(@Arg("factor") factor: number): number {
+          return this.instanceValue * factor;
+        }
+      }
+
+      @GraphQLResolver(() => SampleObject)
+      class SampleResolver implements ResolverInterface<SampleObject> {
+        factor = 1;
+        randomValueField = Math.random() * this.factor;
+        get randomValueGetter() {
+          return Math.random() * this.factor;
+        }
+        getRandomValue() {
+          return Math.random() * this.factor;
+        }
+
+        @Query()
+        sampleQuery(): SampleObject {
+          return plainToClass(SampleObject, {});
+        }
+
+        @Query()
+        notInstanceQuery(): SampleObject {
+          return {} as SampleObject;
+        }
+
+        @Mutation()
+        mutationWithArgs(@Args() args: SampleArgs): number {
+          if (args.isTrue()) {
+            return args.factor * args.instanceField;
+          } else {
+            return -1.0;
+          }
+        }
+
+        @Mutation()
+        mutationWithInput(@Arg("input") input: SampleInput): number {
+          if (input.isTrue()) {
+            return input.factor * input.instanceField;
+          } else {
+            return -1.0;
+          }
+        }
+
+        @FieldResolver()
+        fieldResolverField() {
+          return this.randomValueField;
+        }
+
+        @FieldResolver()
+        fieldResolverGetter() {
+          return this.randomValueGetter;
+        }
+
+        @FieldResolver()
+        fieldResolverMethod() {
+          return this.getRandomValue();
+        }
+
+        @FieldResolver()
+        fieldResolverWithRoot(@Root() root: SampleObject) {
+          if (root.isTrue()) {
+            return root.instanceValue;
+          } else {
+            return -1.0;
+          }
+        }
+
+        @FieldResolver()
+        fieldResolverMethodWithArgs(@Root() root: SampleObject, @Arg("arg") arg: number): number {
+          return arg;
+        }
+      }
+
+      schema = buildSchema({
+        resolvers: [SampleResolver],
+      });
+    });
+
+    it("should build the schema without errors", () => {
+      expect(schema).toBeDefined();
+    });
+
+    it("should return value from object getter resolver", async () => {
+      const query = `query {
+        sampleQuery {
+          getterField
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const getterFieldResult = result.data!.sampleQuery.getterField;
+      expect(getterFieldResult).toBeGreaterThanOrEqual(0);
+      expect(getterFieldResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from object method resolver", async () => {
+      const query = `query {
+        sampleQuery {
+          methodField
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const methodFieldResult = result.data!.sampleQuery.methodField;
+      expect(methodFieldResult).toBeGreaterThanOrEqual(0);
+      expect(methodFieldResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from object method resolver with arg", async () => {
+      const query = `query {
+        sampleQuery {
+          methodFieldWithArg(factor: 10)
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const methodFieldWithArgResult = result.data!.sampleQuery.methodFieldWithArg;
+      expect(methodFieldWithArgResult).toBeGreaterThanOrEqual(0);
+      expect(methodFieldWithArgResult).toBeLessThanOrEqual(10);
+    });
+
+    it("should return value from field resolver with field access", async () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverField
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const fieldResolverFieldResult = result.data!.sampleQuery.fieldResolverField;
+      expect(fieldResolverFieldResult).toBeGreaterThanOrEqual(0);
+      expect(fieldResolverFieldResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from field resolver with getter access", async () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverGetter
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const fieldResolverGetterResult = result.data!.sampleQuery.fieldResolverGetter;
+      expect(fieldResolverGetterResult).toBeGreaterThanOrEqual(0);
+      expect(fieldResolverGetterResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from field resolver with method access", async () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverMethod
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const fieldResolverMethodResult = result.data!.sampleQuery.fieldResolverMethod;
+      expect(fieldResolverMethodResult).toBeGreaterThanOrEqual(0);
+      expect(fieldResolverMethodResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from field resolver arg", async () => {
+      const value = 21.37;
+      const query = `query {
+        sampleQuery {
+          fieldResolverMethodWithArgs(arg: ${value})
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const resultFieldData = result.data!.sampleQuery.fieldResolverMethodWithArgs;
+      expect(resultFieldData).toEqual(value);
+    });
+
+    it("should create new instances of object type for consecutive queries", async () => {
+      const query = `query {
+        sampleQuery {
+          getterField
+        }
+      }`;
+
+      const result1 = await graphql(schema, query);
+      const result2 = await graphql(schema, query);
+
+      const getterFieldResult1 = result1.data!.sampleQuery.getterField;
+      const getterFieldResult2 = result2.data!.sampleQuery.getterField;
+      expect(getterFieldResult1).not.toEqual(getterFieldResult2);
+    });
+
+    it("should use the same instance of resolver class for consecutive queries", async () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverField
+        }
+      }`;
+
+      const result1 = await graphql(schema, query);
+      const result2 = await graphql(schema, query);
+
+      const resolverFieldResult1 = result1.data!.sampleQuery.fieldResolverField;
+      const resolverFieldResult2 = result2.data!.sampleQuery.fieldResolverField;
+      expect(resolverFieldResult1).toEqual(resolverFieldResult2);
+    });
+
+    it("should create instance of args object", async () => {
+      const mutation = `mutation {
+        mutationWithArgs(factor: 10)
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithArgs;
+
+      expect(result).toBeGreaterThanOrEqual(0);
+      expect(result).toBeLessThanOrEqual(10);
+    });
+
+    it("should create instance of input object", async () => {
+      const mutation = `mutation {
+        mutationWithInput(input: { factor: 10 })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithInput;
+
+      expect(result).toBeGreaterThanOrEqual(0);
+      expect(result).toBeLessThanOrEqual(10);
+    });
+
+    it("should create instance of root object when root type is provided", async () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverWithRoot
+          getterField
+        }
+      }`;
+
+      const queryResult = await graphql(schema, query);
+      const fieldResolverWithRootValue = queryResult.data!.sampleQuery.fieldResolverWithRoot;
+      const getterFieldValue = queryResult.data!.sampleQuery.getterField;
+
+      expect(fieldResolverWithRootValue).toBeGreaterThanOrEqual(0);
+      expect(fieldResolverWithRootValue).toBeLessThanOrEqual(1);
+      expect(fieldResolverWithRootValue).toEqual(getterFieldValue);
+    });
+
+    it("should reuse data from instance of root object", async () => {
+      const query = `query {
+        notInstanceQuery {
+          fieldResolverWithRoot
+          getterField
+        }
+      }`;
+
+      const queryResult = await graphql(schema, query);
+      const fieldResolverWithRootValue = queryResult.data!.notInstanceQuery.fieldResolverWithRoot;
+      const getterFieldValue = queryResult.data!.notInstanceQuery.getterField;
+
+      expect(fieldResolverWithRootValue).toBeGreaterThanOrEqual(0);
+      expect(fieldResolverWithRootValue).toBeLessThanOrEqual(1);
+      expect(fieldResolverWithRootValue).not.toEqual(getterFieldValue);
+    });
+  });
 });
