@@ -3,4 +3,14 @@ node_js:
   - stable
   - 8
   - 6
-script: npm run verify
+before_install:
+  - npm i -g codecov
+script:
+  - npm run verify
+  - npm run test:ci
+after_success:
+  - codecov
+notifications:
+  email:
+    on_success: never
+    on_failure: always

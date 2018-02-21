@@ -14,6 +14,20 @@
             "smartStep": true,
             "internalConsoleOptions": "neverOpen",
             "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug tests",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
+            "protocol": "inspector",
+            "sourceMaps": true,
+            "smartStep": true,
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "args": [
+                "-i"
+            ]
         }
     ]
 }
