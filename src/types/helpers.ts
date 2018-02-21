@@ -9,8 +9,8 @@ import {
 } from "graphql";
 
 import { TypeOptions } from "../types/decorators";
-import { GraphQLTimestampScalar } from "../scalars/timestamp";
-import { GraphQLISODateScalar } from "../scalars/isodate";
+import { GraphQLTimestamp } from "../scalars/timestamp";
+import { GraphQLISODateTime } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
@@ -31,8 +31,8 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
       return GraphQLFloat;
     case Date:
       return BuildContext.dateScalarMode === "isoDate"
-        ? GraphQLISODateScalar
-        : GraphQLTimestampScalar;
+        ? GraphQLISODateTime
+        : GraphQLTimestamp;
     default:
       return undefined;
   }

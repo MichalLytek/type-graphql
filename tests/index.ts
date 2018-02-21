@@ -6,12 +6,12 @@ import * as graphqlHTTP from "express-graphql";
 
 // import { MetadataStorage } from "../src/metadata/metadata-storage";
 import { RecipeResolver, User } from "./classes";
-import { buildSchema, GraphQLISODateScalar, formatArgumentValidationError } from "../src/index";
+import { buildSchema, GraphQLISODateTime, formatArgumentValidationError } from "../src";
 
 const schema = buildSchema({
   resolvers: [RecipeResolver],
   dateScalarMode: "timestamp",
-  scalarsMap: [{ type: Date, scalar: GraphQLISODateScalar }],
+  scalarsMap: [{ type: Date, scalar: GraphQLISODateTime }],
   validate: false,
 });
 // debugger;

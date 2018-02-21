@@ -11,7 +11,7 @@ function parseValue(value: string | null) {
   }
 }
 
-export const GraphQLTimestampScalar = new GraphQLScalarType({
+export const GraphQLTimestamp = new GraphQLScalarType({
   name: "Timestamp",
   description:
     "The javascript `Date` as integer. " +
@@ -19,10 +19,6 @@ export const GraphQLTimestampScalar = new GraphQLScalarType({
   serialize(value: Date) {
     if (value instanceof Date) {
       return value.getTime();
-    } else if (typeof value === "number") {
-      return Math.trunc(value);
-    } else if (typeof value === "string") {
-      return Date.parse(value);
     }
     return null;
   },
