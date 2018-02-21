@@ -27,8 +27,8 @@ import {
   ID,
   Float,
   Int,
-  GraphQLISODateScalar,
-  GraphQLTimestampScalar,
+  GraphQLISODateTime,
+  GraphQLTimestamp,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { CustomScalar, CustomType } from "../helpers/customScalar";
@@ -79,10 +79,10 @@ describe("Scalars", () => {
       @Field(type => Date)
       explicitDateField: any;
 
-      @Field(type => GraphQLISODateScalar)
+      @Field(type => GraphQLISODateTime)
       ISODateField: any;
 
-      @Field(type => GraphQLTimestampScalar)
+      @Field(type => GraphQLTimestamp)
       timestampField: any;
 
       @Field(type => CustomScalar)
@@ -191,7 +191,7 @@ describe("Scalars", () => {
       const explicitDateFieldType = getFieldType("explicitDateField");
 
       expect(explicitDateFieldType.kind).toEqual("SCALAR");
-      expect(explicitDateFieldType.name).toEqual("Date");
+      expect(explicitDateFieldType.name).toEqual("DateTime");
     });
 
     // TODO: uncomment after ts-jest fix
@@ -200,14 +200,14 @@ describe("Scalars", () => {
     //   const implicitStringFieldType = getFieldType("implicitDateField");
 
     //   expect(implicitStringFieldType.kind).toEqual("SCALAR");
-    //   expect(implicitStringFieldType.name).toEqual("Date");
+    //   expect(implicitStringFieldType.name).toEqual("DateTime");
     // });
 
     it("should generate ISODate scalar field type", async () => {
       const ISODateFieldType = getFieldType("ISODateField");
 
       expect(ISODateFieldType.kind).toEqual("SCALAR");
-      expect(ISODateFieldType.name).toEqual("Date");
+      expect(ISODateFieldType.name).toEqual("DateTime");
     });
 
     it("should generate Timestamp scalar field type", async () => {
@@ -246,35 +246,177 @@ describe("Scalars", () => {
     });
   });
 
-  describe("Bulit-in date", () => {
-    it("should properly serialize date", async () => {
-      const query = `query {
-        returnDate
-      }`;
-      const beforeQuery = Date.now();
-      const result = await graphql(schema, query);
-      const afterQuery = Date.now();
-      const returnDate = Date.parse(result.data!.returnDate);
+  describe("Bulit-in scalars", () => {
+    let sampleResolver: any;
+    let localArgDate: Date | undefined;
 
-      expect(returnDate).toBeLessThanOrEqual(afterQuery);
-      expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
+    beforeAll(async () => {
+      MetadataStorage.clear();
+
+      @GraphQLInputType()
+      class DateInput {
+        @Field(type => Date)
+        date: any;
+      }
+
+      @GraphQLResolver(null as any)
+      class SampleResolver {
+        @Query(returnType => Date)
+        returnDate(): any {
+          return new Date();
+        }
+
+        @Query()
+        argDate(
+          @Arg("date", type => Date)
+          date: any,
+        ): boolean {
+          localArgDate = date;
+          return true;
+        }
+
+        @Query()
+        inputDate(
+          @Arg("input", type => DateInput)
+          dateInput: any,
+        ): boolean {
+          localArgDate = dateInput.date;
+          return true;
+        }
+      }
+
+      sampleResolver = SampleResolver;
     });
 
-    it("should properly parse date", async () => {
-      const now = new Date();
-      const query = `query {
-        argDate(date: "${now.toISOString()}")
-      }`;
-      await graphql(schema, query);
+    beforeEach(() => {
+      argDate = undefined;
+    });
 
-      expect(now.getTime()).toEqual(argDate!.getTime());
+    describe("GraphQLISODate", () => {
+      let localSchema: GraphQLSchema;
+
+      beforeAll(async () => {
+        localSchema = buildSchema({
+          resolvers: [sampleResolver],
+          dateScalarMode: "isoDate",
+        });
+      });
+
+      it("should properly serialize date", async () => {
+        const query = `query {
+          returnDate
+        }`;
+        const beforeQuery = Date.now();
+        const result = await graphql(localSchema, query);
+        const afterQuery = Date.now();
+        const returnDate = Date.parse(result.data!.returnDate);
+
+        expect(returnDate).toBeLessThanOrEqual(afterQuery);
+        expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
+      });
+
+      it("should properly parse date from arg", async () => {
+        const now = new Date();
+        const query = `query {
+          argDate(date: "${now.toISOString()}")
+        }`;
+        await graphql(localSchema, query);
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should properly parse date from input", async () => {
+        const now = new Date();
+        const query = `query {
+          inputDate(input: { date: "${now.toISOString()}" })
+        }`;
+        await graphql(localSchema, query);
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should properly parse date from variable", async () => {
+        const now = new Date();
+        const query = `query DateQuery($date: DateTime!) {
+          inputDate(input: {date: $date})
+        }`;
+        const { errors } = await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: now.toISOString(),
+          },
+        });
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+    });
+
+    describe("GraphQLTimestamp", () => {
+      let localSchema: GraphQLSchema;
+
+      beforeAll(async () => {
+        localSchema = buildSchema({
+          resolvers: [sampleResolver],
+          dateScalarMode: "timestamp",
+        });
+      });
+
+      it("should properly serialize date", async () => {
+        const query = `query {
+          returnDate
+        }`;
+        const beforeQuery = Date.now();
+        const result = await graphql(localSchema, query);
+        const afterQuery = Date.now();
+        const returnDate = result.data!.returnDate;
+
+        expect(returnDate).toBeLessThanOrEqual(afterQuery);
+        expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
+      });
+
+      it("should properly parse date from arg", async () => {
+        const now = new Date();
+        const query = `query {
+          argDate(date: ${now.getTime()})
+        }`;
+        await graphql(localSchema, query);
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should properly parse date from input", async () => {
+        const now = new Date();
+        const query = `query {
+          inputDate(input: {date: ${now.getTime()}})
+        }`;
+        await graphql(localSchema, query);
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should properly parse date from variable", async () => {
+        const now = new Date();
+        const query = `query DateQuery($date: Timestamp!) {
+          inputDate(input: {date: $date})
+        }`;
+        await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: now.getTime(),
+          },
+        });
+
+        expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
     });
   });
 
   describe("Settings", () => {
     let sampleResolver: any;
 
-    beforeEach(() => {
+    beforeAll(() => {
       MetadataStorage.clear();
 
       @GraphQLObjectType()
@@ -300,7 +442,7 @@ describe("Scalars", () => {
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual("SCALAR");
-      expect(dateFieldType.name).toEqual("Date");
+      expect(dateFieldType.name).toEqual("DateTime");
     });
 
     it("should generate date scalar field type when dateScalarMode is isoDate", async () => {
@@ -311,7 +453,7 @@ describe("Scalars", () => {
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual("SCALAR");
-      expect(dateFieldType.name).toEqual("Date");
+      expect(dateFieldType.name).toEqual("DateTime");
     });
 
     it("should generate timestamp scalar field type when dateScalarMode is timestamp", async () => {
