@@ -186,6 +186,18 @@ describe("Intefaces and extending classes", () => {
     });
 
     // tslint:disable-next-line:max-line-length
+    it("should generate object type implementing interface when extending object type", async () => {
+      expect(sampleExtendingObject2Type).toBeDefined();
+
+      const implementedInterfaceInfo = sampleExtendingObject2Type.interfaces.find(
+        it => it.name === "SampleInterface1",
+      )!;
+
+      expect(implementedInterfaceInfo).toBeDefined();
+      expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
+    });
+
+    // tslint:disable-next-line:max-line-length
     it("should generate object type implicitly implementing mutliple interfaces correctly", async () => {
       expect(sampleMultiImplementingObjectType).toBeDefined();
       expect(sampleMultiImplementingObjectType.fields).toHaveLength(4);
