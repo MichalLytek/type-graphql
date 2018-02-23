@@ -8,7 +8,6 @@ module.exports = {
   rootDir: "./",
   roots: ["<rootDir>/tests", "<rootDir>/src"],
   collectCoverage: false,
-  mapCoverage: true,
   collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/*.d.ts"],
   coverageDirectory: "<rootDir>/coverage",
 };
