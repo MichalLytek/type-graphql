@@ -50,7 +50,7 @@ describe("Fields - schema", () => {
       nullableArrayField: string[] | null;
     }
 
-    @GraphQLResolver(() => SampleObject)
+    @GraphQLResolver(objectType => SampleObject)
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {

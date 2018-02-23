@@ -89,7 +89,7 @@ describe("Scalars", () => {
       customScalarField: any;
     }
 
-    @GraphQLResolver(() => SampleObject)
+    @GraphQLResolver(objectType => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
@@ -259,7 +259,7 @@ describe("Scalars", () => {
         date: any;
       }
 
-      @GraphQLResolver(null as any)
+      @GraphQLResolver(objectType => null as any)
       class SampleResolver {
         @Query(returnType => Date)
         returnDate(): any {
@@ -425,7 +425,7 @@ describe("Scalars", () => {
         dateField: any;
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -475,7 +475,7 @@ describe("Scalars", () => {
         @Field() customField: CustomType;
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -502,7 +502,7 @@ describe("Scalars", () => {
         dateField: any;
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

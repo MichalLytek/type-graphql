@@ -7,6 +7,7 @@
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
 - add more detailed type reflection error message (parameters support)
 - fix `ResolverInterface` resolver function type (allow additional parameters)
+- add support for named param in `@GraphQLResolver` lambda and for object class as param
 ### Changes
 - change `Date` scalar names to `GraphQLISODateTime` and `GraphQLTimestamp`
 - support only `Date` objects (instances) serialization in `GraphQLTimestamp` (and in `GraphQLISODateTime` too)

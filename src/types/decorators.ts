@@ -3,10 +3,10 @@ import { ValidatorOptions } from "class-validator";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function;
 
-export type TypeValueResolver = () => TypeValue;
-export type ClassTypeResolver = () => ClassType | Function;
+export type TypeValueResolver = (type?: void) => TypeValue;
+export type ClassTypeResolver = (classType?: void) => ClassType;
 
-export type ReturnTypeFunc = (returnType: void) => TypeValue;
+export type ReturnTypeFunc = (returnType?: void) => TypeValue;
 
 export interface TypeOptions {
   array?: boolean;

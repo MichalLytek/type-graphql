@@ -13,7 +13,7 @@ import {
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 
-@GraphQLResolver(() => Recipe)
+@GraphQLResolver(objectType => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[];
   constructor() {

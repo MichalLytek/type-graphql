@@ -68,7 +68,7 @@ describe("Validation", () => {
         optionalField?: number;
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -253,7 +253,7 @@ describe("Validation", () => {
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -291,7 +291,7 @@ describe("Validation", () => {
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -332,7 +332,7 @@ describe("Validation", () => {
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -380,7 +380,7 @@ describe("Validation", () => {
         @MaxLength(5, { groups: ["test"] })
         field: string;
       }
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -428,7 +428,7 @@ describe("Validation", () => {
         @MaxLength(5, { groups: ["not-test"] })
         field: string;
       }
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(

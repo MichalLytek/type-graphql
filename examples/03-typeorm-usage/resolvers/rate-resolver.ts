@@ -5,7 +5,7 @@ import { OrmRepository } from "typeorm-typedi-extensions";
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
 
-@GraphQLResolver(() => Rate)
+@GraphQLResolver(objectType => Rate)
 export class RateResolver {
   constructor(
     @OrmRepository(User)

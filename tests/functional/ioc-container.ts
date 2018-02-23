@@ -32,7 +32,7 @@ describe("IOC container", () => {
       @Field({ nullable: true })
       field?: string;
     }
-    @GraphQLResolver(() => SampleObject)
+    @GraphQLResolver(objectType => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
       @Query()
@@ -63,7 +63,7 @@ describe("IOC container", () => {
       @Field({ nullable: true })
       field?: string;
     }
-    @GraphQLResolver(() => SampleObject)
+    @GraphQLResolver(objectType => SampleObject)
     class SampleResolver {
       value = Math.random();
       @Query()

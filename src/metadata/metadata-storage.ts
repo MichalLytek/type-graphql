@@ -7,6 +7,7 @@ import {
   ResolverDefinition,
 } from "./definition-interfaces";
 import { BaseResolverDefinitions } from "../types/resolvers";
+import { ClassType } from "../types/decorators";
 
 export abstract class MetadataStorage {
   static queries: HandlerDefinition[] = [];
@@ -110,7 +111,7 @@ export abstract class MetadataStorage {
         def.kind === "external"
           ? MetadataStorage.resolvers.find(resolver => resolver.target === def.target)!
               .getParentType
-          : () => def.target;
+          : () => def.target as ClassType;
     });
   }
 }

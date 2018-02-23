@@ -31,7 +31,7 @@ describe("Deprecation", () => {
         }
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {

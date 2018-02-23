@@ -93,6 +93,22 @@ describe("Resolvers", () => {
       }
 
       @GraphQLResolver(() => SampleObject)
+      class LambdaResolver {
+        @Query()
+        lambdaQuery(): boolean {
+          return true;
+        }
+      }
+
+      @GraphQLResolver(SampleObject)
+      class ClassResolver {
+        @Query()
+        classQuery(): boolean {
+          return true;
+        }
+      }
+
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         emptyQuery(): boolean {
@@ -684,7 +700,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @GraphQLResolver(objectType => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
         randomValueField = Math.random() * this.factor;
