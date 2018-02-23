@@ -104,30 +104,21 @@ export abstract class SchemaGenerator {
           // support for extending classes - get field info from prototype
           const SuperClass = Object.getPrototypeOf(objectType.target);
           if (SuperClass.prototype !== undefined) {
-            const hehe = this.typesInfo.find(type => type.target === SuperClass)!;
-            const heheFields = hehe.type.getFields();
-            const superFields = Object.keys(heheFields).reduce<GraphQLFieldConfigMap<any, any>>(
-              (fieldsMap, fieldName) => {
-                const superField = heheFields[fieldName];
-                superField.args;
-                fieldsMap[fieldName] = {
-                  type: superField.type,
-                  args: superField.args.reduce<GraphQLFieldConfigArgumentMap>(
-                    (argMap, { name, ...arg }) => {
-                      argMap[name] = arg;
-                      return argMap;
-                    },
-                    {},
-                  ),
-                  resolve: superField.resolve,
-                  description: superField.description,
-                  deprecationReason: superField.deprecationReason,
-                } as GraphQLFieldConfig<any, any>;
-                return fieldsMap;
-              },
-              {},
-            );
-            Object.assign(fields, superFields);
+            const superClassType = this.typesInfo.find(type => type.target === SuperClass)!.type;
+            Object.assign(fields, this.getFieldDefinitionFromType(superClassType));
+          }
+          // support for implicitly implementing interfaces - get fields from interfaces definitions
+          if (objectType.interfaceClasses) {
+            const interfacesFields = objectType.interfaceClasses.reduce<
+              GraphQLFieldConfigMap<any, any>
+            >((fieldsMap, interfaceClass) => {
+              const interfaceType = this.interfacesInfo.find(
+                type => type.target === interfaceClass,
+              )!.type;
+              Object.assign(fieldsMap, this.getFieldDefinitionFromType(interfaceType));
+              return fieldsMap;
+            }, {});
+            Object.assign(fields, interfacesFields);
           }
           return fields;
         },
@@ -207,6 +198,32 @@ export abstract class SchemaGenerator {
       }
       return args;
     }, {});
+  }
+
+  private static getFieldDefinitionFromType(type: GraphQLObjectType | GraphQLInterfaceType) {
+    const fieldInfo = type.getFields();
+    const typeFields = Object.keys(fieldInfo).reduce<GraphQLFieldConfigMap<any, any>>(
+      (fieldsMap, fieldName) => {
+        const superField = fieldInfo[fieldName];
+        superField.args;
+        fieldsMap[fieldName] = {
+          type: superField.type,
+          args: superField.args.reduce<GraphQLFieldConfigArgumentMap>(
+            (argMap, { name, ...arg }) => {
+              argMap[name] = arg;
+              return argMap;
+            },
+            {},
+          ),
+          resolve: superField.resolve,
+          description: superField.description,
+          deprecationReason: superField.deprecationReason,
+        } as GraphQLFieldConfig<any, any>;
+        return fieldsMap;
+      },
+      {},
+    );
+    return typeFields;
   }
 
   private static getGraphQLOutputType(

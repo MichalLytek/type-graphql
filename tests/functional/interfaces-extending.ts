@@ -10,6 +10,10 @@ describe("Intefaces and extending classes", () => {
   describe("Schema", () => {
     let schemaIntrospection: IntrospectionSchema;
     let sampleInterface1Type: IntrospectionInterfaceType;
+    let sampleInterface2Type: IntrospectionInterfaceType;
+    let sampleMultiImplementingObjectType: IntrospectionObjectType;
+    let sampleExtendingImplementingObjectType: IntrospectionObjectType;
+    let sampleImplementingObject1Type: IntrospectionObjectType;
     let sampleImplementingObject2Type: IntrospectionObjectType;
     let sampleExtendingObject2Type: IntrospectionObjectType;
 
@@ -22,6 +26,22 @@ describe("Intefaces and extending classes", () => {
         @Field() interfaceStringField1: string;
       }
 
+      @GraphQLInterfaceType()
+      abstract class SampleInterface2 {
+        @Field(type => ID)
+        id: string;
+
+        @Field() interfaceStringField2: string;
+      }
+
+      @GraphQLObjectType({ implements: SampleInterface1 })
+      class SampleImplementingObject1 implements SampleInterface1 {
+        id: string;
+        interfaceStringField1: string;
+
+        @Field() ownField1: number;
+      }
+
       @GraphQLObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
         @Field(type => ID)
@@ -30,6 +50,22 @@ describe("Intefaces and extending classes", () => {
         @Field() interfaceStringField1: string;
 
         @Field() ownField2: number;
+      }
+
+      @GraphQLObjectType({ implements: [SampleInterface1, SampleInterface2] })
+      class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
+        id: string;
+        interfaceStringField1: string;
+        interfaceStringField2: string;
+
+        @Field() ownField3: number;
+      }
+
+      @GraphQLObjectType({ implements: SampleInterface1 })
+      class SampleExtendingImplementingObject extends SampleImplementingObject2
+        implements SampleInterface1 {
+
+        @Field() ownField4: number;
       }
 
       @GraphQLObjectType()
@@ -52,8 +88,20 @@ describe("Intefaces and extending classes", () => {
       sampleInterface1Type = schemaIntrospection.types.find(
         type => type.name === "SampleInterface1",
       ) as IntrospectionInterfaceType;
+      sampleInterface2Type = schemaIntrospection.types.find(
+        type => type.name === "SampleInterface2",
+      ) as IntrospectionInterfaceType;
+      sampleImplementingObject1Type = schemaIntrospection.types.find(
+        type => type.name === "SampleImplementingObject1",
+      ) as IntrospectionObjectType;
       sampleImplementingObject2Type = schemaIntrospection.types.find(
         type => type.name === "SampleImplementingObject2",
+      ) as IntrospectionObjectType;
+      sampleExtendingImplementingObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleExtendingImplementingObject",
+      ) as IntrospectionObjectType;
+      sampleMultiImplementingObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleMultiImplementingObject",
       ) as IntrospectionObjectType;
       sampleExtendingObject2Type = schemaIntrospection.types.find(
         type => type.name === "SampleExtendingObject2",
@@ -96,6 +144,26 @@ describe("Intefaces and extending classes", () => {
       expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
     });
 
+    it("should generate object type implicitly implementing interface correctly", async () => {
+      expect(sampleImplementingObject1Type).toBeDefined();
+      expect(sampleImplementingObject1Type.fields).toHaveLength(3);
+
+      const idFieldType = getInnerFieldType(sampleImplementingObject1Type, "id");
+      const interfaceStringField1 = getInnerFieldType(
+        sampleImplementingObject1Type,
+        "interfaceStringField1",
+      );
+      const ownField1 = getInnerFieldType(sampleImplementingObject1Type, "ownField1");
+      const implementedInterfaceInfo = sampleImplementingObject2Type.interfaces.find(
+        it => it.name === "SampleInterface1",
+      )!;
+
+      expect(idFieldType.name).toEqual("ID");
+      expect(interfaceStringField1.name).toEqual("String");
+      expect(ownField1.name).toEqual("Float");
+      expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
+    });
+
     it("should generate object type extending other object type correctly", async () => {
       expect(sampleExtendingObject2Type).toBeDefined();
       expect(sampleExtendingObject2Type.fields).toHaveLength(4);
@@ -115,6 +183,46 @@ describe("Intefaces and extending classes", () => {
       expect(interfaceStringField1.name).toEqual("String");
       expect(ownField2.name).toEqual("Float");
       expect(ownExtendingField2.name).toEqual("Float");
+    });
+
+    // tslint:disable-next-line:max-line-length
+    it("should generate object type implicitly implementing mutliple interfaces correctly", async () => {
+      expect(sampleMultiImplementingObjectType).toBeDefined();
+      expect(sampleMultiImplementingObjectType.fields).toHaveLength(4);
+
+      const idFieldType = getInnerFieldType(sampleMultiImplementingObjectType, "id");
+      const interfaceStringField1 = getInnerFieldType(
+        sampleMultiImplementingObjectType,
+        "interfaceStringField1",
+      );
+      const interfaceStringField2 = getInnerFieldType(
+        sampleMultiImplementingObjectType,
+        "interfaceStringField2",
+      );
+      const ownField3 = getInnerFieldType(sampleMultiImplementingObjectType, "ownField3");
+
+      expect(idFieldType.name).toEqual("ID");
+      expect(interfaceStringField1.name).toEqual("String");
+      expect(interfaceStringField2.name).toEqual("String");
+      expect(ownField3.name).toEqual("Float");
+    });
+
+    it("should generate object type implicitly implementing and extending correctly", async () => {
+      expect(sampleExtendingImplementingObjectType).toBeDefined();
+      expect(sampleExtendingImplementingObjectType.fields).toHaveLength(4);
+
+      const idFieldType = getInnerFieldType(sampleExtendingImplementingObjectType, "id");
+      const interfaceStringField1 = getInnerFieldType(
+        sampleExtendingImplementingObjectType,
+        "interfaceStringField1",
+      );
+      const ownField2 = getInnerFieldType(sampleExtendingImplementingObjectType, "ownField2");
+      const ownField4 = getInnerFieldType(sampleExtendingImplementingObjectType, "ownField4");
+
+      expect(idFieldType.name).toEqual("ID");
+      expect(interfaceStringField1.name).toEqual("String");
+      expect(ownField2.name).toEqual("Float");
+      expect(ownField4.name).toEqual("Float");
     });
   });
 });
