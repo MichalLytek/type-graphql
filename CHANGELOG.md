@@ -1,25 +1,26 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.5.0
 ### Features
 - create instance of root object when it's type provided in resolver
+- change `Date` scalar names to `GraphQLISODateTime` and `GraphQLTimestamp`
+- support only `Date` objects (instances) serialization in `GraphQLTimestamp` (and in `GraphQLISODateTime` too)
+- update package dependencies
+- add test suite with 92%+ coverage
+
 ### Fixes
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
 - add more detailed type reflection error message (parameters support)
 - fix `ResolverInterface` resolver function type (allow additional parameters)
 - add support for named param in `@GraphQLResolver` lambda and for object class as param
-### Changes
-- change `Date` scalar names to `GraphQLISODateTime` and `GraphQLTimestamp`
-- support only `Date` objects (instances) serialization in `GraphQLTimestamp` (and in `GraphQLISODateTime` too)
 
 ## v0.4.0
 ### Features
 - add basic support for automatic arguments and inputs validation using `class-validator`
 - add interface `ResolverInterface` for type checking of resolver class methods (field resolvers)
+- update `graphql` dependency from `^0.12.3` to `^0.13.0`
 ### Fixes
 - fix default values for arg/input fields (class property initializers) - use `new` instead of `Object.create`
-### Changes
-- update `graphql` dependency from `^0.12.3` to `^0.13.0`
 
 ## v0.3.0
 ### Features
