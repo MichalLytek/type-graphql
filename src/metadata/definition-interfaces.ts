@@ -26,6 +26,7 @@ export interface ClassDefinition {
   target: Function;
   fields?: FieldDefinition[];
   description?: string;
+  interfaceClasses?: Function[];
 }
 
 export interface FieldDefinition {

@@ -14,6 +14,7 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
 
   // get builded schema info from retrospection
   const result = await graphql(schema, introspectionQuery);
+  expect(result.errors).toBeUndefined();
 
   const schemaIntrospection = result.data!.__schema as IntrospectionSchema;
   expect(schemaIntrospection).toBeDefined();

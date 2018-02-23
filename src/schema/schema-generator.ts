@@ -9,6 +9,7 @@ import {
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
   GraphQLScalarType,
+  GraphQLInterfaceType,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -26,11 +27,17 @@ interface InputInfo {
   target: Function;
   type: GraphQLInputObjectType;
 }
-export type SchemaGeneratorOptions = BuildContextOptions;
+interface InterfaceInfo {
+  target: Function;
+  type: GraphQLInterfaceType;
+}
+// tslint:disable-next-line:no-empty-interface
+export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
 export abstract class SchemaGenerator {
   private static typesInfo: TypeInfo[] = [];
   private static inputsInfo: InputInfo[] = [];
+  private static interfacesInfo: InterfaceInfo[] = [];
 
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
     BuildContext.create(options);
@@ -48,11 +55,32 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
+    this.interfacesInfo = MetadataStorage.interfaceTypes.map<InterfaceInfo>(interfaceType => ({
+      target: interfaceType.target,
+      type: new GraphQLInterfaceType({
+        name: interfaceType.name,
+        description: interfaceType.description,
+        fields: () =>
+          interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
+            fields[field.name] = {
+              description: field.description,
+              type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+            };
+            return fields;
+          }, {}),
+      }),
+    }));
+
     this.typesInfo = MetadataStorage.objectTypes.map<TypeInfo>(objectType => ({
       target: objectType.target,
       type: new GraphQLObjectType({
         name: objectType.name,
         description: objectType.description,
+        interfaces: () =>
+          (objectType.interfaceClasses || []).map<GraphQLInterfaceType>(
+            interfaceClass =>
+              this.interfacesInfo.find(info => info.target === interfaceClass)!.type,
+          ),
         fields: () =>
           objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
             const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
@@ -107,7 +135,7 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypes(): GraphQLNamedType[] {
-    return this.typesInfo.map(it => it.type);
+    return [...this.typesInfo.map(it => it.type), ...this.interfacesInfo.map(it => it.type)];
   }
 
   private static generateHandlerFields<T = any, U = any>(

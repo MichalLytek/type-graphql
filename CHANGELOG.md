@@ -1,5 +1,10 @@
 # Changelog and release notes
 
+### Unreleased
+### Features
+- add support for defining GraphQL interfaces and implementing it by object types
+### Fixes
+
 ## v0.5.0
 ### Features
 - create instance of root object when it's type provided in resolver

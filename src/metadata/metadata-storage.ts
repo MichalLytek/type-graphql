@@ -16,6 +16,7 @@ export abstract class MetadataStorage {
   static objectTypes: ClassDefinition[] = [];
   static inputTypes: ClassDefinition[] = [];
   static argumentTypes: ClassDefinition[] = [];
+  static interfaceTypes: ClassDefinition[] = [];
 
   private static resolvers: ResolverDefinition[] = [];
   private static fields: FieldDefinition[] = [];
@@ -39,6 +40,9 @@ export abstract class MetadataStorage {
   static registerArgsDefinition(definition: ClassDefinition) {
     this.argumentTypes.push(definition);
   }
+  static registerInterfaceDefinition(definition: ClassDefinition) {
+    this.interfaceTypes.push(definition);
+  }
 
   static registerResolver(definition: ResolverDefinition) {
     this.resolvers.push(definition);
@@ -58,6 +62,7 @@ export abstract class MetadataStorage {
     this.buildClassDefinitions(this.objectTypes);
     this.buildClassDefinitions(this.inputTypes);
     this.buildClassDefinitions(this.argumentTypes);
+    this.buildClassDefinitions(this.interfaceTypes);
 
     this.buildResolversDefinitions(this.queries);
     this.buildResolversDefinitions(this.mutations);
@@ -70,6 +75,7 @@ export abstract class MetadataStorage {
     this.objectTypes = [];
     this.inputTypes = [];
     this.argumentTypes = [];
+    this.interfaceTypes = [];
 
     this.resolvers = [];
     this.fields = [];
@@ -97,6 +103,7 @@ export abstract class MetadataStorage {
       def.fields = fields;
     });
   }
+
   private static buildResolversDefinitions(definitions: BaseResolverDefinitions[]) {
     definitions.forEach(def => {
       def.params = MetadataStorage.params.filter(
@@ -104,6 +111,7 @@ export abstract class MetadataStorage {
       );
     });
   }
+
   private static buildFieldResolverDefinitions(definitions: FieldResolverDefinition[]) {
     this.buildResolversDefinitions(definitions);
     definitions.forEach(def => {
