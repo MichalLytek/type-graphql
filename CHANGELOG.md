@@ -3,7 +3,7 @@
 ### Unreleased
 ### Features
 - add support for defining GraphQL interfaces and implementing it by object types
-### Fixes
+- add support for extending object type classes
 
 ## v0.5.0
 ### Features

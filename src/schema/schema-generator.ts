@@ -10,6 +10,7 @@ import {
   GraphQLInputFieldConfigMap,
   GraphQLScalarType,
   GraphQLInterfaceType,
+  GraphQLFieldConfig,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -81,22 +82,55 @@ export abstract class SchemaGenerator {
             interfaceClass =>
               this.interfacesInfo.find(info => info.target === interfaceClass)!.type,
           ),
-        fields: () =>
-          objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
-            const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
-              resolver =>
-                resolver.getParentType!() === objectType.target &&
-                resolver.methodName === field.name,
+        fields: () => {
+          const fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+            (fieldsMap, field) => {
+              const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
+                resolver =>
+                  resolver.getParentType!() === objectType.target &&
+                  resolver.methodName === field.name,
+              );
+              fieldsMap[field.name] = {
+                type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+                args: this.generateHandlerArgs(field.params!),
+                resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
+                description: field.description,
+                deprecationReason: field.deprecationReason,
+              };
+              return fieldsMap;
+            },
+            {},
+          );
+          // support for extending classes - get field info from prototype
+          const SuperClass = Object.getPrototypeOf(objectType.target);
+          if (SuperClass.prototype !== undefined) {
+            const hehe = this.typesInfo.find(type => type.target === SuperClass)!;
+            const heheFields = hehe.type.getFields();
+            const superFields = Object.keys(heheFields).reduce<GraphQLFieldConfigMap<any, any>>(
+              (fieldsMap, fieldName) => {
+                const superField = heheFields[fieldName];
+                superField.args;
+                fieldsMap[fieldName] = {
+                  type: superField.type,
+                  args: superField.args.reduce<GraphQLFieldConfigArgumentMap>(
+                    (argMap, { name, ...arg }) => {
+                      argMap[name] = arg;
+                      return argMap;
+                    },
+                    {},
+                  ),
+                  resolve: superField.resolve,
+                  description: superField.description,
+                  deprecationReason: superField.deprecationReason,
+                } as GraphQLFieldConfig<any, any>;
+                return fieldsMap;
+              },
+              {},
             );
-            fields[field.name] = {
-              type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
-              args: this.generateHandlerArgs(field.params!),
-              resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
-              description: field.description,
-              deprecationReason: field.deprecationReason,
-            };
-            return fields;
-          }, {}),
+            Object.assign(fields, superFields);
+          }
+          return fields;
+        },
       }),
     }));
 
