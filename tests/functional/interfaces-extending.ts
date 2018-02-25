@@ -1,14 +1,33 @@
 import "reflect-metadata";
-import { IntrospectionSchema, IntrospectionInterfaceType, IntrospectionObjectType } from "graphql";
+import {
+  IntrospectionSchema,
+  IntrospectionInterfaceType,
+  IntrospectionObjectType,
+  IntrospectionNonNullTypeRef,
+  IntrospectionNamedTypeRef,
+  IntrospectionInputObjectType,
+} from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getTypeField } from "../helpers/getTypeField";
 import { getInnerFieldType } from "../helpers/getInnerFieldType";
-import { GraphQLInterfaceType, GraphQLObjectType, Field, ID, Query } from "../../src";
+import {
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+  Field,
+  ID,
+  Query,
+  GraphQLArgumentType,
+  Args,
+  GraphQLInputType,
+  Arg,
+  Mutation,
+} from "../../src";
 
 describe("Intefaces and extending classes", () => {
   describe("Schema", () => {
     let schemaIntrospection: IntrospectionSchema;
+    let queryType: IntrospectionObjectType;
     let sampleInterface1Type: IntrospectionInterfaceType;
     let sampleInterface2Type: IntrospectionInterfaceType;
     let sampleMultiImplementingObjectType: IntrospectionObjectType;
@@ -64,7 +83,6 @@ describe("Intefaces and extending classes", () => {
       @GraphQLObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject extends SampleImplementingObject2
         implements SampleInterface1 {
-
         @Field() ownField4: number;
       }
 
@@ -73,9 +91,39 @@ describe("Intefaces and extending classes", () => {
         @Field() ownExtendingField2: number;
       }
 
+      @GraphQLArgumentType()
+      class SampleBaseArgs {
+        @Field() baseArgField: string;
+      }
+
+      @GraphQLArgumentType()
+      class SampleExtendingArgs extends SampleBaseArgs {
+        @Field() extendingArgField: boolean;
+      }
+
+      @GraphQLInputType()
+      class SampleBaseInput {
+        @Field() baseInputField: string;
+      }
+
+      @GraphQLInputType()
+      class SampleExtendingInput extends SampleBaseInput {
+        @Field() extendingInputField: boolean;
+      }
+
       class SampleResolver {
         @Query()
         sampleQuery(): boolean {
+          return true;
+        }
+
+        @Query()
+        queryWithArgs(@Args() args: SampleExtendingArgs): boolean {
+          return true;
+        }
+
+        @Mutation()
+        mutationWithInput(@Arg("input") input: SampleExtendingInput): boolean {
           return true;
         }
       }
@@ -84,6 +132,7 @@ describe("Intefaces and extending classes", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
       });
+      queryType = schemaInfo.queryType;
       schemaIntrospection = schemaInfo.schemaIntrospection;
       sampleInterface1Type = schemaIntrospection.types.find(
         type => type.name === "SampleInterface1",
@@ -107,6 +156,11 @@ describe("Intefaces and extending classes", () => {
         type => type.name === "SampleExtendingObject2",
       ) as IntrospectionObjectType;
     });
+
+    // helpers
+    function getInnerType(fieldType: any) {
+      return (fieldType.type as IntrospectionNonNullTypeRef).ofType! as IntrospectionNamedTypeRef;
+    }
 
     it("should generate schema without errors", async () => {
       expect(schemaIntrospection).toBeDefined();
@@ -235,6 +289,36 @@ describe("Intefaces and extending classes", () => {
       expect(interfaceStringField1.name).toEqual("String");
       expect(ownField2.name).toEqual("Float");
       expect(ownField4.name).toEqual("Float");
+    });
+
+    it("should generate query args when extending other args class", async () => {
+      const queryWithArgs = queryType.fields.find(query => query.name === "queryWithArgs")!;
+      expect(queryWithArgs.args).toHaveLength(2);
+
+      const baseArgFieldType = getInnerType(
+        queryWithArgs.args.find(arg => arg.name === "baseArgField")!,
+      );
+      const extendingArgFieldType = getInnerType(
+        queryWithArgs.args.find(arg => arg.name === "extendingArgField")!,
+      );
+
+      expect(baseArgFieldType.name).toEqual("String");
+      expect(extendingArgFieldType.name).toEqual("Boolean");
+    });
+
+    it("should generate mutation input when extending other args class", async () => {
+      const sampleExtendingInputType = schemaIntrospection.types.find(
+        type => type.name === "SampleExtendingInput",
+      ) as IntrospectionInputObjectType;
+      const baseInputFieldType = getInnerType(
+        sampleExtendingInputType.inputFields.find(field => field.name === "baseInputField")!,
+      );
+      const extendingInputFieldType = getInnerType(
+        sampleExtendingInputType.inputFields.find(field => field.name === "extendingInputField")!,
+      );
+
+      expect(baseInputFieldType.name).toEqual("String");
+      expect(extendingInputFieldType.name).toEqual("Boolean");
     });
   });
 });
