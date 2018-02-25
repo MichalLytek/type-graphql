@@ -79,20 +79,28 @@ export abstract class SchemaGenerator {
 
     this.typesInfo = MetadataStorage.objectTypes.map<TypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
+      const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () =>
         this.typesInfo.find(type => type.target === objectSuperClass)!.type;
+      const interfaceClasses = objectType.interfaceClasses || [];
       return {
         target: objectType.target,
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
+          isTypeOf: instance => {
+            if (interfaceClasses.length === 0 && !hasExtended) {
+              return true;
+            }
+            return instance instanceof objectType.target;
+          },
           interfaces: () => {
-            let interfaces = (objectType.interfaceClasses || []).map<GraphQLInterfaceType>(
+            let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
                 this.interfacesInfo.find(info => info.target === interfaceClass)!.type,
             );
             // copy interfaces from super class
-            if (objectSuperClass.prototype !== undefined) {
+            if (hasExtended) {
               interfaces = Array.from(
                 new Set(interfaces.concat(getSuperClassType().getInterfaces())),
               );
@@ -119,7 +127,7 @@ export abstract class SchemaGenerator {
               {},
             );
             // support for extending classes - get field info from prototype
-            if (objectSuperClass.prototype !== undefined) {
+            if (hasExtended) {
               Object.assign(fields, this.getFieldDefinitionFromObjectType(getSuperClassType()));
             }
             // support for implicitly implementing interfaces
@@ -293,9 +301,23 @@ export abstract class SchemaGenerator {
     type: TypeValue,
     typeOptions: TypeOptions = {},
   ): GraphQLOutputType {
-    const gqlType: GraphQLOutputType =
-      convertTypeIfScalar(type) ||
-      this.typesInfo.find(it => it.target === (type as Function))!.type;
+    let gqlType: GraphQLOutputType | undefined;
+    gqlType = convertTypeIfScalar(type);
+    if (!gqlType) {
+      const objectType = this.typesInfo.find(it => it.target === (type as Function));
+      if (objectType) {
+        gqlType = objectType.type;
+      }
+    }
+    if (!gqlType) {
+      const interfaceType = this.interfacesInfo.find(it => it.target === (type as Function));
+      if (interfaceType) {
+        gqlType = interfaceType.type;
+      }
+    }
+    if (!gqlType) {
+      throw new Error(`Cannot determine GraphQL output type for ${type.name}`!);
+    }
 
     return wrapWithTypeOptions(gqlType, typeOptions);
   }
