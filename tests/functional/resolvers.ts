@@ -544,7 +544,7 @@ describe("Resolvers", () => {
         expect.assertions(5);
 
         try {
-          @GraphQLResolver(null as any)
+          @GraphQLResolver()
           class SampleResolver {
             @Query(() => String)
             sampleQuery(@Arg("arg") arg: any): string {
@@ -565,7 +565,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver(null as any)
+          @GraphQLResolver()
           class SampleResolver {
             @Query()
             sampleQuery() {
@@ -584,7 +584,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver(null as any)
+          @GraphQLResolver()
           class SampleResolver {
             @Query()
             sampleQuery(): any {
@@ -603,7 +603,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver(null as any)
+          @GraphQLResolver()
           class SampleResolver {
             @Mutation()
             sampleMutation() {
@@ -622,7 +622,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver(null as any)
+          @GraphQLResolver()
           class SampleResolver {
             @Mutation()
             sampleMutation(): any {
@@ -634,6 +634,37 @@ describe("Resolvers", () => {
           const error = err as Error;
           expect(error.message).toContain("provide explicit type");
           expect(error.message).toContain("sampleMutation");
+        }
+      });
+
+      it("should throw error when creating field resolver in resolver with no object type info", async () => {
+        expect.assertions(3);
+
+        @GraphQLObjectType()
+        class SampleObject {
+          @Field() sampleField: string;
+        }
+
+        try {
+          @GraphQLResolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(): string {
+              return "sampleQuery";
+            }
+            @FieldResolver()
+            sampleField() {
+              return "sampleField";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolver],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("@GraphQLResolver");
+          expect(error.message).toContain("SampleResolver");
         }
       });
     });

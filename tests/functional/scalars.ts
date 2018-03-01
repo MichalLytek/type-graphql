@@ -259,7 +259,7 @@ describe("Scalars", () => {
         date: any;
       }
 
-      @GraphQLResolver(objectType => null as any)
+      @GraphQLResolver()
       class SampleResolver {
         @Query(returnType => Date)
         returnDate(): any {

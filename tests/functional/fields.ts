@@ -54,7 +54,7 @@ describe("Fields - schema", () => {
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {
-        return null as any;
+        return {} as SampleObject;
       }
     }
 

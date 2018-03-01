@@ -5,8 +5,10 @@
 - add support for defining GraphQL interfaces and implementing it by object types
 - add support for extending input, args, object and interface types classes
 - add support for implementing GraphQL interfaces without decorators duplication
-- **Breaking change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
+- **Breaking Change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
 - rename and deprecate `GraphQLArgumentType` decorator - use `GraphQLArgsType` instead
+### Fixes
+- allow for no args in `@GraphQLResolver` decorator to keep consistency with other resolver classes
 
 ## v0.5.0
 ### Features
@@ -15,7 +17,6 @@
 - support only `Date` objects (instances) serialization in `GraphQLTimestamp` (and in `GraphQLISODateTime` too)
 - update package dependencies
 - add test suite with 92%+ coverage
-
 ### Fixes
 - **Breaking change**: switch array `nullable` option behavior from `[Type]!` to `[Type!]`
 - add more detailed type reflection error message (parameters support)
