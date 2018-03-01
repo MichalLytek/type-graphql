@@ -642,7 +642,7 @@ describe("Resolvers", () => {
   describe("Functional", () => {
     let schema: GraphQLSchema;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       MetadataStorage.clear();
 
       @GraphQLArgumentType()
@@ -769,7 +769,7 @@ describe("Resolvers", () => {
         }
       }
 
-      schema = buildSchema({
+      schema = await buildSchema({
         resolvers: [SampleResolver],
       });
     });

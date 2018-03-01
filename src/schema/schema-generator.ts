@@ -12,6 +12,8 @@ import {
   GraphQLInterfaceType,
   GraphQLFieldConfig,
   GraphQLInputFieldConfig,
+  graphql,
+  introspectionQuery,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -24,6 +26,7 @@ import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
 import { createResolver, createFieldResolver } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
+import { GeneratingSchemaError } from "./GeneratingSchemaError";
 
 interface TypeInfo {
   target: Function;
@@ -45,7 +48,7 @@ export abstract class SchemaGenerator {
   private static inputsInfo: InputInfo[] = [];
   private static interfacesInfo: InterfaceInfo[] = [];
 
-  static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
+  static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     BuildContext.create(options);
     MetadataStorage.build();
     this.buildTypesInfo();
@@ -55,6 +58,11 @@ export abstract class SchemaGenerator {
       mutation: this.buildRootMutation(),
       types: this.buildTypes(),
     });
+
+    const { errors } = await graphql(schema, introspectionQuery);
+    if (errors) {
+      throw new GeneratingSchemaError(errors);
+    }
 
     BuildContext.reset();
     return schema;
@@ -108,7 +116,7 @@ export abstract class SchemaGenerator {
             return interfaces;
           },
           fields: () => {
-            const fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+            let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
                 const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
                   resolver =>
@@ -128,7 +136,11 @@ export abstract class SchemaGenerator {
             );
             // support for extending classes - get field info from prototype
             if (hasExtended) {
-              Object.assign(fields, this.getFieldDefinitionFromObjectType(getSuperClassType()));
+              fields = Object.assign(
+                {},
+                this.getFieldDefinitionFromObjectType(getSuperClassType()),
+                fields,
+              );
             }
             // support for implicitly implementing interfaces
             // get fields from interfaces definitions
@@ -144,7 +156,7 @@ export abstract class SchemaGenerator {
                   this.getFieldDefinitionFromObjectType(interfaceType),
                 );
               }, {});
-              Object.assign(fields, interfacesFields);
+              fields = Object.assign({}, interfacesFields, fields);
             }
             return fields;
           },

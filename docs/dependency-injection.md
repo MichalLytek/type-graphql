@@ -16,7 +16,7 @@ import { SampleResolver } from "./resolvers";
 useContainer(Container);
 
 // build the schema as always
-const schema = buildSchema({
+const schema = await buildSchema({
   resolvers: [SampleResolver],
 });
 ```

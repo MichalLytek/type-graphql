@@ -296,7 +296,7 @@ describe("Scalars", () => {
       let localSchema: GraphQLSchema;
 
       beforeAll(async () => {
-        localSchema = buildSchema({
+        localSchema = await buildSchema({
           resolvers: [sampleResolver],
           dateScalarMode: "isoDate",
         });
@@ -356,7 +356,7 @@ describe("Scalars", () => {
       let localSchema: GraphQLSchema;
 
       beforeAll(async () => {
-        localSchema = buildSchema({
+        localSchema = await buildSchema({
           resolvers: [sampleResolver],
           dateScalarMode: "timestamp",
         });

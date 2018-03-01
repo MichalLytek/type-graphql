@@ -20,7 +20,7 @@ export interface Context {
 TypeGraphQL.useContainer(Container);
 TypeORM.useContainer(Container);
 
-(async () => {
+async function bootstrap() {
   try {
     // create TypeORM connection
     await TypeORM.createConnection({
@@ -43,7 +43,7 @@ TypeORM.useContainer(Container);
     const { defaultUser } = await seedDatabase();
 
     // build TypeGraphQL executable schema
-    const schema = TypeGraphQL.buildSchema({
+    const schema = await TypeGraphQL.buildSchema({
       resolvers: [RecipeResolver, RateResolver],
     });
 
@@ -63,4 +63,6 @@ TypeORM.useContainer(Container);
   } catch (err) {
     console.error(err);
   }
-})();
+}
+
+bootstrap();

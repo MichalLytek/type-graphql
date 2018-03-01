@@ -10,7 +10,7 @@ import { buildSchema, BuildSchemaOptions } from "../../src";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
   // build schema from definitions
-  const schema = buildSchema(options);
+  const schema = await buildSchema(options);
 
   // get builded schema info from retrospection
   const result = await graphql(schema, introspectionQuery);
