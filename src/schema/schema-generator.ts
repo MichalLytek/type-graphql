@@ -69,21 +69,40 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
-    this.interfacesInfo = MetadataStorage.interfaceTypes.map<InterfaceInfo>(interfaceType => ({
-      target: interfaceType.target,
-      type: new GraphQLInterfaceType({
-        name: interfaceType.name,
-        description: interfaceType.description,
-        fields: () =>
-          interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fields, field) => {
-            fields[field.name] = {
-              description: field.description,
-              type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
-            };
+    this.interfacesInfo = MetadataStorage.interfaceTypes.map<InterfaceInfo>(interfaceType => {
+      const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
+      const hasExtended = interfaceSuperClass.prototype !== undefined;
+      const getSuperClassType = () =>
+        this.interfacesInfo.find(type => type.target === interfaceSuperClass)!.type;
+      return {
+        target: interfaceType.target,
+        type: new GraphQLInterfaceType({
+          name: interfaceType.name,
+          description: interfaceType.description,
+          fields: () => {
+            let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+              (fieldsMap, field) => {
+                fieldsMap[field.name] = {
+                  description: field.description,
+                  type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+                };
+                return fieldsMap;
+              },
+              {},
+            );
+            // support for extending interface classes - get field info from prototype
+            if (hasExtended) {
+              fields = Object.assign(
+                {},
+                this.getFieldDefinitionFromObjectType(getSuperClassType()),
+                fields,
+              );
+            }
             return fields;
-          }, {}),
-      }),
-    }));
+          },
+        }),
+      };
+    });
 
     this.typesInfo = MetadataStorage.objectTypes.map<TypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);

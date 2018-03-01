@@ -3,7 +3,7 @@
 ### Unreleased
 ### Features
 - add support for defining GraphQL interfaces and implementing it by object types
-- add support for extending object type classes
+- add support for extending input, args, object and interface types classes
 - add support for implementing GraphQL interfaces without decorators duplication
 - **Breaking change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
 
