@@ -29,7 +29,7 @@ describe("Validation", () => {
       argsData = undefined;
     });
 
-    beforeAll(() => {
+    beforeAll(async () => {
       MetadataStorage.clear();
 
       @GraphQLObjectType()
@@ -84,7 +84,7 @@ describe("Validation", () => {
       }
       sampleResolver = SampleResolver;
 
-      schema = buildSchema({
+      schema = await buildSchema({
         resolvers: [SampleResolver],
         validate: true,
       });
@@ -261,7 +261,7 @@ describe("Validation", () => {
           return {};
         }
       }
-      const localSchema = buildSchema({
+      const localSchema = await buildSchema({
         resolvers: [SampleResolver],
         validate: false,
       });
@@ -302,7 +302,7 @@ describe("Validation", () => {
           return {};
         }
       }
-      const localSchema = buildSchema({
+      const localSchema = await buildSchema({
         resolvers: [SampleResolver],
         validate: true,
       });
@@ -343,7 +343,7 @@ describe("Validation", () => {
           return {};
         }
       }
-      const localSchema = buildSchema({
+      const localSchema = await buildSchema({
         resolvers: [SampleResolver],
         validate: false,
       });
@@ -391,7 +391,7 @@ describe("Validation", () => {
           return {};
         }
       }
-      const localSchema = buildSchema({
+      const localSchema = await buildSchema({
         resolvers: [SampleResolver],
         validate: false,
       });
@@ -439,7 +439,7 @@ describe("Validation", () => {
           return {};
         }
       }
-      const localSchema = buildSchema({
+      const localSchema = await buildSchema({
         resolvers: [SampleResolver],
         validate: false,
       });

@@ -1,0 +1,36 @@
+query GetPersons {
+  persons {
+    __typename
+    id
+    name
+    age
+    ... on Student {
+      universityName
+    }
+    ... on Employee {
+      companyName
+    }
+  }
+}
+
+mutation AddStudent {
+  addStudent(input: {
+    name: "Student 1"
+    dateOfBirth: "1991-11-30T00:00:00.000Z"
+    universityName: "Uni 1"
+  }) {
+    id
+    age
+  }
+}
+
+mutation AddEmployee {
+  addEmployee(input: {
+    name: "Employee 1"
+    dateOfBirth: "1995-07-23T00:00:00.000Z"
+    companyName: "Company 1"
+  }) {
+    id
+    age
+  }
+}

@@ -1,19 +1,27 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions } from "../types/decorators";
+import { DescriptionOptions, ClassType } from "../types/decorators";
 
-export function GraphQLObjectType(options?: DescriptionOptions): ClassDecorator;
-export function GraphQLObjectType(name: string, options?: DescriptionOptions): ClassDecorator;
+export type ObjectOptions = DescriptionOptions & {
+  implements?: Function | Function[];
+};
+
+export function GraphQLObjectType(options?: ObjectOptions): ClassDecorator;
+export function GraphQLObjectType(name: string, options?: ObjectOptions): ClassDecorator;
 export function GraphQLObjectType(
-  nameOrOptions?: string | DescriptionOptions,
-  maybeOptions?: DescriptionOptions,
+  nameOrOptions?: string | ObjectOptions,
+  maybeOptions?: ObjectOptions,
 ): ClassDecorator {
   const { name, options } = getNameDecoratorParams(nameOrOptions, maybeOptions);
+  const interfaceClasses: ClassType[] | undefined =
+    options.implements && [].concat(options.implements as any);
+
   return target => {
     MetadataStorage.registerObjectDefinition({
       name: name || target.name,
       target,
       description: options.description,
+      interfaceClasses,
     });
   };
 }

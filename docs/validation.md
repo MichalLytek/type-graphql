@@ -52,7 +52,7 @@ Of course [there are many more decorators](https://github.com/typestack/class-va
 
 This feature is enabled by default. However, if you need, you can disable it:
 ```ts
-const schema = buildSchema({
+const schema = await buildSchema({
   resolvers: [RecipeResolver],
   validate: false, // disable automatic validation or pass default config object
 });

@@ -1,5 +1,12 @@
 # Changelog and release notes
 
+### Unreleased
+### Features
+- add support for defining GraphQL interfaces and implementing it by object types
+- add support for extending input, args, object and interface types classes
+- add support for implementing GraphQL interfaces without decorators duplication
+- **Breaking change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
+
 ## v0.5.0
 ### Features
 - create instance of root object when it's type provided in resolver

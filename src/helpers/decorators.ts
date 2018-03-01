@@ -20,18 +20,18 @@ export function getTypeDecoratorParams<T extends TypeOptions>(
   }
 }
 
-export function getNameDecoratorParams(
-  nameOrOptions: string | DescriptionOptions | undefined,
-  maybeOptions: DescriptionOptions | undefined,
+export function getNameDecoratorParams<T extends DescriptionOptions>(
+  nameOrOptions: string | T | undefined,
+  maybeOptions: T | undefined,
 ) {
   if (typeof nameOrOptions === "string") {
     return {
       name: nameOrOptions,
-      options: maybeOptions || {},
+      options: maybeOptions || {} as T,
     };
   } else {
     return {
-      options: nameOrOptions || {},
+      options: nameOrOptions || {} as T,
     };
   }
 }

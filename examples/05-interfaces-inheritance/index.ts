@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
-import { useContainer, buildSchema, formatArgumentValidationError } from "../../src";
+import { buildSchema } from "../../src";
 
-import { RecipeResolver } from "./recipe-resolver";
+import { MultiResolver } from "./resolver";
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
-    resolvers: [RecipeResolver],
+    resolvers: [MultiResolver],
   });
 
   // create express-based gql endpoint
@@ -18,7 +18,6 @@ async function bootstrap() {
     graphqlHTTP({
       schema,
       graphiql: true,
-      formatError: formatArgumentValidationError,
     }),
   );
   app.listen(4000, () => {

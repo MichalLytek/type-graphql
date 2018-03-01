@@ -61,7 +61,7 @@ By default TypeGraphQL use the ISO date format, however you can change it in `bu
 ```ts
 import { buildSchema } from "type-graphql";
 
-const schema = buildSchema({
+const schema = await buildSchema({
   resolvers,
   dateScalarMode: "timestamp", // "timestamp" or "isoDate"
 });
@@ -136,7 +136,7 @@ import { ObjectId } from "mongodb";
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 import { buildSchema } from "type-graphql";
 
-const schema = buildSchema({
+const schema = await buildSchema({
   resolvers,
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
 });

@@ -43,7 +43,7 @@ describe("IOC container", () => {
     }
 
     useContainer(Container);
-    const schema = buildSchema({
+    const schema = await buildSchema({
       resolvers: [SampleResolver],
     });
     const query = `query {
@@ -73,7 +73,7 @@ describe("IOC container", () => {
       }
     }
 
-    const schema = buildSchema({
+    const schema = await buildSchema({
       resolvers: [SampleResolver],
     });
     const query = `query {

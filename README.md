@@ -352,9 +352,12 @@ import { buildSchema } from "type-graphql";
 
 import { SampleResolver } from "./resolvers";
 
-const schema = buildSchema({
-  resolvers: [SampleResolver],
-});
+async function bootstrap() {
+  const schema = await buildSchema({
+    resolvers: [SampleResolver],
+  });
+  // the rest of your app bootstrap code
+}
 
 ```
 And that's it! You can also create a HTTP-based GraphQL API server:

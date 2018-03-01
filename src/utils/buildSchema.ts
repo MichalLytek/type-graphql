@@ -5,6 +5,6 @@ import { SchemaGenerator, SchemaGeneratorOptions } from "../schema/schema-genera
 export interface BuildSchemaOptions extends SchemaGeneratorOptions {
   resolvers: Function[];
 }
-export function buildSchema(options: BuildSchemaOptions): GraphQLSchema {
+export function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   return SchemaGenerator.generateFromMetadata(options);
 }
