@@ -14,7 +14,7 @@ import {
   Query,
   ArgumentValidationError,
   Args,
-  GraphQLArgumentType,
+  GraphQLArgsType,
 } from "../../src";
 
 describe("Validation", () => {
@@ -53,7 +53,7 @@ describe("Validation", () => {
         optionalField?: number;
       }
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
@@ -247,7 +247,7 @@ describe("Validation", () => {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
@@ -285,7 +285,7 @@ describe("Validation", () => {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
@@ -326,7 +326,7 @@ describe("Validation", () => {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
@@ -374,7 +374,7 @@ describe("Validation", () => {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
@@ -422,7 +422,7 @@ describe("Validation", () => {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["not-test"] })

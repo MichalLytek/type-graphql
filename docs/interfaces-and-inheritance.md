@@ -47,7 +47,7 @@ One of the most known principles of software development is DRY - don't repeat y
 
 While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like `skip` and `take`. So instead of repeating yourself, you can declare it once: 
 ```ts
-@GraphQLArgumentType()
+@GraphQLArgsType()
 class PaginationArgs {
   @Field(type => Int, { nullable: true })
   skip: number = 0;
@@ -59,7 +59,7 @@ class PaginationArgs {
 
 and then reuse it everywhere:
 ```ts
-@GraphQLArgumentType()
+@GraphQLArgsType()
 class GetTodosArgs extends PaginationArgs {
   @Field({ nullable: false })
   onlyCompleted: boolean = false;

@@ -6,6 +6,7 @@
 - add support for extending input, args, object and interface types classes
 - add support for implementing GraphQL interfaces without decorators duplication
 - **Breaking change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
+- rename and deprecate `GraphQLArgumentType` decorator - use `GraphQLArgsType` instead
 
 ## v0.5.0
 ### Features

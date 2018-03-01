@@ -1,7 +1,7 @@
 import { IsPositive, Max, Min } from "class-validator";
-import { GraphQLArgumentType, Field, Int } from "../../src";
+import { GraphQLArgsType, Field, Int } from "../../src";
 
-@GraphQLArgumentType()
+@GraphQLArgsType()
 export class RecipesArguments {
   @Field(type => Int, { nullable: true })
   @Min(0)

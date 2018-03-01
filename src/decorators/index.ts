@@ -4,7 +4,7 @@ export { Args } from "./Args";
 export { Ctx } from "./Ctx";
 export { Field } from "./Field";
 export { FieldResolver } from "./FieldResolver";
-export { GraphQLArgumentType } from "./GraphQLArgumentType";
+export { GraphQLArgsType, GraphQLArgumentType } from "./GraphQLArgsType";
 export { GraphQLInputType } from "./GraphQLInputType";
 export { GraphQLInterfaceType } from "./GraphQLInterfaceType";
 export { GraphQLObjectType } from "./GraphQLObjectType";

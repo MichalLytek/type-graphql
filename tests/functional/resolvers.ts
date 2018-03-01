@@ -25,7 +25,7 @@ import {
   Ctx,
   Mutation,
   Args,
-  GraphQLArgumentType,
+  GraphQLArgsType,
   Int,
   buildSchema,
   FieldResolver,
@@ -49,7 +49,7 @@ describe("Resolvers", () => {
         @Field() field: string;
       }
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArgs {
         @Field() stringArg: string;
         @Field(type => Int, { nullable: true })
@@ -645,7 +645,7 @@ describe("Resolvers", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArgs {
         private readonly TRUE = true;
         instanceField = Math.random();

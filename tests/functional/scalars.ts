@@ -15,7 +15,7 @@ import {
 
 import {
   GraphQLObjectType,
-  GraphQLArgumentType,
+  GraphQLArgsType,
   GraphQLInputType,
   GraphQLResolver,
   Field,

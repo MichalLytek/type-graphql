@@ -110,7 +110,7 @@ export class RecipeResolver {
 
 So, how the `FindRecipeArgs` looks like?
 ```ts
-@GraphQLArgumentType()
+@GraphQLArgsType()
 class FindRecipeArgs {
   @Field(type => ID)
   recipeId: string;

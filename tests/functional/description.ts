@@ -9,7 +9,7 @@ import {
 
 import {
   GraphQLObjectType,
-  GraphQLArgumentType,
+  GraphQLArgsType,
   GraphQLInputType,
   GraphQLResolver,
   Field,
@@ -59,7 +59,7 @@ describe("Description", () => {
         describedField: string;
       }
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleArguments {
         @Field() normalField: string;
 

@@ -21,7 +21,7 @@ import {
   Field,
   ID,
   Query,
-  GraphQLArgumentType,
+  GraphQLArgsType,
   Args,
   GraphQLInputType,
   Arg,
@@ -92,11 +92,11 @@ describe("Intefaces and inheritance", () => {
         @Field() ownExtendingField2: number;
       }
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleBaseArgs {
         @Field() baseArgField: string;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class SampleExtendingArgs extends SampleBaseArgs {
         @Field() extendingArgField: boolean;
       }
@@ -353,7 +353,7 @@ describe("Intefaces and inheritance", () => {
         class SampleInput {
           @Field() inputField: string;
         }
-        @GraphQLArgumentType()
+        @GraphQLArgsType()
         class SampleArgs extends SampleInput {
           @Field() argField: string;
         }
@@ -418,13 +418,13 @@ describe("Intefaces and inheritance", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class BaseArgs {
         @Field() baseArgField: string;
         @Field(type => Int, { nullable: true })
         optionalBaseArgField: number = 255;
       }
-      @GraphQLArgumentType()
+      @GraphQLArgsType()
       class ChildArgs extends BaseArgs {
         @Field() childArgField: string;
       }
