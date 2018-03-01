@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch example",
             "program": "${workspaceFolder}/dev.js",
             "protocol": "inspector",
             "sourceMaps": true,
