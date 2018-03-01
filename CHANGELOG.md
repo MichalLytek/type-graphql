@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-### Unreleased
+### v0.6.0
 ### Features
 - add support for defining GraphQL interfaces and implementing it by object types
 - add support for extending input, args, object and interface types classes
