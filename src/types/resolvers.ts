@@ -5,4 +5,5 @@ export interface BaseResolverDefinitions {
   target: Function;
   handler?: Function;
   params?: ParamDefinition[];
+  roles?: string[];
 }

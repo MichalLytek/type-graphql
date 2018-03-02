@@ -5,6 +5,7 @@ import {
   ParamDefinition,
   FieldResolverDefinition,
   ResolverDefinition,
+  AuthorizationDefinition,
 } from "./definition-interfaces";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { ClassType } from "../types/decorators";
@@ -17,6 +18,7 @@ export abstract class MetadataStorage {
   static inputTypes: ClassDefinition[] = [];
   static argumentTypes: ClassDefinition[] = [];
   static interfaceTypes: ClassDefinition[] = [];
+  static authorizedFields: AuthorizationDefinition[] = [];
 
   private static resolvers: ResolverDefinition[] = [];
   private static fields: FieldDefinition[] = [];
@@ -42,6 +44,9 @@ export abstract class MetadataStorage {
   }
   static registerInterfaceDefinition(definition: ClassDefinition) {
     this.interfaceTypes.push(definition);
+  }
+  static registerAuthorizedField(definition: AuthorizationDefinition) {
+    this.authorizedFields.push(definition);
   }
 
   static registerResolver(definition: ResolverDefinition) {
@@ -76,6 +81,7 @@ export abstract class MetadataStorage {
     this.inputTypes = [];
     this.argumentTypes = [];
     this.interfaceTypes = [];
+    this.authorizedFields = [];
 
     this.resolvers = [];
     this.fields = [];
@@ -84,9 +90,10 @@ export abstract class MetadataStorage {
 
   private static buildClassDefinitions(definitions: ClassDefinition[]) {
     definitions.forEach(def => {
-      const fields = MetadataStorage.fields.filter(field => field.target === def.target);
+      const fields = this.fields.filter(field => field.target === def.target);
       fields.forEach(field => {
-        field.params = MetadataStorage.params.filter(
+        field.roles = this.findFieldRoles(field.target, field.name);
+        field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
         if (field.params.length === 0) {
@@ -106,9 +113,10 @@ export abstract class MetadataStorage {
 
   private static buildResolversDefinitions(definitions: BaseResolverDefinitions[]) {
     definitions.forEach(def => {
-      def.params = MetadataStorage.params.filter(
+      def.params = this.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
       );
+      def.roles = this.findFieldRoles(def.target, def.methodName);
     });
   }
 
@@ -117,9 +125,18 @@ export abstract class MetadataStorage {
     definitions.forEach(def => {
       def.getParentType =
         def.kind === "external"
-          ? MetadataStorage.resolvers.find(resolver => resolver.target === def.target)!
-              .getParentType
+          ? this.resolvers.find(resolver => resolver.target === def.target)!.getParentType
           : () => def.target as ClassType;
     });
+  }
+
+  private static findFieldRoles(target: Function, fieldName: string): string[] | undefined {
+    const authorizedField = this.authorizedFields.find(
+      authField => authField.target === target && authField.fieldName === fieldName,
+    );
+    if (!authorizedField) {
+      return;
+    }
+    return authorizedField.roles;
   }
 }
