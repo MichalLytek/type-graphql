@@ -49,6 +49,7 @@ export abstract class SchemaGenerator {
   private static interfacesInfo: InterfaceInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
+    await this.checkForErrors(options);
     BuildContext.create(options);
     MetadataStorage.build();
     this.buildTypesInfo();
@@ -66,6 +67,14 @@ export abstract class SchemaGenerator {
 
     BuildContext.reset();
     return schema;
+  }
+
+  private static async checkForErrors(options: SchemaGeneratorOptions) {
+    if (MetadataStorage.authorizedFields.length !== 0 && options.authChecker === undefined) {
+      throw new Error(
+        "You need to provide `authChecker` function for `@Authorized` decorator usage!",
+      );
+    }
   }
 
   private static buildTypesInfo() {
