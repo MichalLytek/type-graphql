@@ -40,6 +40,10 @@ describe("Authorization", () => {
       @Field() normalResolvedField: string;
 
       @Field() authedResolvedField: string;
+
+      @Field()
+      @Authorized()
+      inlineAuthedResolvedField: string;
     }
 
     @GraphQLResolver(objectType => SampleObject)
@@ -91,6 +95,11 @@ describe("Authorization", () => {
       @Authorized()
       authedResolvedField() {
         return "authedResolvedField";
+      }
+
+      @FieldResolver()
+      inlineAuthedResolvedField() {
+        return "inlineAuthedResolvedField";
       }
     }
 
@@ -225,6 +234,20 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
     });
 
+    it("should allow for access to authed query when `authChecker` returns true", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => true,
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.authedQuery).toEqual(false);
+    });
+
     it("should restrict access to authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -257,6 +280,23 @@ describe("Authorization", () => {
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
 
+    // tslint:disable-next-line:max-line-length
+    it("should allow for access to authed object field when `authChecker` returns true", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => true,
+      });
+      const query = `query {
+        normalObjectQuery {
+          authedField
+        }
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.normalObjectQuery.authedField).toEqual("authedField");
+    });
+
     it("should restrict access to authed object field from resolver", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -271,6 +311,87 @@ describe("Authorization", () => {
       const result = await graphql(localSchema, query);
 
       expect(result.data).toBeNull();
+    });
+
+    it("should restrict access to inline authed object field from resolver", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+      const query = `query {
+        normalObjectQuery {
+          inlineAuthedResolvedField
+        }
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+    });
+
+    // tslint:disable-next-line:max-line-length
+    it("should allow for access to authed object field from resolver when access granted", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => true,
+      });
+      const query = `query {
+        normalObjectQuery {
+          inlineAuthedResolvedField
+        }
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.normalObjectQuery.inlineAuthedResolvedField).toEqual(
+        "inlineAuthedResolvedField",
+      );
+    });
+
+    it("should pass roles to `authChecker` when checking for access to handler", async () => {
+      let authCheckerRoles: string[] | undefined;
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: (actionData, roles) => {
+          authCheckerRoles = roles;
+          return true;
+        },
+      });
+      const query = `query {
+        adminOrRegularQuery
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
+      expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
+    });
+
+    it("should pass action data to `authChecker` when checking for access to handler", async () => {
+      let authCheckerActionData: any;
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: actionData => {
+          authCheckerActionData = actionData;
+          return true;
+        },
+      });
+      const query = `query {
+        adminOrRegularQuery
+      }`;
+
+      const result = await graphql(
+        localSchema,
+        query,
+        { field: "rootField" },
+        { field: "contextField" },
+      );
+
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
+      expect(authCheckerActionData.root.field).toEqual("rootField");
+      expect(authCheckerActionData.context.field).toEqual("contextField");
+      expect(authCheckerActionData.args).toEqual({});
+      expect(authCheckerActionData.info).toBeDefined();
     });
   });
 });

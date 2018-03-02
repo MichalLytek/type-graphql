@@ -123,6 +123,7 @@ export abstract class MetadataStorage {
   private static buildFieldResolverDefinitions(definitions: FieldResolverDefinition[]) {
     this.buildResolversDefinitions(definitions);
     definitions.forEach(def => {
+      def.roles = def.roles || this.fields.find(field => field.name === def.methodName)!.roles;
       def.getParentType =
         def.kind === "external"
           ? this.resolvers.find(resolver => resolver.target === def.target)!.getParentType
