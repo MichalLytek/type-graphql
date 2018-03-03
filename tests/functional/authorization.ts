@@ -11,6 +11,8 @@ import {
   GraphQLResolver,
   buildSchema,
   FieldResolver,
+  UnauthorizedError,
+  ForbiddenError,
 } from "../../src";
 import { HandlerDefinition } from "../../src/metadata/definition-interfaces";
 
@@ -234,6 +236,42 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
     });
 
+    it("should throw UnauthorizedError when guest accessing authed query", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      const error = result.errors![0];
+      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.path).toContain("authedQuery");
+    });
+
+    it("should throw ForbiddenError when guest accessing query authed with roles", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+      const query = `query {
+        adminQuery
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      const error = result.errors![0];
+      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.path).toContain("adminQuery");
+    });
+
     it("should allow for access to authed query when `authChecker` returns true", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -278,6 +316,47 @@ describe("Authorization", () => {
       const result = await graphql(localSchema, query);
 
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
+    });
+
+    it("should throw UnauthorizedError when guest accessing autherd object field", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+      const query = `query {
+        normalObjectQuery {
+          authedField
+        }
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      const error = result.errors![0];
+      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.path).toContain("authedField");
+    });
+
+    // tslint:disable-next-line:max-line-length
+    it("should throw ForbiddenError when guest accessing object field authed with roles", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+      const query = `query {
+        normalObjectQuery {
+          adminField
+        }
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      const error = result.errors![0];
+      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.path).toContain("adminField");
     });
 
     // tslint:disable-next-line:max-line-length

@@ -5,6 +5,7 @@ import { convertToType } from "../types/helpers";
 import { validateArg } from "./validate-arg";
 import { ValidatorOptions } from "class-validator";
 import { ActionData, AuthCheckerFunc } from "../types/auth-checker";
+import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export async function getParams(
   params: ParamDefinition[],
@@ -46,7 +47,7 @@ export async function checkForAccess(
   if (roles && authChecker) {
     const accessGranted = await authChecker(action, roles);
     if (!accessGranted) {
-      throw new Error("Acess denied!");
+      throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
     }
   }
 }

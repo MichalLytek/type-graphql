@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql";
 
-import { ArgumentValidationError } from "./ArgumentValidationError";
+import { ArgumentValidationError } from "../ArgumentValidationError";
 
 export function formatArgumentValidationError(err: GraphQLError) {
   const formattedError: { [key: string]: any } = {};
