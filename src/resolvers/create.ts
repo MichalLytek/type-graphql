@@ -6,7 +6,7 @@ import { getParams, checkForAccess } from "./helpers";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { convertToType } from "../types/helpers";
 import { BuildContext } from "../schema/build-context";
-import { AuthCheckerFunc, ActionData } from "../types/auth-checker";
+import { ActionData } from "../types/auth-checker";
 
 export function createHandlerResolver(
   resolverDefinition: BaseResolverDefinitions,

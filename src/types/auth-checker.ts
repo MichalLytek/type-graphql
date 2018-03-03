@@ -1,12 +1,12 @@
 import { GraphQLResolveInfo } from "graphql";
 
-export interface ActionData {
+export interface ActionData<ContextType = {}> {
   root: any;
   args: any;
-  context: any;
+  context: ContextType;
   info: GraphQLResolveInfo;
 }
-export type AuthCheckerFunc = (
-  actionData: ActionData,
+export type AuthChecker<ContextType = {}> = (
+  actionData: ActionData<ContextType>,
   roles: string[],
 ) => boolean | Promise<boolean>;
