@@ -3,7 +3,7 @@ Authorization is a core feature used in almost all APIs. Sometimes we want to re
 
 In express.js (and other Node.js framework) we use middlewares for this, like `passport.js` or the custom ones. However in GraphQL's resolvers architecture we don't have middlewares so we have to imperatively call the auth checking function and manually passing context data in each resolver, which might be quite tedious work.
 
-That's why authorization is a first-class feature in `TypeGraphQL`!
+And that's why authorization is a first-class feature in `TypeGraphQL`!
 
 ## How to use?
 At first, you need to use `@Authorized` decorator as a guard on a field or a query/mutation.
@@ -76,7 +76,7 @@ The last step is to register the function while building the schema:
 ```ts
 import { customAuthChecker } from "../auth/custom-auth-checker.ts";
 
-const mySchema = await buildSchema({
+const schema = await buildSchema({
   resolvers: [MyResolver],
   // here we register the auth checking function
   // or defining it inline
@@ -90,7 +90,7 @@ And it's done! :wink:
 You can also use `TypeGraphQL` with `express.js` and leverage benefits of JWT authentication:
 ```ts
 import * as jwt from "express-jwt";
-import { mySchema } from "../example/above";
+import { schema } from "../example/above";
 
 // create express-based gql endpoint
 const app = express();
