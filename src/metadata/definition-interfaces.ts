@@ -37,6 +37,13 @@ export interface FieldDefinition {
   params?: ParamDefinition[];
   description?: string;
   deprecationReason?: string;
+  roles?: string[];
+}
+
+export interface AuthorizationDefinition {
+  target: Function;
+  fieldName: string;
+  roles: string[];
 }
 
 /* Param definitions */

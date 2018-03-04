@@ -4,16 +4,12 @@ import { ParamDefinition } from "../metadata/definition-interfaces";
 import { convertToType } from "../types/helpers";
 import { validateArg } from "./validate-arg";
 import { ValidatorOptions } from "class-validator";
+import { ActionData, AuthChecker } from "../types/auth-checker";
+import { UnauthorizedError, ForbiddenError } from "../errors";
 
-export interface ResolverData {
-  root: any;
-  args: any;
-  context: any;
-  info: any;
-}
 export async function getParams(
   params: ParamDefinition[],
-  { root, args, context, info }: ResolverData,
+  { root, args, context, info }: ActionData,
   globalValidate: boolean | ValidatorOptions,
 ): Promise<any[]> {
   return Promise.all(
@@ -41,4 +37,17 @@ export async function getParams(
       }
     }),
   );
+}
+
+export async function checkForAccess(
+  action: ActionData,
+  authChecker?: AuthChecker<any>,
+  roles?: string[],
+) {
+  if (roles && authChecker) {
+    const accessGranted = await authChecker(action, roles);
+    if (!accessGranted) {
+      throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+    }
+  }
 }

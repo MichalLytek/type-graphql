@@ -1,6 +1,8 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
+import { AuthChecker } from "../types/auth-checker";
+
 export type DateScalarMode = "isoDate" | "timestamp";
 
 export interface ScalarsTypeMap {
@@ -16,12 +18,14 @@ export interface BuildContextOptions {
    * You can also directly pass validator options to enable validator with a given options.
    */
   validate?: boolean | ValidatorOptions;
+  authChecker?: AuthChecker;
 }
 
 export abstract class BuildContext {
   static dateScalarMode: DateScalarMode;
   static scalarsMaps: ScalarsTypeMap[];
   static validate: boolean | ValidatorOptions;
+  static authChecker?: AuthChecker<any>;
 
   /**
    * Set static fields with current building context data
@@ -35,6 +39,9 @@ export abstract class BuildContext {
     }
     if (options.validate !== undefined) {
       this.validate = options.validate;
+    }
+    if (options.authChecker !== undefined) {
+      this.authChecker = options.authChecker;
     }
   }
 

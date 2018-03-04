@@ -24,7 +24,11 @@ import {
 } from "../metadata/definition-interfaces";
 import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
-import { createResolver, createFieldResolver } from "../resolvers/create";
+import {
+  createHandlerResolver,
+  createAdvancedFieldResolver,
+  createSimpleFieldResolver,
+} from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { GeneratingSchemaError } from "./GeneratingSchemaError";
 
@@ -49,6 +53,7 @@ export abstract class SchemaGenerator {
   private static interfacesInfo: InterfaceInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
+    await this.checkForErrors(options);
     BuildContext.create(options);
     MetadataStorage.build();
     this.buildTypesInfo();
@@ -66,6 +71,14 @@ export abstract class SchemaGenerator {
 
     BuildContext.reset();
     return schema;
+  }
+
+  private static async checkForErrors(options: SchemaGeneratorOptions) {
+    if (MetadataStorage.authorizedFields.length !== 0 && options.authChecker === undefined) {
+      throw new Error(
+        "You need to provide `authChecker` function for `@Authorized` decorator usage!",
+      );
+    }
   }
 
   private static buildTypesInfo() {
@@ -145,7 +158,9 @@ export abstract class SchemaGenerator {
                 fieldsMap[field.name] = {
                   type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
                   args: this.generateHandlerArgs(field.params!),
-                  resolve: fieldResolverDefinition && createFieldResolver(fieldResolverDefinition),
+                  resolve: fieldResolverDefinition
+                    ? createAdvancedFieldResolver(fieldResolverDefinition)
+                    : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
                 };
@@ -242,7 +257,7 @@ export abstract class SchemaGenerator {
       fields[handler.methodName] = {
         type: this.getGraphQLOutputType(handler.getReturnType(), handler.returnTypeOptions),
         args: this.generateHandlerArgs(handler.params!),
-        resolve: createResolver(handler),
+        resolve: createHandlerResolver(handler),
         description: handler.description,
         deprecationReason: handler.deprecationReason,
       };
