@@ -1,6 +1,10 @@
 # Changelog and release notes
 
-### v0.6.0
+## Unreleased
+### Features
+- add authorization feature - `@Authorized` decorator and `authChecker` function in schema options ([see docs](https://github.com/19majkel94/type-graphql/tree/master/authorization.md))
+
+## v0.6.0
 ### Features
 - add support for defining GraphQL interfaces and implementing it by object types
 - add support for extending input, args, object and interface types classes
