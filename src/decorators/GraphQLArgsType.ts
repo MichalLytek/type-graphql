@@ -8,10 +8,3 @@ export function GraphQLArgsType(name?: string): ClassDecorator {
     });
   };
 }
-
-/**
- * @deprecated use GraphQLArgsType instead
- */
-export function GraphQLArgumentType(name?: string): ClassDecorator {
-  return GraphQLArgsType(name);
-}

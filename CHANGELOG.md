@@ -4,6 +4,7 @@
 ### Features
 - add authorization feature - `@Authorized` decorator and `authChecker` function in schema options ([see docs](https://github.com/19majkel94/type-graphql/blob/master/docs/authorization.md))
 - add support for defining array type using mongoose-like notation `[Type]`
+- **Breaking Change**: remove deprecated `@GraphQLArgumentType` decorator - use `@GraphQLArgsType` instead
 
 ## v0.6.0
 ### Features
@@ -11,7 +12,7 @@
 - add support for extending input, args, object and interface types classes
 - add support for implementing GraphQL interfaces without decorators duplication
 - **Breaking Change**: make `buildSchema` async - now it returns a Promise of `GraphQLSchema`
-- rename and deprecate `GraphQLArgumentType` decorator - use `GraphQLArgsType` instead
+- rename and deprecate `@GraphQLArgumentType` decorator - use `@GraphQLArgsType` instead
 ### Fixes
 - allow for no args in `@GraphQLResolver` decorator to keep consistency with other resolver classes
 
