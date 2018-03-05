@@ -1,9 +1,9 @@
-import { TypeOptions, TypeValueResolver, ClassTypeResolver } from "../types/decorators";
+import { TypeOptions, TypeValueThunk, ClassTypeResolver } from "../types/decorators";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { ValidatorOptions } from "class-validator";
 
 export interface HandlerDefinition extends BaseResolverDefinitions {
-  getReturnType: TypeValueResolver;
+  getReturnType: TypeValueThunk;
   handler: Function;
   returnTypeOptions: TypeOptions;
   description?: string;
@@ -32,7 +32,7 @@ export interface ClassDefinition {
 export interface FieldDefinition {
   target: Function;
   name: string;
-  getType: TypeValueResolver;
+  getType: TypeValueThunk;
   typeOptions: TypeOptions;
   params?: ParamDefinition[];
   description?: string;
@@ -58,10 +58,10 @@ export interface ContextParamDefinition extends BasicParamDefinition {
 }
 export interface RootParamDefinition extends BasicParamDefinition {
   kind: "root";
-  getType?: TypeValueResolver;
+  getType?: TypeValueThunk;
 }
 export interface CommonArgDefinition extends BasicParamDefinition {
-  getType: TypeValueResolver;
+  getType: TypeValueThunk;
   typeOptions: TypeOptions;
   validate?: boolean | ValidatorOptions;
 }

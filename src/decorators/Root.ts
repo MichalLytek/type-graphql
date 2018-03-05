@@ -1,6 +1,6 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { findType } from "../helpers/findType";
-import { TypeValueResolver } from "../types/decorators";
+import { TypeValueThunk } from "../types/decorators";
 
 export function Root(): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
@@ -8,7 +8,7 @@ export function Root(): ParameterDecorator {
       throw new Error("Symbol keys are not supported yet!");
     }
 
-    let getType: TypeValueResolver | undefined;
+    let getType: TypeValueThunk | undefined;
     try {
       const typeInfo = findType({
         metadataKey: "design:paramtypes",

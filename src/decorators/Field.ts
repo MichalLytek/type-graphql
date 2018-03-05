@@ -3,20 +3,17 @@ import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Field(options?: AdvancedOptions): PropertyDecorator;
+export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
+
+export function Field(options?: AdvancedOptions): MethodAndPropDecorator;
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
   options?: AdvancedOptions,
-): PropertyDecorator;
-export function Field(options?: AdvancedOptions): MethodDecorator;
-export function Field(
-  returnTypeFunction?: ReturnTypeFunc,
-  options?: AdvancedOptions,
-): MethodDecorator;
+): MethodAndPropDecorator;
 export function Field(
   returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,
   maybeOptions?: AdvancedOptions,
-): PropertyDecorator | MethodDecorator {
+): MethodDecorator | PropertyDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new Error("Symbol keys are not supported yet!");

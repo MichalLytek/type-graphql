@@ -48,6 +48,12 @@ describe("Fields - schema", () => {
 
       @Field(type => String, { nullable: true, array: true })
       nullableArrayField: string[] | null;
+
+      @Field(type => [String], { nullable: true })
+      nullableArrayFieldNew: string[] | null;
+
+      @Field(type => [SampleNestedObject], { nullable: true })
+      nullableObjectArrayField: SampleNestedObject[] | null;
     }
 
     @GraphQLResolver(objectType => SampleObject)
@@ -228,5 +234,34 @@ describe("Fields - schema", () => {
     expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
     expect(arrayItemFieldType.kind).toEqual("SCALAR");
     expect(arrayItemFieldType.name).toEqual("String");
+  });
+
+  it("should generate nullable array field type when declared using mongoose syntax", async () => {
+    const nullableArrayFieldNew = sampleObjectType.fields.find(
+      field => field.name === "nullableArrayFieldNew",
+    )!;
+    const arrayFieldType = nullableArrayFieldNew.type as IntrospectionListTypeRef;
+    const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
+
+    expect(arrayFieldType.kind).toEqual("LIST");
+    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
+    expect(arrayItemFieldType.kind).toEqual("SCALAR");
+    expect(arrayItemFieldType.name).toEqual("String");
+  });
+
+  // tslint:disable-next-line:max-line-length
+  it("should generate nullable array field object type when declared using mongoose syntax", async () => {
+    const nullableArrayFieldNew = sampleObjectType.fields.find(
+      field => field.name === "nullableObjectArrayField",
+    )!;
+    const arrayFieldType = nullableArrayFieldNew.type as IntrospectionListTypeRef;
+    const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
+
+    expect(arrayFieldType.kind).toEqual("LIST");
+    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
+    expect(arrayItemFieldType.kind).toEqual("OBJECT");
+    expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
   });
 });

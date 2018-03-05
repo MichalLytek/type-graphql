@@ -1,8 +1,8 @@
-import { ReturnTypeFunc, TypeOptions, TypeValueResolver } from "../types/decorators";
+import { ReturnTypeFunc, TypeOptions, TypeValueThunk } from "../types/decorators";
 import { bannedTypes } from "./returnTypes";
 
 export interface TypeInfo {
-  getType: TypeValueResolver;
+  getType: TypeValueThunk;
   typeOptions: TypeOptions;
 }
 
@@ -26,7 +26,7 @@ export function findType({
   let metadataDesignType: Function | undefined;
   const reflectedType: Function[] | Function | undefined = Reflect.getMetadata(
     metadataKey,
-    prototype.constructor.prototype,
+    prototype,
     propertyKey,
   );
   if (metadataKey === "design:paramtypes") {
@@ -37,8 +37,9 @@ export function findType({
 
   if (metadataDesignType && bannedTypes.includes(metadataDesignType)) {
     if (!returnTypeFunc) {
-      // tslint:disable-next-line:max-line-length
-      let errorMessage = `You need to provide explicit type for ${prototype.constructor.name}#${propertyKey}`;
+      let errorMessage = `You need to provide explicit type for ${
+        prototype.constructor.name
+      }#${propertyKey}`;
       if (parameterIndex !== undefined) {
         errorMessage += ` parameter #${parameterIndex}`;
       }
@@ -50,9 +51,17 @@ export function findType({
     }
   }
 
+  if (returnTypeFunc && Array.isArray(returnTypeFunc())) {
+    options.array = true;
+  }
+
   if (returnTypeFunc) {
+    const typeResolverValue = returnTypeFunc();
+    const getType = Array.isArray(typeResolverValue)
+      ? () => typeResolverValue[0]
+      : (returnTypeFunc as TypeValueThunk);
     return {
-      getType: returnTypeFunc as TypeValueResolver,
+      getType,
       typeOptions: options,
     };
   } else if (metadataDesignType) {

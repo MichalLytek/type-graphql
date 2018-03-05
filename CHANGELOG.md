@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - add authorization feature - `@Authorized` decorator and `authChecker` function in schema options ([see docs](https://github.com/19majkel94/type-graphql/blob/master/docs/authorization.md))
+- add support for defining array type using mongoose-like notation `[Type]`
 
 ## v0.6.0
 ### Features
