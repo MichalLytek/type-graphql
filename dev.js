@@ -5,3 +5,4 @@ require("./examples/01-simple-usage/index.ts");
 // require("./examples/04-automatic-validation/index.ts");
 // require("./examples/05-interfaces-inheritance/index.ts");
 // require("./examples/06-authorization/index.ts");
+// require("./examples/07-typeorm-lazy-relations/index.ts");

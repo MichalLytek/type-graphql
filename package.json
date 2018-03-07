@@ -69,7 +69,7 @@
     "tslint": "^5.9.1",
     "tslint-eslint-rules": "^5.0.0",
     "typedi": "^0.7.0",
-    "typeorm": "^0.1.12",
+    "typeorm": "^0.1.14",
     "typeorm-typedi-extensions": "^0.1.1",
     "typescript": "~2.7.2"
   },
