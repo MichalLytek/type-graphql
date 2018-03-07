@@ -40,16 +40,19 @@ export class RecipeResolver {
   }
 
   @Mutation(returnType => Recipe)
-  addRecipe(@Arg("recipe") recipeInput: RecipeInput): Promise<Recipe> {
+  async addRecipe(
+    @Arg("recipe") recipeInput: RecipeInput,
+    @Ctx() { user }: Context,
+  ): Promise<Recipe> {
     const recipe = this.recipeRepository.create({
       ...recipeInput,
-      authorId: 1,
+      authorId: user.id,
     });
-    return this.recipeRepository.save(recipe);
+    return await this.recipeRepository.save(recipe);
   }
 
   @Mutation(() => Recipe)
-  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
+  async rate(@Arg("rate") rateInput: RateInput, @Ctx() { user }: Context): Promise<Recipe> {
     // find the recipe
     const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {
       relations: ["ratings"],

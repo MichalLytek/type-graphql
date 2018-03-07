@@ -13,7 +13,7 @@ import { User } from "./entities/user";
 import { seedDatabase } from "./helpers";
 
 export interface Context {
-  user?: User;
+  user: User;
 }
 
 // register 3rd party IOC container

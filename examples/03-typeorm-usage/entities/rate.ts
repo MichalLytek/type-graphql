@@ -18,17 +18,15 @@ export class Rate {
   @Field(type => User)
   @ManyToOne(type => User)
   user: User;
+  @RelationColumn()
+  userId: number;
 
   @Field()
   @CreateDateColumn()
   date: Date;
 
-  @RelationColumn()
-  userId: number;
-
   @ManyToOne(type => Recipe)
   recipe: Recipe;
-
   @RelationColumn()
   recipeId: number;
 }

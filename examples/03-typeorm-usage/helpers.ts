@@ -45,8 +45,6 @@ export async function seedDatabase() {
   };
 }
 
-export type Lazy<T extends object> = Promise<T> | T;
-
 export function RelationColumn(options?: ColumnOptions) {
   return Column({ nullable: true, ...options });
 }
