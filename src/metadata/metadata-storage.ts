@@ -6,6 +6,7 @@ import {
   FieldResolverDefinition,
   ResolverDefinition,
   AuthorizationDefinition,
+  EnumDefinition,
 } from "./definition-interfaces";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { ClassType } from "../types/decorators";
@@ -19,6 +20,7 @@ export abstract class MetadataStorage {
   static argumentTypes: ClassDefinition[] = [];
   static interfaceTypes: ClassDefinition[] = [];
   static authorizedFields: AuthorizationDefinition[] = [];
+  static enums: EnumDefinition[] = [];
 
   private static resolvers: ResolverDefinition[] = [];
   private static fields: FieldDefinition[] = [];
@@ -47,6 +49,9 @@ export abstract class MetadataStorage {
   }
   static registerAuthorizedField(definition: AuthorizationDefinition) {
     this.authorizedFields.push(definition);
+  }
+  static registerEnumDefinition(definition: EnumDefinition) {
+    this.enums.push(definition);
   }
 
   static registerResolver(definition: ResolverDefinition) {
@@ -82,6 +87,7 @@ export abstract class MetadataStorage {
     this.argumentTypes = [];
     this.interfaceTypes = [];
     this.authorizedFields = [];
+    this.enums = [];
 
     this.resolvers = [];
     this.fields = [];

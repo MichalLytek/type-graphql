@@ -14,6 +14,9 @@ import {
   GraphQLInputFieldConfig,
   graphql,
   introspectionQuery,
+  GraphQLEnumType,
+  GraphQLEnumValueConfigMap,
+  GraphQLEnumValueConfig,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -23,7 +26,7 @@ import {
   ClassDefinition,
 } from "../metadata/definition-interfaces";
 import { TypeOptions, TypeValue } from "../types/decorators";
-import { wrapWithTypeOptions, convertTypeIfScalar } from "../types/helpers";
+import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../types/helpers";
 import {
   createHandlerResolver,
   createAdvancedFieldResolver,
@@ -44,6 +47,10 @@ interface InterfaceInfo {
   target: Function;
   type: GraphQLInterfaceType;
 }
+interface EnumInfo {
+  enumObj: object;
+  type: GraphQLEnumType;
+}
 // tslint:disable-next-line:no-empty-interface
 export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
@@ -51,6 +58,7 @@ export abstract class SchemaGenerator {
   private static typesInfo: TypeInfo[] = [];
   private static inputsInfo: InputInfo[] = [];
   private static interfacesInfo: InterfaceInfo[] = [];
+  private static enumsInfo: EnumInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     await this.checkForErrors(options);
@@ -82,6 +90,22 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
+    this.enumsInfo = MetadataStorage.enums.map<EnumInfo>(enumDefinition => {
+      const enumMap = getEnumValuesMap(enumDefinition.enumObj);
+      return {
+        enumObj: enumDefinition.enumObj,
+        type: new GraphQLEnumType({
+          name: enumDefinition.name,
+          description: enumDefinition.description,
+          values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
+            enumConfig[enumKey] = {
+              value: enumMap[enumKey],
+            };
+            return enumConfig;
+          }, {}),
+        }),
+      };
+    });
     this.interfacesInfo = MetadataStorage.interfaceTypes.map<InterfaceInfo>(interfaceType => {
       const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
       const hasExtended = interfaceSuperClass.prototype !== undefined;
@@ -97,7 +121,7 @@ export abstract class SchemaGenerator {
               (fieldsMap, field) => {
                 fieldsMap[field.name] = {
                   description: field.description,
-                  type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+                  type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                 };
                 return fieldsMap;
               },
@@ -156,7 +180,7 @@ export abstract class SchemaGenerator {
                     resolver.methodName === field.name,
                 );
                 fieldsMap[field.name] = {
-                  type: this.getGraphQLOutputType(field.getType(), field.typeOptions),
+                  type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                   args: this.generateHandlerArgs(field.params!),
                   resolve: fieldResolverDefinition
                     ? createAdvancedFieldResolver(fieldResolverDefinition)
@@ -212,7 +236,7 @@ export abstract class SchemaGenerator {
               (fieldsMap, field) => {
                 fieldsMap[field.name] = {
                   description: field.description,
-                  type: this.getGraphQLInputType(field.getType(), field.typeOptions),
+                  type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
                 };
                 return fieldsMap;
               },
@@ -255,7 +279,11 @@ export abstract class SchemaGenerator {
   ): GraphQLFieldConfigMap<T, U> {
     return handlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       fields[handler.methodName] = {
-        type: this.getGraphQLOutputType(handler.getReturnType(), handler.returnTypeOptions),
+        type: this.getGraphQLOutputType(
+          handler.methodName,
+          handler.getReturnType(),
+          handler.returnTypeOptions,
+        ),
         args: this.generateHandlerArgs(handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,
@@ -270,7 +298,7 @@ export abstract class SchemaGenerator {
       if (param.kind === "arg") {
         args[param.name] = {
           description: param.description,
-          type: this.getGraphQLInputType(param.getType(), param.typeOptions),
+          type: this.getGraphQLInputType(param.name, param.getType(), param.typeOptions),
         };
       } else if (param.kind === "args") {
         const argumentType = MetadataStorage.argumentTypes.find(
@@ -297,7 +325,7 @@ export abstract class SchemaGenerator {
     argumentType.fields!.forEach(field => {
       args[field.name] = {
         description: field.description,
-        type: this.getGraphQLInputType(field.getType(), field.typeOptions),
+        type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
       };
     });
   }
@@ -344,6 +372,7 @@ export abstract class SchemaGenerator {
   }
 
   private static getGraphQLOutputType(
+    typeOwnerName: string,
     type: TypeValue,
     typeOptions: TypeOptions = {},
   ): GraphQLOutputType {
@@ -362,19 +391,40 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      throw new Error(`Cannot determine GraphQL output type for ${type.name}`!);
+      const enumType = this.enumsInfo.find(it => it.enumObj === (type as Function));
+      if (enumType) {
+        gqlType = enumType.type;
+      }
+    }
+    if (!gqlType) {
+      throw new Error(`Cannot determine GraphQL output type for ${typeOwnerName}`!);
     }
 
     return wrapWithTypeOptions(gqlType, typeOptions);
   }
 
   private static getGraphQLInputType(
+    typeOwnerName: string,
     type: TypeValue,
     typeOptions: TypeOptions = {},
   ): GraphQLInputType {
-    const gqlType: GraphQLInputType =
-      convertTypeIfScalar(type) ||
-      this.inputsInfo.find(it => it.target === (type as Function))!.type;
+    let gqlType: GraphQLInputType | undefined;
+    gqlType = convertTypeIfScalar(type);
+    if (!gqlType) {
+      const inputType = this.inputsInfo.find(it => it.target === (type as Function));
+      if (inputType) {
+        gqlType = inputType.type;
+      }
+    }
+    if (!gqlType) {
+      const enumType = this.enumsInfo.find(it => it.enumObj === (type as Function));
+      if (enumType) {
+        gqlType = enumType.type;
+      }
+    }
+    if (!gqlType) {
+      throw new Error(`Cannot determine GraphQL input type for ${typeOwnerName}`!);
+    }
 
     return wrapWithTypeOptions(gqlType, typeOptions);
   }

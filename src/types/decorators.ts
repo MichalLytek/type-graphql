@@ -1,7 +1,7 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-export type TypeValue = ClassType | GraphQLScalarType | Function;
+export type TypeValue = ClassType | GraphQLScalarType | Function | object;
 export type ReturnTypeFuncValue = TypeValue | TypeValue[];
 
 export type TypeValueThunk = (type?: void) => TypeValue;
@@ -27,4 +27,9 @@ export type AdvancedOptions = BasicOptions & DepreciationOptions;
 
 export interface ClassType {
   new (): any;
+}
+
+export interface EnumConfig {
+  name: string;
+  description?: string;
 }

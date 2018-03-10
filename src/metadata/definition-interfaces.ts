@@ -46,6 +46,12 @@ export interface AuthorizationDefinition {
   roles: string[];
 }
 
+export interface EnumDefinition {
+  enumObj: object;
+  name: string;
+  description?: string;
+}
+
 /* Param definitions */
 
 export interface BasicParamDefinition {

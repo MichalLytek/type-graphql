@@ -2,6 +2,7 @@ export { Arg } from "./Arg";
 export { Args } from "./Args";
 export { Authorized } from "./Authorized";
 export { Ctx } from "./Ctx";
+export { registerEnum } from "./enums";
 export { Field } from "./Field";
 export { FieldResolver } from "./FieldResolver";
 export { GraphQLArgsType } from "./GraphQLArgsType";
