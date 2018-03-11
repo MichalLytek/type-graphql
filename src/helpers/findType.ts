@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, TypeOptions, TypeValueThunk } from "../types/decorators";
+import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../types/decorators";
 import { bannedTypes } from "./returnTypes";
 
 export interface TypeInfo {
@@ -56,9 +56,8 @@ export function findType({
   }
 
   if (returnTypeFunc) {
-    const typeResolverValue = returnTypeFunc();
-    const getType = Array.isArray(typeResolverValue)
-      ? () => typeResolverValue[0]
+    const getType = Array.isArray(returnTypeFunc())
+      ? () => (returnTypeFunc() as [TypeValue])[0]
       : (returnTypeFunc as TypeValueThunk);
     return {
       getType,

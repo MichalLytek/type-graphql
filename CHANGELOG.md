@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features
 - add base support for GraphQL enums using TypeScript enums
+### Fixes
+- fix not working array type notation in circular dependencies (correct thunk generation)
 
 ## v0.7.0
 ### Features
