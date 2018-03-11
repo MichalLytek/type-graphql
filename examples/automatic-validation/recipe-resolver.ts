@@ -18,7 +18,7 @@ export class RecipeResolver {
     this.items = generateRecipes(100);
   }
 
-  @Query(returnType => Recipe, { array: true })
+  @Query(returnType => [Recipe])
   async recipes(@Args() options: RecipesArguments): Promise<Recipe[]> {
     const start: number = options.skip;
     const end: number = options.skip + options.take;

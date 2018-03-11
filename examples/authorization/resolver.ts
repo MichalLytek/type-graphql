@@ -8,7 +8,7 @@ export class Resolver {
   private recipesData: Recipe[] = sampleRecipes;
 
   // anyone can read recipes collection
-  @Query(itemType => Recipe, { array: true })
+  @Query(returnType => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipesData;
   }

@@ -1,4 +1,4 @@
-import { GraphQLResolver, Query, FieldResolver, Arg, Root, Mutation } from "../../src/index";
+import { GraphQLResolver, Query, FieldResolver, Arg, Root, Mutation } from "../../src";
 
 import { Recipe } from "./recipe-type";
 import { RecipeService } from "./recipe-service";
@@ -16,7 +16,7 @@ export class RecipeResolver {
     return this.recipeService.getOne(recipeId);
   }
 
-  @Query(returnType => Recipe, { array: true })
+  @Query(returnType => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipeService.getAll();
   }

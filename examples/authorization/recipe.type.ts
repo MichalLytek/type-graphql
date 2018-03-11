@@ -13,7 +13,7 @@ export class Recipe {
   ingredients: string[];
 
   @Authorized("ADMIN") // restrict access to rates details for admin only
-  @Field(type => Int, { array: true })
+  @Field(type => [Int])
   ratings: number[];
 
   @Field(type => Float, { nullable: true })

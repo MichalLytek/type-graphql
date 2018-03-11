@@ -34,7 +34,7 @@ export class RecipeResolver {
     return this.recipeRepository.findOneById(recipeId);
   }
 
-  @Query(returnType => Recipe, { array: true })
+  @Query(returnType => [Recipe])
   recipes(): Promise<Recipe[]> {
     return this.recipeRepository.find();
   }
