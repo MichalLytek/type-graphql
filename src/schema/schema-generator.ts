@@ -17,6 +17,7 @@ import {
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLEnumValueConfig,
+  GraphQLUnionType,
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
@@ -35,30 +36,35 @@ import {
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { GeneratingSchemaError } from "./GeneratingSchemaError";
 
-interface TypeInfo {
+interface ObjectTypeInfo {
   target: Function;
   type: GraphQLObjectType;
 }
-interface InputInfo {
+interface InputObjectTypeInfo {
   target: Function;
   type: GraphQLInputObjectType;
 }
-interface InterfaceInfo {
+interface InterfaceTypeInfo {
   target: Function;
   type: GraphQLInterfaceType;
 }
-interface EnumInfo {
+interface EnumTypeInfo {
   enumObj: object;
   type: GraphQLEnumType;
+}
+interface UnionTypeInfo {
+  unionSymbol: symbol;
+  type: GraphQLUnionType;
 }
 // tslint:disable-next-line:no-empty-interface
 export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
 export abstract class SchemaGenerator {
-  private static typesInfo: TypeInfo[] = [];
-  private static inputsInfo: InputInfo[] = [];
-  private static interfacesInfo: InterfaceInfo[] = [];
-  private static enumsInfo: EnumInfo[] = [];
+  private static objectTypesInfo: ObjectTypeInfo[] = [];
+  private static inputTypesInfo: InputObjectTypeInfo[] = [];
+  private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
+  private static enumTypesInfo: EnumTypeInfo[] = [];
+  private static unionTypesInfo: UnionTypeInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     await this.checkForErrors(options);
@@ -90,7 +96,21 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
-    this.enumsInfo = MetadataStorage.enums.map<EnumInfo>(enumDefinition => {
+    this.unionTypesInfo = MetadataStorage.unions.map<UnionTypeInfo>(unionDefintion => {
+      return {
+        unionSymbol: unionDefintion.symbol,
+        type: new GraphQLUnionType({
+          name: unionDefintion.name,
+          description: unionDefintion.description,
+          types: () =>
+            unionDefintion.types.map(
+              objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type,
+            ),
+          // resolveType: instance => instance instanceof this,
+        }),
+      };
+    });
+    this.enumTypesInfo = MetadataStorage.enums.map<EnumTypeInfo>(enumDefinition => {
       const enumMap = getEnumValuesMap(enumDefinition.enumObj);
       return {
         enumObj: enumDefinition.enumObj,
@@ -106,46 +126,48 @@ export abstract class SchemaGenerator {
         }),
       };
     });
-    this.interfacesInfo = MetadataStorage.interfaceTypes.map<InterfaceInfo>(interfaceType => {
-      const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
-      const hasExtended = interfaceSuperClass.prototype !== undefined;
-      const getSuperClassType = () =>
-        this.interfacesInfo.find(type => type.target === interfaceSuperClass)!.type;
-      return {
-        target: interfaceType.target,
-        type: new GraphQLInterfaceType({
-          name: interfaceType.name,
-          description: interfaceType.description,
-          fields: () => {
-            let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
-              (fieldsMap, field) => {
-                fieldsMap[field.name] = {
-                  description: field.description,
-                  type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-                };
-                return fieldsMap;
-              },
-              {},
-            );
-            // support for extending interface classes - get field info from prototype
-            if (hasExtended) {
-              fields = Object.assign(
+    this.interfaceTypesInfo = MetadataStorage.interfaceTypes.map<InterfaceTypeInfo>(
+      interfaceType => {
+        const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
+        const hasExtended = interfaceSuperClass.prototype !== undefined;
+        const getSuperClassType = () =>
+          this.interfaceTypesInfo.find(type => type.target === interfaceSuperClass)!.type;
+        return {
+          target: interfaceType.target,
+          type: new GraphQLInterfaceType({
+            name: interfaceType.name,
+            description: interfaceType.description,
+            fields: () => {
+              let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+                (fieldsMap, field) => {
+                  fieldsMap[field.name] = {
+                    description: field.description,
+                    type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                  };
+                  return fieldsMap;
+                },
                 {},
-                this.getFieldDefinitionFromObjectType(getSuperClassType()),
-                fields,
               );
-            }
-            return fields;
-          },
-        }),
-      };
-    });
+              // support for extending interface classes - get field info from prototype
+              if (hasExtended) {
+                fields = Object.assign(
+                  {},
+                  this.getFieldDefinitionFromObjectType(getSuperClassType()),
+                  fields,
+                );
+              }
+              return fields;
+            },
+          }),
+        };
+      },
+    );
 
-    this.typesInfo = MetadataStorage.objectTypes.map<TypeInfo>(objectType => {
+    this.objectTypesInfo = MetadataStorage.objectTypes.map<ObjectTypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
       const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () =>
-        this.typesInfo.find(type => type.target === objectSuperClass)!.type;
+        this.objectTypesInfo.find(type => type.target === objectSuperClass)!.type;
       const interfaceClasses = objectType.interfaceClasses || [];
       return {
         target: objectType.target,
@@ -153,7 +175,7 @@ export abstract class SchemaGenerator {
           name: objectType.name,
           description: objectType.description,
           isTypeOf: instance => {
-            if (interfaceClasses.length === 0 && !hasExtended) {
+            if (instance.constructor === Object) {
               return true;
             }
             return instance instanceof objectType.target;
@@ -161,7 +183,7 @@ export abstract class SchemaGenerator {
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
-                this.interfacesInfo.find(info => info.target === interfaceClass)!.type,
+                this.interfaceTypesInfo.find(info => info.target === interfaceClass)!.type,
             );
             // copy interfaces from super class
             if (hasExtended) {
@@ -206,7 +228,7 @@ export abstract class SchemaGenerator {
               const interfacesFields = objectType.interfaceClasses.reduce<
                 GraphQLFieldConfigMap<any, any>
               >((fieldsMap, interfaceClass) => {
-                const interfaceType = this.interfacesInfo.find(
+                const interfaceType = this.interfaceTypesInfo.find(
                   type => type.target === interfaceClass,
                 )!.type;
                 return Object.assign(
@@ -222,10 +244,10 @@ export abstract class SchemaGenerator {
       };
     });
 
-    this.inputsInfo = MetadataStorage.inputTypes.map<InputInfo>(inputType => {
+    this.inputTypesInfo = MetadataStorage.inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target);
       const getSuperClassType = () =>
-        this.inputsInfo.find(type => type.target === objectSuperClass)!.type;
+        this.inputTypesInfo.find(type => type.target === objectSuperClass)!.type;
       return {
         target: inputType.target,
         type: new GraphQLInputObjectType({
@@ -271,7 +293,10 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypes(): GraphQLNamedType[] {
-    return [...this.typesInfo.map(it => it.type), ...this.interfacesInfo.map(it => it.type)];
+    return [
+      ...this.objectTypesInfo.map(it => it.type),
+      ...this.interfaceTypesInfo.map(it => it.type),
+    ];
   }
 
   private static generateHandlerFields<T = any, U = any>(
@@ -379,21 +404,27 @@ export abstract class SchemaGenerator {
     let gqlType: GraphQLOutputType | undefined;
     gqlType = convertTypeIfScalar(type);
     if (!gqlType) {
-      const objectType = this.typesInfo.find(it => it.target === (type as Function));
+      const objectType = this.objectTypesInfo.find(it => it.target === (type as Function));
       if (objectType) {
         gqlType = objectType.type;
       }
     }
     if (!gqlType) {
-      const interfaceType = this.interfacesInfo.find(it => it.target === (type as Function));
+      const interfaceType = this.interfaceTypesInfo.find(it => it.target === (type as Function));
       if (interfaceType) {
         gqlType = interfaceType.type;
       }
     }
     if (!gqlType) {
-      const enumType = this.enumsInfo.find(it => it.enumObj === (type as Function));
+      const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
       if (enumType) {
         gqlType = enumType.type;
+      }
+    }
+    if (!gqlType) {
+      const unionType = this.unionTypesInfo.find(it => it.unionSymbol === (type as symbol));
+      if (unionType) {
+        gqlType = unionType.type;
       }
     }
     if (!gqlType) {
@@ -411,13 +442,13 @@ export abstract class SchemaGenerator {
     let gqlType: GraphQLInputType | undefined;
     gqlType = convertTypeIfScalar(type);
     if (!gqlType) {
-      const inputType = this.inputsInfo.find(it => it.target === (type as Function));
+      const inputType = this.inputTypesInfo.find(it => it.target === (type as Function));
       if (inputType) {
         gqlType = inputType.type;
       }
     }
     if (!gqlType) {
-      const enumType = this.enumsInfo.find(it => it.enumObj === (type as Function));
+      const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
       if (enumType) {
         gqlType = enumType.type;
       }

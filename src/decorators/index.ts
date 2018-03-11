@@ -14,3 +14,4 @@ export { Mutation } from "./Mutation";
 export { Query } from "./Query";
 export { Root } from "./Root";
 // export { Subscription } from "./Subscription";
+export { createUnionType } from "./unions";

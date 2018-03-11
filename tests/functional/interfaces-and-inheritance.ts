@@ -523,13 +523,9 @@ describe("Intefaces and inheritance", () => {
       }`;
 
       const result = await graphql(schema, query);
-      const error = result.errors![0];
 
       expect(result.data).toBeNull();
-      expect(error.message).toContain("BaseInterface");
-      expect(error.message).toContain("getInterfacePlainObject");
-      expect(error.message).toContain("resolveType");
-      expect(error.message).toContain("isTypeOf");
+      expect(result.errors).toHaveLength(1);
     });
 
     it("should return fields data of object type implementing interface", async () => {

@@ -1,4 +1,4 @@
-import { TypeOptions, TypeValueThunk, ClassTypeResolver } from "../types/decorators";
+import { TypeOptions, TypeValueThunk, ClassTypeResolver, ClassType } from "../types/decorators";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { ValidatorOptions } from "class-validator";
 
@@ -50,6 +50,15 @@ export interface EnumDefinition {
   enumObj: object;
   name: string;
   description?: string;
+}
+
+export interface UnionDefinition {
+  types: ClassType[];
+  name: string;
+  description?: string;
+}
+export interface UnionDefinitionWithSymbol extends UnionDefinition {
+  symbol: symbol;
 }
 
 /* Param definitions */

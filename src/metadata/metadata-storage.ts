@@ -7,6 +7,8 @@ import {
   ResolverDefinition,
   AuthorizationDefinition,
   EnumDefinition,
+  UnionDefinition,
+  UnionDefinitionWithSymbol,
 } from "./definition-interfaces";
 import { BaseResolverDefinitions } from "../types/resolvers";
 import { ClassType } from "../types/decorators";
@@ -21,6 +23,7 @@ export abstract class MetadataStorage {
   static interfaceTypes: ClassDefinition[] = [];
   static authorizedFields: AuthorizationDefinition[] = [];
   static enums: EnumDefinition[] = [];
+  static unions: UnionDefinitionWithSymbol[] = [];
 
   private static resolvers: ResolverDefinition[] = [];
   private static fields: FieldDefinition[] = [];
@@ -52,6 +55,14 @@ export abstract class MetadataStorage {
   }
   static registerEnumDefinition(definition: EnumDefinition) {
     this.enums.push(definition);
+  }
+  static registerUnionDefinition(definition: UnionDefinition) {
+    const unionSymbol = Symbol(definition.name);
+    this.unions.push({
+      ...definition,
+      symbol: unionSymbol,
+    });
+    return unionSymbol;
   }
 
   static registerResolver(definition: ResolverDefinition) {
@@ -88,6 +99,7 @@ export abstract class MetadataStorage {
     this.interfaceTypes = [];
     this.authorizedFields = [];
     this.enums = [];
+    this.unions = [];
 
     this.resolvers = [];
     this.fields = [];
