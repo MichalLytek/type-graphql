@@ -1,0 +1,38 @@
+query AllRecipes {
+  recipes {
+    title
+    description
+    preparationDifficulty
+    cook {
+      name
+    }
+  }
+}
+
+query EasyRecipes {
+  recipes(difficulty: Easy) {
+    title
+    description
+    ingredients
+    cook {
+      name
+    }
+  }
+}
+
+query SearchByCookName {
+  search(cookName: "Gordon") {
+    __typename
+    ... on Recipe {
+      title
+      preparationDifficulty
+      cook {
+        name
+      }
+    }
+    ... on Cook {
+      name
+      yearsOfExperience
+    }
+  }
+}
