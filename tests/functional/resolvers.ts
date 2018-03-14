@@ -10,7 +10,9 @@ import {
   IntrospectionField,
   GraphQLSchema,
   graphql,
+  TypeKind,
 } from "graphql";
+import * as path from "path";
 
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -32,6 +34,7 @@ import {
   ResolverInterface,
 } from "../../src";
 import { plainToClass } from "class-transformer";
+import { getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -994,5 +997,33 @@ describe("Resolvers", () => {
       expect(fieldResolverWithRootValue).toBeLessThanOrEqual(1);
       expect(fieldResolverWithRootValue).not.toEqual(getterFieldValue);
     });
+  });
+
+  it("should load resolvers from glob paths", async () => {
+    MetadataStorage.clear();
+
+    const { queryType } = await getSchemaInfo({
+      resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+    });
+
+    const directoryQueryReturnType = getInnerTypeOfNullableType(
+      queryType.fields.find(field => field.name === "sampleQuery")!,
+    );
+
+    expect(queryType.fields).toHaveLength(1);
+    expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
+    expect(directoryQueryReturnType.name).toEqual("SampleObject");
+  });
+
+  it("should throw errors when no resolvers provided", async () => {
+    MetadataStorage.clear();
+    expect.assertions(2);
+
+    try {
+      await buildSchema({ resolvers: [] });
+    } catch (err) {
+      expect(err.message).toContain("Empty");
+      expect(err.message).toContain("resolvers");
+    }
   });
 });

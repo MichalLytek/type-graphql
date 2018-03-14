@@ -4,6 +4,7 @@
 ### Features
 - add base support for GraphQL enums using TypeScript enums
 - add support for defining GraphQL unions
+- add support for importing resolvers from file path glob
 ### Fixes
 - fix not working array type notation in circular dependencies (correct thunk generation)
 

@@ -37,10 +37,12 @@
     "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {
+    "@types/glob": "^5.0.35",
     "@types/graphql": "^0.12.4",
     "@types/node": "^9.4.6",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.8.1",
+    "glob": "^7.1.2",
     "graphql": "^0.13.1"
   },
   "devDependencies": {
