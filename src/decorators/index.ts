@@ -4,7 +4,7 @@ export { Args } from "./Args";
 export { ArgsType, ArgsType as GraphQLArgsType } from "./ArgsType";
 export { Authorized } from "./Authorized";
 export { Ctx } from "./Ctx";
-export { registerEnum } from "./enums";
+export { registerEnumType } from "./enums";
 export { Field } from "./Field";
 export { FieldResolver } from "./FieldResolver";
 // export { InputType } from "./InputType";

@@ -24,7 +24,7 @@ import {
   InputType,
   Query,
   Arg,
-  registerEnum,
+  registerEnumType,
   createUnionType,
 } from "../../src";
 

@@ -1,4 +1,4 @@
-import { registerEnum } from "../../src";
+import { registerEnumType } from "../../src";
 
 export enum Difficulty {
   Beginner,
@@ -8,7 +8,7 @@ export enum Difficulty {
   Masterchef,
 }
 
-registerEnum(Difficulty, {
+registerEnumType(Difficulty, {
   name: "Difficulty",
   description: "All possible preparation difficulty levels",
 });

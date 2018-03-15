@@ -13,7 +13,7 @@ import {
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerInputFieldType, getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
-import { Field, InputType, Query, Arg, registerEnum } from "../../src";
+import { Field, InputType, Query, Arg, registerEnumType } from "../../src";
 
 describe("Enums", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -29,14 +29,14 @@ describe("Enums", () => {
       Three,
       Four,
     }
-    registerEnum(NumberEnum, { name: "NumberEnum" });
+    registerEnumType(NumberEnum, { name: "NumberEnum" });
 
     enum StringEnum {
       One = "ONE",
       Two = "TWO",
       Three = "THREE",
     }
-    registerEnum(StringEnum, { name: "StringEnum", description: "custom string enum" });
+    registerEnumType(StringEnum, { name: "StringEnum", description: "custom string enum" });
 
     @InputType()
     class NumberEnumInput {

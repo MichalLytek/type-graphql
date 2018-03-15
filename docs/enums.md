@@ -26,9 +26,9 @@ enum Direction {
 ```
 Then, we should mark the enums with `@GraphQLEnumType()` decorator. However TypeScript's decorators works only with classes, so we need to mark the enums manually by calling the register function and providing the enum name for GraphQL:
 ```ts
-import { registerEnum } from "type-graphql";
+import { registerEnumType } from "type-graphql";
 
-registerEnum(Direction, {
+registerEnumType(Direction, {
   name: "Direction", // this one is mandatory
   description: "The basic directions", // this one is optional
 });
