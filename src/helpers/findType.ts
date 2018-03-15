@@ -1,5 +1,6 @@
 import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../types/decorators";
 import { bannedTypes } from "./returnTypes";
+import { NoExplicitTypeError, CannotDetermineTypeError } from "../errors";
 
 export interface TypeInfo {
   getType: TypeValueThunk;
@@ -37,14 +38,7 @@ export function findType({
 
   if (metadataDesignType && bannedTypes.includes(metadataDesignType)) {
     if (!returnTypeFunc) {
-      let errorMessage = `You need to provide explicit type for ${
-        prototype.constructor.name
-      }#${propertyKey}`;
-      if (parameterIndex !== undefined) {
-        errorMessage += ` parameter #${parameterIndex}`;
-      }
-      errorMessage += " !";
-      throw new Error(errorMessage);
+      throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex);
     }
     if (metadataDesignType === Array) {
       options.array = true;
@@ -69,11 +63,6 @@ export function findType({
       typeOptions: options,
     };
   } else {
-    let errorMessage = `Cannot determine type for ${prototype.constructor.name}#${propertyKey}`;
-    if (parameterIndex) {
-      errorMessage += ` parameter #${parameterIndex}`;
-    }
-    errorMessage += " .";
-    throw new Error(errorMessage);
+    throw new CannotDetermineTypeError(prototype.constructor.name, propertyKey, parameterIndex);
   }
 }
