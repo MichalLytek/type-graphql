@@ -27,7 +27,7 @@ Then, your resolvers will be able to declare their dependecies and TypeGraphQL w
 import { Service } from "typedi";
 
 @Service()
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
     // constructor injection of a service

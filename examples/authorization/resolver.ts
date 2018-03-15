@@ -1,10 +1,10 @@
-import { GraphQLResolver, Query, Authorized, Mutation, Arg } from "../../src";
+import { Resolver, Query, Authorized, Mutation, Arg } from "../../src";
 
 import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./sample-recipes";
 
-@GraphQLResolver()
-export class Resolver {
+@Resolver()
+export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes;
 
   // anyone can read recipes collection

@@ -1,11 +1,11 @@
-import { GraphQLResolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src/index";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src/index";
 import { Repository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
 
-@GraphQLResolver(objectType => Rate)
+@Resolver(objectType => Rate)
 export class RateResolver {
   constructor(
     @OrmRepository(User)

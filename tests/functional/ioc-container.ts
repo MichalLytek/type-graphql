@@ -5,9 +5,9 @@ import { Container, Service } from "typedi";
 import { IOCContainer } from "../../src/utils/container";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import {
-  GraphQLObjectType,
+  ObjectType,
   Field,
-  GraphQLResolver,
+  Resolver,
   Query,
   useContainer,
   buildSchema,
@@ -27,12 +27,12 @@ describe("IOC container", () => {
     class SampleService {
       value = initValue;
     }
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field({ nullable: true })
       field?: string;
     }
-    @GraphQLResolver(objectType => SampleObject)
+    @Resolver(objectType => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
       @Query()
@@ -58,12 +58,12 @@ describe("IOC container", () => {
 
   it("should use default container to instantiate resolver class", async () => {
     let resolverValue: number | undefined;
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field({ nullable: true })
       field?: string;
     }
-    @GraphQLResolver(objectType => SampleObject)
+    @Resolver(objectType => SampleObject)
     class SampleResolver {
       value = Math.random();
       @Query()

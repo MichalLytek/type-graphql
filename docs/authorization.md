@@ -9,7 +9,7 @@ And that's why authorization is a first-class feature in `TypeGraphQL`!
 At first, you need to use `@Authorized` decorator as a guard on a field or a query/mutation.
 Example object type's fields guards:
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class MyObject {
   @Field()
   publicField: string;
@@ -34,7 +34,7 @@ This way authed users (regardless of theirs roles) could read only `publicField`
 
 Sample query and mutations guards:
 ```ts
-@GraphQLResolver()
+@Resolver()
 class MyResolver {
   @Query()
   publicQuery(): MyObject {

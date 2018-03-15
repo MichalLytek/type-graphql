@@ -11,7 +11,7 @@ This shorthand allows you to save keystrokes when declaring field type:
 // import the aliases
 import { ID, Float, Int } from "type-graphql";
 
-@GraphQLObjectType()
+@ObjectType()
 class SampleObject {
   @Field(type => ID)
   readonly id: string;
@@ -27,7 +27,7 @@ In the last case you can ommit the `type => Float` since JavaScript `Number` wil
 
 Other scalars - `GraphQLString` and `GraphQLBoolean` doesn't need aliases - when it's possible, they will be reflected automatically:
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class User {
   @Field()
   name: string;
@@ -39,7 +39,7 @@ class User {
 
 However in some cases you will have to explicitly declare the string/bool scalar type. Use JS constructor functions (`String`, `Boolean`) then:
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class SampleObject {
   @Field(type => String, { nullable: true })
   get optionalInfo(): string | undefined { // TS reflected type is `Object` :(
@@ -69,7 +69,7 @@ const schema = await buildSchema({
 
 There's no need to explicitly declare the field type then:
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class User {
   @Field()
   registrationDate: Date;
@@ -108,7 +108,7 @@ Then you can just use it in your field decorators:
 // import the earlier created const
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 
-@GraphQLObjectType()
+@ObjectType()
 class User {
   @Field(type => ObjectIdScalar) // and explicitly use it
   readonly id: ObjectId;
@@ -123,7 +123,7 @@ class User {
 
 Optionally, you can delcare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class User {
   @Field() // magic goes here - no type annotation for custom scalar
   readonly id: ObjectId;

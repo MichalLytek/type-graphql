@@ -1,6 +1,6 @@
-import { GraphQLObjectType, Field, Int, Authorized, Float } from "../../src";
+import { ObjectType, Field, Int, Authorized, Float } from "../../src";
 
-@GraphQLObjectType()
+@ObjectType()
 export class Recipe {
   @Field()
   title: string;

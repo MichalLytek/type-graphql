@@ -4,17 +4,17 @@ import { GraphQLSchema, graphql } from "graphql";
 
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import {
-  GraphQLInputType,
+  InputType,
   Field,
   buildSchema,
   Arg,
-  GraphQLObjectType,
-  GraphQLResolver,
+  ObjectType,
+  Resolver,
   Mutation,
   Query,
   ArgumentValidationError,
   Args,
-  GraphQLArgsType,
+  ArgsType,
 } from "../../src";
 
 describe("Validation", () => {
@@ -32,13 +32,13 @@ describe("Validation", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
 
-      @GraphQLInputType()
+      @InputType()
       class SampleInput {
         @Field()
         @MaxLength(5)
@@ -53,7 +53,7 @@ describe("Validation", () => {
         optionalField?: number;
       }
 
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
@@ -68,7 +68,7 @@ describe("Validation", () => {
         optionalField?: number;
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -242,18 +242,18 @@ describe("Validation", () => {
     it("should pass incorrect args when validation is turned off", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -280,18 +280,18 @@ describe("Validation", () => {
     it("should pass incorrect args when validation is locally turned off", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -321,18 +321,18 @@ describe("Validation", () => {
     it("should throw validation error when validation is locally turned on", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5)
         field: string;
       }
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -369,18 +369,18 @@ describe("Validation", () => {
     it("should throw validation error for incorrect args when applied local validation settings", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
         field: string;
       }
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(
@@ -417,18 +417,18 @@ describe("Validation", () => {
     it("should pass validation of incorrect args when applied local validation settings", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         field?: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["not-test"] })
         field: string;
       }
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(

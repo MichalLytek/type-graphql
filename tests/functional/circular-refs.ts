@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { IntrospectionObjectType } from "graphql";
 
-import { Query, GraphQLObjectType, Field } from "../../src";
+import { Query, ObjectType, Field } from "../../src";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -12,7 +12,7 @@ describe("Circular references", () => {
     const { CircularRef1 } = require("../helpers/circular-refs/good/CircularRef1");
     const { CircularRef2 } = require("../helpers/circular-refs/good/CircularRef2");
 
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field(type => CircularRef1)
       ref1: any;

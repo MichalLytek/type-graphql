@@ -9,7 +9,7 @@ import {
 
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { GraphQLObjectType, Field, Query, GraphQLResolver } from "../../src";
+import { ObjectType, Field, Query, Resolver } from "../../src";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -20,12 +20,12 @@ describe("Fields - schema", () => {
   beforeAll(async () => {
     MetadataStorage.clear();
 
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleNestedObject {
       @Field() stringField: string;
     }
 
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field() implicitStringField: string;
 
@@ -56,7 +56,7 @@ describe("Fields - schema", () => {
       nullableObjectArrayField: SampleNestedObject[] | null;
     }
 
-    @GraphQLResolver(objectType => SampleObject)
+    @Resolver(objectType => SampleObject)
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {
@@ -92,7 +92,7 @@ describe("Fields - schema", () => {
     MetadataStorage.clear();
 
     try {
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field() invalidSampleField: any;
       }
@@ -109,7 +109,7 @@ describe("Fields - schema", () => {
     MetadataStorage.clear();
 
     try {
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field() invalidSampleArrayField: string[];
       }
@@ -126,7 +126,7 @@ describe("Fields - schema", () => {
     MetadataStorage.clear();
 
     try {
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         invalidSampleNullableField: string | null;
@@ -144,7 +144,7 @@ describe("Fields - schema", () => {
 
     const symbolKey = Symbol("symbolKey");
     try {
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field({ nullable: true })
         [symbolKey]: string | null;

@@ -17,17 +17,17 @@ import * as path from "path";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
-  GraphQLObjectType,
+  ObjectType,
   Field,
-  GraphQLResolver,
+  Resolver,
   Query,
   Arg,
-  GraphQLInputType,
+  InputType,
   Root,
   Ctx,
   Mutation,
   Args,
-  GraphQLArgsType,
+  ArgsType,
   Int,
   buildSchema,
   FieldResolver,
@@ -47,12 +47,12 @@ describe("Resolvers", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLInputType()
+      @InputType()
       class SampleInput {
         @Field() field: string;
       }
 
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArgs {
         @Field() stringArg: string;
         @Field(type => Int, { nullable: true })
@@ -60,7 +60,7 @@ describe("Resolvers", () => {
         @Field() inputObjectArg: SampleInput;
       }
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field() normalField: string;
 
@@ -95,7 +95,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLResolver(() => SampleObject)
+      @Resolver(() => SampleObject)
       class LambdaResolver {
         @Query()
         lambdaQuery(): boolean {
@@ -103,7 +103,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLResolver(SampleObject)
+      @Resolver(SampleObject)
       class ClassResolver {
         @Query()
         classQuery(): boolean {
@@ -111,7 +111,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         emptyQuery(): boolean {
@@ -547,7 +547,7 @@ describe("Resolvers", () => {
         expect.assertions(5);
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Query(() => String)
             sampleQuery(@Arg("arg") arg: any): string {
@@ -568,7 +568,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Query()
             sampleQuery() {
@@ -587,7 +587,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Query()
             sampleQuery(): any {
@@ -606,7 +606,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Mutation()
             sampleMutation() {
@@ -625,7 +625,7 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Mutation()
             sampleMutation(): any {
@@ -643,13 +643,13 @@ describe("Resolvers", () => {
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
         expect.assertions(3);
 
-        @GraphQLObjectType()
+        @ObjectType()
         class SampleObject {
           @Field() sampleField: string;
         }
 
         try {
-          @GraphQLResolver()
+          @Resolver()
           class SampleResolver {
             @Query()
             sampleQuery(): string {
@@ -666,7 +666,7 @@ describe("Resolvers", () => {
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           const error = err as Error;
-          expect(error.message).toContain("@GraphQLResolver");
+          expect(error.message).toContain("@Resolver");
           expect(error.message).toContain("SampleResolver");
         }
       });
@@ -679,7 +679,7 @@ describe("Resolvers", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArgs {
         private readonly TRUE = true;
         instanceField = Math.random();
@@ -691,7 +691,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLInputType()
+      @InputType()
       class SampleInput {
         private readonly TRUE = true;
         instanceField = Math.random();
@@ -703,7 +703,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         private readonly TRUE = true;
         isTrue() {
@@ -734,7 +734,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
         randomValueField = Math.random() * this.factor;

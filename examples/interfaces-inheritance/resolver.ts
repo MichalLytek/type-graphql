@@ -1,4 +1,4 @@
-import { GraphQLResolver, Query, Arg, Mutation, Args } from "../../src";
+import { Resolver, Query, Arg, Mutation, Args } from "../../src";
 import { plainToClass } from "class-transformer";
 
 import { getId, calculateAge } from "./helpers";
@@ -8,7 +8,7 @@ import { StudentInput } from "./student/student.input";
 import { EmployeeInput } from "./employee/employee.input";
 import { IPerson } from "./person/person.interface";
 
-@GraphQLResolver(type => IPerson as any)
+@Resolver(type => IPerson as any)
 export class MultiResolver {
   private readonly personsRegistry: IPerson[] = [];
 

@@ -8,7 +8,7 @@ And that's why TypeGraphQL has bulit-in support for validation of arguments and 
 ## How to use
 At first, you have to decorate the input/arguments class with appropiate decorators from `class-validator`. So we take this:
 ```ts
-@GraphQLInputType()
+@InputType()
 export class RecipeInput {
   @Field()
   title: string;
@@ -21,7 +21,7 @@ and produce this:
 ```ts
 import { MaxLength, Length } from "class-validator";
 
-@GraphQLInputType()
+@InputType()
 export class RecipeInput {
   @Field()
   @MaxLength(30)
@@ -36,7 +36,7 @@ And that's it! :wink:
 
 TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
 ```ts
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   @Mutation(() => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {

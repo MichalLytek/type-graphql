@@ -36,7 +36,7 @@ registerEnum(Direction, {
 
 The last step is very important: TypeScript has limited reflection ability, so we have to explicitly provide the enum type both for object/input type fields as well as return type of queries/mutations or arg type:
 ```ts
-@GraphQLInputType()
+@InputType()
 class JourneyInput {
   @Field(type => Direction) // it's very important
   direction: Direction;

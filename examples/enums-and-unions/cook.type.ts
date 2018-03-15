@@ -1,7 +1,7 @@
-import { Field, GraphQLObjectType, Int } from "../../src";
+import { Field, ObjectType, Int } from "../../src";
 import { Recipe } from "./recipe.type";
 
-@GraphQLObjectType()
+@ObjectType()
 export class Cook {
   @Field()
   name: string;

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { graphql, introspectionQuery, IntrospectionSchema, IntrospectionObjectType } from "graphql";
 
-import { GraphQLObjectType, GraphQLResolver, Field, Query, Mutation, buildSchema } from "../../src";
+import { ObjectType, Resolver, Field, Query, Mutation, buildSchema } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Deprecation", () => {
@@ -13,7 +13,7 @@ describe("Deprecation", () => {
     beforeAll(async () => {
       // create sample definitions
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field() normalField: string;
 
@@ -31,7 +31,7 @@ describe("Deprecation", () => {
         }
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {

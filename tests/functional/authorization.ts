@@ -4,11 +4,11 @@ import { GraphQLSchema, graphql } from "graphql";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import {
   Field,
-  GraphQLObjectType,
+  ObjectType,
   Ctx,
   Authorized,
   Query,
-  GraphQLResolver,
+  Resolver,
   buildSchema,
   FieldResolver,
   UnauthorizedError,
@@ -23,7 +23,7 @@ describe("Authorization", () => {
   beforeAll(async () => {
     MetadataStorage.clear();
 
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field() normalField: string;
 
@@ -48,7 +48,7 @@ describe("Authorization", () => {
       inlineAuthedResolvedField: string;
     }
 
-    @GraphQLResolver(objectType => SampleObject)
+    @Resolver(objectType => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {

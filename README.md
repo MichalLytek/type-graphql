@@ -22,7 +22,7 @@ We have API for cooking recipes and we love using GraphQL for it.
 At first we will create the `Recipe` type, which is the foundations of our API:
 
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class Recipe {
   @Field(type => ID)
   readonly id: string;
@@ -42,7 +42,7 @@ class Recipe {
 ```
 Take a look at the decorators:
 
-- `@GraphQLObjectType()` marks the class as the object shape known from GraphQL SDL as `type`
+- `@ObjectType()` marks the class as the object shape known from GraphQL SDL as `type`
 - `@Field()` marks the property as the object's field - it is also used to collect type metadata from TypeScript reflection system
 - the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
 - due to reflection limitation, optional (nullable) fields has to be annotated with `{ nullable: true }` decorator param
@@ -62,7 +62,7 @@ type Recipe {
 Next, we need to define what is the `Rate` type:
 
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class Rate {
   @Field(type => Int)
   value: number;
@@ -82,16 +82,16 @@ So, as we have the base of our recipe related types, let's create a resolver!
 
 We will start by creating a class with apropiate decorator:
 ```ts
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   // we will implement this later
 }
 ```
-`@GraphQLResolver` marks our class as a resolver of type `Recipe` (type info is needed for attaching field resolver to correct type).
+`@Resolver` marks our class as a resolver of type `Recipe` (type info is needed for attaching field resolver to correct type).
 
 Now let's create our first query:
 ```ts
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
     // declare to inject instance of our repository
@@ -110,7 +110,7 @@ export class RecipeResolver {
 
 So, how the `FindRecipeArgs` looks like?
 ```ts
-@GraphQLArgsType()
+@ArgsType()
 class FindRecipeArgs {
   @Field(type => ID)
   recipeId: string;
@@ -167,7 +167,7 @@ class RecipeResolver {
 
 Here's how `RateInput` type looks:
 ```ts
-@GraphQLInputType()
+@InputType()
 class RateInput {
   @Field(type => ID)
   recipeId: string;
@@ -176,7 +176,7 @@ class RateInput {
   value: number;
 }
 ```
-`@GraphQLInputType()` marks the class as the `input` in SDL, in oposite to `type` or `scalar`
+`@InputType()` marks the class as the `input` in SDL, in oposite to `type` or `scalar`
 
 The corresponding GraphQL schema:
 ```graphql
@@ -209,7 +209,7 @@ class RecipeResolver {
 
 The whole `RecipeResolver` we discussed above with sample implementation of methods looks like this:
 ```ts
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
     // inject the repository (or other services)
@@ -269,7 +269,7 @@ So the GQL type classes would be also reused by ORM or validation lib:
 import { Entity, ObjectIdColumn, Column, OneToMany, CreateDateColumn } from "typeorm";
 
 @Entity()
-@GraphQLObjectType()
+@ObjectType()
 export class Recipe {
   @ObjectIdColumn()
   @Field(type => ID)
@@ -300,7 +300,7 @@ export class Recipe {
 ```ts
 import { IsMongoId, Min, Max } from "class-validator";
 
-@GraphQLInputType()
+@InputType()
 class RateInput {
   @IsMongoId()
   @Field(type => ID)

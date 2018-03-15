@@ -3,14 +3,14 @@ import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 import { buildSchema } from "../../src";
 
-import { Resolver } from "./resolver";
+import { ExampleResolver } from "./resolver";
 import { Context } from "./context.interface";
 import { authChecker } from "./auth-checker";
 
 void async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
-    resolvers: [Resolver],
+    resolvers: [ExampleResolver],
     authChecker, // register auth checking function
   });
 

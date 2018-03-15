@@ -1,4 +1,4 @@
-import { Field, ID, GraphQLObjectType, Int, Float } from "../../../src";
+import { Field, ID, ObjectType, Int, Float } from "../../../src";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 
 import { Rate } from "./rate";
@@ -6,7 +6,7 @@ import { User } from "./user";
 import { Lazy } from "../helpers";
 
 @Entity()
-@GraphQLObjectType()
+@ObjectType()
 export class Recipe {
   @Field(type => ID)
   @PrimaryGeneratedColumn()

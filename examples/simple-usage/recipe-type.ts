@@ -1,6 +1,6 @@
-import { Field, ID, GraphQLObjectType, Int, Float } from "../../src/index";
+import { Field, ID, ObjectType, Int, Float } from "../../src/index";
 
-@GraphQLObjectType({ description: "Object representing cooking recipe" })
+@ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
   @Field()
   title: string;

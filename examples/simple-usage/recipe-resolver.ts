@@ -1,5 +1,5 @@
 import {
-  GraphQLResolver,
+  Resolver,
   Query,
   FieldResolver,
   Arg,
@@ -13,7 +13,7 @@ import {
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[];
   constructor() {

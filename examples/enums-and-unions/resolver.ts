@@ -1,4 +1,4 @@
-import { GraphQLResolver, Query, Arg } from "../../src";
+import { Resolver, Query, Arg } from "../../src";
 
 import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./recipe.samples";
@@ -7,8 +7,8 @@ import { SearchResult } from "./search-result.union";
 import { Cook } from "./cook.type";
 import { sampleCooks } from "./cook.samples";
 
-@GraphQLResolver()
-export class Resolver {
+@Resolver()
+export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes;
   private cooks: Cook[] = sampleCooks;
 

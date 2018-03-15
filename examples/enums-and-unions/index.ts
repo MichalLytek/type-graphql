@@ -3,12 +3,12 @@ import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 import { useContainer, buildSchema } from "../../src";
 
-import { Resolver } from "./resolver";
+import { ExampleResolver } from "./resolver";
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
-    resolvers: [Resolver],
+    resolvers: [ExampleResolver],
   });
 
   // create express-based gql endpoint

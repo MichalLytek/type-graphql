@@ -7,7 +7,7 @@ You can read more about GraphQL union type in [official docs](http://graphql.org
 Let's start by creating the object types from example above:
 
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class Movie {
   @Field()
   name: string;
@@ -17,7 +17,7 @@ class Movie {
 }
 ```
 ```ts
-@GraphQLObjectType()
+@ObjectType()
 class Actor {
   @Field()
   name: string;
@@ -41,7 +41,7 @@ All that left to do is to use the union type in the query.
 Notice, that due to TypeScript's reflection limitation, you have to explicitly use `SearchResultUnion` value in `@Query` decorator return type annotation.
 For TS compile-time type safety you can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
 ```ts
-@GraphQLResolver()
+@Resolver()
 class SearchResolver {
   @Query(returnType => [SearchResultUnion])
   async search(

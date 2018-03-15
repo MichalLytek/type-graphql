@@ -1,6 +1,6 @@
-import { GraphQLInputType, Field, Int, ID } from "../../../../src";
+import { InputType, Field, Int, ID } from "../../../../src";
 
-@GraphQLInputType()
+@InputType()
 export class RateInput {
   @Field(type => ID)
   recipeId: string;

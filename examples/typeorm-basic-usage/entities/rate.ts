@@ -1,4 +1,4 @@
-import { GraphQLObjectType, Field, Int } from "../../../src";
+import { ObjectType, Field, Int } from "../../../src";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 import { User } from "./user";
@@ -6,7 +6,7 @@ import { Recipe } from "./recipe";
 import { RelationColumn } from "../helpers";
 
 @Entity()
-@GraphQLObjectType()
+@ObjectType()
 export class Rate {
   @PrimaryGeneratedColumn()
   readonly id: number;

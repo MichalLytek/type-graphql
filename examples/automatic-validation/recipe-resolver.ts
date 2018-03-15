@@ -1,5 +1,5 @@
 import {
-  GraphQLResolver,
+  Resolver,
   Query,
   Arg,
   Mutation,
@@ -11,7 +11,7 @@ import { RecipeInput } from "./recipe-input";
 import { RecipesArguments } from "./recipes-arguments";
 import { generateRecipes } from "./helpers";
 
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[];
   constructor() {

@@ -1,7 +1,7 @@
-import { Field, ID, GraphQLObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "../../../src";
 import { PrimaryGeneratedColumn, Column, Entity } from "typeorm";
 
-@GraphQLObjectType()
+@ObjectType()
 @Entity()
 export class User {
   @Field(type => ID)

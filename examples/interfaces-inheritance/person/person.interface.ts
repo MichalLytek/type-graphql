@@ -1,8 +1,8 @@
-import { GraphQLInterfaceType, Field, Int, ID } from "../../../src";
+import { InterfaceType, Field, Int, ID } from "../../../src";
 
 import { IResource } from "../resource/resource.interface";
 
-@GraphQLInterfaceType()
+@InterfaceType()
 export abstract class IPerson implements IResource {
   @Field(type => ID)
   id: string;

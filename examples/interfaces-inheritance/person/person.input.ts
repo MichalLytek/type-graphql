@@ -1,6 +1,6 @@
-import { GraphQLInputType, Field } from "../../../src";
+import { InputType, Field } from "../../../src";
 
-@GraphQLInputType()
+@InputType()
 export class PersonInput {
   @Field()
   name: string;

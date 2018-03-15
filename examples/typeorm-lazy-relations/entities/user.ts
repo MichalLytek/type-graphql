@@ -1,10 +1,10 @@
-import { Field, ID, GraphQLObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "../../../src";
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
 
 import { Recipe } from "./recipe";
 import { Lazy } from "../helpers";
 
-@GraphQLObjectType()
+@ObjectType()
 @Entity()
 export class User {
   @Field(type => ID)

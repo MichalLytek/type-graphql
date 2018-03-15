@@ -13,7 +13,7 @@ import {
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerInputFieldType, getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
-import { Field, GraphQLInputType, Query, Arg, registerEnum } from "../../src";
+import { Field, InputType, Query, Arg, registerEnum } from "../../src";
 
 describe("Enums", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -38,13 +38,13 @@ describe("Enums", () => {
     }
     registerEnum(StringEnum, { name: "StringEnum", description: "custom string enum" });
 
-    @GraphQLInputType()
+    @InputType()
     class NumberEnumInput {
       @Field(type => NumberEnum)
       numberEnumField: NumberEnum;
     }
 
-    @GraphQLInputType()
+    @InputType()
     class StringEnumInput {
       @Field(type => StringEnum)
       stringEnumField: StringEnum;

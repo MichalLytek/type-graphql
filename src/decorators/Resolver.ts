@@ -1,10 +1,10 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { ClassType, ClassTypeResolver } from "../types/decorators";
 
-export function GraphQLResolver(typeFunc: ClassTypeResolver): ClassDecorator;
-export function GraphQLResolver(objectType: ClassType): ClassDecorator;
-export function GraphQLResolver(): ClassDecorator;
-export function GraphQLResolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
+export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;
+export function Resolver(objectType: ClassType): ClassDecorator;
+export function Resolver(): ClassDecorator;
+export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
   return target => {
     const getParentType = objectTypeOrTypeFunc
       ? objectTypeOrTypeFunc.prototype
@@ -12,7 +12,7 @@ export function GraphQLResolver(objectTypeOrTypeFunc?: Function): ClassDecorator
         : (objectTypeOrTypeFunc as ClassTypeResolver)
       : () => {
           throw new Error(
-            `No provided object type in '@GraphQLResolver' decorator for class '${target.name}!'`,
+            `No provided object type in '@Resolver' decorator for class '${target.name}!'`,
           );
         };
     MetadataStorage.registerResolver({

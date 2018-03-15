@@ -1,6 +1,6 @@
-import { Field, GraphQLObjectType } from "../../../src";
+import { Field, ObjectType } from "../../../src";
 
-@GraphQLObjectType()
+@ObjectType()
 export class SampleObject {
   @Field() sampleField: string;
 }

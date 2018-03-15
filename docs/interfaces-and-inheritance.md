@@ -9,10 +9,10 @@ TypeScript has first class support for interfaces. Unfortunatelly, they exist on
 
 Luckily, we can use abstract class for this purpose - it behave almost like an interface (can't be "newed", can be implemented by class), it just won't stop developers from implementing a method or initializing a field. But until we do the same things like with an interface, we can safely use it.
 
-So, how to create GraphQL interface definition? We create an abstract class and decorate it with `@GraphQLInterfaceType()`. The rest is exactly the same as with object types - we use `@Field` to declare the shape of the type:
+So, how to create GraphQL interface definition? We create an abstract class and decorate it with `@InterfaceType()`. The rest is exactly the same as with object types - we use `@Field` to declare the shape of the type:
 
 ```ts
-@GraphQLInterfaceType()
+@InterfaceType()
 abstract class IPerson {
   @Field(type => ID)
   id: string;
@@ -28,7 +28,7 @@ abstract class IPerson {
 Then we can use this "interface" in object type class definition:
 
 ```ts
-@GraphQLObjectType({ implements: IPerson })
+@ObjectType({ implements: IPerson })
 class Person implements IPerson {
   id: string;
   name: string;
@@ -47,7 +47,7 @@ One of the most known principles of software development is DRY - don't repeat y
 
 While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like `skip` and `take`. So instead of repeating yourself, you can declare it once: 
 ```ts
-@GraphQLArgsType()
+@ArgsType()
 class PaginationArgs {
   @Field(type => Int, { nullable: true })
   skip: number = 0;
@@ -59,7 +59,7 @@ class PaginationArgs {
 
 and then reuse it everywhere:
 ```ts
-@GraphQLArgsType()
+@ArgsType()
 class GetTodosArgs extends PaginationArgs {
   @Field({ nullable: false })
   onlyCompleted: boolean = false;
@@ -69,7 +69,7 @@ class GetTodosArgs extends PaginationArgs {
 This technique also works with input type classes, as well as with object type classes:
 ```ts
 // `Person` is the object type class we've created earlier in this docs
-@GraphQLObjectType()
+@ObjectType()
 class Student extends Person {
   @Field()
   universityName: string;

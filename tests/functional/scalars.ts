@@ -14,10 +14,10 @@ import {
 } from "graphql";
 
 import {
-  GraphQLObjectType,
-  GraphQLArgsType,
-  GraphQLInputType,
-  GraphQLResolver,
+  ObjectType,
+  ArgsType,
+  InputType,
+  Resolver,
   Field,
   Query,
   Mutation,
@@ -50,7 +50,7 @@ describe("Scalars", () => {
   beforeAll(async () => {
     // create sample definitions
 
-    @GraphQLObjectType()
+    @ObjectType()
     class SampleObject {
       @Field(type => ID)
       idField: any;
@@ -89,7 +89,7 @@ describe("Scalars", () => {
       customScalarField: any;
     }
 
-    @GraphQLResolver(objectType => SampleObject)
+    @Resolver(objectType => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
@@ -253,13 +253,13 @@ describe("Scalars", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLInputType()
+      @InputType()
       class DateInput {
         @Field(type => Date)
         date: any;
       }
 
-      @GraphQLResolver()
+      @Resolver()
       class SampleResolver {
         @Query(returnType => Date)
         returnDate(): any {
@@ -419,13 +419,13 @@ describe("Scalars", () => {
     beforeAll(() => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field(type => Date)
         dateField: any;
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -470,12 +470,12 @@ describe("Scalars", () => {
     it("should generate custom scalar field type when defined in scalarMap", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field() customField: CustomType;
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -496,13 +496,13 @@ describe("Scalars", () => {
     it("should generate custom scalar field type when overwriteDate in scalarMap", async () => {
       MetadataStorage.clear();
 
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleObject {
         @Field(type => Date)
         dateField: any;
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

@@ -5,6 +5,7 @@
 - add base support for GraphQL enums using TypeScript enums
 - add support for defining GraphQL unions
 - add support for importing resolvers from file path glob
+- depracate decorators with `GraphQL` prefix - use `@ArgsType`, `@InputType`, `@InterfaceType`, `@ObjectType` and `@Resolver` instead
 ### Fixes
 - fix not working array type notation in circular dependencies (correct thunk generation)
 

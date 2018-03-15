@@ -1,9 +1,9 @@
-import { Field, GraphQLObjectType } from "../../src";
+import { Field, ObjectType } from "../../src";
 
 import { Difficulty } from "./difficulty.enum";
 import { Cook } from "./cook.type";
 
-@GraphQLObjectType()
+@ObjectType()
 export class Recipe {
   @Field()
   title: string;

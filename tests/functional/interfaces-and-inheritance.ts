@@ -16,14 +16,14 @@ import { getInnerFieldType } from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { GeneratingSchemaError } from "../../src/schema/GeneratingSchemaError";
 import {
-  GraphQLInterfaceType,
-  GraphQLObjectType,
+  InterfaceType,
+  ObjectType,
   Field,
   ID,
   Query,
-  GraphQLArgsType,
+  ArgsType,
   Args,
-  GraphQLInputType,
+  InputType,
   Arg,
   Mutation,
   buildSchema,
@@ -45,67 +45,67 @@ describe("Intefaces and inheritance", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLInterfaceType()
+      @InterfaceType()
       abstract class SampleInterface1 {
         @Field(type => ID)
         id: string;
         @Field() interfaceStringField1: string;
       }
-      @GraphQLInterfaceType()
+      @InterfaceType()
       abstract class SampleInterface2 {
         @Field(type => ID)
         id: string;
         @Field() interfaceStringField2: string;
       }
-      @GraphQLInterfaceType()
+      @InterfaceType()
       abstract class SampleInterfaceExtending1 extends SampleInterface1 {
         @Field() ownStringField1: string;
       }
 
-      @GraphQLObjectType({ implements: SampleInterface1 })
+      @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject1 implements SampleInterface1 {
         id: string;
         interfaceStringField1: string;
         @Field() ownField1: number;
       }
-      @GraphQLObjectType({ implements: SampleInterface1 })
+      @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
         @Field(type => ID)
         id: string;
         @Field() interfaceStringField1: string;
         @Field() ownField2: number;
       }
-      @GraphQLObjectType({ implements: [SampleInterface1, SampleInterface2] })
+      @ObjectType({ implements: [SampleInterface1, SampleInterface2] })
       class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
         id: string;
         interfaceStringField1: string;
         interfaceStringField2: string;
         @Field() ownField3: number;
       }
-      @GraphQLObjectType({ implements: SampleInterface1 })
+      @ObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject extends SampleImplementingObject2
         implements SampleInterface1 {
         @Field() ownField4: number;
       }
-      @GraphQLObjectType()
+      @ObjectType()
       class SampleExtendingObject2 extends SampleImplementingObject2 {
         @Field() ownExtendingField2: number;
       }
 
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleBaseArgs {
         @Field() baseArgField: string;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleExtendingArgs extends SampleBaseArgs {
         @Field() extendingArgField: boolean;
       }
 
-      @GraphQLInputType()
+      @InputType()
       class SampleBaseInput {
         @Field() baseInputField: string;
       }
-      @GraphQLInputType()
+      @InputType()
       class SampleExtendingInput extends SampleBaseInput {
         @Field() extendingInputField: boolean;
       }
@@ -349,11 +349,11 @@ describe("Intefaces and inheritance", () => {
     it("should throw error when extending wrong class type", async () => {
       expect.assertions(1);
       try {
-        @GraphQLInputType()
+        @InputType()
         class SampleInput {
           @Field() inputField: string;
         }
-        @GraphQLArgsType()
+        @ArgsType()
         class SampleArgs extends SampleInput {
           @Field() argField: string;
         }
@@ -375,11 +375,11 @@ describe("Intefaces and inheritance", () => {
     it("should throw error when field type doesn't match with interface", async () => {
       expect.assertions(4);
       try {
-        @GraphQLInterfaceType()
+        @InterfaceType()
         class IBase {
           @Field() baseField: string;
         }
-        @GraphQLObjectType({ implements: IBase })
+        @ObjectType({ implements: IBase })
         class ChildObject implements IBase {
           @Field(type => Number, { nullable: true })
           baseField: string;
@@ -418,39 +418,39 @@ describe("Intefaces and inheritance", () => {
     beforeAll(async () => {
       MetadataStorage.clear();
 
-      @GraphQLArgsType()
+      @ArgsType()
       class BaseArgs {
         @Field() baseArgField: string;
         @Field(type => Int, { nullable: true })
         optionalBaseArgField: number = 255;
       }
-      @GraphQLArgsType()
+      @ArgsType()
       class ChildArgs extends BaseArgs {
         @Field() childArgField: string;
       }
 
-      @GraphQLInputType()
+      @InputType()
       class BaseInput {
         @Field() baseInputField: string;
         @Field(type => Int, { nullable: true })
         optionalBaseInputField: number = 255;
       }
-      @GraphQLInputType()
+      @InputType()
       class ChildInput extends BaseInput {
         @Field() childInputField: string;
       }
 
-      @GraphQLInterfaceType()
+      @InterfaceType()
       abstract class BaseInterface {
         @Field() baseInterfaceField: string;
       }
 
-      @GraphQLObjectType({ implements: BaseInterface })
+      @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
         baseInterfaceField: string;
         @Field() firstField: string;
       }
-      @GraphQLObjectType({ implements: BaseInterface })
+      @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
         baseInterfaceField: string;
         @Field() secondField: string;

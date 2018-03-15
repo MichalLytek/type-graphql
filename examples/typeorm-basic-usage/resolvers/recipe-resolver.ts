@@ -1,5 +1,5 @@
 import {
-  GraphQLResolver,
+  Resolver,
   Query,
   FieldResolver,
   Arg,
@@ -18,7 +18,7 @@ import { RecipeInput } from "./types/recipe-input";
 import { Context } from "../index";
 import { RateInput } from "./types/rate-input";
 
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
     @OrmRepository(Recipe)

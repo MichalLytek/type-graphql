@@ -8,10 +8,10 @@ import {
 } from "graphql";
 
 import {
-  GraphQLObjectType,
-  GraphQLArgsType,
-  GraphQLInputType,
-  GraphQLResolver,
+  ObjectType,
+  ArgsType,
+  InputType,
+  Resolver,
   Field,
   Query,
   Mutation,
@@ -30,7 +30,7 @@ describe("Description", () => {
     beforeAll(async () => {
       // create sample definitions
 
-      @GraphQLObjectType({ description: "sample object description" })
+      @ObjectType({ description: "sample object description" })
       class SampleObject {
         @Field() normalField: string;
 
@@ -51,7 +51,7 @@ describe("Description", () => {
         }
       }
 
-      @GraphQLInputType({ description: "sample input description" })
+      @InputType({ description: "sample input description" })
       class SampleInput {
         @Field() normalField: string;
 
@@ -59,7 +59,7 @@ describe("Description", () => {
         describedField: string;
       }
 
-      @GraphQLArgsType()
+      @ArgsType()
       class SampleArguments {
         @Field() normalField: string;
 
@@ -67,7 +67,7 @@ describe("Description", () => {
         describedField: string;
       }
 
-      @GraphQLResolver(objectType => SampleObject)
+      @Resolver(objectType => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {

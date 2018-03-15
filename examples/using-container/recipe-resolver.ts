@@ -1,10 +1,10 @@
-import { GraphQLResolver, Query, FieldResolver, Arg, Root, Mutation } from "../../src";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../src";
 
 import { Recipe } from "./recipe-type";
 import { RecipeService } from "./recipe-service";
 import { RecipeInput } from "./recipe-input";
 
-@GraphQLResolver(objectType => Recipe)
+@Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
     // constructor injection of service

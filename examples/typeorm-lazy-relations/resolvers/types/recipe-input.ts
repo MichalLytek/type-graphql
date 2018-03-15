@@ -1,8 +1,8 @@
-import { GraphQLInputType, Field } from "../../../../src";
+import { InputType, Field } from "../../../../src";
 
 import { Recipe } from "../../entities/recipe";
 
-@GraphQLInputType()
+@InputType()
 export class RecipeInput implements Partial<Recipe> {
   @Field()
   title: string;

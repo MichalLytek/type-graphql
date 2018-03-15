@@ -20,8 +20,8 @@ import {
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import {
   Field,
-  GraphQLObjectType,
-  GraphQLInputType,
+  ObjectType,
+  InputType,
   Query,
   Arg,
   registerEnum,
@@ -36,15 +36,15 @@ describe("Unions", () => {
   beforeAll(async () => {
     MetadataStorage.clear();
 
-    @GraphQLObjectType()
+    @ObjectType()
     class ObjectOne {
       @Field() fieldOne: string;
     }
-    @GraphQLObjectType()
+    @ObjectType()
     class ObjectTwo {
       @Field() fieldTwo: string;
     }
-    @GraphQLObjectType()
+    @ObjectType()
     class ObjectThree {
       @Field() fieldThree: string;
     }
@@ -55,7 +55,7 @@ describe("Unions", () => {
       types: [ObjectOne, ObjectTwo, ObjectThree],
     });
 
-    @GraphQLObjectType()
+    @ObjectType()
     class ObjectUnion {
       @Field(type => OneTwoThreeUnion)
       unionField: typeof OneTwoThreeUnion;

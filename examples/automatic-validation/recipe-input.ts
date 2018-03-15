@@ -1,9 +1,9 @@
 import { MaxLength, Length } from "class-validator";
-import { GraphQLInputType, Field } from "../../src";
+import { InputType, Field } from "../../src";
 
 import { Recipe } from "./recipe-type";
 
-@GraphQLInputType()
+@InputType()
 export class RecipeInput implements Partial<Recipe> {
   @Field()
   @MaxLength(30)

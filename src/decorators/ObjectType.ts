@@ -6,9 +6,9 @@ export type ObjectOptions = DescriptionOptions & {
   implements?: Function | Function[];
 };
 
-export function GraphQLObjectType(options?: ObjectOptions): ClassDecorator;
-export function GraphQLObjectType(name: string, options?: ObjectOptions): ClassDecorator;
-export function GraphQLObjectType(
+export function ObjectType(options?: ObjectOptions): ClassDecorator;
+export function ObjectType(name: string, options?: ObjectOptions): ClassDecorator;
+export function ObjectType(
   nameOrOptions?: string | ObjectOptions,
   maybeOptions?: ObjectOptions,
 ): ClassDecorator {
