@@ -138,6 +138,21 @@ describe("Fields - schema", () => {
       expect(error.message).toContain("invalidSampleNullableField");
     }
   });
+  it("should throw error when object type property key is symbol", async () => {
+    expect.assertions(1);
+    MetadataStorage.clear();
+
+    const symbolKey = Symbol("symbolKey");
+    try {
+      @GraphQLObjectType()
+      class SampleObject {
+        @Field({ nullable: true })
+        [symbolKey]: string | null;
+      }
+    } catch (err) {
+      expect(err.message).toContain("Symbol keys are not supported yet!");
+    }
+  });
 
   it("should generate non-nullable field type by default", async () => {
     const implicitStringField = sampleObjectType.fields.find(
