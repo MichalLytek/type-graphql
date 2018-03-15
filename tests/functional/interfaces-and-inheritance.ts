@@ -526,6 +526,12 @@ describe("Intefaces and inheritance", () => {
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
+
+      const error = result.errors![0];
+      expect(error.message).toContain("BaseInterface");
+      expect(error.message).toContain("getInterfacePlainObject");
+      expect(error.message).toContain("resolveType");
+      expect(error.message).toContain("isTypeOf");
     });
 
     it("should return fields data of object type implementing interface", async () => {

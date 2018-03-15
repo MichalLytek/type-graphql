@@ -199,6 +199,11 @@ describe("Unions", () => {
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
+      const errorMessage = result.errors![0].message;
+      expect(errorMessage).toContain("resolve");
+      expect(errorMessage).toContain("OneTwoThreeUnion");
+      expect(errorMessage).toContain("instance");
+      expect(errorMessage).toContain("plain");
     });
   });
 });

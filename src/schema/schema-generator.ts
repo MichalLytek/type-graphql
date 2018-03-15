@@ -35,6 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { GeneratingSchemaError } from "./GeneratingSchemaError";
+import { UnionResolveTypeError } from "../errors/UnionResolveTypeError";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -106,7 +107,14 @@ export abstract class SchemaGenerator {
             unionDefintion.types.map(
               objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type,
             ),
-          // resolveType: instance => instance instanceof this,
+          resolveType: instance => {
+            const instanceTarget = unionDefintion.types.find(type => instance instanceof type);
+            if (!instanceTarget) {
+              throw new UnionResolveTypeError(unionDefintion);
+            }
+            // TODO: refactor to map for quicker access
+            return this.objectTypesInfo.find(type => type.target === instanceTarget)!.type;
+          },
         }),
       };
     });
@@ -174,12 +182,10 @@ export abstract class SchemaGenerator {
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
-          isTypeOf: instance => {
-            if (instance.constructor === Object) {
-              return true;
-            }
-            return instance instanceof objectType.target;
-          },
+          isTypeOf:
+            hasExtended || interfaceClasses.length > 0
+              ? instance => instance instanceof objectType.target
+              : undefined,
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
@@ -293,6 +299,8 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypes(): GraphQLNamedType[] {
+    // TODO: investigate the need of directly providing this types
+    // maybe GraphQL can use only the types provided indirectly
     return [
       ...this.objectTypesInfo.map(it => it.type),
       ...this.interfaceTypesInfo.map(it => it.type),

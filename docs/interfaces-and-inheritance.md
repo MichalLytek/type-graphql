@@ -40,7 +40,7 @@ The only difference is that we have to let TypeGraphQL now that this `ObjectType
 
 We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.
 
-Be aware that when your object type is implemeting GraphQL interface type, you have to return an instance of the type class in your resolvers. Otherwise, graphql-js will not be able to detect the underlaying GraphQL type correctly.
+Be aware that when your object type is implemeting GraphQL interface type, you have to return an instance of the type class in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlaying GraphQL type correctly.
 
 ## Inheritance
 One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.
