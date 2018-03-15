@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.8.0
 ### Features
 - add base support for GraphQL enums using TypeScript enums
 - add support for defining GraphQL unions
