@@ -2,6 +2,7 @@ import { MetadataStorage } from "../metadata/metadata-storage";
 import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
+import { SymbolKeysNotSupportedError } from "../errors";
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
 
@@ -16,7 +17,7 @@ export function Field(
 ): MethodDecorator | PropertyDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
-      throw new Error("Symbol keys are not supported yet!");
+      throw new SymbolKeysNotSupportedError();
     }
 
     const { options, returnTypeFunc } = getTypeDecoratorParams(

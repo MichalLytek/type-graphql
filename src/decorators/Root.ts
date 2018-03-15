@@ -1,11 +1,12 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { findType } from "../helpers/findType";
 import { TypeValueThunk } from "../types/decorators";
+import { SymbolKeysNotSupportedError } from "../errors";
 
 export function Root(): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     if (typeof propertyKey === "symbol") {
-      throw new Error("Symbol keys are not supported yet!");
+      throw new SymbolKeysNotSupportedError();
     }
 
     let getType: TypeValueThunk | undefined;

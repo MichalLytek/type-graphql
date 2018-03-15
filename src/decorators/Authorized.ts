@@ -1,4 +1,5 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
+import { SymbolKeysNotSupportedError } from "../errors";
 
 export type MethodOrPropDecorator = MethodDecorator & PropertyDecorator;
 
@@ -15,7 +16,7 @@ export function Authorized(...rolesOrRolesArray: any[]): MethodOrPropDecorator {
 
   return (prototype: object, propertyKey: string | symbol) => {
     if (typeof propertyKey === "symbol") {
-      throw new Error("Symbol keys are not supported yet!");
+      throw new SymbolKeysNotSupportedError();
     }
 
     MetadataStorage.registerAuthorizedField({

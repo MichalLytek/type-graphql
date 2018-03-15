@@ -4,6 +4,7 @@ import { ValidatorOptions } from "class-validator";
 import { findType } from "./findType";
 import { ReturnTypeFunc, ClassType, TypeOptions, ValidateOptions } from "../types/decorators";
 import { CommonArgDefinition } from "../metadata/definition-interfaces";
+import { SymbolKeysNotSupportedError } from "../errors";
 
 export interface ParamInfo {
   prototype: Object;
@@ -20,7 +21,7 @@ export function getParamInfo({
   options = {},
 }: ParamInfo): CommonArgDefinition {
   if (typeof propertyKey === "symbol") {
-    throw new Error("Symbol keys are not supported yet!");
+    throw new SymbolKeysNotSupportedError();
   }
 
   const { getType, typeOptions } = findType({

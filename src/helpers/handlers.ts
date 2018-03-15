@@ -1,6 +1,7 @@
 import { HandlerDefinition } from "../metadata/definition-interfaces";
 import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "./findType";
+import { SymbolKeysNotSupportedError } from "../errors";
 
 export function getHandlerInfo(
   prototype: object,
@@ -9,7 +10,7 @@ export function getHandlerInfo(
   options: AdvancedOptions = {},
 ): HandlerDefinition {
   if (typeof propertyKey === "symbol") {
-    throw new Error("Symbol keys are not supported yet!");
+    throw new SymbolKeysNotSupportedError();
   }
 
   const { getType, typeOptions } = findType({

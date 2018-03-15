@@ -35,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { GeneratingSchemaError } from "./GeneratingSchemaError";
-import { UnionResolveTypeError } from "../errors/UnionResolveTypeError";
+import { UnionResolveTypeError } from "../errors";
 
 interface ObjectTypeInfo {
   target: Function;
