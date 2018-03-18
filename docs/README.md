@@ -7,7 +7,7 @@ You can learn both the basics as well as advanced techniques and additional feat
 ## Basics
 - [types and fields](./types-and-fields.md) (how to create object type, define its fields and types)
 - [queries, mutations and field resolvers](./resolvers.md)
-- [app boostraping](./bootstrap.md) (how to build the TypeGraphQL's schema and run express app)
+- [app bootstrapping](./bootstrap.md) (how to build the TypeGraphQL's schema and run express app)
 
 ## Advanced
 - [scalars](./scalars.md) (built-in and custom scalars)

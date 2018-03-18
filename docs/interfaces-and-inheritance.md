@@ -5,7 +5,7 @@ The main idea of TypeGraphQL is to create GraphQL types based on TypeScript clas
 In object-oriented programming it is common to create interfaces which describes the contract that classes implementing them has to fulfill. We also compose the classes using inheritance mechanism. Hence why TypeGraphQL support both GraphQL interfaces as well as composing types definition by extending the classes.
 
 ## Interfaces
-TypeScript has first class support for interfaces. Unfortunatelly, they exist only on compile-time, so we can't use them to build GraphQL schema on runtime by using decorators.
+TypeScript has first class support for interfaces. Unfortunately, they exist only on compile-time, so we can't use them to build GraphQL schema on runtime by using decorators.
 
 Luckily, we can use abstract class for this purpose - it behave almost like an interface (can't be "newed", can be implemented by class), it just won't stop developers from implementing a method or initializing a field. But until we do the same things like with an interface, we can safely use it.
 
@@ -40,7 +40,7 @@ The only difference is that we have to let TypeGraphQL now that this `ObjectType
 
 We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.
 
-Be aware that when your object type is implemeting GraphQL interface type, you have to return an instance of the type class in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlaying GraphQL type correctly.
+Be aware that when your object type is implementing GraphQL interface type, you have to return an instance of the type class in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
 
 ## Inheritance
 One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.

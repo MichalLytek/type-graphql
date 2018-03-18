@@ -11,13 +11,13 @@ Create GraphQL resolvers and schemas with TypeScript, using classes and decorato
 
 ## Design Goals
 We all love GraphQL but creating GraphQL API with TypeScript is a bit of pain.
-We have to mantain separate GQL schemas using SDL or JS API and keep the related TypeScript interfaces in sync with them. We also have separate ORM classes representing our db entities. This duplication is a really bad developer experience.
+We have to maintain separate GQL schemas using SDL or JS API and keep the related TypeScript interfaces in sync with them. We also have separate ORM classes representing our db entities. This duplication is a really bad developer experience.
 
 What if I told you that you can have only one source of truth thanks to a little addition of decorators magic?
 Interested? So take a look at the quick intro to TypeGraphQL!
 
 ## Getting started
-Let's start at the begining with an example.
+Let's start at the beginning with an example.
 We have API for cooking recipes and we love using GraphQL for it.
 At first we will create the `Recipe` type, which is the foundations of our API:
 
@@ -44,9 +44,9 @@ Take a look at the decorators:
 
 - `@ObjectType()` marks the class as the object shape known from GraphQL SDL as `type`
 - `@Field()` marks the property as the object's field - it is also used to collect type metadata from TypeScript reflection system
-- the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
+- the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the built-in `ID`
 - due to reflection limitation, optional (nullable) fields has to be annotated with `{ nullable: true }` decorator param
-- we also have to declare `(type => Rate)` because of limitation of type reflection - emited type of `ratings` property is `Array`, so we need to know what is the type of items in the array
+- we also have to declare `(type => Rate)` because of limitation of type reflection - emitted type of `ratings` property is `Array`, so we need to know what is the type of items in the array
 
 This will generate GraphQL type corresponding to this:
 ```graphql
@@ -80,7 +80,7 @@ Again, take a look at `@Field(type => Int)` decorator - Javascript doesn't have 
 
 So, as we have the base of our recipe related types, let's create a resolver!
 
-We will start by creating a class with apropiate decorator:
+We will start by creating a class with appropriate decorator:
 ```ts
 @Resolver(objectType => Recipe)
 export class RecipeResolver {
@@ -176,7 +176,7 @@ class RateInput {
   value: number;
 }
 ```
-`@InputType()` marks the class as the `input` in SDL, in oposite to `type` or `scalar`
+`@InputType()` marks the class as the `input` in SDL, in opposite to `type` or `scalar`
 
 The corresponding GraphQL schema:
 ```graphql

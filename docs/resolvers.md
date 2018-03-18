@@ -11,7 +11,7 @@ class RecipeResolver {
 }
 ```
 
-You can use DI framework (as described in [dependency injection docs](./dependency-injection.md)) to inject class dependencies (like services or repositories) or store data inside resolvers class - it's guarranted to be a single instance per app.
+You can use DI framework (as described in [dependency injection docs](./dependency-injection.md)) to inject class dependencies (like services or repositories) or store data inside resolvers class - it's guaranteed to be a single instance per app.
 ```ts
 @Resolver()
 class RecipeResolver {
@@ -117,14 +117,14 @@ class RecipeResolver {
 }
 ```
 
-This declarations will result in the folowing part of the schema in SDL:
-```grapqhl
+This declarations will result in the following part of the schema in SDL:
+```graphql
 type Query {
   recipes(skip: Int, take: Int, title: String): [Recipe!]
 }
 ```
 
-GraphQL's mutations we can create analogously, by declaring the class method, using `@Mutation` decorator, providing return type (if needed), creating arguments, etc. But for mutation we ussualy use `input` types, hence why TypeGraphQL allows you to create inputs in the same way as the [object types](./types-and-fields.md) but using `@InputType()` decorator:
+GraphQL's mutations we can create analogously, by declaring the class method, using `@Mutation` decorator, providing return type (if needed), creating arguments, etc. But for mutation we usually use `input` types, hence why TypeGraphQL allows you to create inputs in the same way as the [object types](./types-and-fields.md) but using `@InputType()` decorator:
 ```ts
 @InputType()
 class AddRecipeInput {
@@ -171,10 +171,10 @@ class RecipeResolver {
   }
 }
 ```
-Because our method is synchronous and explicitly returns `Recipe`, we can ommit `@Mutation()` type annotation.
+Because our method is synchronous and explicitly returns `Recipe`, we can omit `@Mutation()` type annotation.
 
-This declarations will result in the folowing part of the schema in SDL:
-```grapqhl
+This declarations will result in the following part of the schema in SDL:
+```graphql
 input AddRecipeInput {
   title: String!
   description: String
@@ -185,12 +185,12 @@ type Mutation {
 }
 ```
 
-By using parameter decorators, we can get rid of the unnecessary parameters like root value that bloat our method definition and have to be ignored with `_` parameter name. Also, we can achive clean separation between GraphQL and our bussiness code with decorators abstraction, so our resolvers and their methods behave just like services which we can easily unit-test.
+By using parameter decorators, we can get rid of the unnecessary parameters like root value that bloat our method definition and have to be ignored with `_` parameter name. Also, we can achieve clean separation between GraphQL and our business code with decorators abstraction, so our resolvers and their methods behave just like services which we can easily unit-test.
 
 ## Field resolvers
 Queries and mutations are not the only type of resolvers. We often create object type's field resolvers, e.g. when `user` type has field `posts` which we have to resolve by fetching relation data from the database.
 
-Field resolvers in TypeGraphQL are very simillar to queries and mutations - we create them as method of the resolver class but with a few modification. Firstly, we need to declare which object type's fields we are resolving by providing the type to `@Resolver` decorator:
+Field resolvers in TypeGraphQL are very similar to queries and mutations - we create them as method of the resolver class but with a few modification. Firstly, we need to declare which object type's fields we are resolving by providing the type to `@Resolver` decorator:
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver {
@@ -289,13 +289,13 @@ class Recipe {
 ```
 
 However, use this way of creating field resolvers only if the implementation is simple.
-If the code is more complicated and perform side effects (api call, db fetching), use resolver class's method instead - you can leverage dependency injection mechanizm, really helpfull in testing:
+If the code is more complicated and perform side effects (api call, db fetching), use resolver class's method instead - you can leverage dependency injection mechanism, really helpful in testing:
 
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(
-    private userRepository: Repository<User>, // depenedency injection
+    private userRepository: Repository<User>, // dependency injection
   ) {}
 
   @FieldResolver()

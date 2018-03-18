@@ -23,7 +23,7 @@ class SampleObject {
   probability: number;
 }
 ```
-In the last case you can ommit the `type => Float` since JavaScript `Number` will become `GraphQLFloat` in schema automatically.
+In the last case you can omit the `type => Float` since JavaScript `Number` will become `GraphQLFloat` in schema automatically.
 
 Other scalars - `GraphQLString` and `GraphQLBoolean` doesn't need aliases - when it's possible, they will be reflected automatically:
 ```ts
@@ -121,7 +121,7 @@ class User {
 }
 ```
 
-Optionally, you can delcare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
+Optionally, you can declare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
 ```ts
 @ObjectType()
 class User {

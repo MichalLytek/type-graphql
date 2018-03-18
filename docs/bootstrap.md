@@ -25,11 +25,11 @@ const schema = await buildSchema({
 });
 ```
 
-There are also other options related to advanced features like [authorization](./authorization.md) or [validiation](./validation.md) - you can read about them [in docs](../docs).
+There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them [in docs](../docs).
 
 To make `await` work, we need to wrap it in async function. Example of `main.ts` file:
 ```ts
-import { buildSchema } from "type-graphgql";
+import { buildSchema } from "type-graphql";
 
 async function bootstrap() {
   const schema = await buildSchema({
@@ -65,4 +65,5 @@ async function bootstrap() {
 bootstrap();
 ```
 
-Remeber to install `express` and `express-graphql` packages from npm - there are not bundled with TypeGraphQL. Of course you can use `apollo-server` or anything you want :wink:
+Remember to install `express` and `express-graphql` packages from npm - there are not bundled with TypeGraphQL.
+Of course you can use `apollo-server` or anything you want :wink:

@@ -28,7 +28,7 @@ class MyObject {
 }
 ```
 
-You can leave the `@Authorized` decorator brackets empty or you can specify the roles that the user needs to have to get acccess to the field, query or mutation.
+You can leave the `@Authorized` decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.
 
 This way authed users (regardless of theirs roles) could read only `publicField` or `authorizedField` from `MyObject` object. They will receive `null` when accessing `hiddenField` field and will receive error (that will propagate through the whole query tree looking for nullable field) for `adminField` when they don't satisfy roles constraints.
 
@@ -65,7 +65,7 @@ In next step, you need to create your auth checker function. Its implementation 
 export const customAuthChecker: AuthChecker<ContextType> = 
   ({ root, args, context, info }, roles) => {
     // here you can read user from context
-    // and check his permision in db against `roles` argument
+    // and check his permission in db against `roles` argument
     // that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]
 
     return true; // or false if access denied

@@ -41,12 +41,12 @@ class Recipe {
 }
 ```
 
-For simple types (like `string` or `boolean`) it's enough but unfortunatelly, due to TypeScript's reflection limitation, we need to provide info about generic types (like `Array` or `Promise`). So to declare `Rate[]` type, there are three options available:
+For simple types (like `string` or `boolean`) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like `Array` or `Promise`). So to declare `Rate[]` type, there are three options available:
 - `@Field(type => [Rate])` (the recommended way - explicit `[ ]` syntax for Array)
-- `@Field(itemType => Rate)` (`array` is infered from reflection - also ok but prone to error)
+- `@Field(itemType => Rate)` (`array` is inferred from reflection - also ok but prone to error)
 - `@Field(itemType => Rate, { array: true })` (also not needed but more descriptive)
 
-Why function syntax, not simple `{ type: Rate }` config object? Because this way we solve problems with ciruclar dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to safe some keystrokes but it might be less readable for others.
+Why function syntax, not simple `{ type: Rate }` config object? Because this way we solve problems with circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to safe some keystrokes but it might be less readable for others.
 
 For nullable properties, like `averageRating` (it might be not defined when recipe has no ratings yet), we mark the class property as optional with `?:` operator and also have to pass `{ nullable: true }` decorator parameter. Be aware, that when you declare your type as e.g. `string | null`, you need to explicit provide the type to `@Field` decorator.
 
@@ -101,6 +101,6 @@ type Rate {
 }
 ```
 
-As you could see, for `id` property of `Recipe` we've passed `type => ID` and for `value` field of `Rate` - `type => Int`. This way we can overwrite the infered type from reflection metadata, in this case for ID and Int scalars - you can read more about them in [scalars docs](./scalars.md), there is also a section about the built-in `Date` scalar. 
+As you could see, for `id` property of `Recipe` we've passed `type => ID` and for `value` field of `Rate` - `type => Int`. This way we can overwrite the inferred type from reflection metadata, in this case for ID and Int scalars - you can read more about them in [scalars docs](./scalars.md), there is also a section about the built-in `Date` scalar. 
 
 Also the `user` property doesn't have `@Field()` decorator - this way we can hide some properties of our data model. In this case we need to store in database `user` info inside `Rate` object to prevent multiple rates but we don't want to make it public, accessible to every API consumer.

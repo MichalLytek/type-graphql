@@ -10,7 +10,7 @@
 - add base support for GraphQL enums using TypeScript enums
 - add support for defining GraphQL unions
 - add support for importing resolvers from file path glob
-- depracate decorators with `GraphQL` prefix - use `@ArgsType`, `@InputType`, `@InterfaceType`, `@ObjectType` and `@Resolver` instead
+- deprecate decorators with `GraphQL` prefix - use `@ArgsType`, `@InputType`, `@InterfaceType`, `@ObjectType` and `@Resolver` instead
 ### Fixes
 - fix not working array type notation in circular dependencies (correct thunk generation)
 
@@ -69,11 +69,11 @@
 - fix missing type args in schema when declared in field resolver
 - fix missing resolver function when defined as type field method
 - fix creating instances of root object when internal fields are Promises (switch from `plainToClass` to vanilla JS)
-- fix convertings field and resolvers args errors while converting gql objects (weird `prototype` stuffs)
+- fix converting field and resolvers args errors while converting gql objects (weird `prototype` stuffs)
 
 ## v0.1.1
 ### Features
-- add support for ommiting return type when use type options, in selected decorators (`@Field`, `@Arg`)
+- add support for omitting return type when use type options, in selected decorators (`@Field`, `@Arg`)
 ### Fixes
 - fix class getter resolvers bug - missing fields from prototype (`plainToClass` bug)
 

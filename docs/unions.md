@@ -54,7 +54,7 @@ class SearchResolver {
   }
 }
 ```
-Be aware that when your query/mutation return type (or field type) is an union, you have to return an specific instance of the object type class. Otherwise, `graphql-js` will not be able to detect the underlaying GraphQL type correctly when you use plain JS objects.
+Be aware that when your query/mutation return type (or field type) is an union, you have to return an specific instance of the object type class. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly when you use plain JS objects.
 
 **Et Voilà!** You can now build the schema and make the example query :wink:
 ```graphql
