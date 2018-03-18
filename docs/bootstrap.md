@@ -25,7 +25,7 @@ const schema = await buildSchema({
 });
 ```
 
-There are also other options related to advanced features like [authorization](https://github.com/19majkel94/type-graphql/tree/master/docs/authorization.md) or [validiation](https://github.com/19majkel94/type-graphql/tree/master/docs/validation.md) - you can read about them [in docs](https://github.com/19majkel94/type-graphql/tree/master/docs).
+There are also other options related to advanced features like [authorization](./authorization.md) or [validiation](./validation.md) - you can read about them [in docs](../docs).
 
 To make `await` work, we need to wrap it in async function. Example of `main.ts` file:
 ```ts
