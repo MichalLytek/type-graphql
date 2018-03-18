@@ -62,7 +62,7 @@ class RecipeResolver {
   }
 }
 ```
-It's quite good when there are up to 2-3 args but when you have many more, the resolver's method definitions becomes bloated. In that case you can use the args class definition:
+It's quite good when there are up to 2-3 args but when you have many more, the resolver's method definitions becomes bloated. In that case you can use the args class definition. It looks like the object type class but it has `@ArgsType()` decorator on top.
 ```ts
 @ArgsType()
 class GetRecipesArgs {
@@ -76,8 +76,8 @@ class GetRecipesArgs {
   title?: string;
 }
 ```
-Here you can define default values (remember about `nullable: true`!) as well as helper methods.
-Also, this way allows you to perform validation of the arguments/inputs - more details about this feature you can find in [validation docs](./validation.md).
+You can define default values for optional fields (remember about `nullable: true`!) as well as helper methods.
+Also, this way of declaring arguments allows you to perform its validation - more details about this feature you can find in [validation docs](./validation.md).
 
 ```ts
 @ArgsType()
@@ -100,7 +100,7 @@ class GetRecipesArgs {
 ```
 
 Then all that left to do is to use the args class as the type of the method parameter.
-We can use the destruction syntax to have access to single arguments as variables, instead of the reference to the whole args object:
+We can use the destruction syntax to have access to single arguments as variables, instead of the reference to the whole args object.
 ```ts
 @Resolver()
 class RecipeResolver {
@@ -185,4 +185,128 @@ type Mutation {
 }
 ```
 
-By using parameter decorators, we can get rid of the unnecessary parameters like root value that bloat our method definition and have to be ignored with `_` parameter name. Also, we can achive clean separation between GraphQL and our bussiness code with decorators abstraction, so our resolvers and their methods behave just like services which we can easy unit-test.
+By using parameter decorators, we can get rid of the unnecessary parameters like root value that bloat our method definition and have to be ignored with `_` parameter name. Also, we can achive clean separation between GraphQL and our bussiness code with decorators abstraction, so our resolvers and their methods behave just like services which we can easily unit-test.
+
+## Field resolvers
+Queries and mutations are not the only type of resolvers. We often create object type's field resolvers, e.g. when `user` type has field `posts` which we have to resolve by fetching relation data from the database.
+
+Field resolvers in TypeGraphQL are very simillar to queries and mutations - we create them as method of the resolver class but with a few modification. Firstly, we need to declare which object type's fields we are resolving by providing the type to `@Resolver` decorator:
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver {
+  // queries and mutation 
+}
+```
+
+Then we can create the class method that become field resolver.
+In our example we have `averageRating` field in `Recipe` object type that should calculate the average from the `ratings` array.
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver {
+  // ...
+
+  averageRating(recipe: Recipe) {
+    // ...
+  }
+}
+```
+
+We need to mark the method as field resolver with `@FieldResolver()` decorator. Because we've defined the type of the field in `Recipe` class definition, there's no need to do this again. We also need to decorate the method's parameters with `@Root` to inject the recipe object.
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver {
+  // ...
+
+  @FieldResolver()
+  averageRating(@Root() recipe: Recipe) {
+    // ...
+  }
+}
+```
+
+For enhanced type-safe you can implement the `ResolverInterface<Recipe>`.
+It's a small helper that will check if the return type of e.g. `averageRating` method is matching the `averageRating` property of the `Recipe` class
+and whether the first parameter of the method is the object type (`Recipe` class).
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver implements ResolverInterface<Recipe> {
+  // ...
+
+  @FieldResolver()
+  averageRating(@Root() recipe: Recipe) {
+    // ...
+  }
+}
+```
+
+Example implementation of the `averageRating` field resolver:
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver implements ResolverInterface<Recipe> {
+  // ...
+
+  @FieldResolver()
+  averageRating(@Root() recipe: Recipe) {
+    const ratingsSum = recipe.ratings.reduce((a, b) => a + b, 0);
+    return recipe.ratings.length
+      ? ratingsSum / recipe.ratings.length
+      : undefined;
+  }
+}
+```
+
+For simple resolvers like `averageRating` calculation or deprecated fields that behave like aliases, you can create the field resolvers inline in object type's class definition:
+
+```ts
+@ObjectType()
+class Recipe {
+  @Field()
+  id: string;
+
+  @Field()
+  title: string;
+
+  @Field({ deprecationReason: "Use `title` instead" })
+  get name(): string { 
+    return this.title;
+  }
+
+  @Field()
+  ratings: Rate[];
+
+  @Field()
+  author: User;
+
+  @Field(type => Float, { nullable: true })
+  averageRating(@Arg("since") sinceDate: Date): number | null {
+    const ratings = this.ratings.filter(rate => rate.date > sinceDate);
+    if (!ratings.length) return null;
+
+    const ratingsSum = ratings.reduce((a, b) => a + b, 0);
+    return ratingsSum / ratings.length;
+  };
+}
+```
+
+However, use this way of creating field resolvers only if the implementation is simple.
+If the code is more complicated and perform side effects (api call, db fetching), use resolver class's method instead - you can leverage dependency injection mechanizm, really helpfull in testing:
+
+```ts
+@Resolver(objectType => Recipe)
+class RecipeResolver implements ResolverInterface<Recipe> {
+  constructor(
+    private userRepository: Repository<User>, // depenedency injection
+  ) {}
+
+  @FieldResolver()
+  async author(@Root() recipe: Recipe) {
+    const author = await this.userRepository.findById(recipe.userId);
+    if (!author) throw new SomethingWentWrongError();
+    return author;
+  }
+}
+```
+
+## Examples
+This code samples are made up just for tutorial docs purposes.
+You can find more advanced, real examples in [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples).
