@@ -7,6 +7,7 @@ export { Ctx } from "./Ctx";
 export { registerEnumType } from "./enums";
 export { Field } from "./Field";
 export { FieldResolver } from "./FieldResolver";
+export { Info } from "./Info";
 // export { InputType } from "./InputType";
 export { InputType, InputType as GraphQLInputType } from "./InputType";
 // export { InterfaceType } from "./InterfaceType";

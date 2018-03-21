@@ -1,5 +1,10 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add `@Info()` decorator for injecting GraphQL info to resolvers
+- add support for injecting parts of `root` and `context` objects with `@Root("field")` and `@Ctx("field")` decorators
+
 ## v0.8.0
 ### Features
 - add base support for GraphQL enums using TypeScript enums

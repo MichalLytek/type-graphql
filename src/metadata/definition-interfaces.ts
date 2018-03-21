@@ -68,11 +68,16 @@ export interface BasicParamDefinition {
   methodName: string;
   index: number;
 }
+export interface InfoParamDefinition extends BasicParamDefinition {
+  kind: "info";
+}
 export interface ContextParamDefinition extends BasicParamDefinition {
   kind: "context";
+  propertyName?: string;
 }
 export interface RootParamDefinition extends BasicParamDefinition {
   kind: "root";
+  propertyName?: string;
   getType?: TypeValueThunk;
 }
 export interface CommonArgDefinition extends BasicParamDefinition {
@@ -89,6 +94,7 @@ export interface ArgsParamDefinition extends CommonArgDefinition {
   kind: "args";
 }
 export type ParamDefinition =
+  | InfoParamDefinition
   | ContextParamDefinition
   | RootParamDefinition
   | ArgParamDefinition

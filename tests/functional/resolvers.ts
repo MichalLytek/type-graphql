@@ -32,6 +32,7 @@ import {
   buildSchema,
   FieldResolver,
   ResolverInterface,
+  Info,
 } from "../../src";
 import { plainToClass } from "class-transformer";
 import { getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
@@ -675,6 +676,15 @@ describe("Resolvers", () => {
 
   describe("Functional", () => {
     let schema: GraphQLSchema;
+    let queryRoot: any;
+    let queryContext: any;
+    let queryInfo: any;
+
+    beforeEach(() => {
+      queryRoot = undefined;
+      queryContext = undefined;
+      queryInfo = undefined;
+    });
 
     beforeAll(async () => {
       MetadataStorage.clear();
@@ -753,6 +763,28 @@ describe("Resolvers", () => {
         @Query()
         notInstanceQuery(): SampleObject {
           return {} as SampleObject;
+        }
+
+        @Query()
+        queryWithRootContextAndInfo(
+          @Root() root: any,
+          @Ctx() context: any,
+          @Info() info: any,
+        ): boolean {
+          queryRoot = root;
+          queryContext = context;
+          queryInfo = info;
+          return true;
+        }
+
+        @Query()
+        queryWithPartialRootAndContext(
+          @Root("rootField") rootField: any,
+          @Ctx("contextField") contextField: any,
+        ): boolean {
+          queryRoot = rootField;
+          queryContext = contextField;
+          return true;
         }
 
         @Mutation()
@@ -996,6 +1028,34 @@ describe("Resolvers", () => {
       expect(fieldResolverWithRootValue).toBeGreaterThanOrEqual(0);
       expect(fieldResolverWithRootValue).toBeLessThanOrEqual(1);
       expect(fieldResolverWithRootValue).not.toEqual(getterFieldValue);
+    });
+
+    it("should inject root and context object to resolver", async () => {
+      const query = `query {
+        queryWithRootContextAndInfo
+      }`;
+      const root = { isRoot: true };
+      const context = { isContext: true };
+
+      const queryResult = await graphql(schema, query, root, context);
+
+      expect(queryRoot).toEqual(root);
+      expect(queryContext).toEqual(context);
+      expect(queryInfo).toBeDefined();
+      expect(queryInfo.fieldName).toEqual("queryWithRootContextAndInfo");
+    });
+
+    it("should inject parts of root and context objects to resolver", async () => {
+      const query = `query {
+        queryWithPartialRootAndContext
+      }`;
+      const root = { rootField: 2 };
+      const context = { contextField: "present" };
+
+      const queryResult = await graphql(schema, query, root, context);
+
+      expect(queryRoot).toEqual(2);
+      expect(queryContext).toEqual("present");
     });
   });
 

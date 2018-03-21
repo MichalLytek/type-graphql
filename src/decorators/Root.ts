@@ -3,7 +3,7 @@ import { findType } from "../helpers/findType";
 import { TypeValueThunk } from "../types/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
 
-export function Root(): ParameterDecorator {
+export function Root(propertyName?: string): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
@@ -27,6 +27,7 @@ export function Root(): ParameterDecorator {
       target: prototype.constructor,
       methodName: propertyKey,
       index: parameterIndex,
+      propertyName,
       getType,
     });
   };

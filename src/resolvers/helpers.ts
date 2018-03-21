@@ -9,7 +9,7 @@ import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export async function getParams(
   params: ParamDefinition[],
-  { root, args, context, info }: ActionData,
+  { root, args, context, info }: ActionData<any>,
   globalValidate: boolean | ValidatorOptions,
 ): Promise<any[]> {
   return Promise.all(
@@ -28,12 +28,18 @@ export async function getParams(
             paramInfo.validate,
           );
         case "context":
+          if (paramInfo.propertyName) {
+            return context[paramInfo.propertyName];
+          }
           return context;
         case "root":
+          const rootValue = paramInfo.propertyName ? root[paramInfo.propertyName] : root;
           if (!paramInfo.getType) {
-            return root;
+            return rootValue;
           }
-          return convertToType(paramInfo.getType(), root);
+          return convertToType(paramInfo.getType(), rootValue);
+        case "info":
+          return info;
       }
     }),
   );
