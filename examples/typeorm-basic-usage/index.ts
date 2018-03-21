@@ -2,8 +2,8 @@ import "reflect-metadata";
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 import { Container } from "typedi";
-import * as TypeGraphQL from "../../src";
 import * as TypeORM from "typeorm";
+import * as TypeGraphQL from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { RateResolver } from "./resolvers/rate-resolver";
