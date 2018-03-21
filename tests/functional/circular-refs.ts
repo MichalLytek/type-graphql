@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { IntrospectionObjectType } from "graphql";
+import { IntrospectionObjectType, TypeKind } from "graphql";
 
 import { Query, ObjectType, Field } from "../../src";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
@@ -35,9 +35,9 @@ describe("Circular references", () => {
     ) as IntrospectionObjectType;
 
     expect(circularRef1).toBeDefined();
-    expect(circularRef1.kind).toEqual("OBJECT");
+    expect(circularRef1.kind).toEqual(TypeKind.OBJECT);
     expect(circularRef2).toBeDefined();
-    expect(circularRef2.kind).toEqual("OBJECT");
+    expect(circularRef2.kind).toEqual(TypeKind.OBJECT);
   });
 
   // tslint:disable-next-line:max-line-length

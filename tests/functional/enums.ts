@@ -8,6 +8,7 @@ import {
   IntrospectionEnumType,
   graphql,
   GraphQLSchema,
+  TypeKind,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -99,9 +100,9 @@ describe("Enums", () => {
         queryType.fields.find(field => field.name === "getStringEnumValue")!,
       );
 
-      expect(getNumberEnumValueType.kind).toEqual("ENUM");
+      expect(getNumberEnumValueType.kind).toEqual(TypeKind.ENUM);
       expect(getNumberEnumValueType.name).toEqual("NumberEnum");
-      expect(getStringEnumValue.kind).toEqual("ENUM");
+      expect(getStringEnumValue.kind).toEqual(TypeKind.ENUM);
       expect(getStringEnumValue.name).toEqual("StringEnum");
     });
 
@@ -115,9 +116,9 @@ describe("Enums", () => {
       const numberEnumInputType = getInnerInputFieldType(numberEnumInput, "numberEnumField");
       const stringEnumInputType = getInnerInputFieldType(stringEnumInput, "stringEnumField");
 
-      expect(numberEnumInputType.kind).toEqual("ENUM");
+      expect(numberEnumInputType.kind).toEqual(TypeKind.ENUM);
       expect(numberEnumInputType.name).toEqual("NumberEnum");
-      expect(stringEnumInputType.kind).toEqual("ENUM");
+      expect(stringEnumInputType.kind).toEqual(TypeKind.ENUM);
       expect(stringEnumInputType.name).toEqual("StringEnum");
     });
 
@@ -129,9 +130,9 @@ describe("Enums", () => {
         queryType.fields.find(type => type.name === "isStringEnumEqualOne")!.args[0],
       );
 
-      expect(numberEnumArgType.kind).toEqual("ENUM");
+      expect(numberEnumArgType.kind).toEqual(TypeKind.ENUM);
       expect(numberEnumArgType.name).toEqual("NumberEnum");
-      expect(stringEnumArgType.kind).toEqual("ENUM");
+      expect(stringEnumArgType.kind).toEqual(TypeKind.ENUM);
       expect(stringEnumArgType.name).toEqual("StringEnum");
     });
 
@@ -141,7 +142,7 @@ describe("Enums", () => {
       ) as IntrospectionEnumType;
 
       expect(numberEnumType.name).toEqual("NumberEnum");
-      expect(numberEnumType.kind).toEqual("ENUM");
+      expect(numberEnumType.kind).toEqual(TypeKind.ENUM);
       expect(numberEnumType.enumValues).toHaveLength(4);
       expect(numberEnumType.enumValues[0].name).toEqual("One");
       expect(numberEnumType.enumValues[1].name).toEqual("Two");
@@ -155,7 +156,7 @@ describe("Enums", () => {
       ) as IntrospectionEnumType;
 
       expect(stringEnumType.name).toEqual("StringEnum");
-      expect(stringEnumType.kind).toEqual("ENUM");
+      expect(stringEnumType.kind).toEqual(TypeKind.ENUM);
       expect(stringEnumType.description).toEqual("custom string enum");
       expect(stringEnumType.enumValues).toHaveLength(3);
       expect(stringEnumType.enumValues[0].name).toEqual("One");

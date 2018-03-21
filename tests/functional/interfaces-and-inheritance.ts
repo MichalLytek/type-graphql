@@ -8,6 +8,7 @@ import {
   IntrospectionInputObjectType,
   GraphQLSchema,
   graphql,
+  TypeKind,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -167,7 +168,7 @@ describe("Intefaces and inheritance", () => {
 
     it("should generate interface type correctly", async () => {
       expect(sampleInterface1Type).toBeDefined();
-      expect(sampleInterface1Type.kind).toEqual("INTERFACE");
+      expect(sampleInterface1Type.kind).toEqual(TypeKind.INTERFACE);
       expect(sampleInterface1Type.fields).toHaveLength(2);
 
       const idFieldType = getInnerFieldType(sampleInterface1Type, "id");
@@ -182,7 +183,7 @@ describe("Intefaces and inheritance", () => {
         type => type.name === "SampleInterfaceExtending1",
       ) as IntrospectionInterfaceType;
       expect(sampleInterfaceExtending1).toBeDefined();
-      expect(sampleInterfaceExtending1.kind).toEqual("INTERFACE");
+      expect(sampleInterfaceExtending1.kind).toEqual(TypeKind.INTERFACE);
       expect(sampleInterfaceExtending1.fields).toHaveLength(3);
 
       const idFieldType = getInnerFieldType(sampleInterfaceExtending1, "id");
@@ -214,7 +215,7 @@ describe("Intefaces and inheritance", () => {
       expect(idFieldType.name).toEqual("ID");
       expect(interfaceStringField.name).toEqual("String");
       expect(ownField2.name).toEqual("Float");
-      expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
+      expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
     it("should generate object type implicitly implementing interface correctly", async () => {
@@ -234,7 +235,7 @@ describe("Intefaces and inheritance", () => {
       expect(idFieldType.name).toEqual("ID");
       expect(interfaceStringField1.name).toEqual("String");
       expect(ownField1.name).toEqual("Float");
-      expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
+      expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
     it("should generate object type extending other object type correctly", async () => {
@@ -267,7 +268,7 @@ describe("Intefaces and inheritance", () => {
       )!;
 
       expect(implementedInterfaceInfo).toBeDefined();
-      expect(implementedInterfaceInfo.kind).toEqual("INTERFACE");
+      expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
     // tslint:disable-next-line:max-line-length

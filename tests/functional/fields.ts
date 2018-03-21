@@ -5,6 +5,7 @@ import {
   IntrospectionNonNullTypeRef,
   IntrospectionNamedTypeRef,
   IntrospectionListTypeRef,
+  TypeKind,
 } from "graphql";
 
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
@@ -159,27 +160,27 @@ describe("Fields - schema", () => {
       field => field.name === "implicitStringField",
     )!;
 
-    expect(implicitStringField.type.kind).toEqual("NON_NULL");
+    expect(implicitStringField.type.kind).toEqual(TypeKind.NON_NULL);
   });
 
   it("should generate implicit field type for scalar", async () => {
     const implicitStringFieldType = getInnerFieldType("implicitStringField");
 
-    expect(implicitStringFieldType.kind).toEqual("SCALAR");
+    expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(implicitStringFieldType.name).toEqual("String");
   });
 
   it("should generate explicit field type for scalar", async () => {
     const explicitStringFieldType = getInnerFieldType("explicitStringField");
 
-    expect(explicitStringFieldType.kind).toEqual("SCALAR");
+    expect(explicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(explicitStringFieldType.name).toEqual("String");
   });
 
   it("should generate implicit field type for object type", async () => {
     const implicitObjectFieldType = getInnerFieldType("implicitObjectField");
 
-    expect(implicitObjectFieldType.kind).toEqual("OBJECT");
+    expect(implicitObjectFieldType.kind).toEqual(TypeKind.OBJECT);
     expect(implicitObjectFieldType.name).toEqual("SampleNestedObject");
   });
 
@@ -191,7 +192,7 @@ describe("Fields - schema", () => {
     const implicitNullableStringFieldType =
       implicitNullableStringField.type as IntrospectionNamedTypeRef;
 
-    expect(implicitNullableStringFieldType.kind).toEqual("SCALAR");
+    expect(implicitNullableStringFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(implicitNullableStringFieldType.name).toEqual("String");
   });
 
@@ -203,7 +204,7 @@ describe("Fields - schema", () => {
     const explicitNullableStringFieldType =
       explicitNullableStringField.type as IntrospectionNamedTypeRef;
 
-    expect(explicitNullableStringFieldType.kind).toEqual("SCALAR");
+    expect(explicitNullableStringFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(explicitNullableStringFieldType.name).toEqual("String");
   });
 
@@ -216,10 +217,10 @@ describe("Fields - schema", () => {
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
-    expect(nonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayFieldType.kind).toEqual("LIST");
-    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayItemFieldType.kind).toEqual("SCALAR");
+    expect(nonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(arrayItemFieldType.name).toEqual("String");
   });
 
@@ -232,10 +233,10 @@ describe("Fields - schema", () => {
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
-    expect(nonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayFieldType.kind).toEqual("LIST");
-    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayItemFieldType.kind).toEqual("SCALAR");
+    expect(nonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(arrayItemFieldType.name).toEqual("String");
   });
 
@@ -245,9 +246,9 @@ describe("Fields - schema", () => {
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
-    expect(arrayFieldType.kind).toEqual("LIST");
-    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayItemFieldType.kind).toEqual("SCALAR");
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(arrayItemFieldType.name).toEqual("String");
   });
 
@@ -259,9 +260,9 @@ describe("Fields - schema", () => {
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
-    expect(arrayFieldType.kind).toEqual("LIST");
-    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayItemFieldType.kind).toEqual("SCALAR");
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(arrayItemFieldType.name).toEqual("String");
   });
 
@@ -274,9 +275,9 @@ describe("Fields - schema", () => {
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
-    expect(arrayFieldType.kind).toEqual("LIST");
-    expect(arrayItemNonNullFieldType.kind).toEqual("NON_NULL");
-    expect(arrayItemFieldType.kind).toEqual("OBJECT");
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.OBJECT);
     expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
   });
 });

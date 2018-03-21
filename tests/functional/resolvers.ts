@@ -223,8 +223,8 @@ describe("Resolvers", () => {
 
         expect(getterField.name).toEqual("getterField");
         expect(getterField.args).toHaveLength(0);
-        expect(getterFieldType.kind).toEqual("NON_NULL");
-        expect(getterFieldInnerType.kind).toEqual("SCALAR");
+        expect(getterFieldType.kind).toEqual(TypeKind.NON_NULL);
+        expect(getterFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(getterFieldInnerType.name).toEqual("String");
       });
 
@@ -237,8 +237,8 @@ describe("Resolvers", () => {
 
         expect(simpleMethodField.name).toEqual("simpleMethodField");
         expect(simpleMethodField.args).toHaveLength(0);
-        expect(simpleMethodFieldType.kind).toEqual("NON_NULL");
-        expect(simpleMethodFieldInnerType.kind).toEqual("SCALAR");
+        expect(simpleMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
+        expect(simpleMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(simpleMethodFieldInnerType.name).toEqual("String");
       });
 
@@ -248,8 +248,8 @@ describe("Resolvers", () => {
 
         expect(argMethodField.name).toEqual("argMethodField");
         expect(argMethodField.args).toHaveLength(8);
-        expect(argMethodFieldType.kind).toEqual("NON_NULL");
-        expect(argMethodFieldInnerType.kind).toEqual("SCALAR");
+        expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
+        expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
       });
     });
@@ -261,8 +261,8 @@ describe("Resolvers", () => {
         const stringArgInnerType = stringArgType.ofType as IntrospectionNamedTypeRef;
 
         expect(stringArg.name).toEqual("stringArg");
-        expect(stringArgType.kind).toEqual("NON_NULL");
-        expect(stringArgInnerType.kind).toEqual("SCALAR");
+        expect(stringArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(stringArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(stringArgInnerType.name).toEqual("String");
       });
 
@@ -272,8 +272,8 @@ describe("Resolvers", () => {
         const booleanArgInnerType = booleanArgType.ofType as IntrospectionNamedTypeRef;
 
         expect(booleanArg.name).toEqual("booleanArg");
-        expect(booleanArgType.kind).toEqual("NON_NULL");
-        expect(booleanArgInnerType.kind).toEqual("SCALAR");
+        expect(booleanArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(booleanArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(booleanArgInnerType.name).toEqual("Boolean");
       });
 
@@ -283,8 +283,8 @@ describe("Resolvers", () => {
         const numberArgInnerType = numberArgType.ofType as IntrospectionNamedTypeRef;
 
         expect(numberArg.name).toEqual("numberArg");
-        expect(numberArgType.kind).toEqual("NON_NULL");
-        expect(numberArgInnerType.kind).toEqual("SCALAR");
+        expect(numberArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(numberArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(numberArgInnerType.name).toEqual("Float");
       });
 
@@ -296,7 +296,7 @@ describe("Resolvers", () => {
         const explicitNullableArgType = explicitNullableArg.type as IntrospectionNamedTypeRef;
 
         expect(explicitNullableArg.name).toEqual("explicitNullableArg");
-        expect(explicitNullableArgType.kind).toEqual("SCALAR");
+        expect(explicitNullableArgType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitNullableArgType.name).toEqual("String");
       });
 
@@ -308,10 +308,10 @@ describe("Resolvers", () => {
         const stringArrayArgArrayItemType = stringArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
 
         expect(stringArrayArg.name).toEqual("stringArrayArg");
-        expect(stringArrayArgType.kind).toEqual("NON_NULL");
-        expect(stringArrayArgArrayType.kind).toEqual("LIST");
-        expect(stringArrayArgInnerType.kind).toEqual("NON_NULL");
-        expect(stringArrayArgArrayItemType.kind).toEqual("SCALAR");
+        expect(stringArrayArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(stringArrayArgArrayType.kind).toEqual(TypeKind.LIST);
+        expect(stringArrayArgInnerType.kind).toEqual(TypeKind.NON_NULL);
+        expect(stringArrayArgArrayItemType.kind).toEqual(TypeKind.SCALAR);
         expect(stringArrayArgArrayItemType.name).toEqual("String");
       });
 
@@ -324,10 +324,10 @@ describe("Resolvers", () => {
         const explicitArrayArgArrayItemType = explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitArrayArg.name).toEqual("explicitArrayArg");
-        expect(explicitArrayArgType.kind).toEqual("NON_NULL");
-        expect(explicitArrayArgArrayType.kind).toEqual("LIST");
-        expect(explicitArrayArgInnerType.kind).toEqual("NON_NULL");
-        expect(explicitArrayArgArrayItemType.kind).toEqual("SCALAR");
+        expect(explicitArrayArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(explicitArrayArgArrayType.kind).toEqual(TypeKind.LIST);
+        expect(explicitArrayArgInnerType.kind).toEqual(TypeKind.NON_NULL);
+        expect(explicitArrayArgArrayItemType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitArrayArgArrayItemType.name).toEqual("String");
       });
 
@@ -338,7 +338,7 @@ describe("Resolvers", () => {
         const nullableStringArgType = nullableStringArg.type as IntrospectionNamedTypeRef;
 
         expect(nullableStringArg.name).toEqual("nullableStringArg");
-        expect(nullableStringArgType.kind).toEqual("SCALAR");
+        expect(nullableStringArgType.kind).toEqual(TypeKind.SCALAR);
         expect(nullableStringArgType.name).toEqual("String");
       });
 
@@ -348,8 +348,8 @@ describe("Resolvers", () => {
         const inputArgInnerType = inputArgType.ofType as IntrospectionNamedTypeRef;
 
         expect(inputArg.name).toEqual("inputArg");
-        expect(inputArgType.kind).toEqual("NON_NULL");
-        expect(inputArgInnerType.kind).toEqual("INPUT_OBJECT");
+        expect(inputArgType.kind).toEqual(TypeKind.NON_NULL);
+        expect(inputArgInnerType.kind).toEqual(TypeKind.INPUT_OBJECT);
         expect(inputArgInnerType.name).toEqual("SampleInput");
       });
     });
@@ -362,7 +362,7 @@ describe("Resolvers", () => {
           .ofType as IntrospectionNamedTypeRef;
 
         expect(stringArg.name).toEqual("stringArg");
-        expect(stringArgInnerType.kind).toEqual("SCALAR");
+        expect(stringArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(stringArgInnerType.name).toEqual("String");
       });
 
@@ -372,7 +372,7 @@ describe("Resolvers", () => {
         const numberArgType = numberArg.type as IntrospectionNamedTypeRef;
 
         expect(numberArg.name).toEqual("numberArg");
-        expect(numberArgType.kind).toEqual("SCALAR");
+        expect(numberArgType.kind).toEqual(TypeKind.SCALAR);
         expect(numberArgType.name).toEqual("Int");
       });
 
@@ -383,7 +383,7 @@ describe("Resolvers", () => {
           .ofType as IntrospectionNamedTypeRef;
 
         expect(inputObjectArg.name).toEqual("inputObjectArg");
-        expect(inputObjectArgInnerType.kind).toEqual("INPUT_OBJECT");
+        expect(inputObjectArgInnerType.kind).toEqual(TypeKind.INPUT_OBJECT);
         expect(inputObjectArgInnerType.name).toEqual("SampleInput");
       });
 
@@ -402,9 +402,9 @@ describe("Resolvers", () => {
         const arg2InnerType = (arg2.type as IntrospectionNonNullTypeRef)
           .ofType as IntrospectionNamedTypeRef;
 
-        expect(arg1InnerType.kind).toEqual("SCALAR");
+        expect(arg1InnerType.kind).toEqual(TypeKind.SCALAR);
         expect(arg1InnerType.name).toEqual("String");
-        expect(arg2InnerType.kind).toEqual("SCALAR");
+        expect(arg2InnerType.kind).toEqual(TypeKind.SCALAR);
         expect(arg2InnerType.name).toEqual("Boolean");
       });
     });
@@ -417,8 +417,8 @@ describe("Resolvers", () => {
 
         expect(emptyQuery.args).toHaveLength(0);
         expect(emptyQuery.name).toEqual("emptyQuery");
-        expect(emptyQueryReturnType.kind).toEqual("NON_NULL");
-        expect(emptyQueryInnerReturnType.kind).toEqual("SCALAR");
+        expect(emptyQueryReturnType.kind).toEqual(TypeKind.NON_NULL);
+        expect(emptyQueryInnerReturnType.kind).toEqual(TypeKind.SCALAR);
         expect(emptyQueryInnerReturnType.name).toEqual("Boolean");
       });
 
@@ -429,8 +429,8 @@ describe("Resolvers", () => {
 
         expect(emptyMutation.args).toHaveLength(0);
         expect(emptyMutation.name).toEqual("emptyMutation");
-        expect(emptyMutationReturnType.kind).toEqual("NON_NULL");
-        expect(emptyMutationInnerReturnType.kind).toEqual("SCALAR");
+        expect(emptyMutationReturnType.kind).toEqual(TypeKind.NON_NULL);
+        expect(emptyMutationInnerReturnType.kind).toEqual(TypeKind.SCALAR);
         expect(emptyMutationInnerReturnType.name).toEqual("Boolean");
       });
 
@@ -439,7 +439,7 @@ describe("Resolvers", () => {
         const implicitStringQueryType = implicitStringQuery.type as IntrospectionNonNullTypeRef;
         const implicitStringQueryInnerType = implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
-        expect(implicitStringQueryInnerType.kind).toEqual("SCALAR");
+        expect(implicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitStringQueryInnerType.name).toEqual("String");
       });
 
@@ -448,7 +448,7 @@ describe("Resolvers", () => {
         const explicitStringQueryType = explicitStringQuery.type as IntrospectionNonNullTypeRef;
         const explicitStringQueryInnerType = explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
-        expect(explicitStringQueryInnerType.kind).toEqual("SCALAR");
+        expect(explicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitStringQueryInnerType.name).toEqual("String");
       });
 
@@ -456,7 +456,7 @@ describe("Resolvers", () => {
         const nullableStringQuery = getQuery("nullableStringQuery");
         const nullableStringQueryType = nullableStringQuery.type as IntrospectionNamedTypeRef;
 
-        expect(nullableStringQueryType.kind).toEqual("SCALAR");
+        expect(nullableStringQueryType.kind).toEqual(TypeKind.SCALAR);
         expect(nullableStringQueryType.name).toEqual("String");
       });
 
@@ -467,8 +467,8 @@ describe("Resolvers", () => {
         const nonNullItemType = listType.ofType as IntrospectionNonNullTypeRef;
         const itemType = nonNullItemType.ofType as IntrospectionNamedTypeRef;
 
-        expect(listType.kind).toEqual("LIST");
-        expect(itemType.kind).toEqual("SCALAR");
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
         expect(itemType.name).toEqual("String");
       });
 
@@ -479,8 +479,8 @@ describe("Resolvers", () => {
         const nonNullItemType = listType.ofType as IntrospectionNonNullTypeRef;
         const itemType = nonNullItemType.ofType as IntrospectionNamedTypeRef;
 
-        expect(listType.kind).toEqual("LIST");
-        expect(itemType.kind).toEqual("SCALAR");
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
         expect(itemType.name).toEqual("String");
       });
 
@@ -489,7 +489,7 @@ describe("Resolvers", () => {
         const promiseStringQueryType = promiseStringQuery.type as IntrospectionNonNullTypeRef;
         const promiseStringQueryInnerType = promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
 
-        expect(promiseStringQueryInnerType.kind).toEqual("SCALAR");
+        expect(promiseStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(promiseStringQueryInnerType.name).toEqual("String");
       });
 
@@ -498,7 +498,7 @@ describe("Resolvers", () => {
         const asyncObjectQueryType = asyncObjectQuery.type as IntrospectionNonNullTypeRef;
         const asyncObjectQueryInnerType = asyncObjectQueryType.ofType as IntrospectionNamedTypeRef;
 
-        expect(asyncObjectQueryInnerType.kind).toEqual("OBJECT");
+        expect(asyncObjectQueryInnerType.kind).toEqual(TypeKind.OBJECT);
         expect(asyncObjectQueryInnerType.name).toEqual("SampleObject");
       });
 
@@ -507,7 +507,7 @@ describe("Resolvers", () => {
         const implicitObjectQueryType = implicitObjectQuery.type as IntrospectionNonNullTypeRef;
         const implicitObjectQueryInnerType = implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
 
-        expect(implicitObjectQueryInnerType.kind).toEqual("OBJECT");
+        expect(implicitObjectQueryInnerType.kind).toEqual(TypeKind.OBJECT);
         expect(implicitObjectQueryInnerType.name).toEqual("SampleObject");
       });
 

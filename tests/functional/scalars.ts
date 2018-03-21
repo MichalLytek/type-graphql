@@ -11,6 +11,7 @@ import {
   IntrospectionNonNullTypeRef,
   GraphQLScalarType,
   GraphQLSchema,
+  TypeKind,
 } from "graphql";
 
 import {
@@ -148,49 +149,49 @@ describe("Scalars", () => {
     it("should generate ID scalar field type", async () => {
       const idFieldType = getFieldType("idField");
 
-      expect(idFieldType.kind).toEqual("SCALAR");
+      expect(idFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(idFieldType.name).toEqual("ID");
     });
 
     it("should generate Float scalar field type", async () => {
       const explicitFloatFieldType = getFieldType("explicitFloatField");
 
-      expect(explicitFloatFieldType.kind).toEqual("SCALAR");
+      expect(explicitFloatFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(explicitFloatFieldType.name).toEqual("Float");
     });
 
     it("should generate Float scalar field type when prop type is number", async () => {
       const implicitFloatFieldType = getFieldType("implicitFloatField");
 
-      expect(implicitFloatFieldType.kind).toEqual("SCALAR");
+      expect(implicitFloatFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(implicitFloatFieldType.name).toEqual("Float");
     });
 
     it("should generate Int scalar field type", async () => {
       const intFieldType = getFieldType("intField");
 
-      expect(intFieldType.kind).toEqual("SCALAR");
+      expect(intFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(intFieldType.name).toEqual("Int");
     });
 
     it("should generate String scalar field type", async () => {
       const explicitStringFieldType = getFieldType("explicitStringField");
 
-      expect(explicitStringFieldType.kind).toEqual("SCALAR");
+      expect(explicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(explicitStringFieldType.name).toEqual("String");
     });
 
     it("should generate String scalar field type when prop type is string", async () => {
       const implicitStringFieldType = getFieldType("implicitStringField");
 
-      expect(implicitStringFieldType.kind).toEqual("SCALAR");
+      expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(implicitStringFieldType.name).toEqual("String");
     });
 
     it("should generate Date scalar field type", async () => {
       const explicitDateFieldType = getFieldType("explicitDateField");
 
-      expect(explicitDateFieldType.kind).toEqual("SCALAR");
+      expect(explicitDateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(explicitDateFieldType.name).toEqual("DateTime");
     });
 
@@ -199,28 +200,28 @@ describe("Scalars", () => {
     // it("should generate Date scalar field type when prop type is Date", async () => {
     //   const implicitStringFieldType = getFieldType("implicitDateField");
 
-    //   expect(implicitStringFieldType.kind).toEqual("SCALAR");
+    //   expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
     //   expect(implicitStringFieldType.name).toEqual("DateTime");
     // });
 
     it("should generate ISODate scalar field type", async () => {
       const ISODateFieldType = getFieldType("ISODateField");
 
-      expect(ISODateFieldType.kind).toEqual("SCALAR");
+      expect(ISODateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(ISODateFieldType.name).toEqual("DateTime");
     });
 
     it("should generate Timestamp scalar field type", async () => {
       const timestampFieldType = getFieldType("timestampField");
 
-      expect(timestampFieldType.kind).toEqual("SCALAR");
+      expect(timestampFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(timestampFieldType.name).toEqual("Timestamp");
     });
 
     it("should generate custom scalar field type", async () => {
       const customScalarFieldType = getFieldType("customScalarField");
 
-      expect(customScalarFieldType.kind).toEqual("SCALAR");
+      expect(customScalarFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(customScalarFieldType.name).toEqual("Custom");
     });
   });
@@ -441,7 +442,7 @@ describe("Scalars", () => {
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
-      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(dateFieldType.name).toEqual("DateTime");
     });
 
@@ -452,7 +453,7 @@ describe("Scalars", () => {
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
-      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(dateFieldType.name).toEqual("DateTime");
     });
 
@@ -463,7 +464,7 @@ describe("Scalars", () => {
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
-      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(dateFieldType.name).toEqual("Timestamp");
     });
 
@@ -489,7 +490,7 @@ describe("Scalars", () => {
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("customField");
 
-      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(dateFieldType.name).toEqual("Custom");
     });
 
@@ -516,7 +517,7 @@ describe("Scalars", () => {
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
-      expect(dateFieldType.kind).toEqual("SCALAR");
+      expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
       expect(dateFieldType.name).toEqual("Custom");
     });
   });

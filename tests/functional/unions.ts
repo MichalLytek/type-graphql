@@ -9,6 +9,7 @@ import {
   graphql,
   GraphQLSchema,
   IntrospectionUnionType,
+  TypeKind,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -51,7 +52,7 @@ describe("Unions", () => {
 
     const OneTwoThreeUnion = createUnionType({
       name: "OneTwoThreeUnion",
-      description: "OneTwoThreeUnion desctiption",
+      description: "OneTwoThreeUnion description",
       types: [ObjectOne, ObjectTwo, ObjectThree],
     });
 
@@ -109,12 +110,12 @@ describe("Unions", () => {
         type => type.name === "ObjectThree",
       )!;
 
-      expect(oneTwoThreeUnionType.kind).toEqual("UNION");
+      expect(oneTwoThreeUnionType.kind).toEqual(TypeKind.UNION);
       expect(oneTwoThreeUnionType.name).toEqual("OneTwoThreeUnion");
-      expect(oneTwoThreeUnionType.description).toEqual("OneTwoThreeUnion desctiption");
-      expect(objectOne.kind).toEqual("OBJECT");
-      expect(objectTwo.kind).toEqual("OBJECT");
-      expect(objectThree.kind).toEqual("OBJECT");
+      expect(oneTwoThreeUnionType.description).toEqual("OneTwoThreeUnion description");
+      expect(objectOne.kind).toEqual(TypeKind.OBJECT);
+      expect(objectTwo.kind).toEqual(TypeKind.OBJECT);
+      expect(objectThree.kind).toEqual(TypeKind.OBJECT);
     });
 
     it("should correctly generate query's union output type", async () => {
@@ -123,7 +124,7 @@ describe("Unions", () => {
       )!;
 
       const getObjectOneFromUnionType = getInnerTypeOfNullableType(getObjectOneFromUnion);
-      expect(getObjectOneFromUnionType.kind).toEqual("UNION");
+      expect(getObjectOneFromUnionType.kind).toEqual(TypeKind.UNION);
       expect(getObjectOneFromUnionType.name).toEqual("OneTwoThreeUnion");
     });
 
@@ -133,7 +134,7 @@ describe("Unions", () => {
       ) as IntrospectionObjectType;
       const objectUnionFieldType = getInnerFieldType(objectUnion, "unionField");
 
-      expect(objectUnionFieldType.kind).toEqual("UNION");
+      expect(objectUnionFieldType.kind).toEqual(TypeKind.UNION);
       expect(objectUnionFieldType.name).toEqual("OneTwoThreeUnion");
     });
   });
