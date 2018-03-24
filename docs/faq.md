@@ -15,3 +15,17 @@ It really depends on various factors:
 ### Should I use array of manually imported resolver classes or use a glob path string?
 Using path to resolver module files force you to structure yours project folders or constantly name files with prefix/suffix.
 When you have several dozen of resolver classes, it might be easier than always remember about importing and registering each new class.
+
+## Types
+
+### Is `@InputType()` different from `@ArgsType()`?
+Of course!
+`@InputType` will generate real `GraphQLInputType` and should be used when you want to have nested object in args:
+```graphql
+updateItem(data: UpdateItemInput!): Item!
+```
+
+`@ArgsType` is virtual and it will be flattened in schema:
+```graphql
+updateItem(id: Int!, userId: Int!): Item!
+```
