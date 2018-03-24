@@ -4,6 +4,10 @@ You can learn both the basics as well as advanced techniques and additional feat
 
 [**FAQ** - Frequently Asked Questions](./faq.md)
 
+## First steps
+- [introduction](./introduction.md) (what is TypeGraphQL and why it was made)
+- [getting started](./getting-started.md) (creating simple example app with TypeGraphQL)
+
 ## Basics
 - [types and fields](./types-and-fields.md) (how to create object type, define its fields and types)
 - [queries, mutations and field resolvers](./resolvers.md)
