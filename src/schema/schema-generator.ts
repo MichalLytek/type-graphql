@@ -34,8 +34,7 @@ import {
   createSimpleFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import { GeneratingSchemaError } from "./GeneratingSchemaError";
-import { UnionResolveTypeError } from "../errors";
+import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -193,9 +192,8 @@ export abstract class SchemaGenerator {
             );
             // copy interfaces from super class
             if (hasExtended) {
-              interfaces = Array.from(
-                new Set(interfaces.concat(getSuperClassType().getInterfaces())),
-              );
+              const superInterfaces = getSuperClassType().getInterfaces();
+              interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
             }
             return interfaces;
           },
