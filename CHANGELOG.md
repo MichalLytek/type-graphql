@@ -1,8 +1,8 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.8.1
 ### Features
-- add `@Info()` decorator for injecting GraphQL info to resolvers
+- add `@Info()` decorator for injecting GraphQL resolve info to resolvers
 - add support for injecting parts of `root` and `context` objects with `@Root("field")` and `@Ctx("field")` decorators
 
 ## v0.8.0
