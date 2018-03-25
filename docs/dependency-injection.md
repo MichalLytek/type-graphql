@@ -1,5 +1,5 @@
-# Depenency injection - IoC container
-Depenency injection is a really useful pattern that helps in decoupling parts of the app.
+# Dependency injection - IoC container
+Dependency injection is a really useful pattern that helps in decoupling parts of the app.
 
 TypeGraphQL supports this technique by allowing users to provide the IoC container that will be used by the framework.
 

@@ -7,315 +7,82 @@
 [![dependencies](https://david-dm.org/19majkel94/type-graphql/status.svg)](https://david-dm.org/19majkel94/type-graphql)
 [![gitter](https://badges.gitter.im/type-graphql.svg)](https://gitter.im/type-graphql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Create GraphQL resolvers and schemas with TypeScript, using classes and decorators!
+Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
-## Design Goals
-We all love GraphQL but creating GraphQL API with TypeScript is a bit of pain.
-We have to mantain separate GQL schemas using SDL or JS API and keep the related TypeScript interfaces in sync with them. We also have separate ORM classes representing our db entities. This duplication is a really bad developer experience.
+## Introduction
+We all know that GraphQL is so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain. **TypeGraphQL** makes that process enjoyable, i.a. by defining the schema using only classes and a bit of decorators magic.
 
-What if I told you that you can have only one source of truth thanks to a little addition of decorators magic?
-Interested? So take a look at the quick intro to TypeGraphQL!
-
-## Getting started
-Let's start at the begining with an example.
-We have API for cooking recipes and we love using GraphQL for it.
-At first we will create the `Recipe` type, which is the foundations of our API:
-
+To create types like object type or input type, we use kind of DTO classes. For example to declare `Recipe` type we simply create a class and annotate it with decorators:
 ```ts
 @ObjectType()
 class Recipe {
   @Field(type => ID)
-  readonly id: string;
+  id: string;
 
   @Field()
   title: string;
 
-  @Field({ nullable: true })
-  description?: string;
-
-  @Field(type => Rate)
-  ratings: Rate[];
+  @Field(type => [Rate])
+  ratings: Rate[]
 
   @Field({ nullable: true })
   averageRating?: number;
 }
 ```
-Take a look at the decorators:
 
-- `@ObjectType()` marks the class as the object shape known from GraphQL SDL as `type`
-- `@Field()` marks the property as the object's field - it is also used to collect type metadata from TypeScript reflection system
-- the parameter function in decorator `@Field(type => ID)` is used to declare the GraphQL scalar type like the builit-in `ID`
-- due to reflection limitation, optional (nullable) fields has to be annotated with `{ nullable: true }` decorator param
-- we also have to declare `(type => Rate)` because of limitation of type reflection - emited type of `ratings` property is `Array`, so we need to know what is the type of items in the array
-
-This will generate GraphQL type corresponding to this:
+And we get corresponding part of schema in SDL:
 ```graphql
 type Recipe {
   id: ID!
   title: String!
-  description: String
-  ratings: [Rate]!
+  ratings: [Rate!]!
   averageRating: Float
 }
 ```
 
-Next, we need to define what is the `Rate` type:
-
+Then we can create queries, mutations and field resolvers.
+For this purpose we use controller-like classes that are called "resolvers" by convention.
+We can also use awesome features like dependency injection or auth guards:
 ```ts
-@ObjectType()
-class Rate {
-  @Field(type => Int)
-  value: number;
-
-  @Field()
-  date: Date;
-
-  @Field()
-  user: User;
-}
-```
-Again, take a look at `@Field(type => Int)` decorator - Javascript doesn't have integers so we have to mark that our number type will be `Int`, not `Float` (which is `number` by default).
-
------
-
-So, as we have the base of our recipe related types, let's create a resolver!
-
-We will start by creating a class with apropiate decorator:
-```ts
-@Resolver(objectType => Recipe)
-export class RecipeResolver {
-  // we will implement this later
-}
-```
-`@Resolver` marks our class as a resolver of type `Recipe` (type info is needed for attaching field resolver to correct type).
-
-Now let's create our first query:
-```ts
-@Resolver(objectType => Recipe)
-export class RecipeResolver {
+@Resolver(Recipe)
+class RecipeResolver {
   constructor(
-    // declare to inject instance of our repository
-    private readonly recipeRepository: Repository<Recipe>,
-  ){}
+    private recipeService: RecipeService,
+  ) {}
 
-  @Query(returnType => Recipe, { nullable: true })
-  async recipe(@Args() { recipeId }: FindRecipeArgs): Promise<Recipe | undefined> {
-    return this.recipeRepository.findOneById(recipeId);
+  @Query(returns => [Recipe])
+  recipes() {
+    return this.recipeService.findAll();
   }
-```
-- our query needs to communicate with database, so we declare the repository in constructor and the DI framework will do the magic and injects the instance to our resolver
-- `@Query` decorator marks the class method as the query (who would have thought?)
-- our method is async, so we can't infer the return type from reflection system - we need to define it as `(returnType => Recipe)` and also mark it as nullable because `findOneById` might not return the recipe (no document with the id in DB)
-- `@Args()` marks the parameter as query arguments object, where `FindRecipeArgs` define it's fields - this will be injected in this place to this method
 
-So, how the `FindRecipeArgs` looks like?
-```ts
-@ArgsType()
-class FindRecipeArgs {
-  @Field(type => ID)
-  recipeId: string;
+  @Mutation()
+  @Authorized(Roles.Admin)
+  removeRecipe(@Arg("id") id: string): boolean {
+    return this.recipeService.removeById(id);
+  }
+
+  @FieldResolver()
+  averageRating(@Root() recipe: Recipe) {
+    return recipe.ratings.reduce((a, b) => a + b, 0) / recipe.ratings.length;
+  }
 }
 ```
 
-This two will generate corresponding graphql schema:
+And in this simple way we get this part of schema in SDL:
 ```graphql
 type Query {
-  recipe(recipeId: ID!): Recipe
+  recipes: [Recipe!]!
 }
-```
-It is great, isn't it? :smiley:
-
-Ok, let's add another query:
-```ts
-class RecipeResolver {
-  // ...
-  @Query(() => Recipe, { array: true })
-  recipes(): Promise<Array<Recipe>> {
-    return this.recipeRepository.find();
-  }
-}
-```
-As you can see, the function parameter name `@Query(returnType => Recipe)` is only the convention and if you want, you can use the shorthand syntax like `@Query(() => Recipe)` which might be quite less readable for someone. We need to declare it as a function to help resolve circular dependencies.
-
-Also, remember to declare `{ array: true }` when your method is async or returns the `Promise<Array<T>>`.
-
-So now we have two queries in our schema:
-```graphql
-type Query {
-  recipe(recipeId: ID!): Recipe
-  recipes: [Recipe]!
-}
-```
-
-Now let's move to the mutations:
-```ts
-class RecipeResolver {
-  // ...
-  @Mutation(returnType => Recipe)
-  async rate(
-    @Arg("rate") rateInput: RateInput,
-    @Context() { user }: Context,
-  ) {
-    // implementation...
-  }
-}
-```
-- we declare the method as mutation using the `@Mutation()` with return type function syntax
-- the `@Arg()` decorator let's you declare single argument of the mutation
-- for complex arguments you can use as input types like `RateInput` in this case
-- injecting the context is also possible - using `@Context()` decorator, so you have an access to `request` or `user` data - whatever you define on server settings
-
-Here's how `RateInput` type looks:
-```ts
-@InputType()
-class RateInput {
-  @Field(type => ID)
-  recipeId: string;
-
-  @Field(type => Int)
-  value: number;
-}
-```
-`@InputType()` marks the class as the `input` in SDL, in oposite to `type` or `scalar`
-
-The corresponding GraphQL schema:
-```graphql
-input RateInput {
-  recipeId: ID!
-  value: Int!
-}
-```
-
-And the rate mutation definition:
-```graphql
 type Mutation {
-  rate(rate: RateInput!): Recipe!
+  removeRecipe(id: String!): Boolean!
 }
 ```
 
-The last one we discuss now is the field resolver. As we declared earlier, we store array of ratings in our recipe documents and we want to expose the average rating value.
+Why I said that developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain? You can find out what's [the motivation of creating TypeGraphQL](https://github.com/19majkel94/type-graphql/blob/master/docs/introduction.md#motivation) in docs.
 
-So all we need is to decorate the method with `@FieldResolver()` and the method parameter with `@Root()` decorator with the root value type of `Recipe` - as simple as that!
-
-```ts
-class RecipeResolver {
-  // ...
-  @FieldResolver()
-  averageRating(@Root() recipe: Recipe) {
-    // implementation...
-  }
-}
-```
-
-The whole `RecipeResolver` we discussed above with sample implementation of methods looks like this:
-```ts
-@Resolver(objectType => Recipe)
-export class RecipeResolver {
-  constructor(
-    // inject the repository (or other services)
-    private readonly recipeRepository: Repository<Recipe>,
-  ){}
-
-  @Query(returnType => Recipe, { nullable: true })
-  recipe(@Args() { recipeId }: FindRecipeParams) {
-    return this.recipeRepository.findOneById(recipeId);
-  }
-
-  @Query(() => Recipe, { array: true })
-  recipes(): Promise<Array<Recipe>> {
-    return this.recipeRepository.find();
-  }
-
-  @Mutation(Recipe)
-  async rate(
-    @Arg("rate") rateInput: RateInput,
-    @Context() { user }: Context,
-  ) {
-    // find the document
-    const recipe = await this.recipeRepository.findOneById(rateInput.recipeId);
-    if (!recipe) {
-      throw new Error("Invalid recipe ID");
-    }
-
-    // update the document
-    recipe.ratings.push({
-      date: new Date(),
-      value: rateInput.value,
-      user,
-    });
-
-    // and save it
-    return this.recipeRepository.save(recipe);
-  }
-
-  @FieldResolver()
-  averageRating(@Root() recipe: Recipe) {
-    const ratingsCount = recipe.ratings.length;
-    const ratingsSum = recipe.ratings
-      .map(rating => rating.value)
-      .reduce((a, b) => a + b, 0);
-
-    return ratingsCount ? ratingsSum / ratingsCount : null;
-  }
-}
-```
-
-### Real life example
-
-As I mentioned, in real life we want to reuse as much TypeScript definition as we can.
-So the GQL type classes would be also reused by ORM or validation lib:
-
-```ts
-import { Entity, ObjectIdColumn, Column, OneToMany, CreateDateColumn } from "typeorm";
-
-@Entity()
-@ObjectType()
-export class Recipe {
-  @ObjectIdColumn()
-  @Field(type => ID)
-  readonly id: ObjectId;
-
-  @Column()
-  @Field()
-  title: string;
-
-  @Column()
-  @Field()
-  description: string;
-
-  @OneToMany(type => Rate, rate => rate.recipe)
-  @Field(type => Rate)
-  ratings: Rate[];
-
-  // note that this field is not stored in DB
-  @Field()
-  averageRating: number;
-
-  // and this one is not exposed by GraphQL
-  @CreateDateColumn()
-  creationDate: Date;
-}
-```
-
-```ts
-import { IsMongoId, Min, Max } from "class-validator";
-
-@InputType()
-class RateInput {
-  @IsMongoId()
-  @Field(type => ID)
-  recipeId: string;
-
-  @Min(1)
-  @Max(5)
-  @Field(type => Int)
-  value: number;
-}
-```
-
-Of course TypeGraphQL will automatically validate the input and params with `class-validator` for you too!
-
-More details about this feature [here](https://github.com/19majkel94/type-graphql/blob/master/docs/validation.md).
+## Getting started
+Full getting started guide with a simple walkthrough/tutorial can be found in [getting started docs](https://github.com/19majkel94/type-graphql/blob/master/docs/getting-started.md).
+Below you can find installation instructions that are also important.
 
 ## How to use
 
@@ -336,6 +103,8 @@ and make sure to import it on top of your entry file (before you use/import `typ
 import "reflect-metadata";
 ```
 
+### TypeScript configuration
+
 3. Its important to set these options in `tsconfig.json` file of your project:
 ```js
 {
@@ -351,60 +120,28 @@ import "reflect-metadata";
 }
 ```
 
-### Usage
-All you need to do is to import your resolvers and register them in schema builder:
-```ts
-import "reflect-metadata"; // remember about this!
-import { buildSchema } from "type-graphql";
-
-import { SampleResolver } from "./resolvers";
-
-async function bootstrap() {
-  const schema = await buildSchema({
-    resolvers: [SampleResolver],
-  });
-  // the rest of your app bootstrap code
-}
-
-```
-And that's it! You can also create a HTTP-based GraphQL API server:
-```ts
-// remember to install "express" and "express-graphql" modules!
-const app = express();
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema, // this is our schema from TypeGraphQL
-    graphiql: true,
-  }),
-);
-app.listen(4000, () => {
-  console.log("Running a GraphQL API server at localhost:4000/graphql");
-});
-```
-
 ## Examples
 You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on the repo for more example of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
 
 Please notice that, do tue a [ts-node bug](https://github.com/rbuckton/reflect-metadata/issues/84) an additional parameter is needed when running with ts-node:
 ```bash
-ts-node --type-check ./examples/01-simple-usage/index.ts
+ts-node --type-check ./examples/simple-usage/index.ts
 ```
 
-[Tests](https://github.com/19majkel94/type-graphql/tree/master/tests) folder will also give you some tips how to make some things done.
+The [Tests folder](https://github.com/19majkel94/type-graphql/tree/master/tests) might also give you some tips how to make some things done.
 
 ## Work in progress
+Currently released version is a MVP (Minimum Viable Product).
+It is well tested (95% coverage, 4400 lines of test code) and has 90% of the planned features already implemented.
+However there's some work to do before 1.0.0 release and it's mostly about documentation (website, api reference and jsdoc).
 
-Currently released version is an early alpha. However it's working quite well, so please feel free to test it and experiment with it.
+There are also plans for more features like better TypeORM and dataloader integration or middlewares and custom decorators support - [the full list of ideas](https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
 
-More feedback = less bugs thanks to you! :smiley:
+I encourage you to give it a try and experiment with TypeGraphQL. If you have any question, you can [ask about it on gitter](https://gitter.im/type-graphql/Lobby). If you find a bug, please report it as an issue on GitHub. If you have an interesting feature request, I will be happy to hear about it. 
 
 ## Contribution
 PRs are welcome, but first check, test and build your code before committing it.
 * Use commit rules: For more information checkout this [commit rule guide](https://gist.github.com/stephenparish/9941e89d80e2bc58a153).
 * [Allowing changes to a pull request branch created from a fork](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/)
 
-## Roadmap
-You can keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
-
-Stay tuned and come back later for more! :wink:
+If you want to add a new big feature, please create a proposal first, where we can discuss the idea and implementation details. This will prevent wasting of your time if the PR be rejected.
