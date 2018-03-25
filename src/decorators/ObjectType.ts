@@ -17,7 +17,7 @@ export function ObjectType(
     options.implements && [].concat(options.implements as any);
 
   return target => {
-    MetadataStorage.registerObjectDefinition({
+    MetadataStorage.collectObjectMetadata({
       name: name || target.name,
       target,
       description: options.description,

@@ -1,63 +1,66 @@
 import { GraphQLFieldResolver } from "graphql";
 
 import { IOCContainer } from "../utils/container";
-import { FieldResolverDefinition, FieldDefinition } from "../metadata/definition-interfaces";
+import {
+  FieldResolverMetadata,
+  FieldMetadata,
+  BaseResolverMetadata,
+} from "../metadata/definitions";
 import { getParams, checkForAccess } from "./helpers";
-import { BaseResolverDefinitions } from "../types/resolvers";
-import { convertToType } from "../types/helpers";
+import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ActionData } from "../types/auth-checker";
 
 export function createHandlerResolver(
-  resolverDefinition: BaseResolverDefinitions,
+  resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  const targetInstance = IOCContainer.getInstance(resolverDefinition.target);
+  const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
   const globalValidate = BuildContext.validate;
   const authChecker = BuildContext.authChecker;
 
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, resolverDefinition.roles);
-    const params: any[] = await getParams(resolverDefinition.params!, actionData, globalValidate);
-    return resolverDefinition.handler!.apply(targetInstance, params);
+    await checkForAccess(actionData, authChecker, resolverMetadata.roles);
+    const params: any[] = await getParams(resolverMetadata.params!, actionData, globalValidate);
+    return resolverMetadata.handler!.apply(targetInstance, params);
   };
 }
 
 export function createAdvancedFieldResolver(
-  fieldResolverDefinition: FieldResolverDefinition,
+  fieldResolverMetadata: FieldResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  if (fieldResolverDefinition.kind === "external") {
-    return createHandlerResolver(fieldResolverDefinition);
+  if (fieldResolverMetadata.kind === "external") {
+    return createHandlerResolver(fieldResolverMetadata);
   }
 
-  const targetType = fieldResolverDefinition.getParentType!();
+  const targetType = fieldResolverMetadata.getParentType!();
   const globalValidate = BuildContext.validate;
   const authChecker = BuildContext.authChecker;
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, fieldResolverDefinition.roles);
+    await checkForAccess(actionData, authChecker, fieldResolverMetadata.roles);
     const targetInstance: any = convertToType(targetType, root);
     // method
-    if (fieldResolverDefinition.handler) {
+    if (fieldResolverMetadata.handler) {
       const params: any[] = await getParams(
-        fieldResolverDefinition.params!,
+        fieldResolverMetadata.params!,
         actionData,
         globalValidate,
       );
-      return fieldResolverDefinition.handler.apply(targetInstance, params);
+      return fieldResolverMetadata.handler.apply(targetInstance, params);
     }
     // getter
-    return targetInstance[fieldResolverDefinition.methodName];
+    return targetInstance[fieldResolverMetadata.methodName];
   };
 }
 
 export function createSimpleFieldResolver(
-  fieldDefinition: FieldDefinition,
+  fieldMetadata: FieldMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const authChecker = BuildContext.authChecker;
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, fieldDefinition.roles);
-    return root[fieldDefinition.name];
+    await checkForAccess(actionData, authChecker, fieldMetadata.roles);
+    return root[fieldMetadata.name];
   };
 }

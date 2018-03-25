@@ -35,7 +35,7 @@ export function Field(
       typeOptions: options,
     });
 
-    MetadataStorage.registerClassField({
+    MetadataStorage.collectClassFieldMetadata({
       name: propertyKey,
       getType,
       typeOptions,
@@ -46,7 +46,7 @@ export function Field(
 
     if (isResolver) {
       const methodName = propertyKey as keyof typeof prototype;
-      MetadataStorage.registerFieldResolver({
+      MetadataStorage.collectFieldResolverMetadata({
         kind: "internal",
         methodName,
         target: prototype.constructor,

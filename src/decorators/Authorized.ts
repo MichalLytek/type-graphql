@@ -19,7 +19,7 @@ export function Authorized(...rolesOrRolesArray: any[]): MethodOrPropDecorator {
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.registerAuthorizedField({
+    MetadataStorage.collectAuthorizedFieldMetadata({
       target: prototype.constructor,
       fieldName: propertyKey,
       roles,

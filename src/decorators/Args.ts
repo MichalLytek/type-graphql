@@ -4,7 +4,7 @@ import { ValidateOptions } from "../types/decorators";
 
 export function Args(options: ValidateOptions = {}): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
-    MetadataStorage.registerHandlerParam({
+    MetadataStorage.collectHandlerParamMetadata({
       kind: "args",
       ...getParamInfo({ prototype, propertyKey, parameterIndex, options }),
     });

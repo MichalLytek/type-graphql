@@ -7,7 +7,7 @@ export function Info(): ParameterDecorator {
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.registerHandlerParam({
+    MetadataStorage.collectHandlerParamMetadata({
       kind: "info",
       target: prototype.constructor,
       methodName: propertyKey,

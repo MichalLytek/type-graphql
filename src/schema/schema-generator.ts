@@ -21,13 +21,9 @@ import {
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
-import {
-  HandlerDefinition,
-  ParamDefinition,
-  ClassDefinition,
-} from "../metadata/definition-interfaces";
+import { ResolverMetadata, ParamMetadata, ClassMetadata } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../types/decorators";
-import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../types/helpers";
+import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
 import {
   createHandlerResolver,
   createAdvancedFieldResolver,
@@ -96,20 +92,20 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
-    this.unionTypesInfo = MetadataStorage.unions.map<UnionTypeInfo>(unionDefinition => {
+    this.unionTypesInfo = MetadataStorage.unions.map<UnionTypeInfo>(unionMetadata => {
       return {
-        unionSymbol: unionDefinition.symbol,
+        unionSymbol: unionMetadata.symbol,
         type: new GraphQLUnionType({
-          name: unionDefinition.name,
-          description: unionDefinition.description,
+          name: unionMetadata.name,
+          description: unionMetadata.description,
           types: () =>
-            unionDefinition.types.map(
+            unionMetadata.types.map(
               objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type,
             ),
           resolveType: instance => {
-            const instanceTarget = unionDefinition.types.find(type => instance instanceof type);
+            const instanceTarget = unionMetadata.types.find(type => instance instanceof type);
             if (!instanceTarget) {
-              throw new UnionResolveTypeError(unionDefinition);
+              throw new UnionResolveTypeError(unionMetadata);
             }
             // TODO: refactor to map for quicker access
             return this.objectTypesInfo.find(type => type.target === instanceTarget)!.type;
@@ -117,13 +113,13 @@ export abstract class SchemaGenerator {
         }),
       };
     });
-    this.enumTypesInfo = MetadataStorage.enums.map<EnumTypeInfo>(enumDefinition => {
-      const enumMap = getEnumValuesMap(enumDefinition.enumObj);
+    this.enumTypesInfo = MetadataStorage.enums.map<EnumTypeInfo>(enumMetadata => {
+      const enumMap = getEnumValuesMap(enumMetadata.enumObj);
       return {
-        enumObj: enumDefinition.enumObj,
+        enumObj: enumMetadata.enumObj,
         type: new GraphQLEnumType({
-          name: enumDefinition.name,
-          description: enumDefinition.description,
+          name: enumMetadata.name,
+          description: enumMetadata.description,
           values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
             enumConfig[enumKey] = {
               value: enumMap[enumKey],
@@ -159,7 +155,7 @@ export abstract class SchemaGenerator {
               if (hasExtended) {
                 fields = Object.assign(
                   {},
-                  this.getFieldDefinitionFromObjectType(getSuperClassType()),
+                  this.getFieldMetadataFromObjectType(getSuperClassType()),
                   fields,
                 );
               }
@@ -200,7 +196,7 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const fieldResolverDefinition = MetadataStorage.fieldResolvers.find(
+                const fieldResolverMetadata = MetadataStorage.fieldResolvers.find(
                   resolver =>
                     resolver.getParentType!() === objectType.target &&
                     resolver.methodName === field.name,
@@ -208,8 +204,8 @@ export abstract class SchemaGenerator {
                 fieldsMap[field.name] = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                   args: this.generateHandlerArgs(field.params!),
-                  resolve: fieldResolverDefinition
-                    ? createAdvancedFieldResolver(fieldResolverDefinition)
+                  resolve: fieldResolverMetadata
+                    ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
@@ -222,7 +218,7 @@ export abstract class SchemaGenerator {
             if (hasExtended) {
               fields = Object.assign(
                 {},
-                this.getFieldDefinitionFromObjectType(getSuperClassType()),
+                this.getFieldMetadataFromObjectType(getSuperClassType()),
                 fields,
               );
             }
@@ -237,7 +233,7 @@ export abstract class SchemaGenerator {
                 )!.type;
                 return Object.assign(
                   fieldsMap,
-                  this.getFieldDefinitionFromObjectType(interfaceType),
+                  this.getFieldMetadataFromObjectType(interfaceType),
                 );
               }, {});
               fields = Object.assign({}, interfacesFields, fields);
@@ -270,7 +266,7 @@ export abstract class SchemaGenerator {
             );
             // support for extending classes - get field info from prototype
             if (objectSuperClass.prototype !== undefined) {
-              Object.assign(fields, this.getFieldDefinitionFromInputType(getSuperClassType()));
+              Object.assign(fields, this.getFieldMetadataFromInputType(getSuperClassType()));
             }
             return fields;
           },
@@ -306,7 +302,7 @@ export abstract class SchemaGenerator {
   }
 
   private static generateHandlerFields<T = any, U = any>(
-    handlers: HandlerDefinition[],
+    handlers: ResolverMetadata[],
   ): GraphQLFieldConfigMap<T, U> {
     return handlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       fields[handler.methodName] = {
@@ -324,7 +320,7 @@ export abstract class SchemaGenerator {
     }, {});
   }
 
-  private static generateHandlerArgs(params: ParamDefinition[]): GraphQLFieldConfigArgumentMap {
+  private static generateHandlerArgs(params: ParamMetadata[]): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
         args[param.name] = {
@@ -350,7 +346,7 @@ export abstract class SchemaGenerator {
   }
 
   private static mapArgFields(
-    argumentType: ClassDefinition,
+    argumentType: ClassMetadata,
     args: GraphQLFieldConfigArgumentMap = {},
   ) {
     argumentType.fields!.forEach(field => {
@@ -361,7 +357,7 @@ export abstract class SchemaGenerator {
     });
   }
 
-  private static getFieldDefinitionFromObjectType(type: GraphQLObjectType | GraphQLInterfaceType) {
+  private static getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQLInterfaceType) {
     const fieldInfo = type.getFields();
     const typeFields = Object.keys(fieldInfo).reduce<GraphQLFieldConfigMap<any, any>>(
       (fieldsMap, fieldName) => {
@@ -386,7 +382,7 @@ export abstract class SchemaGenerator {
     return typeFields;
   }
 
-  private static getFieldDefinitionFromInputType(type: GraphQLInputObjectType) {
+  private static getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
     const fieldInfo = type.getFields();
     const typeFields = Object.keys(fieldInfo).reduce<GraphQLInputFieldConfigMap>(
       (fieldsMap, fieldName) => {

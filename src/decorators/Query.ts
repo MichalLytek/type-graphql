@@ -12,6 +12,6 @@ export function Query(
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
     const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
-    MetadataStorage.registerQueryHandler(handler);
+    MetadataStorage.collectQueryHandlerMetadata(handler);
   };
 }

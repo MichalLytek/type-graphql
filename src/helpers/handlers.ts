@@ -1,4 +1,4 @@
-import { HandlerDefinition } from "../metadata/definition-interfaces";
+import { ResolverMetadata } from "../metadata/definitions";
 import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "./findType";
 import { SymbolKeysNotSupportedError } from "../errors";
@@ -8,7 +8,7 @@ export function getHandlerInfo(
   propertyKey: string | symbol,
   returnTypeFunc?: ReturnTypeFunc,
   options: AdvancedOptions = {},
-): HandlerDefinition {
+): ResolverMetadata {
   if (typeof propertyKey === "symbol") {
     throw new SymbolKeysNotSupportedError();
   }

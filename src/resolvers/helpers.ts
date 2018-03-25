@@ -1,14 +1,14 @@
 import { plainToClass } from "class-transformer";
 
-import { ParamDefinition } from "../metadata/definition-interfaces";
-import { convertToType } from "../types/helpers";
+import { ParamMetadata } from "../metadata/definitions";
+import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { ValidatorOptions } from "class-validator";
 import { ActionData, AuthChecker } from "../types/auth-checker";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export async function getParams(
-  params: ParamDefinition[],
+  params: ParamMetadata[],
   { root, args, context, info }: ActionData<any>,
   globalValidate: boolean | ValidatorOptions,
 ): Promise<any[]> {

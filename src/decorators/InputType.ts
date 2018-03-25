@@ -10,7 +10,7 @@ export function InputType(
 ): ClassDecorator {
   const { name, options } = getNameDecoratorParams(nameOrOptions, maybeOptions);
   return target => {
-    MetadataStorage.registerInputDefinition({
+    MetadataStorage.collectInputMetadata({
       name: name || target.name,
       target,
       description: options.description,

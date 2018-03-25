@@ -1,62 +1,62 @@
 import {
-  HandlerDefinition,
-  ClassDefinition,
-  FieldDefinition,
-  ParamDefinition,
-  FieldResolverDefinition,
-  ResolverDefinition,
-  AuthorizationDefinition,
-  EnumDefinition,
-  UnionDefinition,
-  UnionDefinitionWithSymbol,
-} from "./definition-interfaces";
-import { BaseResolverDefinitions } from "../types/resolvers";
+  ResolverMetadata,
+  ClassMetadata,
+  FieldMetadata,
+  ParamMetadata,
+  FieldResolverMetadata,
+  AuthorizedMetadata,
+  BaseResolverMetadata,
+  EnumMetadata,
+  UnionMetadata,
+  UnionMetadataWithSymbol,
+  ResolverClassMetadata,
+} from "./definitions";
 import { ClassType } from "../types/decorators";
 
 export abstract class MetadataStorage {
-  static queries: HandlerDefinition[] = [];
-  static mutations: HandlerDefinition[] = [];
-  static fieldResolvers: FieldResolverDefinition[] = [];
-  static objectTypes: ClassDefinition[] = [];
-  static inputTypes: ClassDefinition[] = [];
-  static argumentTypes: ClassDefinition[] = [];
-  static interfaceTypes: ClassDefinition[] = [];
-  static authorizedFields: AuthorizationDefinition[] = [];
-  static enums: EnumDefinition[] = [];
-  static unions: UnionDefinitionWithSymbol[] = [];
+  static queries: ResolverMetadata[] = [];
+  static mutations: ResolverMetadata[] = [];
+  static fieldResolvers: FieldResolverMetadata[] = [];
+  static objectTypes: ClassMetadata[] = [];
+  static inputTypes: ClassMetadata[] = [];
+  static argumentTypes: ClassMetadata[] = [];
+  static interfaceTypes: ClassMetadata[] = [];
+  static authorizedFields: AuthorizedMetadata[] = [];
+  static enums: EnumMetadata[] = [];
+  static unions: UnionMetadataWithSymbol[] = [];
 
-  private static resolvers: ResolverDefinition[] = [];
-  private static fields: FieldDefinition[] = [];
-  private static params: ParamDefinition[] = [];
+  private static resolvers: ResolverClassMetadata[] = [];
+  private static fields: FieldMetadata[] = [];
+  private static params: ParamMetadata[] = [];
 
-  static registerQueryHandler(definition: HandlerDefinition) {
+  static collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
   }
-  static registerMutationHandler(definition: HandlerDefinition) {
+  static collectMutationHandlerMetadata(definition: ResolverMetadata) {
     this.mutations.push(definition);
   }
-  static registerFieldResolver(definition: FieldResolverDefinition) {
+  static collectFieldResolverMetadata(definition: FieldResolverMetadata) {
     this.fieldResolvers.push(definition);
   }
-  static registerObjectDefinition(definition: ClassDefinition) {
+  static collectObjectMetadata(definition: ClassMetadata) {
     this.objectTypes.push(definition);
   }
-  static registerInputDefinition(definition: ClassDefinition) {
+  static collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
   }
-  static registerArgsDefinition(definition: ClassDefinition) {
+  static collectArgsMetadata(definition: ClassMetadata) {
     this.argumentTypes.push(definition);
   }
-  static registerInterfaceDefinition(definition: ClassDefinition) {
+  static collectInterfaceMetadata(definition: ClassMetadata) {
     this.interfaceTypes.push(definition);
   }
-  static registerAuthorizedField(definition: AuthorizationDefinition) {
+  static collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
   }
-  static registerEnumDefinition(definition: EnumDefinition) {
+  static collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
   }
-  static registerUnionDefinition(definition: UnionDefinition) {
+  static collectUnionMetadata(definition: UnionMetadata) {
     const unionSymbol = Symbol(definition.name);
     this.unions.push({
       ...definition,
@@ -65,28 +65,28 @@ export abstract class MetadataStorage {
     return unionSymbol;
   }
 
-  static registerResolver(definition: ResolverDefinition) {
+  static collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolvers.push(definition);
   }
-  static registerClassField(definition: FieldDefinition) {
+  static collectClassFieldMetadata(definition: FieldMetadata) {
     this.fields.push(definition);
   }
-  static registerHandlerParam(definition: ParamDefinition) {
+  static collectHandlerParamMetadata(definition: ParamMetadata) {
     this.params.push(definition);
   }
 
   static build() {
     // TODO: disable next build attempts
 
-    this.buildFieldResolverDefinitions(this.fieldResolvers);
+    this.buildFieldResolverMetadata(this.fieldResolvers);
 
-    this.buildClassDefinitions(this.objectTypes);
-    this.buildClassDefinitions(this.inputTypes);
-    this.buildClassDefinitions(this.argumentTypes);
-    this.buildClassDefinitions(this.interfaceTypes);
+    this.buildClassMetadata(this.objectTypes);
+    this.buildClassMetadata(this.inputTypes);
+    this.buildClassMetadata(this.argumentTypes);
+    this.buildClassMetadata(this.interfaceTypes);
 
-    this.buildResolversDefinitions(this.queries);
-    this.buildResolversDefinitions(this.mutations);
+    this.buildResolversMetadata(this.queries);
+    this.buildResolversMetadata(this.mutations);
   }
 
   static clear() {
@@ -106,7 +106,7 @@ export abstract class MetadataStorage {
     this.params = [];
   }
 
-  private static buildClassDefinitions(definitions: ClassDefinition[]) {
+  private static buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
       const fields = this.fields.filter(field => field.target === def.target);
       fields.forEach(field => {
@@ -129,7 +129,7 @@ export abstract class MetadataStorage {
     });
   }
 
-  private static buildResolversDefinitions(definitions: BaseResolverDefinitions[]) {
+  private static buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
       def.params = this.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
@@ -138,13 +138,15 @@ export abstract class MetadataStorage {
     });
   }
 
-  private static buildFieldResolverDefinitions(definitions: FieldResolverDefinition[]) {
-    this.buildResolversDefinitions(definitions);
+  private static buildFieldResolverMetadata(definitions: FieldResolverMetadata[]) {
+    this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
       def.roles = def.roles || this.fields.find(field => field.name === def.methodName)!.roles;
       def.getParentType =
         def.kind === "external"
-          ? this.resolvers.find(resolver => resolver.target === def.target)!.getParentType
+          ? (this.resolvers.find(
+              resolver => resolver.target === def.target,
+            ) as FieldResolverMetadata).getParentType
           : () => def.target as ClassType;
     });
   }

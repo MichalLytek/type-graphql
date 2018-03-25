@@ -3,7 +3,7 @@ import { ValidatorOptions } from "class-validator";
 
 import { findType } from "./findType";
 import { ReturnTypeFunc, ClassType, TypeOptions, ValidateOptions } from "../types/decorators";
-import { CommonArgDefinition } from "../metadata/definition-interfaces";
+import { CommonArgMetadata } from "../metadata/definitions";
 import { SymbolKeysNotSupportedError } from "../errors";
 
 export interface ParamInfo {
@@ -19,7 +19,7 @@ export function getParamInfo({
   parameterIndex,
   returnTypeFunc,
   options = {},
-}: ParamInfo): CommonArgDefinition {
+}: ParamInfo): CommonArgMetadata {
   if (typeof propertyKey === "symbol") {
     throw new SymbolKeysNotSupportedError();
   }

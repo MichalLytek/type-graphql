@@ -15,7 +15,7 @@ export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
             `No provided object type in '@Resolver' decorator for class '${target.name}!'`,
           );
         };
-    MetadataStorage.registerResolver({
+    MetadataStorage.collectResolverClassMetadata({
       target,
       getParentType,
     });

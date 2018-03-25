@@ -3,7 +3,7 @@ import { MetadataStorage } from "../metadata/metadata-storage";
 export function FieldResolver(): MethodDecorator {
   return (prototype, propertyKey) => {
     const methodName = propertyKey as keyof typeof prototype;
-    MetadataStorage.registerFieldResolver({
+    MetadataStorage.collectFieldResolverMetadata({
       kind: "external",
       methodName,
       target: prototype.constructor,

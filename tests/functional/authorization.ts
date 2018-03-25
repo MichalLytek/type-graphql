@@ -14,7 +14,6 @@ import {
   UnauthorizedError,
   ForbiddenError,
 } from "../../src";
-import { HandlerDefinition } from "../../src/metadata/definition-interfaces";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;
@@ -115,7 +114,7 @@ describe("Authorization", () => {
 
   describe("Reflection", () => {
     // helpers
-    function findQuery(queryName: string): HandlerDefinition {
+    function findQuery(queryName: string) {
       return MetadataStorage.queries.find(it => it.methodName === queryName)!;
     }
 

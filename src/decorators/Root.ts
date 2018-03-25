@@ -22,7 +22,7 @@ export function Root(propertyName?: string): ParameterDecorator {
       // tslint:disable-next-line:no-empty
     }
 
-    MetadataStorage.registerHandlerParam({
+    MetadataStorage.collectHandlerParamMetadata({
       kind: "root",
       target: prototype.constructor,
       methodName: propertyKey,
