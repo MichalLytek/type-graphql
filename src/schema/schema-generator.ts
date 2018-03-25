@@ -97,20 +97,20 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
-    this.unionTypesInfo = MetadataStorage.unions.map<UnionTypeInfo>(unionDefintion => {
+    this.unionTypesInfo = MetadataStorage.unions.map<UnionTypeInfo>(unionDefinition => {
       return {
-        unionSymbol: unionDefintion.symbol,
+        unionSymbol: unionDefinition.symbol,
         type: new GraphQLUnionType({
-          name: unionDefintion.name,
-          description: unionDefintion.description,
+          name: unionDefinition.name,
+          description: unionDefinition.description,
           types: () =>
-            unionDefintion.types.map(
+            unionDefinition.types.map(
               objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type,
             ),
           resolveType: instance => {
-            const instanceTarget = unionDefintion.types.find(type => instance instanceof type);
+            const instanceTarget = unionDefinition.types.find(type => instance instanceof type);
             if (!instanceTarget) {
-              throw new UnionResolveTypeError(unionDefintion);
+              throw new UnionResolveTypeError(unionDefinition);
             }
             // TODO: refactor to map for quicker access
             return this.objectTypesInfo.find(type => type.target === instanceTarget)!.type;

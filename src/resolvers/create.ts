@@ -24,30 +24,30 @@ export function createHandlerResolver(
 }
 
 export function createAdvancedFieldResolver(
-  fieldResolverDefintion: FieldResolverDefinition,
+  fieldResolverDefinition: FieldResolverDefinition,
 ): GraphQLFieldResolver<any, any, any> {
-  if (fieldResolverDefintion.kind === "external") {
-    return createHandlerResolver(fieldResolverDefintion);
+  if (fieldResolverDefinition.kind === "external") {
+    return createHandlerResolver(fieldResolverDefinition);
   }
 
-  const targetType = fieldResolverDefintion.getParentType!();
+  const targetType = fieldResolverDefinition.getParentType!();
   const globalValidate = BuildContext.validate;
   const authChecker = BuildContext.authChecker;
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, fieldResolverDefintion.roles);
+    await checkForAccess(actionData, authChecker, fieldResolverDefinition.roles);
     const targetInstance: any = convertToType(targetType, root);
     // method
-    if (fieldResolverDefintion.handler) {
+    if (fieldResolverDefinition.handler) {
       const params: any[] = await getParams(
-        fieldResolverDefintion.params!,
+        fieldResolverDefinition.params!,
         actionData,
         globalValidate,
       );
-      return fieldResolverDefintion.handler.apply(targetInstance, params);
+      return fieldResolverDefinition.handler.apply(targetInstance, params);
     }
     // getter
-    return targetInstance[fieldResolverDefintion.methodName];
+    return targetInstance[fieldResolverDefinition.methodName];
   };
 }
 
