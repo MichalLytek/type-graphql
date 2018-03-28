@@ -69,9 +69,10 @@ export abstract class SchemaGenerator {
     this.buildTypesInfo();
 
     const schema = new GraphQLSchema({
-      query: this.buildRootQuery(),
-      mutation: this.buildRootMutation(),
-      types: this.buildTypes(),
+      query: this.buildRootQueryType(),
+      mutation: this.buildRootMutationType(),
+      subscription: this.buildRootSubscriptionType(),
+      types: this.buildOtherTypes(),
     });
 
     const { errors } = await graphql(schema, introspectionQuery);
@@ -231,10 +232,7 @@ export abstract class SchemaGenerator {
                 const interfaceType = this.interfaceTypesInfo.find(
                   type => type.target === interfaceClass,
                 )!.type;
-                return Object.assign(
-                  fieldsMap,
-                  this.getFieldMetadataFromObjectType(interfaceType),
-                );
+                return Object.assign(fieldsMap, this.getFieldMetadataFromObjectType(interfaceType));
               }, {});
               fields = Object.assign({}, interfacesFields, fields);
             }
@@ -275,14 +273,14 @@ export abstract class SchemaGenerator {
     });
   }
 
-  private static buildRootQuery(): GraphQLObjectType {
+  private static buildRootQueryType(): GraphQLObjectType {
     return new GraphQLObjectType({
       name: "Query",
       fields: this.generateHandlerFields(MetadataStorage.queries),
     });
   }
 
-  private static buildRootMutation(): GraphQLObjectType | undefined {
+  private static buildRootMutationType(): GraphQLObjectType | undefined {
     if (MetadataStorage.mutations.length > 0) {
       return new GraphQLObjectType({
         name: "Mutation",
@@ -292,7 +290,17 @@ export abstract class SchemaGenerator {
     return undefined;
   }
 
-  private static buildTypes(): GraphQLNamedType[] {
+  private static buildRootSubscriptionType(): GraphQLObjectType | undefined {
+    if (MetadataStorage.subscriptions.length > 0) {
+      return new GraphQLObjectType({
+        name: "Subscription",
+        fields: this.generateHandlerFields(MetadataStorage.subscriptions),
+      });
+    }
+    return undefined;
+  }
+
+  private static buildOtherTypes(): GraphQLNamedType[] {
     // TODO: investigate the need of directly providing this types
     // maybe GraphQL can use only the types provided indirectly
     return [

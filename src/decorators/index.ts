@@ -19,5 +19,5 @@ export { Query } from "./Query";
 // export { Resolver } from "./Resolver";
 export { Resolver, Resolver as GraphQLResolver } from "./Resolver";
 export { Root } from "./Root";
-// export { Subscription } from "./Subscription";
+export { Subscription } from "./Subscription";
 export { createUnionType } from "./unions";
