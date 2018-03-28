@@ -15,7 +15,7 @@ import {
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   getInnerInputFieldType,
-  getInnerTypeOfNullableType,
+  getInnerTypeOfNonNullableType,
   getInnerFieldType,
 } from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
@@ -122,7 +122,7 @@ describe("Unions", () => {
         field => field.name === "getObjectOneFromUnion",
       )!;
 
-      const getObjectOneFromUnionType = getInnerTypeOfNullableType(getObjectOneFromUnion);
+      const getObjectOneFromUnionType = getInnerTypeOfNonNullableType(getObjectOneFromUnion);
       expect(getObjectOneFromUnionType.kind).toEqual(TypeKind.UNION);
       expect(getObjectOneFromUnionType.name).toEqual("OneTwoThreeUnion");
     });

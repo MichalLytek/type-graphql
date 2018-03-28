@@ -12,7 +12,10 @@ import {
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerInputFieldType, getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
+import {
+  getInnerInputFieldType,
+  getInnerTypeOfNonNullableType,
+} from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { Field, InputType, Query, Arg, registerEnumType } from "../../src";
 
@@ -93,10 +96,10 @@ describe("Enums", () => {
     });
 
     it("should generate correct enum output type", async () => {
-      const getNumberEnumValueType = getInnerTypeOfNullableType(
+      const getNumberEnumValueType = getInnerTypeOfNonNullableType(
         queryType.fields.find(field => field.name === "getNumberEnumValue")!,
       );
-      const getStringEnumValue = getInnerTypeOfNullableType(
+      const getStringEnumValue = getInnerTypeOfNonNullableType(
         queryType.fields.find(field => field.name === "getStringEnumValue")!,
       );
 
@@ -123,10 +126,10 @@ describe("Enums", () => {
     });
 
     it("should generate correct enum arg type", async () => {
-      const numberEnumArgType = getInnerTypeOfNullableType(
+      const numberEnumArgType = getInnerTypeOfNonNullableType(
         queryType.fields.find(type => type.name === "isNumberEnumEqualOne")!.args[0],
       );
-      const stringEnumArgType = getInnerTypeOfNullableType(
+      const stringEnumArgType = getInnerTypeOfNonNullableType(
         queryType.fields.find(type => type.name === "isStringEnumEqualOne")!.args[0],
       );
 
