@@ -21,7 +21,12 @@ import {
 } from "graphql";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ResolverMetadata, ParamMetadata, ClassMetadata } from "../metadata/definitions";
+import {
+  ResolverMetadata,
+  ParamMetadata,
+  ClassMetadata,
+  SubscriptionResolverMetadata,
+} from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
 import {
@@ -294,7 +299,7 @@ export abstract class SchemaGenerator {
     if (MetadataStorage.subscriptions.length > 0) {
       return new GraphQLObjectType({
         name: "Subscription",
-        fields: this.generateHandlerFields(MetadataStorage.subscriptions),
+        fields: this.generateSubscriptionsFields(MetadataStorage.subscriptions),
       });
     }
     return undefined;
@@ -319,6 +324,29 @@ export abstract class SchemaGenerator {
           handler.getReturnType(),
           handler.returnTypeOptions,
         ),
+        args: this.generateHandlerArgs(handler.params!),
+        resolve: createHandlerResolver(handler),
+        description: handler.description,
+        deprecationReason: handler.deprecationReason,
+      };
+      return fields;
+    }, {});
+  }
+
+  private static generateSubscriptionsFields<T = any, U = any>(
+    subscriptionsHandlers: SubscriptionResolverMetadata[],
+  ): GraphQLFieldConfigMap<T, U> {
+    const { pubSub } = BuildContext;
+    return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
+      fields[handler.methodName] = {
+        type: this.getGraphQLOutputType(
+          handler.methodName,
+          handler.getReturnType(),
+          handler.returnTypeOptions,
+        ),
+        subscribe: () => {
+          return pubSub.asyncIterator(handler.filter);
+        },
         args: this.generateHandlerArgs(handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,

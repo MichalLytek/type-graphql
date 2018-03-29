@@ -28,7 +28,7 @@ export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
   static validate: boolean | ValidatorOptions;
   static authChecker?: AuthChecker<any>;
-  static pubSub?: PubSubEngine;
+  static pubSub: PubSubEngine;
 
   /**
    * Set static fields with current building context data

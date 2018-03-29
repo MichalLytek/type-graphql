@@ -38,7 +38,7 @@ export function createAdvancedFieldResolver(
   }
 
   const targetType = fieldResolverMetadata.getParentType!();
-  const { validate: globalValidate, authChecker } = BuildContext;
+  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
 
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
@@ -50,6 +50,7 @@ export function createAdvancedFieldResolver(
         fieldResolverMetadata.params!,
         actionData,
         globalValidate,
+        pubSub,
       );
       return fieldResolverMetadata.handler.apply(targetInstance, params);
     }
