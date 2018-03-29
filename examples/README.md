@@ -10,6 +10,7 @@ This folder consist of simple examples showing how to use different `TypeGraphQL
 - [validation](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation)
 - [interfaces and inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
 - [enums and unions](https://github.com/19majkel94/type-graphql/tree/master/examples/enums-and-unions)
+- [subscriptions (simple)](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions)
 
 ## 3rd party libs integration
 - [TypeORM (manual, synchronus)](https://github.com/19majkel94/type-graphql/tree/master/examples/typeorm-basic-usage)

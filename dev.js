@@ -3,6 +3,7 @@ require("ts-node/register/type-check");
 // require("./examples/automatic-validation/index.ts");
 // require("./examples/enums-and-unions/index.ts");
 // require("./examples/interfaces-inheritance/index.ts");
+// require("./examples/simple-subscriptions/index.ts");
 // require("./examples/simple-usage/index.ts");
 // require("./examples/using-container/index.ts");
 // require("./examples/typeorm-basic-usage/index.ts");

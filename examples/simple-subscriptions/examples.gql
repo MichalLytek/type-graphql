@@ -1,0 +1,19 @@
+subscription AllNotifications {
+  normalSubscription {
+    id
+    message
+    date
+  }
+}
+
+subscription EvenNotifications {
+  subscriptionWithFilter {
+    id
+    message
+    date
+  }
+}
+
+mutation {
+  pubSubMutation(message: "Hello")
+}
