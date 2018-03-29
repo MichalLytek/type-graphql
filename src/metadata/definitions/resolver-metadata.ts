@@ -23,6 +23,10 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
   getParentType?: ClassTypeResolver;
 }
 
+export interface SubscriptionResolverMetadata extends ResolverMetadata {
+  filter: string[];
+}
+
 export interface ResolverClassMetadata {
   target: Function;
   getParentType: ClassTypeResolver;

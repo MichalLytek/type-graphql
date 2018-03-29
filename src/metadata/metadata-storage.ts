@@ -10,13 +10,14 @@ import {
   UnionMetadata,
   UnionMetadataWithSymbol,
   ResolverClassMetadata,
+  SubscriptionResolverMetadata,
 } from "./definitions";
 import { ClassType } from "../types/decorators";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];
   static mutations: ResolverMetadata[] = [];
-  static subscriptions: ResolverMetadata[] = [];
+  static subscriptions: SubscriptionResolverMetadata[] = [];
   static fieldResolvers: FieldResolverMetadata[] = [];
   static objectTypes: ClassMetadata[] = [];
   static inputTypes: ClassMetadata[] = [];
@@ -36,7 +37,7 @@ export abstract class MetadataStorage {
   static collectMutationHandlerMetadata(definition: ResolverMetadata) {
     this.mutations.push(definition);
   }
-  static collectSubscriptionHandlerMetadata(definition: ResolverMetadata) {
+  static collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
     this.subscriptions.push(definition);
   }
   static collectFieldResolverMetadata(definition: FieldResolverMetadata) {

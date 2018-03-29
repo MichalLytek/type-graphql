@@ -15,13 +15,17 @@ export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
-  const globalValidate = BuildContext.validate;
-  const authChecker = BuildContext.authChecker;
+  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
 
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
     await checkForAccess(actionData, authChecker, resolverMetadata.roles);
-    const params: any[] = await getParams(resolverMetadata.params!, actionData, globalValidate);
+    const params: any[] = await getParams(
+      resolverMetadata.params!,
+      actionData,
+      globalValidate,
+      pubSub,
+    );
     return resolverMetadata.handler!.apply(targetInstance, params);
   };
 }
@@ -34,8 +38,8 @@ export function createAdvancedFieldResolver(
   }
 
   const targetType = fieldResolverMetadata.getParentType!();
-  const globalValidate = BuildContext.validate;
-  const authChecker = BuildContext.authChecker;
+  const { validate: globalValidate, authChecker } = BuildContext;
+
   return async (root, args, context, info) => {
     const actionData: ActionData = { root, args, context, info };
     await checkForAccess(actionData, authChecker, fieldResolverMetadata.roles);

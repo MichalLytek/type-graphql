@@ -3,18 +3,25 @@ import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Subscription(options?: AdvancedOptions): MethodDecorator;
+export interface SubscriptionOptions extends AdvancedOptions {
+  filter?: string | string[];
+}
+
+export function Subscription(options?: SubscriptionOptions): MethodDecorator;
 export function Subscription(
   returnTypeFunc: ReturnTypeFunc,
-  options?: AdvancedOptions,
+  options?: SubscriptionOptions,
 ): MethodDecorator;
 export function Subscription(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,
-  maybeOptions?: AdvancedOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | SubscriptionOptions,
+  maybeOptions?: SubscriptionOptions,
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
     const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
-    MetadataStorage.collectSubscriptionHandlerMetadata(handler);
+    MetadataStorage.collectSubscriptionHandlerMetadata({
+      ...handler,
+      filter: ([] as string[]).concat(options.filter || []),
+    });
   };
 }
