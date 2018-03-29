@@ -12,7 +12,7 @@ export async function getParams(
   params: ParamMetadata[],
   { root, args, context, info }: ActionData<any>,
   globalValidate: boolean | ValidatorOptions,
-  pubSub?: PubSubEngine,
+  pubSub: PubSubEngine,
 ): Promise<any[]> {
   return Promise.all(
     params.sort((a, b) => a.index - b.index).map(async paramInfo => {
@@ -43,6 +43,9 @@ export async function getParams(
         case "info":
           return info;
         case "pubSub":
+          if (paramInfo.triggerKey) {
+            return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
+          }
           return pubSub;
       }
     }),

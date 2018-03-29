@@ -12,6 +12,7 @@ export interface InfoParamMetadata extends BasicParamMetadata {
 }
 export interface PubSubParamMetadata extends BasicParamMetadata {
   kind: "pubSub";
+  triggerKey?: string;
 }
 export interface ContextParamMetadata extends BasicParamMetadata {
   kind: "context";
