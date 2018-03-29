@@ -1,10 +1,12 @@
-import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions, SubscriptionFilterFunc } from "../types/decorators";
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
+import { ActionData } from "../types/action-data";
 
 export interface SubscriptionOptions extends AdvancedOptions {
-  filter?: string | string[];
+  topics?: string | string[];
+  filter?: SubscriptionFilterFunc;
 }
 
 export function Subscription(options?: SubscriptionOptions): MethodDecorator;
@@ -21,7 +23,8 @@ export function Subscription(
     const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
     MetadataStorage.collectSubscriptionHandlerMetadata({
       ...handler,
-      filter: ([] as string[]).concat(options.filter || []),
+      topics: ([] as string[]).concat(options.topics || []),
+      filter: options.filter,
     });
   };
 }

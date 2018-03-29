@@ -1,4 +1,9 @@
-import { TypeValueThunk, TypeOptions, ClassTypeResolver } from "../../types/decorators";
+import {
+  TypeValueThunk,
+  TypeOptions,
+  ClassTypeResolver,
+  SubscriptionFilterFunc,
+} from "../../types/decorators";
 import { ParamMetadata } from "./param-metadata";
 
 export interface BaseResolverMetadata {
@@ -24,7 +29,8 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
 }
 
 export interface SubscriptionResolverMetadata extends ResolverMetadata {
-  filter: string[];
+  topics: string[];
+  filter?: SubscriptionFilterFunc;
 }
 
 export interface ResolverClassMetadata {

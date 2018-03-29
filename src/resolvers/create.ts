@@ -9,7 +9,7 @@ import {
 import { getParams, checkForAccess } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
-import { ActionData } from "../types/auth-checker";
+import { ActionData } from "../types/action-data";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,

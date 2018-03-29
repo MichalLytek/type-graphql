@@ -5,4 +5,5 @@ export * from "./interfaces";
 
 export { buildSchema, BuildSchemaOptions } from "./utils/buildSchema";
 export { useContainer } from "./utils/container";
-export { AuthChecker, ActionData } from "./types/auth-checker";
+export { AuthChecker } from "./types/auth-checker";
+export { ActionData } from "./types/action-data";

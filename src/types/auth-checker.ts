@@ -1,11 +1,4 @@
-import { GraphQLResolveInfo } from "graphql";
-
-export interface ActionData<ContextType = {}> {
-  root: any;
-  args: { [argName: string]: any };
-  context: ContextType;
-  info: GraphQLResolveInfo;
-}
+import { ActionData } from "./action-data";
 
 export type AuthChecker<ContextType = {}> = (
   actionData: ActionData<ContextType>,

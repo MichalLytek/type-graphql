@@ -19,6 +19,7 @@ import {
   GraphQLEnumValueConfig,
   GraphQLUnionType,
 } from "graphql";
+import { withFilter } from "graphql-subscriptions";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
 import {
@@ -36,6 +37,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
+import { ActionData } from "../types/action-data";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -344,9 +346,15 @@ export abstract class SchemaGenerator {
           handler.getReturnType(),
           handler.returnTypeOptions,
         ),
-        subscribe: () => {
-          return pubSub.asyncIterator(handler.filter);
-        },
+        subscribe: handler.filter
+          ? withFilter(
+              () => pubSub.asyncIterator(handler.topics),
+              (root, args, context, info) => {
+                const actionData: ActionData = { root, args, context, info };
+                return handler.filter!(actionData);
+              },
+            )
+          : () => pubSub.asyncIterator(handler.topics),
         args: this.generateHandlerArgs(handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,
