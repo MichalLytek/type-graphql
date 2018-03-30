@@ -24,33 +24,20 @@ async function bootstrap() {
     response.end();
   });
 
-  // Bind it to port and start listening
+  // ind it to port and start listening
   websocketServer.listen(WS_PORT, () =>
     console.log(`Websocket Server is now running on localhost:${WS_PORT}`),
   );
 
   // Create Subscription Server to handle subscriptions over WS
   const subscriptionServer = SubscriptionServer.create(
-    {
-      schema,
-      execute,
-      subscribe,
-    },
-    {
-      server: websocketServer,
-      path: "/graphql",
-    },
+    { schema, execute, subscribe },
+    { server: websocketServer, path: "/graphql" },
   );
 
   // create express-based gql endpoint
   const app = express();
-  app.use(
-    "/graphql",
-    bodyParser.json(),
-    graphqlExpress({
-      schema,
-    }),
-  );
+  app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
   app.use(
     "/graphiql",
     graphiqlExpress({

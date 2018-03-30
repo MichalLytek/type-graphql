@@ -3,10 +3,6 @@ import { Resolver, Query, Mutation, Arg, PubSub, Publisher, Subscription, Root }
 
 import { Notification, NotificationPayload } from "./notification.type";
 
-enum Topic {
-  Notifications = "NOTIFICATIONS",
-}
-
 @Resolver()
 export class SampleResolver {
   private autoIncrement = 0;
@@ -23,25 +19,25 @@ export class SampleResolver {
     message?: string,
   ): boolean {
     const payload: NotificationPayload = { id: ++this.autoIncrement, message };
-    return pubSub.publish(Topic.Notifications, payload);
+    return pubSub.publish("NOTIFICATIONS", payload);
   }
 
   @Mutation()
   publisherMutation(
-    @PubSub(Topic.Notifications) publish: Publisher<NotificationPayload>,
+    @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
     @Arg("message", { nullable: true })
     message?: string,
   ): boolean {
     return publish({ id: ++this.autoIncrement, message });
   }
 
-  @Subscription({ topics: Topic.Notifications })
+  @Subscription({ topics: "NOTIFICATIONS" })
   normalSubscription(@Root() { id, message }: NotificationPayload): Notification {
     return { id, message, date: new Date() };
   }
 
   @Subscription(returns => Notification, {
-    topics: Topic.Notifications,
+    topics: "NOTIFICATIONS",
     filter: ({ root: { id } }) => id % 2 === 0,
   })
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
