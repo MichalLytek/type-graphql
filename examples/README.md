@@ -11,6 +11,7 @@ This folder consist of simple examples showing how to use different `TypeGraphQL
 - [interfaces and inheritance](./interfaces-inheritance)
 - [enums and unions](./enums-and-unions)
 - [subscriptions (simple)](./simple-subscriptions)
+- [subscriptions (using Redis)](./redis-subscriptions)
 
 ## 3rd party libs integration
 - [TypeORM (manual, synchronous)](./typeorm-basic-usage)
