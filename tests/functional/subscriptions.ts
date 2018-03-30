@@ -7,12 +7,33 @@ import {
   IntrospectionListTypeRef,
   IntrospectionNonNullTypeRef,
   IntrospectionNamedTypeRef,
+  graphql,
+  DocumentNode,
+  ExecutionResult,
 } from "graphql";
+import { ApolloClient } from "apollo-client";
+import gql from "graphql-tag";
 
-import { Subscription, Resolver, Query, Arg, ObjectType, Field } from "../../src";
+import {
+  Subscription,
+  Resolver,
+  Query,
+  Arg,
+  ObjectType,
+  Field,
+  PubSub,
+  Mutation,
+  ID,
+  Root,
+  Publisher,
+  PubSubEngine,
+  Float,
+  buildSchema,
+} from "../../src";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
+import { createWebSocketGQL, WebSocketGQL } from "../helpers/subscriptions/createWebSocketGQL";
 
 describe("Subscriptions", () => {
   describe("Schema", () => {
@@ -100,6 +121,249 @@ describe("Subscriptions", () => {
       expect(innerType.kind).toEqual(TypeKind.LIST);
       expect(itemType.kind).toEqual(TypeKind.OBJECT);
       expect(itemType.name).toEqual("SampleObject");
+    });
+  });
+
+  describe("Functional", () => {
+    let schema: GraphQLSchema;
+    let apollo: ApolloClient<any>;
+    let webSocketGQL: WebSocketGQL;
+
+    beforeAll(async () => {
+      MetadataStorage.clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field(type => Float)
+        value: number;
+      }
+
+      const SAMPLE_TOPIC = "SAMPLE";
+      const OTHER_TOPIC = "OTHER";
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        dummyQuery(): boolean {
+          return true;
+        }
+
+        @Mutation(returns => Boolean)
+        pubSubMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
+          return pubSub.publish(SAMPLE_TOPIC, value);
+        }
+
+        @Mutation(returns => Boolean)
+        pubSubPublisherMutation(
+          @Arg("value") value: number,
+          @PubSub(SAMPLE_TOPIC) publish: Publisher<number>,
+        ): boolean {
+          return publish(value);
+        }
+
+        @Mutation(returns => Boolean)
+        pubSubOtherMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
+          return pubSub.publish(OTHER_TOPIC, value);
+        }
+
+        @Subscription({ topics: SAMPLE_TOPIC })
+        sampleTopicSubscription(@Root() value: number): SampleObject {
+          return { value };
+        }
+
+        @Subscription({
+          topics: SAMPLE_TOPIC,
+          filter: ({ root: value }) => value > 0.5,
+        })
+        sampleTopicSubscriptionWithFilter(@Root() value: number): SampleObject {
+          return { value };
+        }
+
+        @Subscription({ topics: [SAMPLE_TOPIC, OTHER_TOPIC] })
+        multipleTopicSubscription(@Root() value: number): SampleObject {
+          return { value };
+        }
+      }
+
+      schema = await buildSchema({
+        resolvers: [SampleResolver],
+      });
+
+      webSocketGQL = await createWebSocketGQL(schema);
+      apollo = webSocketGQL.apollo;
+    });
+
+    afterAll(async () => {
+      webSocketGQL.close();
+    });
+
+    it("should build schema without errors", async () => {
+      expect(schema).toBeDefined();
+    });
+
+    it("should successfully get data from subscription after publishing mutation", async () => {
+      let subscriptionValue!: number;
+      const testedValue = Math.PI;
+      const subscriptionQuery = gql`
+        subscription {
+          sampleTopicSubscription {
+            value
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation {
+          pubSubMutation(value: ${testedValue})
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
+      });
+      await apollo.mutate({ mutation });
+
+      expect(subscriptionValue).toEqual(testedValue);
+    });
+
+    it("should successfully get data from subscription after sequential mutations", async () => {
+      let subscriptionValue!: number;
+      const subscriptionQuery = gql`
+        subscription {
+          sampleTopicSubscription {
+            value
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation SimpleMutation($value: Float!) {
+          pubSubMutation(value: $value)
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
+      });
+
+      await apollo.mutate({ mutation, variables: { value: 1.23 } });
+      expect(subscriptionValue).toEqual(1.23);
+      await apollo.mutate({ mutation, variables: { value: 2.37 } });
+      expect(subscriptionValue).toEqual(2.37);
+      await apollo.mutate({ mutation, variables: { value: 4.53 } });
+      expect(subscriptionValue).toEqual(4.53);
+    });
+
+    it("should successfully publish using Publisher injection", async () => {
+      let subscriptionValue: number;
+      const testedValue = Math.PI;
+      const subscriptionQuery = gql`
+        subscription {
+          sampleTopicSubscription {
+            value
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation {
+          pubSubPublisherMutation(value: ${testedValue})
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
+      });
+      await apollo.mutate({ mutation });
+
+      expect(subscriptionValue!).toEqual(testedValue);
+    });
+
+    it("should doesn't trigger subscription when published to other topic", async () => {
+      let subscriptionValue!: number;
+      const subscriptionQuery = gql`
+        subscription {
+          sampleTopicSubscription {
+            value
+          }
+        }
+      `;
+      const sampleTopicMutation = gql`
+        mutation SampleTopicMutation($value: Float!) {
+          pubSubMutation(value: $value)
+        }
+      `;
+      const otherTopicMutation = gql`
+        mutation OtherTopicMutation($value: Float!) {
+          pubSubOtherMutation(value: $value)
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
+      });
+
+      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 1.23 } });
+      expect(subscriptionValue).toBeUndefined();
+      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 2.37 } });
+      expect(subscriptionValue).toBeUndefined();
+      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 3.47 } });
+      expect(subscriptionValue).toEqual(3.47);
+    });
+
+    it("should correctly filter triggering subscription", async () => {
+      let subscriptionValue!: number;
+      const subscriptionQuery = gql`
+        subscription {
+          sampleTopicSubscriptionWithFilter {
+            value
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation SimpleMutation($value: Float!) {
+          pubSubMutation(value: $value)
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscriptionWithFilter.value),
+      });
+
+      await apollo.mutate({ mutation, variables: { value: 0.23 } });
+      expect(subscriptionValue).toBeUndefined();
+      await apollo.mutate({ mutation, variables: { value: 0.77 } });
+      expect(subscriptionValue).toEqual(0.77);
+      await apollo.mutate({ mutation, variables: { value: 0.44 } });
+      expect(subscriptionValue).toEqual(0.77);
+    });
+
+    it("should correctly subscribe to multiple topics", async () => {
+      let subscriptionValue!: number;
+      const subscriptionQuery = gql`
+        subscription {
+          multipleTopicSubscription {
+            value
+          }
+        }
+      `;
+      const sampleTopicMutation = gql`
+        mutation SampleTopicMutation($value: Float!) {
+          pubSubMutation(value: $value)
+        }
+      `;
+      const otherTopicMutation = gql`
+        mutation OtherTopicMutation($value: Float!) {
+          pubSubOtherMutation(value: $value)
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.multipleTopicSubscription.value),
+      });
+
+      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.23 } });
+      expect(subscriptionValue).toEqual(0.23);
+      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 0.77 } });
+      expect(subscriptionValue).toEqual(0.77);
+      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.44 } });
+      expect(subscriptionValue).toEqual(0.44);
     });
   });
 });
