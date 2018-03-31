@@ -13,6 +13,7 @@ import {
 } from "graphql";
 import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
+import { EventEmitter } from "events";
 
 import {
   Subscription,
@@ -364,6 +365,77 @@ describe("Subscriptions", () => {
       expect(subscriptionValue).toEqual(0.77);
       await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.44 } });
       expect(subscriptionValue).toEqual(0.44);
+    });
+
+    it("should inject the provided custom PubSub implementation", async () => {
+      let pubSub: any;
+      MetadataStorage.clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field() sampleField: string;
+      }
+
+      class SampleResolver {
+        @Query()
+        dumbQuery(): boolean {
+          return true;
+        }
+
+        @Mutation()
+        pubSubMutation(@PubSub() pubSubArg: any): boolean {
+          pubSub = pubSubArg;
+          return true;
+        }
+      }
+      const customPubSub = { myField: true };
+      const mutation = `mutation {
+        pubSubMutation
+      }`;
+
+      const localSchema = await buildSchema({
+        resolvers: [SampleResolver],
+        pubSub: customPubSub as any,
+      });
+
+      await graphql(localSchema, mutation);
+
+      expect(pubSub).toEqual(customPubSub);
+      expect(pubSub.myField).toEqual(true);
+    });
+
+    it("should create PubSub instance with provided emitter options", async () => {
+      MetadataStorage.clear();
+      @ObjectType()
+      class SampleObject {
+        @Field() sampleField: string;
+      }
+      class SampleResolver {
+        @Query()
+        dumbQuery(): boolean {
+          return true;
+        }
+        @Mutation()
+        pubSubMutation(@PubSub() pubSubArg: PubSubEngine): boolean {
+          pubSubArg.publish("TEST", { test: true });
+          return true;
+        }
+      }
+
+      let emittedValue: any;
+      const customEmitter = new EventEmitter();
+      customEmitter.on("TEST", payload => (emittedValue = payload));
+      const mutation = `mutation {
+        pubSubMutation
+      }`;
+      const localSchema = await buildSchema({
+        resolvers: [SampleResolver],
+        pubSub: { eventEmitter: customEmitter },
+      });
+      await graphql(localSchema, mutation);
+
+      expect(emittedValue).toBeDefined();
+      expect(emittedValue.test).toEqual(true);
     });
   });
 });
