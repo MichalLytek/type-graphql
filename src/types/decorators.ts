@@ -1,6 +1,8 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
+import { ActionData, FilterActionData } from "./index";
+
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
 
@@ -8,6 +10,10 @@ export type TypeValueThunk = (type?: void) => TypeValue;
 export type ClassTypeResolver = (classType?: void) => ClassType;
 
 export type ReturnTypeFunc = (returnType?: void) => ReturnTypeFuncValue;
+
+export type SubscriptionFilterFunc = (
+  actionData: FilterActionData<any, any, any>,
+) => boolean | Promise<boolean>;
 
 export interface TypeOptions {
   array?: boolean;

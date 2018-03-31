@@ -23,11 +23,19 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
     type => type.name === schemaIntrospection.queryType.name,
   ) as IntrospectionObjectType;
 
-  const mutationTypeName = schemaIntrospection.mutationType;
+  const mutationTypeNameRef = schemaIntrospection.mutationType;
   let mutationType: IntrospectionObjectType | undefined;
-  if (mutationTypeName) {
+  if (mutationTypeNameRef) {
     mutationType = schemaIntrospection.types.find(
-      type => type.name === schemaIntrospection.mutationType!.name,
+      type => type.name === mutationTypeNameRef.name,
+    ) as IntrospectionObjectType;
+  }
+
+  const subscriptionTypeNameRef = schemaIntrospection.subscriptionType;
+  let subscriptionType: IntrospectionObjectType | undefined;
+  if (subscriptionTypeNameRef) {
+    subscriptionType = schemaIntrospection.types.find(
+      type => type.name === subscriptionTypeNameRef.name,
     ) as IntrospectionObjectType;
   }
 
@@ -36,5 +44,6 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
     schemaIntrospection,
     queryType,
     mutationType,
+    subscriptionType,
   };
 }

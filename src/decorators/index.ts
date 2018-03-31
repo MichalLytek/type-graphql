@@ -15,9 +15,10 @@ export { InterfaceType, InterfaceType as GraphQLInterfaceType } from "./Interfac
 export { Mutation } from "./Mutation";
 // export { ObjectType } from "./ObjectType";
 export { ObjectType, ObjectType as GraphQLObjectType } from "./ObjectType";
+export { PubSub } from "./PubSub";
 export { Query } from "./Query";
 // export { Resolver } from "./Resolver";
 export { Resolver, Resolver as GraphQLResolver } from "./Resolver";
 export { Root } from "./Root";
-// export { Subscription } from "./Subscription";
+export { Subscription } from "./Subscription";
 export { createUnionType } from "./unions";

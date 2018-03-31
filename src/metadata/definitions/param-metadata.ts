@@ -10,6 +10,10 @@ export interface BasicParamMetadata {
 export interface InfoParamMetadata extends BasicParamMetadata {
   kind: "info";
 }
+export interface PubSubParamMetadata extends BasicParamMetadata {
+  kind: "pubSub";
+  triggerKey?: string;
+}
 export interface ContextParamMetadata extends BasicParamMetadata {
   kind: "context";
   propertyName?: string;
@@ -32,9 +36,12 @@ export interface ArgParamMetadata extends CommonArgMetadata {
 export interface ArgsParamMetadata extends CommonArgMetadata {
   kind: "args";
 }
+// prettier-ignore
 export type ParamMetadata =
   | InfoParamMetadata
+  | PubSubParamMetadata
   | ContextParamMetadata
   | RootParamMetadata
   | ArgParamMetadata
-  | ArgsParamMetadata;
+  | ArgsParamMetadata
+;

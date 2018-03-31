@@ -35,7 +35,7 @@ import {
   Info,
 } from "../../src";
 import { plainToClass } from "class-transformer";
-import { getInnerTypeOfNullableType } from "../helpers/getInnerFieldType";
+import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -1066,7 +1066,7 @@ describe("Resolvers", () => {
       resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
     });
 
-    const directoryQueryReturnType = getInnerTypeOfNullableType(
+    const directoryQueryReturnType = getInnerTypeOfNonNullableType(
       queryType.fields.find(field => field.name === "sampleQuery")!,
     );
 

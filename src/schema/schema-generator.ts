@@ -19,9 +19,15 @@ import {
   GraphQLEnumValueConfig,
   GraphQLUnionType,
 } from "graphql";
+import { withFilter } from "graphql-subscriptions";
 
 import { MetadataStorage } from "../metadata/metadata-storage";
-import { ResolverMetadata, ParamMetadata, ClassMetadata } from "../metadata/definitions";
+import {
+  ResolverMetadata,
+  ParamMetadata,
+  ClassMetadata,
+  SubscriptionResolverMetadata,
+} from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../types/decorators";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
 import {
@@ -31,6 +37,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
+import { ActionData, FilterActionData } from "../types";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -69,9 +76,10 @@ export abstract class SchemaGenerator {
     this.buildTypesInfo();
 
     const schema = new GraphQLSchema({
-      query: this.buildRootQuery(),
-      mutation: this.buildRootMutation(),
-      types: this.buildTypes(),
+      query: this.buildRootQueryType(),
+      mutation: this.buildRootMutationType(),
+      subscription: this.buildRootSubscriptionType(),
+      types: this.buildOtherTypes(),
     });
 
     const { errors } = await graphql(schema, introspectionQuery);
@@ -231,10 +239,7 @@ export abstract class SchemaGenerator {
                 const interfaceType = this.interfaceTypesInfo.find(
                   type => type.target === interfaceClass,
                 )!.type;
-                return Object.assign(
-                  fieldsMap,
-                  this.getFieldMetadataFromObjectType(interfaceType),
-                );
+                return Object.assign(fieldsMap, this.getFieldMetadataFromObjectType(interfaceType));
               }, {});
               fields = Object.assign({}, interfacesFields, fields);
             }
@@ -275,14 +280,14 @@ export abstract class SchemaGenerator {
     });
   }
 
-  private static buildRootQuery(): GraphQLObjectType {
+  private static buildRootQueryType(): GraphQLObjectType {
     return new GraphQLObjectType({
       name: "Query",
       fields: this.generateHandlerFields(MetadataStorage.queries),
     });
   }
 
-  private static buildRootMutation(): GraphQLObjectType | undefined {
+  private static buildRootMutationType(): GraphQLObjectType | undefined {
     if (MetadataStorage.mutations.length > 0) {
       return new GraphQLObjectType({
         name: "Mutation",
@@ -292,7 +297,17 @@ export abstract class SchemaGenerator {
     return undefined;
   }
 
-  private static buildTypes(): GraphQLNamedType[] {
+  private static buildRootSubscriptionType(): GraphQLObjectType | undefined {
+    if (MetadataStorage.subscriptions.length > 0) {
+      return new GraphQLObjectType({
+        name: "Subscription",
+        fields: this.generateSubscriptionsFields(MetadataStorage.subscriptions),
+      });
+    }
+    return undefined;
+  }
+
+  private static buildOtherTypes(): GraphQLNamedType[] {
     // TODO: investigate the need of directly providing this types
     // maybe GraphQL can use only the types provided indirectly
     return [
@@ -311,6 +326,35 @@ export abstract class SchemaGenerator {
           handler.getReturnType(),
           handler.returnTypeOptions,
         ),
+        args: this.generateHandlerArgs(handler.params!),
+        resolve: createHandlerResolver(handler),
+        description: handler.description,
+        deprecationReason: handler.deprecationReason,
+      };
+      return fields;
+    }, {});
+  }
+
+  private static generateSubscriptionsFields<T = any, U = any>(
+    subscriptionsHandlers: SubscriptionResolverMetadata[],
+  ): GraphQLFieldConfigMap<T, U> {
+    const { pubSub } = BuildContext;
+    return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
+      fields[handler.methodName] = {
+        type: this.getGraphQLOutputType(
+          handler.methodName,
+          handler.getReturnType(),
+          handler.returnTypeOptions,
+        ),
+        subscribe: handler.filter
+          ? withFilter(
+              () => pubSub.asyncIterator(handler.topics),
+              (payload, args, context, info) => {
+                const actionData: FilterActionData = { payload, args, context, info };
+                return handler.filter!(actionData);
+              },
+            )
+          : () => pubSub.asyncIterator(handler.topics),
         args: this.generateHandlerArgs(handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,

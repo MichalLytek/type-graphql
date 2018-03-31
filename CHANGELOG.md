@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add support for GraphQL subscriptions using `graphql-subscriptions`
+
 ## v0.8.1
 ### Features
 - add `@Info()` decorator for injecting GraphQL resolve info to resolvers
