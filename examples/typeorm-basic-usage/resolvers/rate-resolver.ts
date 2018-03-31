@@ -1,6 +1,6 @@
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src/index";
 import { Repository } from "typeorm";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
@@ -8,7 +8,7 @@ import { User } from "../entities/user";
 @Resolver(objectType => Rate)
 export class RateResolver {
   constructor(
-    @OrmRepository(User)
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 

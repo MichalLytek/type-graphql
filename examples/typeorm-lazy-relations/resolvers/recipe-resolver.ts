@@ -9,7 +9,7 @@ import {
   Int,
 } from "../../../src/";
 import { Repository } from "typeorm";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
@@ -21,8 +21,8 @@ import { Context } from "./types/context";
 @Resolver(Recipe)
 export class RecipeResolver {
   constructor(
-    @OrmRepository(Recipe) private readonly recipeRepository: Repository<Recipe>,
-    @OrmRepository(Rate) private readonly ratingsRepository: Repository<Rate>,
+    @InjectRepository(Recipe) private readonly recipeRepository: Repository<Recipe>,
+    @InjectRepository(Rate) private readonly ratingsRepository: Repository<Rate>,
   ) {}
 
   @Query(returnType => Recipe, { nullable: true })

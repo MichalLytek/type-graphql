@@ -9,7 +9,7 @@ import {
   Int,
 } from "../../../src/index";
 import { Repository } from "typeorm";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
@@ -21,11 +21,11 @@ import { RateInput } from "./types/rate-input";
 @Resolver(objectType => Recipe)
 export class RecipeResolver {
   constructor(
-    @OrmRepository(Recipe)
+    @InjectRepository(Recipe)
     private readonly recipeRepository: Repository<Recipe>,
-    @OrmRepository(Rate)
+    @InjectRepository(Rate)
     private readonly ratingsRepository: Repository<Rate>,
-    @OrmRepository(User)
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 
