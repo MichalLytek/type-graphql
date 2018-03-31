@@ -28,7 +28,7 @@ export const sampleRecipes = [
   createRecipe({
     title: "Recipe 4",
     description: "Desc 4",
-    preparationDifficulty: Difficulty.Masterchef,
+    preparationDifficulty: Difficulty.MasterChef,
     ingredients: ["ten", "eleven", "twelve"],
     cook: sampleCooks[0],
   }),

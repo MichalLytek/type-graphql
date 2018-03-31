@@ -28,17 +28,17 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
     this.items = [recipe1, recipe2];
   }
 
-  @Query(returnType => Recipe, { nullable: true })
+  @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<Recipe | undefined> {
     return await this.items.find(recipe => recipe.title === title);
   }
 
-  @Query(returnType => [Recipe], { description: "Get all the recipes from around the world " })
+  @Query(returns => [Recipe], { description: "Get all the recipes from around the world " })
   async recipes(): Promise<Recipe[]> {
     return await this.items;
   }
 
-  @Mutation(() => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(@Arg("recipe") recipeInput: RecipeInput): Promise<Recipe> {
     const recipe = new Recipe();
     recipe.description = recipeInput.description;

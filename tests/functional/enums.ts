@@ -55,12 +55,12 @@ describe("Enums", () => {
     }
 
     class SampleResolver {
-      @Query(returnType => NumberEnum)
+      @Query(returns => NumberEnum)
       getNumberEnumValue(@Arg("input") input: NumberEnumInput): NumberEnum {
         return NumberEnum.Two;
       }
 
-      @Query(returnType => StringEnum)
+      @Query(returns => StringEnum)
       getStringEnumValue(@Arg("input") input: StringEnumInput): StringEnum {
         return StringEnum.Two;
       }

@@ -62,7 +62,7 @@ describe("Unions", () => {
     }
 
     class SampleResolver {
-      @Query(returnType => OneTwoThreeUnion)
+      @Query(returns => OneTwoThreeUnion)
       getObjectOneFromUnion(): typeof OneTwoThreeUnion {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
@@ -78,7 +78,7 @@ describe("Unions", () => {
         };
       }
 
-      @Query(returnType => OneTwoThreeUnion)
+      @Query(returns => OneTwoThreeUnion)
       getPlainObjectFromUnion(): typeof OneTwoThreeUnion {
         return {
           fieldTwo: "fieldTwo",

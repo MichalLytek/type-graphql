@@ -43,7 +43,7 @@ For TS compile-time type safety you can also use `typeof SearchResultUnion` whic
 ```ts
 @Resolver()
 class SearchResolver {
-  @Query(returnType => [SearchResultUnion])
+  @Query(returns => [SearchResultUnion])
   async search(
     @Arg("phrase") phrase: string,
   ): Promise<Array<typeof SearchResultUnion>> {

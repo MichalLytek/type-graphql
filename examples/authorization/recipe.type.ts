@@ -9,7 +9,7 @@ export class Recipe {
   description?: string;
 
   @Authorized() // restrict access to ingredients only for logged users (paid subscription?)
-  @Field(itemType => String)
+  @Field(type => [String])
   ingredients: string[];
 
   @Authorized("ADMIN") // restrict access to rates details for admin only

@@ -29,17 +29,17 @@ export class RecipeResolver {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @Query(returnType => Recipe, { nullable: true })
+  @Query(returns => Recipe, { nullable: true })
   recipe(@Arg("recipeId", type => Int) recipeId: number) {
     return this.recipeRepository.findOneById(recipeId);
   }
 
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   recipes(): Promise<Recipe[]> {
     return this.recipeRepository.find();
   }
 
-  @Mutation(returnType => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(
     @Arg("recipe") recipeInput: RecipeInput,
     @Ctx() { user }: Context,
@@ -51,7 +51,7 @@ export class RecipeResolver {
     return await this.recipeRepository.save(recipe);
   }
 
-  @Mutation(() => Recipe)
+  @Mutation(returns => Recipe)
   async rate(@Arg("rate") rateInput: RateInput, @Ctx() { user }: Context): Promise<Recipe> {
     // find the recipe
     const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {

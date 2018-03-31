@@ -13,19 +13,16 @@ import { generateRecipes } from "./helpers";
 
 @Resolver(objectType => Recipe)
 export class RecipeResolver {
-  private readonly items: Recipe[];
-  constructor() {
-    this.items = generateRecipes(100);
-  }
+  private readonly items: Recipe[] = generateRecipes(100);
 
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes(@Args() options: RecipesArguments): Promise<Recipe[]> {
     const start: number = options.skip;
     const end: number = options.skip + options.take;
     return await this.items.slice(start, end);
   }
 
-  @Mutation(() => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
     const recipe = new Recipe();
     recipe.description = recipeInput.description;

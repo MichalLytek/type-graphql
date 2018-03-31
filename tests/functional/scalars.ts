@@ -97,12 +97,12 @@ describe("Scalars", () => {
         return {} as any;
       }
 
-      @Query(returnType => CustomScalar)
+      @Query(returns => CustomScalar)
       returnScalar(): string {
         return "returnScalar";
       }
 
-      @Query(returnType => Boolean)
+      @Query(returns => Boolean)
       argScalar(
         @Arg("scalar", type => CustomScalar)
         scalar: any,
@@ -111,7 +111,7 @@ describe("Scalars", () => {
         return true;
       }
 
-      @Query(returnType => Date)
+      @Query(returns => Date)
       returnDate(): any {
         return new Date();
       }
@@ -262,7 +262,7 @@ describe("Scalars", () => {
 
       @Resolver()
       class SampleResolver {
-        @Query(returnType => Date)
+        @Query(returns => Date)
         returnDate(): any {
           return new Date();
         }

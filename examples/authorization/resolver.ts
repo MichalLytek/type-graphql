@@ -8,9 +8,9 @@ export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes;
 
   // anyone can read recipes collection
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
-    return this.recipesData;
+    return await this.recipesData;
   }
 
   @Authorized() // only logged users can add new recipe

@@ -25,7 +25,7 @@ export class RecipeResolver {
     @InjectRepository(Rate) private readonly ratingsRepository: Repository<Rate>,
   ) {}
 
-  @Query(returnType => Recipe, { nullable: true })
+  @Query(returns => Recipe, { nullable: true })
   recipe(
     @Arg("recipeId", type => Int)
     recipeId: number,
@@ -33,12 +33,12 @@ export class RecipeResolver {
     return this.recipeRepository.findOneById(recipeId);
   }
 
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   recipes(): Promise<Recipe[]> {
     return this.recipeRepository.find();
   }
 
-  @Mutation(returnType => Recipe)
+  @Mutation(returns => Recipe)
   addRecipe(@Arg("recipe") recipeInput: RecipeInput, @Ctx() { user }: Context): Promise<Recipe> {
     const recipe = this.recipeRepository.create({
       ...recipeInput,
@@ -47,7 +47,7 @@ export class RecipeResolver {
     return this.recipeRepository.save(recipe);
   }
 
-  @Mutation(returnType => Recipe)
+  @Mutation(returns => Recipe)
   async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the recipe
     const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {

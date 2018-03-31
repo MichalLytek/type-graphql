@@ -34,13 +34,13 @@ class RecipeResolver {
 
 We also need to do two things.
 The first is to add `@Query` decorator (it marks the class method as the GraphQL's query).
-The second is to provide the return type - the method is async so reflection metadata system shows that the return type is `Promise` of sth, so we have to add `returnType => [Recipe]` decorator's parameter to declare that it will be an array of `Recipe` object types.
+The second is to provide the return type - the method is async so reflection metadata system shows that the return type is `Promise` of sth, so we have to add `returns => [Recipe]` decorator's parameter to declare that it will be an array of `Recipe` object types.
 ```ts
 @Resolver()
 class RecipeResolver {
   private recipesCollection: Recipe[] = [];
 
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes() {
     return await this.recipesCollection;
   }
@@ -54,7 +54,7 @@ First is the inline method using `@Arg()` decorator. The drawback is the need of
 @Resolver()
 class RecipeResolver {
   // ...
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes(
     @Arg("title" { nullable: true }) title?: string,
   ): Promise<Recipe[]> {
@@ -105,7 +105,7 @@ We can use the destruction syntax to have access to single arguments as variable
 @Resolver()
 class RecipeResolver {
   // ...
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes(@Args() { title, startIndex, endIndex }: GetRecipesArgs) {
     // sample implementation
     let recipes = this.recipesCollection;

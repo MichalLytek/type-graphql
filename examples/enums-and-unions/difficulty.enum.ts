@@ -5,7 +5,7 @@ export enum Difficulty {
   Easy,
   Medium,
   Hard,
-  Masterchef,
+  MasterChef,
 }
 
 registerEnumType(Difficulty, {

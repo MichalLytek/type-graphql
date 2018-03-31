@@ -11,17 +11,17 @@ export class RecipeResolver {
     private readonly recipeService: RecipeService,
   ) {}
 
-  @Query(returnType => Recipe, { nullable: true })
+  @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("recipeId") recipeId: string) {
     return this.recipeService.getOne(recipeId);
   }
 
-  @Query(returnType => [Recipe])
+  @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipeService.getAll();
   }
 
-  @Mutation(() => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(@Arg("recipe") recipe: RecipeInput): Promise<Recipe> {
     return this.recipeService.add(recipe);
   }

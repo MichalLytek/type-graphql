@@ -124,12 +124,12 @@ describe("Resolvers", () => {
           return "implicitStringQuery";
         }
 
-        @Query(returnType => String)
+        @Query(returns => String)
         explicitStringQuery(): any {
           return "explicitStringQuery";
         }
 
-        @Query(returnType => String, { nullable: true })
+        @Query(returns => String, { nullable: true })
         nullableStringQuery(): string | null {
           return Math.random() > 0.5 ? "explicitStringQuery" : null;
         }
@@ -144,7 +144,7 @@ describe("Resolvers", () => {
           return [];
         }
 
-        @Query(returnType => String)
+        @Query(returns => String)
         async promiseStringQuery(): Promise<string> {
           return "promiseStringQuery";
         }
@@ -154,7 +154,7 @@ describe("Resolvers", () => {
           return {} as SampleObject;
         }
 
-        @Query(returnType => SampleObject)
+        @Query(returns => SampleObject)
         async asyncObjectQuery(): Promise<SampleObject> {
           return {} as SampleObject;
         }
@@ -164,17 +164,17 @@ describe("Resolvers", () => {
           return true;
         }
 
-        @Query(returnType => String)
+        @Query(returns => String)
         argQuery(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean): any {
           return "argQuery";
         }
 
-        @Query(returnType => String)
+        @Query(returns => String)
         argsQuery(@Args() args: SampleArgs): any {
           return "argsQuery";
         }
 
-        @Query(returnType => String)
+        @Query(returns => String)
         argAndArgsQuery(@Arg("arg1") arg1: string, @Args() args: SampleArgs): any {
           return "argAndArgsQuery";
         }
@@ -550,7 +550,7 @@ describe("Resolvers", () => {
         try {
           @Resolver()
           class SampleResolver {
-            @Query(() => String)
+            @Query(returns => String)
             sampleQuery(@Arg("arg") arg: any): string {
               return "sampleQuery";
             }

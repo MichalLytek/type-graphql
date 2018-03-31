@@ -34,7 +34,7 @@ export class RecipeResolver {
     private readonly recipeService: RecipeService,
   ) {}
 
-  @Query(returnType => Recipe, { nullable: true })
+  @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("recipeId") recipeId: string) {
     return this.recipeService.getOne(recipeId);
   }

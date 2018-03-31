@@ -16,6 +16,10 @@ export type SubscriptionFilterFunc = (
 ) => boolean | Promise<boolean>;
 
 export interface TypeOptions {
+  /**
+   * Used to annotate the type as an Array (TS reflection system limitation)
+   * @deprecated use array syntax `type => [ItemType]` notation instead
+   */
   array?: boolean;
   nullable?: boolean;
 }
