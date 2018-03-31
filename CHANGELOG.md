@@ -4,6 +4,7 @@
 ### Features
 - add support for GraphQL subscriptions using `graphql-subscriptions`
 - update package dependencies
+- deprecate `{ array: true }` type option
 
 ## v0.8.1
 ### Features

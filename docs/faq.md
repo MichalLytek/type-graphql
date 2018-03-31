@@ -29,3 +29,8 @@ updateItem(data: UpdateItemInput!): Item!
 ```graphql
 updateItem(id: Int!, userId: Int!): Item!
 ```
+
+### Where I have to use `() => [ItemType]` or `{ array: true }` syntax?
+You should use `[ItemType]` syntax every time when your field type is array or you return array from query/mutation. The `{ array: true }` type options is deprecated and will be removed soon.
+
+Even if you technically can omit the array notation (when the base type is not `Promise`) and provide only the type of array item (e.g. `@Field(() => ItemType) field: ItemType[]`) - it's better to be consistent with other annotations by explicit defining the type.
