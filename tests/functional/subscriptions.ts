@@ -30,6 +30,7 @@ import {
   PubSubEngine,
   Float,
   buildSchema,
+  MissingSubscriptionTopicsError,
 } from "../../src";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -56,12 +57,12 @@ describe("Subscriptions", () => {
         sampleQuery(): boolean {
           return true;
         }
-        @Subscription()
+        @Subscription({ topics: "STH" })
         sampleSubscription(): boolean {
           return true;
         }
 
-        @Subscription()
+        @Subscription({ topics: "STH" })
         subscriptionWithArgs(
           @Arg("stringArg") stringArg: string,
           @Arg("booleanArg") booleanArg: boolean,
@@ -69,7 +70,7 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Subscription(returns => [SampleObject])
+        @Subscription(returns => [SampleObject], { topics: "STH" })
         subscriptionWithExplicitType(): any {
           return true;
         }
@@ -436,6 +437,40 @@ describe("Subscriptions", () => {
 
       expect(emittedValue).toBeDefined();
       expect(emittedValue.test).toEqual(true);
+    });
+
+    it("should throw error while passing empty topics array to Subscription", async () => {
+      MetadataStorage.clear();
+      expect.assertions(4);
+      try {
+        @ObjectType()
+        class SampleObject {
+          @Field() sampleField: string;
+        }
+        class SampleResolver {
+          @Query()
+          dumbQuery(): boolean {
+            return true;
+          }
+          @Mutation(returns => Boolean)
+          pubSubMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
+            return pubSub.publish("TEST", value);
+          }
+          @Subscription({ topics: [] })
+          sampleSubscription(): boolean {
+            return true;
+          }
+        }
+
+        const localSchema = await buildSchema({
+          resolvers: [SampleResolver],
+        });
+      } catch (err) {
+        expect(err).toBeDefined();
+        expect(err).toBeInstanceOf(MissingSubscriptionTopicsError);
+        expect(err.message).toContain("SampleResolver");
+        expect(err.message).toContain("sampleSubscription");
+      }
     });
   });
 });
