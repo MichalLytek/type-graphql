@@ -18,6 +18,7 @@ You can learn both the basics as well as advanced techniques and additional feat
 - [enums](./enums.md) (basic enum usage)
 - [unions](./unions.md) (defining type-safe union types)
 - [interfaces and inheritance](./interfaces-and-inheritance.md) (creating GraphQL's interfaces and reuse input/args definitions)
+- [subscriptions](./subscriptions.md) (creating GraphQL subscriptions with pubsub and filters)
 
 ## Features
 - [dependency injection](./dependency-injection.md) (usage of IoC containers)
