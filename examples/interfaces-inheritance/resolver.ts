@@ -8,11 +8,11 @@ import { StudentInput } from "./student/student.input";
 import { EmployeeInput } from "./employee/employee.input";
 import { IPerson } from "./person/person.interface";
 
-@Resolver(type => IPerson as any)
+@Resolver()
 export class MultiResolver {
   private readonly personsRegistry: IPerson[] = [];
 
-  @Query(itemType => IPerson)
+  @Query(returns => [IPerson])
   persons(): IPerson[] {
     // this one returns interfaces
     // so GraphQL has to be able to resolve type of the item

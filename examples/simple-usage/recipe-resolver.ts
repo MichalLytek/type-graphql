@@ -8,7 +8,8 @@ import {
   Float,
   Int,
   ResolverInterface,
-} from "../../src/index";
+} from "../../src";
+import { plainToClass } from "class-transformer";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
@@ -17,14 +18,18 @@ import { RecipeInput } from "./recipe-input";
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[];
   constructor() {
-    const recipe1 = new Recipe();
-    recipe1.description = "Desc 1";
-    recipe1.title = "Recipe 1";
-    recipe1.ratings = [0, 3, 1];
-    const recipe2 = new Recipe();
-    recipe2.description = "Desc 2";
-    recipe2.title = "Recipe 2";
-    recipe2.ratings = [4, 2, 3, 1];
+    const recipe1 = plainToClass(Recipe, {
+      description: "Desc 1",
+      title: "Recipe 1",
+      ratings: [0, 3, 1],
+      creationDate: new Date(),
+    });
+    const recipe2 = plainToClass(Recipe, {
+      description: "Desc 2",
+      title: "Recipe 2",
+      ratings: [4, 2, 3, 1],
+      creationDate: new Date(),
+    });
     this.items = [recipe1, recipe2];
   }
 
@@ -40,12 +45,12 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
 
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("recipe") recipeInput: RecipeInput): Promise<Recipe> {
-    const recipe = new Recipe();
-    recipe.description = recipeInput.description;
-    recipe.title = recipeInput.title;
-    recipe.ratings = [];
-    recipe.creationDate = new Date();
-
+    const recipe = plainToClass(Recipe, {
+      description: recipeInput.description,
+      title: recipeInput.title,
+      ratings: [],
+      creationDate: new Date(),
+    });
     await this.items.push(recipe);
     return recipe;
   }

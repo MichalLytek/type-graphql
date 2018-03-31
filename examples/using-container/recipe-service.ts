@@ -6,7 +6,7 @@ import { RecipeInput } from "./recipe-input";
 
 @Service()
 export class RecipeService {
-  private autoIncrementValue = 0;
+  private autoIncrementValue: number;
   private readonly items: Recipe[];
 
   constructor(
@@ -14,6 +14,7 @@ export class RecipeService {
     sampleRecipes: ReadonlyArray<Recipe>,
   ) {
     this.items = sampleRecipes.slice();
+    this.autoIncrementValue = this.items.length;
   }
 
   async getAll() {

@@ -8,5 +8,5 @@ export class RecipeInput implements Partial<Recipe> {
   title: string;
 
   @Field({ nullable: true })
-  description: string;
+  description?: string;
 }

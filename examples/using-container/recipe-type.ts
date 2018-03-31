@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int } from "../../src/index";
+import { Field, ID, ObjectType, Int } from "../../src";
 
 @ObjectType()
 export class Recipe {

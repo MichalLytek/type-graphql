@@ -2,8 +2,8 @@ import "reflect-metadata";
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 import { Container } from "typedi";
-import * as TypeGraphQL from "../../src";
 import * as TypeORM from "typeorm";
+import * as TypeGraphQL from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { Recipe } from "./entities/recipe";
@@ -22,15 +22,14 @@ async function bootstrap() {
     await TypeORM.createConnection({
       type: "mysql",
       database: "type-graphql",
-      username: "root",
-      password: "qwerty123",
+      username: "root", // fill this with your username
+      password: "qwerty123", // and password
       port: 3306,
       host: "localhost",
       entities: [Recipe, Rate, User],
       synchronize: true,
       logger: "advanced-console",
       logging: "all",
-      // logging: ["error"],
       dropSchema: true,
       cache: true,
     });

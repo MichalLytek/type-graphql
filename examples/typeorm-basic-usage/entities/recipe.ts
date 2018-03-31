@@ -20,7 +20,7 @@ export class Recipe {
   @Column({ nullable: true })
   description?: string;
 
-  @Field(type => Rate)
+  @Field(type => [Rate])
   @OneToMany(type => Rate, rate => rate.recipe, { cascadeInsert: true })
   ratings: Rate[];
 

@@ -1,4 +1,5 @@
 import { createUnionType } from "../../src";
+
 import { Recipe } from "./recipe.type";
 import { Cook } from "./cook.type";
 

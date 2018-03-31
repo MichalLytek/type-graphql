@@ -26,15 +26,14 @@ async function bootstrap() {
     await TypeORM.createConnection({
       type: "mysql",
       database: "type-graphql",
-      username: "root",
-      password: "qwerty123",
+      username: "root", // fill this with your username
+      password: "qwerty123", // and password
       port: 3306,
       host: "localhost",
       entities: [Recipe, Rate, User],
       synchronize: true,
       logger: "advanced-console",
       logging: "all",
-      // logging: ["error"],
       dropSchema: true,
       cache: true,
     });

@@ -1,11 +1,11 @@
 import { Resolver, Query, Authorized, Mutation, Arg } from "../../src";
 
 import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./sample-recipes";
+import { createRecipe, sampleRecipes } from "./recipe.helpers";
 
 @Resolver()
 export class ExampleResolver {
-  private recipesData: Recipe[] = sampleRecipes;
+  private recipesData: Recipe[] = sampleRecipes.slice();
 
   // anyone can read recipes collection
   @Query(returns => [Recipe])
@@ -21,10 +21,11 @@ export class ExampleResolver {
     @Arg("description", { nullable: true })
     description?: string,
   ): Recipe {
-    const newRecipe = new Recipe();
-    newRecipe.title = title;
-    newRecipe.description = description;
-    newRecipe.ratings = [];
+    const newRecipe = createRecipe({
+      title,
+      description,
+      ratings: [],
+    });
     this.recipesData.push(newRecipe);
     return newRecipe;
   }

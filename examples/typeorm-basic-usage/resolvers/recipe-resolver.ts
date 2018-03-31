@@ -7,7 +7,7 @@ import {
   Mutation,
   Ctx,
   Int,
-} from "../../../src/index";
+} from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 

@@ -16,3 +16,5 @@ This folder consist of simple examples showing how to use different `TypeGraphQL
 ## 3rd party libs integration
 - [TypeORM (manual, synchronous)](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations)](./typeorm-lazy-relations)
+
+_* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_

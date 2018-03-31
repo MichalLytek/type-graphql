@@ -1,4 +1,4 @@
-import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src/index";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
