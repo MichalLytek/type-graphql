@@ -24,7 +24,7 @@ async function bootstrap() {
     response.end();
   });
 
-  // ind it to port and start listening
+  // Bind it to port and start listening
   websocketServer.listen(WS_PORT, () =>
     console.log(`Websocket Server is now running on localhost:${WS_PORT}`),
   );

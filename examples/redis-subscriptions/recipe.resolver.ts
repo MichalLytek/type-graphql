@@ -9,6 +9,8 @@ import {
   Root,
   PubSubEngine,
   ID,
+  FilterActionData,
+  Args,
 } from "../../src";
 
 import { Recipe } from "./recipe.type";
@@ -17,6 +19,7 @@ import { Comment } from "./comment.type";
 import { NewCommentPayload } from "./newComment.interface";
 import { Topic } from "./topics";
 import { sampleRecipes } from "./recipe.samples";
+import { NewCommentsArgs } from "./recipe.resolver.args";
 
 @Resolver()
 export class RecipeResolver {
@@ -52,11 +55,13 @@ export class RecipeResolver {
 
   @Subscription(returns => Comment, {
     topics: Topic.NewComment,
-    filter: ({ root, args }) => root.recipeId === args.recipeId,
+    filter: ({ payload, args }: FilterActionData<NewCommentPayload, NewCommentsArgs>) => {
+      return payload.recipeId === args.recipeId;
+    },
   })
   newComments(
     @Root() newComment: NewCommentPayload,
-    @Arg("recipeId", type => ID) recipeId: string,
+    @Args() { recipeId }: NewCommentsArgs,
   ): Comment {
     return {
       content: newComment.content,

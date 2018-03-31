@@ -1,5 +1,15 @@
 import { PubSubEngine } from "graphql-subscriptions";
-import { Resolver, Query, Mutation, Arg, PubSub, Publisher, Subscription, Root } from "../../src";
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Arg,
+  PubSub,
+  Publisher,
+  Subscription,
+  Root,
+  FilterActionData,
+} from "../../src";
 
 import { Notification, NotificationPayload } from "./notification.type";
 
@@ -38,7 +48,7 @@ export class SampleResolver {
 
   @Subscription(returns => Notification, {
     topics: "NOTIFICATIONS",
-    filter: ({ root: { id } }) => id % 2 === 0,
+    filter: ({ payload }: FilterActionData<NotificationPayload>) => payload.id % 2 === 0,
   })
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
     const newNotification: Notification = { id, message, date: new Date() };

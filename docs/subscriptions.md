@@ -28,14 +28,14 @@ class SampleResolver {
 }
 ```
 
-We can also provide the `filter` option to filter which events from topics should trigger our subscription.
-It should return `boolean` or `Promise<boolean>`.
+We can also provide the `filter` option to decide which events from topics should trigger our subscription.
+This function should return `boolean` or `Promise<boolean>`.
 ```ts
 class SampleResolver {
   // ...
   @Subscription({ 
     topics: "NOTIFICATIONS",
-    filter: ({ root, args }) => args.priorities.includes(root.priority),
+    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
   })
   newNotification(): Notification {
     // ...
@@ -49,7 +49,7 @@ class SampleResolver {
   // ...
   @Subscription({ 
     topics: "NOTIFICATIONS",
-    filter: ({ root, args }) => args.priorities.includes(root.priority),
+    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
   })
   newNotification(
     @Root() notificationPayload: NotificationPayload,
@@ -119,14 +119,14 @@ class SampleResolver {
 }
 ```
 
-And that's it! Now all subscriptions attached to `NOTIFICATIONS` topic will be triggered while calling `addNewComment` mutation.
+And that's it! Now all subscriptions attached to `NOTIFICATIONS` topic will be triggered while performing `addNewComment` mutation.
 
 ## Using custom PubSub system
 By default, TypeGraphQL use simple `PubSub` system from `grapqhl-subscriptions` which is based on EventEmitter.
 This solution has a big drawback that it will works correctly only when we have single instance (process) of our Node.js app.
 
 For better scalability you'll want to use one of the [PubSub implementations]((https://github.com/apollographql/graphql-subscriptions#pubsub-implementations)) backed by an external store. 
-It might be e.g. Redis with `graphql-redis-subscriptions` package.
+It might be e.g. Redis with [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.
 
 All you need to do is to create an instance of PubSub according to package instruction and the provide it to TypeGraphQL `buildSchema` options:
 ```ts

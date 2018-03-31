@@ -5,7 +5,6 @@ export * from "./interfaces";
 
 export { buildSchema, BuildSchemaOptions } from "./utils/buildSchema";
 export { useContainer } from "./utils/container";
-export { AuthChecker } from "./types/auth-checker";
-export { ActionData } from "./types/action-data";
+export { AuthChecker, ActionData, FilterActionData } from "./types";
 
 export { PubSubEngine } from "graphql-subscriptions";

@@ -5,8 +5,7 @@ import { ValidatorOptions } from "class-validator";
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
-import { AuthChecker } from "../types/auth-checker";
-import { ActionData } from "../types/action-data";
+import { AuthChecker, ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export async function getParams(

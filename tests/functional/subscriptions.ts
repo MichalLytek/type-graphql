@@ -173,7 +173,7 @@ describe("Subscriptions", () => {
 
         @Subscription({
           topics: SAMPLE_TOPIC,
-          filter: ({ root: value }) => value > 0.5,
+          filter: ({ payload: value }) => value > 0.5,
         })
         sampleTopicSubscriptionWithFilter(@Root() value: number): SampleObject {
           return { value };
