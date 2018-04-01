@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.9.0
 ### Features
 - add support for GraphQL subscriptions using `graphql-subscriptions`
 - update package dependencies
