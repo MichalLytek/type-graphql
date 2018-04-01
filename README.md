@@ -132,7 +132,27 @@ import "reflect-metadata";
 4. `TypeGraphQL` is designed to work with Node.js 6, 8 and latest stable. It uses features from ES7 (ES2016) so you should set your `tsconfig.json` appropriately:
 ```js
 {
-  "target": "ES2016" // or newer if your node.js version supports this
+  "target": "es2016" // or newer if your node.js version supports this
+}
+```
+
+5. Due to using `graphql-subscription` dependency that rely on an `AsyncIterator`, you may also have to provide the `esnext.asynciterable` to the `lib` option:
+```js
+{
+  "lib": ["es2016", "esnext.asynciterable"]
+}
+```
+
+All in all, the minimal `tsconfig.json` file example looks like this:
+```js
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "lib": ["es2016", "esnext.asynciterable"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }
 ```
 
