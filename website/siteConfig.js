@@ -22,9 +22,9 @@ const siteConfig = {
   baseUrl: "/type-graphql/" /* base url for your project */,
   projectName: "type-graphql",
   headerLinks: [
-    { doc: "doc1", label: "Docs" },
-    { doc: "doc4", label: "API" },
-    { href: "https://github.com/19majkel94/type-graphql/blob/master/examples/README.md", label: "Examples" },
+    { doc: "introduction", label: "Docs" },
+    // { doc: "doc4", label: "API" },
+    { href: "https://github.com/19majkel94/type-graphql/blob/master/examples", label: "Examples" },
     { page: "help", label: "Help" },
     { blog: true, label: "Blog" },
     { href: "https://github.com/19majkel94/type-graphql", label: "GitHub" },
@@ -34,6 +34,7 @@ const siteConfig = {
   headerIcon: "img/logo.png",
   footerIcon: "img/logo.png",
   favicon: "img/favicon.png",
+  editUrl: "https://github.com/19majkel94/type-graphql/blob/master/docs/",
   /* colors for website */
   colors: {
     // primaryColor: '#2E8555',
@@ -54,11 +55,11 @@ const siteConfig = {
   },*/
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright: "Copyright © " + new Date().getFullYear() + " Michał Lytek",
-  // organizationName: 'deltice', // or set an env variable ORGANIZATION_NAME
-  // projectName: 'test-site', // or set an env variable PROJECT_NAME
+  organizationName: '19majkel94', // or set an env variable ORGANIZATION_NAME
+  projectName: 'type-graphql', // or set an env variable PROJECT_NAME
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: "default",
+    theme: "androidstudio",
   },
   scripts: ["https://buttons.github.io/buttons.js"],
   // You may provide arbitrary config keys to be used as needed by your template.

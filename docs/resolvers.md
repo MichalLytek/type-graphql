@@ -1,8 +1,12 @@
-# Resolvers
+---
+title: Resolvers
+---
+
 Besides [declaring GraphQL's object types](./types-and-fields.md), TypeGraphQL allows to create queries, mutations and field resolvers in an easy way - like a normal class methods, similar to REST controllers in frameworks like Java's `Spring`, .NET `Web API` or TypeScript's [routing-controllers](https://github.com/typestack/routing-controllers).
 
 ## Queries and mutations
 
+### Resolvers classes
 At first, you have to create a resolver class and annotate it with `@Resolver()` decorator. This class will behave like a controller known from classic REST frameworks:
 ```ts
 @Resolver()
@@ -47,6 +51,7 @@ class RecipeResolver {
 }
 ```
 
+### Arguments
 Usually queries have some arguments - it might be an id of the resource, the search phrase or pagination settings. TypeGraphQL allows you to define the arguments in two ways.
 
 First is the inline method using `@Arg()` decorator. The drawback is the need of repeating argument name (reflection system limitation) in decorator parameter.
@@ -124,6 +129,7 @@ type Query {
 }
 ```
 
+### Input types
 GraphQL's mutations we can create analogously, by declaring the class method, using `@Mutation` decorator, providing return type (if needed), creating arguments, etc. But for mutation we usually use `input` types, hence why TypeGraphQL allows you to create inputs in the same way as the [object types](./types-and-fields.md) but using `@InputType()` decorator:
 ```ts
 @InputType()
@@ -173,14 +179,15 @@ class RecipeResolver {
 ```
 Because our method is synchronous and explicitly returns `Recipe`, we can omit `@Mutation()` type annotation.
 
-This declarations will result in the following part of the schema in SDL:
+This declarations will result in the following parts of the schema in SDL:
 ```graphql
 input AddRecipeInput {
   title: String!
   description: String
 }
-
-type Mutation {
+```
+```graphql
+type Query {
   addRecipe(data: AddRecipeInput!): Recipe!
 }
 ```
@@ -194,7 +201,7 @@ Field resolvers in TypeGraphQL are very similar to queries and mutations - we cr
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver {
-  // queries and mutation 
+  // queries and mutations
 }
 ```
 
@@ -203,7 +210,7 @@ In our example we have `averageRating` field in `Recipe` object type that should
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver {
-  // ...
+  // queries and mutations
 
   averageRating(recipe: Recipe) {
     // ...
@@ -215,7 +222,7 @@ We need to mark the method as field resolver with `@FieldResolver()` decorator. 
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver {
-  // ...
+  // queries and mutations
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe) {
@@ -230,7 +237,7 @@ and whether the first parameter of the method is the object type (`Recipe` class
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
-  // ...
+  // queries and mutations
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe) {
@@ -243,7 +250,7 @@ Example implementation of the `averageRating` field resolver:
 ```ts
 @Resolver(objectType => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
-  // ...
+  // queries and mutations
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe) {

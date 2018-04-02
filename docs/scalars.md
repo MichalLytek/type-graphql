@@ -1,4 +1,6 @@
-# Scalars
+---
+title: Scalars
+---
 
 ## Aliases
 TypeGraphQL provides aliases for 3 basic scalars:
@@ -12,7 +14,7 @@ This shorthand allows you to save keystrokes when declaring field type:
 import { ID, Float, Int } from "type-graphql";
 
 @ObjectType()
-class SampleObject {
+class MysteryObject {
   @Field(type => ID)
   readonly id: string;
 
@@ -75,7 +77,7 @@ class User {
   registrationDate: Date;
 }
 ```
-Be aware to use `ts-node` with `--type-check` flag due to [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
+Be aware to use `ts-node` with `--type-check` flag due to a [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
 
 ## Custom scalars
 TypeGraphQL also support custom scalar types.

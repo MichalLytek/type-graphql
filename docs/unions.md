@@ -1,4 +1,7 @@
-# Unions
+---
+title: Unions
+---
+
 Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site's search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types. 
 
 You can read more about GraphQL union type in [official docs](http://graphql.org/learn/schema/#union-types).
@@ -56,7 +59,7 @@ class SearchResolver {
 ```
 Be aware that when your query/mutation return type (or field type) is an union, you have to return an specific instance of the object type class. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly when you use plain JS objects.
 
-**Et Voilà!** You can now build the schema and make the example query :wink:
+**Et Voilà!** You can now build the schema and make the example query 😉
 ```graphql
 query {
   search(phrase: "Holmes") {

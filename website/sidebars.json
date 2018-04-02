@@ -1,10 +1,9 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "Introduction": ["introduction"],
+    "Beginner guides": ["getting-started", "types-and-fields", "resolvers", "bootstrap"],
+    "Advanced guides": ["scalars", "enums", "unions", "interfaces-and-inheritance", "subscriptions"],
+    "Features": ["dependency-injection", "authorization", "validation"],
+    "Examples": ["examples"]
   }
 }

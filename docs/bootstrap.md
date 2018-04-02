@@ -1,4 +1,7 @@
-# Bootstrapping
+---
+title: Bootstrapping
+---
+
 After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT.
 
 ## Create executable schema
@@ -25,7 +28,7 @@ const schema = await buildSchema({
 });
 ```
 
-There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them [in docs](../docs).
+There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them in docs.
 
 To make `await` work, we need to wrap it in async function. Example of `main.ts` file:
 ```ts
@@ -49,6 +52,7 @@ In most cases, the GraphQL app is served by a HTTP server. After building the sc
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 
+const PORT = process.env.PORT || 4000;
 async function bootstrap() {
   // bulding schema here...
 
@@ -57,8 +61,8 @@ async function bootstrap() {
     schema,
     graphiql: true,
   }));
-  app.listen(4000, () => {
-    console.log("Running a GraphQL API server at localhost:4000/graphql");
+  app.listen(PORT, () => {
+    console.log(`Running a GraphQL API server at localhost:${PORT}/graphql`);
   });
 }
 
@@ -66,4 +70,4 @@ bootstrap();
 ```
 
 Remember to install `express` and `express-graphql` packages from npm - there are not bundled with TypeGraphQL.
-Of course you can use `apollo-server` or anything you want :wink:
+Of course you can use `apollo-server` or anything you want 😉

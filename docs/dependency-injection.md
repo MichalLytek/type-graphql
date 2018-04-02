@@ -1,4 +1,7 @@
-# Dependency injection - IoC container
+---
+title: Dependency injection
+---
+
 Dependency injection is a really useful pattern that helps in decoupling parts of the app.
 
 TypeGraphQL supports this technique by allowing users to provide the IoC container that will be used by the framework.
@@ -42,15 +45,14 @@ export class RecipeResolver {
 ```
 
 Sample service implementation looks like this:
-```ts
+
+```typescript
 import { Service, Inject } from "typedi";
 
 @Service()
 export class RecipeService {
-  constructor(
-    @Inject("SAMPLE_RECIPES")
-    private readonly items: Recipe[],
-  ) {}
+  @Inject("SAMPLE_RECIPES")
+  private readonly items: Recipe[],
 
   async getAll() {
     return this.items;
@@ -63,5 +65,5 @@ export class RecipeService {
 ```
 
 ## Example
-You can see how this fits together in the [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/02-using-container).
+You can see how this fits together in the [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container).
  
