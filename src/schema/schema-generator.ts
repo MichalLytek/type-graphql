@@ -141,8 +141,12 @@ export abstract class SchemaGenerator {
       interfaceType => {
         const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
         const hasExtended = interfaceSuperClass.prototype !== undefined;
-        const getSuperClassType = () =>
-          this.interfaceTypesInfo.find(type => type.target === interfaceSuperClass)!.type;
+        const getSuperClassType = () => {
+          const superClassTypeInfo = this.interfaceTypesInfo.find(
+            type => type.target === interfaceSuperClass,
+          );
+          return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+        };
         return {
           target: interfaceType.target,
           type: new GraphQLInterfaceType({
@@ -161,11 +165,11 @@ export abstract class SchemaGenerator {
               );
               // support for extending interface classes - get field info from prototype
               if (hasExtended) {
-                fields = Object.assign(
-                  {},
-                  this.getFieldMetadataFromObjectType(getSuperClassType()),
-                  fields,
-                );
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superClassFields = this.getFieldMetadataFromObjectType(superClass);
+                  fields = Object.assign({}, superClassFields, fields);
+                }
               }
               return fields;
             },
@@ -177,8 +181,12 @@ export abstract class SchemaGenerator {
     this.objectTypesInfo = MetadataStorage.objectTypes.map<ObjectTypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
       const hasExtended = objectSuperClass.prototype !== undefined;
-      const getSuperClassType = () =>
-        this.objectTypesInfo.find(type => type.target === objectSuperClass)!.type;
+      const getSuperClassType = () => {
+        const superClassTypeInfo = this.objectTypesInfo.find(
+          type => type.target === objectSuperClass,
+        );
+        return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+      };
       const interfaceClasses = objectType.interfaceClasses || [];
       return {
         target: objectType.target,
@@ -196,8 +204,11 @@ export abstract class SchemaGenerator {
             );
             // copy interfaces from super class
             if (hasExtended) {
-              const superInterfaces = getSuperClassType().getInterfaces();
-              interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
+              const superClass = getSuperClassType();
+              if (superClass) {
+                const superInterfaces = superClass.getInterfaces();
+                interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
+              }
             }
             return interfaces;
           },
@@ -224,11 +235,11 @@ export abstract class SchemaGenerator {
             );
             // support for extending classes - get field info from prototype
             if (hasExtended) {
-              fields = Object.assign(
-                {},
-                this.getFieldMetadataFromObjectType(getSuperClassType()),
-                fields,
-              );
+              const superClass = getSuperClassType();
+              if (superClass) {
+                const superClassFields = this.getFieldMetadataFromObjectType(superClass);
+                fields = Object.assign({}, superClassFields, fields);
+              }
             }
             // support for implicitly implementing interfaces
             // get fields from interfaces definitions
@@ -251,15 +262,19 @@ export abstract class SchemaGenerator {
 
     this.inputTypesInfo = MetadataStorage.inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target);
-      const getSuperClassType = () =>
-        this.inputTypesInfo.find(type => type.target === objectSuperClass)!.type;
+      const getSuperClassType = () => {
+        const superClassTypeInfo = this.inputTypesInfo.find(
+          type => type.target === objectSuperClass,
+        );
+        return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+      };
       return {
         target: inputType.target,
         type: new GraphQLInputObjectType({
           name: inputType.name,
           description: inputType.description,
           fields: () => {
-            const fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
+            let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
               (fieldsMap, field) => {
                 fieldsMap[field.name] = {
                   description: field.description,
@@ -271,7 +286,11 @@ export abstract class SchemaGenerator {
             );
             // support for extending classes - get field info from prototype
             if (objectSuperClass.prototype !== undefined) {
-              Object.assign(fields, this.getFieldMetadataFromInputType(getSuperClassType()));
+              const superClass = getSuperClassType();
+              if (superClass) {
+                const superClassFields = this.getFieldMetadataFromInputType(superClass);
+                fields = Object.assign({}, superClassFields, fields);
+              }
             }
             return fields;
           },

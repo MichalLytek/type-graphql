@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Fixes
+- fix bug with extending non-TypeGraphQL classes
+
 ## v0.9.0
 ### Features
 - add support for GraphQL subscriptions using `graphql-subscriptions`

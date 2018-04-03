@@ -31,7 +31,7 @@ import {
   Int,
 } from "../../src";
 
-describe("Intefaces and inheritance", () => {
+describe("Interfaces and inheritance", () => {
   describe("Schema", () => {
     let schemaIntrospection: IntrospectionSchema;
     let queryType: IntrospectionObjectType;
@@ -457,6 +457,17 @@ describe("Intefaces and inheritance", () => {
         @Field() secondField: string;
       }
 
+      class SampleBaseClass {
+        static sampleStaticMethod() {
+          return "sampleStaticMethod";
+        }
+      }
+
+      @ObjectType()
+      class SampleExtendingNormalClassObject extends SampleBaseClass {
+        @Field() sampleField: string;
+      }
+
       class InterfacesResolver {
         @Query()
         getInterfacePlainObject(): BaseInterface {
@@ -480,6 +491,11 @@ describe("Intefaces and inheritance", () => {
         mutationWithInput(@Arg("input") input: ChildInput): boolean {
           mutationInput = input;
           return true;
+        }
+
+        @Query()
+        baseClassQuery(): string {
+          return SampleExtendingNormalClassObject.sampleStaticMethod();
         }
       }
 
@@ -579,6 +595,16 @@ describe("Intefaces and inheritance", () => {
       expect(mutationInput.baseInputField).toEqual("baseInputField");
       expect(mutationInput.childInputField).toEqual("childInputField");
       expect(mutationInput.optionalBaseInputField).toEqual(255);
+    });
+
+    it("should correctly extends non-TypeGraphQL class", async () => {
+      const query = `query {
+        baseClassQuery
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.baseClassQuery).toEqual("sampleStaticMethod");
     });
   });
 });
