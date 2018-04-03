@@ -24,8 +24,9 @@ const siteConfig = {
   headerLinks: [
     { doc: "introduction", label: "Docs" },
     // { doc: "doc4", label: "API" },
-    { href: "https://github.com/19majkel94/type-graphql/blob/master/examples", label: "Examples" },
-    { page: "help", label: "Help" },
+    // { href: "https://github.com/19majkel94/type-graphql/blob/master/examples", label: "Examples" },
+    { doc: "examples", label: "Examples" },
+    { doc: "faq", label: "FAQ" },
     { blog: true, label: "Blog" },
     { href: "https://github.com/19majkel94/type-graphql", label: "GitHub" },
   ],
@@ -38,9 +39,11 @@ const siteConfig = {
   /* colors for website */
   colors: {
     // primaryColor: '#2E8555',
-    primaryColor: "#2e6485",
+    // primaryColor: "#2e6485",
+    primaryColor: "#2e5985",
     // secondaryColor: '#205C3B',
-    secondaryColor: "#27526d",
+    // secondaryColor: "#27526d",
+    secondaryColor: "#26496d",
   },
   /* custom fonts for website */
   /*fonts: {
@@ -65,7 +68,7 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your template.
   repoUrl: "https://github.com/19majkel94/type-graphql",
   /* On page navigation for the current documentation page */
-  // onPageNav: 'separate',
+  onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

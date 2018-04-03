@@ -10,7 +10,7 @@
     "enums": "Enums",
     "examples": "Examples",
     "List of examples": "List of examples",
-    "faq": "faq",
+    "faq": "Frequently Asked Questions",
     "getting-started": "Getting started",
     "interfaces-and-inheritance": "Interfaces and inheritance",
     "introduction": "Introduction",
@@ -25,13 +25,14 @@
     "Validation": "Validation",
     "Docs": "Docs",
     "Examples": "Examples",
-    "Help": "Help",
+    "FAQ": "FAQ",
     "Blog": "Blog",
     "GitHub": "GitHub",
     "Introduction": "Introduction",
     "Beginner guides": "Beginner guides",
     "Advanced guides": "Advanced guides",
-    "Features": "Features"
+    "Features": "Features",
+    "Others": "Others"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",
