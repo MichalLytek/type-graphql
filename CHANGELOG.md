@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.9.1
 ### Fixes
 - fix bug with extending non-TypeGraphQL classes
 
