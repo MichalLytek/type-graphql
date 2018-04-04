@@ -6,6 +6,7 @@
  */
 
 const React = require("react");
+const fs = require("fs");
 
 const CompLibrary = require("../../core/CompLibrary.js");
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
@@ -102,14 +103,14 @@ const Features = props => (
       {
         image: imgUrl("GraphQL_Logo.svg"),
         imageAlign: "top",
-        title: "Define schema",
+        title: "GraphQL",
         content:
           "Define your whole schema, including types, interfaces, enums, unions and subscriptions",
       },
       {
         image: imgUrl("ts-logo.png"),
         imageAlign: "top",
-        title: "Use TypeScript",
+        title: "TypeScript",
         content:
           "Create the schema, types and resolvers only with TypeScript, using classes and decorators! ",
       },
@@ -117,7 +118,8 @@ const Features = props => (
         image: imgUrl("tools.svg"),
         imageAlign: "top",
         title: "Advanced features",
-        content: "Automatic validation, authorization guards, dependency injection and more...",
+        content:
+          "Use features like automatic validation, authorization guards, dependency injection and plenty more...",
       },
     ]}
   </Block>
@@ -130,47 +132,101 @@ const Features = props => (
 //   </div>
 // );
 
+const typeormSnippet = fs.readFileSync(process.cwd() + "/static/snippets/typeorm.md").toString();
 const Interoperable = props => (
-  <Block background="light" align="left">
-    {[
-      {
-        image: imgUrl("typeorm.png"),
-        imageAlign: "right",
-        title: "Interoperable",
-        content:
-          "Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like <a href='https://github.com/typeorm/typeorm' target='_blank'>TypeORM</a>, <a href='https://github.com/RobinBuschmann/sequelize-typescript' target='_blank'>sequelize-typescript</a> or <a href='https://github.com/szokodiakos/typegoose' target='_blank'>Typegoose</a>.<br><br>This allows you to define both the GraphQL type and the entity in a single class - no need to jump between multiple files to add or rename some properties.",
-      },
-    ]}
-  </Block>
+  <Container
+    id="interoperable"
+    padding={["bottom", "top"]}
+    background="light"
+    className="snippet-container"
+  >
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          title: "Interoperable",
+          content:
+            "Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like [TypeORM](https://github.com/typeorm/typeorm), [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) or [Typegoose](https://github.com/szokodiakos/typegoose).<br><br>This allows you to define both the GraphQL type and the entity in a single class - no need to jump between multiple files to add or rename some properties.",
+        },
+      ]}
+    />
+    <div className="snippet">
+      <MarkdownBlock>{typeormSnippet}</MarkdownBlock>
+    </div>
+  </Container>
 );
 
+const validationSnippet = fs
+  .readFileSync(process.cwd() + "/static/snippets/validation.md")
+  .toString();
 const Validation = props => (
-  <Block id="validation" align="left">
-    {[
-      {
-        image: imgUrl("validation.png"),
-        imageAlign: "left",
-        title: "Validation",
-        content:
-          "Forget about manual inputs and arguments validation! No need to create custom scalars to limit the length of a string or a int range.<br><br>Just use decorators from <a href='https://github.com/typestack/class-validator' target='_blank'>class-validator</a> library and declare the requirements of the inputs. It couldn't be easier!",
-      },
-    ]}
-  </Block>
+  <Container id="validation" padding={["bottom", "top"]} className="snippet-container">
+    <div className="snippet">
+      <MarkdownBlock>{validationSnippet}</MarkdownBlock>
+    </div>
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          // image: imgUrl("validation.png"),
+          // imageAlign: "left",
+          title: "Validation",
+          content:
+            "Forget about manual inputs and arguments validation! No need to create custom scalars to limit the length of a string or a int range.<br><br>Just use decorators from <a href='https://github.com/typestack/class-validator' target='_blank'>class-validator</a> library and declare the requirements of the inputs. It couldn't be easier!",
+        },
+      ]}
+    />
+  </Container>
 );
 
-const Description = props => (
-  <Block background="light" align="left">
-    {[
-      {
-        image: imgUrl("testability.png"),
-        imageAlign: "right",
-        title: "Easy testability",
-        content:
-          "Dependency injection support and decorators abstraction gives a great separation of business logic from the underlying transport layer.<br><br>Thanks to this, you can easily mock the dependencies to prevent side effects and unit test your resolvers like a simple services that only takes some inputs and returns result.",
-      },
-    ]}
-  </Block>
+const testabilitySnippet = fs
+  .readFileSync(process.cwd() + "/static/snippets/testability.md")
+  .toString();
+const Testability = props => (
+  <Container
+    id="validation"
+    padding={["bottom", "top"]}
+    background="light"
+    className="snippet-container"
+  >
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          // image: imgUrl("testability.png"),
+          // imageAlign: "right",
+          title: "Easy testability",
+          content:
+            "Dependency injection support and decorators abstraction gives a great separation of business logic from the underlying transport layer.<br><br>Thanks to this, you can easily mock the dependencies to prevent side effects and unit test your resolvers like a simple services that only takes some inputs and returns result.",
+        },
+      ]}
+    />
+    <div className="snippet">
+      <MarkdownBlock>{testabilitySnippet}</MarkdownBlock>
+    </div>
+  </Container>
 );
+
+const WantMore = props => {
+  let language = props.language || "";
+  return (
+    <div className="want-more-section">
+      <div className="productShowcaseSection" style={{ textAlign: "center" }}>
+        <h2>Want more?</h2>
+        That was only a tip of the iceberg. Interested?<br />
+        Give it a try and experiment with TypeGraphQL! It will reduce your codebase size by a half
+        or more!
+        <br />
+      </div>
+      <div className="want-more-buttons">
+        {/* <PromoSection> */}
+        <Button href={docUrl("getting-started.html", language)}>Getting started</Button>
+        <Button href={docUrl("examples.html", language)}>Examples</Button>
+        {/* </PromoSection> */}
+      </div>
+    </div>
+  );
+};
 
 // const Showcase = props => {
 //   if ((siteConfig.users || []).length === 0) {
@@ -214,7 +270,8 @@ class Index extends React.Component {
           {/* <FeatureCallout /> */}
           <Interoperable />
           <Validation />
-          <Description />
+          <Testability />
+          <WantMore language={language} />
           {/* <Showcase language={language} /> */}
         </div>
       </div>
