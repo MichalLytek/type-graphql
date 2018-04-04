@@ -1890,10 +1890,51 @@ footer .copyright {
 
 /* your custom css */
 
+.snippet-container > .wrapper {
+  display: flex;
+  align-items: center;
+}
+.snippet-container > .wrapper > .gridBlock {
+  margin: -50px 10px 10px 10px;
+}
+.snippet {
+  flex-grow: 1;
+  max-width: 450px;
+  /* flex-basis: 450px; */
+}
+
+.want-more-section {
+  padding: 30px 0;
+}
+.want-more-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px 0 20px;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+  .snippet-container > .wrapper {
+    flex-direction: column;
+  }
+  .snippet-container > .wrapper > .gridBlock {
+    padding: 20px 0;
+  }
+  .snippet {
+    max-width: 100%;
+    order: 2;
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
+  .snippet-container > .wrapper {
+    flex-direction: row;
+  }
+  .snippet {
+    max-width: 100%;
+    flex: 1 0 300px;
+  }
 }
 
 @media only screen and (max-width: 1023px) {
