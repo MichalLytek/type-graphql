@@ -5,25 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require("react");
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = require("../../core/CompLibrary.js");
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
-const siteConfig = require(process.cwd() + '/siteConfig.js');
+const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 function imgUrl(img) {
-  return siteConfig.baseUrl + 'img/' + img;
+  return siteConfig.baseUrl + "img/" + img;
 }
 
 function docUrl(doc, language) {
-  return siteConfig.baseUrl + 'docs/' + (language ? language + '/' : '') + doc;
+  return siteConfig.baseUrl + "docs/" + (language ? language + "/" : "") + doc;
 }
 
 function pageUrl(page, language) {
-  return siteConfig.baseUrl + (language ? language + '/' : '') + page;
+  return siteConfig.baseUrl + (language ? language + "/" : "") + page;
 }
 
 class Button extends React.Component {
@@ -39,7 +39,7 @@ class Button extends React.Component {
 }
 
 Button.defaultProps = {
-  target: '_self',
+  target: "_self",
 };
 
 const SplashContainer = props => (
@@ -73,16 +73,16 @@ const PromoSection = props => (
 
 class HomeSplash extends React.Component {
   render() {
-    let language = this.props.language || '';
+    let language = this.props.language || "";
     return (
       <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')} />
+        <Logo img_src={imgUrl("logo.png")} />
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
+            <Button href={docUrl("introduction.html", language)}>Introduction</Button>
+            <Button href={docUrl("getting-started.html", language)}>Getting started</Button>
+            <Button href={docUrl("examples.html", language)}>Examples</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -91,11 +91,8 @@ class HomeSplash extends React.Component {
 }
 
 const Block = props => (
-  <Container
-    padding={['bottom', 'top']}
-    id={props.id}
-    background={props.background}>
-    <GridBlock align="center" contents={props.children} layout={props.layout} />
+  <Container padding={["bottom", "top"]} id={props.id} background={props.background}>
+    <GridBlock align={props.align || "center"} contents={props.children} layout={props.layout} />
   </Container>
 );
 
@@ -103,113 +100,122 @@ const Features = props => (
   <Block layout="fourColumn">
     {[
       {
-        content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature One',
+        image: imgUrl("GraphQL_Logo.svg"),
+        imageAlign: "top",
+        title: "Define schema",
+        content:
+          "Define your whole schema, including types, interfaces, enums, unions and subscriptions",
       },
       {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature Two',
+        image: imgUrl("ts-logo.png"),
+        imageAlign: "top",
+        title: "Use TypeScript",
+        content:
+          "Create the schema, types and resolvers only with TypeScript, using classes and decorators! ",
       },
-    ]}
-  </Block>
-);
-
-const FeatureCallout = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
-    <h2>Feature Callout</h2>
-    <MarkdownBlock>These are features of this project</MarkdownBlock>
-  </div>
-);
-
-const LearnHow = props => (
-  <Block background="light">
-    {[
       {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
+        image: imgUrl("tools.svg"),
+        imageAlign: "top",
+        title: "Advanced features",
+        content: "Automatic validation, authorization guards, dependency injection and more...",
       },
     ]}
   </Block>
 );
 
-const TryOut = props => (
-  <Block id="try">
+// const FeatureCallout = props => (
+//   <div className="productShowcaseSection paddingBottom" style={{ textAlign: "center" }}>
+//     <h2>Feature Callout</h2>
+//     <MarkdownBlock>These are features of this project</MarkdownBlock>
+//   </div>
+// );
+
+const Interoperable = props => (
+  <Block background="light" align="left">
     {[
       {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
+        image: imgUrl("typeorm.png"),
+        imageAlign: "right",
+        title: "Interoperable",
+        content:
+          "Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like <a href='https://github.com/typeorm/typeorm' target='_blank'>TypeORM</a>, <a href='https://github.com/RobinBuschmann/sequelize-typescript' target='_blank'>sequelize-typescript</a> or <a href='https://github.com/szokodiakos/typegoose' target='_blank'>Typegoose</a>.<br><br>This allows you to define both the GraphQL type and the entity in a single class - no need to jump between multiple files to add or rename some properties.",
+      },
+    ]}
+  </Block>
+);
+
+const Validation = props => (
+  <Block id="validation" align="left">
+    {[
+      {
+        image: imgUrl("validation.png"),
+        imageAlign: "left",
+        title: "Validation",
+        content:
+          "Forget about manual inputs and arguments validation! No need to create custom scalars to limit the length of a string or a int range.<br><br>Just use decorators from <a href='https://github.com/typestack/class-validator' target='_blank'>class-validator</a> library and declare the requirements of the inputs. It couldn't be easier!",
       },
     ]}
   </Block>
 );
 
 const Description = props => (
-  <Block background="dark">
+  <Block background="light" align="left">
     {[
       {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
+        image: imgUrl("testability.png"),
+        imageAlign: "right",
+        title: "Easy testability",
+        content:
+          "Dependency injection support and decorators abstraction gives a great separation of business logic from the underlying transport layer.<br><br>Thanks to this, you can easily mock the dependencies to prevent side effects and unit test your resolvers like a simple services that only takes some inputs and returns result.",
       },
     ]}
   </Block>
 );
 
-const Showcase = props => {
-  if ((siteConfig.users || []).length === 0) {
-    return null;
-  }
-  const showcase = siteConfig.users
-    .filter(user => {
-      return user.pinned;
-    })
-    .map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} title={user.caption} />
-        </a>
-      );
-    });
+// const Showcase = props => {
+//   if ((siteConfig.users || []).length === 0) {
+//     return null;
+//   }
+//   const showcase = siteConfig.users
+//     .filter(user => {
+//       return user.pinned;
+//     })
+//     .map((user, i) => {
+//       return (
+//         <a href={user.infoLink} key={i}>
+//           <img src={user.image} title={user.caption} />
+//         </a>
+//       );
+//     });
 
-  return (
-    <div className="productShowcaseSection paddingBottom">
-      <h2>{"Who's Using This?"}</h2>
-      <p>This project is used by all these people</p>
-      <div className="logos">{showcase}</div>
-      <div className="more-users">
-        <a className="button" href={pageUrl('users.html', props.language)}>
-          More {siteConfig.title} Users
-        </a>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="productShowcaseSection paddingBottom">
+//       <h2>{"Who's Using This?"}</h2>
+//       <p>This project is used by all these people</p>
+//       <div className="logos">{showcase}</div>
+//       <div className="more-users">
+//         <a className="button" href={pageUrl("users.html", props.language)}>
+//           More {siteConfig.title} Users
+//         </a>
+//       </div>
+//     </div>
+//   );
+// };
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language || '';
+    let language = this.props.language || "";
 
     return (
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
           <Features />
-          <FeatureCallout />
-          <LearnHow />
-          <TryOut />
+          {/* <FeatureCallout /> */}
+          <Interoperable />
+          <Validation />
           <Description />
-          <Showcase language={language} />
+          {/* <Showcase language={language} /> */}
         </div>
       </div>
     );
