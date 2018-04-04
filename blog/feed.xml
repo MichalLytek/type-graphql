@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>TypeGraphQL Blog</title>
+        <link>https://19majkel94.github.io/type-graphql/blog</link>
+        <description>The best place to stay up-to-date with the latest TypeGraphQL news and events.</description>
+        <lastBuildDate>Sun, 25 Mar 2018 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>TypeGraphQL Blog</title>
+            <url>https://19majkel94.github.io/type-graphql/img/logo.png</url>
+            <link>https://19majkel94.github.io/type-graphql/blog</link>
+        </image>
+        <copyright>Copyright © 2018 Michał Lytek</copyright>
+        <item>
+            <title><![CDATA[GraphQL + TypeScript = TypeGraphQL]]></title>
+            <link>https://19majkel94.github.io/type-graphql/blog/2018/03/25/medium-article.html</link>
+            <guid>https://19majkel94.github.io/type-graphql/blog/2018/03/25/medium-article.html</guid>
+            <pubDate>Sun, 25 Mar 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>We all love GraphQL! It’s so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain.</p>
+<p><strong>TypeGraphQL</strong> makes that process enjoyable, i.a. by defining the schema using only classes and a bit of decorators magic.</p>
+]]></description>
+        </item>
+    </channel>
+</rss>
