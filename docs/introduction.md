@@ -1,13 +1,16 @@
-# Introduction
-We all love GraphQL! It's so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain. **TypeGraphQL** makes that process enjoyable, i.a. by defining the schema using only classes and a bit of decorators magic.
+---
+title: Introduction
+sidebar_label: What & Why
+---
 
-To create types like object type or input type, we use kind of DTO classes. For example to declare `Recipe` type we simply create a class and annotate it with decorators:
+We all love GraphQL! It's so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain. 
+
+## What?
+**TypeGraphQL** is a library that makes this process enjoyable, i.a. by defining the schema using only classes and a bit of decorators magic.
+Example object type:
 ```ts
 @ObjectType()
 class Recipe {
-  @Field(type => ID)
-  id: string;
-
   @Field()
   title: string;
 
@@ -19,55 +22,9 @@ class Recipe {
 }
 ```
 
-And we get corresponding part of schema in SDL:
-```graphql
-type Recipe {
-  id: ID!
-  title: String!
-  ratings: [Rate!]!
-  averageRating: Float
-}
-```
+It also have a set of useful features, like validation, authorization and dependency injection, that helps develop GraphQL API quick & easy!
 
-Then we can create queries, mutations and field resolvers.
-For this purpose we use controller-like classes that are called "resolvers" by convention.
-We can also use awesome features like dependency injection or auth guards:
-```ts
-@Resolver(Recipe)
-class RecipeResolver {
-  constructor(
-    private recipeService: RecipeService,
-  ) {}
-
-  @Query(returns => [Recipe])
-  recipes() {
-    return this.recipeService.findAll();
-  }
-
-  @Mutation()
-  @Authorized(Roles.Admin)
-  removeRecipe(@Arg("id") id: string): boolean {
-    return this.recipeService.removeById(id);
-  }
-
-  @FieldResolver()
-  averageRating(@Root() recipe: Recipe) {
-    return recipe.ratings.reduce((a, b) => a + b, 0) / recipe.ratings.length;
-  }
-}
-```
-
-And in this simple way we get this part of schema in SDL:
-```graphql
-type Query {
-  recipes: [Recipe!]!
-}
-type Mutation {
-  removeRecipe(id: String!): Boolean!
-}
-```
-
-## Motivation
+## Why?
 As I mentioned, developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain.
 Why? Let's take a look at the steps we usually have to make.
 

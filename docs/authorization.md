@@ -1,4 +1,7 @@
-# Authorization
+---
+title: Authorization
+---
+
 Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users.
 
 In express.js (and other Node.js framework) we use middlewares for this, like `passport.js` or the custom ones. However in GraphQL's resolvers architecture we don't have middlewares so we have to imperatively call the auth checking function and manually passing context data in each resolver, which might be quite tedious work.
@@ -83,7 +86,7 @@ const schema = await buildSchema({
   authChecker: customAuthChecker, 
 })
 ```
-And it's done! :wink:
+And it's done! 😉
 
 ## Recipes
 
@@ -114,4 +117,4 @@ app.use(
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 
 ## Example
-You can see how this works together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/06-authorization).
+You can see how this works together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization).

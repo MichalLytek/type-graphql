@@ -1,4 +1,7 @@
-# Subscriptions
+---
+title: Subscriptions
+---
+
 GraphQL can be used to perform reads with queries, and to perform writes with mutations.
 However, oftentimes clients want to get pushed updates from the server when data they care about changes.
 To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) package created by [Apollo GraphQL](https://www.apollographql.com/).
@@ -82,7 +85,7 @@ class SampleResolver {
 }
 ```
 
-We use `@PubSub()` decorator to inject the `pubsub` into our handler params.
+We use `@PubSub()` decorator to inject the `pubsub` into our method params.
 There we can trigger the topics and send the payload to all topic subscribers.
 ```ts
 class SampleResolver {

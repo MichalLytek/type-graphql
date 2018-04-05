@@ -1,4 +1,7 @@
-# Arguments and inputs validation
+---
+title: Arguments and inputs validation
+sidebar_label: Validation
+---
 
 ## Scalars
 The standard way to make sure that the input and arguments are correct, like the `email` field really has an e-mail, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However creating scalars for all single case of data type (credit card number, base64, IP, URL) might be cumbersome.
@@ -32,7 +35,7 @@ export class RecipeInput {
   description?: string;
 }
 ```
-And that's it! :wink:
+And that's it! 😉
 
 TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
 ```ts
@@ -148,4 +151,4 @@ So when `ArgumentValidationError` occurs, client will receive this JSON with nic
 Of course you can replace this with your own custom implementation of function that will transform `GraphQLError` with `ValidationError` array to the desired output format.
 
 ## Example
-You can see how this fits together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/04-automatic-validation).
+You can see how this fits together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation).

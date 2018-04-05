@@ -1,4 +1,6 @@
-# Interfaces and inheritance
+---
+title: Interfaces and inheritance
+---
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
 
@@ -40,7 +42,7 @@ The only difference is that we have to let TypeGraphQL now that this `ObjectType
 
 We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.
 
-Be aware that when your object type is implementing GraphQL interface type, you have to return an instance of the type class in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
+Be aware that when your object type is implementing GraphQL interface type, __you have to return an instance of the type class__ in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
 
 ## Inheritance
 One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.
@@ -77,4 +79,4 @@ class Student extends Person {
 ```
 
 ## Example
-You can see more advanced usage example (e.g. with query returning interface type) in the [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/05-interfaces-inheritance).
+You can see more advanced usage example (e.g. with query returning interface type) in the [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).

@@ -1,4 +1,7 @@
-# Enums
+---
+title: Enums
+---
+
 Nowadays almost all* typed languages have support for enumerated types, so do TypeScript has.
 Enums allow to limit the range of possible variable's values to a set of predefined constants, which for example make it easier to document intent.
 
@@ -44,7 +47,7 @@ class JourneyInput {
 ```
 Without this annotation, the generated GQL type would be not `ENUM` but `String` or `Float`, depending on the enum's type.
 
-In the end you can use your enum directly in your code :wink:
+In the end you can use your enum directly in your code 😉
 ```ts
 class Resolver {
   private sprite = getMarioSprite();

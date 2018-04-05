@@ -1,4 +1,7 @@
-# Getting started
+---
+title: Getting started
+---
+
 To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
 
 Let's start with the `Recipe` type, which is the foundations of our API.
@@ -165,7 +168,6 @@ type Mutation {
 ```
 
 ## Want more?
-That was only a tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too!
+That was only a tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like authorization checker, inheritance support or field resolvers.
 
-If you want to see how it looks in more complicated case, you can go to the [Examples section](../examples) where you can find how nice TypeGraphQL integrates with TypeORM.
-Want to learn about more advanced concepts like authorization checker, inheritance support or field resolvers? Check out the [Docs section](./).
+If you want to see how it looks in more complicated case, you can go to the [Examples section](./examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM. 
