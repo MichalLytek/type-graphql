@@ -1900,11 +1900,15 @@ footer .copyright {
 .snippet {
   flex-grow: 1;
   max-width: 450px;
-  /* flex-basis: 450px; */
+}
+
+.snippet code {
+  padding: 10px 30px 10px 10px;
 }
 
 .want-more-section {
   padding: 30px 0;
+  background-color: #e9e9e9;
 }
 .want-more-buttons {
   display: flex;
@@ -1933,7 +1937,6 @@ footer .copyright {
   }
   .snippet {
     max-width: 100%;
-    flex: 1 0 300px;
   }
 }
 

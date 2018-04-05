@@ -5,7 +5,7 @@ export class RecipeInput {
   @MaxLength(30)
   title: string;
 
-  @Field({ nullable: true })
+  @Field({ nullable: true })     
   @Length(30, 255)
   description?: string;
 
