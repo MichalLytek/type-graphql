@@ -125,21 +125,89 @@ const Features = props => (
   </Block>
 );
 
-// const FeatureCallout = props => (
-//   <div className="productShowcaseSection paddingBottom" style={{ textAlign: "center" }}>
-//     <h2>Feature Callout</h2>
-//     <MarkdownBlock>These are features of this project</MarkdownBlock>
-//   </div>
-// );
-
-const typeormSnippet = fs.readFileSync(process.cwd() + "/static/snippets/typeorm.md").toString();
-const Interoperable = props => (
+const objectTypeSnippet = fs
+  .readFileSync(process.cwd() + "/static/snippets/object-type.md")
+  .toString();
+const DefineSchemaSection = props => (
   <Container
-    id="interoperable"
+    id="define-schema"
     padding={["bottom", "top"]}
     background="light"
     className="snippet-container"
   >
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          title: "Define schema",
+          content:
+            "Use only classes and decorators to define your GraphQL schema. No need to define types in SDL and no need to create interfaces for them!<br><br>This way you will have only one source of truth, so say goodbye to all field type mismatches, typos and annoying refactoring.",
+        },
+      ]}
+    />
+    <div className="snippet">
+      <MarkdownBlock>{objectTypeSnippet}</MarkdownBlock>
+    </div>
+  </Container>
+);
+
+const testabilitySnippet = fs
+  .readFileSync(process.cwd() + "/static/snippets/testability.md")
+  .toString();
+const ResolversSection = props => (
+  <Container
+    id="validation"
+    padding={["bottom", "top"]}
+    className="snippet-container"
+  >
+    <div className="snippet">
+      <MarkdownBlock>{testabilitySnippet}</MarkdownBlock>
+    </div>
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          title: "Create resolvers",
+          content:
+            "Implement queries and mutation just like a normal class methods! Dependency injection support and decorators abstraction provides great separation of business logic from the underlying transport layer.<br><br>That gives you really easy testability, so you can just provide mocks of dependencies to prevent side effects and unit test your resolvers like a simple services which methods only take some parameters and return results.",
+        },
+      ]}
+    />
+  </Container>
+);
+
+const validationSnippet = fs
+  .readFileSync(process.cwd() + "/static/snippets/validation.md")
+  .toString();
+const Validation = props => (
+  <Container id="validation" padding={["bottom", "top"]} className="snippet-container" background="light">
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          title: "Easy validation",
+          content:
+            "Forget about manual inputs and arguments validation! No need to create custom scalars to limit the length of a string or the range of an int.<br><br>Just use decorators from <a href='https://github.com/typestack/class-validator' target='_blank'>class-validator</a> library and declare the requirements of the inputs. It couldn't be easier!",
+        },
+      ]}
+    />
+    <div className="snippet">
+      <MarkdownBlock>{validationSnippet}</MarkdownBlock>
+    </div>
+  </Container>
+);
+
+const typeormSnippet = fs.readFileSync(process.cwd() + "/static/snippets/typeorm.md").toString();
+const InteroperableSection = props => (
+  <Container
+    id="interoperable"
+    padding={["bottom", "top"]}
+    className="snippet-container"
+
+  >
+    <div className="snippet">
+      <MarkdownBlock>{typeormSnippet}</MarkdownBlock>
+    </div>
     <GridBlock
       align="left"
       contents={[
@@ -150,64 +218,10 @@ const Interoperable = props => (
         },
       ]}
     />
-    <div className="snippet">
-      <MarkdownBlock>{typeormSnippet}</MarkdownBlock>
-    </div>
   </Container>
 );
 
-const validationSnippet = fs
-  .readFileSync(process.cwd() + "/static/snippets/validation.md")
-  .toString();
-const Validation = props => (
-  <Container id="validation" padding={["bottom", "top"]} className="snippet-container">
-    <div className="snippet">
-      <MarkdownBlock>{validationSnippet}</MarkdownBlock>
-    </div>
-    <GridBlock
-      align="left"
-      contents={[
-        {
-          // image: imgUrl("validation.png"),
-          // imageAlign: "left",
-          title: "Validation",
-          content:
-            "Forget about manual inputs and arguments validation! No need to create custom scalars to limit the length of a string or a int range.<br><br>Just use decorators from <a href='https://github.com/typestack/class-validator' target='_blank'>class-validator</a> library and declare the requirements of the inputs. It couldn't be easier!",
-        },
-      ]}
-    />
-  </Container>
-);
-
-const testabilitySnippet = fs
-  .readFileSync(process.cwd() + "/static/snippets/testability.md")
-  .toString();
-const Testability = props => (
-  <Container
-    id="validation"
-    padding={["bottom", "top"]}
-    background="light"
-    className="snippet-container"
-  >
-    <GridBlock
-      align="left"
-      contents={[
-        {
-          // image: imgUrl("testability.png"),
-          // imageAlign: "right",
-          title: "Easy testability",
-          content:
-            "Dependency injection support and decorators abstraction gives a great separation of business logic from the underlying transport layer.<br><br>Thanks to this, you can easily mock the dependencies to prevent side effects and unit test your resolvers like a simple services that only takes some inputs and returns result.",
-        },
-      ]}
-    />
-    <div className="snippet">
-      <MarkdownBlock>{testabilitySnippet}</MarkdownBlock>
-    </div>
-  </Container>
-);
-
-const WantMore = props => {
+const WantMoreSection = props => {
   let language = props.language || "";
   return (
     <div className="want-more-section">
@@ -219,10 +233,8 @@ const WantMore = props => {
         <br />
       </div>
       <div className="want-more-buttons">
-        {/* <PromoSection> */}
         <Button href={docUrl("getting-started.html", language)}>Getting started</Button>
         <Button href={docUrl("examples.html", language)}>Examples</Button>
-        {/* </PromoSection> */}
       </div>
     </div>
   );
@@ -267,11 +279,11 @@ class Index extends React.Component {
         <HomeSplash language={language} />
         <div className="mainContainer">
           <Features />
-          {/* <FeatureCallout /> */}
-          <Interoperable />
+          <DefineSchemaSection />
+          <ResolversSection />
           <Validation />
-          <Testability />
-          <WantMore language={language} />
+          <InteroperableSection />
+          <WantMoreSection language={language} />
           {/* <Showcase language={language} /> */}
         </div>
       </div>
