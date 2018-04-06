@@ -126,7 +126,7 @@ const Features = props => (
 );
 
 const objectTypeSnippet = fs
-  .readFileSync(process.cwd() + "/static/snippets/object-type.md")
+  .readFileSync(process.cwd() + "/pages/snippets/object-type.md")
   .toString();
 const DefineSchemaSection = props => (
   <Container
@@ -152,7 +152,7 @@ const DefineSchemaSection = props => (
 );
 
 const testabilitySnippet = fs
-  .readFileSync(process.cwd() + "/static/snippets/testability.md")
+  .readFileSync(process.cwd() + "/pages/snippets/testability.md")
   .toString();
 const ResolversSection = props => (
   <Container
@@ -177,7 +177,7 @@ const ResolversSection = props => (
 );
 
 const validationSnippet = fs
-  .readFileSync(process.cwd() + "/static/snippets/validation.md")
+  .readFileSync(process.cwd() + "/pages/snippets/validation.md")
   .toString();
 const Validation = props => (
   <Container id="validation" padding={["bottom", "top"]} className="snippet-container" background="light">
@@ -197,7 +197,7 @@ const Validation = props => (
   </Container>
 );
 
-const typeormSnippet = fs.readFileSync(process.cwd() + "/static/snippets/typeorm.md").toString();
+const typeormSnippet = fs.readFileSync(process.cwd() + "/pages/snippets/typeorm.md").toString();
 const InteroperableSection = props => (
   <Container
     id="interoperable"
