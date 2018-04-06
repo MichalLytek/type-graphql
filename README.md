@@ -9,6 +9,8 @@
 
 Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
+https://19majkel94.github.io/type-graphql/
+
 ## Motivation
 We all know that GraphQL is so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain. Why? Let's take a look at the steps we usually have to make.
 
@@ -97,7 +99,11 @@ type Mutation {
 ```
 
 ## Getting started
-Full getting started guide with a simple walkthrough/tutorial can be found in [getting started docs](https://github.com/19majkel94/type-graphql/blob/master/docs/getting-started.md).
+Full getting started guide with a simple walkthrough/tutorial can be found in [getting started docs](https://19majkel94.github.io/type-graphql/docs/getting-started.html).
+
+### Documentation
+The documentation with detailed description of the API and the features is [available on the website](https://19majkel94.github.io/type-graphql/).
+
 Below you can find installation instructions that are also important.
 
 ## How to use
