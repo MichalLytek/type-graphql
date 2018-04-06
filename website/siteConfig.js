@@ -58,8 +58,8 @@ const siteConfig = {
   },*/
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright: "Copyright © " + new Date().getFullYear() + " Michał Lytek",
-  organizationName: '19majkel94', // or set an env variable ORGANIZATION_NAME
-  projectName: 'type-graphql', // or set an env variable PROJECT_NAME
+  organizationName: "19majkel94", // or set an env variable ORGANIZATION_NAME
+  projectName: "type-graphql", // or set an env variable PROJECT_NAME
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
     theme: "androidstudio",
@@ -68,7 +68,8 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your template.
   repoUrl: "https://github.com/19majkel94/type-graphql",
   /* On page navigation for the current documentation page */
-  onPageNav: 'separate',
+  onPageNav: "separate",
+  gaTrackingId: "UA-117093147-1",
 };
 
 module.exports = siteConfig;
