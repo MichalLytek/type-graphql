@@ -10,14 +10,14 @@ export class Rate {
   value: number;
 
   @Field(type => User)
-  @ManyToOne(type => User, { lazy: true })
-  user: User;
+  @ManyToOne(type => User)
+  user: Promise<User>;
 
   @Field()
   @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(type => Recipe, { lazy: true })
-  recipe: Recipe;
+  @ManyToOne(type => Recipe)
+  recipe: Promise<Recipe>;
 }
 ```

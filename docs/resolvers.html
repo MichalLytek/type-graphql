@@ -100,7 +100,7 @@ We can use the destruction syntax to have access to single arguments as variable
     <span class="hljs-comment">// sample implementation</span>
     <span class="hljs-keyword">let</span> recipes = <span class="hljs-keyword">this</span>.recipesCollection;
     <span class="hljs-keyword">if</span> (title) {
-      recipes = <span class="hljs-keyword">this</span>.recipesCollection.filter(<span class="hljs-function"><span class="hljs-params">recipe</span> =&gt;</span> recipe.title === title)
+      recipes = recipes.filter(<span class="hljs-function"><span class="hljs-params">recipe</span> =&gt;</span> recipe.title === title)
     }
     <span class="hljs-keyword">return</span> recipes.slice(startIndex, endIndex);
   }
@@ -118,7 +118,7 @@ We can use the destruction syntax to have access to single arguments as variable
 
 }
 </code></pre>
-<p>We can also leverage TypeScript type checking system and ensure that we won't accidentally change the property type by implementing <code>Partial</code> type:</p>
+<p>We can also leverage TypeScript type checking system and ensure that we won't accidentally change the type of property by implementing <code>Partial</code> type:</p>
 <pre><code class="hljs css ts"><span class="hljs-meta">@InputType</span>()
 <span class="hljs-keyword">class</span> AddRecipeInput <span class="hljs-keyword">implements</span> Partial&lt;Recipe&gt; {
   
@@ -134,7 +134,7 @@ We can use the destruction syntax to have access to single arguments as variable
   description?: <span class="hljs-built_in">string</span>;
 }
 </code></pre>
-<p>Then we can use the <code>AddRecipeInput</code> type in our mutation. We can do this inline (using <code>@Arg()</code> decorator) or as a field of the args class like in query's example above.</p>
+<p>After that we can use the <code>AddRecipeInput</code> type in our mutation. We can do this inline (using <code>@Arg()</code> decorator) or as a field of the args class like in query's example above.</p>
 <p>We might also need access to the context. To achieve this we use <code>@Ctx()</code> decorator with optional user-defined <code>Context</code> interface:</p>
 <pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>()
 <span class="hljs-keyword">class</span> RecipeResolver {
@@ -216,7 +216,7 @@ and whether the first parameter of the method is the object type (<code>Recipe</
     <span class="hljs-keyword">const</span> ratingsSum = recipe.ratings.reduce(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number">0</span>);
     <span class="hljs-keyword">return</span> recipe.ratings.length
       ? ratingsSum / recipe.ratings.length
-      : <span class="hljs-literal">undefined</span>;
+      : <span class="hljs-literal">null</span>;
   }
 }
 </code></pre>
@@ -267,6 +267,14 @@ If the code is more complicated and perform side effects (api call, db fetching)
 }
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="examples"></a><a href="#examples" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
-<p>This code samples are made up just for tutorial docs purposes.
+<p>This code samples are made up just for tutorial docs purpose.
 You can find more advanced, real examples in <a href="https://github.com/19majkel94/type-graphql/tree/master/examples">examples folder</a>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="types-and-fields.html">← Types and fields</a><a class="docs-next button" href="bootstrap.html">Bootstrapping →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#queries-and-mutations">Queries and mutations</a><ul class="toc-headings"><li><a href="#resolvers-classes">Resolvers classes</a></li><li><a href="#arguments">Arguments</a></li><li><a href="#input-types">Input types</a></li></ul></li><li><a href="#field-resolvers">Field resolvers</a></li><li><a href="#examples">Examples</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?utf8=✓&amp;q=is%3Aissue+label%3A&amp;quot;Enhancement+%3Anew%3A&amp;quot;+">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+label%3A&amp;quot;Bug+%3Abug%3A&amp;quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="types-and-fields.html">← Types and fields</a><a class="docs-next button" href="bootstrap.html">Bootstrapping →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#queries-and-mutations">Queries and mutations</a><ul class="toc-headings"><li><a href="#resolvers-classes">Resolvers classes</a></li><li><a href="#arguments">Arguments</a></li><li><a href="#input-types">Input types</a></li></ul></li><li><a href="#field-resolvers">Field resolvers</a></li><li><a href="#examples">Examples</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?utf8=✓&amp;q=is%3Aissue+label%3A&amp;quot;Enhancement+%3Anew%3A&amp;quot;+">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+label%3A&amp;quot;Bug+%3Abug%3A&amp;quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script></body></html>
