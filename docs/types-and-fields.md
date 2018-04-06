@@ -14,7 +14,7 @@ class Recipe {
 }
 ```
 
-First what we have to do is to decorate the class with e.g. `@ObjectType` decorator. It marks the class as the `object` known from GraphQL SDL as `type` or `GraphQLObjectType` from `graphql-js`:
+First what we have to do is to decorate the class with e.g. `@ObjectType` decorator. It marks the class as the `type` known from GraphQL SDL or `GraphQLObjectType` from `graphql-js`:
 ```ts
 @ObjectType()
 class Recipe {

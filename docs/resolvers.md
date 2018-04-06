@@ -115,7 +115,7 @@ class RecipeResolver {
     // sample implementation
     let recipes = this.recipesCollection;
     if (title) {
-      recipes = this.recipesCollection.filter(recipe => recipe.title === title)
+      recipes = recipes.filter(recipe => recipe.title === title)
     }
     return recipes.slice(startIndex, endIndex);
   }
@@ -138,7 +138,7 @@ class AddRecipeInput {
 }
 ```
 
-We can also leverage TypeScript type checking system and ensure that we won't accidentally change the property type by implementing `Partial` type:
+We can also leverage TypeScript type checking system and ensure that we won't accidentally change the type of property by implementing `Partial` type:
 ```ts
 @InputType()
 class AddRecipeInput implements Partial<Recipe> {
@@ -158,7 +158,7 @@ class AddRecipeInput implements Partial<Recipe> {
 }
 ```
 
-Then we can use the `AddRecipeInput` type in our mutation. We can do this inline (using `@Arg()` decorator) or as a field of the args class like in query's example above.
+After that we can use the `AddRecipeInput` type in our mutation. We can do this inline (using `@Arg()` decorator) or as a field of the args class like in query's example above.
 
 We might also need access to the context. To achieve this we use `@Ctx()` decorator with optional user-defined `Context` interface:
 ```ts
@@ -257,7 +257,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
     const ratingsSum = recipe.ratings.reduce((a, b) => a + b, 0);
     return recipe.ratings.length
       ? ratingsSum / recipe.ratings.length
-      : undefined;
+      : null;
   }
 }
 ```
@@ -315,5 +315,5 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 ```
 
 ## Examples
-This code samples are made up just for tutorial docs purposes.
+This code samples are made up just for tutorial docs purpose.
 You can find more advanced, real examples in [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples).
