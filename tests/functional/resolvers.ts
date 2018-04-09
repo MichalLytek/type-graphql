@@ -33,6 +33,7 @@ import {
   FieldResolver,
   ResolverInterface,
   Info,
+  buildSchemaSync,
 } from "../../src";
 import { plainToClass } from "class-transformer";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
@@ -1073,6 +1074,37 @@ describe("Resolvers", () => {
     expect(queryType.fields).toHaveLength(1);
     expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
     expect(directoryQueryReturnType.name).toEqual("SampleObject");
+  });
+
+  it("should build the schema synchronously", async () => {
+    MetadataStorage.clear();
+
+    @ObjectType()
+    class SampleObject {
+      @Field()
+      sampleFieldSync: string;
+    }
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      sampleQuerySync(): SampleObject {
+        return { sampleFieldSync: "sampleFieldSync" }
+      }
+    }
+
+    const schema = buildSchemaSync({
+      resolvers: [SampleResolver],
+    });
+    const query = `
+      query {
+        sampleQuerySync {
+          sampleFieldSync
+        }
+      }
+    `;
+    const { data } = await graphql(schema, query);
+
+    expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
   });
 
   it("should throw errors when no resolvers provided", async () => {

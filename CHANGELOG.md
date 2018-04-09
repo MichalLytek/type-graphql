@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unpublished
+### Features
+- add `buildSchemaSync` function to build the schema synchronously (unsafe! without additional errors checks)
+
 ## v0.9.1
 ### Fixes
 - fix bug with extending non-TypeGraphQL classes

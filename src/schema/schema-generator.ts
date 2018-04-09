@@ -70,7 +70,16 @@ export abstract class SchemaGenerator {
   private static unionTypesInfo: UnionTypeInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
-    await this.checkForErrors(options);
+    const schema = this.generateFromMetadataSync(options);
+    const { errors } = await graphql(schema, introspectionQuery);
+    if (errors) {
+      throw new GeneratingSchemaError(errors);
+    }
+    return schema;
+  }
+
+  static generateFromMetadataSync(options: SchemaGeneratorOptions): GraphQLSchema {
+    this.checkForErrors(options);
     BuildContext.create(options);
     MetadataStorage.build();
     this.buildTypesInfo();
@@ -82,16 +91,11 @@ export abstract class SchemaGenerator {
       types: this.buildOtherTypes(),
     });
 
-    const { errors } = await graphql(schema, introspectionQuery);
-    if (errors) {
-      throw new GeneratingSchemaError(errors);
-    }
-
     BuildContext.reset();
     return schema;
   }
 
-  private static async checkForErrors(options: SchemaGeneratorOptions) {
+  private static checkForErrors(options: SchemaGeneratorOptions) {
     if (MetadataStorage.authorizedFields.length !== 0 && options.authChecker === undefined) {
       throw new Error(
         "You need to provide `authChecker` function for `@Authorized` decorator usage!",

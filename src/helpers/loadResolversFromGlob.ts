@@ -1,12 +1,10 @@
 import * as glob from "glob";
 
 export function findFileNamesFromGlob(globString: string) {
-  return new Promise<string[]>((resolve, reject) => {
-    glob(globString, (err, matches) => (err ? reject(err) : resolve(matches)));
-  });
+  return glob.sync(globString);
 }
 
-export async function loadResolversFromGlob(globString: string): Promise<void> {
-  const filePaths = await findFileNamesFromGlob(globString);
+export function loadResolversFromGlob(globString: string) {
+  const filePaths = findFileNamesFromGlob(globString);
   const modules = filePaths.map(fileName => require(fileName));
 }
