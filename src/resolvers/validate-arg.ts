@@ -3,7 +3,7 @@ import { GraphQLScalarType } from "graphql";
 
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 
-export async function validateArg<T extends object>(
+export async function validateArg<T extends Object>(
   arg: T | undefined,
   globalValidate: boolean | ValidatorOptions,
   argValidate?: boolean | ValidatorOptions,
@@ -13,11 +13,11 @@ export async function validateArg<T extends object>(
   }
 
   const validate = argValidate !== undefined ? argValidate : globalValidate;
-  if (validate === false || typeof arg !== "object") {
+  if (validate === false || arg == null || typeof arg !== "object") {
     return arg;
   }
 
-  const validatorOptions = typeof validate === "object" ? validate : {};
+  const validatorOptions: ValidatorOptions = Object.assign({}, globalValidate, argValidate);
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
   }

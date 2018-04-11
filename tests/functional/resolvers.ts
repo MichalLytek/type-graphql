@@ -1081,14 +1081,13 @@ describe("Resolvers", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field()
-      sampleFieldSync: string;
+      @Field() sampleFieldSync: string;
     }
     @Resolver()
     class SampleResolver {
       @Query()
       sampleQuerySync(): SampleObject {
-        return { sampleFieldSync: "sampleFieldSync" }
+        return { sampleFieldSync: "sampleFieldSync" };
       }
     }
 

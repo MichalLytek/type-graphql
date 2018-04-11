@@ -454,5 +454,50 @@ describe("Validation", () => {
       await graphql(localSchema, query);
       expect(localArgsData).toEqual({ field: "123456789" });
     });
+
+    // tslint:disable-next-line:max-line-length
+    it("should merge local validation settings with global one", async () => {
+      MetadataStorage.clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field({ nullable: true })
+        field?: string;
+      }
+      @ArgsType()
+      class SampleArguments {
+        @Field()
+        @MaxLength(5, { groups: ["test"] })
+        field: string;
+      }
+      @Resolver(objectType => SampleObject)
+      class SampleResolver {
+        @Query()
+        sampleQuery(
+          @Args({ validate: { groups: ["test"] } })
+          args: SampleArguments,
+        ): SampleObject {
+          localArgsData = args;
+          return {};
+        }
+      }
+      const localSchema = await buildSchema({
+        resolvers: [SampleResolver],
+        validate: { validationError: { target: false } },
+      });
+
+      const query = `query {
+        sampleQuery(
+          field: "123456789",
+        ) {
+          field
+        }
+      }`;
+      const { errors } = await graphql(localSchema, query);
+      const error = errors![0].originalError as ArgumentValidationError;
+
+      expect(localArgsData).toBeUndefined();
+      expect(error.validationErrors[0].target).toBeUndefined();
+    });
   });
 });

@@ -3,6 +3,8 @@
 ## Unpublished
 ### Features
 - add `buildSchemaSync` function to build the schema synchronously (unsafe! without additional errors checks)
+### Fixes
+- decorator option `validate` is now merged with `buildSchema`'s `validate` config instead of overwriting it
 
 ## v0.9.1
 ### Fixes
