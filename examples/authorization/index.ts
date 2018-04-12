@@ -1,41 +1,46 @@
 import "reflect-metadata";
-import * as express from "express";
-import * as graphqlHTTP from "express-graphql";
+import { GraphQLServer, Options } from "graphql-yoga";
 import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
 import { Context } from "./context.interface";
 import { authChecker } from "./auth-checker";
 
-void async function bootstrap() {
+void (async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [ExampleResolver],
     authChecker, // register auth checking function
   });
 
-  // create express-based gql endpoint
-  const app = express();
-  app.use(
-    "/graphql",
-    graphqlHTTP(req => {
-      const context: Context = {
+  // Create GraphQL server
+  const server = new GraphQLServer({
+    schema,
+    context: ({ request }) => {
+      const ctx: Context = {
         // create mocked user in context
-        // in real app you would be mapping user from `req.user` or sth
+        // in real app you would be mapping user from `request.user` or sth
         user: {
           id: 1,
           name: "Sample user",
           roles: ["REGULAR"],
         },
       };
-      return {
-        schema,
-        graphiql: true,
-        context,
-      };
-    }),
-  );
-  app.listen(4000, () => {
-    console.log("Running a GraphQL API server at localhost:4000/graphql");
+      return ctx;
+    },
   });
-}();
+
+  // Configure server options
+  const serverOptions: Options = {
+    port: 4000,
+    endpoint: "/graphql",
+    playground: "/playground",
+  };
+
+  // Start the server
+  server.start(serverOptions, ({ port, playground }) => {
+    console.log(
+      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
+    );
+  });
+})();

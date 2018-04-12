@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import * as express from "express";
-import * as graphqlHTTP from "express-graphql";
+import { GraphQLServer, Options } from "graphql-yoga";
 import { buildSchema } from "../../src";
 
 import { MultiResolver } from "./resolver";
@@ -11,17 +10,21 @@ async function bootstrap() {
     resolvers: [MultiResolver],
   });
 
-  // create express-based gql endpoint
-  const app = express();
-  app.use(
-    "/graphql",
-    graphqlHTTP({
-      schema,
-      graphiql: true,
-    }),
-  );
-  app.listen(4000, () => {
-    console.log("Running a GraphQL API server at localhost:4000/graphql");
+  // Create GraphQL server
+  const server = new GraphQLServer({ schema });
+
+  // Configure server options
+  const serverOptions: Options = {
+    port: 4000,
+    endpoint: "/graphql",
+    playground: "/playground",
+  };
+
+  // Start the server
+  server.start(serverOptions, ({ port, playground }) => {
+    console.log(
+      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
+    );
   });
 }
 
