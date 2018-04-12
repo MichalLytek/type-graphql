@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unpublished
+## v0.10.0
 ### Features
 - add `buildSchemaSync` function to build the schema synchronously (unsafe! without additional errors checks)
 - update package dependencies
