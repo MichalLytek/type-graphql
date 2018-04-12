@@ -3,6 +3,8 @@
 ## Unpublished
 ### Features
 - add `buildSchemaSync` function to build the schema synchronously (unsafe! without additional errors checks)
+- update package dependencies
+- **Breaking Change**: update `@types/graphql` to `0.13.0`
 ### Fixes
 - decorator option `validate` is now merged with `buildSchema`'s `validate` config instead of overwriting it
 
