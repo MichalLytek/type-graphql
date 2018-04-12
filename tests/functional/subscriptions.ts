@@ -35,7 +35,7 @@ import {
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
-import { createWebSocketGQL, WebSocketGQL } from "../helpers/subscriptions/createWebSocketGQL";
+import { createWebSocketUtils, WebSocketUtils } from "../helpers/subscriptions/createWebSocketGQL";
 
 describe("Subscriptions", () => {
   describe("Schema", () => {
@@ -129,7 +129,7 @@ describe("Subscriptions", () => {
   describe("Functional", () => {
     let schema: GraphQLSchema;
     let apollo: ApolloClient<any>;
-    let webSocketGQL: WebSocketGQL;
+    let webSocketUtils: WebSocketUtils;
 
     beforeAll(async () => {
       MetadataStorage.clear();
@@ -190,12 +190,12 @@ describe("Subscriptions", () => {
         resolvers: [SampleResolver],
       });
 
-      webSocketGQL = await createWebSocketGQL(schema);
-      apollo = webSocketGQL.apollo;
+      webSocketUtils = await createWebSocketUtils(schema);
+      apollo = webSocketUtils.apollo;
     });
 
     afterAll(async () => {
-      webSocketGQL.close();
+      webSocketUtils.server.close();
     });
 
     it("should build schema without errors", async () => {
