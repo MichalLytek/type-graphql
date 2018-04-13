@@ -22,3 +22,5 @@ export { Resolver, Resolver as GraphQLResolver } from "./Resolver";
 export { Root } from "./Root";
 export { Subscription } from "./Subscription";
 export { createUnionType } from "./unions";
+export { UseAfter } from "./UseAfter";
+export { UseBefore } from "./UseBefore";

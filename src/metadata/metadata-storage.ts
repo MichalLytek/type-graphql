@@ -13,6 +13,8 @@ import {
   SubscriptionResolverMetadata,
 } from "./definitions";
 import { ClassType } from "../types/decorators";
+import { MiddlewareMetadata } from "./definitions/middleware-metadata";
+import { AfterMiddleware, BeforeMiddleware } from "../interfaces";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];
@@ -26,6 +28,7 @@ export abstract class MetadataStorage {
   static authorizedFields: AuthorizedMetadata[] = [];
   static enums: EnumMetadata[] = [];
   static unions: UnionMetadataWithSymbol[] = [];
+  static middlewares: MiddlewareMetadata[] = [];
 
   private static resolvers: ResolverClassMetadata[] = [];
   private static fields: FieldMetadata[] = [];
@@ -69,6 +72,9 @@ export abstract class MetadataStorage {
     });
     return unionSymbol;
   }
+  static collectMiddlewareMetadata(definition: MiddlewareMetadata) {
+    this.middlewares.push(definition);
+  }
 
   static collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolvers.push(definition);
@@ -107,6 +113,7 @@ export abstract class MetadataStorage {
     this.authorizedFields = [];
     this.enums = [];
     this.unions = [];
+    this.middlewares = [];
 
     this.resolvers = [];
     this.fields = [];
@@ -142,6 +149,8 @@ export abstract class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
+      def.beforeMiddlewares = this.getResolverMiddlewares(def, "before");
+      def.afterMiddlewares = this.getResolverMiddlewares(def, "after");
     });
   }
 
@@ -156,6 +165,19 @@ export abstract class MetadataStorage {
             ) as FieldResolverMetadata).getParentType
           : () => def.target as ClassType;
     });
+  }
+
+  private static getResolverMiddlewares(
+    definition: BaseResolverMetadata,
+    type: "before" | "after",
+  ): Array<AfterMiddleware<any>> | Array<BeforeMiddleware<any>> {
+    const resolverMiddlewareMetadata = this.middlewares.find(
+      middleware =>
+        middleware.target === definition.target &&
+        definition.methodName === middleware.fieldName &&
+        middleware.type === "before",
+    );
+    return resolverMiddlewareMetadata ? resolverMiddlewareMetadata.middlewares : [];
   }
 
   private static findFieldRoles(target: Function, fieldName: string): string[] | undefined {
