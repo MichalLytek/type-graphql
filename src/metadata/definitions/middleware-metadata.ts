@@ -1,18 +1,7 @@
-import { AfterMiddleware, BeforeMiddleware } from "../../interfaces";
+import { Middleware } from "../../interfaces";
 
-export interface BaseMiddlewareMetadata {
+export interface MiddlewareMetadata {
   target: Function;
   fieldName: string;
+  middlewares: Array<Middleware<any>>;
 }
-
-export interface AfterMiddlewareMetadata extends BaseMiddlewareMetadata {
-  type: "before";
-  middlewares: Array<BeforeMiddleware<any>>;
-}
-
-export interface BeforeMiddlewareMetadata extends BaseMiddlewareMetadata {
-  type: "after";
-  middlewares: Array<AfterMiddleware<any>>;
-}
-
-export type MiddlewareMetadata = BeforeMiddlewareMetadata | AfterMiddlewareMetadata;

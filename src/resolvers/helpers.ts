@@ -53,7 +53,7 @@ export async function getParams(
 }
 
 export async function checkForAccess(
-  action: ActionData,
+  action: ActionData<any>,
   authChecker?: AuthChecker<any>,
   roles?: string[],
 ) {

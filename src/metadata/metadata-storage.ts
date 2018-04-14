@@ -14,7 +14,7 @@ import {
 } from "./definitions";
 import { ClassType } from "../types/decorators";
 import { MiddlewareMetadata } from "./definitions/middleware-metadata";
-import { AfterMiddleware, BeforeMiddleware } from "../interfaces";
+import { Middleware } from "../interfaces";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];
@@ -149,8 +149,11 @@ export abstract class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      def.beforeMiddlewares = this.getResolverMiddlewares(def, "before");
-      def.afterMiddlewares = this.getResolverMiddlewares(def, "after");
+
+      const resolverMiddlewareMetadata = this.middlewares.find(
+        middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
+      );
+      def.middlewares = resolverMiddlewareMetadata ? resolverMiddlewareMetadata.middlewares : [];
     });
   }
 
@@ -165,19 +168,6 @@ export abstract class MetadataStorage {
             ) as FieldResolverMetadata).getParentType
           : () => def.target as ClassType;
     });
-  }
-
-  private static getResolverMiddlewares(
-    definition: BaseResolverMetadata,
-    type: "before" | "after",
-  ): Array<AfterMiddleware<any>> | Array<BeforeMiddleware<any>> {
-    const resolverMiddlewareMetadata = this.middlewares.find(
-      middleware =>
-        middleware.target === definition.target &&
-        definition.methodName === middleware.fieldName &&
-        middleware.type === "before",
-    );
-    return resolverMiddlewareMetadata ? resolverMiddlewareMetadata.middlewares : [];
   }
 
   private static findFieldRoles(target: Function, fieldName: string): string[] | undefined {

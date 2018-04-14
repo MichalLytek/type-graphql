@@ -1,8 +1,8 @@
 import { ActionData } from "../types";
 
-export type BeforeMiddleware<TContext = {}> = (action: ActionData<TContext>) => void;
+export type NextFunction = () => Promise<any>;
 
-export type AfterMiddleware<TContext = {}> = (
+export type Middleware<TContext = {}> = (
   action: ActionData<TContext>,
-  resolverValue?: any,
-) => void;
+  next: NextFunction,
+) => Promise<any>;

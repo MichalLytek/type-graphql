@@ -1,14 +1,14 @@
 import { SymbolKeysNotSupportedError } from "../errors";
-import { AfterMiddleware } from "../interfaces/Middleware";
+import { Middleware } from "../interfaces/Middleware";
 import { MetadataStorage } from "../metadata/metadata-storage";
 
-export function UseAfter(
-  middlewares: Array<AfterMiddleware<any>>,
+export function UseMiddleware(
+  middlewares: Array<Middleware<any>>,
 ): MethodDecorator & PropertyDecorator;
-export function UseAfter(
-  ...middlewares: Array<AfterMiddleware<any>>
+export function UseMiddleware(
+  ...middlewares: Array<Middleware<any>>
 ): MethodDecorator & PropertyDecorator;
-export function UseAfter(
+export function UseMiddleware(
   ...middlewaresOrMiddlewareArray: any[]
 ): MethodDecorator | PropertyDecorator {
   return (prototype, propertyKey, descriptor) => {
@@ -16,7 +16,7 @@ export function UseAfter(
       throw new SymbolKeysNotSupportedError();
     }
 
-    let middlewares: Array<AfterMiddleware<any>>;
+    let middlewares: Array<Middleware<any>>;
     if (Array.isArray(middlewaresOrMiddlewareArray[0])) {
       middlewares = middlewaresOrMiddlewareArray[0];
     } else {
@@ -26,7 +26,6 @@ export function UseAfter(
     MetadataStorage.collectMiddlewareMetadata({
       target: prototype.constructor,
       fieldName: propertyKey,
-      type: "after",
       middlewares,
     });
   };
