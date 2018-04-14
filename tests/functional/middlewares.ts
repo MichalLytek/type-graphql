@@ -30,30 +30,30 @@ describe("Middlewares", () => {
   beforeAll(async () => {
     MetadataStorage.clear();
 
-    const middleware1: Middleware = async ({ context }, next) => {
+    const middleware1: Middleware = async ({}, next) => {
       middlewareLogs.push("middleware1 before");
       const result = await next();
       middlewareLogs.push("middleware1 after");
       return result;
     };
-    const middleware2: Middleware = async ({ context }, next) => {
+    const middleware2: Middleware = async ({}, next) => {
       middlewareLogs.push("middleware2 before");
       const result = await next();
       middlewareLogs.push("middleware2 after");
       return result;
     };
-    const middleware3: Middleware = async ({ context }, next) => {
+    const middleware3: Middleware = async ({}, next) => {
       middlewareLogs.push("middleware3 before");
       const result = await next();
       middlewareLogs.push("middleware3 after");
       return result;
     };
-    const interceptMiddleware: Middleware = async ({ context }, next) => {
+    const interceptMiddleware: Middleware = async ({}, next) => {
       const result = await next();
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
-    const errorCatchMiddleware: Middleware = async ({ context }, next) => {
+    const errorCatchMiddleware: Middleware = async ({}, next) => {
       try {
         return await next();
       } catch (err) {
@@ -61,20 +61,36 @@ describe("Middlewares", () => {
         return "errorCatchMiddleware";
       }
     };
-    const errorThrowAfterMiddleware: Middleware = async ({ context }, next) => {
+    const errorThrowAfterMiddleware: Middleware = async ({}, next) => {
       await next();
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: Middleware = async ({ context }, next) => {
+    const errorThrowMiddleware: Middleware = async ({}, next) => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
+    };
+    const fieldResolverMiddleware: Middleware = async ({}, next) => {
+      middlewareLogs.push("fieldResolverMiddlewareBefore");
+      const result = await next();
+      middlewareLogs.push("fieldResolverMiddlewareAfter");
+      return result;
+    };
+    const doubleNextMiddleware: Middleware = async function doubleNextMiddlewareFn({}, next) {
+      const result1 = await next();
+      const result2 = await next();
+      return result1;
     };
 
     @ObjectType()
     class SampleObject {
       @Field() normalField: string;
+
       @Field() resolverField: string;
+
+      @Field()
+      @UseMiddleware(fieldResolverMiddleware)
+      middlewareField: string;
     }
 
     @Resolver(objectType => SampleObject)
@@ -82,6 +98,14 @@ describe("Middlewares", () => {
       @Query()
       normalQuery(): boolean {
         return true;
+      }
+
+      @Query()
+      sampleObjectQuery(): SampleObject {
+        return {
+          normalField: "normalField",
+          middlewareField: "middlewareField",
+        } as SampleObject;
       }
 
       @Query()
@@ -120,6 +144,20 @@ describe("Middlewares", () => {
       middlewareThrowErrorQuery(): string {
         middlewareLogs.push("middlewareThrowErrorQuery");
         return "middlewareThrowErrorQueryResult";
+      }
+
+      @Query()
+      @UseMiddleware(doubleNextMiddleware)
+      doubleNextMiddlewareQuery(): string {
+        middlewareLogs.push("doubleNextMiddlewareQuery");
+        return "doubleNextMiddlewareQueryResult";
+      }
+
+      @FieldResolver()
+      @UseMiddleware(fieldResolverMiddleware)
+      resolverField(): string {
+        middlewareLogs.push("resolverField");
+        return "resolverField";
       }
     }
 
@@ -223,5 +261,47 @@ describe("Middlewares", () => {
     expect(errors![0].message).toEqual("errorThrowMiddleware");
     expect(middlewareLogs).toHaveLength(1);
     expect(middlewareLogs[0]).toEqual("errorThrowMiddleware");
+  });
+
+  it("should call middlewares for field resolver", async () => {
+    const query = `query {
+      sampleObjectQuery {
+        resolverField
+      }
+    }`;
+
+    const { data } = await graphql(schema, query);
+
+    expect(data!.sampleObjectQuery.resolverField).toEqual("resolverField");
+    expect(middlewareLogs).toHaveLength(3);
+    expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
+    expect(middlewareLogs[1]).toEqual("resolverField");
+    expect(middlewareLogs[2]).toEqual("fieldResolverMiddlewareAfter");
+  });
+
+  it("should call middlewares for normal field", async () => {
+    const query = `query {
+      sampleObjectQuery {
+        middlewareField
+      }
+    }`;
+
+    const { data } = await graphql(schema, query);
+
+    expect(data!.sampleObjectQuery.middlewareField).toEqual("middlewareField");
+    expect(middlewareLogs).toHaveLength(2);
+    expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
+    expect(middlewareLogs[1]).toEqual("fieldResolverMiddlewareAfter");
+  });
+
+  it("should throw error if middleware called next more than once", async () => {
+    const query = `query {
+      doubleNextMiddlewareQuery
+    }`;
+
+    const { errors } = await graphql(schema, query);
+
+    expect(errors).toHaveLength(1);
+    expect(errors![0].message).toEqual("next() called multiple times");
   });
 });

@@ -7,6 +7,7 @@ import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { AuthChecker, ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
+import { Middleware } from "../interfaces";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -63,4 +64,33 @@ export async function checkForAccess(
       throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
     }
   }
+}
+
+export async function applyMiddlewares(
+  actionData: ActionData<any>,
+  middlewares: Array<Middleware<any>>,
+  authChecker: AuthChecker<any> | undefined,
+  roles: string[] | undefined,
+  resolverHandlerFunction: () => any,
+) {
+  let middlewaresIndex = -1;
+  async function dispatchHandler(currentIndex: number): Promise<void> {
+    if (currentIndex <= middlewaresIndex) {
+      throw new Error("next() called multiple times");
+    }
+    middlewaresIndex = currentIndex;
+    let handlerFn: Middleware<any>;
+    if (currentIndex === middlewares.length) {
+      handlerFn = resolverHandlerFunction;
+    } else {
+      handlerFn = middlewares[currentIndex];
+    }
+    if (!handlerFn) {
+      return;
+    }
+    return await handlerFn(actionData, () => dispatchHandler(currentIndex + 1));
+  }
+
+  await checkForAccess(actionData, authChecker, roles);
+  return dispatchHandler(0);
 }

@@ -11,9 +11,9 @@ import {
   UnionMetadataWithSymbol,
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
+  MiddlewareMetadata,
 } from "./definitions";
 import { ClassType } from "../types/decorators";
-import { MiddlewareMetadata } from "./definitions/middleware-metadata";
 import { Middleware } from "../interfaces";
 
 export abstract class MetadataStorage {
@@ -128,6 +128,10 @@ export abstract class MetadataStorage {
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
+        const fieldMiddlewaresMetadata = this.middlewares.find(
+          middleware => middleware.target === field.target && middleware.fieldName === field.name,
+        );
+        field.middlewares = fieldMiddlewaresMetadata ? fieldMiddlewaresMetadata.middlewares : [];
         if (field.params.length === 0) {
           // no params = try to get params from field resolver
           const fieldResolver = this.fieldResolvers.find(

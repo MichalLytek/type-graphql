@@ -1,5 +1,6 @@
 import { ParamMetadata } from "./param-metadata";
 import { TypeValueThunk, TypeOptions } from "../../types/decorators";
+import { Middleware } from "../../interfaces";
 
 export interface FieldMetadata {
   target: Function;
@@ -10,4 +11,5 @@ export interface FieldMetadata {
   description?: string;
   deprecationReason?: string;
   roles?: string[];
+  middlewares?: Array<Middleware<any>>;
 }

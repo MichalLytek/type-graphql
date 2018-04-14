@@ -6,7 +6,7 @@ import {
   FieldMetadata,
   BaseResolverMetadata,
 } from "../metadata/definitions";
-import { getParams, checkForAccess } from "./helpers";
+import { getParams, checkForAccess, applyMiddlewares } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ActionData, AuthChecker } from "../types";
@@ -80,38 +80,12 @@ export function createSimpleFieldResolver(
   const authChecker = BuildContext.authChecker;
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
-    // TODO: handle simple field middlewares
-    return await applyMiddlewares(actionData, [], authChecker, fieldMetadata.roles, () => {
-      return root[fieldMetadata.name];
-    });
+    return await applyMiddlewares(
+      actionData,
+      fieldMetadata.middlewares!,
+      authChecker,
+      fieldMetadata.roles,
+      () => root[fieldMetadata.name],
+    );
   };
-}
-
-async function applyMiddlewares(
-  actionData: ActionData<any>,
-  middlewares: Array<Middleware<any>>,
-  authChecker: AuthChecker<any> | undefined,
-  roles: string[] | undefined,
-  resolverHandlerFunction: () => any,
-) {
-  let middlewareIndex = -1;
-  async function dispatchHandler(i: number): Promise<void> {
-    if (i <= middlewareIndex) {
-      throw new Error("next() called multiple times");
-    }
-    middlewareIndex = i;
-    let handlerFn: Function;
-    if (i === middlewares!.length) {
-      handlerFn = resolverHandlerFunction;
-    } else {
-      handlerFn = middlewares![i];
-    }
-    if (!handlerFn) {
-      return;
-    }
-    return await handlerFn(actionData, () => dispatchHandler(i + 1));
-  }
-
-  await checkForAccess(actionData, authChecker, roles);
-  return dispatchHandler(0);
 }
