@@ -10,7 +10,7 @@ import { getParams, checkForAccess, applyMiddlewares } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ActionData, AuthChecker } from "../types";
-import { Middleware } from "../interfaces";
+import { Middleware } from "../interfaces/Middleware";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,

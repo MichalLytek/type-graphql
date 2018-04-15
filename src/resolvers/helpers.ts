@@ -7,7 +7,13 @@ import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { AuthChecker, ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
-import { Middleware } from "../interfaces";
+import {
+  Middleware,
+  MiddlewareInterface,
+  MiddlewareFn,
+  MiddlewareClass,
+} from "../interfaces/Middleware";
+import { IOCContainer } from "../utils/container";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -79,14 +85,19 @@ export async function applyMiddlewares(
       throw new Error("next() called multiple times");
     }
     middlewaresIndex = currentIndex;
-    let handlerFn: Middleware<any>;
+    let handlerFn: MiddlewareFn<any>;
     if (currentIndex === middlewares.length) {
       handlerFn = resolverHandlerFunction;
     } else {
-      handlerFn = middlewares[currentIndex];
-    }
-    if (!handlerFn) {
-      return;
+      const currentMiddleware = middlewares[currentIndex];
+      if (currentMiddleware.prototype !== undefined) {
+        const middlewareClassInstance = IOCContainer.getInstance(
+          currentMiddleware as MiddlewareClass<any>,
+        );
+        handlerFn = middlewareClassInstance.resolve.bind(middlewareClassInstance);
+      } else {
+        handlerFn = currentMiddleware as MiddlewareFn<any>;
+      }
     }
     return await handlerFn(actionData, () => dispatchHandler(currentIndex + 1));
   }

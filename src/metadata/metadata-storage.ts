@@ -14,7 +14,7 @@ import {
   MiddlewareMetadata,
 } from "./definitions";
 import { ClassType } from "../types/decorators";
-import { Middleware } from "../interfaces";
+import { Middleware } from "../interfaces/Middleware";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];

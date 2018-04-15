@@ -1,3 +1,3 @@
-export * from "./Middleware";
+export { MiddlewareFn, NextFunction, MiddlewareInterface } from "./Middleware";
 export * from "./Publisher";
 export * from "./ResolverInterface";

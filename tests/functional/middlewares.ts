@@ -13,9 +13,12 @@ import {
   FieldResolver,
   UnauthorizedError,
   ForbiddenError,
-  Middleware,
+  MiddlewareFn,
   UseMiddleware,
   Arg,
+  MiddlewareInterface,
+  NextFunction,
+  ActionData,
 } from "../../src";
 
 describe("Middlewares", () => {
@@ -31,30 +34,30 @@ describe("Middlewares", () => {
   beforeAll(async () => {
     MetadataStorage.clear();
 
-    const middleware1: Middleware = async ({}, next) => {
+    const middleware1: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("middleware1 before");
       const result = await next();
       middlewareLogs.push("middleware1 after");
       return result;
     };
-    const middleware2: Middleware = async ({}, next) => {
+    const middleware2: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("middleware2 before");
       const result = await next();
       middlewareLogs.push("middleware2 after");
       return result;
     };
-    const middleware3: Middleware = async ({}, next) => {
+    const middleware3: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("middleware3 before");
       const result = await next();
       middlewareLogs.push("middleware3 after");
       return result;
     };
-    const interceptMiddleware: Middleware = async ({}, next) => {
+    const interceptMiddleware: MiddlewareFn = async ({}, next) => {
       const result = await next();
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
-    const errorCatchMiddleware: Middleware = async ({}, next) => {
+    const errorCatchMiddleware: MiddlewareFn = async ({}, next) => {
       try {
         return await next();
       } catch (err) {
@@ -62,26 +65,35 @@ describe("Middlewares", () => {
         return "errorCatchMiddleware";
       }
     };
-    const errorThrowAfterMiddleware: Middleware = async ({}, next) => {
+    const errorThrowAfterMiddleware: MiddlewareFn = async ({}, next) => {
       await next();
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: Middleware = async ({}, next) => {
+    const errorThrowMiddleware: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
     };
-    const fieldResolverMiddleware: Middleware = async ({}, next) => {
+    const fieldResolverMiddleware: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("fieldResolverMiddlewareBefore");
       const result = await next();
       middlewareLogs.push("fieldResolverMiddlewareAfter");
       return result;
     };
-    const doubleNextMiddleware: Middleware = async function doubleNextMiddlewareFn({}, next) {
+    const doubleNextMiddleware: MiddlewareFn = async ({}, next) => {
       const result1 = await next();
       const result2 = await next();
       return result1;
     };
+    class ClassMiddleware implements MiddlewareInterface<any> {
+      private logName = "ClassMiddleware";
+      async resolve(action: ActionData, next: NextFunction) {
+        middlewareLogs.push(`${this.logName} before`);
+        const result = await next();
+        middlewareLogs.push(`${this.logName} after`);
+        return result;
+      }
+    }
 
     @ObjectType()
     class SampleObject {
@@ -153,6 +165,13 @@ describe("Middlewares", () => {
       doubleNextMiddlewareQuery(): string {
         middlewareLogs.push("doubleNextMiddlewareQuery");
         return "doubleNextMiddlewareQueryResult";
+      }
+
+      @Query()
+      @UseMiddleware(ClassMiddleware)
+      classMiddlewareQuery(): string {
+        middlewareLogs.push("classMiddlewareQuery");
+        return "classMiddlewareQueryResult";
       }
 
       @FieldResolver()
@@ -281,6 +300,20 @@ describe("Middlewares", () => {
     expect(middlewareLogs[2]).toEqual("fieldResolverMiddlewareAfter");
   });
 
+  it("should correctly call class middleware", async () => {
+    const query = `query {
+      classMiddlewareQuery
+    }`;
+
+    const { data, errors } = await graphql(schema, query);
+
+    expect(data!.classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
+    expect(middlewareLogs).toHaveLength(3);
+    expect(middlewareLogs[0]).toEqual("ClassMiddleware before");
+    expect(middlewareLogs[1]).toEqual("classMiddlewareQuery");
+    expect(middlewareLogs[2]).toEqual("ClassMiddleware after");
+  });
+
   it("should call middlewares for normal field", async () => {
     const query = `query {
       sampleObjectQuery {
@@ -308,13 +341,13 @@ describe("Middlewares", () => {
   });
 
   it("should correctly call global middlewares before local ones", async () => {
-    const globalMiddleware1: Middleware = async ({}, next) => {
+    const globalMiddleware1: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("globalMiddleware1 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware1 after");
       return result;
     };
-    const globalMiddleware2: Middleware = async ({}, next) => {
+    const globalMiddleware2: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("globalMiddleware2 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware2 after");

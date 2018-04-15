@@ -3,7 +3,7 @@ import { ValidatorOptions } from "class-validator";
 import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
 import { AuthChecker } from "../types/auth-checker";
-import { Middleware } from "../interfaces";
+import { Middleware } from "../interfaces/Middleware";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 
