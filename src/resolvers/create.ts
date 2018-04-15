@@ -16,13 +16,14 @@ export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
-  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
+  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
 
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
     return applyMiddlewares(
       actionData,
-      resolverMetadata.middlewares!,
+      middlewares,
       authChecker,
       resolverMetadata.roles,
       async () => {
@@ -46,14 +47,15 @@ export function createAdvancedFieldResolver(
   }
 
   const targetType = fieldResolverMetadata.getParentType!();
-  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
+  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(fieldResolverMetadata.middlewares!);
 
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
     const targetInstance: any = convertToType(targetType, root);
     return applyMiddlewares(
       actionData,
-      fieldResolverMetadata.middlewares!,
+      middlewares,
       authChecker,
       fieldResolverMetadata.roles,
       async () => {
@@ -77,12 +79,13 @@ export function createAdvancedFieldResolver(
 export function createSimpleFieldResolver(
   fieldMetadata: FieldMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  const authChecker = BuildContext.authChecker;
+  const { authChecker, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(fieldMetadata.middlewares!);
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
     return await applyMiddlewares(
       actionData,
-      fieldMetadata.middlewares!,
+      middlewares,
       authChecker,
       fieldMetadata.roles,
       () => root[fieldMetadata.name],

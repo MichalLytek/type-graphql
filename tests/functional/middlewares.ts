@@ -22,6 +22,7 @@ describe("Middlewares", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
   let middlewareLogs: string[] = [];
+  const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
 
   beforeEach(() => {
     middlewareLogs = [];
@@ -108,10 +109,11 @@ describe("Middlewares", () => {
         } as SampleObject;
       }
 
-      @Query()
+      @Query(returns => String)
       @UseMiddleware(middleware1, middleware2, middleware3)
-      middlewareOrderQuery(): string {
+      async middlewareOrderQuery() {
         middlewareLogs.push("middlewareOrderQuery");
+        await sleep(25);
         return "middlewareOrderQueryResult";
       }
 
@@ -303,5 +305,43 @@ describe("Middlewares", () => {
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("next() called multiple times");
+  });
+
+  it("should correctly call global middlewares before local ones", async () => {
+    const globalMiddleware1: Middleware = async ({}, next) => {
+      middlewareLogs.push("globalMiddleware1 before");
+      const result = await next();
+      middlewareLogs.push("globalMiddleware1 after");
+      return result;
+    };
+    const globalMiddleware2: Middleware = async ({}, next) => {
+      middlewareLogs.push("globalMiddleware2 before");
+      const result = await next();
+      middlewareLogs.push("globalMiddleware2 after");
+      return result;
+    };
+    const localSchema = await buildSchema({
+      resolvers: [sampleResolver],
+      globalMiddlewares: [globalMiddleware1, globalMiddleware2],
+    });
+    const query = `query {
+      middlewareOrderQuery
+    }`;
+
+    const { data } = await graphql(localSchema, query);
+
+    expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
+    expect(middlewareLogs).toHaveLength(11);
+    expect(middlewareLogs[0]).toEqual("globalMiddleware1 before");
+    expect(middlewareLogs[1]).toEqual("globalMiddleware2 before");
+    expect(middlewareLogs[2]).toEqual("middleware1 before");
+    expect(middlewareLogs[3]).toEqual("middleware2 before");
+    expect(middlewareLogs[4]).toEqual("middleware3 before");
+    expect(middlewareLogs[5]).toEqual("middlewareOrderQuery");
+    expect(middlewareLogs[6]).toEqual("middleware3 after");
+    expect(middlewareLogs[7]).toEqual("middleware2 after");
+    expect(middlewareLogs[8]).toEqual("middleware1 after");
+    expect(middlewareLogs[9]).toEqual("globalMiddleware2 after");
+    expect(middlewareLogs[10]).toEqual("globalMiddleware1 after");
   });
 });

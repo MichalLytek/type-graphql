@@ -3,6 +3,7 @@ import { ValidatorOptions } from "class-validator";
 import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
 import { AuthChecker } from "../types/auth-checker";
+import { Middleware } from "../interfaces";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 
@@ -21,6 +22,7 @@ export interface BuildContextOptions {
   validate?: boolean | ValidatorOptions;
   authChecker?: AuthChecker;
   pubSub?: PubSubEngine | PubSubOptions;
+  globalMiddlewares?: Array<Middleware<any>>;
 }
 
 export abstract class BuildContext {
@@ -29,6 +31,7 @@ export abstract class BuildContext {
   static validate: boolean | ValidatorOptions;
   static authChecker?: AuthChecker<any>;
   static pubSub: PubSubEngine;
+  static globalMiddlewares: Array<Middleware<any>>;
 
   /**
    * Set static fields with current building context data
@@ -53,6 +56,9 @@ export abstract class BuildContext {
         this.pubSub = options.pubSub as PubSubEngine;
       }
     }
+    if (options.globalMiddlewares) {
+      this.globalMiddlewares = options.globalMiddlewares;
+    }
   }
 
   /**
@@ -64,6 +70,7 @@ export abstract class BuildContext {
     this.validate = true;
     this.authChecker = undefined;
     this.pubSub = new PubSub();
+    this.globalMiddlewares = [];
   }
 }
 
