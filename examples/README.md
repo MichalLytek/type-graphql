@@ -16,6 +16,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Dependency injection (IoC containers)](./using-container)
 - [Authorization](./authorization)
 - [Validation](./automatic-validation)
+- [Middlewares](./middlewares)
 
 ## 3rd party libs integration
 - [TypeORM (manual, synchronous)](./typeorm-basic-usage)

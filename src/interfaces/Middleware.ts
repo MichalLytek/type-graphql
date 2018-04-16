@@ -11,7 +11,7 @@ export interface MiddlewareInterface<TContext = {}> {
   resolve: MiddlewareFn<TContext>;
 }
 export interface MiddlewareClass<TContext = {}> {
-  new (): MiddlewareInterface<TContext>;
+  new (...args: any[]): MiddlewareInterface<TContext>;
 }
 
 export type Middleware<TContext = {}> = MiddlewareFn<TContext> | MiddlewareClass<TContext>;

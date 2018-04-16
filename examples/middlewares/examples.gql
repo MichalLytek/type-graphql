@@ -1,0 +1,22 @@
+query {
+  recipes(take: -1) {
+    title
+    description
+  }
+}
+
+query {
+  recipes {
+    title
+    description
+    ratings
+  }
+}
+
+query {
+  recipes(skip: 1, take: 2) {
+    title
+    ratings
+    averageRating
+  }
+}

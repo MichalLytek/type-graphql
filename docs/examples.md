@@ -20,6 +20,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Dependency injection (IoC containers)](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container)
 - [Authorization](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization)
 - [Validation](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation)
+- [Middlewares](https://github.com/19majkel94/type-graphql/tree/master/examples/middlewares)
 
 ## 3rd party libs integration
 - [TypeORM (manual, synchronous)](https://github.com/19majkel94/type-graphql/tree/master/examples/typeorm-basic-usage)
