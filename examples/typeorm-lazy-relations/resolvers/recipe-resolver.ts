@@ -1,9 +1,7 @@
 import {
   Resolver,
   Query,
-  FieldResolver,
   Arg,
-  Root,
   Mutation,
   Ctx,
   Int,
@@ -13,7 +11,6 @@ import { InjectRepository } from "typeorm-typedi-extensions";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
-import { User } from "../entities/user";
 import { RecipeInput } from "./types/recipe-input";
 import { RateInput } from "./types/rate-input";
 import { Context } from "./types/context";

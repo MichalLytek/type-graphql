@@ -7,13 +7,8 @@ import { RecipeInput } from "./recipe-input";
 @Service()
 export class RecipeService {
   private autoIncrementValue: number;
-  private readonly items: Recipe[];
 
-  constructor(
-    @Inject("SAMPLE_RECIPES")
-    sampleRecipes: ReadonlyArray<Recipe>,
-  ) {
-    this.items = sampleRecipes.slice();
+  constructor(@Inject("SAMPLE_RECIPES") private readonly items: Recipe[]) {
     this.autoIncrementValue = this.items.length;
   }
 

@@ -12,7 +12,6 @@ import {
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getTypeField } from "../helpers/getTypeField";
 import { getInnerFieldType } from "../helpers/getInnerFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import { GeneratingSchemaError } from "../../src/errors";

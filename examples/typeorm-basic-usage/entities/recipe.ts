@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int, Float } from "../../../src";
+import { Field, ID, ObjectType } from "../../../src";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 
 import { Rate } from "./rate";

@@ -2,10 +2,6 @@ import "reflect-metadata";
 import {
   IntrospectionSchema,
   IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionInputObjectType,
-  IntrospectionEnumType,
   graphql,
   GraphQLSchema,
   IntrospectionUnionType,
@@ -14,7 +10,6 @@ import {
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
-  getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
   getInnerFieldType,
 } from "../helpers/getInnerFieldType";
@@ -22,9 +17,7 @@ import { MetadataStorage } from "../../src/metadata/metadata-storage";
 import {
   Field,
   ObjectType,
-  InputType,
   Query,
-  Arg,
   createUnionType,
 } from "../../src";
 

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
+import { graphql } from "graphql";
 import { Container, Service } from "typedi";
 
 import { IOCContainer } from "../../src/utils/container";

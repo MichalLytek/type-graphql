@@ -1,4 +1,3 @@
-import { plainToClass } from "class-transformer";
 import { PubSubEngine } from "graphql-subscriptions";
 import { ValidatorOptions } from "class-validator";
 

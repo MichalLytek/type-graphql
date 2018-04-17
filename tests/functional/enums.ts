@@ -2,8 +2,6 @@ import "reflect-metadata";
 import {
   IntrospectionSchema,
   IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
   IntrospectionInputObjectType,
   IntrospectionEnumType,
   graphql,

@@ -15,10 +15,10 @@ export class Recipe {
   ingredients: string[];
 
   @Field(type => Int)
-  private numberInCollection: number;
+  protected numberInCollection: number;
 
   @Field(type => Int)
-  private get ingredientsLength(): number {
+  protected get ingredientsLength(): number {
     return this.ingredients.length;
   }
 }

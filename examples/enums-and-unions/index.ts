@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
-import { useContainer, buildSchema } from "../../src";
+import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
 

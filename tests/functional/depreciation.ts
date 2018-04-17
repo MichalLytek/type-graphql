@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { graphql, introspectionQuery, IntrospectionSchema, IntrospectionObjectType } from "graphql";
+import { IntrospectionSchema, IntrospectionObjectType } from "graphql";
 
-import { ObjectType, Resolver, Field, Query, Mutation, buildSchema } from "../../src";
+import { ObjectType, Resolver, Field, Query, Mutation } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Deprecation", () => {

@@ -8,7 +8,6 @@ import {
   GraphQLFieldConfigArgumentMap,
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
-  GraphQLScalarType,
   GraphQLInterfaceType,
   GraphQLFieldConfig,
   GraphQLInputFieldConfig,
@@ -16,7 +15,6 @@ import {
   introspectionQuery,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
-  GraphQLEnumValueConfig,
   GraphQLUnionType,
 } from "graphql";
 import { withFilter } from "graphql-subscriptions";
@@ -37,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ActionData, FilterActionData } from "../types";
+import { FilterActionData } from "../types";
 
 interface ObjectTypeInfo {
   target: Function;

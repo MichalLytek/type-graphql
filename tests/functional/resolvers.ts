@@ -1038,7 +1038,7 @@ describe("Resolvers", () => {
       const root = { isRoot: true };
       const context = { isContext: true };
 
-      const queryResult = await graphql(schema, query, root, context);
+      await graphql(schema, query, root, context);
 
       expect(queryRoot).toEqual(root);
       expect(queryContext).toEqual(context);
@@ -1053,7 +1053,7 @@ describe("Resolvers", () => {
       const root = { rootField: 2 };
       const context = { contextField: "present" };
 
-      const queryResult = await graphql(schema, query, root, context);
+      await graphql(schema, query, root, context);
 
       expect(queryRoot).toEqual(2);
       expect(queryContext).toEqual("present");

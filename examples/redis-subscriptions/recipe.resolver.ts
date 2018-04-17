@@ -7,7 +7,6 @@ import {
   Publisher,
   Subscription,
   Root,
-  PubSubEngine,
   ID,
   FilterActionData,
   Args,

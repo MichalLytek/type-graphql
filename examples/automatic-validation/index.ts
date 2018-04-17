@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
-import { useContainer, buildSchema, formatArgumentValidationError } from "../../src";
+import { buildSchema, formatArgumentValidationError } from "../../src";
 
 import { RecipeResolver } from "./recipe-resolver";
 

@@ -2,7 +2,6 @@ import { ReturnTypeFunc, AdvancedOptions, SubscriptionFilterFunc } from "../type
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
-import { ActionData } from "../types";
 import { MissingSubscriptionTopicsError } from "../errors";
 
 export interface SubscriptionOptions extends AdvancedOptions {

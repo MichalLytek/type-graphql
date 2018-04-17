@@ -1,29 +1,21 @@
 import "reflect-metadata";
 import {
   graphql,
-  introspectionQuery,
   IntrospectionSchema,
   IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionField,
-  GraphQLID,
   IntrospectionNamedTypeRef,
   IntrospectionNonNullTypeRef,
-  GraphQLScalarType,
   GraphQLSchema,
   TypeKind,
 } from "graphql";
 
 import {
   ObjectType,
-  ArgsType,
   InputType,
   Resolver,
   Field,
   Query,
-  Mutation,
   Arg,
-  Args,
   buildSchema,
   ID,
   Float,
@@ -341,7 +333,7 @@ describe("Scalars", () => {
         const query = `query DateQuery($date: DateTime!) {
           inputDate(input: {date: $date})
         }`;
-        const { errors } = await graphql({
+        await graphql({
           schema: localSchema,
           source: query,
           variableValues: {

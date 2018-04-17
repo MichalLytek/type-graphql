@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int, Float } from "../../src";
+import { Field, ObjectType, Int, Float } from "../../src";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {

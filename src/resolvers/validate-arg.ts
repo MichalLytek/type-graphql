@@ -1,5 +1,4 @@
 import { validateOrReject, ValidatorOptions } from "class-validator";
-import { GraphQLScalarType } from "graphql";
 
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 

@@ -6,7 +6,7 @@ import { GraphQLServer } from "graphql-yoga";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { ApolloClient } from "apollo-client";
 import { WebSocketLink } from "apollo-link-ws";
-import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 export interface WebSocketUtils {
   apollo: ApolloClient<any>;

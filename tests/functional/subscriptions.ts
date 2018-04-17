@@ -4,12 +4,7 @@ import {
   IntrospectionObjectType,
   IntrospectionSchema,
   TypeKind,
-  IntrospectionListTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
   graphql,
-  DocumentNode,
-  ExecutionResult,
 } from "graphql";
 import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
@@ -24,7 +19,6 @@ import {
   Field,
   PubSub,
   Mutation,
-  ID,
   Root,
   Publisher,
   PubSubEngine,
@@ -462,7 +456,7 @@ describe("Subscriptions", () => {
           }
         }
 
-        const localSchema = await buildSchema({
+        await buildSchema({
           resolvers: [SampleResolver],
         });
       } catch (err) {

@@ -1,7 +1,5 @@
 import "reflect-metadata";
 import {
-  graphql,
-  introspectionQuery,
   IntrospectionSchema,
   IntrospectionObjectType,
   IntrospectionInputObjectType,
@@ -17,7 +15,6 @@ import {
   Mutation,
   Arg,
   Args,
-  buildSchema,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

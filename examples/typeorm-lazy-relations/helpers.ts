@@ -1,4 +1,4 @@
-import { getRepository, Column, ColumnOptions } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { Recipe } from "./entities/recipe";
 import { Rate } from "./entities/rate";

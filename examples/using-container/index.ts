@@ -10,7 +10,7 @@ import { sampleRecipes } from "./sample-recipes";
 useContainer(Container);
 
 // put sample recipes in container
-Container.set("SAMPLE_RECIPES", sampleRecipes);
+Container.set({ id: "SAMPLE_RECIPES", factory: () => sampleRecipes.slice() });
 
 async function bootstrap() {
   // build TypeGraphQL executable schema

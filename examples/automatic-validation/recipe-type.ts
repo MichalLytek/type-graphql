@@ -1,11 +1,11 @@
-import { Field, ID, ObjectType, Int, Float } from "../../src";
+import { Field, ObjectType } from "../../src";
 
-@ObjectType({ description: "Object representing cooking recipe" })
+@ObjectType()
 export class Recipe {
   @Field()
   title: string;
 
-  @Field({ nullable: true, description: "The recipe description with preparation info" })
+  @Field({ nullable: true })
   description?: string;
 
   @Field()
