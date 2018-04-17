@@ -129,6 +129,15 @@ describe("Middlewares", () => {
         return "middlewareOrderQueryResult";
       }
 
+      @UseMiddleware(middleware1)
+      @UseMiddleware(middleware2)
+      @UseMiddleware(middleware3)
+      @Query(returns => String)
+      async multipleMiddlewareDecoratorsQuery() {
+        middlewareLogs.push("multipleMiddlewareDecoratorsQuery");
+        return "multipleMiddlewareDecoratorsQueryResult";
+      }
+
       @Query()
       @UseMiddleware(interceptMiddleware)
       middlewareInterceptQuery(): string {
@@ -216,6 +225,27 @@ describe("Middlewares", () => {
     expect(middlewareLogs[1]).toEqual("middleware2 before");
     expect(middlewareLogs[2]).toEqual("middleware3 before");
     expect(middlewareLogs[3]).toEqual("middlewareOrderQuery");
+    expect(middlewareLogs[4]).toEqual("middleware3 after");
+    expect(middlewareLogs[5]).toEqual("middleware2 after");
+    expect(middlewareLogs[6]).toEqual("middleware1 after");
+  });
+
+  it("should call middlewares in order of multiple decorators", async () => {
+    const query = `query {
+      multipleMiddlewareDecoratorsQuery
+    }`;
+
+    const { data } = await graphql(schema, query);
+
+    expect(data!.multipleMiddlewareDecoratorsQuery).toEqual(
+      "multipleMiddlewareDecoratorsQueryResult",
+    );
+
+    expect(middlewareLogs).toHaveLength(7);
+    expect(middlewareLogs[0]).toEqual("middleware1 before");
+    expect(middlewareLogs[1]).toEqual("middleware2 before");
+    expect(middlewareLogs[2]).toEqual("middleware3 before");
+    expect(middlewareLogs[3]).toEqual("multipleMiddlewareDecoratorsQuery");
     expect(middlewareLogs[4]).toEqual("middleware3 after");
     expect(middlewareLogs[5]).toEqual("middleware2 after");
     expect(middlewareLogs[6]).toEqual("middleware1 after");

@@ -128,10 +128,11 @@ export abstract class MetadataStorage {
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
-        const fieldMiddlewaresMetadata = this.middlewares.find(
-          middleware => middleware.target === field.target && middleware.fieldName === field.name,
+        field.middlewares = this.mapMetadatasToMiddlewares(
+          this.middlewares.filter(
+            middleware => middleware.target === field.target && middleware.fieldName === field.name,
+          ),
         );
-        field.middlewares = fieldMiddlewaresMetadata ? fieldMiddlewaresMetadata.middlewares : [];
         if (field.params.length === 0) {
           // no params = try to get params from field resolver
           const fieldResolver = this.fieldResolvers.find(
@@ -154,10 +155,11 @@ export abstract class MetadataStorage {
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
 
-      const resolverMiddlewareMetadata = this.middlewares.find(
-        middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
+      def.middlewares = this.mapMetadatasToMiddlewares(
+        this.middlewares.filter(
+          middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
+        ),
       );
-      def.middlewares = resolverMiddlewareMetadata ? resolverMiddlewareMetadata.middlewares : [];
     });
   }
 
@@ -182,5 +184,14 @@ export abstract class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private static mapMetadatasToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
+    return metadata
+      .map(m => m.middlewares)
+      .reduce<Array<Middleware<any>>>(
+        (middlewares, resultArray) => resultArray.concat(middlewares),
+        [],
+      );
   }
 }
