@@ -1,11 +1,11 @@
-query {
+query InvalidArgs {
   recipes(take: -1) {
     title
     description
   }
 }
 
-query {
+query LogginQuery {
   recipes {
     title
     description
@@ -13,7 +13,7 @@ query {
   }
 }
 
-query {
+query InterceptorsQuery {
   recipes(skip: 1, take: 2) {
     title
     ratings
