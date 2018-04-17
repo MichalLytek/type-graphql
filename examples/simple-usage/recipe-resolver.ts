@@ -13,25 +13,11 @@ import { plainToClass } from "class-transformer";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
+import { createRecipeSamples } from "./recipe-samples";
 
 @Resolver(objectType => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
-  private readonly items: Recipe[];
-  constructor() {
-    const recipe1 = plainToClass(Recipe, {
-      description: "Desc 1",
-      title: "Recipe 1",
-      ratings: [0, 3, 1],
-      creationDate: new Date(),
-    });
-    const recipe2 = plainToClass(Recipe, {
-      description: "Desc 2",
-      title: "Recipe 2",
-      ratings: [4, 2, 3, 1],
-      creationDate: new Date(),
-    });
-    this.items = [recipe1, recipe2];
-  }
+  private readonly items: Recipe[] = createRecipeSamples();
 
   @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<Recipe | undefined> {
