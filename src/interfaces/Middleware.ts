@@ -8,7 +8,7 @@ export type MiddlewareFn<TContext = {}> = (
 ) => Promise<any>;
 
 export interface MiddlewareInterface<TContext = {}> {
-  resolve: MiddlewareFn<TContext>;
+  use: MiddlewareFn<TContext>;
 }
 export interface MiddlewareClass<TContext = {}> {
   new (...args: any[]): MiddlewareInterface<TContext>;

@@ -14,7 +14,7 @@ import { Logger } from "../logger";
 export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async resolve({ context, info }: ActionData<Context>, next: NextFunction) {
+  async use({ context, info }: ActionData<Context>, next: NextFunction) {
     try {
       return await next();
     } catch (err) {

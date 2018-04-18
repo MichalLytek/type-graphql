@@ -94,7 +94,7 @@ export async function applyMiddlewares(
         const middlewareClassInstance = IOCContainer.getInstance(
           currentMiddleware as MiddlewareClass<any>,
         );
-        handlerFn = middlewareClassInstance.resolve.bind(middlewareClassInstance);
+        handlerFn = middlewareClassInstance.use.bind(middlewareClassInstance);
       } else {
         handlerFn = currentMiddleware as MiddlewareFn<any>;
       }
