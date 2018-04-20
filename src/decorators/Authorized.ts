@@ -1,18 +1,14 @@
 import { MetadataStorage } from "../metadata/metadata-storage";
 import { SymbolKeysNotSupportedError } from "../errors";
+import { getArrayFromOverloadedRest } from "../helpers/decorators";
 
 export type MethodOrPropDecorator = MethodDecorator & PropertyDecorator;
 
 export function Authorized(): MethodOrPropDecorator;
 export function Authorized(roles: string[]): MethodOrPropDecorator;
 export function Authorized(...roles: string[]): MethodOrPropDecorator;
-export function Authorized(...rolesOrRolesArray: any[]): MethodOrPropDecorator {
-  let roles: string[];
-  if (Array.isArray(rolesOrRolesArray[0])) {
-    roles = rolesOrRolesArray[0];
-  } else {
-    roles = rolesOrRolesArray;
-  }
+export function Authorized(...rolesOrRolesArray: Array<string | string[]>): MethodOrPropDecorator {
+  const roles = getArrayFromOverloadedRest(rolesOrRolesArray);
 
   return (prototype: object, propertyKey: string | symbol) => {
     if (typeof propertyKey === "symbol") {
