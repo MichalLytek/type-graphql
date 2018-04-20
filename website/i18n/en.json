@@ -15,6 +15,7 @@
     "interfaces-and-inheritance": "Interfaces and inheritance",
     "introduction": "Introduction",
     "What & Why": "What & Why",
+    "middlewares": "Middlewares and guards",
     "README": "README",
     "resolvers": "Resolvers",
     "scalars": "Scalars",
