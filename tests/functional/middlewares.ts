@@ -17,7 +17,7 @@ import {
   UseMiddleware,
   Arg,
   MiddlewareInterface,
-  NextFunction,
+  NextFn,
   ActionData,
 } from "../../src";
 
@@ -87,7 +87,7 @@ describe("Middlewares", () => {
     };
     class ClassMiddleware implements MiddlewareInterface {
       private logName = "ClassMiddleware";
-      async use(action: ActionData, next: NextFunction) {
+      async use(action: ActionData, next: NextFn) {
         middlewareLogs.push(`${this.logName} before`);
         const result = await next();
         middlewareLogs.push(`${this.logName} after`);

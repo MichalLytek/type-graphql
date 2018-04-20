@@ -11,7 +11,7 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => Int)
+  @Field(type => [Int])
   @UseMiddleware(LogAccessMiddleware)
   ratings: number[];
 

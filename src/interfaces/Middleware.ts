@@ -1,10 +1,10 @@
 import { ActionData } from "../types";
 
-export type NextFunction = () => Promise<any>;
+export type NextFn = () => Promise<any>;
 
 export type MiddlewareFn<TContext = {}> = (
   action: ActionData<TContext>,
-  next: NextFunction,
+  next: NextFn,
 ) => Promise<any>;
 
 export interface MiddlewareInterface<TContext = {}> {
