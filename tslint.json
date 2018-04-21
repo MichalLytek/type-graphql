@@ -1,48 +1,60 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-eslint-rules"
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-eslint-rules"],
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": [
+      true,
+      {
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "always",
+          "typeLiterals": "always"
+        },
+        "esSpecCompliant": true
+      }
     ],
-    "jsRules": {},
-    "rules": {
-        "adjacent-overload-signatures": true,
-        "ban-types": false,
-        "no-console": [false],
-        "no-namespace": false,
-        "object-curly-spacing": [true, "always"],
-        "object-literal-sort-keys": false,
-        "max-line-length": [true, 100],
-        "max-classes-per-file": [false],
-        "member-access": [true, "no-public"],
-        "member-ordering": [true, {
-            "order": [
-                "public-static-field",
-                "protected-static-field",
-                "private-static-field",
+    "adjacent-overload-signatures": true,
+    "ban-types": false,
+    "no-console": [false],
+    "no-namespace": false,
+    "object-curly-spacing": [true, "always"],
+    "object-literal-sort-keys": false,
+    "max-line-length": [true, 100],
+    "max-classes-per-file": [false],
+    "member-access": [true, "no-public"],
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "public-static-field",
+          "protected-static-field",
+          "private-static-field",
 
-                "public-instance-field",
-                "protected-instance-field",
-                "private-instance-field",
+          "public-instance-field",
+          "protected-instance-field",
+          "private-instance-field",
 
-                "public-static-method",
-                "protected-static-method",
-                "private-static-method",
-                
-                "public-constructor",
-                "protected-constructor",
-                "private-constructor",
-                
-                "public-instance-method",
-                "protected-instance-method",
-                "private-instance-method"
-            ]
-        }],
-        "arrow-parens": [true, "ban-single-arg-parens"],
-        "unified-signatures": false,
-        "interface-name": [true, "never-prefix"],
-        "ordered-imports": false,
-        "no-unused-expression": false
-    },
-    "rulesDirectory": []
+          "public-static-method",
+          "protected-static-method",
+          "private-static-method",
+
+          "public-constructor",
+          "protected-constructor",
+          "private-constructor",
+
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }
+    ],
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "unified-signatures": false,
+    "interface-name": [true, "never-prefix"],
+    "ordered-imports": false,
+    "no-unused-expression": false
+  },
+  "rulesDirectory": []
 }

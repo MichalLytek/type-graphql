@@ -11,8 +11,10 @@ import {
   UnionMetadataWithSymbol,
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
+  MiddlewareMetadata,
 } from "./definitions";
 import { ClassType } from "../types/decorators";
+import { Middleware } from "../interfaces/Middleware";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];
@@ -26,6 +28,7 @@ export abstract class MetadataStorage {
   static authorizedFields: AuthorizedMetadata[] = [];
   static enums: EnumMetadata[] = [];
   static unions: UnionMetadataWithSymbol[] = [];
+  static middlewares: MiddlewareMetadata[] = [];
 
   private static resolvers: ResolverClassMetadata[] = [];
   private static fields: FieldMetadata[] = [];
@@ -69,6 +72,9 @@ export abstract class MetadataStorage {
     });
     return unionSymbol;
   }
+  static collectMiddlewareMetadata(definition: MiddlewareMetadata) {
+    this.middlewares.push(definition);
+  }
 
   static collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolvers.push(definition);
@@ -107,6 +113,7 @@ export abstract class MetadataStorage {
     this.authorizedFields = [];
     this.enums = [];
     this.unions = [];
+    this.middlewares = [];
 
     this.resolvers = [];
     this.fields = [];
@@ -120,6 +127,11 @@ export abstract class MetadataStorage {
         field.roles = this.findFieldRoles(field.target, field.name);
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
+        );
+        field.middlewares = this.mapMetadatasToMiddlewares(
+          this.middlewares.filter(
+            middleware => middleware.target === field.target && middleware.fieldName === field.name,
+          ),
         );
         if (field.params.length === 0) {
           // no params = try to get params from field resolver
@@ -142,6 +154,12 @@ export abstract class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
+
+      def.middlewares = this.mapMetadatasToMiddlewares(
+        this.middlewares.filter(
+          middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
+        ),
+      );
     });
   }
 
@@ -166,5 +184,14 @@ export abstract class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private static mapMetadatasToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
+    return metadata
+      .map(m => m.middlewares)
+      .reduce<Array<Middleware<any>>>(
+        (middlewares, resultArray) => resultArray.concat(middlewares),
+        [],
+      );
   }
 }

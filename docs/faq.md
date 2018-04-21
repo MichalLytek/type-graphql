@@ -12,6 +12,9 @@ It really depends on various factors:
   - otherwise - use object type's methods (pure function, calculate based on object value and arguments)
 - if you want to separate business logic from type definition - use resolver class's method
 
+### Is there any global error handler to catch the error from resolver or a service?
+You can use middlewares for this purpose - just wrap `await next()` in try-catch block and do the magic. Then register it as a first global middleware.
+
 ## Bootstrapping
 
 ### Should I use array of manually imported resolver classes or use a glob path string?

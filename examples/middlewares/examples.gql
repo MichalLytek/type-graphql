@@ -1,0 +1,22 @@
+query InvalidArgs {
+  recipes(take: -1) {
+    title
+    description
+  }
+}
+
+query LogginQuery {
+  recipes {
+    title
+    description
+    ratings
+  }
+}
+
+query InterceptorsQuery {
+  recipes(skip: 1, take: 2) {
+    title
+    ratings
+    averageRating
+  }
+}

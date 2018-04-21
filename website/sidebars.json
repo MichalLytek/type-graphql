@@ -3,7 +3,7 @@
     "Introduction": ["introduction"],
     "Beginner guides": ["getting-started", "types-and-fields", "resolvers", "bootstrap"],
     "Advanced guides": ["scalars", "enums", "unions", "interfaces-and-inheritance", "subscriptions"],
-    "Features": ["dependency-injection", "authorization", "validation"]
+    "Features": ["dependency-injection", "authorization", "validation", "middlewares"]
   },
   "examples": {
     "Examples": ["examples"]

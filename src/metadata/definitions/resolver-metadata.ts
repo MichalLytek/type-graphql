@@ -5,6 +5,7 @@ import {
   SubscriptionFilterFunc,
 } from "../../types/decorators";
 import { ParamMetadata } from "./param-metadata";
+import { Middleware } from "../../interfaces/Middleware";
 
 export interface BaseResolverMetadata {
   methodName: string;
@@ -12,6 +13,7 @@ export interface BaseResolverMetadata {
   handler?: Function;
   params?: ParamMetadata[];
   roles?: string[];
+  middlewares?: Array<Middleware<any>>;
 }
 
 export interface ResolverMetadata extends BaseResolverMetadata {

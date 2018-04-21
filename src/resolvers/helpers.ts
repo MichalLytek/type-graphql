@@ -6,6 +6,13 @@ import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { AuthChecker, ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
+import {
+  Middleware,
+  MiddlewareInterface,
+  MiddlewareFn,
+  MiddlewareClass,
+} from "../interfaces/Middleware";
+import { IOCContainer } from "../utils/container";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -52,7 +59,7 @@ export async function getParams(
 }
 
 export async function checkForAccess(
-  action: ActionData,
+  action: ActionData<any>,
   authChecker?: AuthChecker<any>,
   roles?: string[],
 ) {
@@ -62,4 +69,44 @@ export async function checkForAccess(
       throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
     }
   }
+}
+
+export async function applyMiddlewares(
+  actionData: ActionData<any>,
+  middlewares: Array<Middleware<any>>,
+  authChecker: AuthChecker<any> | undefined,
+  roles: string[] | undefined,
+  resolverHandlerFunction: () => any,
+): Promise<any> {
+  let middlewaresIndex = -1;
+  async function dispatchHandler(currentIndex: number): Promise<void> {
+    if (currentIndex <= middlewaresIndex) {
+      throw new Error("next() called multiple times");
+    }
+    middlewaresIndex = currentIndex;
+    let handlerFn: MiddlewareFn<any>;
+    if (currentIndex === middlewares.length) {
+      handlerFn = resolverHandlerFunction;
+    } else {
+      const currentMiddleware = middlewares[currentIndex];
+      // arrow function or class
+      if (currentMiddleware.prototype !== undefined) {
+        const middlewareClassInstance = IOCContainer.getInstance(
+          currentMiddleware as MiddlewareClass<any>,
+        );
+        handlerFn = middlewareClassInstance.use.bind(middlewareClassInstance);
+      } else {
+        handlerFn = currentMiddleware as MiddlewareFn<any>;
+      }
+    }
+    let nextResult: any;
+    const result = await handlerFn(actionData, async () => {
+      nextResult = await dispatchHandler(currentIndex + 1);
+      return nextResult;
+    });
+    return result !== undefined ? result : nextResult;
+  }
+
+  await checkForAccess(actionData, authChecker, roles);
+  return dispatchHandler(0);
 }

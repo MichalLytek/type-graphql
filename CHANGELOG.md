@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add support for creating and attaching middlewares, guards and interceptors to fields and resolvers
+
 ## v0.10.0
 ### Features
 - add `buildSchemaSync` function to build the schema synchronously (unsafe! without additional errors checks)

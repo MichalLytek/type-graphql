@@ -6,27 +6,36 @@ import {
   FieldMetadata,
   BaseResolverMetadata,
 } from "../metadata/definitions";
-import { getParams, checkForAccess } from "./helpers";
+import { getParams, checkForAccess, applyMiddlewares } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
-import { ActionData } from "../types";
+import { ActionData, AuthChecker } from "../types";
+import { Middleware } from "../interfaces/Middleware";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
-  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
+  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
 
   return async (root, args, context, info) => {
-    const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, resolverMetadata.roles);
-    const params: any[] = await getParams(
-      resolverMetadata.params!,
+    const actionData: ActionData<any> = { root, args, context, info };
+    return applyMiddlewares(
       actionData,
-      globalValidate,
-      pubSub,
+      middlewares,
+      authChecker,
+      resolverMetadata.roles,
+      async () => {
+        const params: any[] = await getParams(
+          resolverMetadata.params!,
+          actionData,
+          globalValidate,
+          pubSub,
+        );
+        return resolverMetadata.handler!.apply(targetInstance, params);
+      },
     );
-    return resolverMetadata.handler!.apply(targetInstance, params);
   };
 }
 
@@ -38,34 +47,48 @@ export function createAdvancedFieldResolver(
   }
 
   const targetType = fieldResolverMetadata.getParentType!();
-  const { validate: globalValidate, authChecker, pubSub } = BuildContext;
+  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(fieldResolverMetadata.middlewares!);
 
   return async (root, args, context, info) => {
-    const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, fieldResolverMetadata.roles);
+    const actionData: ActionData<any> = { root, args, context, info };
     const targetInstance: any = convertToType(targetType, root);
-    // method
-    if (fieldResolverMetadata.handler) {
-      const params: any[] = await getParams(
-        fieldResolverMetadata.params!,
-        actionData,
-        globalValidate,
-        pubSub,
-      );
-      return fieldResolverMetadata.handler.apply(targetInstance, params);
-    }
-    // getter
-    return targetInstance[fieldResolverMetadata.methodName];
+    return applyMiddlewares(
+      actionData,
+      middlewares,
+      authChecker,
+      fieldResolverMetadata.roles,
+      async () => {
+        // method
+        if (fieldResolverMetadata.handler) {
+          const params: any[] = await getParams(
+            fieldResolverMetadata.params!,
+            actionData,
+            globalValidate,
+            pubSub,
+          );
+          return fieldResolverMetadata.handler.apply(targetInstance, params);
+        }
+        // getter
+        return targetInstance[fieldResolverMetadata.methodName];
+      },
+    );
   };
 }
 
 export function createSimpleFieldResolver(
   fieldMetadata: FieldMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  const authChecker = BuildContext.authChecker;
+  const { authChecker, globalMiddlewares } = BuildContext;
+  const middlewares = globalMiddlewares.concat(fieldMetadata.middlewares!);
   return async (root, args, context, info) => {
-    const actionData: ActionData = { root, args, context, info };
-    await checkForAccess(actionData, authChecker, fieldMetadata.roles);
-    return root[fieldMetadata.name];
+    const actionData: ActionData<any> = { root, args, context, info };
+    return await applyMiddlewares(
+      actionData,
+      middlewares,
+      authChecker,
+      fieldMetadata.roles,
+      () => root[fieldMetadata.name],
+    );
   };
 }
