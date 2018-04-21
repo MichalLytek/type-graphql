@@ -20,14 +20,11 @@ Thanks to this it's really easy to perform some action not only before resolvers
 ```ts
 export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
   const start = Date.now();
-  const result = await next();
+  await next();
   const resolveTime = Date.now() - start;
   console.log(`${info.parentType.name}.${info.fieldName} [${resolveTime} ms]`);
-  return result;
 };
 ```
-
-The only caveat is that you have to return the result of `next` call from your middleware. Why?
 
 ### Intercepting execution result
 

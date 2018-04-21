@@ -78,7 +78,7 @@ export async function applyMiddlewares(
   authChecker: AuthChecker<any> | undefined,
   roles: string[] | undefined,
   resolverHandlerFunction: () => any,
-) {
+): Promise<any> {
   let middlewaresIndex = -1;
   async function dispatchHandler(currentIndex: number): Promise<void> {
     if (currentIndex <= middlewaresIndex) {
@@ -90,6 +90,7 @@ export async function applyMiddlewares(
       handlerFn = resolverHandlerFunction;
     } else {
       const currentMiddleware = middlewares[currentIndex];
+      // arrow function or class
       if (currentMiddleware.prototype !== undefined) {
         const middlewareClassInstance = IOCContainer.getInstance(
           currentMiddleware as MiddlewareClass<any>,
@@ -99,7 +100,12 @@ export async function applyMiddlewares(
         handlerFn = currentMiddleware as MiddlewareFn<any>;
       }
     }
-    return await handlerFn(actionData, () => dispatchHandler(currentIndex + 1));
+    let nextResult: any;
+    const result = await handlerFn(actionData, async () => {
+      nextResult = await dispatchHandler(currentIndex + 1);
+      return nextResult;
+    });
+    return result !== undefined ? result : nextResult;
   }
 
   await checkForAccess(actionData, authChecker, roles);

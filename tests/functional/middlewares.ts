@@ -57,6 +57,10 @@ describe("Middlewares", () => {
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
+    const returnUndefinedMiddleware: MiddlewareFn = async ({}, next) => {
+      const result = await next();
+      middlewareLogs.push(result);
+    };
     const errorCatchMiddleware: MiddlewareFn = async ({}, next) => {
       try {
         return await next();
@@ -143,6 +147,17 @@ describe("Middlewares", () => {
       middlewareInterceptQuery(): string {
         middlewareLogs.push("middlewareInterceptQuery");
         return "middlewareInterceptQueryResult";
+      }
+
+      @Query()
+      @UseMiddleware(
+        returnUndefinedMiddleware,
+        returnUndefinedMiddleware,
+        returnUndefinedMiddleware,
+      )
+      middlewareReturnUndefinedQuery(): string {
+        middlewareLogs.push("middlewareReturnUndefinedQuery");
+        return "middlewareReturnUndefinedQueryResult";
       }
 
       @Query()
@@ -262,6 +277,21 @@ describe("Middlewares", () => {
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("middlewareInterceptQuery");
     expect(middlewareLogs[1]).toEqual("middlewareInterceptQueryResult");
+  });
+
+  it("should correctly use next middleware value when undefined returned", async () => {
+    const query = `query {
+      middlewareReturnUndefinedQuery
+    }`;
+
+    const { data } = await graphql(schema, query);
+
+    expect(data!.middlewareReturnUndefinedQuery).toEqual("middlewareReturnUndefinedQueryResult");
+    expect(middlewareLogs).toHaveLength(4);
+    expect(middlewareLogs[0]).toEqual("middlewareReturnUndefinedQuery");
+    expect(middlewareLogs[1]).toEqual("middlewareReturnUndefinedQueryResult");
+    expect(middlewareLogs[2]).toEqual("middlewareReturnUndefinedQueryResult");
+    expect(middlewareLogs[3]).toEqual("middlewareReturnUndefinedQueryResult");
   });
 
   it("should correctly catch error thrown in resolver", async () => {
