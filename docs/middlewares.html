@@ -1,0 +1,170 @@
+<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Middlewares and guards · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Middlewares and guards · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Middlewares are a piece of reusable code that can be easily attached to resolvers and fields. By using middlewares you can extract the common used code from your resolvers and then just declaratively attach them with decorator or even register globally."/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/type-graphql/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/type-graphql/"><img class="logo" src="/type-graphql/img/logo.png"/><h2 class="headerTitle">TypeGraphQL</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/type-graphql/docs/introduction.html" target="_self">Docs</a></li><li class=""><a href="/type-graphql/docs/examples.html" target="_self">Examples</a></li><li class=""><a href="/type-graphql/docs/faq.html" target="_self">FAQ</a></li><li class=""><a href="/type-graphql/blog" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search"/></li><li class=""><a href="https://github.com/19majkel94/type-graphql" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Features</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/type-graphql/docs/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup navGroupActive"><h3>Beginner guides</h3><ul><li class="navListItem"><a class="navItem" href="/type-graphql/docs/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/types-and-fields.html">Types and fields</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/resolvers.html">Resolvers</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/bootstrap.html">Bootstrapping</a></li></ul></div><div class="navGroup navGroupActive"><h3>Advanced guides</h3><ul><li class="navListItem"><a class="navItem" href="/type-graphql/docs/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/interfaces-and-inheritance.html">Interfaces and inheritance</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/subscriptions.html">Subscriptions</a></li></ul></div><div class="navGroup navGroupActive"><h3>Features</h3><ul><li class="navListItem"><a class="navItem" href="/type-graphql/docs/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/authorization.html">Authorization</a></li><li class="navListItem"><a class="navItem" href="/type-graphql/docs/validation.html">Validation</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/type-graphql/docs/middlewares.html">Middlewares and guards</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/19majkel94/type-graphql/blob/master/docs/middlewares.md" target="_blank">Edit</a><h1>Middlewares and guards</h1></header><article><div><span><p>Middlewares are a piece of reusable code that can be easily attached to resolvers and fields. By using middlewares you can extract the common used code from your resolvers and then just declaratively attach them with decorator or even register globally.</p>
+<h2><a class="anchor" aria-hidden="true" id="creating-middlewares"></a><a href="#creating-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating middlewares</h2>
+<h3><a class="anchor" aria-hidden="true" id="what-are-middlewares"></a><a href="#what-are-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What are middlewares?</h3>
+<p>Middlewares are a very powerful but also a bit complicated feature. Basically, they are functions that take 2 arguments:</p>
+<ul>
+<li>action data - the same as for resolvers (<code>root</code>, <code>args</code>, <code>context</code>, <code>info</code>)</li>
+<li><code>next</code> function - used to control execution of next middlewares and the resolver to which they are attached</li>
+</ul>
+<p>You might be familiar with how middlewares works in <a href="https://expressjs.com/en/guide/writing-middleware.html"><code>express.js</code></a> but TypeGraphQL middlewares are inspired by the <a href="http://koajs.com/#application"><code>koa.js</code> ones</a>. The difference is that the <code>next</code> function returns a promise of the value of further middlewares stack and resolver execution.</p>
+<p>Thanks to this it's really easy to perform some action not only before resolvers execution but also after that. So things like measuring execution time are really easy to implement:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ResolveTime: MiddlewareFn = <span class="hljs-keyword">async</span> ({ info }, next) =&gt; {
+  <span class="hljs-keyword">const</span> start = <span class="hljs-built_in">Date</span>.now();
+  <span class="hljs-keyword">await</span> next();
+  <span class="hljs-keyword">const</span> resolveTime = <span class="hljs-built_in">Date</span>.now() - start;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${info.parentType.name}</span>.<span class="hljs-subst">${info.fieldName}</span> [<span class="hljs-subst">${resolveTime}</span> ms]`</span>);
+};
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="intercepting-execution-result"></a><a href="#intercepting-execution-result" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Intercepting execution result</h3>
+<p>Middlewares have also an ability to intercept the result of resolver execution. They are able not only to e.g. log it but they can also replace it with a new value:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> CompetitorInterceptor: MiddlewareFn = <span class="hljs-keyword">async</span> (_, next) =&gt; {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> next();
+  <span class="hljs-keyword">if</span> (result === <span class="hljs-string">"typegql"</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"type-graphql"</span>;
+  }
+  <span class="hljs-keyword">return</span> result;
+};
+</code></pre>
+<p>It might be not very useful from this library users perspective but that feature was mainly introduced for plugins system and 3rd-party libs integration. Thanks to this, it's possible to e.g. wrap the returned object with lazy-relation wrapper that will automatically fetch relations from database on demand under the hood.</p>
+<h3><a class="anchor" aria-hidden="true" id="simple-middlewares"></a><a href="#simple-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simple middlewares</h3>
+<p>If you only want to do something only before action, like log the access to the resolver, you can just place <code>return next()</code> statement at the end of your middleware:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">const</span> LogAccess: MiddlewareFn&lt;TContext&gt; = <span class="hljs-function">(<span class="hljs-params">{ context, info }, next</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> username: <span class="hljs-built_in">string</span> = context.username || <span class="hljs-string">"guest"</span>;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Logging access: <span class="hljs-subst">${username}</span> -&gt; <span class="hljs-subst">${info.parentType.name}</span>.<span class="hljs-subst">${info.fieldName}</span>`</span>);
+  <span class="hljs-keyword">return</span> next();
+};
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="guards"></a><a href="#guards" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Guards</h3>
+<p>Middlewares can also break the middlewares stack by not calling the <code>next</code> function. The result returned from the middleware will be used instead of calling the resolver and returning it's result.</p>
+<p>You can also throw error in the middleware if the execution should be terminated and the error should be returned to the user, e.g. when resolver args are incorrect.</p>
+<p>This way you can create a guard that will block an access to the resolver and prevent executing it or returning the data.</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> CompetitorDetector: MiddlewareFn = <span class="hljs-keyword">async</span> ({ args }, next) =&gt; {
+  <span class="hljs-keyword">if</span> (args.frameworkName === <span class="hljs-string">"type-graphql"</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"TypeGraphQL"</span>;
+  }
+  <span class="hljs-keyword">if</span> (args.frameworkName === <span class="hljs-string">"typegql"</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Competitive framework detected!"</span>);
+  }
+  <span class="hljs-keyword">return</span> next();
+};
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="reusable-middlewares"></a><a href="#reusable-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reusable middlewares</h3>
+<p>Sometimes the middleware has to be configurable, just like you pass <code>roles</code> array to the <a href="/type-graphql/docs/authorization.html"><code>@Autorized()</code> decorator</a>. In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumberInterceptor</span>(<span class="hljs-params">minValue: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">MiddlewareFn</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">async</span> (_, next) =&gt; {
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> next();
+    <span class="hljs-comment">// hide values below minValue</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> result === <span class="hljs-string">"number"</span> &amp;&amp; result &lt; minValue) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+    <span class="hljs-keyword">return</span> result;
+  };
+}
+</code></pre>
+<p>But remember to call this middleware with argument, e.g. <code>NumberInterceptor(3.0)</code> when you attach the middleware to a resolver!</p>
+<h3><a class="anchor" aria-hidden="true" id="errors-interceptors"></a><a href="#errors-interceptors" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Errors interceptors</h3>
+<p>Middlewares can also catch errors that were thrown during execution. This way you can easily log them and even filter what can't be returned to user:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ErrorInterceptor: MiddlewareFn&lt;<span class="hljs-built_in">any</span>&gt; = <span class="hljs-function">(<span class="hljs-params">{ context, info }, next</span>) =&gt;</span> {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> next();
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-comment">// write error to file log</span>
+    fileLog.write(err, context, info);
+
+    <span class="hljs-comment">// hide errors from db like printing sql query</span>
+    <span class="hljs-keyword">if</span> (someCondition(err)) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Unknown error occurred!"</span>);
+    }
+
+    <span class="hljs-comment">// rethrow the error</span>
+    <span class="hljs-keyword">throw</span> err;
+  }
+};
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="class-based-middlewares"></a><a href="#class-based-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Class-based middlewares</h3>
+<p>Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of <a href="/type-graphql/docs/dependency-injection.html">dependency injection</a> and easily mock a file logger or a database repository.</p>
+<p>All you need to do is to implement a <code>MiddlewareInterface</code> - it has to have the <code>use</code> method that conforms with <code>MiddlewareFn</code> signature. Below you can see how the defined above <code>LogAccess</code> middleware looks after the transformation:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> LogAccess <span class="hljs-keyword">implements</span> MiddlewareInterface&lt;TContext&gt; {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly logger: Logger</span>) {}
+
+  <span class="hljs-keyword">async</span> use({ context, info }: ActionData&lt;TContext&gt;, next: NextFn) {
+    <span class="hljs-keyword">const</span> username: <span class="hljs-built_in">string</span> = context.username || <span class="hljs-string">"guest"</span>;
+    <span class="hljs-keyword">this</span>.logger.log(<span class="hljs-string">`Logging access: <span class="hljs-subst">${username}</span> -&gt; <span class="hljs-subst">${info.parentType.name}</span>.<span class="hljs-subst">${info.fieldName}</span>`</span>);
+    <span class="hljs-keyword">return</span> next();
+  }
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use?</h2>
+<h3><a class="anchor" aria-hidden="true" id="attaching-middlewares"></a><a href="#attaching-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attaching middlewares</h3>
+<p>To attach middlewares to resolver, place the <code>@UseMiddleware()</code> decorator above field or resolver declaration. It accepts an array of middlewares that will be called in the provided order. You can also pass them without array as it supports <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest parameters</a>:</p>
+<pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> RecipeResolver {
+  <span class="hljs-meta">@Query</span>()
+  <span class="hljs-meta">@UseMiddleware</span>(ResolveTime, LogAccess)
+  randomValue(): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random();
+  }
+}
+</code></pre>
+<p>You can also attach the resolver to <code>ObjectType</code> fields, the same way as with <a href="/type-graphql/docs/authorization.html"><code>@Autorized()</code> decorator</a>.</p>
+<pre><code class="hljs css ts"><span class="hljs-meta">@ObjectType</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Recipe {
+  <span class="hljs-meta">@Field</span>()
+  title: <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> [Int])
+  <span class="hljs-meta">@UseMiddleware</span>(LogAccess)
+  ratings: <span class="hljs-built_in">number</span>[];
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="global-middlewares"></a><a href="#global-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global middlewares</h3>
+<p>However, for common middlewares like measuring resolving time or catching errors, it might be tedious work to place <code>@UseMiddleware(ResolveTime)</code> decorator on every field/resolver.</p>
+<p>Hence why in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use <code>globalMiddlewares</code> property of <code>buildSchema</code> configuration object:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
+  resolvers: [RecipeResolver],
+  globalMiddlewares: [ErrorInterceptor, ResolveTime],
+});
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="custom-decorators"></a><a href="#custom-decorators" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom decorators</h3>
+<p>If you want to have a more descriptive and declarative API, you can also create custom decorators. They work in the same way like the reusable middleware function, however in this case you need to return the <code>UseMiddleware</code> decorator function:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ValidateArgs</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">object</span>&gt;(<span class="hljs-params">schema: Schema&lt;T&gt;</span>) </span>{
+  <span class="hljs-keyword">return</span> UseMiddleware(<span class="hljs-keyword">async</span> ({ args }, next) =&gt; {
+    <span class="hljs-comment">// here place your validation logic, e.g. based on schema using joi</span>
+    <span class="hljs-keyword">await</span> joiValidate(schema, args);
+    <span class="hljs-keyword">return</span> next();
+  });
+}
+</code></pre>
+<p>The usage is then very simple, as you have a custom, descriptive decorator - just place it above resolver/field and pass the required arguments to id:</p>
+<pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> RecipeResolver {
+  <span class="hljs-meta">@Query</span>()
+  <span class="hljs-meta">@ValidateArgs</span>(MyArgsSchema) <span class="hljs-comment">// custom decorator</span>
+  <span class="hljs-meta">@UseMiddleware</span>(ResolveTime) <span class="hljs-comment">// explicit middleware</span>
+  randomValue(<span class="hljs-meta">@Ars</span>() { scale }: MyArgs): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random();
+  }
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="validation.html">← Arguments and inputs validation</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-middlewares">Creating middlewares</a><ul class="toc-headings"><li><a href="#what-are-middlewares">What are middlewares?</a></li><li><a href="#intercepting-execution-result">Intercepting execution result</a></li><li><a href="#simple-middlewares">Simple middlewares</a></li><li><a href="#guards">Guards</a></li><li><a href="#reusable-middlewares">Reusable middlewares</a></li><li><a href="#errors-interceptors">Errors interceptors</a></li><li><a href="#class-based-middlewares">Class-based middlewares</a></li></ul></li><li><a href="#how-to-use">How to use?</a><ul class="toc-headings"><li><a href="#attaching-middlewares">Attaching middlewares</a></li><li><a href="#global-middlewares">Global middlewares</a></li><li><a href="#custom-decorators">Custom decorators</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?utf8=✓&amp;q=is%3Aissue+label%3A&amp;quot;Enhancement+%3Anew%3A&amp;quot;+">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+label%3A&amp;quot;Bug+%3Abug%3A&amp;quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
