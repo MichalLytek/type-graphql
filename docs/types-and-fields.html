@@ -39,11 +39,10 @@ To do this, we use <code>@Field</code> decorator, which is also used to collect 
   averageRating: <span class="hljs-built_in">number</span>;
 }
 </code></pre>
-<p>For simple types (like <code>string</code> or <code>boolean</code>) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like <code>Array</code> or <code>Promise</code>). So to declare <code>Rate[]</code> type, there are three options available:</p>
+<p>For simple types (like <code>string</code> or <code>boolean</code>) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like <code>Array</code> or <code>Promise</code>). So to declare <code>Rate[]</code> type, there are two options available:</p>
 <ul>
 <li><code>@Field(type =&gt; [Rate])</code> (the recommended way - explicit <code>[ ]</code> syntax for Array)</li>
 <li><code>@Field(itemType =&gt; Rate)</code> (<code>array</code> is inferred from reflection - also ok but prone to error)</li>
-<li><code>@Field(itemType =&gt; Rate, { array: true })</code> (also not needed but more descriptive)</li>
 </ul>
 <p>Why function syntax, not simple <code>{ type: Rate }</code> config object? Because this way we solve problems with circular dependencies (e.g. Post &lt;--&gt; User), so it was adopted as a convention. You can use the shorthand syntax <code>@Field(() =&gt; Rate)</code> if you want to safe some keystrokes but it might be less readable for others.</p>
 <p>For nullable properties, like <code>averageRating</code> (it might be not defined when recipe has no ratings yet), we mark the class property as optional with <code>?:</code> operator and also have to pass <code>{ nullable: true }</code> decorator parameter. Be aware, that when you declare your type as e.g. <code>string | null</code>, you need to explicit provide the type to <code>@Field</code> decorator.</p>

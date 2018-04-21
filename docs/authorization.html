@@ -78,28 +78,26 @@ Example object type's fields guards:</p>
 </code></pre>
 <p>And it's done! 😉</p>
 <h2><a class="anchor" aria-hidden="true" id="recipes"></a><a href="#recipes" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recipes</h2>
-<p>You can also use <code>TypeGraphQL</code> with <code>express.js</code> and leverage benefits of JWT authentication:</p>
+<p>You can also use <code>TypeGraphQL</code> with JWT authentication:</p>
 <pre><code class="hljs css ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">"express-jwt"</span>;
 <span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">"../example/above"</span>;
 
-<span class="hljs-comment">// create express-based gql endpoint</span>
-<span class="hljs-keyword">const</span> app = express();
-app.use(
-  <span class="hljs-string">"/graphql"</span>,
-  <span class="hljs-comment">// register JWT middleware</span>
-  jwt({ secret: <span class="hljs-string">"TypeGraphQL"</span>, credentialsRequired: <span class="hljs-literal">false</span> }),
-  graphqlHTTP(<span class="hljs-function"><span class="hljs-params">req</span> =&gt;</span> {
-    <span class="hljs-comment">// here we're creating GraphQL context from HTTP request</span>
+<span class="hljs-comment">// Create GraphQL server</span>
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> GraphQLServer({
+  schema,
+  context: <span class="hljs-function">(<span class="hljs-params">{ request }</span>) =&gt;</span> {
     <span class="hljs-keyword">const</span> context = {
-      req,
-      user: req.user, <span class="hljs-comment">// `req.user` comes from `express-jwt`</span>
+      request,
+      user: request.user, <span class="hljs-comment">// `request.user` comes from `express-jwt`</span>
     };
-    <span class="hljs-keyword">return</span> {
-      schema,
-      context,
-    };
-  }),
-);
+    <span class="hljs-keyword">return</span> ctx;
+  },
+});
+
+<span class="hljs-comment">// register JWT middleware</span>
+server.express.use(server.options.endpoint, jwt({ secret: <span class="hljs-string">"TypeGraphQL"</span>, credentialsRequired: <span class="hljs-literal">false</span> }))
+
+<span class="hljs-comment">// the rest of bootstrap code, same as always</span>
 </code></pre>
 <p>Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of <code>TypeGraphQL</code> authorization mechanism.</p>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>

@@ -85,16 +85,15 @@
   }
 }
 </code></pre>
-<p>the <a href="https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts"><code>ArgumentValidationError</code></a> will be throwed. To send more detailed error info to the client than <code>Argument Validation Error</code> string, you have to format the error - <code>TypeGraphQL</code> provides a helper for this case. Example using <code>express-graphql</code>:</p>
+<p>the <a href="https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts"><code>ArgumentValidationError</code></a> will be throwed. To send more detailed error info to the client than <code>Argument Validation Error</code> string, you have to format the error - <code>TypeGraphQL</code> provides a helper for this case. Example using the <code>graphql-yoga</code> package from <a href="/type-graphql/docs/bootstrap.html">bootstrap guide</a>:</p>
 <pre><code class="hljs css ts"><span class="hljs-keyword">import</span> { formatArgumentValidationError } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
-<span class="hljs-comment">// ...</span>
-app.use(
-  <span class="hljs-string">"/graphql"</span>,
-  graphqlHTTP({
-    schema,
-    formatError: formatArgumentValidationError, <span class="hljs-comment">// here we use the formatting function</span>
-  }),
-);
+<span class="hljs-comment">// other bootstrap code</span>
+<span class="hljs-keyword">const</span> serverOptions: Options = {
+  port: <span class="hljs-number">4000</span>,
+  endpoint: <span class="hljs-string">"/graphql"</span>,
+  playground: <span class="hljs-string">"/playground"</span>,
+  formatError: formatArgumentValidationError, <span class="hljs-comment">// register our error formatter</span>
+};
 </code></pre>
 <p>So when <code>ArgumentValidationError</code> occurs, client will receive this JSON with nice <code>validationErrors</code> property:</p>
 <pre><code class="hljs css json">{
