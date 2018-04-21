@@ -15,13 +15,11 @@ export type SubscriptionFilterFunc = (
   actionData: FilterActionData<any, any, any>,
 ) => boolean | Promise<boolean>;
 
-export interface TypeOptions {
-  /**
-   * Used to annotate the type as an Array (TS reflection system limitation)
-   * @deprecated use array syntax `type => [ItemType]` notation instead
-   */
-  array?: boolean;
+export interface DecoratorTypeOptions {
   nullable?: boolean;
+}
+export interface TypeOptions extends DecoratorTypeOptions {
+  array?: boolean;
 }
 export interface DescriptionOptions {
   description?: string;
@@ -32,7 +30,7 @@ export interface DepreciationOptions {
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
 }
-export type BasicOptions = TypeOptions & DescriptionOptions;
+export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions & DepreciationOptions;
 
 export interface ClassType<T = any> {

@@ -44,12 +44,6 @@ describe("Fields - schema", () => {
       @Field(type => String)
       implicitStringArrayField: string[];
 
-      @Field(type => String, { array: true })
-      explicitStringArrayField: any;
-
-      @Field(type => String, { nullable: true, array: true })
-      nullableArrayField: string[] | null;
-
       @Field(type => [String], { nullable: true })
       nullableArrayFieldNew: string[] | null;
 
@@ -218,34 +212,6 @@ describe("Fields - schema", () => {
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
     expect(nonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
-    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
-    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
-    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
-    expect(arrayItemFieldType.name).toEqual("String");
-  });
-
-  it("should generate array field type when explicitly set", async () => {
-    const nonNullField = sampleObjectType.fields.find(
-      field => field.name === "explicitStringArrayField",
-    )!;
-    const nonNullFieldType = nonNullField.type as IntrospectionNonNullTypeRef;
-    const arrayFieldType = nonNullFieldType.ofType as IntrospectionListTypeRef;
-    const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
-    const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
-
-    expect(nonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
-    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
-    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
-    expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);
-    expect(arrayItemFieldType.name).toEqual("String");
-  });
-
-  it("should generate nullable array field type when declared", async () => {
-    const arrayField = sampleObjectType.fields.find(field => field.name === "nullableArrayField")!;
-    const arrayFieldType = arrayField.type as IntrospectionListTypeRef;
-    const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
-    const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionNamedTypeRef;
-
     expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
     expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(arrayItemFieldType.kind).toEqual(TypeKind.SCALAR);

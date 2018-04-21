@@ -88,7 +88,7 @@ describe("Resolvers", () => {
           explicitNullableArg: any,
           @Arg("stringArrayArg", type => String)
           stringArrayArg: string[],
-          @Arg("explicitArrayArg", type => String, { array: true })
+          @Arg("explicitArrayArg", type => [String])
           explicitArrayArg: any,
           @Arg("nullableStringArg", { nullable: true })
           nullableStringArg?: string,
@@ -140,7 +140,7 @@ describe("Resolvers", () => {
           return [];
         }
 
-        @Query(itemType => String, { array: true })
+        @Query(itemType => [String])
         explicitStringArrayQuery(): any {
           return [];
         }

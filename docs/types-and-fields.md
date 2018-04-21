@@ -44,10 +44,9 @@ class Recipe {
 }
 ```
 
-For simple types (like `string` or `boolean`) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like `Array` or `Promise`). So to declare `Rate[]` type, there are three options available:
+For simple types (like `string` or `boolean`) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like `Array` or `Promise`). So to declare `Rate[]` type, there are two options available:
 - `@Field(type => [Rate])` (the recommended way - explicit `[ ]` syntax for Array)
 - `@Field(itemType => Rate)` (`array` is inferred from reflection - also ok but prone to error)
-- `@Field(itemType => Rate, { array: true })` (also not needed but more descriptive)
 
 Why function syntax, not simple `{ type: Rate }` config object? Because this way we solve problems with circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to safe some keystrokes but it might be less readable for others.
 

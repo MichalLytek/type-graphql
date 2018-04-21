@@ -1,6 +1,6 @@
 import {
   ReturnTypeFunc,
-  TypeOptions,
+  DecoratorTypeOptions,
   DescriptionOptions,
   ValidateOptions,
 } from "../types/decorators";
@@ -8,7 +8,7 @@ import { MetadataStorage } from "../metadata/metadata-storage";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export type Options = TypeOptions & DescriptionOptions & ValidateOptions;
+export type Options = DecoratorTypeOptions & DescriptionOptions & ValidateOptions;
 
 export function Arg(name: string, options?: Options): ParameterDecorator;
 export function Arg(
