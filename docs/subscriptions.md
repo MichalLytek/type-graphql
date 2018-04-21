@@ -142,61 +142,23 @@ const schema = await buildSchema({
 ```
 
 ## Creating subscription server
-Both [bootstrap guide](./bootstrap.md) and all the earlier examples used `express-graphql` to create HTTP endpoint for our GraphQL API. However, to make subscriptions work, we have to provide transport layer that doesn't have constraints of HTTP and can do a push-based communication - WebSockets.
+The [bootstrap guide](./bootstrap.md) and all the earlier examples used [`graphql-yoga`](https://github.com/graphcool/graphql-yoga) to create HTTP endpoint for our GraphQL API.
 
-At first, we have to install [`subscriptions-transport-ws`](https://github.com/apollographql/subscriptions-transport-ws) module.
-Then we can create a websocket server and launch it on a `WS_PORT` port:
+Fortunately, to make subscriptions work, we don't need to manually provide transport layer that doesn't have constraints of HTTP and can do a push-based communication (WebSockets).
+The `graphql-yoga` package has already integrated [`subscriptions-transport-ws`](https://github.com/apollographql/subscriptions-transport-ws) so all we need to do is to provide the `subscriptions` property of config object:
 ```ts
-import * as http from "http";
-
-// Create WebSocket listener server
-const websocketServer = http.createServer((request, response) => {
-  response.writeHead(404);
-  response.end();
-});
-// Bind it to port and start listening
-websocketServer.listen(WS_PORT, () =>
-  console.log(`Websocket Server is now running on localhost:${WS_PORT}`),
-);
+// Configure server options
+const serverOptions: Options = {
+  port: 4000,
+  endpoint: "/graphql",
+  subscriptions: "/graphql",
+  playground: "/playground",
+};
 ```
-
-After that we have to create `SubscriptionServer`:
-```ts
-import { execute, subscribe } from "graphql";
-import { SubscriptionServer } from "subscriptions-transport-ws";
-
-// Create Subscription Server to handle subscriptions over WS
-const subscriptionServer = SubscriptionServer.create(
-  { schema, execute, subscribe },
-  { server: websocketServer, path: "/graphql" },
-);
-```
-
-And that's it! Now our subscriptions will work in browser using WebSocket's communication.
-However, if you still want to have access to queries and mutation using HTTP, as well as GraphiQL, you might need to install an [apollo-server](https://github.com/apollographql/apollo-server), e.g. `apollo-server-express`:
-
-```ts
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
-
-// create express-based gql endpoint
-const app = express();
-app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
-app.use(
-  "/graphiql",
-  graphiqlExpress({
-    endpointURL: "/graphql",
-    subscriptionsEndpoint: `ws://localhost:${WS_PORT}/graphql`,
-  }),
-);
-app.listen(HTTP_PORT, () => {
-  console.log(`Running a GraphQL API server at localhost:${HTTP_PORT}/graphql`);
-});
-```
+And it's done!. We have a working GraphQL subscription server on `/graphql` on port 4000 for both HTTP and WS.
 
 ## Examples
-You can see how the subscriptions works in a [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions). Be aware, that the GraphiQL app will be available on `http://localhost:4000/graphiql`.
+You can see how the subscriptions works in a [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions).
 
 For production usage, it's better to use something more scalable, e.g. a Redis-based pubsub system - [working example is also available](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions).
 However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection params.

@@ -101,17 +101,16 @@ mutation ValidationMutation {
   }
 }
 ```
-the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using `express-graphql`:
+the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `graphql-yoga` package from [bootstrap guide](./bootstrap.md):
 ```ts
 import { formatArgumentValidationError } from "type-graphql";
-// ...
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    formatError: formatArgumentValidationError, // here we use the formatting function
-  }),
-);
+// other bootstrap code
+const serverOptions: Options = {
+  port: 4000,
+  endpoint: "/graphql",
+  playground: "/playground",
+  formatError: formatArgumentValidationError, // register our error formatter
+};
 ```
 
 So when `ArgumentValidationError` occurs, client will receive this JSON with nice `validationErrors` property:

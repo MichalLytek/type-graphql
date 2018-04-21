@@ -90,29 +90,27 @@ And it's done! 😉
 
 ## Recipes
 
-You can also use `TypeGraphQL` with `express.js` and leverage benefits of JWT authentication:
+You can also use `TypeGraphQL` with JWT authentication:
 ```ts
 import * as jwt from "express-jwt";
 import { schema } from "../example/above";
 
-// create express-based gql endpoint
-const app = express();
-app.use(
-  "/graphql",
-  // register JWT middleware
-  jwt({ secret: "TypeGraphQL", credentialsRequired: false }),
-  graphqlHTTP(req => {
-    // here we're creating GraphQL context from HTTP request
+// Create GraphQL server
+const server = new GraphQLServer({
+  schema,
+  context: ({ request }) => {
     const context = {
-      req,
-      user: req.user, // `req.user` comes from `express-jwt`
+      request,
+      user: request.user, // `request.user` comes from `express-jwt`
     };
-    return {
-      schema,
-      context,
-    };
-  }),
-);
+    return ctx;
+  },
+});
+
+// register JWT middleware
+server.express.use(server.options.endpoint, jwt({ secret: "TypeGraphQL", credentialsRequired: false }))
+
+// the rest of bootstrap code, same as always
 ```
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 
