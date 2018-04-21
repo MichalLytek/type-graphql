@@ -1,4 +1,4 @@
-import { ActionData } from "./action-data";
+import { ActionData } from "../types/action-data";
 
 export type AuthChecker<ContextType = {}> = (
   actionData: ActionData<ContextType>,

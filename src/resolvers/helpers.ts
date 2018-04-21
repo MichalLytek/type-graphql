@@ -4,7 +4,8 @@ import { ValidatorOptions } from "class-validator";
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
-import { AuthChecker, ActionData } from "../types";
+import { AuthChecker } from "../interfaces";
+import { ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 import {
   Middleware,
@@ -13,6 +14,7 @@ import {
   MiddlewareClass,
 } from "../interfaces/Middleware";
 import { IOCContainer } from "../utils/container";
+import { AuthMiddleware } from "../helpers/auth-middleware";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -58,24 +60,19 @@ export async function getParams(
   );
 }
 
-export async function checkForAccess(
-  action: ActionData<any>,
-  authChecker?: AuthChecker<any>,
+export function applyAuthChecker(
+  middlewares: Array<Middleware<any>>,
+  authChecker?: AuthChecker,
   roles?: string[],
 ) {
-  if (roles && authChecker) {
-    const accessGranted = await authChecker(action, roles);
-    if (!accessGranted) {
-      throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
-    }
+  if (authChecker && roles) {
+    middlewares.unshift(AuthMiddleware(authChecker, roles));
   }
 }
 
 export async function applyMiddlewares(
   actionData: ActionData<any>,
   middlewares: Array<Middleware<any>>,
-  authChecker: AuthChecker<any> | undefined,
-  roles: string[] | undefined,
   resolverHandlerFunction: () => any,
 ): Promise<any> {
   let middlewaresIndex = -1;
@@ -107,6 +104,5 @@ export async function applyMiddlewares(
     return result !== undefined ? result : nextResult;
   }
 
-  await checkForAccess(actionData, authChecker, roles);
   return dispatchHandler(0);
 }
