@@ -8,12 +8,12 @@ Middlewares are a piece of reusable code that can be easily attached to resolver
 
 ### What are middlewares?
 
-Middlewares are a very powerful but also a bit complicated feature. Basically, they are a functions that take 2 arguments:
+Middlewares are a very powerful but also a bit complicated feature. Basically, they are functions that take 2 arguments:
 
 * action data - the same as for resolvers (`root`, `args`, `context`, `info`)
 * `next` function - used to control execution of next middlewares and the resolver to which they are attached
 
-You might be familiar with how middlewares works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middlewares works closely to [`koa.js` ones](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of further middlewares stack and resolver execution.
+You might be familiar with how middlewares works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middlewares are inspired by the [`koa.js` ones](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of further middlewares stack and resolver execution.
 
 Thanks to this it's really easy to perform some action not only before resolvers execution but also after that. So things like measuring execution time are really easy to implement:
 
@@ -28,7 +28,7 @@ export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
 
 ### Intercepting execution result
 
-Middlewares have also an opportunity to intercept the result of resolver execution. They are able to not only to e.g. log it but they can also replace it with a new value:
+Middlewares have also an ability to intercept the result of resolver execution. They are able not only to e.g. log it but they can also replace it with a new value:
 
 ```ts
 export const CompetitorInterceptor: MiddlewareFn = async (_, next) => {
@@ -44,7 +44,7 @@ It might be not very useful from this library users perspective but that feature
 
 ### Simple middlewares
 
-If you only want to do some only before action, like log the access to the resolver, you can just place `return next()` statement at the end of your middleware:
+If you only want to do something only before action, like log the access to the resolver, you can just place `return next()` statement at the end of your middleware:
 
 ```ts
 const LogAccess: MiddlewareFn<TContext> = ({ context, info }, next) => {
@@ -118,9 +118,9 @@ export const ErrorInterceptor: MiddlewareFn<any> = ({ context, info }, next) => 
 
 ### Class-based middlewares
 
-Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you may want to create class middleware that is able to take benefits of [dependency injection](./dependency-injection.md) and easily mock a file logger or a database repository.
+Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of [dependency injection](./dependency-injection.md) and easily mock a file logger or a database repository.
 
-All you need to do is to create a class that implements a `MiddlewareInterface` - it has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined above `LogAccess` middleware looks after the transformation:
+All you need to do is to implement a `MiddlewareInterface` - it has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined above `LogAccess` middleware looks after the transformation:
 
 ```ts
 export class LogAccess implements MiddlewareInterface<TContext> {
@@ -156,7 +156,8 @@ You can also attach the resolver to `ObjectType` fields, the same way as with [`
 ```ts
 @ObjectType()
 export class Recipe {
-  @Field() title: string;
+  @Field()
+  title: string;
 
   @Field(type => [Int])
   @UseMiddleware(LogAccess)
@@ -179,20 +180,18 @@ const schema = await buildSchema({
 
 ### Custom decorators
 
-If you want to have a more descriptive and declarative API, you can also create custom decorators. They work in the same way like the reusable middleware function, however you need to return the `UseMiddleware` decorator function:
-
+If you want to have a more descriptive and declarative API, you can also create custom decorators. They work in the same way like the reusable middleware function, however in this case you need to return the `UseMiddleware` decorator function:
 ```ts
 export function ValidateArgs<T extends object>(schema: Schema<T>) {
   return UseMiddleware(async ({ args }, next) => {
-    // here place your validation logic, example joi, based on schema
+    // here place your validation logic, e.g. based on schema using joi
     await joiValidate(schema, args);
     return next();
   });
 }
 ```
 
-The usage is then very simple, as you have a custom, descriptive decorator:
-
+The usage is then very simple, as you have a custom, descriptive decorator - just place it above resolver/field and pass the required arguments to id:
 ```ts
 @Resolver()
 export class RecipeResolver {
