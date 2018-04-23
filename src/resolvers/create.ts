@@ -48,7 +48,7 @@ export function createAdvancedFieldResolver(
     return createHandlerResolver(fieldResolverMetadata);
   }
 
-  const targetType = fieldResolverMetadata.getParentType!();
+  const targetType = fieldResolverMetadata.getObjectType!();
   const {
     validate: globalValidate,
     authChecker,

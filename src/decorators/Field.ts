@@ -45,12 +45,11 @@ export function Field(
     });
 
     if (isResolver) {
-      const methodName = propertyKey as keyof typeof prototype;
       MetadataStorage.collectFieldResolverMetadata({
         kind: "internal",
-        methodName,
+        methodName: propertyKey,
         target: prototype.constructor,
-        handler: isResolverMethod ? prototype[methodName] : undefined,
+        handler: isResolverMethod ? (prototype as any)[propertyKey] : undefined,
       });
     }
   };

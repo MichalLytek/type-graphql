@@ -219,7 +219,7 @@ export abstract class SchemaGenerator {
               (fieldsMap, field) => {
                 const fieldResolverMetadata = MetadataStorage.fieldResolvers.find(
                   resolver =>
-                    resolver.getParentType!() === objectType.target &&
+                    resolver.getObjectType!() === objectType.target &&
                     resolver.methodName === field.name,
                 );
                 fieldsMap[field.name] = {

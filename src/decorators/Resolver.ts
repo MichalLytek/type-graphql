@@ -6,7 +6,7 @@ export function Resolver(objectType: ClassType): ClassDecorator;
 export function Resolver(): ClassDecorator;
 export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
   return target => {
-    const getParentType = objectTypeOrTypeFunc
+    const getObjectType = objectTypeOrTypeFunc
       ? objectTypeOrTypeFunc.prototype
         ? () => objectTypeOrTypeFunc as ClassType
         : (objectTypeOrTypeFunc as ClassTypeResolver)
@@ -17,7 +17,7 @@ export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
         };
     MetadataStorage.collectResolverClassMetadata({
       target,
-      getParentType,
+      getObjectType,
     });
   };
 }

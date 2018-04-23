@@ -128,7 +128,7 @@ export abstract class MetadataStorage {
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
-        field.middlewares = this.mapMetadatasToMiddlewares(
+        field.middlewares = this.mapMetadataToMiddlewares(
           this.middlewares.filter(
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
@@ -154,8 +154,7 @@ export abstract class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
-
-      def.middlewares = this.mapMetadatasToMiddlewares(
+      def.middlewares = this.mapMetadataToMiddlewares(
         this.middlewares.filter(
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
@@ -166,12 +165,10 @@ export abstract class MetadataStorage {
   private static buildFieldResolverMetadata(definitions: FieldResolverMetadata[]) {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
-      def.roles = def.roles || this.fields.find(field => field.name === def.methodName)!.roles;
-      def.getParentType =
+      def.roles = this.findFieldRoles(def.target, def.methodName);
+      def.getObjectType =
         def.kind === "external"
-          ? (this.resolvers.find(
-              resolver => resolver.target === def.target,
-            ) as FieldResolverMetadata).getParentType
+          ? this.resolvers.find(resolver => resolver.target === def.target)!.getObjectType
           : () => def.target as ClassType;
     });
   }
@@ -186,7 +183,7 @@ export abstract class MetadataStorage {
     return authorizedField.roles;
   }
 
-  private static mapMetadatasToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
+  private static mapMetadataToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
     return metadata
       .map(m => m.middlewares)
       .reduce<Array<Middleware<any>>>(

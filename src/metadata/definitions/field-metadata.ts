@@ -7,9 +7,9 @@ export interface FieldMetadata {
   name: string;
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
+  description: string | undefined;
+  deprecationReason: string | undefined;
   params?: ParamMetadata[];
-  description?: string;
-  deprecationReason?: string;
   roles?: string[];
   middlewares?: Array<Middleware<any>>;
 }

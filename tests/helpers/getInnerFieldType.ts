@@ -5,6 +5,9 @@ import {
   IntrospectionNamedTypeRef,
   IntrospectionInputObjectType,
   IntrospectionTypeRef,
+  IntrospectionEnumType,
+  IntrospectionScalarType,
+  IntrospectionUnionType,
 } from "graphql";
 
 export function getInnerFieldType(

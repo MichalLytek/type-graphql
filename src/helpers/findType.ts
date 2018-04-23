@@ -2,13 +2,15 @@ import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../types
 import { bannedTypes } from "./returnTypes";
 import { NoExplicitTypeError, CannotDetermineTypeError } from "../errors";
 
+export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
+
 export interface TypeInfo {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
 }
 
 export interface GetTypeParams {
-  metadataKey: "design:type" | "design:returntype" | "design:paramtypes";
+  metadataKey: MetadataKey;
   prototype: Object;
   propertyKey: string;
   returnTypeFunc?: ReturnTypeFunc;

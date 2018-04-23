@@ -16,22 +16,22 @@ export interface PubSubParamMetadata extends BasicParamMetadata {
 }
 export interface ContextParamMetadata extends BasicParamMetadata {
   kind: "context";
-  propertyName?: string;
+  propertyName: string | undefined;
 }
 export interface RootParamMetadata extends BasicParamMetadata {
   kind: "root";
-  propertyName?: string;
-  getType?: TypeValueThunk;
+  propertyName: string | undefined;
+  getType: TypeValueThunk | undefined;
 }
 export interface CommonArgMetadata extends BasicParamMetadata {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-  validate?: boolean | ValidatorOptions;
+  validate: boolean | ValidatorOptions | undefined;
 }
 export interface ArgParamMetadata extends CommonArgMetadata {
   kind: "arg";
   name: string;
-  description?: string;
+  description: string | undefined;
 }
 export interface ArgsParamMetadata extends CommonArgMetadata {
   kind: "args";
