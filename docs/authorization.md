@@ -88,9 +88,19 @@ const schema = await buildSchema({
 ```
 And it's done! 😉
 
+If you need silent auth guards and you don't want to return auth errors to users, you can set `authMode` property of `buildSchema` config object to `"null"`:
+```ts
+const schema = await buildSchema({
+  resolvers: ["./**/*.resolver.ts"],
+  authChecker: customAuthChecker, 
+  authMode: "null",
+})
+```
+It will then return `null` instead of throwing authorization error.
+
 ## Recipes
 
-You can also use `TypeGraphQL` with JWT authentication:
+You can also use `TypeGraphQL` with JWT authentication. Example using `graphql-yoga`:
 ```ts
 import * as jwt from "express-jwt";
 import { schema } from "../example/above";
@@ -107,10 +117,14 @@ const server = new GraphQLServer({
   },
 });
 
-// register JWT middleware
-server.express.use(server.options.endpoint, jwt({ secret: "TypeGraphQL", credentialsRequired: false }))
-
 // the rest of bootstrap code, same as always
+// ...
+
+// register JWT middleware
+server.express.use(
+  server.options.endpoint,
+  jwt({ secret: "TypeGraphQL", credentialsRequired: false }),
+);
 ```
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 

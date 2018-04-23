@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- add support for returning null instead of throwing authorization error (`authMode` property of `buildSchema` config)
+
 ## v0.11.0
 ### Features
 - add support for creating and attaching middlewares, guards and interceptors to fields and resolvers

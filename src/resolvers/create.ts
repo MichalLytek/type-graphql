@@ -17,9 +17,15 @@ export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
-  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const {
+    validate: globalValidate,
+    authChecker,
+    authMode,
+    pubSub,
+    globalMiddlewares,
+  } = BuildContext;
   const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
-  applyAuthChecker(middlewares, authChecker, resolverMetadata.roles);
+  applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
@@ -43,9 +49,15 @@ export function createAdvancedFieldResolver(
   }
 
   const targetType = fieldResolverMetadata.getParentType!();
-  const { validate: globalValidate, authChecker, pubSub, globalMiddlewares } = BuildContext;
+  const {
+    validate: globalValidate,
+    authChecker,
+    authMode,
+    pubSub,
+    globalMiddlewares,
+  } = BuildContext;
   const middlewares = globalMiddlewares.concat(fieldResolverMetadata.middlewares!);
-  applyAuthChecker(middlewares, authChecker, fieldResolverMetadata.roles);
+  applyAuthChecker(middlewares, authMode, authChecker, fieldResolverMetadata.roles);
 
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };
@@ -70,9 +82,9 @@ export function createAdvancedFieldResolver(
 export function createSimpleFieldResolver(
   fieldMetadata: FieldMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  const { authChecker, globalMiddlewares } = BuildContext;
+  const { authChecker, authMode, globalMiddlewares } = BuildContext;
   const middlewares = globalMiddlewares.concat(fieldMetadata.middlewares!);
-  applyAuthChecker(middlewares, authChecker, fieldMetadata.roles);
+  applyAuthChecker(middlewares, authMode, authChecker, fieldMetadata.roles);
 
   return async (root, args, context, info) => {
     const actionData: ActionData<any> = { root, args, context, info };

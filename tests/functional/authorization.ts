@@ -69,6 +69,12 @@ describe("Authorization", () => {
         return ctx.user !== undefined;
       }
 
+      @Query(type => Boolean, { nullable: true })
+      @Authorized()
+      nullableAuthedQuery(@Ctx() ctx: any) {
+        return true;
+      }
+
       @Query()
       @Authorized("ADMIN")
       adminQuery(@Ctx() ctx: any): boolean {
@@ -233,6 +239,23 @@ describe("Authorization", () => {
       const result = await graphql(localSchema, query);
 
       expect(result.data).toBeNull();
+      expect(result.errors).toBeDefined();
+    });
+
+    it("should return null when accessing nullable authed query in null mode", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+        authMode: "null",
+      });
+      const query = `query {
+        nullableAuthedQuery
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data!.nullableAuthedQuery).toBeNull();
+      expect(result.errors).toBeUndefined();
     });
 
     it("should throw UnauthorizedError when guest accessing authed query", async () => {

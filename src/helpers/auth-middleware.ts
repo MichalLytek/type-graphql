@@ -1,12 +1,20 @@
 import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker } from "../interfaces/auth-checker";
+import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 
-export function AuthMiddleware(authChecker: AuthChecker, roles: string[]): MiddlewareFn {
+export function AuthMiddleware(
+  authChecker: AuthChecker,
+  authMode: AuthMode,
+  roles: string[],
+): MiddlewareFn {
   return async (action, next) => {
     const accessGranted = await authChecker(action, roles);
     if (!accessGranted) {
-      throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+      if (authMode === "null") {
+        return null;
+      } else if (authMode === "error") {
+        throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+      }
     }
     return next();
   };

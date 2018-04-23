@@ -4,7 +4,7 @@ import { ValidatorOptions } from "class-validator";
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
-import { AuthChecker } from "../interfaces";
+import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
 import { ActionData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 import {
@@ -62,11 +62,12 @@ export async function getParams(
 
 export function applyAuthChecker(
   middlewares: Array<Middleware<any>>,
+  authMode: AuthMode,
   authChecker?: AuthChecker,
   roles?: string[],
 ) {
   if (authChecker && roles) {
-    middlewares.unshift(AuthMiddleware(authChecker, roles));
+    middlewares.unshift(AuthMiddleware(authChecker, authMode, roles));
   }
 }
 

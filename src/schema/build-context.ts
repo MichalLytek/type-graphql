@@ -2,7 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
-import { AuthChecker } from "../interfaces/auth-checker";
+import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
 import { Middleware } from "../interfaces/Middleware";
 
 export type DateScalarMode = "isoDate" | "timestamp";
@@ -21,6 +21,7 @@ export interface BuildContextOptions {
    */
   validate?: boolean | ValidatorOptions;
   authChecker?: AuthChecker;
+  authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
   globalMiddlewares?: Array<Middleware<any>>;
 }
@@ -30,6 +31,7 @@ export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
   static validate: boolean | ValidatorOptions;
   static authChecker?: AuthChecker<any>;
+  static authMode: AuthMode;
   static pubSub: PubSubEngine;
   static globalMiddlewares: Array<Middleware<any>>;
 
@@ -48,6 +50,9 @@ export abstract class BuildContext {
     }
     if (options.authChecker !== undefined) {
       this.authChecker = options.authChecker;
+    }
+    if (options.authMode !== undefined) {
+      this.authMode = options.authMode;
     }
     if (options.pubSub !== undefined) {
       if ("eventEmitter" in options.pubSub) {
@@ -69,6 +74,7 @@ export abstract class BuildContext {
     this.scalarsMaps = [];
     this.validate = true;
     this.authChecker = undefined;
+    this.authMode = "error";
     this.pubSub = new PubSub();
     this.globalMiddlewares = [];
   }
