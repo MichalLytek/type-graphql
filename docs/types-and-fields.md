@@ -106,3 +106,5 @@ type Rate {
 As you could see, for `id` property of `Recipe` we've passed `type => ID` and for `value` field of `Rate` - `type => Int`. This way we can overwrite the inferred type from reflection metadata, in this case for ID and Int scalars - you can read more about them in [scalars docs](./scalars.md), there is also a section about the built-in `Date` scalar. 
 
 Also the `user` property doesn't have `@Field()` decorator - this way we can hide some properties of our data model. In this case we need to store in database `user` info inside `Rate` object to prevent multiple rates but we don't want to make it public, accessible to every API consumer.
+
+Note that if a field of an object type is purely calculable (eg. `averageRating` from `ratings` array) and you don't want to pollute the class signature, you can omit it and just implement the field resolver (described in [resolvers doc](./resolvers.md)).

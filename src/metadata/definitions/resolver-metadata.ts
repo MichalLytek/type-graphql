@@ -26,6 +26,10 @@ export interface ResolverMetadata extends BaseResolverMetadata {
 
 export interface FieldResolverMetadata extends BaseResolverMetadata {
   kind: "internal" | "external";
+  description?: string;
+  deprecationReason?: string;
+  getType?: TypeValueThunk;
+  typeOptions?: TypeOptions;
   getObjectType?: ClassTypeResolver;
 }
 

@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - add support for returning null instead of throwing authorization error (`authMode` property of `buildSchema` config)
+- add support for generating object type field in schema from method with `@FieldResolver`
 
 ## v0.11.0
 ### Features

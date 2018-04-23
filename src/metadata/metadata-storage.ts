@@ -15,6 +15,7 @@ import {
 } from "./definitions";
 import { ClassType } from "../types/decorators";
 import { Middleware } from "../interfaces/Middleware";
+import { NoExplicitTypeError } from "../errors";
 
 export abstract class MetadataStorage {
   static queries: ResolverMetadata[] = [];
@@ -89,12 +90,12 @@ export abstract class MetadataStorage {
   static build() {
     // TODO: disable next build attempts
 
-    this.buildFieldResolverMetadata(this.fieldResolvers);
-
     this.buildClassMetadata(this.objectTypes);
     this.buildClassMetadata(this.inputTypes);
     this.buildClassMetadata(this.argumentTypes);
     this.buildClassMetadata(this.interfaceTypes);
+
+    this.buildFieldResolverMetadata(this.fieldResolvers);
 
     this.buildResolversMetadata(this.queries);
     this.buildResolversMetadata(this.mutations);
@@ -133,16 +134,6 @@ export abstract class MetadataStorage {
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
         );
-        if (field.params.length === 0) {
-          // no params = try to get params from field resolver
-          const fieldResolver = this.fieldResolvers.find(
-            resolver =>
-              resolver.methodName === field.name && resolver.getParentType!() === field.target,
-          );
-          if (fieldResolver) {
-            field.params = fieldResolver.params;
-          }
-        }
       });
       def.fields = fields;
     });
@@ -170,6 +161,43 @@ export abstract class MetadataStorage {
         def.kind === "external"
           ? this.resolvers.find(resolver => resolver.target === def.target)!.getObjectType
           : () => def.target as ClassType;
+      if (def.kind === "external") {
+        const objectTypeCls = this.resolvers.find(resolver => resolver.target === def.target)!
+          .getObjectType!();
+        const objectType = this.objectTypes.find(
+          objTypeDef => objTypeDef.target === objectTypeCls,
+        )!;
+        const objectTypeField = objectType.fields!.find(
+          fieldDef => fieldDef.name === def.methodName,
+        )!;
+        if (!objectTypeField) {
+          if (!def.getType || !def.typeOptions) {
+            throw new NoExplicitTypeError(def.target.name, def.methodName);
+          }
+          const fieldMetadata = {
+            name: def.methodName,
+            getType: def.getType!,
+            target: objectTypeCls,
+            typeOptions: def.typeOptions!,
+            deprecationReason: def.deprecationReason,
+            description: def.description,
+            roles: def.roles!,
+            middlewares: def.middlewares!,
+            params: def.params!,
+          };
+          this.collectClassFieldMetadata(fieldMetadata);
+          objectType.fields!.push(fieldMetadata);
+        } else {
+          if (objectTypeField.params!.length === 0) {
+            objectTypeField.params = def.params!;
+          }
+          if (def.roles) {
+            objectTypeField.roles = def.roles;
+          } else if (objectTypeField.roles) {
+            def.roles = objectTypeField.roles;
+          }
+        }
+      }
     });
   }
 

@@ -189,6 +189,11 @@ describe("Resolvers", () => {
         resolverFieldWithArgs(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
           return "resolverFieldWithArgs";
         }
+
+        @FieldResolver(type => String, { nullable: true, description: "independent" })
+        independentFieldResolver(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+          return "resolverFieldWithArgs";
+        }
       }
 
       // get builded schema info from retrospection
@@ -407,6 +412,25 @@ describe("Resolvers", () => {
         expect(arg1InnerType.name).toEqual("String");
         expect(arg2InnerType.kind).toEqual(TypeKind.SCALAR);
         expect(arg2InnerType.name).toEqual("Boolean");
+      });
+
+      it("should generate object field type from independent field resolver", async () => {
+        const independentFieldResolver = sampleObjectType.fields.find(
+          field => field.name === "independentFieldResolver",
+        )!;
+        const fieldResolverArgs = independentFieldResolver.args;
+        const arg1Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg1")!);
+        const arg2Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg2")!);
+        const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
+
+        expect(independentFieldResolver.description).toEqual("independent");
+        expect(independentFieldResolverType.kind).toEqual("SCALAR");
+        expect(independentFieldResolverType.name).toEqual("String");
+        expect(fieldResolverArgs).toHaveLength(2);
+        expect(arg1Type.kind).toEqual(TypeKind.SCALAR);
+        expect(arg1Type.name).toEqual("String");
+        expect(arg2Type.kind).toEqual(TypeKind.SCALAR);
+        expect(arg2Type.name).toEqual("Boolean");
       });
     });
 
@@ -670,6 +694,38 @@ describe("Resolvers", () => {
           const error = err as Error;
           expect(error.message).toContain("@Resolver");
           expect(error.message).toContain("SampleResolver");
+        }
+      });
+
+      it("should throw error when creating independent field resolver with no type info", async () => {
+        expect.assertions(4);
+
+        @ObjectType()
+        class SampleObject {
+          @Field() sampleField: string;
+        }
+
+        try {
+          @Resolver(objectType => SampleObject)
+          class SampleResolver {
+            @Query()
+            sampleQuery(): string {
+              return "sampleQuery";
+            }
+            @FieldResolver()
+            independentField() {
+              return "independentField";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolver],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("explicit type");
+          expect(error.message).toContain("SampleResolver");
+          expect(error.message).toContain("independentField");
         }
       });
     });
