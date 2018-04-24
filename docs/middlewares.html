@@ -89,7 +89,7 @@
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="class-based-middlewares"></a><a href="#class-based-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Class-based middlewares</h3>
 <p>Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of <a href="/type-graphql/docs/dependency-injection.html">dependency injection</a> and easily mock a file logger or a database repository.</p>
-<p>All you need to do is to implement a <code>MiddlewareInterface</code> - it has to have the <code>use</code> method that conforms with <code>MiddlewareFn</code> signature. Below you can see how the defined above <code>LogAccess</code> middleware looks after the transformation:</p>
+<p>All you need to do is to implement a <code>MiddlewareInterface</code> - your class has to have the <code>use</code> method that conforms with <code>MiddlewareFn</code> signature. Below you can see how the defined earlier <code>LogAccess</code> middleware looks after the transformation:</p>
 <pre><code class="hljs css ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> LogAccess <span class="hljs-keyword">implements</span> MiddlewareInterface&lt;TContext&gt; {
   <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly logger: Logger</span>) {}
 
@@ -124,8 +124,8 @@
 }
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="global-middlewares"></a><a href="#global-middlewares" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global middlewares</h3>
-<p>However, for common middlewares like measuring resolving time or catching errors, it might be tedious work to place <code>@UseMiddleware(ResolveTime)</code> decorator on every field/resolver.</p>
-<p>Hence why in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use <code>globalMiddlewares</code> property of <code>buildSchema</code> configuration object:</p>
+<p>However, for common middlewares like measuring resolving time or catching errors, it might be a tedious work to place <code>@UseMiddleware(ResolveTime)</code> decorator on every field/resolver.</p>
+<p>Hence in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use <code>globalMiddlewares</code> property of <code>buildSchema</code> configuration object:</p>
 <pre><code class="hljs css ts"><span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
   resolvers: [RecipeResolver],
   globalMiddlewares: [ErrorInterceptor, ResolveTime],
