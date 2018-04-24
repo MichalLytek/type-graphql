@@ -120,7 +120,7 @@ export const ErrorInterceptor: MiddlewareFn<any> = ({ context, info }, next) => 
 
 Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of [dependency injection](./dependency-injection.md) and easily mock a file logger or a database repository.
 
-All you need to do is to implement a `MiddlewareInterface` - it has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined above `LogAccess` middleware looks after the transformation:
+All you need to do is to implement a `MiddlewareInterface` - your class has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined earlier `LogAccess` middleware looks after the transformation:
 
 ```ts
 export class LogAccess implements MiddlewareInterface<TContext> {
@@ -167,9 +167,9 @@ export class Recipe {
 
 ### Global middlewares
 
-However, for common middlewares like measuring resolving time or catching errors, it might be tedious work to place `@UseMiddleware(ResolveTime)` decorator on every field/resolver.
+However, for common middlewares like measuring resolving time or catching errors, it might be a tedious work to place `@UseMiddleware(ResolveTime)` decorator on every field/resolver.
 
-Hence why in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use `globalMiddlewares` property of `buildSchema` configuration object:
+Hence in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use `globalMiddlewares` property of `buildSchema` configuration object:
 
 ```ts
 const schema = await buildSchema({

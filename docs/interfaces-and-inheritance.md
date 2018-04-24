@@ -4,7 +4,7 @@ title: Interfaces and inheritance
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
 
-In object-oriented programming it is common to create interfaces which describes the contract that classes implementing them has to fulfill. We also compose the classes using inheritance mechanism. Hence why TypeGraphQL support both GraphQL interfaces as well as composing types definition by extending the classes.
+In object-oriented programming it is common to create interfaces which describes the contract that classes implementing them has to fulfill. We also compose the classes using inheritance mechanism. Hence TypeGraphQL support both GraphQL interfaces as well as composing types definition by extending the classes.
 
 ## Interfaces
 TypeScript has first class support for interfaces. Unfortunately, they exist only on compile-time, so we can't use them to build GraphQL schema on runtime by using decorators.
