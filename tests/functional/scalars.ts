@@ -24,7 +24,7 @@ import {
   GraphQLTimestamp,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { CustomScalar, CustomType } from "../helpers/customScalar";
+import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
 import { MetadataStorage } from "../../src/metadata/metadata-storage";
 
@@ -97,6 +97,15 @@ describe("Scalars", () => {
       @Query(returns => Boolean)
       argScalar(
         @Arg("scalar", type => CustomScalar)
+        scalar: any,
+      ): any {
+        argScalar = scalar;
+        return true;
+      }
+
+      @Query(returns => Boolean)
+      objectArgScalar(
+        @Arg("scalar", type => ObjectScalar)
         scalar: any,
       ): any {
         argScalar = scalar;
@@ -236,6 +245,15 @@ describe("Scalars", () => {
       await graphql(schema, query);
 
       expect(argScalar!).toEqual("TypeGraphQL parseLiteral");
+    });
+
+    it("should properly parse scalar object", async () => {
+      const query = `query {
+        objectArgScalar(scalar: "test")
+      }`;
+      await graphql(schema, query);
+
+      expect(argScalar!).toEqual({ value: "TypeGraphQL parseLiteral" });
     });
   });
 

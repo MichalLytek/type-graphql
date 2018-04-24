@@ -9,6 +9,8 @@
 ### Features
 - add support for creating and attaching middlewares, guards and interceptors to fields and resolvers
 - **Breaking Change**: remove deprecated decorators with `GraphQL` prefix and `{ array: true }` type option
+### Fixes
+- fix bug when converting object scalars to target class instance (#65)
 
 ## v0.10.0
 ### Features
