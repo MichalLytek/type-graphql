@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
 
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   Field,
   ObjectType,
@@ -20,7 +20,7 @@ describe("Authorization", () => {
   let sampleResolver: any;
 
   beforeAll(async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     @ObjectType()
     class SampleObject {
@@ -121,7 +121,7 @@ describe("Authorization", () => {
   describe("Reflection", () => {
     // helpers
     function findQuery(queryName: string) {
-      return MetadataStorage.queries.find(it => it.methodName === queryName)!;
+      return getMetadataStorage().queries.find(it => it.methodName === queryName)!;
     }
 
     it("should build schema without errors", async () => {
@@ -139,7 +139,9 @@ describe("Authorization", () => {
     });
 
     it("should register correct roles for object type fields", async () => {
-      const sampleObject = MetadataStorage.objectTypes.find(type => type.name === "SampleObject")!;
+      const sampleObject = getMetadataStorage().objectTypes.find(
+        type => type.name === "SampleObject",
+      )!;
       const normalField = sampleObject.fields!.find(field => field.name === "normalField")!;
       const authedField = sampleObject.fields!.find(field => field.name === "authedField")!;
       const adminField = sampleObject.fields!.find(field => field.name === "adminField")!;

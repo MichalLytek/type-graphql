@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
 import { DescriptionOptions } from "../types/decorators";
 
@@ -10,7 +10,7 @@ export function InterfaceType(
 ): ClassDecorator {
   const { name, options } = getNameDecoratorParams(nameOrOptions, maybeOptions);
   return target => {
-    MetadataStorage.collectInterfaceMetadata({
+    getMetadataStorage().collectInterfaceMetadata({
       name: name || target.name,
       target,
       description: options.description,

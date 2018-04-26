@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
 
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   Field,
   ObjectType,
@@ -32,7 +32,7 @@ describe("Middlewares", () => {
   });
 
   beforeAll(async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     const middleware1: MiddlewareFn = async ({}, next) => {
       middlewareLogs.push("middleware1 before");

@@ -13,7 +13,7 @@ import {
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerFieldType } from "../helpers/getInnerFieldType";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { GeneratingSchemaError } from "../../src/errors";
 import {
   InterfaceType,
@@ -43,7 +43,7 @@ describe("Interfaces and inheritance", () => {
     let sampleExtendingObject2Type: IntrospectionObjectType;
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @InterfaceType()
       abstract class SampleInterface1 {
@@ -343,7 +343,7 @@ describe("Interfaces and inheritance", () => {
 
   describe("Errors", () => {
     beforeEach(() => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
     });
 
     it("should throw error when extending wrong class type", async () => {
@@ -416,7 +416,7 @@ describe("Interfaces and inheritance", () => {
     });
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ArgsType()
       class BaseArgs {

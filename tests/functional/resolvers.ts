@@ -14,7 +14,7 @@ import {
 } from "graphql";
 import * as path from "path";
 
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   ObjectType,
@@ -47,7 +47,7 @@ describe("Resolvers", () => {
     let argMethodField: IntrospectionField;
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @InputType()
       class SampleInput {
@@ -566,7 +566,7 @@ describe("Resolvers", () => {
 
     describe("Errors", () => {
       beforeEach(() => {
-        MetadataStorage.clear();
+        getMetadataStorage().clear();
       });
 
       it("should throw error when arg type is not correct", async () => {
@@ -744,7 +744,7 @@ describe("Resolvers", () => {
     });
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ArgsType()
       class SampleArgs {
@@ -1117,7 +1117,7 @@ describe("Resolvers", () => {
   });
 
   it("should load resolvers from glob paths", async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     const { queryType } = await getSchemaInfo({
       resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
@@ -1133,7 +1133,7 @@ describe("Resolvers", () => {
   });
 
   it("should build the schema synchronously", async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     @ObjectType()
     class SampleObject {
@@ -1163,7 +1163,7 @@ describe("Resolvers", () => {
   });
 
   it("should throw errors when no resolvers provided", async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
     expect.assertions(2);
 
     try {

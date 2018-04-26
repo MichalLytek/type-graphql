@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { findType } from "../helpers/findType";
 import { TypeValueThunk } from "../types/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
@@ -22,7 +22,7 @@ export function Root(propertyName?: string): ParameterDecorator {
       // tslint:disable-next-line:no-empty
     }
 
-    MetadataStorage.collectHandlerParamMetadata({
+    getMetadataStorage().collectHandlerParamMetadata({
       kind: "root",
       target: prototype.constructor,
       methodName: propertyKey,

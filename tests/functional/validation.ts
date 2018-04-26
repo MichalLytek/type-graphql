@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { MaxLength, Max, Min } from "class-validator";
 import { GraphQLSchema, graphql } from "graphql";
 
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   InputType,
   Field,
@@ -30,7 +30,7 @@ describe("Validation", () => {
     });
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -240,7 +240,7 @@ describe("Validation", () => {
     });
 
     it("should pass incorrect args when validation is turned off", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -278,7 +278,7 @@ describe("Validation", () => {
     });
 
     it("should pass incorrect args when validation is locally turned off", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -319,7 +319,7 @@ describe("Validation", () => {
     });
 
     it("should throw validation error when validation is locally turned on", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -367,7 +367,7 @@ describe("Validation", () => {
 
     // tslint:disable-next-line:max-line-length
     it("should throw validation error for incorrect args when applied local validation settings", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -415,7 +415,7 @@ describe("Validation", () => {
 
     // tslint:disable-next-line:max-line-length
     it("should pass validation of incorrect args when applied local validation settings", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -457,7 +457,7 @@ describe("Validation", () => {
 
     // tslint:disable-next-line:max-line-length
     it("should merge local validation settings with global one", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {

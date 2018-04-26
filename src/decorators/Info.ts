@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
 
 export function Info(): ParameterDecorator {
@@ -7,7 +7,7 @@ export function Info(): ParameterDecorator {
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.collectHandlerParamMetadata({
+    getMetadataStorage().collectHandlerParamMetadata({
       kind: "info",
       target: prototype.constructor,
       methodName: propertyKey,

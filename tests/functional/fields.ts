@@ -8,7 +8,7 @@ import {
   TypeKind,
 } from "graphql";
 
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { ObjectType, Field, Query, Resolver } from "../../src";
 
@@ -19,7 +19,7 @@ describe("Fields - schema", () => {
   let sampleObjectType: IntrospectionObjectType;
 
   beforeAll(async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     @ObjectType()
     class SampleNestedObject {
@@ -84,7 +84,7 @@ describe("Fields - schema", () => {
 
   it("should throw error when field type not provided", async () => {
     expect.assertions(3);
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     try {
       @ObjectType()
@@ -101,7 +101,7 @@ describe("Fields - schema", () => {
 
   it("should throw error when field type is array and no explicit item type provided", async () => {
     expect.assertions(3);
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     try {
       @ObjectType()
@@ -118,7 +118,7 @@ describe("Fields - schema", () => {
 
   it("should throw error when cannot determine field type", async () => {
     expect.assertions(3);
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     try {
       @ObjectType()
@@ -135,7 +135,7 @@ describe("Fields - schema", () => {
   });
   it("should throw error when object type property key is symbol", async () => {
     expect.assertions(1);
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     const symbolKey = Symbol("symbolKey");
     try {

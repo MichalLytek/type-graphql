@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
 
@@ -15,7 +15,7 @@ export function Authorized(...rolesOrRolesArray: Array<string | string[]>): Meth
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.collectAuthorizedFieldMetadata({
+    getMetadataStorage().collectAuthorizedFieldMetadata({
       target: prototype.constructor,
       fieldName: propertyKey,
       roles,

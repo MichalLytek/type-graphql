@@ -1,5 +1,5 @@
 import { ClassType } from "../types/decorators";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 
 export interface UnionTypeConfig<ObjectTypes extends ClassType[]> {
   name: string;
@@ -87,7 +87,7 @@ export function createUnionType<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
 ): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10;
 // #endregion
 export function createUnionType({ types, name, description }: UnionTypeConfig<ClassType[]>) {
-  const unionMetadata = MetadataStorage.collectUnionMetadata({
+  const unionMetadata = getMetadataStorage().collectUnionMetadata({
     types,
     name,
     description,

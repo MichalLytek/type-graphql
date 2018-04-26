@@ -1,6 +1,6 @@
 import { SymbolKeysNotSupportedError } from "../errors";
 import { Middleware } from "../interfaces/Middleware";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
 
 export function UseMiddleware(
@@ -19,7 +19,7 @@ export function UseMiddleware(
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.collectMiddlewareMetadata({
+    getMetadataStorage().collectMiddlewareMetadata({
       target: prototype.constructor,
       fieldName: propertyKey,
       middlewares,

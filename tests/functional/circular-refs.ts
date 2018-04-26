@@ -2,12 +2,12 @@ import "reflect-metadata";
 import { IntrospectionObjectType, TypeKind } from "graphql";
 
 import { Query, ObjectType, Field } from "../../src";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Circular references", () => {
   it("should resolve circular type dependencies when type functions are used", async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     const { CircularRef1 } = require("../helpers/circular-refs/good/CircularRef1");
     const { CircularRef2 } = require("../helpers/circular-refs/good/CircularRef2");
@@ -43,7 +43,7 @@ describe("Circular references", () => {
   // tslint:disable-next-line:max-line-length
   it("should throw error when not providing type function for circular type references", async () => {
     expect.assertions(6);
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     try {
       require("../helpers/circular-refs/wrong/CircularRef1").CircularRef1;

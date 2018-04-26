@@ -13,7 +13,7 @@ import {
   getInnerTypeOfNonNullableType,
   getInnerFieldType,
 } from "../helpers/getInnerFieldType";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   Field,
   ObjectType,
@@ -27,7 +27,7 @@ describe("Unions", () => {
   let schema: GraphQLSchema;
 
   beforeAll(async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     @ObjectType()
     class ObjectOne {

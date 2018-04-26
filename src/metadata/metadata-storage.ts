@@ -17,55 +17,55 @@ import { ClassType } from "../types/decorators";
 import { Middleware } from "../interfaces/Middleware";
 import { NoExplicitTypeError } from "../errors";
 
-export abstract class MetadataStorage {
-  static queries: ResolverMetadata[] = [];
-  static mutations: ResolverMetadata[] = [];
-  static subscriptions: SubscriptionResolverMetadata[] = [];
-  static fieldResolvers: FieldResolverMetadata[] = [];
-  static objectTypes: ClassMetadata[] = [];
-  static inputTypes: ClassMetadata[] = [];
-  static argumentTypes: ClassMetadata[] = [];
-  static interfaceTypes: ClassMetadata[] = [];
-  static authorizedFields: AuthorizedMetadata[] = [];
-  static enums: EnumMetadata[] = [];
-  static unions: UnionMetadataWithSymbol[] = [];
-  static middlewares: MiddlewareMetadata[] = [];
+export class MetadataStorage {
+  queries: ResolverMetadata[] = [];
+  mutations: ResolverMetadata[] = [];
+  subscriptions: SubscriptionResolverMetadata[] = [];
+  fieldResolvers: FieldResolverMetadata[] = [];
+  objectTypes: ClassMetadata[] = [];
+  inputTypes: ClassMetadata[] = [];
+  argumentTypes: ClassMetadata[] = [];
+  interfaceTypes: ClassMetadata[] = [];
+  authorizedFields: AuthorizedMetadata[] = [];
+  enums: EnumMetadata[] = [];
+  unions: UnionMetadataWithSymbol[] = [];
+  middlewares: MiddlewareMetadata[] = [];
 
-  private static resolvers: ResolverClassMetadata[] = [];
-  private static fields: FieldMetadata[] = [];
-  private static params: ParamMetadata[] = [];
+  private resolvers: ResolverClassMetadata[] = [];
+  private fields: FieldMetadata[] = [];
+  private params: ParamMetadata[] = [];
 
-  static collectQueryHandlerMetadata(definition: ResolverMetadata) {
+  collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
   }
-  static collectMutationHandlerMetadata(definition: ResolverMetadata) {
+  collectMutationHandlerMetadata(definition: ResolverMetadata) {
     this.mutations.push(definition);
   }
-  static collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
+  collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
     this.subscriptions.push(definition);
   }
-  static collectFieldResolverMetadata(definition: FieldResolverMetadata) {
+  collectFieldResolverMetadata(definition: FieldResolverMetadata) {
     this.fieldResolvers.push(definition);
   }
-  static collectObjectMetadata(definition: ClassMetadata) {
+  collectObjectMetadata(definition: ClassMetadata) {
     this.objectTypes.push(definition);
   }
-  static collectInputMetadata(definition: ClassMetadata) {
+  collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
   }
-  static collectArgsMetadata(definition: ClassMetadata) {
+  collectArgsMetadata(definition: ClassMetadata) {
     this.argumentTypes.push(definition);
   }
-  static collectInterfaceMetadata(definition: ClassMetadata) {
+  collectInterfaceMetadata(definition: ClassMetadata) {
     this.interfaceTypes.push(definition);
   }
-  static collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
+  collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
   }
-  static collectEnumMetadata(definition: EnumMetadata) {
+  collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
   }
-  static collectUnionMetadata(definition: UnionMetadata) {
+  collectUnionMetadata(definition: UnionMetadata) {
     const unionSymbol = Symbol(definition.name);
     this.unions.push({
       ...definition,
@@ -73,21 +73,21 @@ export abstract class MetadataStorage {
     });
     return unionSymbol;
   }
-  static collectMiddlewareMetadata(definition: MiddlewareMetadata) {
+  collectMiddlewareMetadata(definition: MiddlewareMetadata) {
     this.middlewares.push(definition);
   }
 
-  static collectResolverClassMetadata(definition: ResolverClassMetadata) {
+  collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolvers.push(definition);
   }
-  static collectClassFieldMetadata(definition: FieldMetadata) {
+  collectClassFieldMetadata(definition: FieldMetadata) {
     this.fields.push(definition);
   }
-  static collectHandlerParamMetadata(definition: ParamMetadata) {
+  collectHandlerParamMetadata(definition: ParamMetadata) {
     this.params.push(definition);
   }
 
-  static build() {
+  build() {
     // TODO: disable next build attempts
 
     this.buildClassMetadata(this.objectTypes);
@@ -102,7 +102,7 @@ export abstract class MetadataStorage {
     this.buildResolversMetadata(this.subscriptions);
   }
 
-  static clear() {
+  clear() {
     this.queries = [];
     this.mutations = [];
     this.subscriptions = [];
@@ -121,7 +121,7 @@ export abstract class MetadataStorage {
     this.params = [];
   }
 
-  private static buildClassMetadata(definitions: ClassMetadata[]) {
+  private buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
       const fields = this.fields.filter(field => field.target === def.target);
       fields.forEach(field => {
@@ -139,7 +139,7 @@ export abstract class MetadataStorage {
     });
   }
 
-  private static buildResolversMetadata(definitions: BaseResolverMetadata[]) {
+  private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
       def.params = this.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
@@ -153,7 +153,7 @@ export abstract class MetadataStorage {
     });
   }
 
-  private static buildFieldResolverMetadata(definitions: FieldResolverMetadata[]) {
+  private buildFieldResolverMetadata(definitions: FieldResolverMetadata[]) {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName);
@@ -201,7 +201,7 @@ export abstract class MetadataStorage {
     });
   }
 
-  private static findFieldRoles(target: Function, fieldName: string): string[] | undefined {
+  private findFieldRoles(target: Function, fieldName: string): string[] | undefined {
     const authorizedField = this.authorizedFields.find(
       authField => authField.target === target && authField.fieldName === fieldName,
     );
@@ -211,7 +211,7 @@ export abstract class MetadataStorage {
     return authorizedField.roles;
   }
 
-  private static mapMetadataToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
+  private mapMetadataToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
     return metadata
       .map(m => m.middlewares)
       .reduce<Array<Middleware<any>>>(

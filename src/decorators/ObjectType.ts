@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
 import { DescriptionOptions, ClassType } from "../types/decorators";
 
@@ -17,7 +17,7 @@ export function ObjectType(
     options.implements && [].concat(options.implements as any);
 
   return target => {
-    MetadataStorage.collectObjectMetadata({
+    getMetadataStorage().collectObjectMetadata({
       name: name || target.name,
       target,
       description: options.description,

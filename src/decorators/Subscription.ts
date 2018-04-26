@@ -1,5 +1,5 @@
 import { ReturnTypeFunc, AdvancedOptions, SubscriptionFilterFunc } from "../types/decorators";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { MissingSubscriptionTopicsError } from "../errors";
@@ -25,7 +25,7 @@ export function Subscription(
     if (topics.length === 0) {
       throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
     }
-    MetadataStorage.collectSubscriptionHandlerMetadata({
+    getMetadataStorage().collectSubscriptionHandlerMetadata({
       ...handler,
       topics,
       filter: options.filter,

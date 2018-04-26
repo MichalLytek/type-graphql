@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
 
 export function PubSub(triggerKey?: string): ParameterDecorator {
@@ -7,7 +7,7 @@ export function PubSub(triggerKey?: string): ParameterDecorator {
       throw new SymbolKeysNotSupportedError();
     }
 
-    MetadataStorage.collectHandlerParamMetadata({
+    getMetadataStorage().collectHandlerParamMetadata({
       kind: "pubSub",
       target: prototype.constructor,
       methodName: propertyKey,

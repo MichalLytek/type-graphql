@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { ClassType, ClassTypeResolver } from "../types/decorators";
 
 export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;
@@ -15,7 +15,7 @@ export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
             `No provided object type in '@Resolver' decorator for class '${target.name}!'`,
           );
         };
-    MetadataStorage.collectResolverClassMetadata({
+    getMetadataStorage().collectResolverClassMetadata({
       target,
       getObjectType,
     });

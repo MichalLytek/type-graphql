@@ -26,7 +26,7 @@ import {
   buildSchema,
   MissingSubscriptionTopicsError,
 } from "../../src";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
 import { createWebSocketUtils, WebSocketUtils } from "../helpers/subscriptions/createWebSocketGQL";
@@ -38,7 +38,7 @@ describe("Subscriptions", () => {
     let subscriptionType: IntrospectionObjectType;
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -126,7 +126,7 @@ describe("Subscriptions", () => {
     let webSocketUtils: WebSocketUtils;
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -364,7 +364,7 @@ describe("Subscriptions", () => {
 
     it("should inject the provided custom PubSub implementation", async () => {
       let pubSub: any;
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -400,7 +400,7 @@ describe("Subscriptions", () => {
     });
 
     it("should create PubSub instance with provided emitter options", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
       @ObjectType()
       class SampleObject {
         @Field() sampleField: string;
@@ -434,7 +434,7 @@ describe("Subscriptions", () => {
     });
 
     it("should throw error while passing empty topics array to Subscription", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
       expect.assertions(4);
       try {
         @ObjectType()

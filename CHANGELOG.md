@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- attach `MetadataStorage` to global scope (support multiple packages/modules)
+
 ## v0.11.1
 ### Features
 - add support for returning null instead of throwing authorization error (`authMode` property of `buildSchema` config)

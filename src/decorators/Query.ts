@@ -1,5 +1,5 @@
 import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
@@ -12,6 +12,6 @@ export function Query(
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
     const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
-    MetadataStorage.collectQueryHandlerMetadata(handler);
+    getMetadataStorage().collectQueryHandlerMetadata(handler);
   };
 }

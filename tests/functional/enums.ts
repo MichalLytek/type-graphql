@@ -14,7 +14,7 @@ import {
   getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
 } from "../helpers/getInnerFieldType";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { Field, InputType, Query, Arg, registerEnumType } from "../../src";
 
 describe("Enums", () => {
@@ -23,7 +23,7 @@ describe("Enums", () => {
   let schema: GraphQLSchema;
 
   beforeAll(async () => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
 
     enum NumberEnum {
       One = 1,

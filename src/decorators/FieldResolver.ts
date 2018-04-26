@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { ReturnTypeFunc, AdvancedOptions, TypeValueThunk, TypeOptions } from "../types/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
 import { getTypeDecoratorParams } from "../helpers/decorators";
@@ -40,7 +40,7 @@ export function FieldResolver(
     // tslint:disable-next-line:no-empty
     } catch {}
 
-    MetadataStorage.collectFieldResolverMetadata({
+    getMetadataStorage().collectFieldResolverMetadata({
       kind: "external",
       methodName: propertyKey,
       target: prototype.constructor,

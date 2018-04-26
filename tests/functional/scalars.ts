@@ -26,7 +26,7 @@ import {
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -262,7 +262,7 @@ describe("Scalars", () => {
     let localArgDate: Date | undefined;
 
     beforeAll(async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @InputType()
       class DateInput {
@@ -428,7 +428,7 @@ describe("Scalars", () => {
     let sampleResolver: any;
 
     beforeAll(() => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -479,7 +479,7 @@ describe("Scalars", () => {
     });
 
     it("should generate custom scalar field type when defined in scalarMap", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
@@ -505,7 +505,7 @@ describe("Scalars", () => {
     });
 
     it("should generate custom scalar field type when overwriteDate in scalarMap", async () => {
-      MetadataStorage.clear();
+      getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {

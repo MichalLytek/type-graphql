@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
@@ -35,7 +35,7 @@ export function Field(
       typeOptions: options,
     });
 
-    MetadataStorage.collectClassFieldMetadata({
+    getMetadataStorage().collectClassFieldMetadata({
       name: propertyKey,
       getType,
       typeOptions,
@@ -45,7 +45,7 @@ export function Field(
     });
 
     if (isResolver) {
-      MetadataStorage.collectFieldResolverMetadata({
+      getMetadataStorage().collectFieldResolverMetadata({
         kind: "internal",
         methodName: propertyKey,
         target: prototype.constructor,

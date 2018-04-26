@@ -4,7 +4,7 @@ import {
   DescriptionOptions,
   ValidateOptions,
 } from "../types/decorators";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
@@ -26,7 +26,7 @@ export function Arg(
       returnTypeFuncOrOptions,
       maybeOptions,
     );
-    MetadataStorage.collectHandlerParamMetadata({
+    getMetadataStorage().collectHandlerParamMetadata({
       kind: "arg",
       name,
       description: options.description,

@@ -1,8 +1,8 @@
 import { EnumConfig } from "../types/decorators";
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 
 export function registerEnumType<T extends object>(enumObj: T, enumConfig: EnumConfig) {
-  MetadataStorage.collectEnumMetadata({
+  getMetadataStorage().collectEnumMetadata({
     enumObj,
     name: enumConfig.name,
     description: enumConfig.description,

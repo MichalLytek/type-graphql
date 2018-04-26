@@ -3,7 +3,7 @@ import { graphql } from "graphql";
 import { Container, Service } from "typedi";
 
 import { IOCContainer } from "../../src/utils/container";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   ObjectType,
   Field,
@@ -15,7 +15,7 @@ import {
 
 describe("IOC container", () => {
   beforeEach(() => {
-    MetadataStorage.clear();
+    getMetadataStorage().clear();
     IOCContainer.restoreDefault();
     Container.reset();
   });

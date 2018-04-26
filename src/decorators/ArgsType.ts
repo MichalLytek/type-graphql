@@ -1,8 +1,8 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { getMetadataStorage } from "../metadata/getMetadataStorage";
 
 export function ArgsType(): ClassDecorator {
   return target => {
-    MetadataStorage.collectArgsMetadata({
+    getMetadataStorage().collectArgsMetadata({
       name: target.name,
       target,
     });
