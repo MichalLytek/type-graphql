@@ -27,7 +27,7 @@ export class RecipeResolver {
     @Arg("recipeId", type => Int)
     recipeId: number,
   ) {
-    return this.recipeRepository.findOneById(recipeId);
+    return this.recipeRepository.findOne(recipeId);
   }
 
   @Query(returns => [Recipe])
@@ -47,7 +47,7 @@ export class RecipeResolver {
   @Mutation(returns => Recipe)
   async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RateInput): Promise<Recipe> {
     // find the recipe
-    const recipe = await this.recipeRepository.findOneById(rateInput.recipeId, {
+    const recipe = await this.recipeRepository.findOne(rateInput.recipeId, {
       relations: ["ratings"], // preload the relation as we will modify it
     });
     if (!recipe) {

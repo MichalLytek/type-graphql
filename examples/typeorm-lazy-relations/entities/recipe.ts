@@ -21,7 +21,7 @@ export class Recipe {
   description?: string;
 
   @Field(type => [Rate])
-  @OneToMany(type => Rate, rate => rate.recipe, { lazy: true, cascadeInsert: true })
+  @OneToMany(type => Rate, rate => rate.recipe, { lazy: true, cascade: ["insert"] })
   ratings: Lazy<Rate[]>;
 
   @Field(type => User)
