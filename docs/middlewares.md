@@ -2,7 +2,7 @@
 title: Middlewares and guards
 ---
 
-Middlewares are a piece of reusable code that can be easily attached to resolvers and fields. By using middlewares you can extract the common used code from your resolvers and then just declaratively attach them with decorator or even register globally.
+Middlewares are a piece of reusable code that can be easily attached to resolvers and fields. By using middlewares you can extract the common used code from your resolvers and then just declaratively attach it using decorator or even register globally.
 
 ## Creating middlewares
 
@@ -198,8 +198,8 @@ export class RecipeResolver {
   @Query()
   @ValidateArgs(MyArgsSchema) // custom decorator
   @UseMiddleware(ResolveTime) // explicit middleware
-  randomValue(@Ars() { scale }: MyArgs): number {
-    return Math.random();
+  randomValue(@Args() { scale }: MyArgs): number {
+    return Math.random() * scale;
   }
 }
 ```
