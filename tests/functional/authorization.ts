@@ -455,7 +455,7 @@ describe("Authorization", () => {
       let authCheckerRoles: string[] | undefined;
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
-        authChecker: (actionData, roles) => {
+        authChecker: (resolverData, roles) => {
           authCheckerRoles = roles;
           return true;
         },
@@ -470,12 +470,13 @@ describe("Authorization", () => {
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
     });
 
-    it("should pass action data to `authChecker` when checking for access to handler", async () => {
-      let authCheckerActionData: any;
+    // tslint:disable-next-line:max-line-length
+    it("should pass resolver data to `authChecker` when checking for access to handler", async () => {
+      let authCheckerResolverData: any;
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
-        authChecker: actionData => {
-          authCheckerActionData = actionData;
+        authChecker: resolverData => {
+          authCheckerResolverData = resolverData;
           return true;
         },
       });
@@ -491,10 +492,10 @@ describe("Authorization", () => {
       );
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
-      expect(authCheckerActionData.root.field).toEqual("rootField");
-      expect(authCheckerActionData.context.field).toEqual("contextField");
-      expect(authCheckerActionData.args).toEqual({});
-      expect(authCheckerActionData.info).toBeDefined();
+      expect(authCheckerResolverData.root.field).toEqual("rootField");
+      expect(authCheckerResolverData.context.field).toEqual("contextField");
+      expect(authCheckerResolverData.args).toEqual({});
+      expect(authCheckerResolverData.info).toBeDefined();
     });
   });
 });

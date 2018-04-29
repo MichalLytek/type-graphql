@@ -1,9 +1,9 @@
-import { ActionData } from "../types";
+import { ResolverData } from "../types";
 
 export type NextFn = () => Promise<any>;
 
 export type MiddlewareFn<TContext = {}> = (
-  action: ActionData<TContext>,
+  action: ResolverData<TContext>,
   next: NextFn,
 ) => Promise<any>;
 

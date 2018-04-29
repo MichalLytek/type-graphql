@@ -4,7 +4,7 @@ export interface ArgsDictionary {
   [argName: string]: any;
 }
 
-export interface ActionData<ContextType = {}> {
+export interface ResolverData<ContextType = {}> {
   root: any;
   args: ArgsDictionary;
   context: ContextType;

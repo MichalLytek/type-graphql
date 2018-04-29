@@ -10,7 +10,7 @@ import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { AuthChecker } from "../interfaces";
-import { ActionData } from "../types";
+import { ResolverData } from "../types";
 import { Middleware } from "../interfaces/Middleware";
 
 export function createHandlerResolver(
@@ -28,11 +28,11 @@ export function createHandlerResolver(
   applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
   return async (root, args, context, info) => {
-    const actionData: ActionData<any> = { root, args, context, info };
-    return applyMiddlewares(actionData, middlewares, async () => {
+    const resolverData: ResolverData<any> = { root, args, context, info };
+    return applyMiddlewares(resolverData, middlewares, async () => {
       const params: any[] = await getParams(
         resolverMetadata.params!,
-        actionData,
+        resolverData,
         globalValidate,
         pubSub,
       );
@@ -60,14 +60,14 @@ export function createAdvancedFieldResolver(
   applyAuthChecker(middlewares, authMode, authChecker, fieldResolverMetadata.roles);
 
   return async (root, args, context, info) => {
-    const actionData: ActionData<any> = { root, args, context, info };
+    const resolverData: ResolverData<any> = { root, args, context, info };
     const targetInstance: any = convertToType(targetType, root);
-    return applyMiddlewares(actionData, middlewares, async () => {
+    return applyMiddlewares(resolverData, middlewares, async () => {
       // method
       if (fieldResolverMetadata.handler) {
         const params: any[] = await getParams(
           fieldResolverMetadata.params!,
-          actionData,
+          resolverData,
           globalValidate,
           pubSub,
         );
@@ -87,7 +87,7 @@ export function createSimpleFieldResolver(
   applyAuthChecker(middlewares, authMode, authChecker, fieldMetadata.roles);
 
   return async (root, args, context, info) => {
-    const actionData: ActionData<any> = { root, args, context, info };
-    return await applyMiddlewares(actionData, middlewares, () => root[fieldMetadata.name]);
+    const resolverData: ResolverData<any> = { root, args, context, info };
+    return await applyMiddlewares(resolverData, middlewares, () => root[fieldMetadata.name]);
   };
 }

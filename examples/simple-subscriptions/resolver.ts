@@ -8,7 +8,7 @@ import {
   Publisher,
   Subscription,
   Root,
-  FilterActionData,
+  ResolverFilterData,
 } from "../../src";
 
 import { Notification, NotificationPayload } from "./notification.type";
@@ -48,7 +48,7 @@ export class SampleResolver {
 
   @Subscription(returns => Notification, {
     topics: "NOTIFICATIONS",
-    filter: ({ payload }: FilterActionData<NotificationPayload>) => payload.id % 2 === 0,
+    filter: ({ payload }: ResolverFilterData<NotificationPayload>) => payload.id % 2 === 0,
   })
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
     const newNotification: Notification = { id, message, date: new Date() };

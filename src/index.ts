@@ -5,6 +5,6 @@ export * from "./interfaces";
 
 export { buildSchema, buildSchemaSync, BuildSchemaOptions } from "./utils/buildSchema";
 export { useContainer } from "./utils/container";
-export { ActionData, FilterActionData } from "./types";
+export { ResolverData, ResolverFilterData } from "./types";
 
 export { PubSubEngine } from "graphql-subscriptions";

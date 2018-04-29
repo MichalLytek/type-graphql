@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import {
   MiddlewareInterface,
   NextFn,
-  ActionData,
+  ResolverData,
   ArgumentValidationError,
 } from "../../../src";
 
@@ -14,7 +14,7 @@ import { Logger } from "../logger";
 export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context, info }: ActionData<Context>, next: NextFn) {
+  async use({ context, info }: ResolverData<Context>, next: NextFn) {
     try {
       return await next();
     } catch (err) {

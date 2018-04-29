@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - attach `MetadataStorage` to global scope (support multiple packages/modules)
+- rename and deprecate `ActionData` and `FilterActionData` interfaces to `ResolverData` and `ResolverFilterData`
 
 ## v0.11.1
 ### Features

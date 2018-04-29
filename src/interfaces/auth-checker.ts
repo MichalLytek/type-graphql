@@ -1,7 +1,7 @@
-import { ActionData } from "../types/action-data";
+import { ResolverData } from "../types/action-data";
 
 export type AuthChecker<ContextType = {}> = (
-  actionData: ActionData<ContextType>,
+  resolverData: ResolverData<ContextType>,
   roles: string[],
 ) => boolean | Promise<boolean>;
 

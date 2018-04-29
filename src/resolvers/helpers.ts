@@ -5,7 +5,7 @@ import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
-import { ActionData } from "../types";
+import { ResolverData } from "../types";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 import {
   Middleware,
@@ -18,7 +18,7 @@ import { AuthMiddleware } from "../helpers/auth-middleware";
 
 export async function getParams(
   params: ParamMetadata[],
-  { root, args, context, info }: ActionData<any>,
+  { root, args, context, info }: ResolverData<any>,
   globalValidate: boolean | ValidatorOptions,
   pubSub: PubSubEngine,
 ): Promise<any[]> {
@@ -72,7 +72,7 @@ export function applyAuthChecker(
 }
 
 export async function applyMiddlewares(
-  actionData: ActionData<any>,
+  resolverData: ResolverData<any>,
   middlewares: Array<Middleware<any>>,
   resolverHandlerFunction: () => any,
 ): Promise<any> {
@@ -98,7 +98,7 @@ export async function applyMiddlewares(
       }
     }
     let nextResult: any;
-    const result = await handlerFn(actionData, async () => {
+    const result = await handlerFn(resolverData, async () => {
       nextResult = await dispatchHandler(currentIndex + 1);
       return nextResult;
     });

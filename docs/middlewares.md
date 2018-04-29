@@ -10,7 +10,7 @@ Middlewares are a piece of reusable code that can be easily attached to resolver
 
 Middlewares are a very powerful but also a bit complicated feature. Basically, they are functions that take 2 arguments:
 
-* action data - the same as for resolvers (`root`, `args`, `context`, `info`)
+* resolver data - the same as for resolvers (`root`, `args`, `context`, `info`)
 * `next` function - used to control execution of next middlewares and the resolver to which they are attached
 
 You might be familiar with how middlewares works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middlewares are inspired by the [`koa.js` ones](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of further middlewares stack and resolver execution.
@@ -126,7 +126,7 @@ All you need to do is to implement a `MiddlewareInterface` - your class has to h
 export class LogAccess implements MiddlewareInterface<TContext> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context, info }: ActionData<TContext>, next: NextFn) {
+  async use({ context, info }: ResolverData<TContext>, next: NextFn) {
     const username: string = context.username || "guest";
     this.logger.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`);
     return next();

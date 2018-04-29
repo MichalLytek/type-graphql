@@ -8,7 +8,7 @@ import {
   Subscription,
   Root,
   ID,
-  FilterActionData,
+  ResolverFilterData,
   Args,
 } from "../../src";
 
@@ -54,7 +54,7 @@ export class RecipeResolver {
 
   @Subscription(returns => Comment, {
     topics: Topic.NewComment,
-    filter: ({ payload, args }: FilterActionData<NewCommentPayload, NewCommentsArgs>) => {
+    filter: ({ payload, args }: ResolverFilterData<NewCommentPayload, NewCommentsArgs>) => {
       return payload.recipeId === args.recipeId;
     },
   })

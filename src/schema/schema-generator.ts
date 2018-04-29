@@ -35,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { FilterActionData } from "../types";
+import { ResolverFilterData } from "../types";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -371,8 +371,8 @@ export abstract class SchemaGenerator {
           ? withFilter(
               () => pubSub.asyncIterator(handler.topics),
               (payload, args, context, info) => {
-                const actionData: FilterActionData = { payload, args, context, info };
-                return handler.filter!(actionData);
+                const resolverFilterData: ResolverFilterData = { payload, args, context, info };
+                return handler.filter!(resolverFilterData);
               },
             )
           : () => pubSub.asyncIterator(handler.topics),
