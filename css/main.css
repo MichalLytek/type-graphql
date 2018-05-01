@@ -71,7 +71,7 @@ article p img, article iframe {
 }
 
 a {
-  color: #2e5985;
+  color: #2f7bc6;
   text-decoration: none;
 }
 
@@ -117,7 +117,7 @@ blockquote {
 h1, h2, h3, h4 {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
-  color: #2e5985;
+  color: #2f7bc6;
 }
 
 h4 {
@@ -131,7 +131,7 @@ header h2 {
 
 .homeContainer {
   background: #fff;
-  color: #2e5985;
+  color: #2f7bc6;
   text-align: center;
 }
 
@@ -235,7 +235,7 @@ header h2 {
   text-align: left;
 }
 .container .wrapper h2 {
-  color: #2e5985;
+  color: #2f7bc6;
   font-size: 22px;
   line-height: 1em;
   margin-top: 20px;
@@ -249,13 +249,13 @@ header h2 {
   padding: 10px 0;
 }
 .container .wrapper h3 {
-  color: #2e5985;
+  color: #2f7bc6;
   font-size: 18px;
   margin-top: 10px;
   padding: 10px 0;
 }
 .container .wrapper h4 {
-  color: #2e5985;
+  color: #2f7bc6;
   font-size: 16px;
   font-weight: 300;
   margin: 0;
@@ -342,7 +342,7 @@ header h2 {
   padding-top: 1em;
 }
 .mainContainer .wrapper .post .docPagination {
-  background: #2e5985;
+  background: #2f7bc6;
   bottom: 0px;
   left: 0px;
   position: absolute;
@@ -515,7 +515,7 @@ header h2 {
 }
 .fixedHeaderContainer {
   box-sizing: border-box;
-  background: #2e5985;
+  background: #2f7bc6;
   color: #fff;
   min-height: 50px;
   padding: 9px 0;
@@ -599,9 +599,9 @@ header h2 {
 }
 .button {
   margin: 4px;
-  border: 1px solid #2e5985;
+  border: 1px solid #2f7bc6;
   border-radius: 3px;
-  color: #2e5985;
+  color: #2f7bc6;
   display: inline-block;
   font-size: 14px;
   font-weight: 400;
@@ -612,7 +612,7 @@ header h2 {
   transition: background 0.3s, color 0.3s;
 }
 .button:hover {
-  background: #2e5985;
+  background: #2f7bc6;
   color: #fff;
 }
 
@@ -669,19 +669,19 @@ input[type="search"] {
   right: 0 !important;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
-  background: #2e5985;
+  background: #2f7bc6;
   color: white;
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight {
-  background-color: #2e5985;
+  background-color: #2f7bc6;
   color: #fff;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--title .algolia-docsearch-suggestion--highlight,
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column .algolia-docsearch-suggestion--highlight {
-  color: #2e5985;
+  color: #2f7bc6;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion__secondary,
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column {
@@ -728,10 +728,10 @@ input::placeholder {
 
 code {
   padding: 2px 0;
-  background-color: rgba(46, 89, 133, 0.07);
+  background-color: rgba(47, 123, 198, 0.07);
   /* box-shadow acts as padding around inline code snippets
    * while not adding any extra spacing between words. */
-  box-shadow: 2px 0 rgba(46, 89, 133, 0.07), -2px 0 rgba(46, 89, 133, 0.07);
+  box-shadow: 2px 0 rgba(47, 123, 198, 0.07), -2px 0 rgba(47, 123, 198, 0.07);
   color: inherit;
   border-radius: .3em;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
@@ -743,7 +743,7 @@ pre code {
   display:block;
   margin: 20px 0;
   padding:0.5em;
-  border-left: 4px solid #2e5985;
+  border-left: 4px solid #2f7bc6;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
   overflow-x:auto;
@@ -982,7 +982,7 @@ pre code {
   margin-top: 50px;
   width: 100%;
   padding: 0;
-  background: #26496d;
+  background: #222;
   color: #fff;
 }
 .navigationSlider .slidingNav.slidingNavActive ul {
@@ -995,7 +995,7 @@ pre code {
   margin: 0;
 }
 .navigationSlider .slidingNav ul li a {
-  color: #2e5985;
+  color: #2f7bc6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1012,7 +1012,7 @@ pre code {
 .navigationSlider .slidingNav ul li a:hover,
 .navigationSlider .slidingNav ul li.siteNavItemActive a,
   .navigationSlider .slidingNav ul li.siteNavGroupActive a {
-  background: #2e5985;
+  background: #2f7bc6;
 }
 
 .languages-icon {
@@ -1032,7 +1032,7 @@ pre code {
 }
 ul#languages-dropdown-items {
   display: flex;
-  background-color: #2e5985;
+  background-color: #2f7bc6;
   flex-direction: column;
   min-width: 120px;
   pointer-events: all;
@@ -1114,7 +1114,7 @@ ul#languages li {
     width: 100%;
   }
   .reactNavSearchWrapper input#search_input_react:focus, .reactNavSearchWrapper input#search_input_react:active {
-    background-color: #2e5985;
+    background-color: #2f7bc6;
     color: #fff;
   }
   .reactNavSearchWrapper .algolia-docsearch-suggestion--subcategory-inline {
@@ -1146,7 +1146,7 @@ ul#languages li {
 
   ul#languages-dropdown-items {
     display: flex;
-    background-color: #2e5985;
+    background-color: #2f7bc6;
     flex-direction: row;
   }
 }
@@ -1382,10 +1382,10 @@ nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   transition: color 0.2s;
 }
 nav.toc .toggleNav .navGroup h3:hover {
-  color: #2e5985;
+  color: #2f7bc6;
 }
 nav.toc .toggleNav .navGroup h3:hover i:not(:empty) {
-  color: #2e5985;
+  color: #2f7bc6;
 }
 nav.toc .toggleNav .navGroup.navGroupActive {
   background: #e0e0e0;
@@ -1397,7 +1397,7 @@ nav.toc .toggleNav .navGroup.navGroupActive ul {
   padding-top: 10px;
 }
 nav.toc .toggleNav .navGroup.navGroupActive h3 {
-  background: #2e5985;
+  background: #2f7bc6;
   color: #fff;
 }
 nav.toc .toggleNav ul {
@@ -1420,10 +1420,10 @@ nav.toc .toggleNav ul li a {
   transition: color 0.3s;
 }
 nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
-  color: #2e5985;
+  color: #2f7bc6;
 }
 nav.toc .toggleNav ul li a.navItemActive {
-  color: #2e5985;
+  color: #2f7bc6;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
   background: #c6c6c6;
@@ -1709,7 +1709,7 @@ h6:hover .header-link {
   padding-bottom: 80px;
 }
 .productShowcaseSection h2 {
-  color: #2e5985;
+  color: #2f7bc6;
   font-size: 30px;
   line-height: 1em;
   margin-top: 20px;
@@ -1753,7 +1753,7 @@ h6:hover .header-link {
   margin: 0 auto;
 }
 .showcaseSection .prose h1 {
-  color: #2e5985;
+  color: #2f7bc6;
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-align: center;
   padding: 1.4em 0 0.4em;
@@ -1917,6 +1917,51 @@ footer .copyright {
   margin: 30px 0 20px;
 }
 
+.homeContainer .homeWrapper {
+  padding: 40px 10px;
+}
+
+.button {
+  color: #c04392;
+  border-color: #c04392;
+}
+
+.button:hover {
+  background-color: #c04392;
+}
+
+.projectTitle {
+  font-weight: 600;
+}
+
+.project-logo {
+  display: block;
+  margin: 0 auto;
+}
+
+.project-logo img {
+  max-width: 230px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+nav.toc .toggleNav, .docsNavContainer, .docsSliderActive nav.toc .navBreadcrumb {
+  background: #f9f9f9;
+}
+
+nav.toc .toggleNav .navGroup.navGroupActive {
+  background: transparent;
+}
+
+.fixedHeaderContainer, footer.nav-footer {
+  background: #222222;
+  box-shadow: none;
+}
+
+footer .sitemap .nav-home {
+  opacity: 0.7;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .snippet-container > .wrapper {
     flex-direction: column;
@@ -1927,6 +1972,12 @@ footer .copyright {
   .snippet {
     max-width: 100%;
     order: 2;
+    width: 100%;
+  }
+  .project-logo img {
+    max-width: 150px;
+  }  
+  .nav.toc {
     width: 100%;
   }
 }
