@@ -27,6 +27,51 @@
   margin: 30px 0 20px;
 }
 
+.homeContainer .homeWrapper {
+  padding: 40px 10px;
+}
+
+.button {
+  color: #c04392;
+  border-color: #c04392;
+}
+
+.button:hover {
+  background-color: #c04392;
+}
+
+.projectTitle {
+  font-weight: 600;
+}
+
+.project-logo {
+  display: block;
+  margin: 0 auto;
+}
+
+.project-logo img {
+  max-width: 230px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+nav.toc .toggleNav, .docsNavContainer, .docsSliderActive nav.toc .navBreadcrumb {
+  background: #f9f9f9;
+}
+
+nav.toc .toggleNav .navGroup.navGroupActive {
+  background: transparent;
+}
+
+.fixedHeaderContainer, footer.nav-footer {
+  background: #222222;
+  box-shadow: none;
+}
+
+footer .sitemap .nav-home {
+  opacity: 0.7;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .snippet-container > .wrapper {
     flex-direction: column;
@@ -37,6 +82,12 @@
   .snippet {
     max-width: 100%;
     order: 2;
+    width: 100%;
+  }
+  .project-logo img {
+    max-width: 150px;
+  }  
+  .nav.toc {
     width: 100%;
   }
 }
