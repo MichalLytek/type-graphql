@@ -45,10 +45,10 @@ const siteConfig = {
   colors: {
     // primaryColor: '#2E8555',
     // primaryColor: "#2e6485",
-    primaryColor: "#2e5985",
+    primaryColor: "#2f7bc6",
     // secondaryColor: '#205C3B',
     // secondaryColor: "#27526d",
-    secondaryColor: "#26496d",
+    secondaryColor: "#222",
   },
   /* custom fonts for website */
   /*fonts: {
