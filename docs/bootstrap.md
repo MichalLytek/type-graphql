@@ -24,7 +24,10 @@ So you can also provide an array of path to resolver module files (they might be
 
 ```ts
 const schema = await buildSchema({
-  resolvers: [__dirname + "/modules/**/*.resolver.ts", __dirname + "/resolvers/**/*.ts"],
+  resolvers: [
+    __dirname + "/modules/**/*.resolver.ts",
+    __dirname + "/resolvers/**/*.ts",
+  ],
 });
 ```
 

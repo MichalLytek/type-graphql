@@ -24,7 +24,6 @@ const siteConfig = {
   headerLinks: [
     { doc: "introduction", label: "Docs" },
     // { doc: "doc4", label: "API" },
-    // { href: "https://github.com/19majkel94/type-graphql/blob/master/examples", label: "Examples" },
     { doc: "examples", label: "Examples" },
     { doc: "faq", label: "FAQ" },
     { blog: true, label: "Blog" },
@@ -40,14 +39,10 @@ const siteConfig = {
   headerIcon: "img/logo.png",
   footerIcon: "img/logo.png",
   favicon: "img/favicon.png",
-  editUrl: "https://github.com/19majkel94/type-graphql/blob/master/docs/",
+  editUrl: "https://github.com/19majkel94/type-graphql/edit/master/docs/",
   /* colors for website */
   colors: {
-    // primaryColor: '#2E8555',
-    // primaryColor: "#2e6485",
     primaryColor: "#2f7bc6",
-    // secondaryColor: '#205C3B',
-    // secondaryColor: "#27526d",
     secondaryColor: "#222",
   },
   /* custom fonts for website */
