@@ -15,6 +15,11 @@ It really depends on various factors:
 ### Is there any global error handler to catch the error from resolver or a service?
 You can use middlewares for this purpose - just wrap `await next()` in try-catch block and do the magic. Then register it as a first global middleware.
 
+### I got error like `GraphQLError: Expected value of type "MyType" but got: [object Object]`. Why?
+This error shows when your resolver (query, mutation, field) type is an interface/union and you return a plain object from it.
+In this case you have to return an instance of the selected object type class in your resolvers.
+Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
+
 ## Bootstrapping
 
 ### Should I use array of manually imported resolver classes or use a glob path string?
