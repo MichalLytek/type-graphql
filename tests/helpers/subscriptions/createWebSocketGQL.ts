@@ -1,4 +1,5 @@
 import * as NodeWebSocket from "ws";
+import { AddressInfo } from "net";
 import { Server as HTTPServer } from "http";
 import { Server as HTTPSServer } from "https";
 import { GraphQLSchema } from "graphql";
@@ -23,7 +24,7 @@ export async function createWebSocketUtils(schema: GraphQLSchema): Promise<WebSo
   });
 
   const subscriptionClient = new SubscriptionClient(
-    `ws://localhost:${server.address().port}/graphql`,
+    `ws://localhost:${(server.address() as AddressInfo).port}/graphql`,
     { reconnect: true },
     NodeWebSocket,
   );
