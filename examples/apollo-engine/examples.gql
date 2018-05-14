@@ -1,0 +1,15 @@
+query CachedQuery {
+  cachedRecipe(title: "Recipe 1") {
+    title
+    description
+    cachedAverageRating
+  }
+}
+
+query NotCachedQuery {
+  recipe(title: "Recipe 1") {
+    title
+    description
+    averageRating
+  }
+}

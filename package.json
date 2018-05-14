@@ -56,6 +56,7 @@
     "@types/ws": "^4.0.2",
     "apollo-cache-inmemory": "^1.2.1",
     "apollo-client": "^2.3.1",
+    "apollo-engine": "^1.1.1",
     "apollo-link": "^1.2.2",
     "apollo-link-ws": "^1.0.8",
     "del": "^3.0.0",

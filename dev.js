@@ -1,4 +1,5 @@
 require("ts-node/register/type-check");
+// require("./examples/apollo-engine/index.ts");
 // require("./examples/authorization/index.ts");
 // require("./examples/automatic-validation/index.ts");
 // require("./examples/enums-and-unions/index.ts");
