@@ -201,7 +201,7 @@ export class MetadataStorage {
     });
   }
 
-  private findFieldRoles(target: Function, fieldName: string): string[] | undefined {
+  private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
     const authorizedField = this.authorizedFields.find(
       authField => authField.target === target && authField.fieldName === fieldName,
     );
