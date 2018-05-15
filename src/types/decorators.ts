@@ -41,3 +41,5 @@ export interface EnumConfig {
   name: string;
   description?: string;
 }
+
+export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;

@@ -63,8 +63,8 @@ export async function getParams(
 export function applyAuthChecker(
   middlewares: Array<Middleware<any>>,
   authMode: AuthMode,
-  authChecker?: AuthChecker,
-  roles?: string[],
+  authChecker?: AuthChecker<any, any>,
+  roles?: any[],
 ) {
   if (authChecker && roles) {
     middlewares.unshift(AuthMiddleware(authChecker, authMode, roles));

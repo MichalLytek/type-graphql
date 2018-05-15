@@ -10,6 +10,6 @@ export interface FieldMetadata {
   description: string | undefined;
   deprecationReason: string | undefined;
   params?: ParamMetadata[];
-  roles?: string[];
+  roles?: any[];
   middlewares?: Array<Middleware<any>>;
 }

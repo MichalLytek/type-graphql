@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- make auth checker feature generic typed (default `string` for backward compatibility)
+
 ## v0.11.2
 ### Features
 - attach `MetadataStorage` to global scope (support multiple packages/modules)

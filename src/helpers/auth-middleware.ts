@@ -3,9 +3,9 @@ import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export function AuthMiddleware(
-  authChecker: AuthChecker,
+  authChecker: AuthChecker<any, any>,
   authMode: AuthMode,
-  roles: string[],
+  roles: any[],
 ): MiddlewareFn {
   return async (action, next) => {
     const accessGranted = await authChecker(action, roles);

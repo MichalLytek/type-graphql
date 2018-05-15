@@ -1,10 +1,8 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "../types/decorators";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
-
-export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
 
 export function Field(options?: AdvancedOptions): MethodAndPropDecorator;
 export function Field(

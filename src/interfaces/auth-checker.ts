@@ -1,8 +1,8 @@
 import { ResolverData } from "../types/action-data";
 
-export type AuthChecker<ContextType = {}> = (
+export type AuthChecker<ContextType = {}, RoleType = string> = (
   resolverData: ResolverData<ContextType>,
-  roles: string[],
+  roles: RoleType[],
 ) => boolean | Promise<boolean>;
 
 export type AuthMode = "error" | "null";

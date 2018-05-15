@@ -32,6 +32,7 @@ class MyObject {
 ```
 
 You can leave the `@Authorized` decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.
+By default the roles are `string` but you can change it easily as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
 
 This way authed users (regardless of theirs roles) could read only `publicField` or `authorizedField` from `MyObject` object. They will receive `null` when accessing `hiddenField` field and will receive error (that will propagate through the whole query tree looking for nullable field) for `adminField` when they don't satisfy roles constraints.
 
@@ -74,6 +75,7 @@ export const customAuthChecker: AuthChecker<ContextType> =
     return true; // or false if access denied
   }
 ```
+The second argument of `AuthChecker` generic type is `RoleType` - use it together with `@Authorized` decorator generic type.
 
 The last step is to register the function while building the schema:
 ```ts

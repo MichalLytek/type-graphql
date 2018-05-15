@@ -2,13 +2,10 @@ import { SymbolKeysNotSupportedError } from "../errors";
 import { Middleware } from "../interfaces/Middleware";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
+import { MethodAndPropDecorator } from "../types/decorators";
 
-export function UseMiddleware(
-  middlewares: Array<Middleware<any>>,
-): MethodDecorator & PropertyDecorator;
-export function UseMiddleware(
-  ...middlewares: Array<Middleware<any>>
-): MethodDecorator & PropertyDecorator;
+export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
+export function UseMiddleware(...middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
 export function UseMiddleware(
   ...middlewaresOrMiddlewareArray: Array<Middleware<any> | Array<Middleware<any>>>
 ): MethodDecorator | PropertyDecorator {
