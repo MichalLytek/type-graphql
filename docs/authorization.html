@@ -28,7 +28,8 @@ Example object type's fields guards:</p>
   hiddenField?: <span class="hljs-built_in">string</span>;
 }
 </code></pre>
-<p>You can leave the <code>@Authorized</code> decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.</p>
+<p>You can leave the <code>@Authorized</code> decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.
+By default the roles are <code>string</code> but you can change it easily as the decorator is generic - <code>@Authorized&lt;number&gt;(1, 7, 22)</code>.</p>
 <p>This way authed users (regardless of theirs roles) could read only <code>publicField</code> or <code>authorizedField</code> from <code>MyObject</code> object. They will receive <code>null</code> when accessing <code>hiddenField</code> field and will receive error (that will propagate through the whole query tree looking for nullable field) for <code>adminField</code> when they don't satisfy roles constraints.</p>
 <p>Sample query and mutations guards:</p>
 <pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>()
@@ -66,6 +67,7 @@ Example object type's fields guards:</p>
     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// or false if access denied</span>
   }
 </code></pre>
+<p>The second argument of <code>AuthChecker</code> generic type is <code>RoleType</code> - use it together with <code>@Authorized</code> decorator generic type.</p>
 <p>The last step is to register the function while building the schema:</p>
 <pre><code class="hljs css ts"><span class="hljs-keyword">import</span> { customAuthChecker } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth/custom-auth-checker.ts"</span>;
 
