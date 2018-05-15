@@ -12,7 +12,7 @@ export interface BaseResolverMetadata {
   target: Function;
   handler: Function | undefined;
   params?: ParamMetadata[];
-  roles?: string[];
+  roles?: any[];
   middlewares?: Array<Middleware<any>>;
 }
 
