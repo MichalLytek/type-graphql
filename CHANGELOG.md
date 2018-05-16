@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.11.3
 ### Features
 - make auth checker feature generic typed (default `string` for backward compatibility)
 
