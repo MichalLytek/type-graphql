@@ -36,6 +36,7 @@ import {
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
 import { ResolverFilterData } from "../interfaces";
+import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -169,7 +170,7 @@ export abstract class SchemaGenerator {
               if (hasExtended) {
                 const superClass = getSuperClassType();
                 if (superClass) {
-                  const superClassFields = this.getFieldMetadataFromObjectType(superClass);
+                  const superClassFields = getFieldMetadataFromObjectType(superClass);
                   fields = Object.assign({}, superClassFields, fields);
                 }
               }
@@ -239,7 +240,7 @@ export abstract class SchemaGenerator {
             if (hasExtended) {
               const superClass = getSuperClassType();
               if (superClass) {
-                const superClassFields = this.getFieldMetadataFromObjectType(superClass);
+                const superClassFields = getFieldMetadataFromObjectType(superClass);
                 fields = Object.assign({}, superClassFields, fields);
               }
             }
@@ -252,7 +253,7 @@ export abstract class SchemaGenerator {
                 const interfaceType = this.interfaceTypesInfo.find(
                   type => type.target === interfaceClass,
                 )!.type;
-                return Object.assign(fieldsMap, this.getFieldMetadataFromObjectType(interfaceType));
+                return Object.assign(fieldsMap, getFieldMetadataFromObjectType(interfaceType));
               }, {});
               fields = Object.assign({}, interfacesFields, fields);
             }
@@ -290,7 +291,7 @@ export abstract class SchemaGenerator {
             if (objectSuperClass.prototype !== undefined) {
               const superClass = getSuperClassType();
               if (superClass) {
-                const superClassFields = this.getFieldMetadataFromInputType(superClass);
+                const superClassFields = getFieldMetadataFromInputType(superClass);
                 fields = Object.assign({}, superClassFields, fields);
               }
             }
@@ -309,23 +310,23 @@ export abstract class SchemaGenerator {
   }
 
   private static buildRootMutationType(): GraphQLObjectType | undefined {
-    if (getMetadataStorage().mutations.length > 0) {
-      return new GraphQLObjectType({
-        name: "Mutation",
-        fields: this.generateHandlerFields(getMetadataStorage().mutations),
-      });
+    if (getMetadataStorage().mutations.length === 0) {
+      return;
     }
-    return undefined;
+    return new GraphQLObjectType({
+      name: "Mutation",
+      fields: this.generateHandlerFields(getMetadataStorage().mutations),
+    });
   }
 
   private static buildRootSubscriptionType(): GraphQLObjectType | undefined {
-    if (getMetadataStorage().subscriptions.length > 0) {
-      return new GraphQLObjectType({
-        name: "Subscription",
-        fields: this.generateSubscriptionsFields(getMetadataStorage().subscriptions),
-      });
+    if (getMetadataStorage().subscriptions.length === 0) {
+      return;
     }
-    return undefined;
+    return new GraphQLObjectType({
+      name: "Subscription",
+      fields: this.generateSubscriptionsFields(getMetadataStorage().subscriptions),
+    });
   }
 
   private static buildOtherTypes(): GraphQLNamedType[] {
@@ -420,47 +421,6 @@ export abstract class SchemaGenerator {
         type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
       };
     });
-  }
-
-  private static getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQLInterfaceType) {
-    const fieldInfo = type.getFields();
-    const typeFields = Object.keys(fieldInfo).reduce<GraphQLFieldConfigMap<any, any>>(
-      (fieldsMap, fieldName) => {
-        const superField = fieldInfo[fieldName];
-        fieldsMap[fieldName] = {
-          type: superField.type,
-          args: superField.args.reduce<GraphQLFieldConfigArgumentMap>(
-            (argMap, { name, ...arg }) => {
-              argMap[name] = arg;
-              return argMap;
-            },
-            {},
-          ),
-          resolve: superField.resolve,
-          description: superField.description,
-          deprecationReason: superField.deprecationReason,
-        } as GraphQLFieldConfig<any, any>;
-        return fieldsMap;
-      },
-      {},
-    );
-    return typeFields;
-  }
-
-  private static getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
-    const fieldInfo = type.getFields();
-    const typeFields = Object.keys(fieldInfo).reduce<GraphQLInputFieldConfigMap>(
-      (fieldsMap, fieldName) => {
-        const superField = fieldInfo[fieldName];
-        fieldsMap[fieldName] = {
-          type: superField.type,
-          description: superField.description,
-        } as GraphQLInputFieldConfig;
-        return fieldsMap;
-      },
-      {},
-    );
-    return typeFields;
   }
 
   private static getGraphQLOutputType(
