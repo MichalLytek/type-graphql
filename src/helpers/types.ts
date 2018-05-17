@@ -8,7 +8,7 @@ import {
   GraphQLBoolean,
 } from "graphql";
 
-import { TypeOptions } from "../types/decorators";
+import { TypeOptions } from "../decorators/types";
 import { GraphQLTimestamp } from "../scalars/timestamp";
 import { GraphQLISODateTime } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";

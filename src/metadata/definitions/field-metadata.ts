@@ -1,5 +1,5 @@
 import { ParamMetadata } from "./param-metadata";
-import { TypeValueThunk, TypeOptions } from "../../types/decorators";
+import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { Middleware } from "../../interfaces/Middleware";
 
 export interface FieldMetadata {

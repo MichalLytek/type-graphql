@@ -1,5 +1,5 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ClassType, ClassTypeResolver } from "../types/decorators";
+import { ClassType, ClassTypeResolver } from "./types";
 
 export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;
 export function Resolver(objectType: ClassType): ClassDecorator;

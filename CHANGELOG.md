@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- **Breaking Change**: remove deprecated `ActionData` and `FilterActionData` interfaces
+
 ## v0.11.3
 ### Features
 - make auth checker feature generic typed (default `string` for backward compatibility)

@@ -1,5 +1,5 @@
 import { ResolverMetadata } from "../metadata/definitions";
-import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions } from "../decorators/types";
 import { findType } from "./findType";
 import { SymbolKeysNotSupportedError } from "../errors";
 

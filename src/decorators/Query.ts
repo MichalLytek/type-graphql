@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, AdvancedOptions } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";

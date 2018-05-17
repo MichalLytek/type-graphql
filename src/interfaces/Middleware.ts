@@ -1,4 +1,4 @@
-import { ResolverData } from "../types";
+import { ResolverData } from "./ResolverData";
 
 export type NextFn = () => Promise<any>;
 

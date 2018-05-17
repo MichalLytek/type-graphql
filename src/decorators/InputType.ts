@@ -1,6 +1,6 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions } from "../types/decorators";
+import { DescriptionOptions } from "./types";
 
 export function InputType(options?: DescriptionOptions): ClassDecorator;
 export function InputType(name: string, options?: DescriptionOptions): ClassDecorator;

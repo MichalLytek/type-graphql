@@ -1,5 +1,5 @@
 import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
+import { AuthChecker, AuthMode } from "../interfaces";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 
 export function AuthMiddleware(

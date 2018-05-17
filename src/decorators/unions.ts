@@ -1,4 +1,4 @@
-import { ClassType } from "../types/decorators";
+import { ClassType } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 
 export interface UnionTypeConfig<ObjectTypes extends ClassType[]> {

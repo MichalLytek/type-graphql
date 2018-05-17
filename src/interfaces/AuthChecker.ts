@@ -1,4 +1,4 @@
-import { ResolverData } from "../types/action-data";
+import { ResolverData } from "./ResolverData";
 
 export type AuthChecker<ContextType = {}, RoleType = string> = (
   resolverData: ResolverData<ContextType>,

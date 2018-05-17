@@ -9,8 +9,7 @@ import {
 import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
-import { AuthChecker } from "../interfaces";
-import { ResolverData } from "../types";
+import { ResolverData, AuthChecker } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
 
 export function createHandlerResolver(

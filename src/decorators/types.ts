@@ -1,7 +1,7 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-import { ResolverFilterData } from "./filter-action-data";
+import { ResolverFilterData } from "../interfaces";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];

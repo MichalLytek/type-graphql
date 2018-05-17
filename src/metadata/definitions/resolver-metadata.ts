@@ -3,7 +3,7 @@ import {
   TypeOptions,
   ClassTypeResolver,
   SubscriptionFilterFunc,
-} from "../../types/decorators";
+} from "../../decorators/types";
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
 

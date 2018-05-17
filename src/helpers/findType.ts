@@ -1,4 +1,4 @@
-import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../types/decorators";
+import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../decorators/types";
 import { bannedTypes } from "./returnTypes";
 import { NoExplicitTypeError, CannotDetermineTypeError } from "../errors";
 

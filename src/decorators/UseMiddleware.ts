@@ -2,7 +2,7 @@ import { SymbolKeysNotSupportedError } from "../errors";
 import { Middleware } from "../interfaces/Middleware";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodAndPropDecorator } from "../types/decorators";
+import { MethodAndPropDecorator } from "./types";
 
 export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
 export function UseMiddleware(...middlewares: Array<Middleware<any>>): MethodAndPropDecorator;

@@ -2,7 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
-import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
+import { AuthChecker, AuthMode } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
 
 export type DateScalarMode = "isoDate" | "timestamp";

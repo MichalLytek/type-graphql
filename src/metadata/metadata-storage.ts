@@ -13,7 +13,7 @@ import {
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
 } from "./definitions";
-import { ClassType } from "../types/decorators";
+import { ClassType } from "../decorators/types";
 import { Middleware } from "../interfaces/Middleware";
 import { NoExplicitTypeError } from "../errors";
 

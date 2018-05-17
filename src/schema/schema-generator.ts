@@ -26,7 +26,7 @@ import {
   ClassMetadata,
   SubscriptionResolverMetadata,
 } from "../metadata/definitions";
-import { TypeOptions, TypeValue } from "../types/decorators";
+import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
 import {
   createHandlerResolver,
@@ -35,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ResolverFilterData } from "../types";
+import { ResolverFilterData } from "../interfaces";
 
 interface ObjectTypeInfo {
   target: Function;

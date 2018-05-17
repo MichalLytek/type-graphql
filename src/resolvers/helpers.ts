@@ -4,8 +4,7 @@ import { ValidatorOptions } from "class-validator";
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
-import { AuthChecker, AuthMode } from "../interfaces/auth-checker";
-import { ResolverData } from "../types";
+import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
 import { UnauthorizedError, ForbiddenError } from "../errors";
 import {
   Middleware,

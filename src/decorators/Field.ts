@@ -1,5 +1,5 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "../types/decorators";
+import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "./types";
 import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";

@@ -1,7 +1,7 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodAndPropDecorator } from "../types/decorators";
+import { MethodAndPropDecorator } from "./types";
 
 export function Authorized(): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(roles: RoleType[]): MethodAndPropDecorator;

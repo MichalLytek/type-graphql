@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 
-import { ArgsDictionary } from "./action-data";
+import { ArgsDictionary } from "./ResolverData";
 
 export interface ResolverFilterData<TPayload = any, TArgs = ArgsDictionary, TContext = {}> {
   payload: TPayload;
