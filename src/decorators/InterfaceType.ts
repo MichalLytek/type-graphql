@@ -2,7 +2,8 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
 import { DescriptionOptions } from "./types";
 
-export function InterfaceType(options?: DescriptionOptions): ClassDecorator;
+export function InterfaceType(): ClassDecorator;
+export function InterfaceType(options: DescriptionOptions): ClassDecorator;
 export function InterfaceType(name: string, options?: DescriptionOptions): ClassDecorator;
 export function InterfaceType(
   nameOrOptions?: string | DescriptionOptions,

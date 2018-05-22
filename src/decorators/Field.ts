@@ -4,7 +4,8 @@ import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
 
-export function Field(options?: AdvancedOptions): MethodAndPropDecorator;
+export function Field(): MethodAndPropDecorator;
+export function Field(options: AdvancedOptions): MethodAndPropDecorator;
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
   options?: AdvancedOptions,

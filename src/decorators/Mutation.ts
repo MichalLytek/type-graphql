@@ -3,7 +3,8 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Mutation(options?: AdvancedOptions): MethodDecorator;
+export function Mutation(): MethodDecorator;
+export function Mutation(options: AdvancedOptions): MethodDecorator;
 export function Mutation(
   returnTypeFunc: ReturnTypeFunc,
   options?: AdvancedOptions,

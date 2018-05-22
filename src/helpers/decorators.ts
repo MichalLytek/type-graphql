@@ -4,7 +4,7 @@ export interface TypeDecoratorParams<T> {
   options: Partial<T>;
   returnTypeFunc?: ReturnTypeFunc;
 }
-export function getTypeDecoratorParams<T extends TypeOptions>(
+export function getTypeDecoratorParams<T extends object>(
   returnTypeFuncOrOptions: ReturnTypeFunc | T | undefined,
   maybeOptions: T | undefined,
 ): TypeDecoratorParams<T> {

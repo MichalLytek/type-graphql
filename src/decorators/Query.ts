@@ -3,7 +3,8 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export function Query(options?: AdvancedOptions): MethodDecorator;
+export function Query(): MethodDecorator;
+export function Query(options: AdvancedOptions): MethodDecorator;
 export function Query(returnTypeFunc: ReturnTypeFunc, options?: AdvancedOptions): MethodDecorator;
 export function Query(
   returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,

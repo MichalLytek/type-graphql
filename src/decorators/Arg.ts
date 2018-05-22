@@ -1,9 +1,4 @@
-import {
-  ReturnTypeFunc,
-  DecoratorTypeOptions,
-  DescriptionOptions,
-  ValidateOptions,
-} from "./types";
+import { ReturnTypeFunc, DecoratorTypeOptions, DescriptionOptions, ValidateOptions } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";

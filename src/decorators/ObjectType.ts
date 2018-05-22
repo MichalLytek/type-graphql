@@ -6,7 +6,8 @@ export type ObjectOptions = DescriptionOptions & {
   implements?: Function | Function[];
 };
 
-export function ObjectType(options?: ObjectOptions): ClassDecorator;
+export function ObjectType(): ClassDecorator;
+export function ObjectType(options: ObjectOptions): ClassDecorator;
 export function ObjectType(name: string, options?: ObjectOptions): ClassDecorator;
 export function ObjectType(
   nameOrOptions?: string | ObjectOptions,

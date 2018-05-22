@@ -4,7 +4,8 @@ import { SymbolKeysNotSupportedError } from "../errors";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { findType } from "../helpers/findType";
 
-export function FieldResolver(options?: AdvancedOptions): MethodDecorator;
+export function FieldResolver(): MethodDecorator;
+export function FieldResolver(options: AdvancedOptions): MethodDecorator;
 export function FieldResolver(
   returnTypeFunction?: ReturnTypeFunc,
   options?: AdvancedOptions,
@@ -37,7 +38,7 @@ export function FieldResolver(
       });
       typeOptions = typeInfo.typeOptions;
       getType = typeInfo.getType;
-    // tslint:disable-next-line:no-empty
+      // tslint:disable-next-line:no-empty
     } catch {}
 
     getMetadataStorage().collectFieldResolverMetadata({
