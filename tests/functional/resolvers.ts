@@ -34,6 +34,9 @@ import {
   ResolverInterface,
   Info,
   buildSchemaSync,
+  Subscription,
+  PubSub,
+  PubSubEngine,
 } from "../../src";
 import { plainToClass } from "class-transformer";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
@@ -419,8 +422,12 @@ describe("Resolvers", () => {
           field => field.name === "independentFieldResolver",
         )!;
         const fieldResolverArgs = independentFieldResolver.args;
-        const arg1Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg1")!);
-        const arg2Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg2")!);
+        const arg1Type = getInnerTypeOfNonNullableType(
+          fieldResolverArgs.find(arg => arg.name === "arg1")!,
+        );
+        const arg2Type = getInnerTypeOfNonNullableType(
+          fieldResolverArgs.find(arg => arg.name === "arg2")!,
+        );
         const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
 
         expect(independentFieldResolver.description).toEqual("independent");
@@ -1116,61 +1123,163 @@ describe("Resolvers", () => {
     });
   });
 
-  it("should load resolvers from glob paths", async () => {
-    getMetadataStorage().clear();
+  describe("buildSchema", async () => {
+    it("should load resolvers from glob paths", async () => {
+      getMetadataStorage().clear();
 
-    const { queryType } = await getSchemaInfo({
-      resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+      const { queryType } = await getSchemaInfo({
+        resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+      });
+
+      const directoryQueryReturnType = getInnerTypeOfNonNullableType(
+        queryType.fields.find(field => field.name === "sampleQuery")!,
+      );
+
+      expect(queryType.fields).toHaveLength(1);
+      expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
+      expect(directoryQueryReturnType.name).toEqual("SampleObject");
     });
 
-    const directoryQueryReturnType = getInnerTypeOfNonNullableType(
-      queryType.fields.find(field => field.name === "sampleQuery")!,
-    );
+    it("should build the schema synchronously", async () => {
+      getMetadataStorage().clear();
 
-    expect(queryType.fields).toHaveLength(1);
-    expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
-    expect(directoryQueryReturnType.name).toEqual("SampleObject");
-  });
-
-  it("should build the schema synchronously", async () => {
-    getMetadataStorage().clear();
-
-    @ObjectType()
-    class SampleObject {
-      @Field() sampleFieldSync: string;
-    }
-    @Resolver()
-    class SampleResolver {
-      @Query()
-      sampleQuerySync(): SampleObject {
-        return { sampleFieldSync: "sampleFieldSync" };
+      @ObjectType()
+      class SampleObject {
+        @Field() sampleFieldSync: string;
       }
-    }
-
-    const schema = buildSchemaSync({
-      resolvers: [SampleResolver],
-    });
-    const query = `
-      query {
-        sampleQuerySync {
-          sampleFieldSync
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuerySync(): SampleObject {
+          return { sampleFieldSync: "sampleFieldSync" };
         }
       }
-    `;
-    const { data } = await graphql(schema, query);
 
-    expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+      const schema = buildSchemaSync({
+        resolvers: [SampleResolver],
+      });
+      const query = `
+        query {
+          sampleQuerySync {
+            sampleFieldSync
+          }
+        }
+      `;
+      const { data } = await graphql(schema, query);
+
+      expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+    });
+
+    it("should throw errors when no resolvers provided", async () => {
+      getMetadataStorage().clear();
+      expect.assertions(2);
+
+      try {
+        await buildSchema({ resolvers: [] });
+      } catch (err) {
+        expect(err.message).toContain("Empty");
+        expect(err.message).toContain("resolvers");
+      }
+    });
   });
 
-  it("should throw errors when no resolvers provided", async () => {
-    getMetadataStorage().clear();
-    expect.assertions(2);
+  describe("Inheritance", async () => {
+    let schema: GraphQLSchema;
+    let schemaIntrospection: IntrospectionSchema;
+    let queryType: IntrospectionObjectType;
+    let mutationType: IntrospectionObjectType;
+    let subscriptionType: IntrospectionObjectType;
 
-    try {
-      await buildSchema({ resolvers: [] });
-    } catch (err) {
-      expect(err.message).toContain("Empty");
-      expect(err.message).toContain("resolvers");
-    }
+    beforeAll(async () => {
+      getMetadataStorage().clear();
+
+      function createResolver(name: string) {
+        @Resolver({ isAbstract: true })
+        class BaseResolver {
+          protected name = "baseName";
+
+          @Query({ name: `${name}Query` })
+          baseQuery(@Arg("arg") arg: boolean): boolean {
+            return this.name === "baseName";
+          }
+
+          @Mutation({ name: `${name}Mutation` })
+          baseMutation(@Arg("arg") arg: boolean): boolean {
+            return this.name === "baseName";
+          }
+
+          @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
+          baseSubscription(@Arg("arg") arg: boolean): boolean {
+            return this.name === "baseName";
+          }
+
+          @Mutation({ name: `${name}Trigger` })
+          baseTrigger(@PubSub() pubsub: PubSubEngine): boolean {
+            return pubsub.publish("baseTopic", null);
+          }
+        }
+
+        return BaseResolver;
+      }
+
+      @Resolver()
+      class ChildResolver extends createResolver("prefix") {
+        @Query()
+        childQuery(): boolean {
+          return this.name === "baseName";
+        }
+
+        @Mutation()
+        childMutation(): boolean {
+          return this.name === "baseName";
+        }
+
+        @Subscription({ topics: "childTopic" })
+        childSubscription(): boolean {
+          return this.name === "baseName";
+        }
+
+        @Mutation()
+        childTrigger(@PubSub() pubsub: PubSubEngine): boolean {
+          return pubsub.publish("childTopic", null);
+        }
+      }
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [ChildResolver],
+      });
+      schemaIntrospection = schemaInfo.schemaIntrospection;
+      queryType = schemaInfo.queryType;
+      mutationType = schemaInfo.mutationType!;
+      subscriptionType = schemaInfo.subscriptionType!;
+      schema = schemaInfo.schema;
+    });
+
+    it("should build schema correctly", async () => {
+      expect(schema).toBeDefined();
+    });
+
+    it("should generate proper queries in schema", async () => {
+      expect(queryType.fields).toHaveLength(2);
+      expect(queryType.fields[0].name).toEqual("childQuery");
+      expect(queryType.fields[1].name).toEqual("prefixQuery");
+      expect(queryType.fields[1].args).toHaveLength(1);
+    });
+
+    it("should generate proper mutations in schema", async () => {
+      expect(mutationType.fields).toHaveLength(4);
+      expect(mutationType.fields[0].name).toEqual("childMutation");
+      expect(mutationType.fields[1].name).toEqual("childTrigger");
+      expect(mutationType.fields[2].name).toEqual("prefixMutation");
+      expect(mutationType.fields[3].name).toEqual("prefixTrigger");
+      expect(mutationType.fields[2].args).toHaveLength(1);
+    });
+
+    it("should generate proper subscriptions in schema", async () => {
+      expect(subscriptionType.fields).toHaveLength(2);
+      expect(subscriptionType.fields[0].name).toEqual("childSubscription");
+      expect(subscriptionType.fields[1].name).toEqual("prefixSubscription");
+      expect(subscriptionType.fields[1].args).toHaveLength(1);
+    });
   });
 });
