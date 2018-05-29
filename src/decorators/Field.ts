@@ -36,6 +36,7 @@ export function Field(
 
     getMetadataStorage().collectClassFieldMetadata({
       name: propertyKey,
+      schemaName: options.name || propertyKey,
       getType,
       typeOptions,
       target: prototype.constructor,
@@ -47,6 +48,7 @@ export function Field(
       getMetadataStorage().collectFieldResolverMetadata({
         kind: "internal",
         methodName: propertyKey,
+        schemaName: options.name || propertyKey,
         target: prototype.constructor,
         handler: isResolverMethod ? (prototype as any)[propertyKey] : undefined,
       });

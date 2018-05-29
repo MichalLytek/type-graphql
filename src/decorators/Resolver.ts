@@ -1,10 +1,26 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ClassType, ClassTypeResolver } from "./types";
+import { ClassType, ClassTypeResolver, ResolverClassOptions } from "./types";
 
 export function Resolver(): ClassDecorator;
-export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;
-export function Resolver(objectType: ClassType): ClassDecorator;
-export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
+export function Resolver(options: ResolverClassOptions): ClassDecorator;
+export function Resolver(
+  typeFunc: ClassTypeResolver,
+  options?: ResolverClassOptions,
+): ClassDecorator;
+export function Resolver(objectType: ClassType, options?: ResolverClassOptions): ClassDecorator;
+export function Resolver(
+  objectTypeOrTypeFuncOrMaybeOptions?: Function | ResolverClassOptions,
+  maybeOptions?: ResolverClassOptions,
+): ClassDecorator {
+  const objectTypeOrTypeFunc: Function | undefined =
+    typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
+      ? objectTypeOrTypeFuncOrMaybeOptions
+      : undefined;
+  const options: ResolverClassOptions =
+    (typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
+      ? maybeOptions
+      : objectTypeOrTypeFuncOrMaybeOptions) || {};
+
   return target => {
     const getObjectType = objectTypeOrTypeFunc
       ? objectTypeOrTypeFunc.prototype
@@ -18,6 +34,7 @@ export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
     getMetadataStorage().collectResolverClassMetadata({
       target,
       getObjectType,
+      isAbstract: options.isAbstract,
     });
   };
 }

@@ -9,8 +9,10 @@ import { Middleware } from "../../interfaces/Middleware";
 
 export interface BaseResolverMetadata {
   methodName: string;
+  schemaName: string;
   target: Function;
   handler: Function | undefined;
+  resolverClassMetadata?: ResolverClassMetadata;
   params?: ParamMetadata[];
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
@@ -41,4 +43,6 @@ export interface SubscriptionResolverMetadata extends ResolverMetadata {
 export interface ResolverClassMetadata {
   target: Function;
   getObjectType: ClassTypeResolver;
+  isAbstract?: boolean;
+  superResolver?: ResolverClassMetadata;
 }

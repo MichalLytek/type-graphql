@@ -158,7 +158,7 @@ export abstract class SchemaGenerator {
             fields: () => {
               let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
-                  fieldsMap[field.name] = {
+                  fieldsMap[field.schemaName] = {
                     description: field.description,
                     type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                   };
@@ -223,7 +223,7 @@ export abstract class SchemaGenerator {
                     resolver.getObjectType!() === objectType.target &&
                     resolver.methodName === field.name,
                 );
-                fieldsMap[field.name] = {
+                fieldsMap[field.schemaName] = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                   args: this.generateHandlerArgs(field.params!),
                   resolve: fieldResolverMetadata
@@ -279,7 +279,7 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
               (fieldsMap, field) => {
-                fieldsMap[field.name] = {
+                fieldsMap[field.schemaName] = {
                   description: field.description,
                   type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
                 };
@@ -342,7 +342,11 @@ export abstract class SchemaGenerator {
     handlers: ResolverMetadata[],
   ): GraphQLFieldConfigMap<T, U> {
     return handlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
-      fields[handler.methodName] = {
+      // omit emitting abstract resolver fields
+      if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
+        return fields;
+      }
+      fields[handler.schemaName] = {
         type: this.getGraphQLOutputType(
           handler.methodName,
           handler.getReturnType(),
@@ -361,29 +365,23 @@ export abstract class SchemaGenerator {
     subscriptionsHandlers: SubscriptionResolverMetadata[],
   ): GraphQLFieldConfigMap<T, U> {
     const { pubSub } = BuildContext;
+    const basicFields = this.generateHandlerFields(subscriptionsHandlers);
     return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
-      fields[handler.methodName] = {
-        type: this.getGraphQLOutputType(
-          handler.methodName,
-          handler.getReturnType(),
-          handler.returnTypeOptions,
-        ),
-        subscribe: handler.filter
-          ? withFilter(
-              () => pubSub.asyncIterator(handler.topics),
-              (payload, args, context, info) => {
-                const resolverFilterData: ResolverFilterData = { payload, args, context, info };
-                return handler.filter!(resolverFilterData);
-              },
-            )
-          : () => pubSub.asyncIterator(handler.topics),
-        args: this.generateHandlerArgs(handler.params!),
-        resolve: createHandlerResolver(handler),
-        description: handler.description,
-        deprecationReason: handler.deprecationReason,
-      };
+      // omit emitting abstract resolver fields
+      if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
+        return fields;
+      }
+      fields[handler.schemaName].subscribe = handler.filter
+        ? withFilter(
+            () => pubSub.asyncIterator(handler.topics),
+            (payload, args, context, info) => {
+              const resolverFilterData: ResolverFilterData = { payload, args, context, info };
+              return handler.filter!(resolverFilterData);
+            },
+          )
+        : () => pubSub.asyncIterator(handler.topics);
       return fields;
-    }, {});
+    }, basicFields);
   }
 
   private static generateHandlerArgs(params: ParamMetadata[]): GraphQLFieldConfigArgumentMap {
@@ -416,7 +414,7 @@ export abstract class SchemaGenerator {
     args: GraphQLFieldConfigArgumentMap = {},
   ) {
     argumentType.fields!.forEach(field => {
-      args[field.name] = {
+      args[field.schemaName] = {
         description: field.description,
         type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
       };

@@ -4,6 +4,7 @@ import { Middleware } from "../../interfaces/Middleware";
 
 export interface FieldMetadata {
   target: Function;
+  schemaName: string;
   name: string;
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
