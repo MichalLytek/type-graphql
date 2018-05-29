@@ -1,0 +1,13 @@
+query AllPersons {
+  persons {
+    name
+    age
+  }
+}
+
+query OneRecipe {
+  recipe(id: 1) {
+    title
+    ratings
+  }
+}
