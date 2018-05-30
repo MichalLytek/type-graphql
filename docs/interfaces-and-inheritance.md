@@ -44,7 +44,7 @@ We can also omit the decorators as the GraphQL types will be copied from the int
 
 Be aware that when your object type is implementing GraphQL interface type, __you have to return an instance of the type class__ in your resolvers. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
 
-## Inheritance
+## Types inheritance
 One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.
 
 While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like `skip` and `take`. So instead of repeating yourself, you can declare it once: 
@@ -78,5 +78,84 @@ class Student extends Person {
 }
 ```
 
-## Example
-You can see more advanced usage example (e.g. with query returning interface type) in the [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
+## Resolvers inheritance
+The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.
+
+As we need to generate unique query/mutation names, we have to create a factory function for our base class:
+```ts
+function createBaseResolver() {
+  abstract class BaseResolver {}
+
+  return BaseResolver;
+}
+```
+Be aware that with some `tsconfig.json` settings you might receive `[ts] Return type of exported function has or is using private name 'BaseResolver'` error - in that case you might need to use `any` as a return type or create a separate class/interface describing the class methods and properties.
+
+This factory should take a parameter that we can use to generate queries/mutations names, as well as the type that we would return from the resolvers:
+```ts
+function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+  abstract class BaseResolver {}
+
+  return BaseResolver;
+}
+```
+
+It's very important to mark the `BaseResolver` class using `@Resolver` decorator with `{ isAbstract: true }` option that will prevent throwing error due to registering multiple queries/mutations with the same name.
+```ts
+function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+  @Resolver({ isAbstract: true })
+  abstract class BaseResolver {}
+
+  return BaseResolver;
+}
+```
+
+Then we can implement the resolvers methods in the same way as always. The only difference is that we can use `name` decorator option for `@Query`, `@Mutation` and `@Subscription` decorators to overwrite the name that will be emitted in schema:
+```ts
+function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+  @Resolver({ isAbstract: true })
+  abstract class BaseResolver {
+    protected items: T[] = [];
+
+    @Query(type => [objectTypeCls], { name: `getAll${suffix}` })
+    async getAll(
+      @Arg("first", type => Int) first: number,
+    ): Promise<T[]> {
+      return this.items.slice(0, first);
+    }
+  }
+
+  return BaseResolver;
+}
+```
+
+After that we can create a specific resolver class that will extend the base resolver class:
+```ts
+const PersonBaseResolver = createBaseResolver("person", Person);
+
+@Resolver(of => Person)
+export class PersonResolver extends PersonBaseResolver {
+  // ...
+}
+```
+
+We can also add specific queries and mutation in our resolver class, just like always:
+```ts
+const PersonBaseResolver = createBaseResolver("person", Person);
+
+@Resolver(of => Person)
+export class PersonResolver extends PersonBaseResolver {
+  @Mutation()
+  addPerson(@Arg("input") personInput: PersonInput): Person {
+    this.items.push(personInput);
+    return personInput;
+  }
+}
+```
+
+And that's it! We just need to normally register `PersonResolver` in `buildSchema` and the extended resolver will be working correctly.
+
+## Examples
+More advanced usage example of interfaces and types inheritance (e.g. with query returning interface type) you can see in [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
+
+For more advanced resolvers inheritance example, please go to [the example folder](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance).
