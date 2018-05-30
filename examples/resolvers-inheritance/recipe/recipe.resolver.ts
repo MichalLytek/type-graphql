@@ -18,7 +18,7 @@ export class RecipeResolver extends ResourceResolver<Recipe> {
   // here you can add resource-specific operations
 
   @FieldResolver()
-  averageRating(@Root() recipe: Recipe) {
+  averageRating(@Root() recipe: Recipe): number {
     return recipe.ratings.reduce((a, b) => a + b, 0) / recipe.ratings.length;
   }
 }

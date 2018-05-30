@@ -1,9 +1,12 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
-import { buildSchema } from "../../src";
+import { Container } from "typedi";
+import { buildSchema, useContainer } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { PersonResolver } from "./person/person.resolver";
+
+useContainer(Container);
 
 async function bootstrap() {
   // build TypeGraphQL executable schema

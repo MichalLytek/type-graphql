@@ -1,7 +1,9 @@
 query AllPersons {
   persons {
+    id
     name
     age
+    role
   }
 }
 
@@ -9,5 +11,10 @@ query OneRecipe {
   recipe(id: 1) {
     title
     ratings
+    averageRating
   }
+}
+
+mutation PromotePeronsOne {
+  promote(personId: 1)
 }

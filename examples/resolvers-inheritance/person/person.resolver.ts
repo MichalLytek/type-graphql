@@ -32,7 +32,7 @@ export class PersonResolver extends ResourceResolver<Person> {
   ): boolean {
     // you have full access to base resolver class fields and methods
 
-    const person = this.resources.find(it => it.id === personId);
+    const person = this.resourceService.getOne(personId);
     if (!person) {
       throw new Error("Person not found!");
     }
