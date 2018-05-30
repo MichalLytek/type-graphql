@@ -13,9 +13,8 @@ import {
   TypeKind,
 } from "graphql";
 import * as path from "path";
+import { plainToClass } from "class-transformer";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   ObjectType,
   Field,
@@ -38,7 +37,9 @@ import {
   PubSub,
   PubSubEngine,
 } from "../../src";
-import { plainToClass } from "class-transformer";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { IOCContainer } from "../../src/utils/container";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 
 describe("Resolvers", () => {
@@ -1189,6 +1190,13 @@ describe("Resolvers", () => {
     let queryType: IntrospectionObjectType;
     let mutationType: IntrospectionObjectType;
     let subscriptionType: IntrospectionObjectType;
+    let thisVar: any;
+    let baseResolver: any;
+    let childResolver: any;
+
+    beforeEach(() => {
+      thisVar = null;
+    });
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -1200,17 +1208,20 @@ describe("Resolvers", () => {
 
           @Query({ name: `${name}Query` })
           baseQuery(@Arg("arg") arg: boolean): boolean {
-            return this.name === "baseName";
+            thisVar = this;
+            return true;
           }
 
           @Mutation({ name: `${name}Mutation` })
           baseMutation(@Arg("arg") arg: boolean): boolean {
-            return this.name === "baseName";
+            thisVar = this;
+            return true;
           }
 
           @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
           baseSubscription(@Arg("arg") arg: boolean): boolean {
-            return this.name === "baseName";
+            thisVar = this;
+            return true;
           }
 
           @Mutation({ name: `${name}Trigger` })
@@ -1218,6 +1229,7 @@ describe("Resolvers", () => {
             return pubsub.publish("baseTopic", null);
           }
         }
+        baseResolver = BaseResolver;
 
         return BaseResolver;
       }
@@ -1226,17 +1238,20 @@ describe("Resolvers", () => {
       class ChildResolver extends createResolver("prefix") {
         @Query()
         childQuery(): boolean {
-          return this.name === "baseName";
+          thisVar = this;
+          return true;
         }
 
         @Mutation()
         childMutation(): boolean {
-          return this.name === "baseName";
+          thisVar = this;
+          return true;
         }
 
         @Subscription({ topics: "childTopic" })
         childSubscription(): boolean {
-          return this.name === "baseName";
+          thisVar = this;
+          return true;
         }
 
         @Mutation()
@@ -1244,6 +1259,7 @@ describe("Resolvers", () => {
           return pubsub.publish("childTopic", null);
         }
       }
+      childResolver = ChildResolver;
 
       const schemaInfo = await getSchemaInfo({
         resolvers: [ChildResolver],
@@ -1260,26 +1276,103 @@ describe("Resolvers", () => {
     });
 
     it("should generate proper queries in schema", async () => {
+      const queryNames = queryType.fields.map(it => it.name);
+      const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
+
       expect(queryType.fields).toHaveLength(2);
-      expect(queryType.fields[0].name).toEqual("childQuery");
-      expect(queryType.fields[1].name).toEqual("prefixQuery");
-      expect(queryType.fields[1].args).toHaveLength(1);
+      expect(queryNames).toContain("childQuery");
+      expect(queryNames).toContain("prefixQuery");
+      expect(prefixQuery.args).toHaveLength(1);
     });
 
     it("should generate proper mutations in schema", async () => {
+      const mutationNames = mutationType.fields.map(it => it.name);
+      const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
+
       expect(mutationType.fields).toHaveLength(4);
-      expect(mutationType.fields[0].name).toEqual("childMutation");
-      expect(mutationType.fields[1].name).toEqual("childTrigger");
-      expect(mutationType.fields[2].name).toEqual("prefixMutation");
-      expect(mutationType.fields[3].name).toEqual("prefixTrigger");
-      expect(mutationType.fields[2].args).toHaveLength(1);
+      expect(mutationNames).toContain("childMutation");
+      expect(mutationNames).toContain("childTrigger");
+      expect(mutationNames).toContain("prefixMutation");
+      expect(mutationNames).toContain("prefixTrigger");
+      expect(prefixMutation.args).toHaveLength(1);
     });
 
     it("should generate proper subscriptions in schema", async () => {
+      const subscriptionNames = subscriptionType.fields.map(it => it.name);
+      const prefixSubscription = subscriptionType.fields.find(
+        it => it.name === "prefixSubscription",
+      )!;
+
       expect(subscriptionType.fields).toHaveLength(2);
-      expect(subscriptionType.fields[0].name).toEqual("childSubscription");
-      expect(subscriptionType.fields[1].name).toEqual("prefixSubscription");
-      expect(subscriptionType.fields[1].args).toHaveLength(1);
+      expect(subscriptionNames).toContain("childSubscription");
+      expect(subscriptionNames).toContain("prefixSubscription");
+      expect(prefixSubscription.args).toHaveLength(1);
+    });
+
+    it("should correctly call query handler from base resolver class", async () => {
+      const query = `query {
+        prefixQuery(arg: true)
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.prefixQuery).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call mutation handler from base resolver class", async () => {
+      const mutation = `mutation {
+        prefixMutation(arg: true)
+      }`;
+
+      const { data } = await graphql(schema, mutation);
+
+      expect(data!.prefixMutation).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call query handler from child resolver class", async () => {
+      const query = `query {
+        childQuery
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.childQuery).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call mutation handler from child resolver class", async () => {
+      const mutation = `mutation {
+        childMutation
+      }`;
+
+      const { data } = await graphql(schema, mutation);
+
+      expect(data!.childMutation).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should have access to inherited properties from base resolver class", async () => {
+      const query = `query {
+        childQuery
+      }`;
+
+      await graphql(schema, query);
+
+      expect(thisVar.name).toEqual("baseName");
+    });
+
+    it("should get child class instance when calling base resolver handler", async () => {
+      const getInstanceMock = jest.fn();
+      IOCContainer.getInstance = getInstanceMock;
+      const query = `query {
+        prefixQuery(arg: true)
+      }`;
+
+      await graphql(schema, query);
+
+      expect(getInstanceMock).toHaveBeenCalledWith(childResolver);
     });
   });
 });
