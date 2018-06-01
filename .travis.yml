@@ -3,8 +3,7 @@ jobs:
     - stage: test
       language: node_js
       node_js:
-        # disable v10 until ts-node fix
-        # - stable
+        - 10
         - 9
         - 8
         - 6
