@@ -34,7 +34,7 @@ export function Resolver(
     getMetadataStorage().collectResolverClassMetadata({
       target,
       getObjectType,
-      isAbstract: options.isAbstract,
+      isAbstract: options.isAbstract || false,
     });
   };
 }

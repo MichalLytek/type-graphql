@@ -221,7 +221,9 @@ export abstract class SchemaGenerator {
                 const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
                   resolver =>
                     resolver.getObjectType!() === objectType.target &&
-                    resolver.methodName === field.name,
+                    resolver.methodName === field.name &&
+                    (resolver.resolverClassMetadata === undefined ||
+                    resolver.resolverClassMetadata.isAbstract === false),
                 );
                 fieldsMap[field.schemaName] = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),

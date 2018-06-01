@@ -1201,8 +1201,13 @@ describe("Resolvers", () => {
     beforeAll(async () => {
       getMetadataStorage().clear();
 
+      @ObjectType()
+      class SampleObject {
+        @Field() normalField: string;
+      }
+
       function createResolver(name: string) {
-        @Resolver({ isAbstract: true })
+        @Resolver(of => SampleObject, { isAbstract: true })
         class BaseResolver {
           protected name = "baseName";
 
@@ -1228,6 +1233,12 @@ describe("Resolvers", () => {
           baseTrigger(@PubSub() pubsub: PubSubEngine): boolean {
             return pubsub.publish("baseTopic", null);
           }
+
+          @FieldResolver()
+          resolverField(): string {
+            thisVar = this;
+            return "resolverField";
+          }
         }
         baseResolver = BaseResolver;
 
@@ -1240,6 +1251,11 @@ describe("Resolvers", () => {
         childQuery(): boolean {
           thisVar = this;
           return true;
+        }
+
+        @Query()
+        objectQuery(): SampleObject {
+          return { normalField: "normalField" };
         }
 
         @Mutation()
@@ -1279,8 +1295,9 @@ describe("Resolvers", () => {
       const queryNames = queryType.fields.map(it => it.name);
       const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
 
-      expect(queryType.fields).toHaveLength(2);
+      expect(queryType.fields).toHaveLength(3);
       expect(queryNames).toContain("childQuery");
+      expect(queryNames).toContain("objectQuery");
       expect(queryNames).toContain("prefixQuery");
       expect(prefixQuery.args).toHaveLength(1);
     });
@@ -1307,6 +1324,17 @@ describe("Resolvers", () => {
       expect(subscriptionNames).toContain("childSubscription");
       expect(subscriptionNames).toContain("prefixSubscription");
       expect(prefixSubscription.args).toHaveLength(1);
+    });
+
+    it("should generate proper object fields in schema", async () => {
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.kind === TypeKind.OBJECT && type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+      const sampleObjectTypeFieldsNames = sampleObjectType.fields.map(it => it.name);
+
+      expect(sampleObjectType.fields).toHaveLength(2);
+      expect(sampleObjectTypeFieldsNames).toContain("normalField");
+      expect(sampleObjectTypeFieldsNames).toContain("resolverField");
     });
 
     it("should correctly call query handler from base resolver class", async () => {
@@ -1350,6 +1378,19 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, mutation);
 
       expect(data!.childMutation).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call field resolver handler from base resolver class", async () => {
+      const query = `query {
+        objectQuery {
+          resolverField
+        }
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.objectQuery.resolverField).toEqual("resolverField");
       expect(thisVar.constructor.name).toEqual("ChildResolver");
     });
 

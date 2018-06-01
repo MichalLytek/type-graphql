@@ -137,6 +137,9 @@ export class MetadataStorage {
           this.subscriptions.push(
             ...this.mapSuperResolverHandlers(this.subscriptions, superResolver, def),
           );
+          this.fieldResolvers.push(
+            ...this.mapSuperResolverHandlers(this.fieldResolvers, superResolver, def),
+          );
         }
         superResolver = Object.getPrototypeOf(superResolver);
       }
@@ -247,11 +250,11 @@ export class MetadataStorage {
       );
   }
 
-  private mapSuperResolverHandlers<T extends ResolverMetadata>(
+  private mapSuperResolverHandlers<T extends BaseResolverMetadata>(
     definitions: T[],
     superResolver: Function,
     resolverMetadata: ResolverClassMetadata,
-  ) {
+  ): T[] {
     const superMetadata = definitions.filter(subscription => subscription.target === superResolver);
 
     return superMetadata.map<T>(metadata => ({
