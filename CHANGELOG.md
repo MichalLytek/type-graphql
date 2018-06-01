@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.12.0
 ### Features
 - **Breaking Change**: remove deprecated `ActionData` and `FilterActionData` interfaces
 - add support for resolver classes inheritance
