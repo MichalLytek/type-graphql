@@ -33,7 +33,7 @@
 <p>The only difference is that we have to let TypeGraphQL now that this <code>ObjectType</code> is implementing the <code>InterfaceType</code> by passing the param <code>({ implements: IPerson })</code> to the decorator. If we implemented more interfaces, we would pass the array of interfaces, like <code>({ implements: [IPerson, IAnimal, IMachine] })</code>.</p>
 <p>We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.</p>
 <p>Be aware that when your object type is implementing GraphQL interface type, <strong>you have to return an instance of the type class</strong> in your resolvers. Otherwise, <code>graphql-js</code> will not be able to detect the underlying GraphQL type correctly.</p>
-<h2><a class="anchor" aria-hidden="true" id="inheritance"></a><a href="#inheritance" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inheritance</h2>
+<h2><a class="anchor" aria-hidden="true" id="types-inheritance"></a><a href="#types-inheritance" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types inheritance</h2>
 <p>One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.</p>
 <p>While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like <code>skip</code> and <code>take</code>. So instead of repeating yourself, you can declare it once:</p>
 <pre><code class="hljs css ts"><span class="hljs-meta">@ArgsType</span>()
@@ -60,9 +60,73 @@
   universityName: <span class="hljs-built_in">string</span>;
 }
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
-<p>You can see more advanced usage example (e.g. with query returning interface type) in the <a href="https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance">examples folder</a>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="unions.html">← Unions</a><a class="docs-next button" href="subscriptions.html">Subscriptions →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#interfaces">Interfaces</a></li><li><a href="#inheritance">Inheritance</a></li><li><a href="#example">Example</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?utf8=✓&amp;q=is%3Aissue+label%3A&amp;quot;Enhancement+%3Anew%3A&amp;quot;+">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+label%3A&amp;quot;Bug+%3Abug%3A&amp;quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+<h2><a class="anchor" aria-hidden="true" id="resolvers-inheritance"></a><a href="#resolvers-inheritance" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolvers inheritance</h2>
+<p>The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.</p>
+<p>As we need to generate unique query/mutation names, we have to create a factory function for our base class:</p>
+<pre><code class="hljs css ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+
+  <span class="hljs-keyword">return</span> BaseResolver;
+}
+</code></pre>
+<p>Be aware that with some <code>tsconfig.json</code> settings you might receive <code>[ts] Return type of exported function has or is using private name 'BaseResolver'</code> error - in that case you might need to use <code>any</code> as a return type or create a separate class/interface describing the class methods and properties.</p>
+<p>This factory should take a parameter that we can use to generate queries/mutations names, as well as the type that we would return from the resolvers:</p>
+<pre><code class="hljs css ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
+  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+
+  <span class="hljs-keyword">return</span> BaseResolver;
+}
+</code></pre>
+<p>It's very important to mark the <code>BaseResolver</code> class using <code>@Resolver</code> decorator with <code>{ isAbstract: true }</code> option that will prevent throwing error due to registering multiple queries/mutations with the same name.</p>
+<pre><code class="hljs css ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
+  <span class="hljs-meta">@Resolver</span>({ isAbstract: <span class="hljs-literal">true</span> })
+  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+
+  <span class="hljs-keyword">return</span> BaseResolver;
+}
+</code></pre>
+<p>Then we can implement the resolvers methods in the same way as always. The only difference is that we can use <code>name</code> decorator option for <code>@Query</code>, <code>@Mutation</code> and <code>@Subscription</code> decorators to overwrite the name that will be emitted in schema:</p>
+<pre><code class="hljs css ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
+  <span class="hljs-meta">@Resolver</span>({ isAbstract: <span class="hljs-literal">true</span> })
+  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {
+    <span class="hljs-keyword">protected</span> items: T[] = [];
+
+    <span class="hljs-meta">@Query</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> [objectTypeCls], { name: <span class="hljs-string">`getAll<span class="hljs-subst">${suffix}</span>`</span> })
+    <span class="hljs-keyword">async</span> getAll(
+      <span class="hljs-meta">@Arg</span>(<span class="hljs-string">"first"</span>, <span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int) first: <span class="hljs-built_in">number</span>,
+    ): <span class="hljs-built_in">Promise</span>&lt;T[]&gt; {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.slice(<span class="hljs-number">0</span>, first);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> BaseResolver;
+}
+</code></pre>
+<p>After that we can create a specific resolver class that will extend the base resolver class:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">const</span> PersonBaseResolver = createBaseResolver(<span class="hljs-string">"person"</span>, Person);
+
+<span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Person)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> PersonResolver <span class="hljs-keyword">extends</span> PersonBaseResolver {
+  <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>We can also add specific queries and mutation in our resolver class, just like always:</p>
+<pre><code class="hljs css ts"><span class="hljs-keyword">const</span> PersonBaseResolver = createBaseResolver(<span class="hljs-string">"person"</span>, Person);
+
+<span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Person)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> PersonResolver <span class="hljs-keyword">extends</span> PersonBaseResolver {
+  <span class="hljs-meta">@Mutation</span>()
+  addPerson(<span class="hljs-meta">@Arg</span>(<span class="hljs-string">"input"</span>) personInput: PersonInput): Person {
+    <span class="hljs-keyword">this</span>.items.push(personInput);
+    <span class="hljs-keyword">return</span> personInput;
+  }
+}
+</code></pre>
+<p>And that's it! We just need to normally register <code>PersonResolver</code> in <code>buildSchema</code> and the extended resolver will be working correctly.</p>
+<h2><a class="anchor" aria-hidden="true" id="examples"></a><a href="#examples" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p>More advanced usage example of interfaces and types inheritance (e.g. with query returning interface type) you can see in <a href="https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance">this examples folder</a>.</p>
+<p>For more advanced resolvers inheritance example, please go to <a href="https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance">the example folder</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="unions.html">← Unions</a><a class="docs-next button" href="subscriptions.html">Subscriptions →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#interfaces">Interfaces</a></li><li><a href="#types-inheritance">Types inheritance</a></li><li><a href="#resolvers-inheritance">Resolvers inheritance</a></li><li><a href="#examples">Examples</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?utf8=✓&amp;q=is%3Aissue+label%3A&amp;quot;Enhancement+%3Anew%3A&amp;quot;+">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+label%3A&amp;quot;Bug+%3Abug%3A&amp;quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
