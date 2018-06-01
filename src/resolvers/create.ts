@@ -15,7 +15,6 @@ import { Middleware } from "../interfaces/Middleware";
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
-  const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
   const {
     validate: globalValidate,
     authChecker,
@@ -27,6 +26,7 @@ export function createHandlerResolver(
   applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
   return async (root, args, context, info) => {
+    const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
     const resolverData: ResolverData<any> = { root, args, context, info };
     return applyMiddlewares(resolverData, middlewares, async () => {
       const params: any[] = await getParams(

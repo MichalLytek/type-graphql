@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - **Breaking Change**: remove deprecated `ActionData` and `FilterActionData` interfaces
+- add support for resolver classes inheritance
 
 ## v0.11.3
 ### Features

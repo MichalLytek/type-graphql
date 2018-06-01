@@ -13,7 +13,7 @@ import {
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
 } from "./definitions";
-import { ClassType } from "../decorators/types";
+import { ClassType, ClassTypeResolver } from "../decorators/types";
 import { Middleware } from "../interfaces/Middleware";
 import { NoExplicitTypeError } from "../errors";
 
@@ -31,7 +31,7 @@ export class MetadataStorage {
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
 
-  private resolvers: ResolverClassMetadata[] = [];
+  private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
   private params: ParamMetadata[] = [];
 
@@ -78,7 +78,7 @@ export class MetadataStorage {
   }
 
   collectResolverClassMetadata(definition: ResolverClassMetadata) {
-    this.resolvers.push(definition);
+    this.resolverClasses.push(definition);
   }
   collectClassFieldMetadata(definition: FieldMetadata) {
     this.fields.push(definition);
@@ -100,6 +100,8 @@ export class MetadataStorage {
     this.buildResolversMetadata(this.queries);
     this.buildResolversMetadata(this.mutations);
     this.buildResolversMetadata(this.subscriptions);
+
+    this.buildExtendedResolversMetadata();
   }
 
   clear() {
@@ -116,9 +118,32 @@ export class MetadataStorage {
     this.unions = [];
     this.middlewares = [];
 
-    this.resolvers = [];
+    this.resolverClasses = [];
     this.fields = [];
     this.params = [];
+  }
+
+  private buildExtendedResolversMetadata() {
+    this.resolverClasses.forEach(def => {
+      const target = def.target;
+      let superResolver = Object.getPrototypeOf(target);
+
+      // copy and modify metadata of resolver from parent resolver class
+      while (superResolver.prototype) {
+        const superResolverMetadata = this.resolverClasses.find(it => it.target === target);
+        if (superResolverMetadata) {
+          this.queries.push(...this.mapSuperResolverHandlers(this.queries, superResolver, def));
+          this.mutations.push(...this.mapSuperResolverHandlers(this.mutations, superResolver, def));
+          this.subscriptions.push(
+            ...this.mapSuperResolverHandlers(this.subscriptions, superResolver, def),
+          );
+          this.fieldResolvers.push(
+            ...this.mapSuperResolverHandlers(this.fieldResolvers, superResolver, def),
+          );
+        }
+        superResolver = Object.getPrototypeOf(superResolver);
+      }
+    });
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
@@ -129,7 +154,7 @@ export class MetadataStorage {
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
-        field.middlewares = this.mapMetadataToMiddlewares(
+        field.middlewares = this.mapMiddlewareMetadataToArray(
           this.middlewares.filter(
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
@@ -141,11 +166,15 @@ export class MetadataStorage {
 
   private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
+      const resolverClassMetadata = this.resolverClasses.find(
+        resolver => resolver.target === def.target,
+      )!;
+      def.resolverClassMetadata = resolverClassMetadata;
       def.params = this.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      def.middlewares = this.mapMetadataToMiddlewares(
+      def.middlewares = this.mapMiddlewareMetadataToArray(
         this.middlewares.filter(
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
@@ -159,10 +188,10 @@ export class MetadataStorage {
       def.roles = this.findFieldRoles(def.target, def.methodName);
       def.getObjectType =
         def.kind === "external"
-          ? this.resolvers.find(resolver => resolver.target === def.target)!.getObjectType
+          ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
           : () => def.target as ClassType;
       if (def.kind === "external") {
-        const objectTypeCls = this.resolvers.find(resolver => resolver.target === def.target)!
+        const objectTypeCls = this.resolverClasses.find(resolver => resolver.target === def.target)!
           .getObjectType!();
         const objectType = this.objectTypes.find(
           objTypeDef => objTypeDef.target === objectTypeCls,
@@ -174,8 +203,9 @@ export class MetadataStorage {
           if (!def.getType || !def.typeOptions) {
             throw new NoExplicitTypeError(def.target.name, def.methodName);
           }
-          const fieldMetadata = {
+          const fieldMetadata: FieldMetadata = {
             name: def.methodName,
+            schemaName: def.schemaName,
             getType: def.getType!,
             target: objectTypeCls,
             typeOptions: def.typeOptions!,
@@ -211,12 +241,26 @@ export class MetadataStorage {
     return authorizedField.roles;
   }
 
-  private mapMetadataToMiddlewares(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
+  private mapMiddlewareMetadataToArray(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
     return metadata
       .map(m => m.middlewares)
       .reduce<Array<Middleware<any>>>(
         (middlewares, resultArray) => resultArray.concat(middlewares),
         [],
       );
+  }
+
+  private mapSuperResolverHandlers<T extends BaseResolverMetadata>(
+    definitions: T[],
+    superResolver: Function,
+    resolverMetadata: ResolverClassMetadata,
+  ): T[] {
+    const superMetadata = definitions.filter(subscription => subscription.target === superResolver);
+
+    return superMetadata.map<T>(metadata => ({
+      ...(metadata as any),
+      target: resolverMetadata.target,
+      resolverClassMetadata: resolverMetadata,
+    }));
   }
 }

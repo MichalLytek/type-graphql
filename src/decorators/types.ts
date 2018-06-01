@@ -30,8 +30,11 @@ export interface DepreciationOptions {
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
 }
+export interface SchemaNameOptions {
+  name?: string;
+}
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
-export type AdvancedOptions = BasicOptions & DepreciationOptions;
+export type AdvancedOptions = BasicOptions & DepreciationOptions & SchemaNameOptions;
 
 export interface ClassType<T = any> {
   new (): T;
@@ -43,3 +46,7 @@ export interface EnumConfig {
 }
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
+
+export interface ResolverClassOptions {
+  isAbstract?: boolean;
+}

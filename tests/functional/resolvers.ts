@@ -13,9 +13,8 @@ import {
   TypeKind,
 } from "graphql";
 import * as path from "path";
+import { plainToClass } from "class-transformer";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   ObjectType,
   Field,
@@ -34,8 +33,13 @@ import {
   ResolverInterface,
   Info,
   buildSchemaSync,
+  Subscription,
+  PubSub,
+  PubSubEngine,
 } from "../../src";
-import { plainToClass } from "class-transformer";
+import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { IOCContainer } from "../../src/utils/container";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 
 describe("Resolvers", () => {
@@ -419,8 +423,12 @@ describe("Resolvers", () => {
           field => field.name === "independentFieldResolver",
         )!;
         const fieldResolverArgs = independentFieldResolver.args;
-        const arg1Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg1")!);
-        const arg2Type = getInnerTypeOfNonNullableType(fieldResolverArgs.find(arg => arg.name === "arg2")!);
+        const arg1Type = getInnerTypeOfNonNullableType(
+          fieldResolverArgs.find(arg => arg.name === "arg1")!,
+        );
+        const arg2Type = getInnerTypeOfNonNullableType(
+          fieldResolverArgs.find(arg => arg.name === "arg2")!,
+        );
         const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
 
         expect(independentFieldResolver.description).toEqual("independent");
@@ -1116,61 +1124,296 @@ describe("Resolvers", () => {
     });
   });
 
-  it("should load resolvers from glob paths", async () => {
-    getMetadataStorage().clear();
+  describe("buildSchema", async () => {
+    it("should load resolvers from glob paths", async () => {
+      getMetadataStorage().clear();
 
-    const { queryType } = await getSchemaInfo({
-      resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+      const { queryType } = await getSchemaInfo({
+        resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+      });
+
+      const directoryQueryReturnType = getInnerTypeOfNonNullableType(
+        queryType.fields.find(field => field.name === "sampleQuery")!,
+      );
+
+      expect(queryType.fields).toHaveLength(1);
+      expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
+      expect(directoryQueryReturnType.name).toEqual("SampleObject");
     });
 
-    const directoryQueryReturnType = getInnerTypeOfNonNullableType(
-      queryType.fields.find(field => field.name === "sampleQuery")!,
-    );
+    it("should build the schema synchronously", async () => {
+      getMetadataStorage().clear();
 
-    expect(queryType.fields).toHaveLength(1);
-    expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
-    expect(directoryQueryReturnType.name).toEqual("SampleObject");
-  });
-
-  it("should build the schema synchronously", async () => {
-    getMetadataStorage().clear();
-
-    @ObjectType()
-    class SampleObject {
-      @Field() sampleFieldSync: string;
-    }
-    @Resolver()
-    class SampleResolver {
-      @Query()
-      sampleQuerySync(): SampleObject {
-        return { sampleFieldSync: "sampleFieldSync" };
+      @ObjectType()
+      class SampleObject {
+        @Field() sampleFieldSync: string;
       }
-    }
-
-    const schema = buildSchemaSync({
-      resolvers: [SampleResolver],
-    });
-    const query = `
-      query {
-        sampleQuerySync {
-          sampleFieldSync
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuerySync(): SampleObject {
+          return { sampleFieldSync: "sampleFieldSync" };
         }
       }
-    `;
-    const { data } = await graphql(schema, query);
 
-    expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+      const schema = buildSchemaSync({
+        resolvers: [SampleResolver],
+      });
+      const query = `
+        query {
+          sampleQuerySync {
+            sampleFieldSync
+          }
+        }
+      `;
+      const { data } = await graphql(schema, query);
+
+      expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+    });
+
+    it("should throw errors when no resolvers provided", async () => {
+      getMetadataStorage().clear();
+      expect.assertions(2);
+
+      try {
+        await buildSchema({ resolvers: [] });
+      } catch (err) {
+        expect(err.message).toContain("Empty");
+        expect(err.message).toContain("resolvers");
+      }
+    });
   });
 
-  it("should throw errors when no resolvers provided", async () => {
-    getMetadataStorage().clear();
-    expect.assertions(2);
+  describe("Inheritance", async () => {
+    let schema: GraphQLSchema;
+    let schemaIntrospection: IntrospectionSchema;
+    let queryType: IntrospectionObjectType;
+    let mutationType: IntrospectionObjectType;
+    let subscriptionType: IntrospectionObjectType;
+    let thisVar: any;
+    let baseResolver: any;
+    let childResolver: any;
 
-    try {
-      await buildSchema({ resolvers: [] });
-    } catch (err) {
-      expect(err.message).toContain("Empty");
-      expect(err.message).toContain("resolvers");
-    }
+    beforeEach(() => {
+      thisVar = null;
+    });
+
+    beforeAll(async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field() normalField: string;
+      }
+
+      function createResolver(name: string) {
+        @Resolver(of => SampleObject, { isAbstract: true })
+        class BaseResolver {
+          protected name = "baseName";
+
+          @Query({ name: `${name}Query` })
+          baseQuery(@Arg("arg") arg: boolean): boolean {
+            thisVar = this;
+            return true;
+          }
+
+          @Mutation({ name: `${name}Mutation` })
+          baseMutation(@Arg("arg") arg: boolean): boolean {
+            thisVar = this;
+            return true;
+          }
+
+          @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
+          baseSubscription(@Arg("arg") arg: boolean): boolean {
+            thisVar = this;
+            return true;
+          }
+
+          @Mutation({ name: `${name}Trigger` })
+          baseTrigger(@PubSub() pubsub: PubSubEngine): boolean {
+            return pubsub.publish("baseTopic", null);
+          }
+
+          @FieldResolver()
+          resolverField(): string {
+            thisVar = this;
+            return "resolverField";
+          }
+        }
+        baseResolver = BaseResolver;
+
+        return BaseResolver;
+      }
+
+      @Resolver()
+      class ChildResolver extends createResolver("prefix") {
+        @Query()
+        childQuery(): boolean {
+          thisVar = this;
+          return true;
+        }
+
+        @Query()
+        objectQuery(): SampleObject {
+          return { normalField: "normalField" };
+        }
+
+        @Mutation()
+        childMutation(): boolean {
+          thisVar = this;
+          return true;
+        }
+
+        @Subscription({ topics: "childTopic" })
+        childSubscription(): boolean {
+          thisVar = this;
+          return true;
+        }
+
+        @Mutation()
+        childTrigger(@PubSub() pubsub: PubSubEngine): boolean {
+          return pubsub.publish("childTopic", null);
+        }
+      }
+      childResolver = ChildResolver;
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [ChildResolver],
+      });
+      schemaIntrospection = schemaInfo.schemaIntrospection;
+      queryType = schemaInfo.queryType;
+      mutationType = schemaInfo.mutationType!;
+      subscriptionType = schemaInfo.subscriptionType!;
+      schema = schemaInfo.schema;
+    });
+
+    it("should build schema correctly", async () => {
+      expect(schema).toBeDefined();
+    });
+
+    it("should generate proper queries in schema", async () => {
+      const queryNames = queryType.fields.map(it => it.name);
+      const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
+
+      expect(queryType.fields).toHaveLength(3);
+      expect(queryNames).toContain("childQuery");
+      expect(queryNames).toContain("objectQuery");
+      expect(queryNames).toContain("prefixQuery");
+      expect(prefixQuery.args).toHaveLength(1);
+    });
+
+    it("should generate proper mutations in schema", async () => {
+      const mutationNames = mutationType.fields.map(it => it.name);
+      const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
+
+      expect(mutationType.fields).toHaveLength(4);
+      expect(mutationNames).toContain("childMutation");
+      expect(mutationNames).toContain("childTrigger");
+      expect(mutationNames).toContain("prefixMutation");
+      expect(mutationNames).toContain("prefixTrigger");
+      expect(prefixMutation.args).toHaveLength(1);
+    });
+
+    it("should generate proper subscriptions in schema", async () => {
+      const subscriptionNames = subscriptionType.fields.map(it => it.name);
+      const prefixSubscription = subscriptionType.fields.find(
+        it => it.name === "prefixSubscription",
+      )!;
+
+      expect(subscriptionType.fields).toHaveLength(2);
+      expect(subscriptionNames).toContain("childSubscription");
+      expect(subscriptionNames).toContain("prefixSubscription");
+      expect(prefixSubscription.args).toHaveLength(1);
+    });
+
+    it("should generate proper object fields in schema", async () => {
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.kind === TypeKind.OBJECT && type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+      const sampleObjectTypeFieldsNames = sampleObjectType.fields.map(it => it.name);
+
+      expect(sampleObjectType.fields).toHaveLength(2);
+      expect(sampleObjectTypeFieldsNames).toContain("normalField");
+      expect(sampleObjectTypeFieldsNames).toContain("resolverField");
+    });
+
+    it("should correctly call query handler from base resolver class", async () => {
+      const query = `query {
+        prefixQuery(arg: true)
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.prefixQuery).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call mutation handler from base resolver class", async () => {
+      const mutation = `mutation {
+        prefixMutation(arg: true)
+      }`;
+
+      const { data } = await graphql(schema, mutation);
+
+      expect(data!.prefixMutation).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call query handler from child resolver class", async () => {
+      const query = `query {
+        childQuery
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.childQuery).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call mutation handler from child resolver class", async () => {
+      const mutation = `mutation {
+        childMutation
+      }`;
+
+      const { data } = await graphql(schema, mutation);
+
+      expect(data!.childMutation).toEqual(true);
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should correctly call field resolver handler from base resolver class", async () => {
+      const query = `query {
+        objectQuery {
+          resolverField
+        }
+      }`;
+
+      const { data } = await graphql(schema, query);
+
+      expect(data!.objectQuery.resolverField).toEqual("resolverField");
+      expect(thisVar.constructor.name).toEqual("ChildResolver");
+    });
+
+    it("should have access to inherited properties from base resolver class", async () => {
+      const query = `query {
+        childQuery
+      }`;
+
+      await graphql(schema, query);
+
+      expect(thisVar.name).toEqual("baseName");
+    });
+
+    it("should get child class instance when calling base resolver handler", async () => {
+      const getInstanceMock = jest.fn();
+      IOCContainer.getInstance = getInstanceMock;
+      const query = `query {
+        prefixQuery(arg: true)
+      }`;
+
+      await graphql(schema, query);
+
+      expect(getInstanceMock).toHaveBeenCalledWith(childResolver);
+    });
   });
 });

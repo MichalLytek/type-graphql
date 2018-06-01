@@ -25,6 +25,7 @@ export function getHandlerInfo(
 
   return {
     methodName,
+    schemaName: options.name || methodName,
     handler: (prototype as any)[methodName],
     target: prototype.constructor,
     getReturnType: getType,

@@ -6,6 +6,7 @@ require("ts-node/register/type-check");
 // require("./examples/interfaces-inheritance/index.ts");
 // require("./examples/middlewares/index.ts");
 // require("./examples/redis-subscriptions/index.ts");
+// require("./examples/resolvers-inheritance/index.ts");
 // require("./examples/simple-subscriptions/index.ts");
 // require("./examples/simple-usage/index.ts");
 // require("./examples/using-container/index.ts");
