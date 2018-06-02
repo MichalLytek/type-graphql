@@ -4,6 +4,7 @@
 ### Features
 - **Breaking Change**: remove deprecated `ActionData` and `FilterActionData` interfaces
 - add support for resolver classes inheritance
+- add `name` decorator option for `@Field` and `@FieldResolver` decorators that allows to set the schema name different than the property name
 
 ## v0.11.3
 ### Features

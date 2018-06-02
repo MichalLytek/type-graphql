@@ -198,6 +198,11 @@ describe("Resolvers", () => {
         independentFieldResolver(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
           return "resolverFieldWithArgs";
         }
+
+        @FieldResolver(type => String, { name: "overwrittenField", nullable: true })
+        overwrittenFieldResolver() {
+          return "overwrittenFieldResolver";
+        }
       }
 
       // get builded schema info from retrospection
@@ -439,6 +444,20 @@ describe("Resolvers", () => {
         expect(arg1Type.name).toEqual("String");
         expect(arg2Type.kind).toEqual(TypeKind.SCALAR);
         expect(arg2Type.name).toEqual("Boolean");
+      });
+
+      it("should overwrite object field name from field resolver decorator option", async () => {
+        const overwrittenField = sampleObjectType.fields.find(
+          field => field.name === "overwrittenField",
+        )!;
+        const overwrittenFieldResolver = sampleObjectType.fields.find(
+          field => field.name === "overwrittenFieldResolver",
+        )!;
+        const independentFieldResolverType = overwrittenField.type as IntrospectionNamedTypeRef;
+
+        expect(overwrittenFieldResolver).toBeUndefined();
+        expect(independentFieldResolverType.kind).toEqual("SCALAR");
+        expect(independentFieldResolverType.name).toEqual("String");
       });
     });
 

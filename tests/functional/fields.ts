@@ -49,6 +49,9 @@ describe("Fields - schema", () => {
 
       @Field(type => [SampleNestedObject], { nullable: true })
       nullableObjectArrayField: SampleNestedObject[] | null;
+
+      @Field({ name: "overwrittenName", nullable: true })
+      overwrittenStringField: string;
     }
 
     @Resolver(objectType => SampleObject)
@@ -133,6 +136,7 @@ describe("Fields - schema", () => {
       expect(error.message).toContain("invalidSampleNullableField");
     }
   });
+
   it("should throw error when object type property key is symbol", async () => {
     expect.assertions(1);
     getMetadataStorage().clear();
@@ -245,5 +249,19 @@ describe("Fields - schema", () => {
     expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(arrayItemFieldType.kind).toEqual(TypeKind.OBJECT);
     expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
+  });
+
+  it("should generate field with overwritten name from decorator option", async () => {
+    const overwrittenNameField = sampleObjectType.fields.find(
+      field => field.name === "overwrittenName",
+    )!;
+    const overwrittenStringField = sampleObjectType.fields.find(
+      field => field.name === "overwrittenStringField",
+    );
+    const overwrittenNameFieldType = overwrittenNameField.type as IntrospectionNamedTypeRef;
+
+    expect(overwrittenStringField).toBeUndefined();
+    expect(overwrittenNameFieldType.kind).toEqual(TypeKind.SCALAR);
+    expect(overwrittenNameFieldType.name).toEqual("String");
   });
 });
