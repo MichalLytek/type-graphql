@@ -123,29 +123,6 @@ export class MetadataStorage {
     this.params = [];
   }
 
-  private buildExtendedResolversMetadata() {
-    this.resolverClasses.forEach(def => {
-      const target = def.target;
-      let superResolver = Object.getPrototypeOf(target);
-
-      // copy and modify metadata of resolver from parent resolver class
-      while (superResolver.prototype) {
-        const superResolverMetadata = this.resolverClasses.find(it => it.target === target);
-        if (superResolverMetadata) {
-          this.queries.push(...this.mapSuperResolverHandlers(this.queries, superResolver, def));
-          this.mutations.push(...this.mapSuperResolverHandlers(this.mutations, superResolver, def));
-          this.subscriptions.push(
-            ...this.mapSuperResolverHandlers(this.subscriptions, superResolver, def),
-          );
-          this.fieldResolvers.push(
-            ...this.mapSuperResolverHandlers(this.fieldResolvers, superResolver, def),
-          );
-        }
-        superResolver = Object.getPrototypeOf(superResolver);
-      }
-    });
-  }
-
   private buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
       const fields = this.fields.filter(field => field.target === def.target);
@@ -227,6 +204,31 @@ export class MetadataStorage {
             def.roles = objectTypeField.roles;
           }
         }
+      }
+    });
+  }
+
+  private buildExtendedResolversMetadata() {
+    this.resolverClasses.forEach(def => {
+      const target = def.target;
+      let superResolver = Object.getPrototypeOf(target);
+
+      // copy and modify metadata of resolver from parent resolver class
+      while (superResolver.prototype) {
+        const superResolverMetadata = this.resolverClasses.find(it => it.target === target);
+        if (superResolverMetadata) {
+          this.queries.unshift(...this.mapSuperResolverHandlers(this.queries, superResolver, def));
+          this.mutations.unshift(
+            ...this.mapSuperResolverHandlers(this.mutations, superResolver, def),
+          );
+          this.subscriptions.unshift(
+            ...this.mapSuperResolverHandlers(this.subscriptions, superResolver, def),
+          );
+          this.fieldResolvers.unshift(
+            ...this.mapSuperResolverHandlers(this.fieldResolvers, superResolver, def),
+          );
+        }
+        superResolver = Object.getPrototypeOf(superResolver);
       }
     });
   }

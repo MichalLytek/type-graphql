@@ -41,6 +41,7 @@ import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
+import { ClassType } from "../../src/decorators/types";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -1212,6 +1213,7 @@ describe("Resolvers", () => {
     let thisVar: any;
     let baseResolver: any;
     let childResolver: any;
+    let overrideResolver: any;
 
     beforeEach(() => {
       thisVar = null;
@@ -1225,8 +1227,13 @@ describe("Resolvers", () => {
         @Field() normalField: string;
       }
 
-      function createResolver(name: string) {
-        @Resolver(of => SampleObject, { isAbstract: true })
+      @ObjectType()
+      class DummyObject {
+        @Field() normalField: string;
+      }
+
+      function createResolver(name: string, objectType: ClassType) {
+        @Resolver(of => objectType, { isAbstract: true })
         class BaseResolver {
           protected name = "baseName";
 
@@ -1265,7 +1272,7 @@ describe("Resolvers", () => {
       }
 
       @Resolver()
-      class ChildResolver extends createResolver("prefix") {
+      class ChildResolver extends createResolver("prefix", SampleObject) {
         @Query()
         childQuery(): boolean {
           thisVar = this;
@@ -1296,8 +1303,24 @@ describe("Resolvers", () => {
       }
       childResolver = ChildResolver;
 
+      @Resolver()
+      class OverrideResolver extends createResolver("overridden", DummyObject) {
+        @Query()
+        overriddenQuery(@Arg("overriddenArg") arg: boolean): string {
+          thisVar = this;
+          return "overriddenQuery";
+        }
+
+        @Mutation({ name: "overriddenMutation" })
+        overriddenMutationHandler(@Arg("overriddenArg") arg: boolean): string {
+          thisVar = this;
+          return "overriddenMutationHandler";
+        }
+      }
+      overrideResolver = OverrideResolver;
+
       const schemaInfo = await getSchemaInfo({
-        resolvers: [ChildResolver],
+        resolvers: [childResolver],
       });
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;
@@ -1312,25 +1335,22 @@ describe("Resolvers", () => {
 
     it("should generate proper queries in schema", async () => {
       const queryNames = queryType.fields.map(it => it.name);
-      const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
 
-      expect(queryType.fields).toHaveLength(3);
       expect(queryNames).toContain("childQuery");
       expect(queryNames).toContain("objectQuery");
       expect(queryNames).toContain("prefixQuery");
-      expect(prefixQuery.args).toHaveLength(1);
+      expect(queryNames).toContain("overriddenQuery");
     });
 
     it("should generate proper mutations in schema", async () => {
       const mutationNames = mutationType.fields.map(it => it.name);
-      const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
 
-      expect(mutationType.fields).toHaveLength(4);
       expect(mutationNames).toContain("childMutation");
       expect(mutationNames).toContain("childTrigger");
       expect(mutationNames).toContain("prefixMutation");
       expect(mutationNames).toContain("prefixTrigger");
-      expect(prefixMutation.args).toHaveLength(1);
+      expect(mutationNames).toContain("overriddenTrigger");
+      expect(mutationNames).toContain("overriddenMutation");
     });
 
     it("should generate proper subscriptions in schema", async () => {
@@ -1339,9 +1359,9 @@ describe("Resolvers", () => {
         it => it.name === "prefixSubscription",
       )!;
 
-      expect(subscriptionType.fields).toHaveLength(2);
       expect(subscriptionNames).toContain("childSubscription");
       expect(subscriptionNames).toContain("prefixSubscription");
+      expect(subscriptionNames).toContain("overriddenSubscription");
       expect(prefixSubscription.args).toHaveLength(1);
     });
 
@@ -1356,6 +1376,43 @@ describe("Resolvers", () => {
       expect(sampleObjectTypeFieldsNames).toContain("resolverField");
     });
 
+    it("should overwrite args in schema when handler has been overridden", async () => {
+      const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
+      const overriddenQuery = queryType.fields.find(it => it.name === "overriddenQuery")!;
+      const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
+      const overriddenMutation = mutationType.fields.find(it => it.name === "overriddenMutation")!;
+      const t = getInnerTypeOfNonNullableType(prefixQuery);
+
+      expect(prefixQuery.args).toHaveLength(1);
+      expect(prefixQuery.args[0].name).toEqual("arg");
+      expect(overriddenQuery.args).toHaveLength(1);
+      expect(overriddenQuery.args[0].name).toEqual("overriddenArg");
+      expect(prefixMutation.args).toHaveLength(1);
+      expect(prefixMutation.args[0].name).toEqual("arg");
+      expect(overriddenMutation.args).toHaveLength(1);
+      expect(overriddenMutation.args[0].name).toEqual("overriddenArg");
+    });
+
+    it("should overwrite return type in schema when handler has been overridden", async () => {
+      const prefixQuery = queryType.fields.find(it => it.name === "prefixQuery")!;
+      const overriddenQuery = queryType.fields.find(it => it.name === "overriddenQuery")!;
+      const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
+      const overriddenMutation = mutationType.fields.find(it => it.name === "overriddenMutation")!;
+      const prefixQueryType = getInnerTypeOfNonNullableType(prefixQuery);
+      const overriddenQueryType = getInnerTypeOfNonNullableType(overriddenQuery);
+      const prefixMutationType = getInnerTypeOfNonNullableType(prefixMutation);
+      const overriddenMutationType = getInnerTypeOfNonNullableType(overriddenMutation);
+
+      expect(prefixQueryType.kind).toEqual(TypeKind.SCALAR);
+      expect(prefixQueryType.name).toEqual("Boolean");
+      expect(overriddenQueryType.kind).toEqual(TypeKind.SCALAR);
+      expect(overriddenQueryType.name).toEqual("String");
+      expect(prefixMutationType.kind).toEqual(TypeKind.SCALAR);
+      expect(prefixMutationType.name).toEqual("Boolean");
+      expect(overriddenMutationType.kind).toEqual(TypeKind.SCALAR);
+      expect(overriddenMutationType.name).toEqual("String");
+    });
+
     it("should correctly call query handler from base resolver class", async () => {
       const query = `query {
         prefixQuery(arg: true)
@@ -1364,7 +1421,7 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, query);
 
       expect(data!.prefixQuery).toEqual(true);
-      expect(thisVar.constructor.name).toEqual("ChildResolver");
+      expect(thisVar.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from base resolver class", async () => {
@@ -1375,7 +1432,7 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, mutation);
 
       expect(data!.prefixMutation).toEqual(true);
-      expect(thisVar.constructor.name).toEqual("ChildResolver");
+      expect(thisVar.constructor).toEqual(childResolver);
     });
 
     it("should correctly call query handler from child resolver class", async () => {
@@ -1386,7 +1443,7 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, query);
 
       expect(data!.childQuery).toEqual(true);
-      expect(thisVar.constructor.name).toEqual("ChildResolver");
+      expect(thisVar.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from child resolver class", async () => {
@@ -1397,7 +1454,7 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, mutation);
 
       expect(data!.childMutation).toEqual(true);
-      expect(thisVar.constructor.name).toEqual("ChildResolver");
+      expect(thisVar.constructor).toEqual(childResolver);
     });
 
     it("should correctly call field resolver handler from base resolver class", async () => {
@@ -1410,7 +1467,29 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, query);
 
       expect(data!.objectQuery.resolverField).toEqual("resolverField");
-      expect(thisVar.constructor.name).toEqual("ChildResolver");
+      expect(thisVar.constructor).toEqual(childResolver);
+    });
+
+    it("should correctly call overridden query handler from child resolver class", async () => {
+      const query = `query {
+        overriddenQuery(overriddenArg: true)
+      }`;
+
+      const { data, errors } = await graphql(schema, query);
+
+      expect(data!.overriddenQuery).toEqual("overriddenQuery");
+      expect(thisVar.constructor).toEqual(overrideResolver);
+    });
+
+    it("should correctly call overridden mutation handler from child resolver class", async () => {
+      const mutation = `mutation {
+        overriddenMutation(overriddenArg: true)
+      }`;
+
+      const { data, errors } = await graphql(schema, mutation);
+
+      expect(data!.overriddenMutation).toEqual("overriddenMutationHandler");
+      expect(thisVar.constructor).toEqual(overrideResolver);
     });
 
     it("should have access to inherited properties from base resolver class", async () => {
@@ -1424,15 +1503,14 @@ describe("Resolvers", () => {
     });
 
     it("should get child class instance when calling base resolver handler", async () => {
-      const getInstanceMock = jest.fn();
-      IOCContainer.getInstance = getInstanceMock;
+      IOCContainer.getInstance = jest.fn();
       const query = `query {
         prefixQuery(arg: true)
       }`;
 
       await graphql(schema, query);
 
-      expect(getInstanceMock).toHaveBeenCalledWith(childResolver);
+      expect(IOCContainer.getInstance).toHaveBeenCalledWith(childResolver);
     });
   });
 });

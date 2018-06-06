@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Fixes
+- fix bug with overriding methods from parent resolver class (#95)
+
 ## v0.12.0
 ### Features
 - **Breaking Change**: remove deprecated `ActionData` and `FilterActionData` interfaces
