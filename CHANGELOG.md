@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.12.1
 ### Fixes
 - fix bug with overriding methods from parent resolver class (#95)
 
