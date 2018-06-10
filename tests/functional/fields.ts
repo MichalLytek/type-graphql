@@ -54,7 +54,7 @@ describe("Fields - schema", () => {
       overwrittenStringField: string;
     }
 
-    @Resolver(objectType => SampleObject)
+    @Resolver(of => SampleObject)
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {

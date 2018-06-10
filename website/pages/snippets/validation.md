@@ -11,6 +11,6 @@ export class RecipeInput {
 
   @Field(type => [String])
   @MaxArraySize(25)
-  ingredients?: string[];
+  ingredients: string[];
 }
 ```

@@ -110,7 +110,7 @@ describe("Middlewares", () => {
       middlewareField: string;
     }
 
-    @Resolver(objectType => SampleObject)
+    @Resolver(of => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {

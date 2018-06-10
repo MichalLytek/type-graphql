@@ -15,7 +15,7 @@ import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 import { createRecipeSamples } from "./recipe-samples";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[] = createRecipeSamples();
 

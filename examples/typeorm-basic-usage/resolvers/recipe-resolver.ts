@@ -18,7 +18,7 @@ import { RecipeInput } from "./types/recipe-input";
 import { Context } from "../index";
 import { RateInput } from "./types/rate-input";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
     @InjectRepository(Recipe)

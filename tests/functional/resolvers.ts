@@ -118,7 +118,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         emptyQuery(): boolean {
@@ -734,7 +734,7 @@ describe("Resolvers", () => {
         }
 
         try {
-          @Resolver(objectType => SampleObject)
+          @Resolver(of => SampleObject)
           class SampleResolver {
             @Query()
             sampleQuery(): string {
@@ -829,7 +829,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
         randomValueField = Math.random() * this.factor;

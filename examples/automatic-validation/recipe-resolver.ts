@@ -11,7 +11,7 @@ import { RecipeInput } from "./recipe-input";
 import { RecipesArguments } from "./recipes-arguments";
 import { generateRecipes } from "./helpers";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = generateRecipes(100);
 

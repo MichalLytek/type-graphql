@@ -39,7 +39,7 @@ And that's it! 😉
 
 TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {

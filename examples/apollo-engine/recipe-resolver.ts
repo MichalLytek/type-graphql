@@ -15,7 +15,7 @@ import { Recipe } from "./recipe-type";
 import { createRecipeSamples } from "./recipe-samples";
 import { CacheControl } from "./cache-control";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = createRecipeSamples();
 

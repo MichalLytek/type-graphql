@@ -199,7 +199,7 @@ Queries and mutations are not the only type of resolvers. We often create object
 
 Field resolvers in TypeGraphQL are very similar to queries and mutations - we create them as method of the resolver class but with a few modification. Firstly, we need to declare which object type's fields we are resolving by providing the type to `@Resolver` decorator:
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
 }
@@ -208,7 +208,7 @@ class RecipeResolver {
 Then we can create the class method that become field resolver.
 In our example we have `averageRating` field in `Recipe` object type that should calculate the average from the `ratings` array.
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
 
@@ -220,7 +220,7 @@ class RecipeResolver {
 
 We need to mark the method as field resolver with `@FieldResolver()` decorator. Because we've defined the type of the field in `Recipe` class definition, there's no need to do this again. We also need to decorate the method's parameters with `@Root` to inject the recipe object.
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
 
@@ -235,7 +235,7 @@ For enhanced type-safe you can implement the `ResolverInterface<Recipe>`.
 It's a small helper that will check if the return type of e.g. `averageRating` method is matching the `averageRating` property of the `Recipe` class
 and whether the first parameter of the method is the object type (`Recipe` class).
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   // queries and mutations
 
@@ -248,7 +248,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 
 Example implementation of the `averageRating` field resolver:
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   // queries and mutations
 
@@ -299,7 +299,7 @@ However, use this way of creating field resolvers only if the implementation is 
 If the code is more complicated and perform side effects (api call, db fetching), use resolver class's method instead - you can leverage dependency injection mechanism, really helpful in testing:
 
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(
     private userRepository: Repository<User>, // dependency injection

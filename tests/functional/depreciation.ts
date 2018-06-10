@@ -31,7 +31,7 @@ describe("Deprecation", () => {
         }
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {

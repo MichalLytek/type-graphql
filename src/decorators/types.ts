@@ -7,9 +7,9 @@ export type TypeValue = ClassType | GraphQLScalarType | Function | object | symb
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
 
 export type TypeValueThunk = (type?: void) => TypeValue;
-export type ClassTypeResolver = (classType?: void) => ClassType;
+export type ClassTypeResolver = (of?: void) => ClassType;
 
-export type ReturnTypeFunc = (returnType?: void) => ReturnTypeFuncValue;
+export type ReturnTypeFunc = (returns?: void) => ReturnTypeFuncValue;
 
 export type SubscriptionFilterFunc = (
   resolverFilterData: ResolverFilterData<any, any, any>,

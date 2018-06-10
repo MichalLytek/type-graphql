@@ -5,7 +5,7 @@ import { Recipe } from "./recipe.type";
 import { RecipesArgs } from "./recipe.args";
 import { ValidateArgs } from "../decorators/validate-args";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = recipeSamples;
 

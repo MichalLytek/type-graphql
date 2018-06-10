@@ -64,7 +64,7 @@ describe("Description", () => {
         describedField: string;
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {

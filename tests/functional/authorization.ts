@@ -47,7 +47,7 @@ describe("Authorization", () => {
       inlineAuthedResolvedField: string;
     }
 
-    @Resolver(objectType => SampleObject)
+    @Resolver(of => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {

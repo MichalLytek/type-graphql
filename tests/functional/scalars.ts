@@ -82,7 +82,7 @@ describe("Scalars", () => {
       customScalarField: any;
     }
 
-    @Resolver(objectType => SampleObject)
+    @Resolver(of => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
@@ -436,7 +436,7 @@ describe("Scalars", () => {
         dateField: any;
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -486,7 +486,7 @@ describe("Scalars", () => {
         @Field() customField: CustomType;
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -513,7 +513,7 @@ describe("Scalars", () => {
         dateField: any;
       }
 
-      @Resolver(objectType => SampleObject)
+      @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

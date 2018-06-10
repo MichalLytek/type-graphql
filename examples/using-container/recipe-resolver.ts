@@ -4,7 +4,7 @@ import { Recipe } from "./recipe-type";
 import { RecipeService } from "./recipe-service";
 import { RecipeInput } from "./recipe-input";
 
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
     // constructor injection of service
