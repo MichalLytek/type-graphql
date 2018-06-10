@@ -1,5 +1,5 @@
 ```ts
-@Resolver(objectType => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
     private readonly recipeRepository: Repository<Recipe>,

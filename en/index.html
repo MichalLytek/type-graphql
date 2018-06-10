@@ -32,7 +32,7 @@
   }
 }
 </code></pre>
-</span></div></div></div></div><div class="container snippet-container paddingBottom paddingTop" id="validation"><div class="wrapper"><div class="snippet"><div><span><pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">objectType</span> =&gt;</span> Recipe)
+</span></div></div></div></div><div class="container snippet-container paddingBottom paddingTop" id="validation"><div class="wrapper"><div class="snippet"><div><span><pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Recipe)
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> RecipeResolver {
   <span class="hljs-keyword">constructor</span>(<span class="hljs-params">
     <span class="hljs-keyword">private</span> readonly recipeRepository: Repository&lt;Recipe&gt;,
@@ -72,7 +72,7 @@
 
   <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> [<span class="hljs-built_in">String</span>])
   <span class="hljs-meta">@MaxArraySize</span>(<span class="hljs-number">25</span>)
-  ingredients?: <span class="hljs-built_in">string</span>[];
+  ingredients: <span class="hljs-built_in">string</span>[];
 }
 </code></pre>
 </span></div></div></div></div><div class="container snippet-container paddingBottom paddingTop" id="interoperable"><div class="wrapper"><div class="snippet"><div><span><pre><code class="hljs css ts"><span class="hljs-meta">@Entity</span>()

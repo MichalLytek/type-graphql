@@ -42,7 +42,7 @@
 </code></pre>
 <p>And that's it! 😉</p>
 <p>TypeGraphQL will automatically validate your inputs and arguments based on the definitions:</p>
-<pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">objectType</span> =&gt;</span> Recipe)
+<pre><code class="hljs css ts"><span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Recipe)
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> RecipeResolver {
   <span class="hljs-meta">@Mutation</span>(<span class="hljs-function"><span class="hljs-params">returns</span> =&gt;</span> Recipe)
   <span class="hljs-keyword">async</span> addRecipe(<span class="hljs-meta">@Arg</span>(<span class="hljs-string">"input"</span>) recipeInput: RecipeInput): <span class="hljs-built_in">Promise</span>&lt;Recipe&gt; {
