@@ -12,9 +12,10 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 
 ## Advanced
 - [Enums and unions](https://github.com/19majkel94/type-graphql/tree/master/examples/enums-and-unions)
-- [Interfaces and inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
+- [Interfaces and types inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
 - [Subscriptions (simple)](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions)
 - [Subscriptions (using Redis)](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions)
+- [Resolvers inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance)
 
 ## Features usage
 - [Dependency injection (IoC containers)](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container)

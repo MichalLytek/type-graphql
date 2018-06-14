@@ -8,9 +8,10 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 
 ## Advanced
 - [Enums and unions](./enums-and-unions)
-- [Interfaces and inheritance](./interfaces-inheritance)
+- [Interfaces and types inheritance](./interfaces-inheritance)
 - [Subscriptions (simple)](./simple-subscriptions)
 - [Subscriptions (using Redis)](./redis-subscriptions)
+- [Resolvers inheritance](./resolvers-inheritance)
 
 ## Features usage
 - [Dependency injection (IoC containers)](./using-container)
