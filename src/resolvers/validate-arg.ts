@@ -7,10 +7,6 @@ export async function validateArg<T extends Object>(
   globalValidate: boolean | ValidatorOptions,
   argValidate?: boolean | ValidatorOptions,
 ): Promise<T | undefined> {
-  if (!arg) {
-    return;
-  }
-
   const validate = argValidate !== undefined ? argValidate : globalValidate;
   if (validate === false || arg == null || typeof arg !== "object") {
     return arg;
