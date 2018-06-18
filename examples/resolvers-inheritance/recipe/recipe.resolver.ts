@@ -11,7 +11,7 @@ const recipes: Recipe[] = [
   },
 ];
 
-export const ResourceResolver = createResourceResolver(Recipe, recipes);
+export const ResourceResolver = createResourceResolver(() => Recipe, recipes);
 
 @Resolver(of => Recipe)
 export class RecipeResolver extends ResourceResolver<Recipe> {
