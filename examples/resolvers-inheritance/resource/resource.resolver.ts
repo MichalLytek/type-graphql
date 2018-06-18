@@ -1,8 +1,9 @@
 import { Service, Inject } from "typedi";
-import { Query, Arg, Int, Resolver, ArgsType, Field, Args } from "../../../src";
+import { Query, Arg, Int, Resolver, ArgsType, Field, Args, FieldResolver } from "../../../src";
 
 import { Resource } from "./resource";
 import { ResourceService, ResourceServiceFactory } from "./resource.service";
+import { ClassTypeResolver } from "../../../src/decorators/types";
 
 // workaround for `return type of exported function has or is using private name`
 export abstract class BaseResourceResolver<TResource extends Resource> {
@@ -27,13 +28,13 @@ export class GetAllArgs {
 }
 
 export function createResourceResolver<TResource extends Resource>(
-  ResourceCls: Function,
+  ResourceClsResolver: ClassTypeResolver,
   resources: TResource[],
 ): typeof BaseResourceResolver {
-  const resourceName = ResourceCls.name.toLocaleLowerCase();
-
+  const resourceCls = ResourceClsResolver();
+  const resourceName = resourceCls.name.toLocaleLowerCase();
   // this decorator option is mandatory to prevent multiple registering in schema
-  @Resolver({ isAbstract: true })
+  @Resolver(of => resourceCls, { isAbstract: true })
   @Service()
   abstract class ResourceResolver extends BaseResourceResolver<TResource> {
     protected resourceService: ResourceService<TResource>;
@@ -43,7 +44,7 @@ export function createResourceResolver<TResource extends Resource>(
       this.resourceService = factory.create(resources);
     }
 
-    @Query(returns => ResourceCls, { name: `${resourceName}` })
+    @Query(of => resourceCls, { name: `${resourceName}` })
     protected async getOne(
       @Arg("id", type => Int)
       id: number,
@@ -51,10 +52,14 @@ export function createResourceResolver<TResource extends Resource>(
       return this.resourceService.getOne(id);
     }
 
-    @Query(returns => [ResourceCls], { name: `${resourceName}s` })
+    @Query(returns => [resourceCls], { name: `${resourceName}s` })
     protected async getAll(@Args() { skip, take }: GetAllArgs) {
       const all = this.resourceService.getAll(skip, take);
       return all;
+    }
+    @FieldResolver(of => String)
+    protected async resourceName() {
+      return "dummy string";
     }
   }
 

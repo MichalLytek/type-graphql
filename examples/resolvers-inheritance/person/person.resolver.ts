@@ -19,7 +19,7 @@ const persons: Person[] = [
   },
 ];
 
-export const ResourceResolver = createResourceResolver(Person, persons);
+export const ResourceResolver = createResourceResolver(() => Person, persons);
 
 @Resolver(of => Person)
 export class PersonResolver extends ResourceResolver<Person> {
