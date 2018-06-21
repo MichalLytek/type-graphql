@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Fixes
+- fix swallowing false argument value (#101)
+
 ## v0.12.1
 ### Fixes
 - fix bug with overriding methods from parent resolver class (#95)
