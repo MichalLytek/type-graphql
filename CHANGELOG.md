@@ -1,6 +1,8 @@
 # Changelog and release notes
 
 ## Unreleased
+### Features
+- add support for using type classes in browser (configure webpack to use decorators shim)
 ### Fixes
 - fix swallowing false argument value (#101)
 

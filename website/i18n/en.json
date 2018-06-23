@@ -6,6 +6,7 @@
     "tagline": "Modern framework for GraphQL API in Node.js",
     "authorization": "Authorization",
     "bootstrap": "Bootstrapping",
+    "browser-usage": "Browser usage",
     "dependency-injection": "Dependency injection",
     "enums": "Enums",
     "examples": "Examples",
