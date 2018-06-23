@@ -6,6 +6,7 @@
 <url> <loc>https://19majkel94.github.io/blog/2018/03/25/medium-article.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://19majkel94.github.io/docs/authorization.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/authorization.html" /> </url>
 <url> <loc>https://19majkel94.github.io/docs/bootstrap.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/bootstrap.html" /> </url>
+<url> <loc>https://19majkel94.github.io/docs/browser-usage.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/browser-usage.html" /> </url>
 <url> <loc>https://19majkel94.github.io/docs/dependency-injection.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/dependency-injection.html" /> </url>
 <url> <loc>https://19majkel94.github.io/docs/enums.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/enums.html" /> </url>
 <url> <loc>https://19majkel94.github.io/docs/examples.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://19majkel94.github.io/docs/examples.html" /> </url>
