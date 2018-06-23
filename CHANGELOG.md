@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.12.2
 ### Features
 - add support for using type classes in browser (configure webpack to use decorators shim)
 ### Fixes
