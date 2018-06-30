@@ -5,6 +5,6 @@ declare namespace Reflect {
 
 declare namespace NodeJS {
   interface Global {
-    TypeGraphQLMetadataStorage: any;
+    TypeGraphQLMetadataStorage: import("./metadata/metadata-storage").MetadataStorage;
   }
 }
