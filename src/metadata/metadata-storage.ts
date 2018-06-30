@@ -13,9 +13,13 @@ import {
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
 } from "./definitions";
-import { ClassType, ClassTypeResolver } from "../decorators/types";
-import { Middleware } from "../interfaces/Middleware";
+import { ClassType } from "../decorators/types";
 import { NoExplicitTypeError } from "../errors";
+import {
+  mapSuperResolverHandlers,
+  mapMiddlewareMetadataToArray,
+  mapSuperFieldResolverHandlers,
+} from "./utils";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
@@ -131,7 +135,7 @@ export class MetadataStorage {
         field.params = this.params.filter(
           param => param.target === field.target && field.name === param.methodName,
         );
-        field.middlewares = this.mapMiddlewareMetadataToArray(
+        field.middlewares = mapMiddlewareMetadataToArray(
           this.middlewares.filter(
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
@@ -151,7 +155,7 @@ export class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      def.middlewares = this.mapMiddlewareMetadataToArray(
+      def.middlewares = mapMiddlewareMetadataToArray(
         this.middlewares.filter(
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
@@ -215,17 +219,15 @@ export class MetadataStorage {
 
       // copy and modify metadata of resolver from parent resolver class
       while (superResolver.prototype) {
-        const superResolverMetadata = this.resolverClasses.find(it => it.target === target);
+        const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
         if (superResolverMetadata) {
-          this.queries.unshift(...this.mapSuperResolverHandlers(this.queries, superResolver, def));
-          this.mutations.unshift(
-            ...this.mapSuperResolverHandlers(this.mutations, superResolver, def),
-          );
+          this.queries.unshift(...mapSuperResolverHandlers(this.queries, superResolver, def));
+          this.mutations.unshift(...mapSuperResolverHandlers(this.mutations, superResolver, def));
           this.subscriptions.unshift(
-            ...this.mapSuperResolverHandlers(this.subscriptions, superResolver, def),
+            ...mapSuperResolverHandlers(this.subscriptions, superResolver, def),
           );
           this.fieldResolvers.unshift(
-            ...this.mapSuperResolverHandlers(this.fieldResolvers, superResolver, def),
+            ...mapSuperFieldResolverHandlers(this.fieldResolvers, superResolver, def),
           );
         }
         superResolver = Object.getPrototypeOf(superResolver);
@@ -241,28 +243,5 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
-  }
-
-  private mapMiddlewareMetadataToArray(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
-    return metadata
-      .map(m => m.middlewares)
-      .reduce<Array<Middleware<any>>>(
-        (middlewares, resultArray) => resultArray.concat(middlewares),
-        [],
-      );
-  }
-
-  private mapSuperResolverHandlers<T extends BaseResolverMetadata>(
-    definitions: T[],
-    superResolver: Function,
-    resolverMetadata: ResolverClassMetadata,
-  ): T[] {
-    const superMetadata = definitions.filter(subscription => subscription.target === superResolver);
-
-    return superMetadata.map<T>(metadata => ({
-      ...(metadata as any),
-      target: resolverMetadata.target,
-      resolverClassMetadata: resolverMetadata,
-    }));
   }
 }

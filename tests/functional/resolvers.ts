@@ -1475,7 +1475,7 @@ describe("Resolvers", () => {
         overriddenQuery(overriddenArg: true)
       }`;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data } = await graphql(schema, query);
 
       expect(data!.overriddenQuery).toEqual("overriddenQuery");
       expect(thisVar.constructor).toEqual(overrideResolver);
@@ -1486,7 +1486,7 @@ describe("Resolvers", () => {
         overriddenMutation(overriddenArg: true)
       }`;
 
-      const { data, errors } = await graphql(schema, mutation);
+      const { data } = await graphql(schema, mutation);
 
       expect(data!.overriddenMutation).toEqual("overriddenMutationHandler");
       expect(thisVar.constructor).toEqual(overrideResolver);
