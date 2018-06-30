@@ -1,7 +1,6 @@
 import { ObjectType, Field, Int } from "../../../src";
 
 import { Resource } from "../resource/resource";
-import { Recipe } from "../recipe/recipe.type";
 import { PersonRole } from "./person.role";
 
 @ObjectType()

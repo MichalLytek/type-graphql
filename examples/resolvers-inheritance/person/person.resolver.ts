@@ -1,6 +1,6 @@
 import { Resolver, Arg, Int, Mutation } from "../../../src";
 
-import { createResourceResolver, BaseResourceResolver } from "../resource/resource.resolver";
+import { createResourceResolver } from "../resource/resource.resolver";
 import { Person } from "./person.type";
 import { PersonRole } from "./person.role";
 
@@ -21,7 +21,7 @@ const persons: Person[] = [
 
 export const ResourceResolver = createResourceResolver(Person, persons);
 
-@Resolver(of => Person)
+@Resolver()
 export class PersonResolver extends ResourceResolver<Person> {
   // here you can add resource-specific operations
 

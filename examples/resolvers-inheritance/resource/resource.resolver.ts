@@ -1,8 +1,19 @@
-import { Service, Inject } from "typedi";
-import { Query, Arg, Int, Resolver, ArgsType, Field, Args } from "../../../src";
+import { Service } from "typedi";
+import {
+  Query,
+  Arg,
+  Int,
+  Resolver,
+  ArgsType,
+  Field,
+  Args,
+  FieldResolver,
+  Root,
+} from "../../../src";
 
 import { Resource } from "./resource";
 import { ResourceService, ResourceServiceFactory } from "./resource.service";
+import { ClassType } from "../../../src/decorators/types";
 
 // workaround for `return type of exported function has or is using private name`
 export abstract class BaseResourceResolver<TResource extends Resource> {
@@ -27,13 +38,13 @@ export class GetAllArgs {
 }
 
 export function createResourceResolver<TResource extends Resource>(
-  ResourceCls: Function,
+  ResourceCls: ClassType,
   resources: TResource[],
 ): typeof BaseResourceResolver {
   const resourceName = ResourceCls.name.toLocaleLowerCase();
 
-  // this decorator option is mandatory to prevent multiple registering in schema
-  @Resolver({ isAbstract: true })
+  // `isAbstract` decorator option is mandatory to prevent multiple registering in schema
+  @Resolver(of => ResourceCls, { isAbstract: true })
   @Service()
   abstract class ResourceResolver extends BaseResourceResolver<TResource> {
     protected resourceService: ResourceService<TResource>;
@@ -55,6 +66,12 @@ export function createResourceResolver<TResource extends Resource>(
     protected async getAll(@Args() { skip, take }: GetAllArgs) {
       const all = this.resourceService.getAll(skip, take);
       return all;
+    }
+
+    // dynamically created field with resolver for all child resource classes
+    @FieldResolver({ name: "uuid" })
+    protected getUuid(@Root() resource: Resource): string {
+      return `${resourceName}_${resource.id}`;
     }
   }
 

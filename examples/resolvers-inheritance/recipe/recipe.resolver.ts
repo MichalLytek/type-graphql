@@ -1,6 +1,6 @@
-import { Resolver, FieldResolver, Query, Root } from "../../../src";
+import { Resolver, FieldResolver, Root } from "../../../src";
 
-import { createResourceResolver, BaseResourceResolver } from "../resource/resource.resolver";
+import { createResourceResolver } from "../resource/resource.resolver";
 import { Recipe } from "./recipe.type";
 
 const recipes: Recipe[] = [

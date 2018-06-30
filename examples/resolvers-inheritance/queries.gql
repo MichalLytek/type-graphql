@@ -9,6 +9,7 @@ query AllPersons {
 
 query OneRecipe {
   recipe(id: 1) {
+    uuid
     title
     ratings
     averageRating
