@@ -1,6 +1,8 @@
 # Changelog and release notes
 
 ## Unreleased
+### Features
+- add reflect-metadata checks and informative error if no polyfill provided
 ### Fixes
 - fix throwing error when `of => objectType` wasn't provided in abstract resolver class
 

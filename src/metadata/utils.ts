@@ -6,6 +6,7 @@ import {
 } from "./definitions";
 import { Middleware } from "../interfaces/Middleware";
 import { isThrowing } from "../helpers/isThrowing";
+import { ReflectMetadataMissingError } from "../errors";
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   definitions: T[],
@@ -45,4 +46,14 @@ export function mapMiddlewareMetadataToArray(
       (middlewares, resultArray) => resultArray.concat(middlewares),
       [],
     );
+}
+
+export function ensureReflectMetadataExists() {
+  if (
+    typeof Reflect !== "object" ||
+    typeof Reflect.decorate !== "function" ||
+    typeof Reflect.metadata !== "function"
+  ) {
+    throw new ReflectMetadataMissingError();
+  }
 }

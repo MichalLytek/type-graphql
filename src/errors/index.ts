@@ -6,6 +6,7 @@ export * from "./ForbiddenError";
 export * from "./GeneratingSchemaError";
 export * from "./MissingSubscriptionTopicsError";
 export * from "./NoExplicitTypeError";
+export * from "./ReflectMetadataMissingError";
 export * from "./SymbolKeysNotSupportedError";
 export * from "./UnauthorizedError";
 export * from "./UnionResolveTypeError";

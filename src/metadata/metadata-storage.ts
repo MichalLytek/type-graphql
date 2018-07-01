@@ -19,6 +19,7 @@ import {
   mapSuperResolverHandlers,
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
+  ensureReflectMetadataExists,
 } from "./utils";
 
 export class MetadataStorage {
@@ -38,6 +39,10 @@ export class MetadataStorage {
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
   private params: ParamMetadata[] = [];
+
+  constructor() {
+    ensureReflectMetadataExists();
+  }
 
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
