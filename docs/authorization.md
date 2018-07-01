@@ -115,7 +115,7 @@ const server = new GraphQLServer({
       request,
       user: request.user, // `request.user` comes from `express-jwt`
     };
-    return ctx;
+    return context;
   },
 });
 
