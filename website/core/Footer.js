@@ -52,10 +52,20 @@ class Footer extends React.Component {
               target="_blank">
               Stack Overflow
             </a> */}
-            <a href={this.props.config.repoUrl + "/issues?utf8=✓&q=is%3Aissue+label%3A&quot;Enhancement+%3Anew%3A&quot;+"}>
+            <a
+              href={
+                this.props.config.repoUrl +
+                '/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Enhancement+%3Anew%3A"'
+              }
+            >
               Feature requests and proposals
             </a>
-            <a href={this.props.config.repoUrl + "/issues?q=is%3Aissue+label%3A&quot;Bug+%3Abug%3A&quot;"}>
+            <a
+              href={
+                this.props.config.repoUrl +
+                '/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Bug+%3Abug%3A"'
+              }
+            >
               Issues
             </a>
             <a href="https://gitter.im/type-graphql/Lobby">Project Chat</a>

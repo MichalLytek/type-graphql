@@ -42,8 +42,8 @@ const siteConfig = {
   editUrl: "https://github.com/19majkel94/type-graphql/edit/master/docs/",
   /* colors for website */
   colors: {
-    primaryColor: "#2f7bc6",
-    secondaryColor: "#222",
+    primaryColor: "#222",
+    secondaryColor: "#333",
   },
   /* custom fonts for website */
   /*fonts: {
@@ -60,6 +60,7 @@ const siteConfig = {
   copyright: "Copyright © " + new Date().getFullYear() + " Michał Lytek",
   organizationName: "19majkel94", // or set an env variable ORGANIZATION_NAME
   projectName: "type-graphql", // or set an env variable PROJECT_NAME
+  usePrism: true,
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
     theme: "androidstudio",

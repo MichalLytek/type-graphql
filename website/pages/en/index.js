@@ -92,13 +92,13 @@ class HomeSplash extends React.Component {
 }
 
 const Block = props => (
-  <Container padding={["bottom", "top"]} id={props.id} background={props.background}>
+  <Container padding={["bottom", "top"]} id={props.id} background={props.background} className={props.className}>
     <GridBlock align={props.align || "center"} contents={props.children} layout={props.layout} />
   </Container>
 );
 
 const Features = props => (
-  <Block layout="fourColumn">
+  <Block layout="fourColumn" className="highlight">
     {[
       {
         image: imgUrl("GraphQL_Logo.svg"),
@@ -158,7 +158,7 @@ const ResolversSection = props => (
   <Container
     id="validation"
     padding={["bottom", "top"]}
-    className="snippet-container"
+    className="snippet-container highlight"
   >
     <div className="snippet">
       <MarkdownBlock>{testabilitySnippet}</MarkdownBlock>
@@ -202,8 +202,7 @@ const InteroperableSection = props => (
   <Container
     id="interoperable"
     padding={["bottom", "top"]}
-    className="snippet-container"
-
+    className="snippet-container highlight"
   >
     <div className="snippet">
       <MarkdownBlock>{typeormSnippet}</MarkdownBlock>

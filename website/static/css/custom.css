@@ -1,25 +1,44 @@
 /* your custom css */
 
-.snippet-container > .wrapper {
+* {
+  box-sizing: border-box;
+}
+
+.mainContainer {
+  padding-bottom: 0;
+}
+
+.lightBackground {
+  background: #e9e9e9;
+}
+
+.container.highlight {
+  background-color: #f9f9f9;
+}
+
+.snippet-container>.wrapper {
   display: flex;
   align-items: center;
 }
-.snippet-container > .wrapper > .gridBlock {
-  margin: -50px 10px 10px 10px;
+
+.snippet-container>.wrapper>.gridBlock {
+  margin: -50px 25px 25px 25px;
 }
+
 .snippet {
   flex-grow: 1;
   max-width: 450px;
 }
 
 .snippet code {
-  padding: 10px 30px 10px 10px;
+  padding: 15px 30px 15px 15px;
 }
 
 .want-more-section {
   padding: 30px 0;
   background-color: #e9e9e9;
 }
+
 .want-more-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -27,11 +46,8 @@
   margin: 30px 0 20px;
 }
 
-.homeContainer .homeWrapper {
-  padding: 40px 10px;
-}
-
 .button {
+  margin: 4px;
   color: #c04392;
   border-color: #c04392;
 }
@@ -42,11 +58,11 @@
 
 .projectTitle {
   font-weight: 600;
+  color: #2f7bc5;
 }
 
-.project-logo {
-  display: block;
-  margin: 0 auto;
+.projectTitle>small {
+  font-weight: 300;
 }
 
 .project-logo img {
@@ -55,29 +71,17 @@
   box-sizing: border-box;
 }
 
-nav.toc .toggleNav, .docsNavContainer, .docsSliderActive nav.toc .navBreadcrumb {
-  background: #f9f9f9;
-}
-
-nav.toc .toggleNav .navGroup.navGroupActive {
-  background: transparent;
-}
-
-.fixedHeaderContainer, footer.nav-footer {
-  background: #222222;
-  box-shadow: none;
-}
-
-footer .sitemap .nav-home {
-  opacity: 0.7;
+.nav-footer {
+  background-color: #222;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
-  .snippet-container > .wrapper {
+  .snippet-container>.wrapper {
     flex-direction: column;
   }
-  .snippet-container > .wrapper > .gridBlock {
+  .snippet-container>.wrapper>.gridBlock {
     padding: 20px 0;
+    margin: 0;
   }
   .snippet {
     max-width: 100%;
@@ -86,14 +90,14 @@ footer .sitemap .nav-home {
   }
   .project-logo img {
     max-width: 150px;
-  }  
+  }
   .nav.toc {
     width: 100%;
   }
 }
 
 @media only screen and (min-width: 1024px) {
-  .snippet-container > .wrapper {
+  .snippet-container>.wrapper {
     flex-direction: row;
   }
   .snippet {
@@ -101,11 +105,17 @@ footer .sitemap .nav-home {
   }
 }
 
-@media only screen and (max-width: 1023px) {
+@media (max-width: 480px) {
+  .projectTitle {
+    margin-top: 1em;
+  }
+  .project-logo img {
+    padding-bottom: 0;
+  }
 }
 
-@media only screen and (min-width: 1400px) {
-}
+@media only screen and (max-width: 1023px) {}
 
-@media only screen and (min-width: 1500px) {
-}
+@media only screen and (min-width: 1400px) {}
+
+@media only screen and (min-width: 1500px) {}
