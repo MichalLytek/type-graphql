@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - add reflect-metadata checks and informative error if no polyfill provided
+- update `@types/graphql` to latest version (`^0.13.3`)
 ### Fixes
 - fix throwing error when `of => objectType` wasn't provided in abstract resolver class
 
