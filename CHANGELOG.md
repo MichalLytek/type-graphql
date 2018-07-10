@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.12.3
 ### Features
 - add reflect-metadata checks and informative error if no polyfill provided
 - update `@types/graphql` to latest version (`^0.13.3`)
