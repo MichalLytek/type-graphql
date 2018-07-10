@@ -12,7 +12,11 @@ export async function validateArg<T extends Object>(
     return arg;
   }
 
-  const validatorOptions: ValidatorOptions = Object.assign({}, globalValidate, argValidate);
+  const validatorOptions: ValidatorOptions = Object.assign(
+    {},
+    typeof globalValidate === "object" ? globalValidate : {},
+    typeof argValidate === "object" ? argValidate : {},
+  );
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
   }

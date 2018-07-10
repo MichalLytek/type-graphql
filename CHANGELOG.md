@@ -6,6 +6,7 @@
 - update `@types/graphql` to latest version (`^0.13.3`)
 ### Fixes
 - fix throwing error when `of => objectType` wasn't provided in abstract resolver class
+- fix calling `Object.assign` with boolean arguments (#111)
 
 ## v0.12.2
 ### Features
