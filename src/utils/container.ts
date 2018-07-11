@@ -2,6 +2,8 @@
  * Special thanks for @pleerock for this part of code :)
  */
 
+import { ResolverData } from "../interfaces";
+
 export type SupportedType<T> = { new (...args: any[]): T } | Function;
 
 /**
@@ -41,7 +43,7 @@ class DefaultContainer {
 }
 
 export abstract class IOCContainer {
-  static userContainer?: { get<T>(someClass: SupportedType<T>): T };
+  static userContainer?: { get<T>(someClass: SupportedType<T>, resolverData?: ResolverData): T };
   static userContainerOptions: UseContainerOptions;
   private static defaultContainer = new DefaultContainer();
 
@@ -68,10 +70,10 @@ export abstract class IOCContainer {
   /**
    * Gets the class instance from IOC container used by this library.
    */
-  static getInstance<T = any>(someClass: SupportedType<T>): T {
+  static getInstance<T = any>(someClass: SupportedType<T>, resolverData?: ResolverData): T {
     if (this.userContainer) {
       try {
-        const instance = this.userContainer.get(someClass);
+        const instance = this.userContainer.get(someClass, resolverData);
         if (instance) {
           return instance;
         }
@@ -90,7 +92,7 @@ export abstract class IOCContainer {
 }
 
 export function useContainer(
-  iocContainer: { get(someClass: any): any },
+  iocContainer: { get(someClass: any, resolverData?: ResolverData): any },
   options: UseContainerOptions = {},
 ) {
   IOCContainer.useContainer(iocContainer, options);
