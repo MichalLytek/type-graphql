@@ -11,6 +11,7 @@ import {
   Query,
   useContainer,
   buildSchema,
+  ResolverData,
 } from "../../src";
 
 describe("IOC container", () => {
@@ -90,5 +91,39 @@ describe("IOC container", () => {
     expect(firstCallValue).toBeDefined();
     expect(secondCallValue).toBeDefined();
     expect(firstCallValue).toEqual(secondCallValue);
+  });
+
+  it("should pass resolver's data to container's get", async () => {
+    IOCContainer.restoreDefault();
+
+    let contextRequestId!: number;
+    useContainer({
+      get(someClass, resolverData: ResolverData<{ requestId: number }>) {
+        contextRequestId = resolverData.context.requestId;
+        return Container.get(someClass);
+      },
+    });
+
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      sampleQuery(): string {
+        return "sampleQuery";
+      }
+    }
+
+    const schema = await buildSchema({
+      resolvers: [SampleResolver],
+    });
+
+    const query = /* graphql */ `
+      query {
+        sampleQuery
+      }
+    `;
+
+    const requestId = Math.random();
+    await graphql(schema, query, null, { requestId });
+    expect(contextRequestId).toEqual(requestId);
   });
 });

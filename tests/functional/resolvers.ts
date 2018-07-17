@@ -1510,7 +1510,7 @@ describe("Resolvers", () => {
 
       await graphql(schema, query);
 
-      expect(IOCContainer.getInstance).toHaveBeenCalledWith(childResolver);
+      expect(IOCContainer.getInstance).toHaveBeenCalledWith(childResolver, expect.anything());
     });
   });
 });
