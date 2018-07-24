@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
-import { useContainer, buildSchema } from "../../src";
+import Container, { ContainerInstance } from "typedi";
+import { useContainer, buildSchema, ResolverData } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { ScopedContainer } from "./container";
 import { Context } from "./types";
 
-// register or custom, scoped IOC container
+// register our custom, scoped IOC container
 useContainer(ScopedContainer);
 
 async function bootstrap() {
@@ -19,9 +20,14 @@ async function bootstrap() {
   const server = new GraphQLServer({
     schema,
     // we need to provide unique context with `requestId` for each request
-    context: (): Context => ({
-      requestId: Math.floor(Math.random() * 1000000), // uuid-like
-    }),
+    context: (): Context => {
+      const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
+      const context = { requestId };
+
+      const container = Container.of(requestId); // register scoped container
+      container.set("context", context); // place context or other data in container
+      return context;
+    },
   });
 
   // Configure server options
@@ -29,6 +35,19 @@ async function bootstrap() {
     port: 4000,
     endpoint: "/graphql",
     playground: "/playground",
+    formatResponse: (response: any, { context }: ResolverData<Context>) => {
+      // remember to dispose the scoped container to prevent memory leaks
+      Container.reset(context.requestId);
+
+      // for developers curiosity purpose, here is the logging of current scoped container instances
+      // you can make multiple parallel requests to see in console how this works
+      const instancesIds = ((Container as any).instances as ContainerInstance[]).map(
+        instance => instance.id,
+      );
+      console.log("instances in memory:", instancesIds);
+
+      return response;
+    },
   };
 
   // Start the server

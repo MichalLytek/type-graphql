@@ -17,10 +17,10 @@ Container.set({
 // create a wrapper for TypeDI `Container.of` scoped container feature
 export const ScopedContainer = {
   get(someClass: any, { context }: ResolverData<Context>) {
+    // use context data to get scoped container
     const container = Container.of(context.requestId);
-    if (!container.has("context")) {
-      container.set("context", context);
-    }
+
+    // then get from container like normal
     return container.get(someClass);
   },
 };

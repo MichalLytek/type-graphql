@@ -7,6 +7,8 @@ import { Logger } from "../logger";
 import { Context } from "../types";
 import { RecipeInput } from "./recipe.input";
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // this resolver will be recreated for each request (scoped)
 @Service()
 @Resolver(of => Recipe)
@@ -27,6 +29,7 @@ export class RecipeResolver {
 
   @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
+    await delay(5000); // simulate delay to allow for manual concurrent requests
     return this.recipeService.getAll();
   }
 
