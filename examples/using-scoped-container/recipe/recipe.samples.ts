@@ -1,4 +1,5 @@
 import { plainToClass } from "class-transformer";
+import Container from "typedi";
 
 import { Recipe } from "./recipe.type";
 
@@ -24,4 +25,16 @@ export const sampleRecipes = [
 
 function createRecipe(recipeData: Partial<Recipe>): Recipe {
   return plainToClass(Recipe, recipeData);
+}
+
+export function setSamplesInContainer() {
+  // add sample recipes to container
+  Container.set({
+    id: "SAMPLE_RECIPES",
+    transient: true, // create a fresh copy for each `get` of samples
+    factory: () => {
+      console.log("sampleRecipes copy created!");
+      return sampleRecipes.slice();
+    },
+  });
 }

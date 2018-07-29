@@ -4,13 +4,15 @@ import Container, { ContainerInstance } from "typedi";
 import { useContainer, buildSchema, ResolverData } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
-import { ScopedContainer } from "./container";
 import { Context } from "./types";
-
-// register our custom, scoped IOC container
-useContainer(ScopedContainer);
+import { setSamplesInContainer } from "./recipe/recipe.samples";
 
 async function bootstrap() {
+  setSamplesInContainer();
+
+  // register our custom, scoped IOC container by passing a extracting from resolver data function
+  useContainer<Context>(({ context }) => context.container);
+
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
@@ -22,9 +24,8 @@ async function bootstrap() {
     // we need to provide unique context with `requestId` for each request
     context: (): Context => {
       const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
-      const context = { requestId };
-
-      const container = Container.of(requestId); // register scoped container
+      const container = Container.of(requestId); // get scoped container
+      const context = { requestId, container }; // create our context
       container.set("context", context); // place context or other data in container
       return context;
     },
@@ -44,7 +45,7 @@ async function bootstrap() {
       const instancesIds = ((Container as any).instances as ContainerInstance[]).map(
         instance => instance.id,
       );
-      console.log("instances in memory:", instancesIds);
+      console.log("instances left in memory:", instancesIds);
 
       return response;
     },

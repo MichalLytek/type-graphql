@@ -12,6 +12,7 @@ import {
   useContainer,
   buildSchema,
   ResolverData,
+  ContainerType,
 } from "../../src";
 
 describe("IOC container", () => {
@@ -47,11 +48,13 @@ describe("IOC container", () => {
     const schema = await buildSchema({
       resolvers: [SampleResolver],
     });
-    const query = `query {
-      sampleQuery {
-        field
+    const query = /* graphql */ `
+      query {
+        sampleQuery {
+          field
+        }
       }
-    }`;
+    `;
     await graphql(schema, query);
 
     expect(serviceValue).toEqual(initValue);
@@ -77,11 +80,13 @@ describe("IOC container", () => {
     const schema = await buildSchema({
       resolvers: [SampleResolver],
     });
-    const query = `query {
-      sampleQuery {
-        field
+    const query = /* graphql */ `
+      query {
+        sampleQuery {
+          field
+        }
       }
-    }`;
+    `;
     await graphql(schema, query);
     const firstCallValue = resolverValue;
     resolverValue = undefined;
@@ -94,8 +99,6 @@ describe("IOC container", () => {
   });
 
   it("should pass resolver's data to container's get", async () => {
-    IOCContainer.restoreDefault();
-
     let contextRequestId!: number;
     useContainer({
       get(someClass, resolverData: ResolverData<{ requestId: number }>) {
@@ -125,5 +128,47 @@ describe("IOC container", () => {
     const requestId = Math.random();
     await graphql(schema, query, null, { requestId });
     expect(contextRequestId).toEqual(requestId);
+  });
+
+  it("should properly get container from container getter function", async () => {
+    let called: boolean = false;
+
+    interface TestContext {
+      container: ContainerType;
+    }
+
+    useContainer<TestContext>(({ context }) => context.container);
+
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      sampleQuery(): string {
+        return "sampleQuery";
+      }
+    }
+
+    const schema = await buildSchema({
+      resolvers: [SampleResolver],
+    });
+
+    const query = /* graphql */ `
+      query {
+        sampleQuery
+      }
+    `;
+
+    const mockedContainer: ContainerType = {
+      get(someClass: any) {
+        called = true;
+        return Container.get(someClass);
+      },
+    };
+    const queryContext: TestContext = {
+      container: mockedContainer,
+    };
+
+    await graphql(schema, query, null, queryContext);
+
+    expect(called).toEqual(true);
   });
 });

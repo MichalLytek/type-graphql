@@ -1,10 +1,18 @@
 /*
- * Special thanks for @pleerock for this part of code :)
+ * Special thanks for @pleerock for parts of this code :)
  */
 
 import { ResolverData } from "../interfaces";
 
 export type SupportedType<T> = { new (...args: any[]): T } | Function;
+
+export interface ContainerType {
+  get(someClass: any, resolverData: ResolverData<any>): any;
+}
+
+export type ContainerGetter<TContext extends object> = (
+  resolverData: ResolverData<TContext>,
+) => ContainerType;
 
 /**
  * Container options.
@@ -43,9 +51,8 @@ class DefaultContainer {
 }
 
 export abstract class IOCContainer {
-  private static userContainer?: {
-    get<T>(someClass: SupportedType<T>, resolverData: ResolverData): T;
-  };
+  private static userContainer?: ContainerType;
+  private static userContainerGetter?: ContainerGetter<any>;
   private static userContainerOptions: UseContainerOptions;
   private static defaultContainer = new DefaultContainer();
 
@@ -55,27 +62,43 @@ export abstract class IOCContainer {
    */
   static restoreDefault() {
     this.userContainer = undefined;
+    this.userContainerGetter = undefined;
     this.userContainerOptions = {};
+    this.defaultContainer = new DefaultContainer();
   }
 
   /**
    * Sets container to be used by this library.
    */
-  static useContainer(
-    iocContainer: { get(someClass: any, resolverData: ResolverData): any },
+  static useContainer(iocContainer: ContainerType, options: UseContainerOptions = {}) {
+    this.userContainer = iocContainer;
+    this.userContainerGetter = undefined;
+    this.userContainerOptions = options;
+  }
+
+  /**
+   * Sets container getter function to be used by this library.
+   */
+  static useContainerGetter(
+    containerGetter: ContainerGetter<any>,
     options: UseContainerOptions = {},
   ) {
-    this.userContainer = iocContainer;
+    this.userContainer = undefined;
+    this.userContainerGetter = containerGetter;
     this.userContainerOptions = options;
   }
 
   /**
    * Gets the class instance from IOC container used by this library.
    */
-  static getInstance<T = any>(someClass: SupportedType<T>, resolverData: ResolverData): T {
-    if (this.userContainer) {
+  static getInstance<T = any>(someClass: SupportedType<T>, resolverData: ResolverData<any>): T {
+    const container = this.userContainerGetter
+      ? this.userContainerGetter(resolverData)
+      : this.userContainer;
+
+    if (container) {
       try {
-        const instance = this.userContainer.get(someClass, resolverData);
+        const instance = container.get(someClass, resolverData);
         if (instance) {
           return instance;
         }
@@ -93,6 +116,21 @@ export abstract class IOCContainer {
   }
 }
 
-export const useContainer: typeof IOCContainer.useContainer = IOCContainer.useContainer.bind(
-  IOCContainer,
-);
+export function useContainer(iocContainer: ContainerType, options?: UseContainerOptions): void;
+export function useContainer<TContext extends object>(
+  containerGetter: ContainerGetter<TContext>,
+  options?: UseContainerOptions,
+): void;
+export function useContainer<TContext extends object>(
+  iocContainerOrGetFromResolverData: ContainerType | ContainerGetter<TContext>,
+  options?: UseContainerOptions,
+) {
+  if (
+    "get" in iocContainerOrGetFromResolverData &&
+    typeof iocContainerOrGetFromResolverData.get === "function"
+  ) {
+    IOCContainer.useContainer(iocContainerOrGetFromResolverData, options);
+  } else if (typeof iocContainerOrGetFromResolverData === "function") {
+    IOCContainer.useContainerGetter(iocContainerOrGetFromResolverData, options);
+  }
+}
