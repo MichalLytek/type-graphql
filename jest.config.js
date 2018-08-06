@@ -14,4 +14,5 @@ module.exports = {
     "!<rootDir>/src/browser-shim.ts",
   ],
   coverageDirectory: "<rootDir>/coverage",
+  testEnvironment: "node",
 };

@@ -43,7 +43,8 @@
     "class-validator": "^0.9.1",
     "glob": "^7.1.2",
     "graphql": "^0.13.2",
-    "graphql-subscriptions": "^0.5.8"
+    "graphql-subscriptions": "^0.5.8",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/del": "^3.0.1",
@@ -66,7 +67,7 @@
     "graphql-yoga": "^1.15.1",
     "gulp-replace": "^1.0.0",
     "gulp-shell": "^0.6.5",
-    "gulp-typescript": "^4.0.2",
+    "gulp-typescript": "^5.0.0-alpha.3",
     "gulpclass": "^0.2.0",
     "husky": "^1.0.0-rc.13",
     "ioredis": "^3.2.2",
@@ -82,7 +83,7 @@
     "typedi": "^0.8.0",
     "typeorm": "^0.2.7",
     "typeorm-typedi-extensions": "^0.2.1",
-    "typescript": "^2.9.2",
+    "typescript": "^3.0.1",
     "ws": "^6.0.0"
   },
   "husky": {

@@ -53,8 +53,8 @@ export class Gulpfile {
   @MergedTask()
   packageCompile() {
     const tsProject = ts.createProject("tsconfig.json");
-    const tsResult = gulp
-      .src(["./src/**/*.ts"])
+    const tsResult = tsProject
+      .src()
       // .pipe(sourcemaps.init())
       .pipe(tsProject());
 
@@ -152,42 +152,42 @@ export class Gulpfile {
   /**
    * Runs before test coverage, required step to perform a test coverage.
    */
-//   @Task()
-//   coveragePre() {
-//     return gulp
-//       .src(["./build/compiled/src/**/*.js"])
-//       .pipe(istanbul())
-//       .pipe(istanbul.hookRequire());
-//   }
+  //   @Task()
+  //   coveragePre() {
+  //     return gulp
+  //       .src(["./build/compiled/src/**/*.js"])
+  //       .pipe(istanbul())
+  //       .pipe(istanbul.hookRequire());
+  //   }
 
   /**
    * Runs post coverage operations.
    */
-//   @Task("coveragePost", ["coveragePre"])
-//   coveragePost() {
-//     chai.should();
-//     // chai.use(require("sinon-chai"));
-//     // chai.use(require("chai-as-promised"));
+  //   @Task("coveragePost", ["coveragePre"])
+  //   coveragePost() {
+  //     chai.should();
+  //     // chai.use(require("sinon-chai"));
+  //     // chai.use(require("chai-as-promised"));
 
-//     return gulp
-//       .src(["./build/compiled/test/functional/**/*.js", "./build/compiled/test/issues/**/*.js"])
-//       .pipe(mocha())
-//       .pipe(istanbul.writeReports());
-//   }
+  //     return gulp
+  //       .src(["./build/compiled/test/functional/**/*.js", "./build/compiled/test/issues/**/*.js"])
+  //       .pipe(mocha())
+  //       .pipe(istanbul.writeReports());
+  //   }
 
-//   @Task()
-//   coverageRemap() {
-//     return gulp
-//       .src("./coverage/coverage-final.json")
-//       .pipe(remapIstanbul())
-//       .pipe(gulp.dest("./coverage"));
-//   }
+  //   @Task()
+  //   coverageRemap() {
+  //     return gulp
+  //       .src("./coverage/coverage-final.json")
+  //       .pipe(remapIstanbul())
+  //       .pipe(gulp.dest("./coverage"));
+  //   }
 
   /**
    * Compiles the code and runs tests.
    */
-//   @SequenceTask()
-//   tests() {
-//     return ["clean", "compile", "coveragePost", "coverageRemap", "tslint"];
-//   }
+  //   @SequenceTask()
+  //   tests() {
+  //     return ["clean", "compile", "coveragePost", "coverageRemap", "tslint"];
+  //   }
 }
