@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - make `class-validator` a virtual peer dependency and update it to newest `0.9.1` version
+- add support for creating scoped containers (#113)
 
 ## v0.12.3
 ### Features
