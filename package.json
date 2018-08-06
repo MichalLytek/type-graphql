@@ -40,7 +40,7 @@
     "@types/glob": "^5.0.35",
     "@types/graphql": "^0.13.4",
     "@types/node": "*",
-    "class-validator": "^0.9.1",
+    "class-validator": ">=0.9.1",
     "glob": "^7.1.2",
     "graphql": "^0.13.2",
     "graphql-subscriptions": "^0.5.8",

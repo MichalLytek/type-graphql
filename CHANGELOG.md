@@ -2,7 +2,7 @@
 
 ## Unreleased
 ### Features
-- update `class-validator` to newest `0.9.1` version
+- make `class-validator` a virtual peer dependency and update it to newest `0.9.1` version
 
 ## v0.12.3
 ### Features

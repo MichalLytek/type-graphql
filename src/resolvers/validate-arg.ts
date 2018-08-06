@@ -1,4 +1,4 @@
-import { validateOrReject, ValidatorOptions } from "class-validator";
+import { ValidatorOptions } from "class-validator";
 
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 
@@ -21,6 +21,7 @@ export async function validateArg<T extends Object>(
     validatorOptions.skipMissingProperties = true;
   }
 
+  const { validateOrReject } = await import("class-validator");
   try {
     await validateOrReject(arg, validatorOptions);
     return arg;
