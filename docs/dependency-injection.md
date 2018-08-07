@@ -4,10 +4,12 @@ title: Dependency injection
 
 Dependency injection is a really useful pattern that helps in decoupling parts of the app.
 
-TypeGraphQL supports this technique by allowing users to provide the IoC container that will be used by the framework.
+TypeGraphQL supports this technique by allowing users to provide their IoC container that will be used by the framework.
 
-## How to use
-The usage is very simple - all you need to do is to register 3rd party container. Example using TypeDI:
+## Basic usage
+
+The usage of this feature is very simple - all you need to do is to register 3rd party container. Example using TypeDI:
+
 ```ts
 import { useContainer, buildSchema } from "type-graphql";
 // import your IoC container
@@ -39,14 +41,15 @@ export class RecipeResolver {
 
   @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("recipeId") recipeId: string) {
+    // usage of the injected service
     return this.recipeService.getOne(recipeId);
   }
 }
 ```
 
-Sample service implementation looks like this:
+And the sample recipe service implementation may look like this:
 
-```typescript
+```ts
 import { Service, Inject } from "typedi";
 
 @Service()
@@ -64,6 +67,77 @@ export class RecipeService {
 }
 ```
 
-## Example
+### Example
+
 You can see how this fits together in the [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container).
- 
+
+## Scoped containers
+
+Dependency injection is a really powerful pattern. But some advanced users may encounter the need of creating fresh instances of some services or resolvers for every request. Since `v0.13.0`, **TypeGraphQL** supports this feature, that is extremely useful for tracking logs by individual requests or managing stateful services.
+
+To register scoped container, you need to make some changes in the server bootstrapping config code.
+At first you need to provide a container resolver function. It takes the resolver data (like context) as an argument and should return instance of the container scoped to the request.
+
+For simple container libraries you may define it inline, e.g. using `TypeDI`:
+
+```ts
+useContainer<TContext>(({ context }) => Container.of(context.requestId));
+```
+
+For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in `useContainer` getter function:
+
+```ts
+useContainer<TContext>(({ context }) => context.container);
+```
+
+The tricky part is where the `context.requestId` comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like `express-graphql`, `apollo-server` or `graphql-yoga`.
+
+Example using `TypeDI` and `graphql-yoga` with the `context` creation method:
+
+```ts
+import { GraphQLServer } from "graphql-yoga";
+import { Container } from "typedi";
+
+const server = new GraphQLServer({
+  // schema comes from `buildSchema` as always
+  schema,
+  // provide unique context with `requestId` for each request
+  context: () => {
+    // generate the requestId (it also may come from `express-request-id` or other middleware)
+    const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
+    const container = Container.of(requestId); // get the scoped container
+    const context = { requestId, container }; // create fresh context object
+    container.set("context", context); // place context or other data in container
+    return context;
+  },
+});
+```
+
+You also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
+
+Unfortunately, GraphQL Yoga doesn't have the "document middlewares" feature yet, so some dirty tricks are needed to do the cleanup.
+Example using `TypeDI` and `graphql-yoga` with the `formatResponse` method:
+
+```ts
+import { Options } from "graphql-yoga";
+import { Container } from "typedi";
+
+const serverOptions: Options = {
+  // ...other not important settings here
+  formatResponse: (response: any, { context }: ResolverData<Context>) => {
+    // remember to dispose the scoped container to prevent memory leaks
+    Container.reset(context.requestId);
+    return response;
+  },
+};
+```
+
+And basically that's it! The configuration of container is done and TypeGraphQL will be able to use different instances of resolvers for each request.
+
+The only thing that left is the container configuration - you need to check out the docs for your container library (`InversifyJS`, `injection-js`, `TypeDI` or other) to get know how to setup a lifetime of the injectable objects (transient, scoped or singleton).
+
+**Be aware** that some libraries (like `TypeDI`) by default creates new instances for every scoped container, so you might experience a **significant grow of a memory usage** and a some decrease in query resolving speed, so please be careful with using this feature!
+
+### Example
+
+For more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container).

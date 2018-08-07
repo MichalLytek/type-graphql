@@ -90,6 +90,7 @@ export async function applyMiddlewares(
       if (currentMiddleware.prototype !== undefined) {
         const middlewareClassInstance = IOCContainer.getInstance(
           currentMiddleware as MiddlewareClass<any>,
+          resolverData,
         );
         handlerFn = middlewareClassInstance.use.bind(middlewareClassInstance);
       } else {

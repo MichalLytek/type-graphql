@@ -4,6 +4,11 @@ export * from "./errors";
 export * from "./interfaces";
 
 export { buildSchema, buildSchemaSync, BuildSchemaOptions } from "./utils/buildSchema";
-export { useContainer } from "./utils/container";
+export {
+  useContainer,
+  ContainerType,
+  ContainerGetter,
+  UseContainerOptions,
+} from "./utils/container";
 
 export { PubSubEngine } from "graphql-subscriptions";

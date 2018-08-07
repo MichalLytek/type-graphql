@@ -26,8 +26,8 @@ export function createHandlerResolver(
   applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
   return async (root, args, context, info) => {
-    const targetInstance = IOCContainer.getInstance(resolverMetadata.target);
     const resolverData: ResolverData<any> = { root, args, context, info };
+    const targetInstance = IOCContainer.getInstance(resolverMetadata.target, resolverData);
     return applyMiddlewares(resolverData, middlewares, async () => {
       const params: any[] = await getParams(
         resolverMetadata.params!,

@@ -1,0 +1,16 @@
+import { Field, ID, ObjectType } from "../../../src";
+
+@ObjectType()
+export class Recipe {
+  @Field(type => ID)
+  id: string;
+
+  @Field()
+  title: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field(type => String)
+  ingredients: string[];
+}
