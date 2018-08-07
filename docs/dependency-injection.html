@@ -30,9 +30,9 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/19majkel94/type-graphql/edit/master/docs/dependency-injection.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Dependency injection</h1></header><article><div><span><p>Dependency injection is a really useful pattern that helps in decoupling parts of the app.</p>
-<p>TypeGraphQL supports this technique by allowing users to provide the IoC container that will be used by the framework.</p>
-<h2><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use</h2>
-<p>The usage is very simple - all you need to do is to register 3rd party container. Example using TypeDI:</p>
+<p>TypeGraphQL supports this technique by allowing users to provide their IoC container that will be used by the framework.</p>
+<h2><a class="anchor" aria-hidden="true" id="basic-usage"></a><a href="#basic-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic usage</h2>
+<p>The usage of this feature is very simple - all you need to do is to register 3rd party container. Example using TypeDI:</p>
 <pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { useContainer, buildSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
 <span class="hljs-comment">// import your IoC container</span>
 <span class="hljs-keyword">import</span> { Container } <span class="hljs-keyword">from</span> <span class="hljs-string">"typedi"</span>;
@@ -60,30 +60,80 @@ useContainer(Container);
 
   <span class="hljs-meta">@Query</span>(<span class="hljs-function"><span class="hljs-params">returns</span> =&gt;</span> Recipe, { nullable: <span class="hljs-literal">true</span> })
   <span class="hljs-keyword">async</span> recipe(<span class="hljs-meta">@Arg</span>(<span class="hljs-string">"recipeId"</span>) recipeId: <span class="hljs-built_in">string</span>) {
+    <span class="hljs-comment">// usage of the injected service</span>
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.recipeService.getOne(recipeId);
   }
 }
 </code></pre>
-<p>Sample service implementation looks like this:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Service<span class="token punctuation">,</span> Inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typedi"</span><span class="token punctuation">;</span>
+<p>And the sample recipe service implementation may look like this:</p>
+<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { Service, Inject } <span class="hljs-keyword">from</span> <span class="hljs-string">"typedi"</span>;
 
-@<span class="token function">Service</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeService</span> <span class="token punctuation">{</span>
-  @<span class="token function">Inject</span><span class="token punctuation">(</span><span class="token string">"SAMPLE_RECIPES"</span><span class="token punctuation">)</span>
-  <span class="token keyword">private</span> readonly items<span class="token punctuation">:</span> Recipe<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="hljs-meta">@Service</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> RecipeService {
+  <span class="hljs-meta">@Inject</span>(<span class="hljs-string">"SAMPLE_RECIPES"</span>)
+  <span class="hljs-keyword">private</span> readonly items: Recipe[],
 
-  <span class="token keyword">async</span> <span class="token function">getAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
+  <span class="hljs-keyword">async</span> getAll() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items;
+  }
 
-  <span class="token keyword">async</span> <span class="token function">getOne</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>item <span class="token operator">=></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+  <span class="hljs-keyword">async</span> getOne(id: <span class="hljs-built_in">string</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.find(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item.id === id);
+  }
+}
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
+<h3><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
 <p>You can see how this fits together in the <a href="https://github.com/19majkel94/type-graphql/tree/master/examples/using-container">simple example</a>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/type-graphql/docs/interfaces-and-inheritance.html">← Interfaces and inheritance</a><a class="docs-next button" href="/type-graphql/docs/authorization.html">Authorization →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#how-to-use">How to use</a></li><li><a href="#example">Example</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+<h2><a class="anchor" aria-hidden="true" id="scoped-containers"></a><a href="#scoped-containers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoped containers</h2>
+<p>Dependency injection is a really powerful pattern. But some advanced users may encounter the need of creating fresh instances of some services or resolvers for every request. Since <code>v0.13.0</code>, <strong>TypeGraphQL</strong> supports this feature, that is extremely useful for tracking logs by individual requests or managing stateful services.</p>
+<p>To register scoped container, you need to make some changes in the server bootstrapping config code.
+At first you need to provide a container resolver function. It takes the resolver data (like context) as an argument and should return instance of the container scoped to the request.</p>
+<p>For simple container libraries you may define it inline, e.g. using <code>TypeDI</code>:</p>
+<pre><code class="hljs css languages- ts">useContainer&lt;TContext&gt;<span class="hljs-function">(<span class="hljs-params">(<span class="hljs-params">{ context }</span>) =&gt; Container.of(<span class="hljs-params">context.requestId</span>)</span>);
+</span></code></pre>
+<p>For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in <code>useContainer</code> getter function:</p>
+<pre><code class="hljs css languages- ts">useContainer&lt;TContext&gt;<span class="hljs-function">(<span class="hljs-params">(<span class="hljs-params">{ context }</span>) =&gt; context.container</span>);
+</span></code></pre>
+<p>The tricky part is where the <code>context.requestId</code> comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like <code>express-graphql</code>, <code>apollo-server</code> or <code>graphql-yoga</code>.</p>
+<p>Example using <code>TypeDI</code> and <code>graphql-yoga</code> with the <code>context</code> creation method:</p>
+<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { GraphQLServer } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql-yoga"</span>;
+<span class="hljs-keyword">import</span> { Container } <span class="hljs-keyword">from</span> <span class="hljs-string">"typedi"</span>;
+
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> GraphQLServer({
+  <span class="hljs-comment">// schema comes from `buildSchema` as always</span>
+  schema,
+  <span class="hljs-comment">// provide unique context with `requestId` for each request</span>
+  context: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-comment">// generate the requestId (it also may come from `express-request-id` or other middleware)</span>
+    <span class="hljs-keyword">const</span> requestId = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER); <span class="hljs-comment">// uuid-like</span>
+    <span class="hljs-keyword">const</span> container = Container.of(requestId); <span class="hljs-comment">// get the scoped container</span>
+    <span class="hljs-keyword">const</span> context = { requestId, container }; <span class="hljs-comment">// create fresh context object</span>
+    container.set(<span class="hljs-string">"context"</span>, context); <span class="hljs-comment">// place context or other data in container</span>
+    <span class="hljs-keyword">return</span> context;
+  },
+});
+</code></pre>
+<p>You also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.</p>
+<p>Unfortunately, GraphQL Yoga doesn't have the &quot;document middlewares&quot; feature yet, so some dirty tricks are needed to do the cleanup.
+Example using <code>TypeDI</code> and <code>graphql-yoga</code> with the <code>formatResponse</code> method:</p>
+<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { Options } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql-yoga"</span>;
+<span class="hljs-keyword">import</span> { Container } <span class="hljs-keyword">from</span> <span class="hljs-string">"typedi"</span>;
+
+<span class="hljs-keyword">const</span> serverOptions: Options = {
+  <span class="hljs-comment">// ...other not important settings here</span>
+  formatResponse: <span class="hljs-function">(<span class="hljs-params">response: <span class="hljs-built_in">any</span>, { context }: ResolverData&lt;Context&gt;</span>) =&gt;</span> {
+    <span class="hljs-comment">// remember to dispose the scoped container to prevent memory leaks</span>
+    Container.reset(context.requestId);
+    <span class="hljs-keyword">return</span> response;
+  },
+};
+</code></pre>
+<p>And basically that's it! The configuration of container is done and TypeGraphQL will be able to use different instances of resolvers for each request.</p>
+<p>The only thing that left is the container configuration - you need to check out the docs for your container library (<code>InversifyJS</code>, <code>injection-js</code>, <code>TypeDI</code> or other) to get know how to setup a lifetime of the injectable objects (transient, scoped or singleton).</p>
+<p><strong>Be aware</strong> that some libraries (like <code>TypeDI</code>) by default creates new instances for every scoped container, so you might experience a <strong>significant grow of a memory usage</strong> and a some decrease in query resolving speed, so please be careful with using this feature!</p>
+<h3><a class="anchor" aria-hidden="true" id="example-1"></a><a href="#example-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>For more advanced usage example with scoped containers, check out <a href="https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container">advanced example with scoped containers</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/type-graphql/docs/interfaces-and-inheritance.html">← Interfaces and inheritance</a><a class="docs-next button" href="/type-graphql/docs/authorization.html">Authorization →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#basic-usage">Basic usage</a><ul class="toc-headings"><li><a href="#example">Example</a></li></ul></li><li><a href="#scoped-containers">Scoped containers</a><ul class="toc-headings"><li><a href="#example-1">Example</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
               var search = docsearch({
                 
                 apiKey: '2cf66434100c0e30ca9ff499830e7b77',
