@@ -48,7 +48,7 @@ export class Gulpfile {
   }
 
   /**
-   * Copies all sources to the package directory.
+   * Complies all sources to the package directory.
    */
   @MergedTask()
   packageCompile() {
@@ -75,11 +75,14 @@ export class Gulpfile {
   }
 
   /**
-   * Moves all compiled files to the final package directory.
+   * Removes unnecessary files from final package directory.
    */
   @Task()
   packageClearCompileDirectory(cb: del.Options) {
-    return del(["./build/package/src/**"], cb);
+    return del(
+      ["./build/package/src/**", "./build/package/tests/**", "./build/package/examples/**"],
+      cb,
+    );
   }
 
   /**
