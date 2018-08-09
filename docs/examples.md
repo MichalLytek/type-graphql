@@ -18,7 +18,8 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Resolvers inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance)
 
 ## Features usage
-- [Dependency injection (IoC containers)](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container)
+- [Dependency injection (IoC container)](https://github.com/19majkel94/type-graphql/tree/master/examples/using-container)
+  - [scoped container](https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container)
 - [Authorization](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization)
 - [Validation](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation)
 - [Middlewares](https://github.com/19majkel94/type-graphql/tree/master/examples/middlewares)

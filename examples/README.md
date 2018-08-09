@@ -14,7 +14,8 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Resolvers inheritance](./resolvers-inheritance)
 
 ## Features usage
-- [Dependency injection (IoC containers)](./using-container)
+- [Dependency injection (IoC container)](./using-container)
+  - [(scoped container)](./using-scoped-container)
 - [Authorization](./authorization)
 - [Validation](./automatic-validation)
 - [Middlewares](./middlewares)
