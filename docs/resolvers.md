@@ -105,7 +105,7 @@ class GetRecipesArgs {
 ```
 
 Then all that left to do is to use the args class as the type of the method parameter.
-We can use the destruction syntax to have access to single arguments as variables, instead of the reference to the whole args object.
+We can use the destructuring syntax to have access to single arguments as variables, instead of the reference to the whole args object.
 ```ts
 @Resolver()
 class RecipeResolver {
