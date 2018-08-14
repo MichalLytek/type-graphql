@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- **Breaking Change**: move `ClassType` type and export it from package index
+
 ## v0.13.1
 ### Fixes
 - fix missing loosely typed overload signature for `createUnionType` (remove the 10 types limit)

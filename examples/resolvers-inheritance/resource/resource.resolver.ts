@@ -9,11 +9,11 @@ import {
   Args,
   FieldResolver,
   Root,
+  ClassType,
 } from "../../../src";
 
 import { Resource } from "./resource";
 import { ResourceService, ResourceServiceFactory } from "./resource.service";
-import { ClassType } from "../../../src/decorators/types";
 
 // workaround for `return type of exported function has or is using private name`
 export abstract class BaseResourceResolver<TResource extends Resource> {

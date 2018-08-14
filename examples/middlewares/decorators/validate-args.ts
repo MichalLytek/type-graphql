@@ -1,7 +1,6 @@
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
-import { MiddlewareFn, ArgumentValidationError, UseMiddleware } from "../../../src";
-import { ClassType } from "../../../src/decorators/types";
+import { ClassType, ArgumentValidationError, UseMiddleware } from "../../../src";
 
 // sample implementation of custom validation decorator
 // this example use `class-validator` however you can plug-in `joi` or any other lib

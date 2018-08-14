@@ -1,4 +1,4 @@
-import { ClassType } from "../../decorators/types";
+import { ClassType } from "../../interfaces";
 
 export interface UnionMetadata {
   types: ClassType[];

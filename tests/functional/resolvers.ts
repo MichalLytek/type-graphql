@@ -36,12 +36,12 @@ import {
   Subscription,
   PubSub,
   PubSubEngine,
+  ClassType,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
-import { ClassType } from "../../src/decorators/types";
 
 describe("Resolvers", () => {
   describe("Schema", () => {

@@ -1,6 +1,7 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions, ClassType } from "./types";
+import { DescriptionOptions } from "./types";
+import { ClassType } from "../interfaces";
 
 export type ObjectOptions = DescriptionOptions & {
   implements?: Function | Function[];
