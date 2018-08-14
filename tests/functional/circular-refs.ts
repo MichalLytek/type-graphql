@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { IntrospectionObjectType, TypeKind } from "graphql";
+import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "graphql";
 
-import { Query, ObjectType, Field } from "../../src";
+import { Query, ObjectType, Field, Resolver, buildSchema } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -19,14 +19,17 @@ describe("Circular references", () => {
       @Field(type => CircularRef2)
       ref2: any;
     }
-    class Resolver {
+    @Resolver()
+    class SampleResolver {
       @Query()
       objectQuery(): SampleObject {
         return {} as any;
       }
     }
 
-    const { schemaIntrospection: { types } } = await getSchemaInfo({ resolvers: [Resolver] });
+    const {
+      schemaIntrospection: { types },
+    } = await getSchemaInfo({ resolvers: [SampleResolver] });
     const circularRef1 = types.find(
       type => type.name === "CircularRef1",
     ) as IntrospectionObjectType;
@@ -64,5 +67,71 @@ describe("Circular references", () => {
       expect(error.message).toContain("ref2Field");
       jest.resetModules();
     }
+  });
+
+  it("should allow to have self-reference fields in object type", async () => {
+    @ObjectType()
+    class SampleObject {
+      @Field()
+      stringField: string;
+
+      @Field(type => SampleObject, { nullable: true })
+      selfReferenceField?: SampleObject;
+
+      @Field(type => [SampleObject])
+      selfReferenceArrayField: SampleObject[];
+    }
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      objectQuery(): SampleObject {
+        const obj: SampleObject = {
+          stringField: "nestedStringField",
+          selfReferenceArrayField: [],
+        };
+        obj.selfReferenceField = obj;
+        return {
+          stringField: "stringField",
+          selfReferenceArrayField: [obj],
+          selfReferenceField: obj,
+        };
+      }
+    }
+
+    const schema = await buildSchema({
+      resolvers: [SampleResolver],
+    });
+    expect(schema).toBeDefined();
+
+    const query = /* graphql */ `
+      query {
+        objectQuery {
+          stringField
+          selfReferenceField {
+            stringField
+          }
+          selfReferenceArrayField {
+            selfReferenceField {
+              stringField
+            }
+          }
+        }
+      }
+    `;
+    const { data } = await graphql(schema, query);
+
+    expect(data!.objectQuery).toEqual({
+      stringField: "stringField",
+      selfReferenceField: {
+        stringField: "nestedStringField",
+      },
+      selfReferenceArrayField: [
+        {
+          selfReferenceField: {
+            stringField: "nestedStringField",
+          },
+        },
+      ],
+    });
   });
 });
