@@ -8,7 +8,7 @@ We all love GraphQL! It's so great and solves many problems that we have with RE
 ## What?
 **TypeGraphQL** is a library that makes this process enjoyable, i.a. by defining the schema using only classes and a bit of decorators magic.
 Example object type:
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   @Field()
@@ -29,7 +29,7 @@ As I mentioned, developing a GraphQL API in Node.js with TypeScript is sometimes
 Why? Let's take a look at the steps we usually have to make.
 
 At first, we create the all the schema types in SDL. We also create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represents our db entities. Then we start to write resolvers for our queries, mutations and fields but this force us to begin with creating TS interfaces for all arguments and inputs or even object types. And after that we can actually implements the resolvers, using weird generic signatures, e.g.:
-```ts
+```typescript
 export const recipesResolver: GraphQLFieldResolver<void, Context, RecipesArgs> =
   async (_, args) => {
     // our business logic, e.g.:

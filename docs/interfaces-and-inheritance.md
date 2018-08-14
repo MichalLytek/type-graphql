@@ -13,7 +13,7 @@ Luckily, we can use abstract class for this purpose - it behave almost like an i
 
 So, how to create GraphQL interface definition? We create an abstract class and decorate it with `@InterfaceType()`. The rest is exactly the same as with object types - we use `@Field` to declare the shape of the type:
 
-```ts
+```typescript
 @InterfaceType()
 abstract class IPerson {
   @Field(type => ID)
@@ -29,7 +29,7 @@ abstract class IPerson {
 
 Then we can use this "interface" in object type class definition:
 
-```ts
+```typescript
 @ObjectType({ implements: IPerson })
 class Person implements IPerson {
   id: string;
@@ -48,7 +48,7 @@ Be aware that when your object type is implementing GraphQL interface type, __yo
 One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.
 
 While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like `skip` and `take`. So instead of repeating yourself, you can declare it once: 
-```ts
+```typescript
 @ArgsType()
 class PaginationArgs {
   @Field(type => Int, { nullable: true })
@@ -60,7 +60,7 @@ class PaginationArgs {
 ```
 
 and then reuse it everywhere:
-```ts
+```typescript
 @ArgsType()
 class GetTodosArgs extends PaginationArgs {
   @Field({ nullable: false })
@@ -69,7 +69,7 @@ class GetTodosArgs extends PaginationArgs {
 ```
 
 This technique also works with input type classes, as well as with object type classes:
-```ts
+```typescript
 // `Person` is the object type class we've created earlier in this docs
 @ObjectType()
 class Student extends Person {
@@ -82,7 +82,7 @@ class Student extends Person {
 The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.
 
 As we need to generate unique query/mutation names, we have to create a factory function for our base class:
-```ts
+```typescript
 function createBaseResolver() {
   abstract class BaseResolver {}
 
@@ -92,7 +92,7 @@ function createBaseResolver() {
 Be aware that with some `tsconfig.json` settings you might receive `[ts] Return type of exported function has or is using private name 'BaseResolver'` error - in that case you might need to use `any` as a return type or create a separate class/interface describing the class methods and properties.
 
 This factory should take a parameter that we can use to generate queries/mutations names, as well as the type that we would return from the resolvers:
-```ts
+```typescript
 function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
   abstract class BaseResolver {}
 
@@ -101,7 +101,7 @@ function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T
 ```
 
 It's very important to mark the `BaseResolver` class using `@Resolver` decorator with `{ isAbstract: true }` option that will prevent throwing error due to registering multiple queries/mutations with the same name.
-```ts
+```typescript
 function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {}
@@ -111,7 +111,7 @@ function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T
 ```
 
 Then we can implement the resolvers methods in the same way as always. The only difference is that we can use `name` decorator option for `@Query`, `@Mutation` and `@Subscription` decorators to overwrite the name that will be emitted in schema:
-```ts
+```typescript
 function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {
@@ -130,7 +130,7 @@ function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T
 ```
 
 After that we can create a specific resolver class that will extend the base resolver class:
-```ts
+```typescript
 const PersonBaseResolver = createBaseResolver("person", Person);
 
 @Resolver(of => Person)
@@ -140,7 +140,7 @@ export class PersonResolver extends PersonBaseResolver {
 ```
 
 We can also add specific queries and mutation in our resolver class, just like always:
-```ts
+```typescript
 const PersonBaseResolver = createBaseResolver("person", Person);
 
 @Resolver(of => Person)

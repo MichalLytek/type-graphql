@@ -17,7 +17,7 @@ You might be familiar with how middlewares works in [`express.js`](https://expre
 
 Thanks to this it's really easy to perform some action not only before resolvers execution but also after that. So things like measuring execution time are really easy to implement:
 
-```ts
+```typescript
 export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
   const start = Date.now();
   await next();
@@ -30,7 +30,7 @@ export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
 
 Middlewares have also an ability to intercept the result of resolver execution. They are able not only to e.g. log it but they can also replace it with a new value:
 
-```ts
+```typescript
 export const CompetitorInterceptor: MiddlewareFn = async (_, next) => {
   const result = await next();
   if (result === "typegql") {
@@ -46,7 +46,7 @@ It might be not very useful from this library users perspective but that feature
 
 If you only want to do something only before action, like log the access to the resolver, you can just place `return next()` statement at the end of your middleware:
 
-```ts
+```typescript
 const LogAccess: MiddlewareFn<TContext> = ({ context, info }, next) => {
   const username: string = context.username || "guest";
   console.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`);
@@ -62,7 +62,7 @@ You can also throw error in the middleware if the execution should be terminated
 
 This way you can create a guard that will block an access to the resolver and prevent executing it or returning the data.
 
-```ts
+```typescript
 export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
   if (args.frameworkName === "type-graphql") {
     return "TypeGraphQL";
@@ -78,7 +78,7 @@ export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
 
 Sometimes the middleware has to be configurable, just like you pass `roles` array to the [`@Autorized()` decorator](./authorization.md). In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.
 
-```ts
+```typescript
 export function NumberInterceptor(minValue: number): MiddlewareFn {
   return async (_, next) => {
     const result = await next();
@@ -97,7 +97,7 @@ But remember to call this middleware with argument, e.g. `NumberInterceptor(3.0)
 
 Middlewares can also catch errors that were thrown during execution. This way you can easily log them and even filter what can't be returned to user:
 
-```ts
+```typescript
 export const ErrorInterceptor: MiddlewareFn<any> = ({ context, info }, next) => {
   try {
     return await next();
@@ -122,7 +122,7 @@ Sometimes your middleware logic might be a bit complicated - it can communicate 
 
 All you need to do is to implement a `MiddlewareInterface` - your class has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined earlier `LogAccess` middleware looks after the transformation:
 
-```ts
+```typescript
 export class LogAccess implements MiddlewareInterface<TContext> {
   constructor(private readonly logger: Logger) {}
 
@@ -140,7 +140,7 @@ export class LogAccess implements MiddlewareInterface<TContext> {
 
 To attach middlewares to resolver, place the `@UseMiddleware()` decorator above field or resolver declaration. It accepts an array of middlewares that will be called in the provided order. You can also pass them without array as it supports [rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters):
 
-```ts
+```typescript
 @Resolver()
 export class RecipeResolver {
   @Query()
@@ -153,7 +153,7 @@ export class RecipeResolver {
 
 You can also attach the resolver to `ObjectType` fields, the same way as with [`@Autorized()` decorator](./authorization.md).
 
-```ts
+```typescript
 @ObjectType()
 export class Recipe {
   @Field()
@@ -171,7 +171,7 @@ However, for common middlewares like measuring resolving time or catching errors
 
 Hence in TypeGraphQL you can also register a global middleware that will be called for each query, mutation, subscription and field resolver. To do this, you have to use `globalMiddlewares` property of `buildSchema` configuration object:
 
-```ts
+```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
   globalMiddlewares: [ErrorInterceptor, ResolveTime],
@@ -181,7 +181,7 @@ const schema = await buildSchema({
 ### Custom decorators
 
 If you want to have a more descriptive and declarative API, you can also create custom decorators. They work in the same way like the reusable middleware function, however in this case you need to return the `UseMiddleware` decorator function:
-```ts
+```typescript
 export function ValidateArgs<T extends object>(schema: Schema<T>) {
   return UseMiddleware(async ({ args }, next) => {
     // here place your validation logic, e.g. based on schema using joi
@@ -192,7 +192,7 @@ export function ValidateArgs<T extends object>(schema: Schema<T>) {
 ```
 
 The usage is then very simple, as you have a custom, descriptive decorator - just place it above resolver/field and pass the required arguments to id:
-```ts
+```typescript
 @Resolver()
 export class RecipeResolver {
   @Query()

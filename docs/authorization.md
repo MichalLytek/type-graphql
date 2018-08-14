@@ -11,7 +11,7 @@ And that's why authorization is a first-class feature in `TypeGraphQL`!
 ## How to use?
 At first, you need to use `@Authorized` decorator as a guard on a field or a query/mutation.
 Example object type's fields guards:
-```ts
+```typescript
 @ObjectType()
 class MyObject {
   @Field()
@@ -37,7 +37,7 @@ By default the roles are `string` but you can change it easily as the decorator 
 This way authed users (regardless of theirs roles) could read only `publicField` or `authorizedField` from `MyObject` object. They will receive `null` when accessing `hiddenField` field and will receive error (that will propagate through the whole query tree looking for nullable field) for `adminField` when they don't satisfy roles constraints.
 
 Sample query and mutations guards:
-```ts
+```typescript
 @Resolver()
 class MyResolver {
   @Query()
@@ -65,7 +65,7 @@ class MyResolver {
 Authed users (regardless of theirs roles) will be able to read data from `publicQuery` and `authedQuery` but will receive error trying to perform `adminMutation` when their roles doesn't include `ADMIN` or `MODERATOR`.
 
 In next step, you need to create your auth checker function. Its implementation may depends on your business logic:
-```ts
+```typescript
 export const customAuthChecker: AuthChecker<ContextType> = 
   ({ root, args, context, info }, roles) => {
     // here you can read user from context
@@ -78,7 +78,7 @@ export const customAuthChecker: AuthChecker<ContextType> =
 The second argument of `AuthChecker` generic type is `RoleType` - use it together with `@Authorized` decorator generic type.
 
 The last step is to register the function while building the schema:
-```ts
+```typescript
 import { customAuthChecker } from "../auth/custom-auth-checker.ts";
 
 const schema = await buildSchema({
@@ -91,7 +91,7 @@ const schema = await buildSchema({
 And it's done! 😉
 
 If you need silent auth guards and you don't want to return auth errors to users, you can set `authMode` property of `buildSchema` config object to `"null"`:
-```ts
+```typescript
 const schema = await buildSchema({
   resolvers: ["./**/*.resolver.ts"],
   authChecker: customAuthChecker, 
@@ -103,7 +103,7 @@ It will then return `null` instead of throwing authorization error.
 ## Recipes
 
 You can also use `TypeGraphQL` with JWT authentication. Example using `graphql-yoga`:
-```ts
+```typescript
 import * as jwt from "express-jwt";
 import { schema } from "../example/above";
 

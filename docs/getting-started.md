@@ -19,7 +19,7 @@ type Recipe {
 ```
 
 So we create the `Recipe` class with all properties and types:
-```ts
+```typescript
 class Recipe {
   id: string;
   title: string;
@@ -30,7 +30,7 @@ class Recipe {
 ```
 
 Then we decorate the class and it properties with decorators:
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   @Field(type => ID)
@@ -55,7 +55,7 @@ The detailed rules when to use `nullable`, `array` and others are described in [
 
 After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected `RecipeService` in constructor:
 
-```ts
+```typescript
 @Resolver(Recipe)
 class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
@@ -102,7 +102,7 @@ The detailed rules when and why we declare `returns => Recipe` functions and oth
 ## Inputs and arguments
 
 Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
-```ts
+```typescript
 @InputType()
 class NewRecipeDataInput {
   @Field()
@@ -134,7 +134,7 @@ class RecipesArgs {
 
 ## Building schema
 The last step that we have to do is to actually build the schema from TypeGraphQL definition. We use `buildSchema` function for this:
-```ts
+```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver]
 });

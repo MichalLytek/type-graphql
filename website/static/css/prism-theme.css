@@ -1,0 +1,34 @@
+.token.function {
+  color: #dcdcaa;
+}
+.token.punctuation, .token.operator, .token.constant {
+  color: #d4d4d4;
+}
+.token.keyword, .token.boolean {
+  color: #569cd6;
+}
+.token.class-name, .token.builtin {
+  color: #4ec9b0;
+}
+.token.number {
+  color: #b5cea8;
+}
+.token.comment {
+  color: #6a9955;
+}
+.token.string {
+  color: #ce9178;
+}
+.token.regex {
+  color: #d16969;
+}
+.hljs, .token.attr-name, .token.property {
+  color: #9cdcfe;
+}
+.hljs a {
+  color: inherit !important;
+}
+
+.hljs {
+  background: rgb(30, 30, 30);
+}

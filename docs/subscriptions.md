@@ -10,7 +10,7 @@ To support that, GraphQL has a third operation: subscription. TypeGraphQL of cou
 Subscription resolvers are basically similar to [queries and mutation resolvers](./resolvers.md) but a little bit more complicated.
 
 At first, we create normal class method as always, this time annotated with `@Subscription()` decorator.
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Subscription()
@@ -21,7 +21,7 @@ class SampleResolver {
 ```
 
 Then we have to provide to which topics we want to subscribe. This can be a single topic string or an array of topics. We can also use TS enums for enhanced type safety.
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Subscription({ topics: "NOTIFICATIONS" })
@@ -33,7 +33,7 @@ class SampleResolver {
 
 We can also provide the `filter` option to decide which events from topics should trigger our subscription.
 This function should return `boolean` or `Promise<boolean>`.
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Subscription({ 
@@ -47,7 +47,7 @@ class SampleResolver {
 ```
 
 Then we can implement the subscription resolver. It will receive the payload from triggered topic of pubsub system using `@Root()` decorator. There we can transform it to the returned shape.
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Subscription({ 
@@ -73,7 +73,7 @@ They might be triggered from external sources like a DB. We also can do this in 
 e.g. when we modify some resource that clients want to receive notifications about the changes.
 
 So, assuming we have this mutation for adding new comment:
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
@@ -87,7 +87,7 @@ class SampleResolver {
 
 We use `@PubSub()` decorator to inject the `pubsub` into our method params.
 There we can trigger the topics and send the payload to all topic subscribers.
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
@@ -106,7 +106,7 @@ class SampleResolver {
 
 For easier testability (easier mocking/stubbing), we can also inject only the `publish` method bound to selected topic.
 To do this, we use `@PubSub("TOPIC_NAME")` decorator and the `Publisher<TPayload>` type:
-```ts
+```typescript
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
@@ -132,7 +132,7 @@ For better scalability you'll want to use one of the [PubSub implementations]((h
 It might be e.g. Redis with [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.
 
 All you need to do is to create an instance of PubSub according to package instruction and the provide it to TypeGraphQL `buildSchema` options:
-```ts
+```typescript
 const myRedisPubSub = getConfiguredRedisPubSub();
 
 const schema = await buildSchema({
@@ -146,7 +146,7 @@ The [bootstrap guide](./bootstrap.md) and all the earlier examples used [`graphq
 
 Fortunately, to make subscriptions work, we don't need to manually provide transport layer that doesn't have constraints of HTTP and can do a push-based communication (WebSockets).
 The `graphql-yoga` package has already integrated [`subscriptions-transport-ws`](https://github.com/apollographql/subscriptions-transport-ws) so all we need to do is to provide the `subscriptions` property of config object:
-```ts
+```typescript
 // Configure server options
 const serverOptions: Options = {
   port: 4000,

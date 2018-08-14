@@ -11,7 +11,7 @@ It takes configuration object as a parameter and returns a promise of `GraphQLSc
 
 In configuration object you need to provide `resolvers` property, which might be an array of resolver classes:
 
-```ts
+```typescript
 import { FirstResolver, SecondResolver } from "../app/src/resolvers";
 // ...
 const schema = await buildSchema({
@@ -22,7 +22,7 @@ const schema = await buildSchema({
 However, when there're several dozen of resolver classes, manual imports might be a tedious work.
 So you can also provide an array of path to resolver module files (they might be a glob):
 
-```ts
+```typescript
 const schema = await buildSchema({
   resolvers: [
     __dirname + "/modules/**/*.resolver.ts",
@@ -35,7 +35,7 @@ There are also other options related to advanced features like [authorization](.
 
 To make `await` work, we need to wrap it in async function. Example of `main.ts` file:
 
-```ts
+```typescript
 import { buildSchema } from "type-graphql";
 
 async function bootstrap() {
@@ -53,7 +53,7 @@ bootstrap(); // actually run the async function
 
 In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create it using e.g. [`graphql-yoga`](https://github.com/graphcool/graphql-yoga) package:
 
-```ts
+```typescript
 import { GraphQLServer, Options } from "graphql-yoga";
 
 const PORT = process.env.PORT || 4000;

@@ -1,4 +1,4 @@
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   @Field()

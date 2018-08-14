@@ -61,10 +61,6 @@ const siteConfig = {
   organizationName: "19majkel94", // or set an env variable ORGANIZATION_NAME
   projectName: "type-graphql", // or set an env variable PROJECT_NAME
   usePrism: true,
-  highlight: {
-    // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: "androidstudio",
-  },
   scripts: ["https://buttons.github.io/buttons.js"],
   // You may provide arbitrary config keys to be used as needed by your template.
   repoUrl: "https://github.com/19majkel94/type-graphql",

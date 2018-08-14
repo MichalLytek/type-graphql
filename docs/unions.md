@@ -9,7 +9,7 @@ You can read more about GraphQL union type in [official docs](http://graphql.org
 ## Usage
 Let's start by creating the object types from example above:
 
-```ts
+```typescript
 @ObjectType()
 class Movie {
   @Field()
@@ -19,7 +19,7 @@ class Movie {
   rating: number;
 }
 ```
-```ts
+```typescript
 @ObjectType()
 class Actor {
   @Field()
@@ -31,7 +31,7 @@ class Actor {
 ```
 
 Then we have to create the union type from the object types above:
-```ts
+```typescript
 import { createUnionType } from "type-graphql";
 
 const SearchResultUnion = createUnionType({
@@ -43,7 +43,7 @@ const SearchResultUnion = createUnionType({
 All that left to do is to use the union type in the query.
 Notice, that due to TypeScript's reflection limitation, you have to explicitly use `SearchResultUnion` value in `@Query` decorator return type annotation.
 For TS compile-time type safety you can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
-```ts
+```typescript
 @Resolver()
 class SearchResolver {
   @Query(returns => [SearchResultUnion])
@@ -53,7 +53,7 @@ class SearchResolver {
     const movies = await Movies.findAll(phrase);
     const actors = await Actors.findAll(phrase);
 
-    return movies.concat(actors);
+    return [...movies, ...actors];
   }
 }
 ```

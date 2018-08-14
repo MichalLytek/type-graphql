@@ -8,7 +8,7 @@ Besides [declaring GraphQL's object types](./types-and-fields.md), TypeGraphQL a
 
 ### Resolvers classes
 At first, you have to create a resolver class and annotate it with `@Resolver()` decorator. This class will behave like a controller known from classic REST frameworks:
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
 
@@ -16,7 +16,7 @@ class RecipeResolver {
 ```
 
 You can use DI framework (as described in [dependency injection docs](./dependency-injection.md)) to inject class dependencies (like services or repositories) or store data inside resolvers class - it's guaranteed to be a single instance per app.
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   private recipesCollection: Recipe[] = [];
@@ -24,7 +24,7 @@ class RecipeResolver {
 ```
 
 Then you can create class methods which will handle queries and mutations. For example let's add `recipes` query that will return a collection of all recipes:
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   private recipesCollection: Recipe[] = [];
@@ -39,7 +39,7 @@ class RecipeResolver {
 We also need to do two things.
 The first is to add `@Query` decorator (it marks the class method as the GraphQL's query).
 The second is to provide the return type - the method is async so reflection metadata system shows that the return type is `Promise` of sth, so we have to add `returns => [Recipe]` decorator's parameter to declare that it will be an array of `Recipe` object types.
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   private recipesCollection: Recipe[] = [];
@@ -55,7 +55,7 @@ class RecipeResolver {
 Usually queries have some arguments - it might be an id of the resource, the search phrase or pagination settings. TypeGraphQL allows you to define the arguments in two ways.
 
 First is the inline method using `@Arg()` decorator. The drawback is the need of repeating argument name (reflection system limitation) in decorator parameter.
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   // ...
@@ -68,7 +68,7 @@ class RecipeResolver {
 }
 ```
 It's quite good when there are up to 2-3 args but when you have many more, the resolver's method definitions becomes bloated. In that case you can use the args class definition. It looks like the object type class but it has `@ArgsType()` decorator on top.
-```ts
+```typescript
 @ArgsType()
 class GetRecipesArgs {
   @Field(type => Int, { nullable: true })
@@ -84,7 +84,7 @@ class GetRecipesArgs {
 You can define default values for optional fields (remember about `nullable: true`!) as well as helper methods.
 Also, this way of declaring arguments allows you to perform its validation - more details about this feature you can find in [validation docs](./validation.md).
 
-```ts
+```typescript
 @ArgsType()
 class GetRecipesArgs {
   @Field(type => Int, { nullable: true })
@@ -106,7 +106,7 @@ class GetRecipesArgs {
 
 Then all that left to do is to use the args class as the type of the method parameter.
 We can use the destructuring syntax to have access to single arguments as variables, instead of the reference to the whole args object.
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   // ...
@@ -131,7 +131,7 @@ type Query {
 
 ### Input types
 GraphQL's mutations we can create analogously, by declaring the class method, using `@Mutation` decorator, providing return type (if needed), creating arguments, etc. But for mutation we usually use `input` types, hence TypeGraphQL allows you to create inputs in the same way as the [object types](./types-and-fields.md) but using `@InputType()` decorator:
-```ts
+```typescript
 @InputType()
 class AddRecipeInput {
 
@@ -139,7 +139,7 @@ class AddRecipeInput {
 ```
 
 We can also leverage TypeScript type checking system and ensure that we won't accidentally change the type of property by implementing `Partial` type:
-```ts
+```typescript
 @InputType()
 class AddRecipeInput implements Partial<Recipe> {
   
@@ -147,7 +147,7 @@ class AddRecipeInput implements Partial<Recipe> {
 ```
 
 Then we can declare all the input fields we would need, using `@Field()` decorator:
-```ts
+```typescript
 @InputType({ description: "New recipe data" })
 class AddRecipeInput implements Partial<Recipe> {
   @Field()
@@ -161,7 +161,7 @@ class AddRecipeInput implements Partial<Recipe> {
 After that we can use the `AddRecipeInput` type in our mutation. We can do this inline (using `@Arg()` decorator) or as a field of the args class like in query's example above.
 
 We might also need access to the context. To achieve this we use `@Ctx()` decorator with optional user-defined `Context` interface:
-```ts
+```typescript
 @Resolver()
 class RecipeResolver {
   // ...
@@ -198,7 +198,7 @@ By using parameter decorators, we can get rid of the unnecessary parameters like
 Queries and mutations are not the only type of resolvers. We often create object type's field resolvers, e.g. when `user` type has field `posts` which we have to resolve by fetching relation data from the database.
 
 Field resolvers in TypeGraphQL are very similar to queries and mutations - we create them as method of the resolver class but with a few modification. Firstly, we need to declare which object type's fields we are resolving by providing the type to `@Resolver` decorator:
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
@@ -207,7 +207,7 @@ class RecipeResolver {
 
 Then we can create the class method that become field resolver.
 In our example we have `averageRating` field in `Recipe` object type that should calculate the average from the `ratings` array.
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
@@ -219,7 +219,7 @@ class RecipeResolver {
 ```
 
 We need to mark the method as field resolver with `@FieldResolver()` decorator. Because we've defined the type of the field in `Recipe` class definition, there's no need to do this again. We also need to decorate the method's parameters with `@Root` to inject the recipe object.
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver {
   // queries and mutations
@@ -234,7 +234,7 @@ class RecipeResolver {
 For enhanced type-safe you can implement the `ResolverInterface<Recipe>`.
 It's a small helper that will check if the return type of e.g. `averageRating` method is matching the `averageRating` property of the `Recipe` class
 and whether the first parameter of the method is the object type (`Recipe` class).
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   // queries and mutations
@@ -247,7 +247,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 ```
 
 Example implementation of the `averageRating` field resolver:
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   // queries and mutations
@@ -264,7 +264,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 
 For simple resolvers like `averageRating` calculation or deprecated fields that behave like aliases, you can create the field resolvers inline in object type's class definition:
 
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   @Field()
@@ -298,7 +298,7 @@ class Recipe {
 However, use this way of creating field resolvers only if the implementation is simple.
 If the code is more complicated and perform side effects (api call, db fetching), use resolver class's method instead - you can leverage dependency injection mechanism, really helpful in testing:
 
-```ts
+```typescript
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(

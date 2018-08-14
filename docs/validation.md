@@ -10,7 +10,7 @@ And that's why TypeGraphQL has bulit-in support for validation of arguments and 
 
 ## How to use
 At first, you have to decorate the input/arguments class with appropriate decorators from `class-validator`. So we take this:
-```ts
+```typescript
 @InputType()
 export class RecipeInput {
   @Field()
@@ -21,7 +21,7 @@ export class RecipeInput {
 }
 ```
 and produce this:
-```ts
+```typescript
 import { MaxLength, Length } from "class-validator";
 
 @InputType()
@@ -38,7 +38,7 @@ export class RecipeInput {
 And that's it! 😉
 
 TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
-```ts
+```typescript
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Mutation(returns => Recipe)
@@ -54,7 +54,7 @@ export class RecipeResolver {
 Of course [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators), not only the simple `@Length` used in the example above, so take a look at `class-validator` documentation.
 
 This feature is enabled by default. However, if you need, you can disable it:
-```ts
+```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
   validate: false, // disable automatic validation or pass default config object
@@ -62,7 +62,7 @@ const schema = await buildSchema({
 ```
 
 And if you need, you can still enable it per resolver's argument:
-```ts
+```typescript
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
@@ -72,7 +72,7 @@ class RecipeResolver {
 ```
 
 You can also pass `ValidatorOptions` object, for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups):
-```ts
+```typescript
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(
@@ -102,7 +102,7 @@ mutation ValidationMutation {
 }
 ```
 the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `graphql-yoga` package from [bootstrap guide](./bootstrap.md):
-```ts
+```typescript
 import { formatArgumentValidationError } from "type-graphql";
 // other bootstrap code
 const serverOptions: Options = {

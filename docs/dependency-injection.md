@@ -10,7 +10,7 @@ TypeGraphQL supports this technique by allowing users to provide their IoC conta
 
 The usage of this feature is very simple - all you need to do is to register 3rd party container. Example using TypeDI:
 
-```ts
+```typescript
 import { useContainer, buildSchema } from "type-graphql";
 // import your IoC container
 import { Container } from "typedi";
@@ -28,7 +28,7 @@ const schema = await buildSchema({
 
 Then, your resolvers will be able to declare their dependecies and TypeGraphQL will use the container to solve them:
 
-```ts
+```typescript
 import { Service } from "typedi";
 
 @Service()
@@ -49,7 +49,7 @@ export class RecipeResolver {
 
 And the sample recipe service implementation may look like this:
 
-```ts
+```typescript
 import { Service, Inject } from "typedi";
 
 @Service()
@@ -80,13 +80,13 @@ At first you need to provide a container resolver function. It takes the resolve
 
 For simple container libraries you may define it inline, e.g. using `TypeDI`:
 
-```ts
+```typescript
 useContainer<TContext>(({ context }) => Container.of(context.requestId));
 ```
 
 For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in `useContainer` getter function:
 
-```ts
+```typescript
 useContainer<TContext>(({ context }) => context.container);
 ```
 
@@ -94,7 +94,7 @@ The tricky part is where the `context.requestId` comes from. Unfortunately, you 
 
 Example using `TypeDI` and `graphql-yoga` with the `context` creation method:
 
-```ts
+```typescript
 import { GraphQLServer } from "graphql-yoga";
 import { Container } from "typedi";
 
@@ -118,7 +118,7 @@ You also have to dispose the container after the request has been handled and th
 Unfortunately, GraphQL Yoga doesn't have the "document middlewares" feature yet, so some dirty tricks are needed to do the cleanup.
 Example using `TypeDI` and `graphql-yoga` with the `formatResponse` method:
 
-```ts
+```typescript
 import { Options } from "graphql-yoga";
 import { Container } from "typedi";
 

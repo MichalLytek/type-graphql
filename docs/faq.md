@@ -48,7 +48,7 @@ Even if you technically can omit the array notation (when the base type is not `
 ### In many cases I have a situation where InputType and ObjectType have exactly the same shape. How can I share the definitions?
 In GraphQL, input objects have a separate type in the system because object types can contain fields that express circular references or references to interfaces and unions, neither of which is appropriate for use as an input argument.
 However if you have only simple fields in your class definition, you can reuse the code between InputType and ObjectType - just decorate the ObjectType class with `@InputType`. But remember to set a new name of the type in decorator parameter:
-```ts
+```typescript
 @ObjectType() // name inferred to `Person`
 @InputType("PersonInput")
 export class Person {}

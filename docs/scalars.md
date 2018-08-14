@@ -9,7 +9,7 @@ TypeGraphQL provides aliases for 3 basic scalars:
 - ID --> GraphQLID;
 
 This shorthand allows you to save keystrokes when declaring field type:
-```ts
+```typescript
 // import the aliases
 import { ID, Float, Int } from "type-graphql";
 
@@ -28,7 +28,7 @@ class MysteryObject {
 In the last case you can omit the `type => Float` since JavaScript `Number` will become `GraphQLFloat` in schema automatically.
 
 Other scalars - `GraphQLString` and `GraphQLBoolean` doesn't need aliases - when it's possible, they will be reflected automatically:
-```ts
+```typescript
 @ObjectType()
 class User {
   @Field()
@@ -40,7 +40,7 @@ class User {
 ```
 
 However in some cases you will have to explicitly declare the string/bool scalar type. Use JS constructor functions (`String`, `Boolean`) then:
-```ts
+```typescript
 @ObjectType()
 class SampleObject {
   @Field(type => String, { nullable: true })
@@ -60,7 +60,7 @@ TypeGraphQL provides built-in scalars for `Date` type. There are two versions of
 They are exported from `type-graphql` package as `GraphQLISODateScalar` and `GraphQLTimestampScalar`. 
 
 By default TypeGraphQL use the ISO date format, however you can change it in `buildSchema` options:
-```ts
+```typescript
 import { buildSchema } from "type-graphql";
 
 const schema = await buildSchema({
@@ -70,7 +70,7 @@ const schema = await buildSchema({
 ```
 
 There's no need to explicitly declare the field type then:
-```ts
+```typescript
 @ObjectType()
 class User {
   @Field()
@@ -83,7 +83,7 @@ Be aware to use `ts-node` with `--type-check` flag due to a [Date reflection bug
 TypeGraphQL also support custom scalar types.
 
 First of all, you need to create your own `GraphQLScalarType` instance (or import the scalar type from 3rd-party npm library). Example for Mongo's ObjectId:
-```ts
+```typescript
 import { GraphQLScalarType, Kind } from "graphql";
 import { ObjectId } from "mongodb";
 
@@ -106,7 +106,7 @@ export const ObjectIdScalar = new GraphQLScalarType({
 ```
 
 Then you can just use it in your field decorators:
-```ts
+```typescript
 // import the earlier created const
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 
@@ -124,7 +124,7 @@ class User {
 ```
 
 Optionally, you can declare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
-```ts
+```typescript
 @ObjectType()
 class User {
   @Field() // magic goes here - no type annotation for custom scalar
@@ -133,7 +133,7 @@ class User {
 ```
 
 All you need to do is register the association map in `buildSchema` options:
-```ts
+```typescript
 import { ObjectId } from "mongodb";
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 import { buildSchema } from "type-graphql";

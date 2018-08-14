@@ -1,4 +1,4 @@
-```ts
+```typescript
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(

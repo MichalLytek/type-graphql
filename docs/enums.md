@@ -12,7 +12,7 @@ _* except Golang :(_
 ## Usage
 First of all, you need to create an TypeScript's enum.
 It can be normal (number based) or string enum - internal value of enums will be taken from enums definition values and the public names from the enum keys:
-```ts
+```typescript
 enum Direction {
   Up,
   Down,
@@ -28,7 +28,7 @@ enum Direction {
 }
 ```
 Then, we should mark the enums with `@GraphQLEnumType()` decorator. However TypeScript's decorators works only with classes, so we need to mark the enums manually by calling the register function and providing the enum name for GraphQL:
-```ts
+```typescript
 import { registerEnumType } from "type-graphql";
 
 registerEnumType(Direction, {
@@ -38,7 +38,7 @@ registerEnumType(Direction, {
 ```
 
 The last step is very important: TypeScript has limited reflection ability, so we have to explicitly provide the enum type both for object/input type fields as well as return type of queries/mutations or arg type:
-```ts
+```typescript
 @InputType()
 class JourneyInput {
   @Field(type => Direction) // it's very important
@@ -48,7 +48,7 @@ class JourneyInput {
 Without this annotation, the generated GQL type would be not `ENUM` but `String` or `Float`, depending on the enum's type.
 
 In the end you can use your enum directly in your code 😉
-```ts
+```typescript
 class Resolver {
   private sprite = getMarioSprite();
 

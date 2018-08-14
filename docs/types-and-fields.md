@@ -5,7 +5,7 @@ title: Types and fields
 The main idea of TypeGraphQL is to automatically create GraphQL schema definition from TypeScript's classes. To avoid the need of schema definion files and interfaces describing the schema, we use a bit of reflection magic and decorators.
 
 Let's start with defining the example TypeScript class. It will represent our `Recipe` model with fields storing recipe's data:
-```ts
+```typescript
 class Recipe {
   id: string;
   title: string;
@@ -15,7 +15,7 @@ class Recipe {
 ```
 
 First what we have to do is to decorate the class with e.g. `@ObjectType` decorator. It marks the class as the `type` known from GraphQL SDL or `GraphQLObjectType` from `graphql-js`:
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   id: string;
@@ -27,7 +27,7 @@ class Recipe {
 
 Then we need to declare which class properties should be mapped to GraphQL fields.
 To do this, we use `@Field` decorator, which is also used to collect the metadata from TypeScript reflection system:
-```ts
+```typescript
 @ObjectType()
 class Recipe {
   @Field()
@@ -55,7 +55,7 @@ For nullable properties, like `averageRating` (it might be not defined when reci
 In config object we can also provide `description` and `depreciationReason` for GraphQL schema purposes.
 
 So after this changes our example class would look like this:
-```ts
+```typescript
 @ObjectType({ description: "The recipe model" })
 class Recipe {
   @Field(type => ID)
@@ -83,7 +83,7 @@ type Recipe {
 ```
 
 Analogously, the `Rate` type class would look like this:
-```ts
+```typescript
 @ObjectType()
 class Rate {
   @Field(type => Int)
