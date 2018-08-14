@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Bootstrapping · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Bootstrapping · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Bootstrapping · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Bootstrapping · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -34,62 +34,62 @@
 <p>To create executable schema from types' and resolvers' definitions, you need to use <code>buildSchema</code> function.
 It takes configuration object as a parameter and returns a promise of <code>GraphQLSchema</code> object.</p>
 <p>In configuration object you need to provide <code>resolvers</code> property, which might be an array of resolver classes:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { FirstResolver, SecondResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">"../app/src/resolvers"</span>;
-<span class="hljs-comment">// ...</span>
-<span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers: [FirstResolver, SampleResolver],
-});
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> FirstResolver<span class="token punctuation">,</span> SecondResolver <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../app/src/resolvers"</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SampleResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>However, when there're several dozen of resolver classes, manual imports might be a tedious work.
 So you can also provide an array of path to resolver module files (they might be a glob):</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers: [
-    __dirname + <span class="hljs-string">"/modules/**/*.resolver.ts"</span>,
-    __dirname + <span class="hljs-string">"/resolvers/**/*.ts"</span>,
-  ],
-});
+<pre><code class="hljs css languages- typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    __dirname <span class="token operator">+</span> <span class="token string">"/modules/**/*.resolver.ts"</span><span class="token punctuation">,</span>
+    __dirname <span class="token operator">+</span> <span class="token string">"/resolvers/**/*.ts"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>There are also other options related to advanced features like <a href="/type-graphql/docs/authorization.html">authorization</a> or <a href="/type-graphql/docs/validation.html">validation</a> - you can read about them in docs.</p>
 <p>To make <code>await</code> work, we need to wrap it in async function. Example of <code>main.ts</code> file:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { buildSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> buildSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bootstrap</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-    resolvers: [__dirname + <span class="hljs-string">"/**/*.resolver.ts"</span>],
-  });
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>__dirname <span class="token operator">+</span> <span class="token string">"/**/*.resolver.ts"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="hljs-comment">// other initialization code, like creating http server</span>
-}
+  <span class="token comment">// other initialization code, like creating http server</span>
+<span class="token punctuation">}</span>
 
-bootstrap(); <span class="hljs-comment">// actually run the async function</span>
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// actually run the async function</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="create-http-graphql-endpoint"></a><a href="#create-http-graphql-endpoint" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create HTTP GraphQL endpoint</h2>
 <p>In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create it using e.g. <a href="https://github.com/graphcool/graphql-yoga"><code>graphql-yoga</code></a> package:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { GraphQLServer, Options } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql-yoga"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> GraphQLServer<span class="token punctuation">,</span> Options <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"graphql-yoga"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> PORT = process.env.PORT || <span class="hljs-number">4000</span>;
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bootstrap</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-comment">// Building schema here...</span>
+<span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span> <span class="token operator">||</span> <span class="token number">4000</span><span class="token punctuation">;</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Building schema here...</span>
 
-  <span class="hljs-comment">// Create GraphQL server</span>
-  <span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> GraphQLServer({ schema });
+  <span class="token comment">// Create GraphQL server</span>
+  <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> schema <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="hljs-comment">// Configure server options</span>
-  <span class="hljs-keyword">const</span> serverOptions: Options = {
-    port: <span class="hljs-number">4000</span>,
-    endpoint: <span class="hljs-string">"/graphql"</span>,
-    playground: <span class="hljs-string">"/playground"</span>,
-  };
+  <span class="token comment">// Configure server options</span>
+  <span class="token keyword">const</span> serverOptions<span class="token punctuation">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
+    port<span class="token punctuation">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
+    endpoint<span class="token punctuation">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
+    playground<span class="token punctuation">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-  <span class="hljs-comment">// Start the server</span>
-  server.start(serverOptions, <span class="hljs-function">(<span class="hljs-params">{ port, playground }</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(
-      <span class="hljs-string">`Server is running, GraphQL Playground available at http://localhost:<span class="hljs-subst">${port}</span><span class="hljs-subst">${playground}</span>`</span>,
-    );
-  });
-}
+  <span class="token comment">// Start the server</span>
+  server<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>serverOptions<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> port<span class="token punctuation">,</span> playground <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+      <span class="token template-string"><span class="token string">`Server is running, GraphQL Playground available at http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>playground<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-bootstrap();
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Remember to install <code>graphql-yoga</code> package from npm - there are not bundled with TypeGraphQL.</p>
 <p>Of course you can use <code>express-graphql</code> middleware, <code>apollo-server</code> or anything you want 😉</p>

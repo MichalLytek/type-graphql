@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Unions · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site&#x27;s search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types. "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Unions · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site&#x27;s search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types. "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Unions · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site&#x27;s search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types. "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Unions · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site&#x27;s search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types. "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -33,47 +33,47 @@
 <p>You can read more about GraphQL union type in <a href="http://graphql.org/learn/schema/#union-types">official docs</a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="usage"></a><a href="#usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
 <p>Let's start by creating the object types from example above:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> Movie {
-  <span class="hljs-meta">@Field</span>()
-  name: <span class="hljs-built_in">string</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Movie</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>()
-  rating: <span class="hljs-built_in">number</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  rating<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> Actor {
-  <span class="hljs-meta">@Field</span>()
-  name: <span class="hljs-built_in">string</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Actor</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int)
-  age: <span class="hljs-built_in">number</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  age<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Then we have to create the union type from the object types above:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { createUnionType } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> createUnionType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> SearchResultUnion = createUnionType({
-  name: <span class="hljs-string">"SearchResult"</span>,  <span class="hljs-comment">// the name of the GraphQL union</span>
-  types: [Movie, Actor], <span class="hljs-comment">// array of object types classes</span>
-});
+<span class="token keyword">const</span> SearchResultUnion <span class="token operator">=</span> <span class="token function">createUnionType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">"SearchResult"</span><span class="token punctuation">,</span>  <span class="token comment">// the name of the GraphQL union</span>
+  types<span class="token punctuation">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// array of object types classes</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>All that left to do is to use the union type in the query.
 Notice, that due to TypeScript's reflection limitation, you have to explicitly use <code>SearchResultUnion</code> value in <code>@Query</code> decorator return type annotation.
 For TS compile-time type safety you can also use <code>typeof SearchResultUnion</code> which is equal to type <code>Movie | Actor</code>.</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@Resolver</span>()
-<span class="hljs-keyword">class</span> SearchResolver {
-  <span class="hljs-meta">@Query</span>(<span class="hljs-function"><span class="hljs-params">returns</span> =&gt;</span> [SearchResultUnion])
-  <span class="hljs-keyword">async</span> search(
-    <span class="hljs-meta">@Arg</span>(<span class="hljs-string">"phrase"</span>) phrase: <span class="hljs-built_in">string</span>,
-  ): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">Array</span>&lt;<span class="hljs-keyword">typeof</span> SearchResultUnion&gt;&gt; {
-    <span class="hljs-keyword">const</span> movies = <span class="hljs-keyword">await</span> Movies.findAll(phrase);
-    <span class="hljs-keyword">const</span> actors = <span class="hljs-keyword">await</span> Actors.findAll(phrase);
+<pre><code class="hljs css languages- typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">SearchResolver</span> <span class="token punctuation">{</span>
+  @<span class="token function">Query</span><span class="token punctuation">(</span>returns <span class="token operator">=></span> <span class="token punctuation">[</span>SearchResultUnion<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">search</span><span class="token punctuation">(</span>
+    @<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"phrase"</span><span class="token punctuation">)</span> phrase<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<span class="token operator">&lt;</span><span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token keyword">typeof</span> SearchResultUnion<span class="token operator">>></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> movies <span class="token operator">=</span> <span class="token keyword">await</span> Movies<span class="token punctuation">.</span><span class="token function">findAll</span><span class="token punctuation">(</span>phrase<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> actors <span class="token operator">=</span> <span class="token keyword">await</span> Actors<span class="token punctuation">.</span><span class="token function">findAll</span><span class="token punctuation">(</span>phrase<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">return</span> movies.concat(actors);
-  }
-}
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token operator">...</span>movies<span class="token punctuation">,</span> <span class="token operator">...</span>actors<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Be aware that when your query/mutation return type (or field type) is an union, you have to return an specific instance of the object type class. Otherwise, <code>graphql-js</code> will not be able to detect the underlying GraphQL type correctly when you use plain JS objects.</p>
 <p><strong>Et Voilà!</strong> You can now build the schema and make the example query 😉</p>

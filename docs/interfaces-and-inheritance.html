@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Interfaces and inheritance · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Interfaces and inheritance · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Interfaces and inheritance · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Interfaces and inheritance · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -35,25 +35,25 @@
 <p>TypeScript has first class support for interfaces. Unfortunately, they exist only on compile-time, so we can't use them to build GraphQL schema on runtime by using decorators.</p>
 <p>Luckily, we can use abstract class for this purpose - it behave almost like an interface (can't be &quot;newed&quot;, can be implemented by class), it just won't stop developers from implementing a method or initializing a field. But until we do the same things like with an interface, we can safely use it.</p>
 <p>So, how to create GraphQL interface definition? We create an abstract class and decorate it with <code>@InterfaceType()</code>. The rest is exactly the same as with object types - we use <code>@Field</code> to declare the shape of the type:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@InterfaceType</span>()
-<span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> IPerson {
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> ID)
-  id: <span class="hljs-built_in">string</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">InterfaceType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">IPerson</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> <span class="token constant">ID</span><span class="token punctuation">)</span>
+  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>()
-  name: <span class="hljs-built_in">string</span>;
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int)
-  age: <span class="hljs-built_in">number</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  age<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Then we can use this &quot;interface&quot; in object type class definition:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>({ <span class="hljs-keyword">implements</span>: IPerson })
-<span class="hljs-keyword">class</span> Person <span class="hljs-keyword">implements</span> IPerson {
-  id: <span class="hljs-built_in">string</span>;
-  name: <span class="hljs-built_in">string</span>;
-  age: <span class="hljs-built_in">number</span>;
-}
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token keyword">implements</span><span class="token punctuation">:</span> IPerson <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token keyword">implements</span> <span class="token class-name">IPerson</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  age<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>The only difference is that we have to let TypeGraphQL now that this <code>ObjectType</code> is implementing the <code>InterfaceType</code> by passing the param <code>({ implements: IPerson })</code> to the decorator. If we implemented more interfaces, we would pass the array of interfaces, like <code>({ implements: [IPerson, IAnimal, IMachine] })</code>.</p>
 <p>We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.</p>
@@ -61,91 +61,91 @@
 <h2><a class="anchor" aria-hidden="true" id="types-inheritance"></a><a href="#types-inheritance" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types inheritance</h2>
 <p>One of the most known principles of software development is DRY - don't repeat yourself - which tells about avoiding redundancy in our code.</p>
 <p>While creating GraphQL API, it's a common pattern to have pagination args in resolvers, like <code>skip</code> and <code>take</code>. So instead of repeating yourself, you can declare it once:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ArgsType</span>()
-<span class="hljs-keyword">class</span> PaginationArgs {
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int, { nullable: <span class="hljs-literal">true</span> })
-  skip: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">PaginationArgs</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  skip<span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int, { nullable: <span class="hljs-literal">true</span> })
-  take: <span class="hljs-built_in">number</span> = <span class="hljs-number">25</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  take<span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>and then reuse it everywhere:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ArgsType</span>()
-<span class="hljs-keyword">class</span> GetTodosArgs <span class="hljs-keyword">extends</span> PaginationArgs {
-  <span class="hljs-meta">@Field</span>({ nullable: <span class="hljs-literal">false</span> })
-  onlyCompleted: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>;
-}
+<pre><code class="hljs css languages- typescript">@<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">GetTodosArgs</span> <span class="token keyword">extends</span> <span class="token class-name">PaginationArgs</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  onlyCompleted<span class="token punctuation">:</span> <span class="token builtin">boolean</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>This technique also works with input type classes, as well as with object type classes:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-comment">// `Person` is the object type class we've created earlier in this docs</span>
-<span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> Student <span class="hljs-keyword">extends</span> Person {
-  <span class="hljs-meta">@Field</span>()
-  universityName: <span class="hljs-built_in">string</span>;
-}
+<pre><code class="hljs css languages- typescript"><span class="token comment">// `Person` is the object type class we've created earlier in this docs</span>
+@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Student</span> <span class="token keyword">extends</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  universityName<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="resolvers-inheritance"></a><a href="#resolvers-inheritance" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolvers inheritance</h2>
 <p>The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.</p>
 <p>As we need to generate unique query/mutation names, we have to create a factory function for our base class:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+<pre><code class="hljs css languages- typescript"><span class="token keyword">function</span> <span class="token function">createBaseResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">BaseResolver</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-  <span class="hljs-keyword">return</span> BaseResolver;
-}
+  <span class="token keyword">return</span> BaseResolver<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Be aware that with some <code>tsconfig.json</code> settings you might receive <code>[ts] Return type of exported function has or is using private name 'BaseResolver'</code> error - in that case you might need to use <code>any</code> as a return type or create a separate class/interface describing the class methods and properties.</p>
 <p>This factory should take a parameter that we can use to generate queries/mutations names, as well as the type that we would return from the resolvers:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
-  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+<pre><code class="hljs css languages- typescript"><span class="token keyword">function</span> createBaseResolver<span class="token operator">&lt;</span><span class="token constant">T</span> <span class="token keyword">extends</span> <span class="token class-name">Function</span><span class="token operator">></span><span class="token punctuation">(</span>suffix<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> objectTypeCls<span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">BaseResolver</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-  <span class="hljs-keyword">return</span> BaseResolver;
-}
+  <span class="token keyword">return</span> BaseResolver<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>It's very important to mark the <code>BaseResolver</code> class using <code>@Resolver</code> decorator with <code>{ isAbstract: true }</code> option that will prevent throwing error due to registering multiple queries/mutations with the same name.</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
-  <span class="hljs-meta">@Resolver</span>({ isAbstract: <span class="hljs-literal">true</span> })
-  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {}
+<pre><code class="hljs css languages- typescript"><span class="token keyword">function</span> createBaseResolver<span class="token operator">&lt;</span><span class="token constant">T</span> <span class="token keyword">extends</span> <span class="token class-name">Function</span><span class="token operator">></span><span class="token punctuation">(</span>suffix<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> objectTypeCls<span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  @<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">BaseResolver</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-  <span class="hljs-keyword">return</span> BaseResolver;
-}
+  <span class="token keyword">return</span> BaseResolver<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Then we can implement the resolvers methods in the same way as always. The only difference is that we can use <code>name</code> decorator option for <code>@Query</code>, <code>@Mutation</code> and <code>@Subscription</code> decorators to overwrite the name that will be emitted in schema:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBaseResolver</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Function</span>&gt;(<span class="hljs-params">suffix: <span class="hljs-built_in">string</span>, objectTypeCls: T</span>) </span>{
-  <span class="hljs-meta">@Resolver</span>({ isAbstract: <span class="hljs-literal">true</span> })
-  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> BaseResolver {
-    <span class="hljs-keyword">protected</span> items: T[] = [];
+<pre><code class="hljs css languages- typescript"><span class="token keyword">function</span> createBaseResolver<span class="token operator">&lt;</span><span class="token constant">T</span> <span class="token keyword">extends</span> <span class="token class-name">Function</span><span class="token operator">></span><span class="token punctuation">(</span>suffix<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> objectTypeCls<span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  @<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">BaseResolver</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> items<span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    <span class="hljs-meta">@Query</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> [objectTypeCls], { name: <span class="hljs-string">`getAll<span class="hljs-subst">${suffix}</span>`</span> })
-    <span class="hljs-keyword">async</span> getAll(
-      <span class="hljs-meta">@Arg</span>(<span class="hljs-string">"first"</span>, <span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int) first: <span class="hljs-built_in">number</span>,
-    ): <span class="hljs-built_in">Promise</span>&lt;T[]&gt; {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.items.slice(<span class="hljs-number">0</span>, first);
-    }
-  }
+    @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> <span class="token punctuation">[</span>objectTypeCls<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`getAll</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>suffix<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">async</span> <span class="token function">getAll</span><span class="token punctuation">(</span>
+      @<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"first"</span><span class="token punctuation">,</span> <span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span> first<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> first<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
 
-  <span class="hljs-keyword">return</span> BaseResolver;
-}
+  <span class="token keyword">return</span> BaseResolver<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>After that we can create a specific resolver class that will extend the base resolver class:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">const</span> PersonBaseResolver = createBaseResolver(<span class="hljs-string">"person"</span>, Person);
+<pre><code class="hljs css languages- typescript"><span class="token keyword">const</span> PersonBaseResolver <span class="token operator">=</span> <span class="token function">createBaseResolver</span><span class="token punctuation">(</span><span class="token string">"person"</span><span class="token punctuation">,</span> Person<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Person)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> PersonResolver <span class="hljs-keyword">extends</span> PersonBaseResolver {
-  <span class="hljs-comment">// ...</span>
-}
+@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Person<span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PersonResolver</span> <span class="token keyword">extends</span> <span class="token class-name">PersonBaseResolver</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>We can also add specific queries and mutation in our resolver class, just like always:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">const</span> PersonBaseResolver = createBaseResolver(<span class="hljs-string">"person"</span>, Person);
+<pre><code class="hljs css languages- typescript"><span class="token keyword">const</span> PersonBaseResolver <span class="token operator">=</span> <span class="token function">createBaseResolver</span><span class="token punctuation">(</span><span class="token string">"person"</span><span class="token punctuation">,</span> Person<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="hljs-meta">@Resolver</span>(<span class="hljs-function"><span class="hljs-params">of</span> =&gt;</span> Person)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> PersonResolver <span class="hljs-keyword">extends</span> PersonBaseResolver {
-  <span class="hljs-meta">@Mutation</span>()
-  addPerson(<span class="hljs-meta">@Arg</span>(<span class="hljs-string">"input"</span>) personInput: PersonInput): Person {
-    <span class="hljs-keyword">this</span>.items.push(personInput);
-    <span class="hljs-keyword">return</span> personInput;
-  }
-}
+@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Person<span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PersonResolver</span> <span class="token keyword">extends</span> <span class="token class-name">PersonBaseResolver</span> <span class="token punctuation">{</span>
+  @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">addPerson</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span> personInput<span class="token punctuation">:</span> PersonInput<span class="token punctuation">)</span><span class="token punctuation">:</span> Person <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>personInput<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> personInput<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>And that's it! We just need to normally register <code>PersonResolver</code> in <code>buildSchema</code> and the extended resolver will be working correctly.</p>
 <p>Be aware that if you want to overwrite the query/mutation/subscription from parent resolver class, you need to generate the same schema name (using <code>name</code> decorator option or the class method name). It will overwrite the implementation along with GraphQL args and return types. If you only provide different implementation of the inherited method like <code>getOne</code>, it won't work.</p>

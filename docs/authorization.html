@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Authorization · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Authorization · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Authorization · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Authorization · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -35,108 +35,108 @@
 <h2><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use?</h2>
 <p>At first, you need to use <code>@Authorized</code> decorator as a guard on a field or a query/mutation.
 Example object type's fields guards:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> MyObject {
-  <span class="hljs-meta">@Field</span>()
-  publicField: <span class="hljs-built_in">string</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyObject</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  publicField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Authorized</span>()
-  <span class="hljs-meta">@Field</span>()
-  authorizedField: <span class="hljs-built_in">string</span>;
+  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  authorizedField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Authorized</span>(<span class="hljs-string">"ADMIN"</span>)
-  <span class="hljs-meta">@Field</span>()
-  adminField: <span class="hljs-built_in">string</span>;
+  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  adminField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Authorized</span>([<span class="hljs-string">"ADMIN"</span>, <span class="hljs-string">"MODERATOR"</span>])
-  <span class="hljs-meta">@Field</span>({ nullable: <span class="hljs-literal">true</span> })
-  hiddenField?: <span class="hljs-built_in">string</span>;
-}
+  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  hiddenField<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>You can leave the <code>@Authorized</code> decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.
 By default the roles are <code>string</code> but you can change it easily as the decorator is generic - <code>@Authorized&lt;number&gt;(1, 7, 22)</code>.</p>
 <p>This way authed users (regardless of theirs roles) could read only <code>publicField</code> or <code>authorizedField</code> from <code>MyObject</code> object. They will receive <code>null</code> when accessing <code>hiddenField</code> field and will receive error (that will propagate through the whole query tree looking for nullable field) for <code>adminField</code> when they don't satisfy roles constraints.</p>
 <p>Sample query and mutations guards:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@Resolver</span>()
-<span class="hljs-keyword">class</span> MyResolver {
-  <span class="hljs-meta">@Query</span>()
-  publicQuery(): MyObject {
-    <span class="hljs-keyword">return</span> {
-      publicField: <span class="hljs-string">"Some public data"</span>,
-      authorizedField: <span class="hljs-string">"Data only for logged users"</span>,
-      adminField: <span class="hljs-string">"Top secret info for admin"</span>,
-    };
-  }
+<pre><code class="hljs css languages- typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyResolver</span> <span class="token punctuation">{</span>
+  @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">publicQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> MyObject <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      publicField<span class="token punctuation">:</span> <span class="token string">"Some public data"</span><span class="token punctuation">,</span>
+      authorizedField<span class="token punctuation">:</span> <span class="token string">"Data only for logged users"</span><span class="token punctuation">,</span>
+      adminField<span class="token punctuation">:</span> <span class="token string">"Top secret info for admin"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-  <span class="hljs-meta">@Authorized</span>()
-  <span class="hljs-meta">@Query</span>()
-  authedQuery(): <span class="hljs-built_in">string</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">"Only for authed users!"</span>;
-  }
+  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">authedQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"Only for authed users!"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-  <span class="hljs-meta">@Authorized</span>(<span class="hljs-string">"ADMIN"</span>, <span class="hljs-string">"MODERATOR"</span>)
-  <span class="hljs-meta">@Mutation</span>()
-  adminMutation(): <span class="hljs-built_in">string</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">"You are an admin/moderator, you can safely drop database ;)"</span>;
-  }
-}
+  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">)</span>
+  @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">adminMutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"You are an admin/moderator, you can safely drop database ;)"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Authed users (regardless of theirs roles) will be able to read data from <code>publicQuery</code> and <code>authedQuery</code> but will receive error trying to perform <code>adminMutation</code> when their roles doesn't include <code>ADMIN</code> or <code>MODERATOR</code>.</p>
 <p>In next step, you need to create your auth checker function. Its implementation may depends on your business logic:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> customAuthChecker: AuthChecker&lt;ContextType&gt; = 
-  <span class="hljs-function">(<span class="hljs-params">{ root, args, context, info }, roles</span>) =&gt;</span> {
-    <span class="hljs-comment">// here you can read user from context</span>
-    <span class="hljs-comment">// and check his permission in db against `roles` argument</span>
-    <span class="hljs-comment">// that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]</span>
+<pre><code class="hljs css languages- typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> customAuthChecker<span class="token punctuation">:</span> AuthChecker<span class="token operator">&lt;</span>ContextType<span class="token operator">></span> <span class="token operator">=</span> 
+  <span class="token punctuation">(</span><span class="token punctuation">{</span> root<span class="token punctuation">,</span> args<span class="token punctuation">,</span> context<span class="token punctuation">,</span> info <span class="token punctuation">}</span><span class="token punctuation">,</span> roles<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// here you can read user from context</span>
+    <span class="token comment">// and check his permission in db against `roles` argument</span>
+    <span class="token comment">// that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]</span>
 
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// or false if access denied</span>
-  }
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// or false if access denied</span>
+  <span class="token punctuation">}</span>
 </code></pre>
 <p>The second argument of <code>AuthChecker</code> generic type is <code>RoleType</code> - use it together with <code>@Authorized</code> decorator generic type.</p>
 <p>The last step is to register the function while building the schema:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { customAuthChecker } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth/custom-auth-checker.ts"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> customAuthChecker <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../auth/custom-auth-checker.ts"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers: [MyResolver],
-  <span class="hljs-comment">// here we register the auth checking function</span>
-  <span class="hljs-comment">// or defining it inline</span>
-  authChecker: customAuthChecker, 
-})
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>MyResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment">// here we register the auth checking function</span>
+  <span class="token comment">// or defining it inline</span>
+  authChecker<span class="token punctuation">:</span> customAuthChecker<span class="token punctuation">,</span> 
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <p>And it's done! 😉</p>
 <p>If you need silent auth guards and you don't want to return auth errors to users, you can set <code>authMode</code> property of <code>buildSchema</code> config object to <code>&quot;null&quot;</code>:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers: [<span class="hljs-string">"./**/*.resolver.ts"</span>],
-  authChecker: customAuthChecker, 
-  authMode: <span class="hljs-string">"null"</span>,
-})
+<pre><code class="hljs css languages- typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"./**/*.resolver.ts"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  authChecker<span class="token punctuation">:</span> customAuthChecker<span class="token punctuation">,</span> 
+  authMode<span class="token punctuation">:</span> <span class="token string">"null"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <p>It will then return <code>null</code> instead of throwing authorization error.</p>
 <h2><a class="anchor" aria-hidden="true" id="recipes"></a><a href="#recipes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recipes</h2>
 <p>You can also use <code>TypeGraphQL</code> with JWT authentication. Example using <code>graphql-yoga</code>:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">"express-jwt"</span>;
-<span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">"../example/above"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> jwt <span class="token keyword">from</span> <span class="token string">"express-jwt"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> schema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../example/above"</span><span class="token punctuation">;</span>
 
-<span class="hljs-comment">// Create GraphQL server</span>
-<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> GraphQLServer({
-  schema,
-  context: <span class="hljs-function">(<span class="hljs-params">{ request }</span>) =&gt;</span> {
-    <span class="hljs-keyword">const</span> context = {
-      request,
-      user: request.user, <span class="hljs-comment">// `request.user` comes from `express-jwt`</span>
-    };
-    <span class="hljs-keyword">return</span> context;
-  },
-});
+<span class="token comment">// Create GraphQL server</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  schema<span class="token punctuation">,</span>
+  context<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> request <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token punctuation">{</span>
+      request<span class="token punctuation">,</span>
+      user<span class="token punctuation">:</span> request<span class="token punctuation">.</span>user<span class="token punctuation">,</span> <span class="token comment">// `request.user` comes from `express-jwt`</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="hljs-comment">// the rest of bootstrap code, same as always</span>
-<span class="hljs-comment">// ...</span>
+<span class="token comment">// the rest of bootstrap code, same as always</span>
+<span class="token comment">// ...</span>
 
-<span class="hljs-comment">// register JWT middleware</span>
-server.express.use(
-  server.options.endpoint,
-  jwt({ secret: <span class="hljs-string">"TypeGraphQL"</span>, credentialsRequired: <span class="hljs-literal">false</span> }),
-);
+<span class="token comment">// register JWT middleware</span>
+server<span class="token punctuation">.</span>express<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  server<span class="token punctuation">.</span>options<span class="token punctuation">.</span>endpoint<span class="token punctuation">,</span>
+  <span class="token function">jwt</span><span class="token punctuation">(</span><span class="token punctuation">{</span> secret<span class="token punctuation">:</span> <span class="token string">"TypeGraphQL"</span><span class="token punctuation">,</span> credentialsRequired<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of <code>TypeGraphQL</code> authorization mechanism.</p>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>

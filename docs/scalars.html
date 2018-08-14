@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Scalars · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Aliases"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Scalars · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="## Aliases"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Scalars · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Aliases"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Scalars · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="## Aliases"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -37,42 +37,42 @@
 <li>ID --&gt; GraphQLID;</li>
 </ul>
 <p>This shorthand allows you to save keystrokes when declaring field type:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-comment">// import the aliases</span>
-<span class="hljs-keyword">import</span> { ID, Float, Int } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token comment">// import the aliases</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token constant">ID</span><span class="token punctuation">,</span> Float<span class="token punctuation">,</span> Int <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
-<span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> MysteryObject {
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> ID)
-  readonly id: <span class="hljs-built_in">string</span>;
+@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MysteryObject</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> <span class="token constant">ID</span><span class="token punctuation">)</span>
+  readonly id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Int)
-  notificationsCount: <span class="hljs-built_in">number</span>;
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  notificationsCount<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Float)
-  probability: <span class="hljs-built_in">number</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Float<span class="token punctuation">)</span>
+  probability<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>In the last case you can omit the <code>type =&gt; Float</code> since JavaScript <code>Number</code> will become <code>GraphQLFloat</code> in schema automatically.</p>
 <p>Other scalars - <code>GraphQLString</code> and <code>GraphQLBoolean</code> doesn't need aliases - when it's possible, they will be reflected automatically:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> User {
-  <span class="hljs-meta">@Field</span>()
-  name: <span class="hljs-built_in">string</span>;
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>()
-  isOld: <span class="hljs-built_in">boolean</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  isOld<span class="token punctuation">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>However in some cases you will have to explicitly declare the string/bool scalar type. Use JS constructor functions (<code>String</code>, <code>Boolean</code>) then:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> SampleObject {
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> <span class="hljs-built_in">String</span>, { nullable: <span class="hljs-literal">true</span> })
-  <span class="hljs-keyword">get</span> optionalInfo(): <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span> { <span class="hljs-comment">// TS reflected type is `Object` :(</span>
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.random() &gt; <span class="hljs-number">0.5</span>) {
-      <span class="hljs-keyword">return</span> <span class="hljs-string">"Gotcha!"</span>;
-    }
-  }
-}
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">SampleObject</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> String<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">get</span> <span class="token function">optionalInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> undefined <span class="token punctuation">{</span> <span class="token comment">// TS reflected type is `Object` :(</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token string">"Gotcha!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="built-in-scalars"></a><a href="#built-in-scalars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Built-in scalars</h2>
 <p>TypeGraphQL provides built-in scalars for <code>Date</code> type. There are two versions of this scalars:</p>
@@ -82,76 +82,76 @@
 </ul>
 <p>They are exported from <code>type-graphql</code> package as <code>GraphQLISODateScalar</code> and <code>GraphQLTimestampScalar</code>.</p>
 <p>By default TypeGraphQL use the ISO date format, however you can change it in <code>buildSchema</code> options:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { buildSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> buildSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers,
-  dateScalarMode: <span class="hljs-string">"timestamp"</span>, <span class="hljs-comment">// "timestamp" or "isoDate"</span>
-});
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">,</span>
+  dateScalarMode<span class="token punctuation">:</span> <span class="token string">"timestamp"</span><span class="token punctuation">,</span> <span class="token comment">// "timestamp" or "isoDate"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>There's no need to explicitly declare the field type then:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> User {
-  <span class="hljs-meta">@Field</span>()
-  registrationDate: <span class="hljs-built_in">Date</span>;
-}
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  registrationDate<span class="token punctuation">:</span> Date<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Be aware to use <code>ts-node</code> with <code>--type-check</code> flag due to a <a href="https://github.com/TypeStrong/ts-node/issues/511">Date reflection bug</a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="custom-scalars"></a><a href="#custom-scalars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom scalars</h2>
 <p>TypeGraphQL also support custom scalar types.</p>
 <p>First of all, you need to create your own <code>GraphQLScalarType</code> instance (or import the scalar type from 3rd-party npm library). Example for Mongo's ObjectId:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { GraphQLScalarType, Kind } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql"</span>;
-<span class="hljs-keyword">import</span> { ObjectId } <span class="hljs-keyword">from</span> <span class="hljs-string">"mongodb"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> GraphQLScalarType<span class="token punctuation">,</span> Kind <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"graphql"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ObjectId <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"mongodb"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ObjectIdScalar = <span class="hljs-keyword">new</span> GraphQLScalarType({
-  name: <span class="hljs-string">"ObjectId"</span>,
-  description: <span class="hljs-string">"Mongo object id scalar type"</span>,
-  parseValue(value: <span class="hljs-built_in">string</span>) {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ObjectId(value); <span class="hljs-comment">// value from the client input variables</span>
-  },
-  serialize(value: ObjectId) {
-    <span class="hljs-keyword">return</span> value.toHexString(); <span class="hljs-comment">// value sent to the client</span>
-  },
-  parseLiteral(ast) {
-    <span class="hljs-keyword">if</span> (ast.kind === Kind.STRING) {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ObjectId(ast.value); <span class="hljs-comment">// value from the client query</span>
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
-  },
-});
+<span class="token keyword">export</span> <span class="token keyword">const</span> ObjectIdScalar <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLScalarType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">"ObjectId"</span><span class="token punctuation">,</span>
+  description<span class="token punctuation">:</span> <span class="token string">"Mongo object id scalar type"</span><span class="token punctuation">,</span>
+  <span class="token function">parseValue</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ObjectId</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// value from the client input variables</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">serialize</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> ObjectId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> value<span class="token punctuation">.</span><span class="token function">toHexString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// value sent to the client</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">parseLiteral</span><span class="token punctuation">(</span>ast<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ast<span class="token punctuation">.</span>kind <span class="token operator">===</span> Kind<span class="token punctuation">.</span><span class="token constant">STRING</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ObjectId</span><span class="token punctuation">(</span>ast<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// value from the client query</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Then you can just use it in your field decorators:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-comment">// import the earlier created const</span>
-<span class="hljs-keyword">import</span> { ObjectIdScalar } <span class="hljs-keyword">from</span> <span class="hljs-string">"../my-scalars/ObjectId"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token comment">// import the earlier created const</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ObjectIdScalar <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../my-scalars/ObjectId"</span><span class="token punctuation">;</span>
 
-<span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> User {
-  <span class="hljs-meta">@Field</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> ObjectIdScalar) <span class="hljs-comment">// and explicitly use it</span>
-  readonly id: ObjectId;
+@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> ObjectIdScalar<span class="token punctuation">)</span> <span class="token comment">// and explicitly use it</span>
+  readonly id<span class="token punctuation">:</span> ObjectId<span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>()
-  name: <span class="hljs-built_in">string</span>;
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  <span class="hljs-meta">@Field</span>()
-  isOld: <span class="hljs-built_in">boolean</span>;
-}
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  isOld<span class="token punctuation">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Optionally, you can declare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-meta">@ObjectType</span>()
-<span class="hljs-keyword">class</span> User {
-  <span class="hljs-meta">@Field</span>() <span class="hljs-comment">// magic goes here - no type annotation for custom scalar</span>
-  readonly id: ObjectId;
-}
+<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// magic goes here - no type annotation for custom scalar</span>
+  readonly id<span class="token punctuation">:</span> ObjectId<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>All you need to do is register the association map in <code>buildSchema</code> options:</p>
-<pre><code class="hljs css languages- ts"><span class="hljs-keyword">import</span> { ObjectId } <span class="hljs-keyword">from</span> <span class="hljs-string">"mongodb"</span>;
-<span class="hljs-keyword">import</span> { ObjectIdScalar } <span class="hljs-keyword">from</span> <span class="hljs-string">"../my-scalars/ObjectId"</span>;
-<span class="hljs-keyword">import</span> { buildSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">"type-graphql"</span>;
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> ObjectId <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"mongodb"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ObjectIdScalar <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../my-scalars/ObjectId"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> buildSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
-<span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">await</span> buildSchema({
-  resolvers,
-  scalarsMap: [{ <span class="hljs-keyword">type</span>: ObjectId, scalar: ObjectIdScalar }],
-});
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token punctuation">,</span>
+  scalarsMap<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> ObjectId<span class="token punctuation">,</span> scalar<span class="token punctuation">:</span> ObjectIdScalar <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>However, be aware that this will work only when TypeScript reflection mechanism can handle it. So your class property type must be the <code>class</code>, not an enum, union or an interface.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/type-graphql/docs/bootstrap.html">← Bootstrapping</a><a class="docs-next button" href="/type-graphql/docs/enums.html">Enums →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#aliases">Aliases</a></li><li><a href="#built-in-scalars">Built-in scalars</a></li><li><a href="#custom-scalars">Custom scalars</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>

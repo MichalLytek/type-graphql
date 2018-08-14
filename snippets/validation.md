@@ -1,4 +1,4 @@
-```ts
+```typescript
 @InputType()
 export class RecipeInput {
   @Field()
