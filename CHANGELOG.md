@@ -1,5 +1,9 @@
 # Changelog and release notes
 
+## Unreleased
+### Fixes
+- fix missing loosely typed overload signature for `createUnionType` (remove the 10 types limit)
+
 ## v0.13.0
 ### Features
 - make `class-validator` a virtual peer dependency and update it to newest `0.9.1` version
