@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-## Unreleased
+## v0.13.1
 ### Fixes
 - fix missing loosely typed overload signature for `createUnionType` (remove the 10 types limit)
 
