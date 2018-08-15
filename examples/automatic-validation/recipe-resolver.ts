@@ -1,10 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Arg,
-  Mutation,
-  Args,
-} from "../../src";
+import { Resolver, Query, Arg, Mutation, Args } from "../../src";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";

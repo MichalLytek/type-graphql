@@ -24,7 +24,8 @@ describe("Authorization", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field() normalField: string;
+      @Field()
+      normalField: string;
 
       @Field()
       @Authorized()
@@ -38,9 +39,11 @@ describe("Authorization", () => {
       @Authorized("ADMIN")
       adminField: string;
 
-      @Field() normalResolvedField: string;
+      @Field()
+      normalResolvedField: string;
 
-      @Field() authedResolvedField: string;
+      @Field()
+      authedResolvedField: string;
 
       @Field()
       @Authorized()

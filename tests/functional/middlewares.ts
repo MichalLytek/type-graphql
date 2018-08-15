@@ -101,9 +101,11 @@ describe("Middlewares", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field() normalField: string;
+      @Field()
+      normalField: string;
 
-      @Field() resolverField: string;
+      @Field()
+      resolverField: string;
 
       @Field()
       @UseMiddleware(fieldResolverMiddleware)

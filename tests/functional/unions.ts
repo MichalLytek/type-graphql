@@ -9,17 +9,9 @@ import {
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import {
-  getInnerTypeOfNonNullableType,
-  getInnerFieldType,
-} from "../helpers/getInnerFieldType";
+import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import {
-  Field,
-  ObjectType,
-  Query,
-  createUnionType,
-} from "../../src";
+import { Field, ObjectType, Query, createUnionType } from "../../src";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -31,15 +23,18 @@ describe("Unions", () => {
 
     @ObjectType()
     class ObjectOne {
-      @Field() fieldOne: string;
+      @Field()
+      fieldOne: string;
     }
     @ObjectType()
     class ObjectTwo {
-      @Field() fieldTwo: string;
+      @Field()
+      fieldTwo: string;
     }
     @ObjectType()
     class ObjectThree {
-      @Field() fieldThree: string;
+      @Field()
+      fieldThree: string;
     }
 
     const OneTwoThreeUnion = createUnionType({

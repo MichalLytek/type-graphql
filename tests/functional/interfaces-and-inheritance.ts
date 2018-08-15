@@ -49,65 +49,78 @@ describe("Interfaces and inheritance", () => {
       abstract class SampleInterface1 {
         @Field(type => ID)
         id: string;
-        @Field() interfaceStringField1: string;
+        @Field()
+        interfaceStringField1: string;
       }
       @InterfaceType()
       abstract class SampleInterface2 {
         @Field(type => ID)
         id: string;
-        @Field() interfaceStringField2: string;
+        @Field()
+        interfaceStringField2: string;
       }
       @InterfaceType()
       abstract class SampleInterfaceExtending1 extends SampleInterface1 {
-        @Field() ownStringField1: string;
+        @Field()
+        ownStringField1: string;
       }
 
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject1 implements SampleInterface1 {
         id: string;
         interfaceStringField1: string;
-        @Field() ownField1: number;
+        @Field()
+        ownField1: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
         @Field(type => ID)
         id: string;
-        @Field() interfaceStringField1: string;
-        @Field() ownField2: number;
+        @Field()
+        interfaceStringField1: string;
+        @Field()
+        ownField2: number;
       }
       @ObjectType({ implements: [SampleInterface1, SampleInterface2] })
       class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
         id: string;
         interfaceStringField1: string;
         interfaceStringField2: string;
-        @Field() ownField3: number;
+        @Field()
+        ownField3: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject extends SampleImplementingObject2
         implements SampleInterface1 {
-        @Field() ownField4: number;
+        @Field()
+        ownField4: number;
       }
       @ObjectType()
       class SampleExtendingObject2 extends SampleImplementingObject2 {
-        @Field() ownExtendingField2: number;
+        @Field()
+        ownExtendingField2: number;
       }
 
       @ArgsType()
       class SampleBaseArgs {
-        @Field() baseArgField: string;
+        @Field()
+        baseArgField: string;
       }
       @ArgsType()
       class SampleExtendingArgs extends SampleBaseArgs {
-        @Field() extendingArgField: boolean;
+        @Field()
+        extendingArgField: boolean;
       }
 
       @InputType()
       class SampleBaseInput {
-        @Field() baseInputField: string;
+        @Field()
+        baseInputField: string;
       }
       @InputType()
       class SampleExtendingInput extends SampleBaseInput {
-        @Field() extendingInputField: boolean;
+        @Field()
+        extendingInputField: boolean;
       }
 
       class SampleResolver {
@@ -351,11 +364,13 @@ describe("Interfaces and inheritance", () => {
       try {
         @InputType()
         class SampleInput {
-          @Field() inputField: string;
+          @Field()
+          inputField: string;
         }
         @ArgsType()
         class SampleArgs extends SampleInput {
-          @Field() argField: string;
+          @Field()
+          argField: string;
         }
         class SampleResolver {
           @Query()
@@ -377,13 +392,15 @@ describe("Interfaces and inheritance", () => {
       try {
         @InterfaceType()
         class IBase {
-          @Field() baseField: string;
+          @Field()
+          baseField: string;
         }
         @ObjectType({ implements: IBase })
         class ChildObject implements IBase {
           @Field(type => Number, { nullable: true })
           baseField: string;
-          @Field() argField: string;
+          @Field()
+          argField: string;
         }
         class SampleResolver {
           @Query()
@@ -420,40 +437,47 @@ describe("Interfaces and inheritance", () => {
 
       @ArgsType()
       class BaseArgs {
-        @Field() baseArgField: string;
+        @Field()
+        baseArgField: string;
         @Field(type => Int, { nullable: true })
         optionalBaseArgField: number = 255;
       }
       @ArgsType()
       class ChildArgs extends BaseArgs {
-        @Field() childArgField: string;
+        @Field()
+        childArgField: string;
       }
 
       @InputType()
       class BaseInput {
-        @Field() baseInputField: string;
+        @Field()
+        baseInputField: string;
         @Field(type => Int, { nullable: true })
         optionalBaseInputField: number = 255;
       }
       @InputType()
       class ChildInput extends BaseInput {
-        @Field() childInputField: string;
+        @Field()
+        childInputField: string;
       }
 
       @InterfaceType()
       abstract class BaseInterface {
-        @Field() baseInterfaceField: string;
+        @Field()
+        baseInterfaceField: string;
       }
 
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
         baseInterfaceField: string;
-        @Field() firstField: string;
+        @Field()
+        firstField: string;
       }
       @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
         baseInterfaceField: string;
-        @Field() secondField: string;
+        @Field()
+        secondField: string;
       }
 
       class SampleBaseClass {
@@ -464,7 +488,8 @@ describe("Interfaces and inheritance", () => {
 
       @ObjectType()
       class SampleExtendingNormalClassObject extends SampleBaseClass {
-        @Field() sampleField: string;
+        @Field()
+        sampleField: string;
       }
 
       class InterfacesResolver {

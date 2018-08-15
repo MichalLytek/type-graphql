@@ -1,10 +1,5 @@
 import { Service } from "typedi";
-import {
-  MiddlewareInterface,
-  NextFn,
-  ResolverData,
-  ArgumentValidationError,
-} from "../../../src";
+import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "../../../src";
 
 import { Context } from "../context";
 import { Middleware } from "../../../src/interfaces/Middleware";

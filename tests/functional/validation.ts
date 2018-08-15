@@ -294,10 +294,7 @@ describe("Validation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        sampleQuery(
-          @Args({ validate: false })
-          args: SampleArguments,
-        ): SampleObject {
+        sampleQuery(@Args({ validate: false }) args: SampleArguments): SampleObject {
           localArgsData = args;
           return {};
         }
@@ -335,10 +332,7 @@ describe("Validation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        sampleQuery(
-          @Args({ validate: true })
-          args: SampleArguments,
-        ): SampleObject {
+        sampleQuery(@Args({ validate: true }) args: SampleArguments): SampleObject {
           localArgsData = args;
           return {};
         }
@@ -383,10 +377,7 @@ describe("Validation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        sampleQuery(
-          @Args({ validate: { groups: ["test"] } })
-          args: SampleArguments,
-        ): SampleObject {
+        sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
           localArgsData = args;
           return {};
         }
@@ -431,10 +422,7 @@ describe("Validation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        sampleQuery(
-          @Args({ validate: { groups: ["test"] } })
-          args: SampleArguments,
-        ): SampleObject {
+        sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
           localArgsData = args;
           return {};
         }
@@ -473,10 +461,7 @@ describe("Validation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        sampleQuery(
-          @Args({ validate: { groups: ["test"] } })
-          args: SampleArguments,
-        ): SampleObject {
+        sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
           localArgsData = args;
           return {};
         }

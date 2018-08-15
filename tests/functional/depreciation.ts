@@ -15,7 +15,8 @@ describe("Deprecation", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
 
         @Field({ deprecationReason: "sample object field deprecation reason" })
         describedField: string;

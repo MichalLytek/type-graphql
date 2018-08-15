@@ -1,11 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Arg,
-  Mutation,
-  Ctx,
-  Int,
-} from "../../../src/";
+import { Resolver, Query, Arg, Mutation, Ctx, Int } from "../../../src/";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
@@ -23,10 +16,7 @@ export class RecipeResolver {
   ) {}
 
   @Query(returns => Recipe, { nullable: true })
-  recipe(
-    @Arg("recipeId", type => Int)
-    recipeId: number,
-  ) {
+  recipe(@Arg("recipeId", type => Int) recipeId: number) {
     return this.recipeRepository.findOne(recipeId);
   }
 

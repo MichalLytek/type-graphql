@@ -223,7 +223,7 @@ export abstract class SchemaGenerator {
                     resolver.getObjectType!() === objectType.target &&
                     resolver.methodName === field.name &&
                     (resolver.resolverClassMetadata === undefined ||
-                    resolver.resolverClassMetadata.isAbstract === false),
+                      resolver.resolverClassMetadata.isAbstract === false),
                 );
                 fieldsMap[field.schemaName] = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),

@@ -48,7 +48,8 @@ describe("Scalars", () => {
       @Field(type => ID)
       idField: any;
 
-      @Field() implicitFloatField: number;
+      @Field()
+      implicitFloatField: number;
 
       @Field(type => Float)
       explicitFloatField: any;
@@ -56,12 +57,14 @@ describe("Scalars", () => {
       @Field(type => Int)
       intField: any;
 
-      @Field() implicitStringField: string;
+      @Field()
+      implicitStringField: string;
 
       @Field(type => String)
       explicitStringField: any;
 
-      @Field() implicitBooleanField: boolean;
+      @Field()
+      implicitBooleanField: boolean;
 
       @Field(type => Boolean)
       explicitBooleanField: any;
@@ -95,19 +98,13 @@ describe("Scalars", () => {
       }
 
       @Query(returns => Boolean)
-      argScalar(
-        @Arg("scalar", type => CustomScalar)
-        scalar: any,
-      ): any {
+      argScalar(@Arg("scalar", type => CustomScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
       @Query(returns => Boolean)
-      objectArgScalar(
-        @Arg("scalar", type => ObjectScalar)
-        scalar: any,
-      ): any {
+      objectArgScalar(@Arg("scalar", type => ObjectScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
@@ -118,10 +115,7 @@ describe("Scalars", () => {
       }
 
       @Query()
-      argDate(
-        @Arg("date", type => Date)
-        date: any,
-      ): boolean {
+      argDate(@Arg("date", type => Date) date: any): boolean {
         argDate = date;
         return true;
       }
@@ -278,19 +272,13 @@ describe("Scalars", () => {
         }
 
         @Query()
-        argDate(
-          @Arg("date", type => Date)
-          date: any,
-        ): boolean {
+        argDate(@Arg("date", type => Date) date: any): boolean {
           localArgDate = date;
           return true;
         }
 
         @Query()
-        inputDate(
-          @Arg("input", type => DateInput)
-          dateInput: any,
-        ): boolean {
+        inputDate(@Arg("input", type => DateInput) dateInput: any): boolean {
           localArgDate = dateInput.date;
           return true;
         }
@@ -483,7 +471,8 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() customField: CustomType;
+        @Field()
+        customField: CustomType;
       }
 
       @Resolver(of => SampleObject)

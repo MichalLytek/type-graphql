@@ -25,8 +25,7 @@ export class SampleResolver {
   @Mutation()
   pubSubMutation(
     @PubSub() pubSub: PubSubEngine,
-    @Arg("message", { nullable: true })
-    message?: string,
+    @Arg("message", { nullable: true }) message?: string,
   ): boolean {
     const payload: NotificationPayload = { id: ++this.autoIncrement, message };
     return pubSub.publish("NOTIFICATIONS", payload);
@@ -35,8 +34,7 @@ export class SampleResolver {
   @Mutation()
   publisherMutation(
     @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
-    @Arg("message", { nullable: true })
-    message?: string,
+    @Arg("message", { nullable: true }) message?: string,
   ): boolean {
     return publish({ id: ++this.autoIncrement, message });
   }

@@ -16,10 +16,8 @@ export class ExampleResolver {
   @Authorized() // only logged users can add new recipe
   @Mutation()
   addRecipe(
-    @Arg("title")
-    title: string,
-    @Arg("description", { nullable: true })
-    description?: string,
+    @Arg("title") title: string,
+    @Arg("description", { nullable: true }) description?: string,
   ): Recipe {
     const newRecipe = createRecipe({
       title,

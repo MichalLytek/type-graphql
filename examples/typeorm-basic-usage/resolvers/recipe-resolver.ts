@@ -1,13 +1,4 @@
-import {
-  Resolver,
-  Query,
-  FieldResolver,
-  Arg,
-  Root,
-  Mutation,
-  Ctx,
-  Int,
-} from "../../../src";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
@@ -21,12 +12,9 @@ import { RateInput } from "./types/rate-input";
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
-    @InjectRepository(Recipe)
-    private readonly recipeRepository: Repository<Recipe>,
-    @InjectRepository(Rate)
-    private readonly ratingsRepository: Repository<Rate>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(Recipe) private readonly recipeRepository: Repository<Recipe>,
+    @InjectRepository(Rate) private readonly ratingsRepository: Repository<Rate>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   @Query(returns => Recipe, { nullable: true })

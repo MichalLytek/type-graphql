@@ -14,8 +14,7 @@ export class ExampleResolver {
 
   @Query(returns => [Recipe])
   async recipes(
-    @Arg("difficulty", type => Difficulty, { nullable: true })
-    difficulty?: Difficulty,
+    @Arg("difficulty", type => Difficulty, { nullable: true }) difficulty?: Difficulty,
   ): Promise<Recipe[]> {
     if (!difficulty) {
       return this.recipesData;

@@ -23,17 +23,20 @@ describe("Fields - schema", () => {
 
     @ObjectType()
     class SampleNestedObject {
-      @Field() stringField: string;
+      @Field()
+      stringField: string;
     }
 
     @ObjectType()
     class SampleObject {
-      @Field() implicitStringField: string;
+      @Field()
+      implicitStringField: string;
 
       @Field(type => String)
       explicitStringField: any;
 
-      @Field() implicitObjectField: SampleNestedObject;
+      @Field()
+      implicitObjectField: SampleNestedObject;
 
       @Field(type => String, { nullable: true })
       explicitNullableStringField: any;
@@ -92,7 +95,8 @@ describe("Fields - schema", () => {
     try {
       @ObjectType()
       class SampleObject {
-        @Field() invalidSampleField: any;
+        @Field()
+        invalidSampleField: any;
       }
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
@@ -109,7 +113,8 @@ describe("Fields - schema", () => {
     try {
       @ObjectType()
       class SampleObject {
-        @Field() invalidSampleArrayField: string[];
+        @Field()
+        invalidSampleArrayField: string[];
       }
     } catch (err) {
       expect(err).toBeInstanceOf(Error);

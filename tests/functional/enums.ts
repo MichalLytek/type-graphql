@@ -64,18 +64,12 @@ describe("Enums", () => {
       }
 
       @Query()
-      isNumberEnumEqualOne(
-        @Arg("enum", type => NumberEnum)
-        numberEnum: NumberEnum,
-      ): boolean {
+      isNumberEnumEqualOne(@Arg("enum", type => NumberEnum) numberEnum: NumberEnum): boolean {
         return numberEnum === NumberEnum.One;
       }
 
       @Query()
-      isStringEnumEqualOne(
-        @Arg("enum", type => StringEnum)
-        stringEnum: StringEnum,
-      ): boolean {
+      isStringEnumEqualOne(@Arg("enum", type => StringEnum) stringEnum: StringEnum): boolean {
         return stringEnum === StringEnum.One;
       }
     }

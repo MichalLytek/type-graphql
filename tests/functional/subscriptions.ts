@@ -42,7 +42,8 @@ describe("Subscriptions", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() sampleField: string;
+        @Field()
+        sampleField: string;
       }
 
       @Resolver()
@@ -368,7 +369,8 @@ describe("Subscriptions", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() sampleField: string;
+        @Field()
+        sampleField: string;
       }
 
       class SampleResolver {
@@ -403,7 +405,8 @@ describe("Subscriptions", () => {
       getMetadataStorage().clear();
       @ObjectType()
       class SampleObject {
-        @Field() sampleField: string;
+        @Field()
+        sampleField: string;
       }
       class SampleResolver {
         @Query()
@@ -439,7 +442,8 @@ describe("Subscriptions", () => {
       try {
         @ObjectType()
         class SampleObject {
-          @Field() sampleField: string;
+          @Field()
+          sampleField: string;
         }
         class SampleResolver {
           @Query()

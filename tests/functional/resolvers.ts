@@ -56,22 +56,27 @@ describe("Resolvers", () => {
 
       @InputType()
       class SampleInput {
-        @Field() field: string;
+        @Field()
+        field: string;
       }
 
       @ArgsType()
       class SampleArgs {
-        @Field() stringArg: string;
+        @Field()
+        stringArg: string;
         @Field(type => Int, { nullable: true })
         numberArg: number;
-        @Field() inputObjectArg: SampleInput;
+        @Field()
+        inputObjectArg: SampleInput;
       }
 
       @ObjectType()
       class SampleObject {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
 
-        @Field() resolverFieldWithArgs: string;
+        @Field()
+        resolverFieldWithArgs: string;
 
         @Field()
         get getterField(): string {
@@ -89,14 +94,10 @@ describe("Resolvers", () => {
           @Arg("booleanArg") booleanArg: boolean,
           @Arg("numberArg") numberArg: number,
           @Arg("inputArg") inputArg: SampleInput,
-          @Arg("explicitNullableArg", type => String, { nullable: true })
-          explicitNullableArg: any,
-          @Arg("stringArrayArg", type => String)
-          stringArrayArg: string[],
-          @Arg("explicitArrayArg", type => [String])
-          explicitArrayArg: any,
-          @Arg("nullableStringArg", { nullable: true })
-          nullableStringArg?: string,
+          @Arg("explicitNullableArg", type => String, { nullable: true }) explicitNullableArg: any,
+          @Arg("stringArrayArg", type => String) stringArrayArg: string[],
+          @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
+          @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
         ): any {
           return "argMethodField";
         }
@@ -699,7 +700,8 @@ describe("Resolvers", () => {
 
         @ObjectType()
         class SampleObject {
-          @Field() sampleField: string;
+          @Field()
+          sampleField: string;
         }
 
         try {
@@ -730,7 +732,8 @@ describe("Resolvers", () => {
 
         @ObjectType()
         class SampleObject {
-          @Field() sampleField: string;
+          @Field()
+          sampleField: string;
         }
 
         try {
@@ -779,7 +782,8 @@ describe("Resolvers", () => {
         private readonly TRUE = true;
         instanceField = Math.random();
 
-        @Field() factor: number;
+        @Field()
+        factor: number;
 
         isTrue() {
           return this.TRUE;
@@ -791,7 +795,8 @@ describe("Resolvers", () => {
         private readonly TRUE = true;
         instanceField = Math.random();
 
-        @Field() factor: number;
+        @Field()
+        factor: number;
 
         isTrue() {
           return this.TRUE;
@@ -807,11 +812,16 @@ describe("Resolvers", () => {
 
         instanceValue = Math.random();
 
-        @Field() fieldResolverField: number;
-        @Field() fieldResolverGetter: number;
-        @Field() fieldResolverMethod: number;
-        @Field() fieldResolverMethodWithArgs: number;
-        @Field() fieldResolverWithRoot: number;
+        @Field()
+        fieldResolverField: number;
+        @Field()
+        fieldResolverGetter: number;
+        @Field()
+        fieldResolverMethod: number;
+        @Field()
+        fieldResolverMethodWithArgs: number;
+        @Field()
+        fieldResolverWithRoot: number;
 
         @Field()
         get getterField(): number {
@@ -1166,7 +1176,8 @@ describe("Resolvers", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() sampleFieldSync: string;
+        @Field()
+        sampleFieldSync: string;
       }
       @Resolver()
       class SampleResolver {
@@ -1224,12 +1235,14 @@ describe("Resolvers", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
       }
 
       @ObjectType()
       class DummyObject {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
       }
 
       function createResolver(name: string, objectType: ClassType) {

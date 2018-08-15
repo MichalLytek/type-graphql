@@ -30,9 +30,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
     case Number:
       return GraphQLFloat;
     case Date:
-      return BuildContext.dateScalarMode === "isoDate"
-        ? GraphQLISODateTime
-        : GraphQLTimestamp;
+      return BuildContext.dateScalarMode === "isoDate" ? GraphQLISODateTime : GraphQLTimestamp;
     default:
       return undefined;
   }

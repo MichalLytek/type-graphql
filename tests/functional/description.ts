@@ -29,7 +29,8 @@ describe("Description", () => {
 
       @ObjectType({ description: "sample object description" })
       class SampleObject {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
 
         @Field({ description: "sample object field description" })
         describedField: string;
@@ -41,8 +42,7 @@ describe("Description", () => {
 
         @Field({ description: "sample object method field description" })
         methodField(
-          @Arg("arg", { description: "sample object method arg description" })
-          arg: string,
+          @Arg("arg", { description: "sample object method arg description" }) arg: string,
         ): string {
           return "methodField";
         }
@@ -50,7 +50,8 @@ describe("Description", () => {
 
       @InputType({ description: "sample input description" })
       class SampleInput {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
 
         @Field({ description: "sample input field description" })
         describedField: string;
@@ -58,7 +59,8 @@ describe("Description", () => {
 
       @ArgsType()
       class SampleArguments {
-        @Field() normalField: string;
+        @Field()
+        normalField: string;
 
         @Field({ description: "sample argument field description" })
         describedField: string;

@@ -55,10 +55,7 @@ export function createResourceResolver<TResource extends Resource>(
     }
 
     @Query(returns => ResourceCls, { name: `${resourceName}` })
-    protected async getOne(
-      @Arg("id", type => Int)
-      id: number,
-    ) {
+    protected async getOne(@Arg("id", type => Int) id: number) {
       return this.resourceService.getOne(id);
     }
 
