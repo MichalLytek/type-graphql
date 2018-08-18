@@ -249,9 +249,6 @@ and whether the first parameter of the method is the object type (<code>Recipe</
 <pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
-
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> deprecationReason<span class="token punctuation">:</span> <span class="token string">"Use `title` instead"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -259,11 +256,8 @@ and whether the first parameter of the method is the object type (<code>Recipe</
     <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>title<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> <span class="token punctuation">[</span>Rate<span class="token punctuation">]</span><span class="token punctuation">)</span>
   ratings<span class="token punctuation">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  author<span class="token punctuation">:</span> User<span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Float<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token function">averageRating</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"since"</span><span class="token punctuation">)</span> sinceDate<span class="token punctuation">:</span> Date<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token punctuation">{</span>
