@@ -268,9 +268,6 @@ For simple resolvers like `averageRating` calculation or deprecated fields that 
 @ObjectType()
 class Recipe {
   @Field()
-  id: string;
-
-  @Field()
   title: string;
 
   @Field({ deprecationReason: "Use `title` instead" })
@@ -278,11 +275,8 @@ class Recipe {
     return this.title;
   }
 
-  @Field()
+  @Field(type => [Rate])
   ratings: Rate[];
-
-  @Field()
-  author: User;
 
   @Field(type => Float, { nullable: true })
   averageRating(@Arg("since") sinceDate: Date): number | null {

@@ -11,6 +11,6 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => String)
+  @Field(type => [String])
   ingredients: string[];
 }
