@@ -2,7 +2,7 @@
 
 ## Unreleased
 ### Features
-- **Breaking Change**: move `ClassType` type and export it from package index
+- **Breaking Change**: change `ClassType` type and export it in package index
 - **Breaking Change**: refactor generic `createUnionType` to remove the 10 types limit (note: requires TypeScript 3.0.1)
 
 ## v0.13.1
