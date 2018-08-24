@@ -70,13 +70,20 @@ class GetTodosArgs extends PaginationArgs {
 
 This technique also works with input type classes, as well as with object type classes:
 ```typescript
-// `Person` is the object type class we've created earlier in this docs
+@ObjectType()
+class Person {
+  @Field()
+  age: number;
+}
+
 @ObjectType()
 class Student extends Person {
   @Field()
   universityName: string;
 }
 ```
+
+Note that both the subclass and the parent class must be decorated with the `@ObjectType()` decorator for the parent class fields to be picked up on the subclass.
 
 ## Resolvers inheritance
 The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.
