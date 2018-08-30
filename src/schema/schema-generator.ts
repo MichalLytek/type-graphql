@@ -35,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ResolverFilterData } from "../interfaces";
+import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
@@ -373,15 +373,25 @@ export abstract class SchemaGenerator {
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
       }
+      const pubSubIterator = (payload: any, args: any, context: any, info: any) => {
+        let topics: string | string[];
+        if (typeof handler.topics === "function") {
+          const resolverTopicData: ResolverTopicData = { payload, args, context, info };
+          topics = handler.topics(resolverTopicData);
+        } else {
+          topics = handler.topics as string[];
+        }
+        return pubSub.asyncIterator(topics);
+      };
       fields[handler.schemaName].subscribe = handler.filter
         ? withFilter(
-            () => pubSub.asyncIterator(handler.topics),
+            pubSubIterator,
             (payload, args, context, info) => {
               const resolverFilterData: ResolverFilterData = { payload, args, context, info };
               return handler.filter!(resolverFilterData);
             },
           )
-        : () => pubSub.asyncIterator(handler.topics);
+        : pubSubIterator;
       return fields;
     }, basicFields);
   }

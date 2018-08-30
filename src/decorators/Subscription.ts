@@ -1,11 +1,12 @@
-import { ReturnTypeFunc, AdvancedOptions, SubscriptionFilterFunc } from "./types";
+import { ReturnTypeFunc, AdvancedOptions,
+  SubscriptionFilterFunc, SubscriptionTopicFunc } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getHandlerInfo } from "../helpers/handlers";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { MissingSubscriptionTopicsError } from "../errors";
 
 export interface SubscriptionOptions extends AdvancedOptions {
-  topics: string | string[];
+  topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
 }
 
@@ -19,15 +20,18 @@ export function Subscription(
   maybeOptions?: SubscriptionOptions,
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
-  const topics = ([] as string[]).concat(options.topics || []);
+  // const topics = ([] as string[]).concat(options.topics || []);
   return (prototype, methodName) => {
     const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
-    if (topics.length === 0) {
+    if (!options.topics) {
+      throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+    }
+    if (Array.isArray(options.topics) && options.topics.length === 0) {
       throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
     }
     getMetadataStorage().collectSubscriptionHandlerMetadata({
       ...handler,
-      topics,
+      topics: options.topics,
       filter: options.filter,
     });
   };

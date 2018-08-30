@@ -39,6 +39,16 @@ export class SampleResolver {
     return publish({ id: ++this.autoIncrement, message });
   }
 
+  @Mutation()
+  pubSubMutationToDynamicTopic(
+    @PubSub() pubSub: PubSubEngine,
+    @Arg("topic") topic: string,
+    @Arg("message", { nullable: true }) message?: string,
+  ): boolean {
+    const payload: NotificationPayload = { id: ++this.autoIncrement, message };
+    return pubSub.publish(topic, payload);
+  }
+
   @Subscription({ topics: "NOTIFICATIONS" })
   normalSubscription(@Root() { id, message }: NotificationPayload): Notification {
     return { id, message, date: new Date() };
@@ -51,5 +61,14 @@ export class SampleResolver {
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
     const newNotification: Notification = { id, message, date: new Date() };
     return newNotification;
+  }
+
+  @Subscription({
+    topics: ({ args }) => args.topic,
+  })
+  subscriptionWithFilterToDyamicTopic(
+    @Arg("topic") topic: string,
+    @Root() { id, message }: NotificationPayload): Notification {
+    return { id, message, date: new Date() };
   }
 }
