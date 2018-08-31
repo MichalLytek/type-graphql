@@ -17,3 +17,13 @@ subscription EvenNotifications {
 mutation {
   pubSubMutation(message: "Hello")
 }
+
+mutation {
+  pubSubMutationToDynamicTopic(topic:"FOO_MESSAGES", message: "Hi Foo!")
+}
+
+subscription {
+  subscriptionWithFilterToDyamicTopic (topic: "FOO_MESSAGES"){
+    id, message
+  }
+}

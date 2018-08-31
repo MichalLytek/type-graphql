@@ -20,11 +20,22 @@ class SampleResolver {
 }
 ```
 
-Then we have to provide to which topics we want to subscribe. This can be a single topic string or an array of topics. We can also use TS enums for enhanced type safety.
+Then we have to provide to which topics we want to subscribe. This can be a single topic string, an array of topics or a function to dynamically create a topic based on subscription args passed on the query. We can also use TS enums for enhanced type safety.
 ```typescript
 class SampleResolver {
   // ...
   @Subscription({ topics: "NOTIFICATIONS" })
+  newNotification(): Notification {
+    // ...
+  }
+}
+```
+```typescript
+class SampleResolver {
+  // ...
+  @Subscription({ 
+    topics: ({ args }) => args.topic
+  })
   newNotification(): Notification {
     // ...
   }

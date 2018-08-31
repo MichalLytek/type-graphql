@@ -17,7 +17,7 @@ import {
   GraphQLEnumValueConfigMap,
   GraphQLUnionType,
 } from "graphql";
-import { withFilter } from "graphql-subscriptions";
+import { withFilter, ResolverFn } from "graphql-subscriptions";
 
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import {
@@ -34,8 +34,9 @@ import {
   createSimpleFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ResolverFilterData, ResolverTopicData } from "../interfaces";
+import { UnionResolveTypeError, GeneratingSchemaError,
+  MissingSubscriptionTopicsError } from "../errors";
+import { ResolverFilterData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
@@ -373,16 +374,23 @@ export abstract class SchemaGenerator {
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
       }
-      const pubSubIterator = (payload: any, args: any, context: any, info: any) => {
-        let topics: string | string[];
-        if (typeof handler.topics === "function") {
-          const resolverTopicData: ResolverTopicData = { payload, args, context, info };
-          topics = handler.topics(resolverTopicData);
-        } else {
-          topics = handler.topics as string[];
-        }
-        return pubSub.asyncIterator(topics);
-      };
+
+      let pubSubIterator: ResolverFn;
+      if (typeof handler.topics === "function") {
+        const getTopics = handler.topics;
+        pubSubIterator = (payload, args, context, info) => {
+          const resolverTopicData: ResolverFilterData = { payload, args, context, info };
+          const topics = getTopics(resolverTopicData);
+          if (Array.isArray(topics) && topics.length === 0) {
+            throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+          }
+          return pubSub.asyncIterator(topics);
+        };
+      } else {
+        const topics = handler.topics;
+        pubSubIterator = () => pubSub.asyncIterator(topics);
+      }
+
       fields[handler.schemaName].subscribe = handler.filter
         ? withFilter(
             pubSubIterator,
