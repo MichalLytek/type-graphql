@@ -17,6 +17,7 @@ export type SubscriptionFilterFunc = (
 
 export interface DecoratorTypeOptions {
   nullable?: boolean;
+  complexity?: number;
 }
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;

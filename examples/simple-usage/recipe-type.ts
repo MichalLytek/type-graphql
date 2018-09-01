@@ -2,7 +2,7 @@ import { Field, ObjectType, Int, Float } from "../../src";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
-  @Field()
+  @Field({ complexity: 5 })
   title: string;
 
   @Field(type => String, { nullable: true, deprecationReason: "Use `description` field instead" })
@@ -10,7 +10,7 @@ export class Recipe {
     return this.description;
   }
 
-  @Field({ nullable: true, description: "The recipe description with preparation info" })
+  @Field({ complexity: 5, nullable: true, description: "The recipe" })
   description?: string;
 
   @Field(type => [Int])

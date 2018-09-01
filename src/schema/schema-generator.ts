@@ -225,8 +225,9 @@ export abstract class SchemaGenerator {
                     (resolver.resolverClassMetadata === undefined ||
                       resolver.resolverClassMetadata.isAbstract === false),
                 );
-                fieldsMap[field.schemaName] = {
+                const fieldConfig: GraphQLFieldConfig<any, any> & { complexity?: number } = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                  complexity: field.typeOptions.complexity || 1,
                   args: this.generateHandlerArgs(field.params!),
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
@@ -234,6 +235,7 @@ export abstract class SchemaGenerator {
                   description: field.description,
                   deprecationReason: field.deprecationReason,
                 };
+                fieldsMap[field.schemaName] = fieldConfig;
                 return fieldsMap;
               },
               {},

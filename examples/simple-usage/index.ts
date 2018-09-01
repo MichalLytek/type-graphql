@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { buildSchema } from "../../src";
-
+import queryComplexity from "graphql-query-complexity";
 import { RecipeResolver } from "./recipe-resolver";
 
 async function bootstrap() {
@@ -18,6 +18,15 @@ async function bootstrap() {
     port: 4000,
     endpoint: "/graphql",
     playground: "/playground",
+    validationRules: req => [
+      queryComplexity({
+        maximumComplexity: 1000,
+        variables: req.query.variables,
+        onComplete: (complexity: number) => {
+          console.log("Query Complexity:", complexity);
+        },
+      }),
+    ],
   };
 
   // Start the server
