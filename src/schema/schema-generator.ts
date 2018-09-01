@@ -393,6 +393,9 @@ export abstract class SchemaGenerator {
           description: param.description,
           type: this.getGraphQLInputType(param.name, param.getType(), param.typeOptions),
         };
+        if (param.typeOptions.default !== undefined) {
+          args[param.name].defaultValue = param.typeOptions.default;
+        }
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
           it => it.target === param.getType(),
