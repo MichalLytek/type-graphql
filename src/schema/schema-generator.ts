@@ -35,7 +35,7 @@ import {
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ResolverFilterData } from "../interfaces";
+import { ResolverFilterData, ComplexityGraphQLFieldConfigMap } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
@@ -216,7 +216,7 @@ export abstract class SchemaGenerator {
             return interfaces;
           },
           fields: () => {
-            let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+            let fields = objectType.fields!.reduce<ComplexityGraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
                 const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
                   resolver =>
@@ -225,7 +225,7 @@ export abstract class SchemaGenerator {
                     (resolver.resolverClassMetadata === undefined ||
                       resolver.resolverClassMetadata.isAbstract === false),
                 );
-                const fieldConfig: GraphQLFieldConfig<any, any> & { complexity?: number } = {
+                fieldsMap[field.schemaName] = {
                   type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
                   complexity: field.typeOptions.complexity || 1,
                   args: this.generateHandlerArgs(field.params!),
@@ -235,7 +235,6 @@ export abstract class SchemaGenerator {
                   description: field.description,
                   deprecationReason: field.deprecationReason,
                 };
-                fieldsMap[field.schemaName] = fieldConfig;
                 return fieldsMap;
               },
               {},
@@ -345,7 +344,7 @@ export abstract class SchemaGenerator {
   private static generateHandlerFields<T = any, U = any>(
     handlers: ResolverMetadata[],
   ): GraphQLFieldConfigMap<T, U> {
-    return handlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
+    return handlers.reduce<ComplexityGraphQLFieldConfigMap<T, U>>((fields, handler) => {
       // omit emitting abstract resolver fields
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
@@ -360,6 +359,7 @@ export abstract class SchemaGenerator {
         resolve: createHandlerResolver(handler),
         description: handler.description,
         deprecationReason: handler.deprecationReason,
+        complexity: handler.returnTypeOptions.complexity,
       };
       return fields;
     }, {});

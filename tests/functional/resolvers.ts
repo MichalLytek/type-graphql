@@ -11,10 +11,15 @@ import {
   GraphQLSchema,
   graphql,
   TypeKind,
+  parse,
+  TypeInfo,
+  ValidationContext,
+  visit,
+  visitWithTypeInfo,
 } from "graphql";
 import * as path from "path";
 import { plainToClass } from "class-transformer";
-
+import QueryComplexity from "graphql-query-complexity/dist/QueryComplexity";
 import {
   ObjectType,
   Field,
@@ -822,7 +827,8 @@ describe("Resolvers", () => {
         fieldResolverMethodWithArgs: number;
         @Field()
         fieldResolverWithRoot: number;
-
+        @Field({ complexity: 10 })
+        complexResolverMethod: number;
         @Field()
         get getterField(): number {
           return this.instanceValue;
@@ -1021,6 +1027,41 @@ describe("Resolvers", () => {
       const fieldResolverMethodResult = result.data!.sampleQuery.fieldResolverMethod;
       expect(fieldResolverMethodResult).toBeGreaterThanOrEqual(0);
       expect(fieldResolverMethodResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should fail when a query exceeds the max allowed complexity", () => {
+      const query = `query {
+        sampleQuery {
+          complexResolverMethod
+        }
+      }`;
+      const ast = parse(query);
+      const typeInfo = new TypeInfo(schema);
+      const context = new ValidationContext(schema, ast, typeInfo);
+      const visitor = new QueryComplexity(context, {
+        maximumComplexity: 5,
+      });
+      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      expect(context.getErrors().length).toEqual(1);
+      expect(context.getErrors()[0].message).toEqual(
+        "The query exceeds the maximum complexity of 5. Actual complexity is 11",
+      );
+    });
+
+    it("should succheed when a query does not exceed the max allowed complexity", () => {
+      const query = `query {
+        sampleQuery {
+          complexResolverMethod
+        }
+      }`;
+      const ast = parse(query);
+      const typeInfo = new TypeInfo(schema);
+      const context = new ValidationContext(schema, ast, typeInfo);
+      const visitor = new QueryComplexity(context, {
+        maximumComplexity: 12,
+      });
+      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      expect(context.getErrors().length).toEqual(0);
     });
 
     it("should return value from field resolver arg", async () => {

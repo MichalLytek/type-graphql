@@ -11,6 +11,7 @@ import {
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { ObjectType, Field, Query, Resolver } from "../../src";
+import { FieldMetadata } from "../../src/metadata/definitions";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -55,6 +56,9 @@ describe("Fields - schema", () => {
 
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
+
+      @Field({ name: "complexField", complexity: 10 })
+      complexField: string;
     }
 
     @Resolver(of => SampleObject)
@@ -82,6 +86,15 @@ describe("Fields - schema", () => {
     const fieldType = sampleObjectType.fields.find(field => field.name === name)!;
     return (fieldType.type as IntrospectionNonNullTypeRef).ofType! as IntrospectionNamedTypeRef;
   }
+
+  it("should add complexity to the metadata storage", async () => {
+    const metadatStorage = getMetadataStorage();
+    const sampleObj = metadatStorage.objectTypes.find(it => it.name === "SampleObject")!;
+    const complexField = (sampleObj.fields as FieldMetadata[]).find(
+      it => it.name === "complexField",
+    );
+    expect((complexField as FieldMetadata).typeOptions.complexity).toBe(10);
+  });
 
   // tests
   it("should generate schema without errors", async () => {

@@ -2,7 +2,11 @@ import { Field, ObjectType, Int, Float } from "../../src";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
-  @Field()
+  /*
+    By default, every field gets a complexity of 1.
+    Which can be customized by passing the complexity parameter
+  */
+  @Field({ complexity: 6 })
   title: string;
 
   @Field(type => String, { nullable: true, deprecationReason: "Use `description` field instead" })
@@ -10,7 +14,7 @@ export class Recipe {
     return this.description;
   }
 
-  @Field({ nullable: true, description: "The recipe description with preparation info" })
+  @Field({ complexity: 5, nullable: true, description: "The recipe" })
   description?: string;
 
   @Field(type => [Int])
@@ -22,7 +26,18 @@ export class Recipe {
   @Field(type => Int)
   ratingsCount: number;
 
-  @Field(type => Float, { nullable: true })
+  @Field(type => Float, {
+    nullable: true,
+    /*
+    By default, every field gets a complexity of 1.
+    You can also pass a calculation function in the complexity option
+    to determine a custom complexity.
+    This function will provide the complexity of
+    the child nodes as well as the field input arguments.
+    That way you can make a more realistic estimation of individual field complexity values:
+   */
+    complexity: (args, childComplexity) => childComplexity + 1,
+  })
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;
     if (ratingsCount === 0) {
