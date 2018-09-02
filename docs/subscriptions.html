@@ -43,10 +43,14 @@ To support that, GraphQL has a third operation: subscription. TypeGraphQL of cou
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Then we have to provide to which topics we want to subscribe. This can be a single topic string or an array of topics. We can also use TS enums for enhanced type safety.</p>
+<p>Then we have to provide to which topics we want to subscribe. This can be a single topic string, an array of topics or a function to dynamically create a topic based on subscription args passed on the query. We can also use TS enums for enhanced type safety.</p>
 <pre><code class="hljs css languages- typescript"><span class="token keyword">class</span> <span class="token class-name">SampleResolver</span> <span class="token punctuation">{</span>
   <span class="token comment">// ...</span>
-  @<span class="token function">Subscription</span><span class="token punctuation">(</span><span class="token punctuation">{</span> topics<span class="token punctuation">:</span> <span class="token string">"NOTIFICATIONS"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Subscription</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+    topics<span class="token punctuation">:</span> <span class="token string">"NOTIFICATIONS"</span><span class="token punctuation">,</span> <span class="token comment">// single topic</span>
+    topics<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"NOTIFICATIONS"</span><span class="token punctuation">,</span> <span class="token string">"ERRORS"</span><span class="token punctuation">]</span> <span class="token comment">// or topics array</span>
+    topics<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> args<span class="token punctuation">,</span> payload<span class="token punctuation">,</span> context <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> args<span class="token punctuation">.</span>topic <span class="token comment">// or dynamic topic function</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token function">newNotification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Notification <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
   <span class="token punctuation">}</span>
