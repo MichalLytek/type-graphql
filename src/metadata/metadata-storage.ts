@@ -197,6 +197,7 @@ export class MetadataStorage {
             typeOptions: def.typeOptions!,
             deprecationReason: def.deprecationReason,
             description: def.description,
+            complexity: def.complexity,
             roles: def.roles!,
             middlewares: def.middlewares!,
             params: def.params!,

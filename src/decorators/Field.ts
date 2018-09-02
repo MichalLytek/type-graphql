@@ -39,6 +39,7 @@ export function Field(
       schemaName: options.name || propertyKey,
       getType,
       typeOptions,
+      complexity: options.complexity,
       target: prototype.constructor,
       description: options.description,
       deprecationReason: options.deprecationReason,
@@ -51,6 +52,7 @@ export function Field(
         schemaName: options.name || propertyKey,
         target: prototype.constructor,
         handler: isResolverMethod ? (prototype as any)[propertyKey] : undefined,
+        complexity: options.complexity,
       });
     }
   };
