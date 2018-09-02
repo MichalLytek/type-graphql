@@ -15,7 +15,7 @@ class Recipe {
   title: string;
 
   @Field(type => [Rate])
-  ratings: Rate[]
+  ratings: Rate[];
 
   @Field({ nullable: true })
   averageRating?: number;
