@@ -11,8 +11,8 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   async recipes(): Promise<Recipe[]> {
     return await this.items;
   }
-
-  @FieldResolver()
+  /* Complexity in field resolver overrides complexity of equivalent field type*/
+  @FieldResolver({ complexity: 10 })
   ratingsCount(
     @Root() recipe: Recipe,
     @Arg("minRate", type => Int, { nullable: true }) minRate: number = 0.0,

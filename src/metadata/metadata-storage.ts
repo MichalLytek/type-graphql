@@ -205,6 +205,7 @@ export class MetadataStorage {
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);
         } else {
+          objectTypeField.complexity = def.complexity;
           if (objectTypeField.params!.length === 0) {
             objectTypeField.params = def.params!;
           }

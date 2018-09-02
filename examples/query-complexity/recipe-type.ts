@@ -23,7 +23,7 @@ export class Recipe {
   @Field()
   creationDate: Date;
 
-  @Field(type => Int)
+  @Field(type => Int, { complexity: 5 })
   ratingsCount: number;
 
   @Field(type => Float, {

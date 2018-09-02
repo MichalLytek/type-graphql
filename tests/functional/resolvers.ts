@@ -821,7 +821,7 @@ describe("Resolvers", () => {
         fieldResolverField: number;
         @Field()
         fieldResolverGetter: number;
-        @Field()
+        @Field({ complexity: 5 })
         fieldResolverMethod: number;
         @Field()
         fieldResolverMethodWithArgs: number;
@@ -916,7 +916,7 @@ describe("Resolvers", () => {
           return this.randomValueGetter;
         }
 
-        @FieldResolver()
+        @FieldResolver({ complexity: 10 })
         fieldResolverMethod() {
           return this.getRandomValue();
         }
@@ -1062,6 +1062,25 @@ describe("Resolvers", () => {
       });
       visit(ast, visitWithTypeInfo(typeInfo, visitor));
       expect(context.getErrors().length).toEqual(0);
+    });
+
+    it("Complexity of a field should be overridden by complexity of a field resolver", () => {
+      const query = `query {
+        sampleQuery {
+          fieldResolverMethod
+        }
+      }`;
+      const ast = parse(query);
+      const typeInfo = new TypeInfo(schema);
+      const context = new ValidationContext(schema, ast, typeInfo);
+      const visitor = new QueryComplexity(context, {
+        maximumComplexity: 9,
+      });
+      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      expect(context.getErrors().length).toEqual(1);
+      expect(context.getErrors()[0].message).toEqual(
+        "The query exceeds the maximum complexity of 9. Actual complexity is 11",
+      );
     });
 
     it("should return value from field resolver arg", async () => {
