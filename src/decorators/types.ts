@@ -1,7 +1,8 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
+import { Complexity } from "graphql-query-complexity";
 
-import { ResolverFilterData, ClassType, ComplexityResolver } from "../interfaces";
+import { ResolverFilterData, ClassType } from "../interfaces";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -17,7 +18,6 @@ export type SubscriptionFilterFunc = (
 
 export interface DecoratorTypeOptions {
   nullable?: boolean;
-  complexity?: number | ComplexityResolver;
 }
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
@@ -31,11 +31,17 @@ export interface DepreciationOptions {
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
 }
+export interface ComplexityOptions {
+  complexity?: Complexity;
+}
 export interface SchemaNameOptions {
   name?: string;
 }
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
-export type AdvancedOptions = BasicOptions & DepreciationOptions & SchemaNameOptions;
+export type AdvancedOptions = BasicOptions &
+  DepreciationOptions &
+  SchemaNameOptions &
+  ComplexityOptions;
 
 export interface EnumConfig {
   name: string;

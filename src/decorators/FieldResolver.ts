@@ -49,6 +49,7 @@ export function FieldResolver(
       handler: (prototype as any)[propertyKey],
       getType,
       typeOptions,
+      complexity: options.complexity,
       description: options.description,
       deprecationReason: options.deprecationReason,
     });

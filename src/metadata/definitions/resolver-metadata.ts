@@ -1,3 +1,5 @@
+import { Complexity } from "graphql-query-complexity";
+
 import {
   TypeValueThunk,
   TypeOptions,
@@ -12,6 +14,7 @@ export interface BaseResolverMetadata {
   schemaName: string;
   target: Function;
   handler: Function | undefined;
+  complexity: Complexity | undefined;
   resolverClassMetadata?: ResolverClassMetadata;
   params?: ParamMetadata[];
   roles?: any[];

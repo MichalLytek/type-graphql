@@ -32,5 +32,6 @@ export function getHandlerInfo(
     returnTypeOptions: typeOptions,
     description: options.description,
     deprecationReason: options.deprecationReason,
+    complexity: options.complexity,
   };
 }
