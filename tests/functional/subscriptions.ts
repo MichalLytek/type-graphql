@@ -25,6 +25,7 @@ import {
   Float,
   buildSchema,
   MissingSubscriptionTopicsError,
+  Args,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -150,6 +151,15 @@ describe("Subscriptions", () => {
         }
 
         @Mutation(returns => Boolean)
+        pubSubMutationDynamicTopic(
+          @Arg("value") value: number,
+          @Arg("topic") topic: string,
+          @PubSub() pubSub: PubSubEngine,
+        ): boolean {
+          return pubSub.publish(topic, value);
+        }
+
+        @Mutation(returns => Boolean)
         pubSubPublisherMutation(
           @Arg("value") value: number,
           @PubSub(SAMPLE_TOPIC) publish: Publisher<number>,
@@ -177,6 +187,11 @@ describe("Subscriptions", () => {
 
         @Subscription({ topics: [SAMPLE_TOPIC, OTHER_TOPIC] })
         multipleTopicSubscription(@Root() value: number): SampleObject {
+          return { value };
+        }
+
+        @Subscription({ topics: ({ args }) => args.topic })
+        dynamicTopicSubscription(@Root() value: number, @Arg("topic") topic: string): SampleObject {
           return { value };
         }
       }
@@ -361,6 +376,38 @@ describe("Subscriptions", () => {
       expect(subscriptionValue).toEqual(0.77);
       await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.44 } });
       expect(subscriptionValue).toEqual(0.44);
+    });
+
+    it("should correctly subscribe to dynamic topics", async () => {
+      let subscriptionValue!: number;
+      const SAMPLE_TOPIC = "MY_DYNAMIC_TOPIC";
+      const dynamicTopicSubscription = gql`
+        subscription dynamicTopicSubscription($topic: String!) {
+          dynamicTopicSubscription(topic: $topic) {
+            value
+          }
+        }
+      `;
+      const pubSubMutationDynamicTopic = gql`
+        mutation pubSubMutationDynamicTopic($value: Float!, $topic: String!) {
+          pubSubMutationDynamicTopic(value: $value, topic: $topic)
+        }
+      `;
+
+      apollo
+        .subscribe({
+          query: dynamicTopicSubscription,
+          variables: { topic: SAMPLE_TOPIC },
+        })
+        .subscribe({
+          next: ({ data }) => (subscriptionValue = data!.dynamicTopicSubscription.value),
+        });
+
+      await apollo.mutate({
+        mutation: pubSubMutationDynamicTopic,
+        variables: { value: 0.23, topic: SAMPLE_TOPIC },
+      });
+      expect(subscriptionValue).toEqual(0.23);
     });
 
     it("should inject the provided custom PubSub implementation", async () => {

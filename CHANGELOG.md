@@ -4,6 +4,7 @@
 ### Features
 - **Breaking Change**: change `ClassType` type and export it in package index
 - **Breaking Change**: refactor generic `createUnionType` to remove the 10 types limit (note: requires TypeScript 3.0.1)
+- add support for subscribing to dynamic topics - based on args/ctx/root (#137)
 
 ## v0.13.1
 ### Fixes

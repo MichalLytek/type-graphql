@@ -17,7 +17,7 @@ import {
   GraphQLEnumValueConfigMap,
   GraphQLUnionType,
 } from "graphql";
-import { withFilter } from "graphql-subscriptions";
+import { withFilter, ResolverFn } from "graphql-subscriptions";
 
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import {
@@ -34,8 +34,12 @@ import {
   createSimpleFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import { UnionResolveTypeError, GeneratingSchemaError } from "../errors";
-import { ResolverFilterData } from "../interfaces";
+import {
+  UnionResolveTypeError,
+  GeneratingSchemaError,
+  MissingSubscriptionTopicsError,
+} from "../errors";
+import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
@@ -373,15 +377,29 @@ export abstract class SchemaGenerator {
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
       }
+
+      let pubSubIterator: ResolverFn;
+      if (typeof handler.topics === "function") {
+        const getTopics = handler.topics;
+        pubSubIterator = (payload, args, context, info) => {
+          const resolverTopicData: ResolverTopicData = { payload, args, context, info };
+          const topics = getTopics(resolverTopicData);
+          if (Array.isArray(topics) && topics.length === 0) {
+            throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+          }
+          return pubSub.asyncIterator(topics);
+        };
+      } else {
+        const topics = handler.topics;
+        pubSubIterator = () => pubSub.asyncIterator(topics);
+      }
+
       fields[handler.schemaName].subscribe = handler.filter
-        ? withFilter(
-            () => pubSub.asyncIterator(handler.topics),
-            (payload, args, context, info) => {
-              const resolverFilterData: ResolverFilterData = { payload, args, context, info };
-              return handler.filter!(resolverFilterData);
-            },
-          )
-        : () => pubSub.asyncIterator(handler.topics);
+        ? withFilter(pubSubIterator, (payload, args, context, info) => {
+            const resolverFilterData: ResolverFilterData = { payload, args, context, info };
+            return handler.filter!(resolverFilterData);
+          })
+        : pubSubIterator;
       return fields;
     }, basicFields);
   }

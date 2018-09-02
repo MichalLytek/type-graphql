@@ -4,4 +4,5 @@ export * from "./ClassType";
 export * from "./Publisher";
 export * from "./ResolverData";
 export * from "./ResolverFilterData";
+export * from "./ResolverTopicData";
 export * from "./ResolverInterface";
