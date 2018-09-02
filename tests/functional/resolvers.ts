@@ -1048,7 +1048,7 @@ describe("Resolvers", () => {
       );
     });
 
-    it("should succheed when a query does not exceed the max allowed complexity", () => {
+    it("should succeed when a query does not exceed the max allowed complexity", () => {
       const query = `query {
         sampleQuery {
           complexResolverMethod
@@ -1344,7 +1344,7 @@ describe("Resolvers", () => {
           return true;
         }
 
-        @Subscription({ topics: "childTopic" })
+        @Subscription({ topics: "childTopic", complexity: 4 })
         childSubscription(): boolean {
           thisVar = this;
           return true;
@@ -1417,6 +1417,22 @@ describe("Resolvers", () => {
       expect(subscriptionNames).toContain("prefixSubscription");
       expect(subscriptionNames).toContain("overriddenSubscription");
       expect(prefixSubscription.args).toHaveLength(1);
+    });
+    it("should fail when a subscription exceeds the max allowed complexity", () => {
+      const query = `subscription {
+        childSubscription
+      }`;
+      const ast = parse(query);
+      const typeInfo = new TypeInfo(schema);
+      const context = new ValidationContext(schema, ast, typeInfo);
+      const visitor = new QueryComplexity(context, {
+        maximumComplexity: 2,
+      });
+      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      expect(context.getErrors().length).toEqual(1);
+      expect(context.getErrors()[0].message).toEqual(
+        "The query exceeds the maximum complexity of 2. Actual complexity is 4",
+      );
     });
 
     it("should generate proper object fields in schema", async () => {
