@@ -23,11 +23,17 @@ async function bootstrap() {
        * This  provides GraphQL query analysis to reject complex queries to your GraphQL server.
        * This can be used to protect your GraphQL servers
        * against resource exhaustion and DoS attacks.
-       * More doucmentation can be found (here)[https://github.com/ivome/graphql-query-complexity]
+       * More documentation can be found (here)[https://github.com/ivome/graphql-query-complexity]
        */
       queryComplexity({
+        // The maximum allowed query complexity, queries above this threshold will be rejected
         maximumComplexity: 8,
+        // The query variables. This is needed because the variables are not available
+        // in the visitor of the graphql-js library
         variables: req.query.variables,
+        // Optional callback function to retrieve the determined query complexity
+        // Will be invoked weather the query is rejected or not
+        // This can be used for logging or to implement rate limiting
         onComplete: (complexity: number) => {
           console.log("Query Complexity:", complexity);
         },

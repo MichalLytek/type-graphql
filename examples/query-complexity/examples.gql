@@ -7,7 +7,7 @@ query GetRecipesWithComplexityError {
   }
 }
 
-mutation GetRecipesWithoutComplexityError {
+query GetRecipesWithoutComplexityError {
   recipes {
     title
     averageRating

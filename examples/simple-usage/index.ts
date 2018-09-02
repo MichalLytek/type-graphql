@@ -18,15 +18,6 @@ async function bootstrap() {
     port: 4000,
     endpoint: "/graphql",
     playground: "/playground",
-    validationRules: req => [
-      queryComplexity({
-        maximumComplexity: 1000,
-        variables: req.query.variables,
-        onComplete: (complexity: number) => {
-          console.log("Query Complexity:", complexity);
-        },
-      }),
-    ],
   };
 
   // Start the server
