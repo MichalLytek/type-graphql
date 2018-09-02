@@ -8,3 +8,9 @@ export interface ResolverFilterData<TPayload = any, TArgs = ArgsDictionary, TCon
   context: TContext;
   info: GraphQLResolveInfo;
 }
+
+export type ResolverTopicData<
+  TPayload = any,
+  TArgs = ArgsDictionary,
+  TContext = {}
+> = ResolverFilterData<TPayload, TArgs, TContext>;

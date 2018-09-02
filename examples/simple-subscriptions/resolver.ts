@@ -68,7 +68,8 @@ export class SampleResolver {
   })
   subscriptionWithFilterToDyamicTopic(
     @Arg("topic") topic: string,
-    @Root() { id, message }: NotificationPayload): Notification {
+    @Root() { id, message }: NotificationPayload,
+  ): Notification {
     return { id, message, date: new Date() };
   }
 }

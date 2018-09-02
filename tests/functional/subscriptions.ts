@@ -191,10 +191,7 @@ describe("Subscriptions", () => {
         }
 
         @Subscription({ topics: ({ args }) => args.topic })
-        dynamicTopicSubscription(
-          @Root() value: number,
-          @Arg("topic") topic: string,
-        ): SampleObject {
+        dynamicTopicSubscription(@Root() value: number, @Arg("topic") topic: string): SampleObject {
           return { value };
         }
       }
@@ -386,7 +383,7 @@ describe("Subscriptions", () => {
       const SAMPLE_TOPIC = "MY_DYNAMIC_TOPIC";
       const dynamicTopicSubscription = gql`
         subscription dynamicTopicSubscription($topic: String!) {
-          dynamicTopicSubscription (topic: $topic) {
+          dynamicTopicSubscription(topic: $topic) {
             value
           }
         }
@@ -397,19 +394,20 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({
-        query: dynamicTopicSubscription,
-        variables: { topic: SAMPLE_TOPIC },
-      }).subscribe({
-        next: ({ data }) => (subscriptionValue = data!.dynamicTopicSubscription.value),
-      });
+      apollo
+        .subscribe({
+          query: dynamicTopicSubscription,
+          variables: { topic: SAMPLE_TOPIC },
+        })
+        .subscribe({
+          next: ({ data }) => (subscriptionValue = data!.dynamicTopicSubscription.value),
+        });
 
       await apollo.mutate({
         mutation: pubSubMutationDynamicTopic,
-        variables: { value: 0.23 , topic: SAMPLE_TOPIC },
+        variables: { value: 0.23, topic: SAMPLE_TOPIC },
       });
       expect(subscriptionValue).toEqual(0.23);
-
     });
 
     it("should inject the provided custom PubSub implementation", async () => {

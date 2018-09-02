@@ -34,9 +34,12 @@ import {
   createSimpleFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import { UnionResolveTypeError, GeneratingSchemaError,
-  MissingSubscriptionTopicsError } from "../errors";
-import { ResolverFilterData } from "../interfaces";
+import {
+  UnionResolveTypeError,
+  GeneratingSchemaError,
+  MissingSubscriptionTopicsError,
+} from "../errors";
+import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
@@ -379,7 +382,7 @@ export abstract class SchemaGenerator {
       if (typeof handler.topics === "function") {
         const getTopics = handler.topics;
         pubSubIterator = (payload, args, context, info) => {
-          const resolverTopicData: ResolverFilterData = { payload, args, context, info };
+          const resolverTopicData: ResolverTopicData = { payload, args, context, info };
           const topics = getTopics(resolverTopicData);
           if (Array.isArray(topics) && topics.length === 0) {
             throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
@@ -392,13 +395,10 @@ export abstract class SchemaGenerator {
       }
 
       fields[handler.schemaName].subscribe = handler.filter
-        ? withFilter(
-            pubSubIterator,
-            (payload, args, context, info) => {
-              const resolverFilterData: ResolverFilterData = { payload, args, context, info };
-              return handler.filter!(resolverFilterData);
-            },
-          )
+        ? withFilter(pubSubIterator, (payload, args, context, info) => {
+            const resolverFilterData: ResolverFilterData = { payload, args, context, info };
+            return handler.filter!(resolverFilterData);
+          })
         : pubSubIterator;
       return fields;
     }, basicFields);

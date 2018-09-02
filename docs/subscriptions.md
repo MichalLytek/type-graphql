@@ -24,23 +24,17 @@ Then we have to provide to which topics we want to subscribe. This can be a sing
 ```typescript
 class SampleResolver {
   // ...
-  @Subscription({ topics: "NOTIFICATIONS" })
-  newNotification(): Notification {
-    // ...
-  }
-}
-```
-```typescript
-class SampleResolver {
-  // ...
   @Subscription({ 
-    topics: ({ args }) => args.topic
+    topics: "NOTIFICATIONS", // single topic
+    topics: ["NOTIFICATIONS", "ERRORS"] // or topics array
+    topics: ({ args, payload, context }) => args.topic // or dynamic topic function
   })
   newNotification(): Notification {
     // ...
   }
 }
 ```
+
 
 We can also provide the `filter` option to decide which events from topics should trigger our subscription.
 This function should return `boolean` or `Promise<boolean>`.

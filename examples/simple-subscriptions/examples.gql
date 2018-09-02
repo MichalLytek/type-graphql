@@ -19,11 +19,12 @@ mutation {
 }
 
 mutation {
-  pubSubMutationToDynamicTopic(topic:"FOO_MESSAGES", message: "Hi Foo!")
+  pubSubMutationToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
 }
 
 subscription {
-  subscriptionWithFilterToDyamicTopic (topic: "FOO_MESSAGES"){
-    id, message
+  subscriptionWithFilterToDyamicTopic(topic: "FOO_MESSAGES") {
+    id
+    message
   }
 }
