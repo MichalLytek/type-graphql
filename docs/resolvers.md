@@ -187,7 +187,7 @@ input AddRecipeInput {
 }
 ```
 ```graphql
-type Query {
+type Mutation {
   addRecipe(data: AddRecipeInput!): Recipe!
 }
 ```
