@@ -83,7 +83,7 @@ class Student extends Person {
 }
 ```
 
-Note that both the subclass and the parent class must be decorated with the `@ObjectType()` decorator for the parent class fields to be picked up on the subclass. Also, decorator types cannot be mixed across parent and child classes; for example, you cannot decorate the subclass with `@ObjectType()` and the parent with `@InputType()`.
+Note that both the subclass and the parent class must be decorated with the same type of decorator, like `@ObjectType()` in the example `Person -> Student` above. Mixing decorator types across parent and child classes is prohibited and might result in schema building error --- you can't e.g decorate the subclass with `@ObjectType()` and the parent with `@InputType()`.
 
 ## Resolvers inheritance
 The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.
