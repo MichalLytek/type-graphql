@@ -9,19 +9,11 @@ export class Recipe {
   @Field({ complexity: 6 })
   title: string;
 
-  @Field(type => String, { nullable: true, deprecationReason: "Use `description` field instead" })
-  get specification(): string | undefined {
-    return this.description;
-  }
-
-  @Field({ complexity: 5, nullable: true, description: "The recipe" })
+  @Field({ complexity: 5 })
   description?: string;
 
   @Field(type => [Int])
   ratings: number[];
-
-  @Field()
-  creationDate: Date;
 
   @Field(type => Int, { complexity: 5 })
   ratingsCount: number;

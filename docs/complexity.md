@@ -1,7 +1,7 @@
 ---
 title: Query Complexity
 ---
-A single GraphQL query can potentially generate thousands of database operations. To keep track and limit of what each graphQl operation can do , `TypeGraphQL` provides you the option of integrating with Query Complexity tools like  [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
+A single graphQl query can potentially generate huge workload for a server, like thousands of database operations which can be used to cause DDoS attacks. To keep track and limit of what each graphQl operation can do , `TypeGraphQL` provides you the option of integrating with Query Complexity tools like  [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
 
 The cost analysis-based solution is very promising, since you can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity` .
@@ -19,12 +19,13 @@ class MyObject {
   @Field({ complexity: 2})
   publicField: string;
 
-  @Field({ complexity: 3 })
+  @Field({ complexity: (args, childComplexity) => childComplexity + 1 })
   complexField: string;
 }
 ```
 
-You can omit the `complexity` option if the complexity value is 1.
+You can omit the `complexity` option if the complexity value is 1. 
+You can pass complexity as option to any of `@Field`, `@FieldResolver`, `@Mutation` & `@Subscription`. For the same property, if both the `@Fieldresolver` as well as `@Field` have complexity defined , then the complexity passed to the field resolver decorator takes precedence. 
 
 In next step, you need to integrate `graphql-query-complexity` with your graphql server. 
 
@@ -62,9 +63,9 @@ In next step, you need to integrate `graphql-query-complexity` with your graphql
   });
 ```
 
-And it's done! 😉 . You can pass complexity as option to any of `@field`, `@fieldResolver`, `@mutation` & `@subscription`. For the same property, if both the @fieldresolver as well as @field have complexity defined , then the complexity passed to the field resolver decorator takes precedence. 
+And it's done! 😉 .
 
-Have a look at the [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity) docs to understand more about how query complexity is computed.
+For more info about how query complexity is computed, please visit[graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
 
 ## Example

@@ -773,6 +773,23 @@ describe("Resolvers", () => {
     let queryContext: any;
     let queryInfo: any;
 
+    // helpers
+    function generateAndVisitComplexMethod(maximumComplexity: number): ValidationContext {
+      const query = `query {
+                          sampleQuery {
+                          complexResolverMethod
+                          }
+                        }`;
+      const ast = parse(query);
+      const typeInfo = new TypeInfo(schema);
+      const context = new ValidationContext(schema, ast, typeInfo);
+      const visitor = new QueryComplexity(context, {
+        maximumComplexity,
+      });
+      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      return context;
+    }
+
     beforeEach(() => {
       queryRoot = undefined;
       queryContext = undefined;
@@ -1030,18 +1047,7 @@ describe("Resolvers", () => {
     });
 
     it("should fail when a query exceeds the max allowed complexity", () => {
-      const query = `query {
-        sampleQuery {
-          complexResolverMethod
-        }
-      }`;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo);
-      const visitor = new QueryComplexity(context, {
-        maximumComplexity: 5,
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      const context = generateAndVisitComplexMethod(5);
       expect(context.getErrors().length).toEqual(1);
       expect(context.getErrors()[0].message).toEqual(
         "The query exceeds the maximum complexity of 5. Actual complexity is 11",
@@ -1049,34 +1055,12 @@ describe("Resolvers", () => {
     });
 
     it("should succeed when a query does not exceed the max allowed complexity", () => {
-      const query = `query {
-        sampleQuery {
-          complexResolverMethod
-        }
-      }`;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo);
-      const visitor = new QueryComplexity(context, {
-        maximumComplexity: 12,
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      const context = generateAndVisitComplexMethod(12);
       expect(context.getErrors().length).toEqual(0);
     });
 
     it("Complexity of a field should be overridden by complexity of a field resolver", () => {
-      const query = `query {
-        sampleQuery {
-          fieldResolverMethod
-        }
-      }`;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo);
-      const visitor = new QueryComplexity(context, {
-        maximumComplexity: 9,
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
+      const context = generateAndVisitComplexMethod(9);
       expect(context.getErrors().length).toEqual(1);
       expect(context.getErrors()[0].message).toEqual(
         "The query exceeds the maximum complexity of 9. Actual complexity is 11",

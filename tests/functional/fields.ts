@@ -91,7 +91,7 @@ describe("Fields - schema", () => {
     expect(schemaIntrospection).toBeDefined();
   });
 
-  it("should add complexity info to the metadata storage", async () => {
+  it("it should register complexity info for field", async () => {
     const metadataStorage = getMetadataStorage();
     const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
     const complexField = sampleObj.fields!.find(it => it.name === "complexField")!;
