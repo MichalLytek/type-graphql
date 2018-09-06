@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Enums · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Nowadays almost all* typed languages have support for enumerated types, so do TypeScript has."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Enums · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Nowadays almost all* typed languages have support for enumerated types, so do TypeScript has."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Enums · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Nowadays almost all* typed languages have support for enumerated types, including TypeScript."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Enums · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://19majkel94.github.io/type-graphql/index.html"/><meta property="og:description" content="Nowadays almost all* typed languages have support for enumerated types, including TypeScript."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/type-graphql/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://19majkel94.github.io/type-graphql/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://19majkel94.github.io/type-graphql/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -29,13 +29,13 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/19majkel94/type-graphql/edit/master/docs/enums.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Enums</h1></header><article><div><span><p>Nowadays almost all* typed languages have support for enumerated types, so do TypeScript has.
-Enums allow to limit the range of possible variable's values to a set of predefined constants, which for example make it easier to document intent.</p>
-<p>GraphQL also have enum type support, so do <code>TypeGraphQL</code> allows you to use TS enums in your schema.</p>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/19majkel94/type-graphql/edit/master/docs/enums.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Enums</h1></header><article><div><span><p>Nowadays almost all* typed languages have support for enumerated types, including TypeScript.
+Enums allow to limit the range of possible variable's values to a set of predefined constants, which make it easier to document intent.</p>
+<p>GraphQL also has enum type support, so <code>TypeGraphQL</code> allows you to use TypeScript enums in your GraphQL schema.</p>
 <p><em>* except Golang :(</em></p>
 <h2><a class="anchor" aria-hidden="true" id="usage"></a><a href="#usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
-<p>First of all, you need to create an TypeScript's enum.
-It can be normal (number based) or string enum - internal value of enums will be taken from enums definition values and the public names from the enum keys:</p>
+<p>First of all, you need to create a TypeScript enum.
+It can be a numeric or string enum - the internal value of enums will be taken from enums definition values and the public names from the enum keys:</p>
 <pre><code class="hljs css languages- typescript"><span class="token keyword">enum</span> Direction <span class="token punctuation">{</span>
   Up<span class="token punctuation">,</span>
   Down<span class="token punctuation">,</span>
@@ -50,7 +50,7 @@ It can be normal (number based) or string enum - internal value of enums will be
   Right <span class="token operator">=</span> <span class="token string">"RIGHT"</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Then, we should mark the enums with <code>@GraphQLEnumType()</code> decorator. However TypeScript's decorators works only with classes, so we need to mark the enums manually by calling the register function and providing the enum name for GraphQL:</p>
+<p>To tell TypeGraphQL about your enum, you would ideally mark the enums with <code>@GraphQLEnumType()</code> decorator. However, TypeScript's decorators only works with classes, so we need to make TypeGraphQL aware of the enums manually by calling the <code>registerEnumType</code> function and providing the enum name for GraphQL:</p>
 <pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> registerEnumType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
 <span class="token function">registerEnumType</span><span class="token punctuation">(</span>Direction<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -58,15 +58,15 @@ It can be normal (number based) or string enum - internal value of enums will be
   description<span class="token punctuation">:</span> <span class="token string">"The basic directions"</span><span class="token punctuation">,</span> <span class="token comment">// this one is optional</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>The last step is very important: TypeScript has limited reflection ability, so we have to explicitly provide the enum type both for object/input type fields as well as return type of queries/mutations or arg type:</p>
+<p>The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:</p>
 <pre><code class="hljs css languages- typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">JourneyInput</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Direction<span class="token punctuation">)</span> <span class="token comment">// it's very important</span>
   direction<span class="token punctuation">:</span> Direction<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Without this annotation, the generated GQL type would be not <code>ENUM</code> but <code>String</code> or <code>Float</code>, depending on the enum's type.</p>
-<p>In the end you can use your enum directly in your code 😉</p>
+<p>Without this annotation, the generated GQL type would be <code>String</code> or <code>Float</code> (depending on the enum type), rather than the <code>ENUM</code> we are aiming for.</p>
+<p>With all that in place, you can use your enum directly in your code 😉</p>
 <pre><code class="hljs css languages- typescript"><span class="token keyword">class</span> <span class="token class-name">Resolver</span> <span class="token punctuation">{</span>
   <span class="token keyword">private</span> sprite <span class="token operator">=</span> <span class="token function">getMarioSprite</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
