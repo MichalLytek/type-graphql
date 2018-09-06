@@ -2,16 +2,17 @@
 title: Enums
 ---
 
-Nowadays almost all* typed languages have support for enumerated types, so do TypeScript has.
-Enums allow to limit the range of possible variable's values to a set of predefined constants, which for example make it easier to document intent.
+Nowadays almost all* typed languages have support for enumerated types, including TypeScript.
+Enums allow to limit the range of possible variable's values to a set of predefined constants, which make it easier to document intent.
 
-GraphQL also have enum type support, so do `TypeGraphQL` allows you to use TS enums in your schema.
+GraphQL also has enum type support, so `TypeGraphQL` allows you to use TypeScript enums in your GraphQL schema.
 
 _* except Golang :(_
 
 ## Usage
-First of all, you need to create an TypeScript's enum.
-It can be normal (number based) or string enum - internal value of enums will be taken from enums definition values and the public names from the enum keys:
+First of all, you need to create a TypeScript enum.
+It can be a numeric or string enum - the internal value of enums will be taken from enums definition values and the public names from the enum keys:
+
 ```typescript
 enum Direction {
   Up,
@@ -27,7 +28,9 @@ enum Direction {
   Right = "RIGHT",
 }
 ```
-Then, we should mark the enums with `@GraphQLEnumType()` decorator. However TypeScript's decorators works only with classes, so we need to mark the enums manually by calling the register function and providing the enum name for GraphQL:
+
+To tell TypeGraphQL about your enum, you would ideally mark the enums with `@GraphQLEnumType()` decorator. However, TypeScript's decorators only works with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
+
 ```typescript
 import { registerEnumType } from "type-graphql";
 
@@ -37,7 +40,8 @@ registerEnumType(Direction, {
 });
 ```
 
-The last step is very important: TypeScript has limited reflection ability, so we have to explicitly provide the enum type both for object/input type fields as well as return type of queries/mutations or arg type:
+The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:
+
 ```typescript
 @InputType()
 class JourneyInput {
@@ -45,9 +49,11 @@ class JourneyInput {
   direction: Direction;
 }
 ```
-Without this annotation, the generated GQL type would be not `ENUM` but `String` or `Float`, depending on the enum's type.
 
-In the end you can use your enum directly in your code 😉
+Without this annotation, the generated GQL type would be `String` or `Float` (depending on the enum type), rather than the `ENUM` we are aiming for.
+
+With all that in place, you can use your enum directly in your code 😉
+
 ```typescript
 class Resolver {
   private sprite = getMarioSprite();
