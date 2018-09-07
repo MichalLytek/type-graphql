@@ -19,7 +19,8 @@ import {
 } from "graphql";
 import * as path from "path";
 import { plainToClass } from "class-transformer";
-import QueryComplexity from "graphql-query-complexity/dist/QueryComplexity";
+import QueryComplexity, { fieldConfigEstimator, simpleEstimator } from "graphql-query-complexity";
+import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
 import {
   ObjectType,
   Field,
@@ -783,8 +784,9 @@ describe("Resolvers", () => {
       const ast = parse(query);
       const typeInfo = new TypeInfo(schema);
       const context = new ValidationContext(schema, ast, typeInfo);
-      const visitor = new QueryComplexity(context, {
+      const visitor = new ComplexityVisitor(context, {
         maximumComplexity,
+        estimators: [fieldConfigEstimator(), simpleEstimator({ defaultComplexity: 1 })],
       });
       visit(ast, visitWithTypeInfo(typeInfo, visitor));
       return context;
@@ -1428,8 +1430,9 @@ describe("Resolvers", () => {
       const ast = parse(query);
       const typeInfo = new TypeInfo(schema);
       const context = new ValidationContext(schema, ast, typeInfo);
-      const visitor = new QueryComplexity(context, {
+      const visitor = new ComplexityVisitor(context, {
         maximumComplexity: 2,
+        estimators: [fieldConfigEstimator(), simpleEstimator({ defaultComplexity: 1 })],
       });
       visit(ast, visitWithTypeInfo(typeInfo, visitor));
       expect(context.getErrors().length).toEqual(1);

@@ -1,8 +1,9 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { buildSchema } from "../../src";
-import queryComplexity from "graphql-query-complexity";
+import queryComplexity, { simpleEstimator, fieldConfigEstimator } from "graphql-query-complexity";
 import { RecipeResolver } from "./recipe-resolver";
+import { ValidationContext } from "graphql";
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
@@ -37,7 +38,19 @@ async function bootstrap() {
         onComplete: (complexity: number) => {
           console.log("Query Complexity:", complexity);
         },
-      }),
+        // Add any number of estimators. The estimators are invoked in order, the first
+        // numeric value that is being returned by an estimator is used as the field complexity.
+        // If no estimator returns a value, an exception is raised.
+        estimators: [
+          fieldConfigEstimator(),
+          // Add more estimators here...
+          // This will assign each field a complexity of 1 if no other estimator
+          // returned a value.
+          simpleEstimator({
+            defaultComplexity: 1,
+          }),
+        ],
+      }) as ((context: ValidationContext) => any),
     ],
   };
 

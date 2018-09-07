@@ -28,7 +28,7 @@ export class Recipe {
     the child nodes as well as the field input arguments.
     That way you can make a more realistic estimation of individual field complexity values:
    */
-    complexity: (args, childComplexity) => childComplexity + 1,
+    complexity: ({ childComplexity }) => childComplexity + 1,
   })
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;
