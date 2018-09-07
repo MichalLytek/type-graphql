@@ -1,12 +1,12 @@
 ---
 title: Query Complexity
 ---
-A single GraphQl query can potentially generate huge workload for a server, like thousands of database operations which can be used to cause DDoS attacks. To keep track and limit of what each GraphQl operation can do , `TypeGraphQL` provides you the option of integrating with Query Complexity tools like  [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
+A single GraphQL query can potentially generate huge workload for a server, like thousands of database operations which can be used to cause DDoS attacks. To keep track and limit of what each GraphQL operation can do , `TypeGraphQL` provides you the option of integrating with Query Complexity tools like  [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
 
 The cost analysis-based solution is very promising, since you can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity` .
 
-All you need to do is define your complexity cost for the fields (fields, mutattions, subscriptions) in`TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQl server you have.
+All you need to do is define your complexity cost for the fields (fields, mutattions, subscriptions) in`TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQL server you have.
 
 ## How to use?
 At first, you need to pass `complexity` as an option to the decorator on a field/query/mutation.
@@ -16,7 +16,7 @@ Example of complexity
 
 @ObjectType()
 class MyObject {
-  @Field({ complexity: 2})
+  @Field({ complexity: 2 })
   publicField: string;
 
   @Field({ complexity: ({args, childComplexity}) => childComplexity + 1 })
@@ -27,7 +27,7 @@ class MyObject {
 You can omit the `complexity` option if the complexity value is 1. 
 You can pass complexity as option to any of `@Field`, `@FieldResolver`, `@Mutation` & `@Subscription`. For the same property, if both the `@Fieldresolver` as well as `@Field` have complexity defined , then the complexity passed to the field resolver decorator takes precedence. 
 
-In next step, you need to integrate `graphql-query-complexity` with your GraphQl server. 
+In next step, you need to integrate `graphql-query-complexity` with your GraphQL server. 
 
 ```typescript
   // Create GraphQL server
@@ -52,10 +52,10 @@ In next step, you need to integrate `graphql-query-complexity` with your GraphQl
           console.log("Query Complexity:", complexity);
         },
         estimators: [
+          // Using fieldConfigEstimator is mandatory to make it work with type-graphql
           fieldConfigEstimator(),
-          // Add more estimators here...
           // This will assign each field a complexity of 1 if no other estimator
-          // returned a value.
+          // returned a value. We can define the default value for field not explicitly annotated
           simpleEstimator({
             defaultComplexity: 1,
           }),

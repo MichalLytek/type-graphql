@@ -1,6 +1,6 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
-import { ComplexityEstimatorArgs } from "graphql-query-complexity";
+import { ComplexityEstimator } from "graphql-query-complexity";
 
 import { ResolverFilterData, ClassType } from "../interfaces";
 
@@ -32,7 +32,7 @@ export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
 }
 export interface ComplexityOptions {
-  complexity?: ((arg: ComplexityEstimatorArgs) => number) | number;
+  complexity?: ComplexityEstimator | number;
 }
 export interface SchemaNameOptions {
   name?: string;
