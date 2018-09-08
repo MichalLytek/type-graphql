@@ -43,6 +43,7 @@
     "class-validator": ">=0.9.1",
     "glob": "^7.1.2",
     "graphql": "^0.13.2",
+    "graphql-query-complexity": "^0.2.0",
     "graphql-subscriptions": "^0.5.8",
     "tslib": "^1.9.3"
   },

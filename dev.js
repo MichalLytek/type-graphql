@@ -8,6 +8,7 @@ require("ts-node/register/transpile-only");
 // require("./examples/redis-subscriptions/index.ts");
 // require("./examples/resolvers-inheritance/index.ts");
 // require("./examples/simple-subscriptions/index.ts");
+//  require("./examples/query-complexity/index.ts");
 // require("./examples/simple-usage/index.ts");
 // require("./examples/using-container/index.ts");
 // require("./examples/using-scoped-container/index.ts");

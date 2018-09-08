@@ -1,0 +1,15 @@
+
+query GetRecipesWithComplexityError {
+  recipes {
+    title
+    averageRating,
+    ratingsCount
+  }
+}
+
+query GetRecipesWithoutComplexityError {
+  recipes {
+    title
+    averageRating
+  }
+}

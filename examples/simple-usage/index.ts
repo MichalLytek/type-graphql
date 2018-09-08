@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { buildSchema } from "../../src";
-
 import { RecipeResolver } from "./recipe-resolver";
 
 async function bootstrap() {

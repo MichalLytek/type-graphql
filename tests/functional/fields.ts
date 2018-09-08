@@ -55,6 +55,9 @@ describe("Fields - schema", () => {
 
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
+
+      @Field({ name: "complexField", complexity: 10 })
+      complexField: string;
     }
 
     @Resolver(of => SampleObject)
@@ -86,6 +89,13 @@ describe("Fields - schema", () => {
   // tests
   it("should generate schema without errors", async () => {
     expect(schemaIntrospection).toBeDefined();
+  });
+
+  it("it should register complexity info for field", async () => {
+    const metadataStorage = getMetadataStorage();
+    const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
+    const complexField = sampleObj.fields!.find(it => it.name === "complexField")!;
+    expect(complexField.complexity).toBe(10);
   });
 
   it("should throw error when field type not provided", async () => {

@@ -1,7 +1,7 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-import { ResolverFilterData, ClassType, ResolverTopicData } from "../interfaces";
+import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -34,11 +34,17 @@ export interface DepreciationOptions {
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
 }
+export interface ComplexityOptions {
+  complexity?: Complexity;
+}
 export interface SchemaNameOptions {
   name?: string;
 }
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
-export type AdvancedOptions = BasicOptions & DepreciationOptions & SchemaNameOptions;
+export type AdvancedOptions = BasicOptions &
+  DepreciationOptions &
+  SchemaNameOptions &
+  ComplexityOptions;
 
 export interface EnumConfig {
   name: string;
