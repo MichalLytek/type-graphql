@@ -1,5 +1,3 @@
-import { Complexity } from "graphql-query-complexity";
-
 import {
   TypeValueThunk,
   TypeOptions,
@@ -8,6 +6,7 @@ import {
 } from "../../decorators/types";
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
+import { Complexity } from "../../interfaces";
 
 export interface BaseResolverMetadata {
   methodName: string;

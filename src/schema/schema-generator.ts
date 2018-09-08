@@ -9,8 +9,6 @@ import {
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
   GraphQLInterfaceType,
-  GraphQLFieldConfig,
-  GraphQLInputFieldConfig,
   graphql,
   introspectionQuery,
   GraphQLEnumType,
@@ -234,7 +232,7 @@ export abstract class SchemaGenerator {
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
-                } as GraphQLFieldConfig<any, any>;
+                };
                 return fieldsMap;
               },
               {},
@@ -360,7 +358,7 @@ export abstract class SchemaGenerator {
         description: handler.description,
         deprecationReason: handler.deprecationReason,
         complexity: handler.complexity,
-      } as GraphQLFieldConfig<any, any>;
+      };
       return fields;
     }, {});
   }

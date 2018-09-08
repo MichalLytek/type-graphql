@@ -1,8 +1,7 @@
-import { Complexity } from "graphql-query-complexity";
-
 import { ParamMetadata } from "./param-metadata";
 import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { Middleware } from "../../interfaces/Middleware";
+import { Complexity } from "../../interfaces";
 
 export interface FieldMetadata {
   target: Function;
