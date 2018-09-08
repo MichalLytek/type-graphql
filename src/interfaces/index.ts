@@ -5,4 +5,5 @@ export * from "./Complexity";
 export * from "./Publisher";
 export * from "./ResolverData";
 export * from "./ResolverFilterData";
+export * from "./ResolverTopicData";
 export * from "./ResolverInterface";

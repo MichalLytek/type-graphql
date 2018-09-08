@@ -3,6 +3,7 @@ import {
   TypeOptions,
   ClassTypeResolver,
   SubscriptionFilterFunc,
+  SubscriptionTopicFunc,
 } from "../../decorators/types";
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
@@ -38,7 +39,7 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
 }
 
 export interface SubscriptionResolverMetadata extends ResolverMetadata {
-  topics: string[];
+  topics: string | string[] | SubscriptionTopicFunc;
   filter: SubscriptionFilterFunc | undefined;
 }
 

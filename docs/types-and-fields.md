@@ -77,7 +77,7 @@ Which in result will generate following part of GraphQL schema in SDL:
 type Recipe {
   id: ID!
   title: String!
-  ratings: [Rate!]
+  ratings: [Rate!]!
   averageRating: Float
 }
 ```

@@ -1,7 +1,7 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-import { ResolverFilterData, ClassType, Complexity } from "../interfaces";
+import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -14,6 +14,10 @@ export type ReturnTypeFunc = (returns?: void) => ReturnTypeFuncValue;
 export type SubscriptionFilterFunc = (
   resolverFilterData: ResolverFilterData<any, any, any>,
 ) => boolean | Promise<boolean>;
+
+export type SubscriptionTopicFunc = (
+  resolverTopicData: ResolverTopicData<any, any, any>,
+) => string | string[];
 
 export interface DecoratorTypeOptions {
   nullable?: boolean;
