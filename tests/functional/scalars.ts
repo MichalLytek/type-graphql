@@ -69,8 +69,8 @@ describe("Scalars", () => {
       @Field(type => Boolean)
       explicitBooleanField: any;
 
-      // @Field()
-      // implicitDateField: Date;
+      @Field()
+      implicitDateField: Date;
 
       @Field(type => Date)
       explicitDateField: any;
@@ -190,14 +190,12 @@ describe("Scalars", () => {
       expect(explicitDateFieldType.name).toEqual("DateTime");
     });
 
-    // TODO: uncomment after ts-jest fix
+    it("should generate Date scalar field type when prop type is Date", async () => {
+      const implicitStringFieldType = getFieldType("implicitDateField");
 
-    // it("should generate Date scalar field type when prop type is Date", async () => {
-    //   const implicitStringFieldType = getFieldType("implicitDateField");
-
-    //   expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
-    //   expect(implicitStringFieldType.name).toEqual("DateTime");
-    // });
+      expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
+      expect(implicitStringFieldType.name).toEqual("DateTime");
+    });
 
     it("should generate ISODate scalar field type", async () => {
       const ISODateFieldType = getFieldType("ISODateField");
