@@ -164,14 +164,9 @@ All in all, the minimal `tsconfig.json` file example looks like this:
 ```
 
 ## Examples
-You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on the repo for more example of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
+You can also check the [examples](https://github.com/19majkel94/type-graphql/tree/master/examples) folder on this repository for more examples of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
 
-Please notice that, do due to a [ts-node bug](https://github.com/rbuckton/reflect-metadata/issues/84), an additional parameter is needed when running with ts-node:
-```bash
-ts-node --type-check ./examples/simple-usage/index.ts
-```
-
-The [Tests folder](https://github.com/19majkel94/type-graphql/tree/master/tests) might also give you some tips how to get some things done.
+The [Tests folder](https://github.com/19majkel94/type-graphql/tree/master/tests) might also give you some tips how to get various things done.
 
 ## Work in progress
 Currently released version is a MVP (Minimum Viable Product).
