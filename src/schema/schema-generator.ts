@@ -10,7 +10,7 @@ import {
   GraphQLInputFieldConfigMap,
   GraphQLInterfaceType,
   graphql,
-  introspectionQuery,
+  getIntrospectionQuery,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLUnionType,
@@ -72,7 +72,7 @@ export abstract class SchemaGenerator {
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
-    const { errors } = await graphql(schema, introspectionQuery);
+    const { errors } = await graphql(schema, getIntrospectionQuery());
     if (errors) {
       throw new GeneratingSchemaError(errors);
     }
