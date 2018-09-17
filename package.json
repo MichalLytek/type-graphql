@@ -94,5 +94,8 @@
       "pre-commit": "lint-staged"
     }
   },
+  "engines": {
+    "node": ">= 6.x"
+  },
   "private": true
 }
