@@ -23,6 +23,7 @@ import {
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
+  BaseResolverMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
@@ -83,6 +84,40 @@ export abstract class SchemaGenerator {
     this.checkForErrors(options);
     BuildContext.create(options);
     getMetadataStorage().build();
+    if (options.nameTransformer) {
+      const {
+        queries,
+        mutations,
+        subscriptions,
+        fieldResolvers,
+        authorizedFields,
+      } = getMetadataStorage();
+
+      for (const resolvers of [...queries, ...mutations, ...subscriptions]) {
+        resolvers.schemaName = options.nameTransformer(
+          resolvers.schemaName,
+          "resolver",
+          resolvers.target,
+        );
+      }
+
+      for (const resolvers of fieldResolvers) {
+        resolvers.schemaName = options.nameTransformer(
+          resolvers.schemaName,
+          "field",
+          resolvers.target,
+        );
+      }
+
+      for (const resolvers of authorizedFields) {
+        resolvers.fieldName = options.nameTransformer(
+          resolvers.fieldName,
+          "field",
+          resolvers.target,
+        );
+      }
+    }
+
     this.buildTypesInfo();
 
     const schema = new GraphQLSchema({

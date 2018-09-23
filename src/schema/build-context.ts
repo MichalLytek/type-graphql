@@ -5,6 +5,11 @@ import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 import { AuthChecker, AuthMode } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
 
+import {
+  cloneMetadataStorage,
+  restoreClonedMetadataStorage,
+} from "../metadata/cloneMetadataStorage";
+
 export type DateScalarMode = "isoDate" | "timestamp";
 
 export interface ScalarsTypeMap {
@@ -24,6 +29,7 @@ export interface BuildContextOptions {
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
   globalMiddlewares?: Array<Middleware<any>>;
+  nameTransformer?(name: string, type: "field" | "resolver", target: Function): string;
 }
 
 export abstract class BuildContext {
@@ -64,12 +70,16 @@ export abstract class BuildContext {
     if (options.globalMiddlewares) {
       this.globalMiddlewares = options.globalMiddlewares;
     }
+
+    // Well, you know, this is pretty controversial
+    cloneMetadataStorage();
   }
 
   /**
    * Restore default settings
    */
   static reset() {
+    restoreClonedMetadataStorage();
     this.dateScalarMode = "isoDate";
     this.scalarsMaps = [];
     this.validate = true;
