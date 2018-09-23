@@ -45,6 +45,7 @@
     "graphql": "^0.13.2",
     "graphql-query-complexity": "^0.2.0",
     "graphql-subscriptions": "^0.5.8",
+    "lodash.clonedeep": "^4.5.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -54,6 +55,7 @@
     "@types/gulp-shell": "0.0.31",
     "@types/ioredis": "^3.2.13",
     "@types/jest": "^23.3.1",
+    "@types/lodash.clonedeep": "^4.5.4",
     "@types/node": "^10.5.5",
     "@types/ws": "^5.1.2",
     "apollo-cache-inmemory": "^1.2.6",
