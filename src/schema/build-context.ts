@@ -11,6 +11,7 @@ import {
 } from "../metadata/cloneMetadataStorage";
 
 export type DateScalarMode = "isoDate" | "timestamp";
+export type nameTransformerTypes = "field" | "resolver";
 
 export interface ScalarsTypeMap {
   type: Function;
@@ -29,7 +30,7 @@ export interface BuildContextOptions {
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
   globalMiddlewares?: Array<Middleware<any>>;
-  nameTransformer?(name: string, type: "field" | "resolver", target: Function): string;
+  nameTransformer?(name: string, type: nameTransformerTypes, target: Function): string;
 }
 
 export abstract class BuildContext {

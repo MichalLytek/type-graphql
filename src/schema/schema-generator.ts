@@ -32,7 +32,7 @@ import {
   createAdvancedFieldResolver,
   createSimpleFieldResolver,
 } from "../resolvers/create";
-import { BuildContext, BuildContextOptions } from "./build-context";
+import { BuildContext, BuildContextOptions, nameTransformerTypes } from "./build-context";
 import {
   UnionResolveTypeError,
   GeneratingSchemaError,
@@ -85,37 +85,28 @@ export abstract class SchemaGenerator {
     BuildContext.create(options);
     getMetadataStorage().build();
     if (options.nameTransformer) {
+      const processMetadata = (type: nameTransformerTypes, ...resolvers: any[]) => {
+        for (const metadata of resolvers) {
+          if (!metadata.tainted) {
+            metadata.schemaName = options.nameTransformer!(
+              metadata.schemaName,
+              type,
+              metadata.target,
+            );
+          }
+        }
+      };
+
       const {
         queries,
         mutations,
         subscriptions,
         fieldResolvers,
-        authorizedFields,
-      } = getMetadataStorage();
-
-      for (const resolvers of [...queries, ...mutations, ...subscriptions]) {
-        resolvers.schemaName = options.nameTransformer(
-          resolvers.schemaName,
-          "resolver",
-          resolvers.target,
-        );
-      }
-
-      for (const resolvers of fieldResolvers) {
-        resolvers.schemaName = options.nameTransformer(
-          resolvers.schemaName,
-          "field",
-          resolvers.target,
-        );
-      }
-
-      for (const resolvers of authorizedFields) {
-        resolvers.fieldName = options.nameTransformer(
-          resolvers.fieldName,
-          "field",
-          resolvers.target,
-        );
-      }
+        fields, // HACK
+      } = getMetadataStorage() as any;
+      // We have to segregate this, there's no way to determine the type in-line
+      processMetadata("resolver", ...queries, ...mutations, ...subscriptions);
+      processMetadata("field", ...fieldResolvers, ...fields);
     }
 
     this.buildTypesInfo();
