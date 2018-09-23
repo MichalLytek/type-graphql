@@ -6,6 +6,9 @@ import clone = require("lodash.clonedeep");
 let clonedMetadata: MetadataStorage | null;
 
 export function cloneMetadataStorage() {
+  if (clonedMetadata) {
+    throw new Error("BUG: Multiple context clone request detected!");
+  }
   if (global.TypeGraphQLMetadataStorage) {
     clonedMetadata = clone(global.TypeGraphQLMetadataStorage);
   }
@@ -13,4 +16,5 @@ export function cloneMetadataStorage() {
 
 export function restoreClonedMetadataStorage() {
   global.TypeGraphQLMetadataStorage = clonedMetadata || global.TypeGraphQLMetadataStorage;
+  clonedMetadata = null;
 }
