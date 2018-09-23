@@ -33,5 +33,6 @@ export function getHandlerInfo(
     description: options.description,
     deprecationReason: options.deprecationReason,
     complexity: options.complexity,
+    tainted: !!options.name,
   };
 }

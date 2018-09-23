@@ -52,6 +52,7 @@ export function FieldResolver(
       complexity: options.complexity,
       description: options.description,
       deprecationReason: options.deprecationReason,
+      tainted: !!options.name,
     });
   };
 }

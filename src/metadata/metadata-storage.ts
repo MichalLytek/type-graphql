@@ -201,6 +201,7 @@ export class MetadataStorage {
             roles: def.roles!,
             middlewares: def.middlewares!,
             params: def.params!,
+            tainted: def.tainted!,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);

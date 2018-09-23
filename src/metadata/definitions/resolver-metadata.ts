@@ -19,6 +19,7 @@ export interface BaseResolverMetadata {
   params?: ParamMetadata[];
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
+  tainted: boolean;
 }
 
 export interface ResolverMetadata extends BaseResolverMetadata {

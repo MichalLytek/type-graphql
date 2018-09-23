@@ -23,6 +23,7 @@ import {
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
+  BaseResolverMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
@@ -31,7 +32,7 @@ import {
   createAdvancedFieldResolver,
   createSimpleFieldResolver,
 } from "../resolvers/create";
-import { BuildContext, BuildContextOptions } from "./build-context";
+import { BuildContext, BuildContextOptions, nameTransformerTypes } from "./build-context";
 import {
   UnionResolveTypeError,
   GeneratingSchemaError,
@@ -83,6 +84,31 @@ export abstract class SchemaGenerator {
     this.checkForErrors(options);
     BuildContext.create(options);
     getMetadataStorage().build();
+    if (options.nameTransformer) {
+      const processMetadata = (type: nameTransformerTypes, ...resolvers: any[]) => {
+        for (const metadata of resolvers) {
+          if (!metadata.tainted) {
+            metadata.schemaName = options.nameTransformer!(
+              metadata.schemaName,
+              type,
+              metadata.target,
+            );
+          }
+        }
+      };
+
+      const {
+        queries,
+        mutations,
+        subscriptions,
+        fieldResolvers,
+        fields, // HACK
+      } = getMetadataStorage() as any;
+      // We have to segregate this, there's no way to determine the type in-line
+      processMetadata("resolver", ...queries, ...mutations, ...subscriptions);
+      processMetadata("field", ...fieldResolvers, ...fields);
+    }
+
     this.buildTypesInfo();
 
     const schema = new GraphQLSchema({

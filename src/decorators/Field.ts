@@ -43,6 +43,7 @@ export function Field(
       target: prototype.constructor,
       description: options.description,
       deprecationReason: options.deprecationReason,
+      tainted: !!options.name,
     });
 
     if (isResolver) {
@@ -53,6 +54,7 @@ export function Field(
         target: prototype.constructor,
         handler: isResolverMethod ? (prototype as any)[propertyKey] : undefined,
         complexity: options.complexity,
+        tainted: !!options.name,
       });
     }
   };
