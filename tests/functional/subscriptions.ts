@@ -236,6 +236,33 @@ describe("Subscriptions", () => {
       expect(subscriptionValue).toEqual(testedValue);
     });
 
+    it("should successfully get data from subscription using fragments", async () => {
+      let subscriptionValue!: number;
+      const testedValue = Math.PI;
+      const subscriptionQuery = gql`
+        fragment TestFragment on SampleObject {
+          value
+        }
+        subscription {
+          sampleTopicSubscription {
+            ...TestFragment
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation {
+          pubSubMutation(value: ${testedValue})
+        }
+      `;
+
+      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
+      });
+      await apollo.mutate({ mutation });
+
+      expect(subscriptionValue).toEqual(testedValue);
+    });
+
     it("should successfully get data from subscription after sequential mutations", async () => {
       let subscriptionValue!: number;
       const subscriptionQuery = gql`
