@@ -1,25 +1,26 @@
+import { NoExplicitTypeError } from "../errors";
+import { ClassType } from "../interfaces";
 import {
-  ResolverMetadata,
-  ClassMetadata,
-  FieldMetadata,
-  ParamMetadata,
-  FieldResolverMetadata,
   AuthorizedMetadata,
   BaseResolverMetadata,
+  ClassMetadata,
   EnumMetadata,
+  FieldMetadata,
+  FieldResolverMetadata,
+  Metadata,
+  MiddlewareMetadata,
+  ParamMetadata,
+  ResolverClassMetadata,
+  ResolverMetadata,
+  SubscriptionResolverMetadata,
   UnionMetadata,
   UnionMetadataWithSymbol,
-  ResolverClassMetadata,
-  SubscriptionResolverMetadata,
-  MiddlewareMetadata,
 } from "./definitions";
-import { ClassType } from "../interfaces";
-import { NoExplicitTypeError } from "../errors";
 import {
-  mapSuperResolverHandlers,
+  ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
-  ensureReflectMetadataExists,
+  mapSuperResolverHandlers,
 } from "./utils";
 
 export class MetadataStorage {
@@ -28,6 +29,8 @@ export class MetadataStorage {
   subscriptions: SubscriptionResolverMetadata[] = [];
   fieldResolvers: FieldResolverMetadata[] = [];
   objectTypes: ClassMetadata[] = [];
+  additionalObjectTypeMetadata: Metadata[] = [];
+  additionalFieldMetadata: Array<Metadata & { name: string | Symbol }> = [];
   inputTypes: ClassMetadata[] = [];
   argumentTypes: ClassMetadata[] = [];
   interfaceTypes: ClassMetadata[] = [];
@@ -47,33 +50,43 @@ export class MetadataStorage {
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
   }
+
   collectMutationHandlerMetadata(definition: ResolverMetadata) {
     this.mutations.push(definition);
   }
+
   collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
     this.subscriptions.push(definition);
   }
+
   collectFieldResolverMetadata(definition: FieldResolverMetadata) {
     this.fieldResolvers.push(definition);
   }
+
   collectObjectMetadata(definition: ClassMetadata) {
     this.objectTypes.push(definition);
   }
+
   collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
   }
+
   collectArgsMetadata(definition: ClassMetadata) {
     this.argumentTypes.push(definition);
   }
+
   collectInterfaceMetadata(definition: ClassMetadata) {
     this.interfaceTypes.push(definition);
   }
+
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
   }
+
   collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
   }
+
   collectUnionMetadata(definition: UnionMetadata) {
     const unionSymbol = Symbol(definition.name);
     this.unions.push({
@@ -82,6 +95,7 @@ export class MetadataStorage {
     });
     return unionSymbol;
   }
+
   collectMiddlewareMetadata(definition: MiddlewareMetadata) {
     this.middlewares.push(definition);
   }
@@ -89,9 +103,19 @@ export class MetadataStorage {
   collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolverClasses.push(definition);
   }
+
   collectClassFieldMetadata(definition: FieldMetadata) {
     this.fields.push(definition);
   }
+
+  collectAdditionalFieldMetadata(definition: Metadata & { name: string | symbol }) {
+    this.additionalFieldMetadata.push(definition);
+  }
+
+  collectAdditionalObjectTypeMetadata(definition: Metadata) {
+    this.additionalObjectTypeMetadata.push(definition);
+  }
+
   collectHandlerParamMetadata(definition: ParamMetadata) {
     this.params.push(definition);
   }
@@ -145,7 +169,9 @@ export class MetadataStorage {
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
         );
+        field.metadata = this.findAdditionalFieldMetadata(field.target, field.name);
       });
+      def.metadata = this.findAdditionalObjectTypeMetadata(def.target);
       def.fields = fields;
     });
   }
@@ -250,5 +276,26 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private findAdditionalFieldMetadata(
+    target: Function,
+    fieldName: string,
+  ): Metadata & { name: string | symbol } | undefined {
+    const metadata = this.additionalFieldMetadata.find(
+      val => val.target === target && val.name === fieldName,
+    );
+    if (!metadata) {
+      return;
+    }
+    return metadata.data;
+  }
+
+  private findAdditionalObjectTypeMetadata(target: Function): Metadata | undefined {
+    const metadata = this.additionalObjectTypeMetadata.find(val => val.target === target);
+    if (!metadata) {
+      return;
+    }
+    return metadata.data;
   }
 }

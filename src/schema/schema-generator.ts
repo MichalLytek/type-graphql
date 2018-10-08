@@ -1,65 +1,70 @@
 import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNamedType,
-  GraphQLFieldConfigMap,
-  GraphQLOutputType,
-  GraphQLInputObjectType,
-  GraphQLFieldConfigArgumentMap,
-  GraphQLInputType,
-  GraphQLInputFieldConfigMap,
-  GraphQLInterfaceType,
   graphql,
-  introspectionQuery,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
+  GraphQLFieldConfigArgumentMap,
+  GraphQLFieldConfigMap,
+  GraphQLInputFieldConfigMap,
+  GraphQLInputObjectType,
+  GraphQLInputType,
+  GraphQLInterfaceType,
+  GraphQLNamedType,
+  GraphQLObjectType,
+  GraphQLOutputType,
+  GraphQLSchema,
   GraphQLUnionType,
+  introspectionQuery,
 } from "graphql";
-import { withFilter, ResolverFn } from "graphql-subscriptions";
+import { ResolverFn, withFilter } from "graphql-subscriptions";
+import { TypeOptions, TypeValue } from "../decorators/types";
+import {
+  GeneratingSchemaError,
+  MissingSubscriptionTopicsError,
+  UnionResolveTypeError,
+} from "../errors";
+import { convertTypeIfScalar, getEnumValuesMap, wrapWithTypeOptions } from "../helpers/types";
+import { ResolverFilterData, ResolverTopicData } from "../interfaces";
+import {
+  ClassMetadata,
+  ParamMetadata,
+  ResolverMetadata,
+  SubscriptionResolverMetadata,
+} from "../metadata/definitions";
 
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import {
-  ResolverMetadata,
-  ParamMetadata,
-  ClassMetadata,
-  SubscriptionResolverMetadata,
-} from "../metadata/definitions";
-import { TypeOptions, TypeValue } from "../decorators/types";
-import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
-import {
-  createHandlerResolver,
   createAdvancedFieldResolver,
+  createHandlerResolver,
   createSimpleFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import {
-  UnionResolveTypeError,
-  GeneratingSchemaError,
-  MissingSubscriptionTopicsError,
-} from "../errors";
-import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
   target: Function;
   type: GraphQLObjectType;
 }
+
 interface InputObjectTypeInfo {
   target: Function;
   type: GraphQLInputObjectType;
 }
+
 interface InterfaceTypeInfo {
   target: Function;
   type: GraphQLInterfaceType;
 }
+
 interface EnumTypeInfo {
   enumObj: object;
   type: GraphQLEnumType;
 }
+
 interface UnionTypeInfo {
   unionSymbol: symbol;
   type: GraphQLUnionType;
 }
+
 // tslint:disable-next-line:no-empty-interface
 export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
@@ -236,6 +241,7 @@ export abstract class SchemaGenerator {
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
+                  ...field.metadata,
                 };
                 return fieldsMap;
               },
@@ -264,6 +270,7 @@ export abstract class SchemaGenerator {
             }
             return fields;
           },
+          ...objectType.metadata,
         }),
       };
     });

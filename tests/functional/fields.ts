@@ -1,16 +1,17 @@
-import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
   IntrospectionListTypeRef,
+  IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
+  IntrospectionObjectType,
+  IntrospectionSchema,
   TypeKind,
 } from "graphql";
+import "reflect-metadata";
+import { Field, ObjectType, Query, Resolver } from "../../src";
+import { Metadata } from "../../src/decorators/Metadata";
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ObjectType, Field, Query, Resolver } from "../../src";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -27,6 +28,7 @@ describe("Fields - schema", () => {
       stringField: string;
     }
 
+    @Metadata({ sqlName: "overwritten_name", uniqueKey: "implicitStringField" })
     @ObjectType()
     class SampleObject {
       @Field()
@@ -53,6 +55,7 @@ describe("Fields - schema", () => {
       @Field(type => [SampleNestedObject], { nullable: true })
       nullableObjectArrayField: SampleNestedObject[] | null;
 
+      @Metadata({ sqlName: "overwritten_name" })
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
 
@@ -68,7 +71,7 @@ describe("Fields - schema", () => {
       }
     }
 
-    // get builded schema info from retrospection
+    // get built schema info from retrospection
     const schemaInfo = await getSchemaInfo({
       resolvers: [SampleResolver],
     });
@@ -96,6 +99,39 @@ describe("Fields - schema", () => {
     const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
     const complexField = sampleObj.fields!.find(it => it.name === "complexField")!;
     expect(complexField.complexity).toBe(10);
+  });
+
+  it("it should register metadata for field", async () => {
+    const metadataStorage = getMetadataStorage();
+    const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
+    const field = sampleObj.fields!.find(it => it.name === "overwrittenStringField")!;
+
+    expect(field.metadata).toEqual({ sqlName: "overwritten_name" });
+  });
+
+  it("it should not register metadata for field without metadata decorator", async () => {
+    const metadataStorage = getMetadataStorage();
+    const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
+    const field = sampleObj.fields!.find(it => it.name === "complexField")!;
+
+    expect(field.metadata).toBeUndefined();
+  });
+
+  it("it should register metadata for object type", async () => {
+    const metadataStorage = getMetadataStorage();
+    const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
+
+    expect(sampleObj.metadata).toEqual({
+      sqlName: "overwritten_name",
+      uniqueKey: "implicitStringField",
+    });
+  });
+
+  it("it should not register metadata for object type without metadata decorator", async () => {
+    const metadataStorage = getMetadataStorage();
+    const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleNestedObject")!;
+
+    expect(sampleObj.metadata).toBeUndefined();
   });
 
   it("should throw error when field type not provided", async () => {
