@@ -14,17 +14,19 @@ subscription EvenNotifications {
   }
 }
 
-mutation {
+mutation PublishMessage {
   pubSubMutation(message: "Hello")
 }
 
-mutation {
-  pubSubMutationToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
-}
+# dynamic topics
 
-subscription {
-  subscriptionWithFilterToDyamicTopic(topic: "FOO_MESSAGES") {
+subscription DynamicTopic {
+  subscriptionWithFilterToDynamicTopic(topic: "FOO_MESSAGES") {
     id
     message
   }
+}
+
+mutation PublishMessageToDynamicTopic {
+  pubSubMutationToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
 }

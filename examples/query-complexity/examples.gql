@@ -1,15 +1,16 @@
+# You have to copy and paste only one query to GraphQL Playground
+# because sending this whole document will cause query complexity cost error
 
 query GetRecipesWithComplexityError {
-  recipes {
+  recipes(count: 3) {
     title
-    averageRating,
-    ratingsCount
+    averageRating
   }
 }
 
 query GetRecipesWithoutComplexityError {
-  recipes {
+  recipes(count: 2) {
     title
-    averageRating
+    ratingsCount
   }
 }
