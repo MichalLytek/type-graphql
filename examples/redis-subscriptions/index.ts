@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import * as Redis from "ioredis";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { buildSchema } from "../../src";
@@ -26,26 +26,16 @@ async function bootstrap() {
   // Build the TypeGraphQL schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
+    validate: false,
     pubSub, // provide redis-based instance of PubSub
   });
 
   // Create GraphQL server
-  const server = new GraphQLServer({ schema });
-
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    subscriptions: "/graphql",
-    playground: "/playground",
-  };
+  const server = new ApolloServer({ schema });
 
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 bootstrap();

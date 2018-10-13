@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { Options, GraphQLServer } from "graphql-yoga";
+import { ApolloServer } from "apollo-server-express";
+import * as express from "express";
 import { ApolloEngine } from "apollo-engine";
 import { buildSchema } from "../../src";
 
@@ -11,21 +12,21 @@ async function bootstrap() {
     resolvers: [RecipeResolver],
   });
 
-  // create GraphQL server
-  const server = new GraphQLServer({ schema });
+  // create an express app
+  const expressApp = express();
+  // create apollo server
+  const server = new ApolloServer({
+    schema,
+    tracing: true,
+    cacheControl: true,
+    engine: false, // we will provide our own ApolloEngine
+  });
+  // apply apollo server to the express app
+  server.applyMiddleware({ app: expressApp });
 
   // configure shared config settings
   const port = 4000;
   const graphqlEndpointPath = "/graphql";
-
-  // configure server options
-  const serverOptions: Options = {
-    port,
-    endpoint: graphqlEndpointPath,
-    playground: "/playground",
-    tracing: true,
-    cacheControl: true,
-  };
 
   // create an Apollo Engine
   const engine = new ApolloEngine({
@@ -33,14 +34,11 @@ async function bootstrap() {
     apiKey: process.env.APOLLO_ENGINE_API_KEY,
   });
 
-  // create GraphQL http server
-  const httpServer = server.createHttpServer(serverOptions);
-
   // launch the Apollo Engine
   engine.listen(
     {
       port,
-      httpServer,
+      expressApp,
       graphqlPaths: [graphqlEndpointPath],
     },
     () => console.log(`Server with Apollo Engine is running on http://localhost:${port}`),
