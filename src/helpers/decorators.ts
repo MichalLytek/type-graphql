@@ -1,4 +1,4 @@
-import { TypeOptions, ReturnTypeFunc, DescriptionOptions } from "../decorators/types";
+import { ReturnTypeFunc, DescriptionOptions } from "../decorators/types";
 
 export interface TypeDecoratorParams<T> {
   options: Partial<T>;
@@ -10,7 +10,7 @@ export function getTypeDecoratorParams<T extends object>(
 ): TypeDecoratorParams<T> {
   if (typeof returnTypeFuncOrOptions === "function") {
     return {
-      returnTypeFunc: returnTypeFuncOrOptions,
+      returnTypeFunc: returnTypeFuncOrOptions as ReturnTypeFunc,
       options: maybeOptions || {},
     };
   } else {

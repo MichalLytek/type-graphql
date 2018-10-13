@@ -9,6 +9,7 @@ import {
 import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 import { EventEmitter } from "events";
+import { ApolloServer } from "apollo-server";
 
 import {
   Subscription,
@@ -25,12 +26,11 @@ import {
   Float,
   buildSchema,
   MissingSubscriptionTopicsError,
-  Args,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
-import { createWebSocketUtils, WebSocketUtils } from "../helpers/subscriptions/createWebSocketGQL";
+import createWebSocketUtils from "../helpers/subscriptions/createWebSocketGQL";
 
 describe("Subscriptions", () => {
   describe("Schema", () => {
@@ -124,8 +124,8 @@ describe("Subscriptions", () => {
 
   describe("Functional", () => {
     let schema: GraphQLSchema;
-    let apollo: ApolloClient<any>;
-    let webSocketUtils: WebSocketUtils;
+    let apolloClient: ApolloClient<any>;
+    let apolloServer: ApolloServer;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -146,30 +146,40 @@ describe("Subscriptions", () => {
         }
 
         @Mutation(returns => Boolean)
-        pubSubMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
-          return pubSub.publish(SAMPLE_TOPIC, value);
+        async pubSubMutation(
+          @Arg("value") value: number,
+          @PubSub() pubSub: PubSubEngine,
+        ): Promise<boolean> {
+          await pubSub.publish(SAMPLE_TOPIC, value);
+          return true;
         }
 
         @Mutation(returns => Boolean)
-        pubSubMutationDynamicTopic(
+        async pubSubMutationDynamicTopic(
           @Arg("value") value: number,
           @Arg("topic") topic: string,
           @PubSub() pubSub: PubSubEngine,
-        ): boolean {
-          return pubSub.publish(topic, value);
+        ): Promise<boolean> {
+          await pubSub.publish(topic, value);
+          return true;
         }
 
         @Mutation(returns => Boolean)
-        pubSubPublisherMutation(
+        async pubSubPublisherMutation(
           @Arg("value") value: number,
           @PubSub(SAMPLE_TOPIC) publish: Publisher<number>,
-        ): boolean {
-          return publish(value);
+        ): Promise<boolean> {
+          await publish(value);
+          return true;
         }
 
         @Mutation(returns => Boolean)
-        pubSubOtherMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
-          return pubSub.publish(OTHER_TOPIC, value);
+        async pubSubOtherMutation(
+          @Arg("value") value: number,
+          @PubSub() pubSub: PubSubEngine,
+        ): Promise<boolean> {
+          await pubSub.publish(OTHER_TOPIC, value);
+          return true;
         }
 
         @Subscription({ topics: SAMPLE_TOPIC })
@@ -200,12 +210,11 @@ describe("Subscriptions", () => {
         resolvers: [SampleResolver],
       });
 
-      webSocketUtils = await createWebSocketUtils(schema);
-      apollo = webSocketUtils.apollo;
+      ({ apolloClient, apolloServer } = await createWebSocketUtils(schema));
     });
 
     afterAll(async () => {
-      webSocketUtils.server.close();
+      apolloServer.stop();
     });
 
     it("should build schema without errors", async () => {
@@ -228,10 +237,10 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
       });
-      await apollo.mutate({ mutation });
+      await apolloClient.mutate({ mutation });
 
       expect(subscriptionValue).toEqual(testedValue);
     });
@@ -255,10 +264,10 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
       });
-      await apollo.mutate({ mutation });
+      await apolloClient.mutate({ mutation });
 
       expect(subscriptionValue).toEqual(testedValue);
     });
@@ -278,15 +287,15 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
       });
 
-      await apollo.mutate({ mutation, variables: { value: 1.23 } });
+      await apolloClient.mutate({ mutation, variables: { value: 1.23 } });
       expect(subscriptionValue).toEqual(1.23);
-      await apollo.mutate({ mutation, variables: { value: 2.37 } });
+      await apolloClient.mutate({ mutation, variables: { value: 2.37 } });
       expect(subscriptionValue).toEqual(2.37);
-      await apollo.mutate({ mutation, variables: { value: 4.53 } });
+      await apolloClient.mutate({ mutation, variables: { value: 4.53 } });
       expect(subscriptionValue).toEqual(4.53);
     });
 
@@ -306,10 +315,10 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
       });
-      await apollo.mutate({ mutation });
+      await apolloClient.mutate({ mutation });
 
       expect(subscriptionValue!).toEqual(testedValue);
     });
@@ -334,15 +343,15 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscription.value),
       });
 
-      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 1.23 } });
+      await apolloClient.mutate({ mutation: otherTopicMutation, variables: { value: 1.23 } });
       expect(subscriptionValue).toBeUndefined();
-      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 2.37 } });
+      await apolloClient.mutate({ mutation: otherTopicMutation, variables: { value: 2.37 } });
       expect(subscriptionValue).toBeUndefined();
-      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 3.47 } });
+      await apolloClient.mutate({ mutation: sampleTopicMutation, variables: { value: 3.47 } });
       expect(subscriptionValue).toEqual(3.47);
     });
 
@@ -361,15 +370,15 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.sampleTopicSubscriptionWithFilter.value),
       });
 
-      await apollo.mutate({ mutation, variables: { value: 0.23 } });
+      await apolloClient.mutate({ mutation, variables: { value: 0.23 } });
       expect(subscriptionValue).toBeUndefined();
-      await apollo.mutate({ mutation, variables: { value: 0.77 } });
+      await apolloClient.mutate({ mutation, variables: { value: 0.77 } });
       expect(subscriptionValue).toEqual(0.77);
-      await apollo.mutate({ mutation, variables: { value: 0.44 } });
+      await apolloClient.mutate({ mutation, variables: { value: 0.44 } });
       expect(subscriptionValue).toEqual(0.77);
     });
 
@@ -393,15 +402,15 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo.subscribe({ query: subscriptionQuery }).subscribe({
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
         next: ({ data }) => (subscriptionValue = data!.multipleTopicSubscription.value),
       });
 
-      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.23 } });
+      await apolloClient.mutate({ mutation: sampleTopicMutation, variables: { value: 0.23 } });
       expect(subscriptionValue).toEqual(0.23);
-      await apollo.mutate({ mutation: otherTopicMutation, variables: { value: 0.77 } });
+      await apolloClient.mutate({ mutation: otherTopicMutation, variables: { value: 0.77 } });
       expect(subscriptionValue).toEqual(0.77);
-      await apollo.mutate({ mutation: sampleTopicMutation, variables: { value: 0.44 } });
+      await apolloClient.mutate({ mutation: sampleTopicMutation, variables: { value: 0.44 } });
       expect(subscriptionValue).toEqual(0.44);
     });
 
@@ -421,7 +430,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      apollo
+      apolloClient
         .subscribe({
           query: dynamicTopicSubscription,
           variables: { topic: SAMPLE_TOPIC },
@@ -430,7 +439,7 @@ describe("Subscriptions", () => {
           next: ({ data }) => (subscriptionValue = data!.dynamicTopicSubscription.value),
         });
 
-      await apollo.mutate({
+      await apolloClient.mutate({
         mutation: pubSubMutationDynamicTopic,
         variables: { value: 0.23, topic: SAMPLE_TOPIC },
       });
@@ -525,8 +534,12 @@ describe("Subscriptions", () => {
             return true;
           }
           @Mutation(returns => Boolean)
-          pubSubMutation(@Arg("value") value: number, @PubSub() pubSub: PubSubEngine): boolean {
-            return pubSub.publish("TEST", value);
+          async pubSubMutation(
+            @Arg("value") value: number,
+            @PubSub() pubSub: PubSubEngine,
+          ): Promise<boolean> {
+            await pubSub.publish("TEST", value);
+            return true;
           }
           @Subscription({ topics: [] })
           sampleSubscription(): boolean {

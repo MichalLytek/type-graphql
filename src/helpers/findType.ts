@@ -38,13 +38,14 @@ export function findType({
     metadataDesignType = reflectedType as Function | undefined;
   }
 
-  if (metadataDesignType && bannedTypes.includes(metadataDesignType)) {
-    if (!returnTypeFunc) {
-      throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex);
-    }
-    if (metadataDesignType === Array) {
-      options.array = true;
-    }
+  if (
+    !returnTypeFunc &&
+    (!metadataDesignType || (metadataDesignType && bannedTypes.includes(metadataDesignType)))
+  ) {
+    throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex);
+  }
+  if (metadataDesignType === Array) {
+    options.array = true;
   }
 
   if (returnTypeFunc && Array.isArray(returnTypeFunc())) {

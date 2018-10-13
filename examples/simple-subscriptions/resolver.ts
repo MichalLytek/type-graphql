@@ -22,31 +22,23 @@ export class SampleResolver {
     return new Date();
   }
 
-  @Mutation()
-  pubSubMutation(
+  @Mutation(returns => Boolean)
+  async pubSubMutation(
     @PubSub() pubSub: PubSubEngine,
     @Arg("message", { nullable: true }) message?: string,
-  ): boolean {
+  ): Promise<boolean> {
     const payload: NotificationPayload = { id: ++this.autoIncrement, message };
-    return pubSub.publish("NOTIFICATIONS", payload);
+    await pubSub.publish("NOTIFICATIONS", payload);
+    return true;
   }
 
-  @Mutation()
-  publisherMutation(
+  @Mutation(returns => Boolean)
+  async publisherMutation(
     @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
     @Arg("message", { nullable: true }) message?: string,
-  ): boolean {
-    return publish({ id: ++this.autoIncrement, message });
-  }
-
-  @Mutation()
-  pubSubMutationToDynamicTopic(
-    @PubSub() pubSub: PubSubEngine,
-    @Arg("topic") topic: string,
-    @Arg("message", { nullable: true }) message?: string,
-  ): boolean {
-    const payload: NotificationPayload = { id: ++this.autoIncrement, message };
-    return pubSub.publish(topic, payload);
+  ): Promise<boolean> {
+    await publish({ id: ++this.autoIncrement, message });
+    return true;
   }
 
   @Subscription({ topics: "NOTIFICATIONS" })
@@ -63,10 +55,23 @@ export class SampleResolver {
     return newNotification;
   }
 
+  // dynamic topic
+
+  @Mutation(returns => Boolean)
+  async pubSubMutationToDynamicTopic(
+    @PubSub() pubSub: PubSubEngine,
+    @Arg("topic") topic: string,
+    @Arg("message", { nullable: true }) message?: string,
+  ): Promise<boolean> {
+    const payload: NotificationPayload = { id: ++this.autoIncrement, message };
+    await pubSub.publish(topic, payload);
+    return true;
+  }
+
   @Subscription({
     topics: ({ args }) => args.topic,
   })
-  subscriptionWithFilterToDyamicTopic(
+  subscriptionWithFilterToDynamicTopic(
     @Arg("topic") topic: string,
     @Root() { id, message }: NotificationPayload,
   ): Notification {

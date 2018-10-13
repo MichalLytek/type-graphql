@@ -479,7 +479,7 @@ describe("Validation", () => {
         }
       }`;
       const { errors } = await graphql(localSchema, query);
-      const error = errors![0].originalError as ArgumentValidationError;
+      const error = errors![0].originalError! as ArgumentValidationError;
 
       expect(localArgsData).toBeUndefined();
       expect(error.validationErrors[0].target).toBeUndefined();
