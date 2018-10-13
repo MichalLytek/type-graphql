@@ -26,6 +26,9 @@
     "controllers",
     "apollo"
   ],
+  "engines": {
+    "node": ">= 6.x"
+  },
   "scripts": {
     "test": "jest --coverage",
     "test:ci": "jest --ci --coverage",

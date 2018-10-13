@@ -4,7 +4,6 @@ jobs:
       language: node_js
       node_js:
         - 10
-        - 9
         - 8
         - 6
       before_install:
@@ -19,6 +18,9 @@ jobs:
           on_success: never
           on_failure: always
     - stage: deploy
+      branches:
+        only:
+          - master
       language: node_js
       node_js: 8
       install: true
