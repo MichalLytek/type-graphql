@@ -214,7 +214,7 @@ describe("Subscriptions", () => {
     });
 
     afterAll(async () => {
-      apolloServer.stop();
+      await apolloServer.stop();
     });
 
     it("should build schema without errors", async () => {

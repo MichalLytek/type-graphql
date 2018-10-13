@@ -31,7 +31,7 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "test:ci": "jest --ci --coverage",
+    "test:ci": "jest --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "jest --watch",
     "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",
