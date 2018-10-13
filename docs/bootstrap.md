@@ -51,36 +51,30 @@ bootstrap(); // actually run the async function
 
 ## Create HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create it using e.g. [`graphql-yoga`](https://github.com/graphcool/graphql-yoga) package:
+In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create it using e.g. [`apollo-server`](https://github.com/apollographql/apollo-server) package:
 
 ```typescript
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 
 const PORT = process.env.PORT || 4000;
+
 async function bootstrap() {
-  // Building schema here...
+  // ... Building schema here
 
   // Create GraphQL server
-  const server = new GraphQLServer({ schema });
-
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    playground: "/playground",
-  };
+  const server = new ApolloServer({ 
+    schema,
+    playground: true,
+  });
 
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 bootstrap();
 ```
 
-Remember to install `graphql-yoga` package from npm - there are not bundled with TypeGraphQL.
+Remember to install `apollo-server` package from npm - it's not bundled with TypeGraphQL.
 
-Of course you can use `express-graphql` middleware, `apollo-server` or anything you want 😉
+Of course you can use `express-graphql` middleware, `graphql-yoga` or whatever you want 😉

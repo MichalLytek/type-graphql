@@ -92,13 +92,13 @@ useContainer<TContext>(({ context }) => context.container);
 
 The tricky part is where the `context.requestId` comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like `express-graphql`, `apollo-server` or `graphql-yoga`.
 
-Example using `TypeDI` and `graphql-yoga` with the `context` creation method:
+Example using `TypeDI` and `apollo-server` with the `context` creation method:
 
 ```typescript
-import { GraphQLServer } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 
-const server = new GraphQLServer({
+const server = new ApolloServer({
   // schema comes from `buildSchema` as always
   schema,
   // provide unique context with `requestId` for each request
@@ -115,21 +115,21 @@ const server = new GraphQLServer({
 
 You also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
 
-Unfortunately, GraphQL Yoga doesn't have the "document middlewares" feature yet, so some dirty tricks are needed to do the cleanup.
-Example using `TypeDI` and `graphql-yoga` with the `formatResponse` method:
+Unfortunately, Apollo Server doesn't have the "document middlewares" feature yet, so some dirty tricks are needed to do the cleanup.
+Example using `TypeDI` and `apollo-server` with the `formatResponse` method:
 
 ```typescript
-import { Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 
-const serverOptions: Options = {
-  // ...other not important settings here
+const server = new ApolloServer({
+  // ... schema and context here
   formatResponse: (response: any, { context }: ResolverData<Context>) => {
     // remember to dispose the scoped container to prevent memory leaks
     Container.reset(context.requestId);
     return response;
   },
-};
+});
 ```
 
 And basically that's it! The configuration of container is done and TypeGraphQL will be able to use different instances of resolvers for each request.
