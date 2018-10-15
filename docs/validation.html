@@ -110,15 +110,15 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>the <a href="https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts"><code>ArgumentValidationError</code></a> will be throwed. To send more detailed error info to the client than <code>Argument Validation Error</code> string, you have to format the error - <code>TypeGraphQL</code> provides a helper for this case. Example using the <code>graphql-yoga</code> package from <a href="/type-graphql/docs/bootstrap.html">bootstrap guide</a>:</p>
+<p>the <a href="https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts"><code>ArgumentValidationError</code></a> will be throwed. To send more detailed error info to the client than <code>Argument Validation Error</code> string, you have to format the error - <code>TypeGraphQL</code> provides a helper for this case. Example using the <code>apollo-server</code> package from <a href="/type-graphql/docs/bootstrap.html">bootstrap guide</a>:</p>
 <pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> formatArgumentValidationError <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
-<span class="token comment">// other bootstrap code</span>
-<span class="token keyword">const</span> serverOptions<span class="token punctuation">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
-  port<span class="token punctuation">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
-  endpoint<span class="token punctuation">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
-  playground<span class="token punctuation">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
-  formatError<span class="token punctuation">:</span> formatArgumentValidationError<span class="token punctuation">,</span> <span class="token comment">// register our error formatter</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Create GraphQL server</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  schema<span class="token punctuation">,</span>
+  <span class="token comment">// pass error formatting helper to make validation errors works</span>
+  formatError<span class="token punctuation">:</span> formatArgumentValidationError<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>So when <code>ArgumentValidationError</code> occurs, client will receive this JSON with nice <code>validationErrors</code> property:</p>
 <pre><code class="hljs css languages- json"><span class="token punctuation">{</span>

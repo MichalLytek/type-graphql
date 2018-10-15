@@ -95,11 +95,11 @@ At first you need to provide a container resolver function. It takes the resolve
 <pre><code class="hljs css languages- typescript">useContainer<span class="token operator">&lt;</span>TContext<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">{</span> context <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> context<span class="token punctuation">.</span>container<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>The tricky part is where the <code>context.requestId</code> comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like <code>express-graphql</code>, <code>apollo-server</code> or <code>graphql-yoga</code>.</p>
-<p>Example using <code>TypeDI</code> and <code>graphql-yoga</code> with the <code>context</code> creation method:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> GraphQLServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"graphql-yoga"</span><span class="token punctuation">;</span>
+<p>Example using <code>TypeDI</code> and <code>apollo-server</code> with the <code>context</code> creation method:</p>
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-server"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Container <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typedi"</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// schema comes from `buildSchema` as always</span>
   schema<span class="token punctuation">,</span>
   <span class="token comment">// provide unique context with `requestId` for each request</span>
@@ -114,19 +114,19 @@ At first you need to provide a container resolver function. It takes the resolve
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>You also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.</p>
-<p>Unfortunately, GraphQL Yoga doesn't have the &quot;document middlewares&quot; feature yet, so some dirty tricks are needed to do the cleanup.
-Example using <code>TypeDI</code> and <code>graphql-yoga</code> with the <code>formatResponse</code> method:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Options <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"graphql-yoga"</span><span class="token punctuation">;</span>
+<p>Unfortunately, Apollo Server doesn't have the &quot;document middlewares&quot; feature yet, so some dirty tricks are needed to do the cleanup.
+Example using <code>TypeDI</code> and <code>apollo-server</code> with the <code>formatResponse</code> method:</p>
+<pre><code class="hljs css languages- typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-server"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Container <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typedi"</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> serverOptions<span class="token punctuation">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token comment">// ...other not important settings here</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// ... schema and context here</span>
   formatResponse<span class="token punctuation">:</span> <span class="token punctuation">(</span>response<span class="token punctuation">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> context <span class="token punctuation">}</span><span class="token punctuation">:</span> ResolverData<span class="token operator">&lt;</span>Context<span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token comment">// remember to dispose the scoped container to prevent memory leaks</span>
     Container<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span>requestId<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> response<span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>And basically that's it! The configuration of container is done and TypeGraphQL will be able to use different instances of resolvers for each request.</p>
 <p>The only thing that left is the container configuration - you need to check out the docs for your container library (<code>InversifyJS</code>, <code>injection-js</code>, <code>TypeDI</code> or other) to get know how to setup a lifetime of the injectable objects (transient, scoped or singleton).</p>
