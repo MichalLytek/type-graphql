@@ -1,5 +1,11 @@
 # Changelog and release notes
 
+## Unreleased
+### Features
+- **Breaking Change**: upgrade `graphql` to `^14.0.2`, `graphql-subscriptions` to `^1.0.0` and `@types/graphql` to `^14.0.2`
+- update all other dependencies
+- drop support for Node.js v9
+
 ## v0.14.0
 ### Features
 - **Breaking Change**: change `ClassType` type and export it in package index

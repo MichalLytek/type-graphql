@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { buildSchema } from "../../src";
 
 import { SampleResolver } from "./resolver";
@@ -11,22 +11,17 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new GraphQLServer({ schema });
-
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    subscriptions: "/graphql",
-    playground: "/playground",
-  };
+  const server = new ApolloServer({
+    schema,
+    playground: true,
+    // you can pass the endpoint path for subscriptions
+    // otherwise it will be the same as main graphql endpoint
+    // subscriptions: "/subscriptions",
+  });
 
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 bootstrap();

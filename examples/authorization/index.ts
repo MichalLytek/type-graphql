@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
@@ -14,12 +14,12 @@ void (async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new GraphQLServer({
+  const server = new ApolloServer({
     schema,
-    context: ({ request }) => {
+    context: () => {
       const ctx: Context = {
         // create mocked user in context
-        // in real app you would be mapping user from `request.user` or sth
+        // in real app you would be mapping user from `req.user` or sth
         user: {
           id: 1,
           name: "Sample user",
@@ -30,17 +30,7 @@ void (async function bootstrap() {
     },
   });
 
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    playground: "/playground",
-  };
-
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 })();

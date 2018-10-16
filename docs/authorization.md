@@ -102,31 +102,43 @@ It will then return `null` instead of throwing authorization error.
 
 ## Recipes
 
-You can also use `TypeGraphQL` with JWT authentication. Example using `graphql-yoga`:
+You can also use `TypeGraphQL` with JWT authentication. Example using `apollo-server-express`:
 ```typescript
+
+import express from "express";
+import { ApolloServer, gql } from "apollo-server-express";
 import * as jwt from "express-jwt";
+
 import { schema } from "../example/above";
 
-// Create GraphQL server
-const server = new GraphQLServer({
+const app = express();
+const path = '/graphql';
+
+// Create a GraphQL server
+const server = new ApolloServer({ 
   schema,
-  context: ({ request }) => {
+  context: ({ req }) => {
     const context = {
-      request,
-      user: request.user, // `request.user` comes from `express-jwt`
+      req,
+      user: req.user, // `req.user` comes from `express-jwt`
     };
     return context;
   },
 });
 
-// the rest of bootstrap code, same as always
-// ...
+// Mount a jwt or other authentication middleware that is run before the GraphQL execution
+app.use(path, jwt({ 
+  secret: "TypeGraphQL",
+  credentialsRequired: false,
+}));
 
-// register JWT middleware
-server.express.use(
-  server.options.endpoint,
-  jwt({ secret: "TypeGraphQL", credentialsRequired: false }),
-);
+// Apply the GraphQL server middleware
+server.applyMiddleware({ app, path });
+
+// Launch the express server 
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)
 ```
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 

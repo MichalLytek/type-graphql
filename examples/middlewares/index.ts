@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import Container from "typedi";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { useContainer, buildSchema, formatArgumentValidationError } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
@@ -17,22 +17,11 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new GraphQLServer({ schema });
-
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    playground: "/playground",
-    formatError: formatArgumentValidationError,
-  };
+  const server = new ApolloServer({ schema, formatError: formatArgumentValidationError });
 
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 bootstrap();

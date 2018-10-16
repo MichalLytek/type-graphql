@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import * as TypeORM from "typeorm";
 import * as TypeGraphQL from "../../src";
@@ -49,21 +49,11 @@ async function bootstrap() {
     const context: Context = { user: defaultUser };
 
     // Create GraphQL server
-    const server = new GraphQLServer({ schema, context });
-
-    // Configure server options
-    const serverOptions: Options = {
-      port: 4000,
-      endpoint: "/graphql",
-      playground: "/playground",
-    };
+    const server = new ApolloServer({ schema, context });
 
     // Start the server
-    server.start(serverOptions, ({ port, playground }) => {
-      console.log(
-        `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-      );
-    });
+    const { url } = await server.listen(4000);
+    console.log(`Server is running, GraphQL Playground available at ${url}`);
   } catch (err) {
     console.error(err);
   }

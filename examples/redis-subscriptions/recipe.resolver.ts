@@ -29,11 +29,11 @@ export class RecipeResolver {
     return this.recipes.find(recipe => recipe.id === id);
   }
 
-  @Mutation()
-  addNewComment(
+  @Mutation(returns => Boolean)
+  async addNewComment(
     @Arg("comment") input: CommentInput,
     @PubSub(Topic.NewComment) notifyAboutNewComment: Publisher<NewCommentPayload>,
-  ): boolean {
+  ): Promise<boolean> {
     const recipe = this.recipes.find(r => r.id === input.recipeId);
     if (!recipe) {
       return false;
@@ -44,12 +44,13 @@ export class RecipeResolver {
       date: new Date(),
     };
     recipe.comments.push(comment);
-    return notifyAboutNewComment({
+    await notifyAboutNewComment({
       content: comment.content,
       nickname: comment.nickname,
       dateString: comment.date.toISOString(),
       recipeId: input.recipeId,
     });
+    return true;
   }
 
   @Subscription(returns => Comment, {

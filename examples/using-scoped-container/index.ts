@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLServer, Options } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import Container, { ContainerInstance } from "typedi";
 import { useContainer, buildSchema, ResolverData } from "../../src";
 
@@ -19,7 +19,7 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new GraphQLServer({
+  const server = new ApolloServer({
     schema,
     // we need to provide unique context with `requestId` for each request
     context: (): Context => {
@@ -29,13 +29,6 @@ async function bootstrap() {
       container.set("context", context); // place context or other data in container
       return context;
     },
-  });
-
-  // Configure server options
-  const serverOptions: Options = {
-    port: 4000,
-    endpoint: "/graphql",
-    playground: "/playground",
     formatResponse: (response: any, { context }: ResolverData<Context>) => {
       // remember to dispose the scoped container to prevent memory leaks
       Container.reset(context.requestId);
@@ -49,14 +42,11 @@ async function bootstrap() {
 
       return response;
     },
-  };
+  });
 
   // Start the server
-  server.start(serverOptions, ({ port, playground }) => {
-    console.log(
-      `Server is running, GraphQL Playground available at http://localhost:${port}${playground}`,
-    );
-  });
+  const { url } = await server.listen(4000);
+  console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
 bootstrap();

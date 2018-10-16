@@ -19,7 +19,7 @@ import {
 } from "graphql";
 import * as path from "path";
 import { plainToClass } from "class-transformer";
-import QueryComplexity, { fieldConfigEstimator, simpleEstimator } from "graphql-query-complexity";
+import { fieldConfigEstimator, simpleEstimator } from "graphql-query-complexity";
 import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
 import {
   ObjectType,
@@ -639,7 +639,7 @@ describe("Resolvers", () => {
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           const error = err as Error;
-          expect(error.message).toContain("Cannot determine type");
+          expect(error.message).toContain("provide explicit type");
           expect(error.message).toContain("sampleQuery");
         }
       });
@@ -677,7 +677,7 @@ describe("Resolvers", () => {
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           const error = err as Error;
-          expect(error.message).toContain("Cannot determine type");
+          expect(error.message).toContain("provide explicit type");
           expect(error.message).toContain("sampleMutation");
         }
       });
@@ -1314,9 +1314,10 @@ describe("Resolvers", () => {
             return true;
           }
 
-          @Mutation({ name: `${name}Trigger` })
-          baseTrigger(@PubSub() pubsub: PubSubEngine): boolean {
-            return pubsub.publish("baseTopic", null);
+          @Mutation(returns => Boolean, { name: `${name}Trigger` })
+          async baseTrigger(@PubSub() pubsub: PubSubEngine): Promise<boolean> {
+            await pubsub.publish("baseTopic", null);
+            return true;
           }
 
           @FieldResolver()
@@ -1355,9 +1356,10 @@ describe("Resolvers", () => {
           return true;
         }
 
-        @Mutation()
-        childTrigger(@PubSub() pubsub: PubSubEngine): boolean {
-          return pubsub.publish("childTopic", null);
+        @Mutation(returns => Boolean)
+        async childTrigger(@PubSub() pubsub: PubSubEngine): Promise<boolean> {
+          await pubsub.publish("childTopic", null);
+          return true;
         }
       }
       childResolver = ChildResolver;

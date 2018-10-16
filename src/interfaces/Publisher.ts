@@ -1,1 +1,1 @@
-export type Publisher<T> = (payload: T) => boolean;
+export type Publisher<T> = (payload: T) => Promise<void>;

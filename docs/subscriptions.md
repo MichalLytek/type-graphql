@@ -147,20 +147,22 @@ const schema = await buildSchema({
 ```
 
 ## Creating subscription server
-The [bootstrap guide](./bootstrap.md) and all the earlier examples used [`graphql-yoga`](https://github.com/graphcool/graphql-yoga) to create HTTP endpoint for our GraphQL API.
+The [bootstrap guide](./bootstrap.md) and all the earlier examples used [`apollo-server`](https://github.com/apollographql/apollo-server) to create HTTP endpoint for our GraphQL API.
 
 Fortunately, to make subscriptions work, we don't need to manually provide transport layer that doesn't have constraints of HTTP and can do a push-based communication (WebSockets).
-The `graphql-yoga` package has already integrated [`subscriptions-transport-ws`](https://github.com/apollographql/subscriptions-transport-ws) so all we need to do is to provide the `subscriptions` property of config object:
+The `apollo-server` package has built-in subscriptions support using websockets, so it's working out of the box without any changes to our bootstrap config. However, if we want, we can provide the `subscriptions` property of config object:
+
 ```typescript
-// Configure server options
-const serverOptions: Options = {
-  port: 4000,
-  endpoint: "/graphql",
-  subscriptions: "/graphql",
-  playground: "/playground",
-};
+// Create GraphQL server
+const server = new ApolloServer({
+  schema,
+  subscriptions: {
+    path: "/subscriptions",
+    // other options and hooks, like `onConnect`
+  },
+});
 ```
-And it's done!. We have a working GraphQL subscription server on `/graphql` on port 4000 for both HTTP and WS.
+And it's done!. We have a working GraphQL subscription server on `/subscriptions`, along with a normal HTTP GraphQL server.
 
 ## Examples
 You can see how the subscriptions works in a [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions).
