@@ -26,7 +26,7 @@ const schema = await buildSchema({
 });
 ```
 
-Then, your resolvers will be able to declare their dependecies and TypeGraphQL will use the container to solve them:
+Then, your resolvers will be able to declare their dependencies and TypeGraphQL will use the container to solve them:
 
 ```typescript
 import { Service } from "typedi";

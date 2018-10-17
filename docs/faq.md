@@ -4,7 +4,7 @@ title: Frequently Asked Questions
 
 ## Resolvers
 
-### Should I implement field resolver as a object type's getter, method or as a resolver class's method?
+### Should I implement a field's resolver as a object type's getter, method or as a resolver class's method?
 It really depends on various factors:
 - if your resolver need access only to the root/object value - use a getter
 - if your field has arguments
