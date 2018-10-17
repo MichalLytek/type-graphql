@@ -1,0 +1,29 @@
+---
+title: Emitting schema SDL
+---
+
+The TypeGraphQL main feature is creating schema using only TypeScript's classes and decorators. However, sometimes we might need the schema to be printed into a `schema.gql` file and there are a plenty of reasons for that. Mainly, schema SDL file is needed for GraphQL ecosystem tools that perform client-side queries autocompletion and validation. Some developers also may want to use it as a kinda snapshot for detecting schema regression or they just prefer to read the SDL file to explore the API instead of reading the complicated TypeGraphQL-based app code, navigating through GraphiQL or GraphQL Playground.
+
+To accomplish this demand, TypeGraphQL allows you do create schema definition file in two ways. The first one is automatically on every build of the schema - just pass `emitSchemaFile: true` to the `buildSchema` options to emit the `schema.gql` in root of project's working directory. You can also manually specify a path and the file name when the schema definition should be written.
+
+```typescript
+const schema = await buildSchema({
+  resolvers: [ExampleResolver],
+  // automatically create `schema.gql` file with schema definition
+  // in project's working directory
+  emitSchemaFile: true,
+  // or create the file with schema in selected path
+  emitSchemaFile: path.resolve(__dirname, "snapshots/schema", "schema.gql"),
+});
+```
+
+Second way to emit schema definition file is by doing in manually in a programmatic way. All you need to do is to use `emitSchemaDefinitionFile` function or it's sync version (`emitSchemaDefinitionFileSync`) and pass the selected path to it, along with the schema object. You can use this i.a. as a part of a testing script that checks if the snapshot of the schema definition is correct or to automatically generate it on every file change during local development.
+
+```typescript
+import { emitSchemaDefinitionFile, buildSchema } from "type-graphql";
+// ...
+hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async () => {
+  const schema = getSchemaNotFromBuildSchemaFunction();
+  await emitSchemaDefinitionFile("/path/to/folder/schema.gql", schema);
+});
+```

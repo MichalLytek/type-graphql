@@ -5,6 +5,10 @@ export * from "./interfaces";
 
 export { buildSchema, buildSchemaSync, BuildSchemaOptions } from "./utils/buildSchema";
 export {
+  emitSchemaDefinitionFile,
+  emitSchemaDefinitionFileSync,
+} from "./utils/emitSchemaDefinitionFile";
+export {
   useContainer,
   ContainerType,
   ContainerGetter,

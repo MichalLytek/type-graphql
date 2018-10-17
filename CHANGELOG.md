@@ -5,6 +5,8 @@
 - **Breaking Change**: upgrade `graphql` to `^14.0.2`, `graphql-subscriptions` to `^1.0.0` and `@types/graphql` to `^14.0.2`
 - update all other dependencies
 - drop support for Node.js v9
+- add capability to emit the schema definition file (*.gql) as a `buildSchema` option
+- add `emitSchemaDefinitionFile` helper function for emitting the schema SDL
 
 ## v0.14.0
 ### Features
