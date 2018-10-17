@@ -6,6 +6,7 @@
 - update all other dependencies
 - drop support for Node.js v9
 - add capability to emit the schema definition file (*.gql) as a `buildSchema` option
+- add `emitSchemaDefinitionFile` helper function for emitting the schema SDL
 
 ## v0.14.0
 ### Features
