@@ -38,6 +38,6 @@ export const recipesResolver: GraphQLFieldResolver<void, Context, RecipesArgs> =
   }
 ```
 
-The biggest problem is the rendundancy in our codebase, that makes difficult to keep this things in sync. To add new field to our entity, we have to jump through all the files - modify entity class, then modify part of the schema and then update the interface. The same goes with inputs or arguments, it's easy to forget to update one or make a mistake with the type. Also, what if we've made a typo in field name? The rename feature (F2) won't work correctly.
+The biggest problem is the redundancy in our codebase, that makes difficult to keep this things in sync. To add new field to our entity, we have to jump through all the files - modify entity class, then modify part of the schema and then update the interface. The same goes with inputs or arguments, it's easy to forget to update one or make a mistake with the type. Also, what if we've made a typo in field name? The rename feature (F2) won't work correctly.
 
 **TypeGraphQL** comes to address this issues, based on experience from over a dozen months of developing GraphQL APIs in TypeScript. The main idea is to have only one source of truth by defining the schema using classes and a bit of decorators help. Additional features like dependency injection, validation or auth guards helps with common task that normally we would have to handle by ourselves.

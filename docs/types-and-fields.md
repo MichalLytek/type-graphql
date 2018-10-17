@@ -52,7 +52,7 @@ Why function syntax, not simple `{ type: Rate }` config object? Because this way
 
 For nullable properties, like `averageRating` (it might be not defined when recipe has no ratings yet), we mark the class property as optional with `?:` operator and also have to pass `{ nullable: true }` decorator parameter. Be aware, that when you declare your type as e.g. `string | null`, you need to explicit provide the type to `@Field` decorator.
 
-In config object we can also provide `description` and `depreciationReason` for GraphQL schema purposes.
+In config object we can also provide `description` and `deprecationReason` for GraphQL schema purposes.
 
 So after this changes our example class would look like this:
 ```typescript
