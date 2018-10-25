@@ -38,7 +38,7 @@ class Person implements IPerson {
 }
 ```
 
-The only difference is that we have to let TypeGraphQL now that this `ObjectType` is implementing the `InterfaceType` by passing the param `({ implements: IPerson })` to the decorator. If we implemented more interfaces, we would pass the array of interfaces, like `({ implements: [IPerson, IAnimal, IMachine] })`.
+The only difference is that we have to let TypeGraphQL know that this `ObjectType` is implementing the `InterfaceType`. We do it by passing the param `({ implements: IPerson })` to the decorator. If we implemented more interfaces, we would pass the array of interfaces, like `({ implements: [IPerson, IAnimal, IMachine] })`.
 
 We can also omit the decorators as the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking of correct interface implementation.
 
