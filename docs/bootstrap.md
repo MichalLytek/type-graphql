@@ -2,14 +2,14 @@
 title: Bootstrapping
 ---
 
-After creating our resolvers and types classes with other business-related code, we need to make our app running. At first we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT.
+After creating our resolvers, types classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT.
 
-## Create executable schema
+## Create Executable Schema
 
-To create executable schema from types' and resolvers' definitions, you need to use `buildSchema` function.
-It takes configuration object as a parameter and returns a promise of `GraphQLSchema` object.
+To create an executable schema from type and resolver definitions, you need to use the `buildSchema` function.
+It takes a configuration object as a parameter and returns a promise of a `GraphQLSchema` object.
 
-In configuration object you need to provide `resolvers` property, which might be an array of resolver classes:
+In the configuration object you must provide a `resolvers` property, which can be an array of resolver classes:
 
 ```typescript
 import { FirstResolver, SecondResolver } from "../app/src/resolvers";
@@ -19,8 +19,8 @@ const schema = await buildSchema({
 });
 ```
 
-However, when there're several dozen of resolver classes, manual imports might be a tedious work.
-So you can also provide an array of path to resolver module files (they might be a glob):
+However, when there are several dozen of resolver classes, manual imports can be tedious.
+So you can also provide an array of paths to resolver module files instead, which can include globs:
 
 ```typescript
 const schema = await buildSchema({
@@ -33,7 +33,7 @@ const schema = await buildSchema({
 
 There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them in docs.
 
-To make `await` work, we need to wrap it in async function. Example of `main.ts` file:
+To make `await` work, we need to declare it as an async function. Example of `main.ts` file:
 
 ```typescript
 import { buildSchema } from "type-graphql";
@@ -51,7 +51,7 @@ bootstrap(); // actually run the async function
 
 ## Create HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create it using e.g. [`apollo-server`](https://github.com/apollographql/apollo-server) package:
+In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server).  Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
 
 ```typescript
 import { ApolloServer } from "apollo-server";
