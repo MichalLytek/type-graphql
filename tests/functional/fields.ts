@@ -10,7 +10,7 @@ import {
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ObjectType, Field, Query, Resolver } from "../../src";
+import { ObjectType, Field, Query, Resolver, Metadata } from "../../src";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -27,6 +27,7 @@ describe("Fields - schema", () => {
       stringField: string;
     }
 
+    @Metadata({ classMeta: "some meta data" })
     @ObjectType()
     class SampleObject {
       @Field()
@@ -35,6 +36,7 @@ describe("Fields - schema", () => {
       @Field(type => String)
       explicitStringField: any;
 
+      @Metadata({ fieldMeta: "some field data" })
       @Field()
       implicitObjectField: SampleNestedObject;
 
@@ -47,6 +49,8 @@ describe("Fields - schema", () => {
       @Field(type => String)
       implicitStringArrayField: string[];
 
+      @Metadata({ fieldData: "a field info" })
+      @Metadata({ fieldData2: "a field info 2" })
       @Field(type => [String], { nullable: true })
       nullableArrayFieldNew: string[] | null;
 

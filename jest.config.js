@@ -3,7 +3,8 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  testMatch: ["**/functional/**/*.ts", "**/units/**/*.ts"],
+  //testMatch: ["**/functional/**/*.ts", "**/units/**/*.ts"],
+  testMatch: ["**/functional/fields.ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   rootDir: "./",
   roots: ["<rootDir>/tests", "<rootDir>/src"],

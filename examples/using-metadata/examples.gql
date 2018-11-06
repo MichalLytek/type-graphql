@@ -1,0 +1,28 @@
+query GetRecipe1 {
+  recipe(title: "Recipe 1") {
+    title
+    description
+    ratings
+    creationDate
+    ratingsCount(minRate: 2)
+    averageRating
+  }
+}
+
+query GetRecipes {
+  recipes {
+    title
+    description
+    creationDate
+    averageRating
+  }
+}
+
+mutation AddRecipe {
+  addRecipe(recipe: {
+    title: "New recipe"
+    description: "Simple description"
+  }) {
+    creationDate
+  }
+}

@@ -15,4 +15,7 @@ export interface FieldMetadata {
   params?: ParamMetadata[];
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
+  metadata?: {
+    [key: string]: any;
+  };
 }

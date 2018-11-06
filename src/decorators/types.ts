@@ -53,6 +53,8 @@ export interface EnumConfig {
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
 
+export type MethodAndPropAndClassDecorator = MethodAndPropDecorator & ClassDecorator;
+
 export interface ResolverClassOptions {
   isAbstract?: boolean;
 }

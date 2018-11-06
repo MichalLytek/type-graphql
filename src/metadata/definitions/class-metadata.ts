@@ -6,4 +6,7 @@ export interface ClassMetadata {
   fields?: FieldMetadata[];
   description?: string;
   interfaceClasses?: Function[];
+  metadata?: {
+    [key: string]: any;
+  };
 }

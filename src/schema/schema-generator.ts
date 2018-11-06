@@ -39,6 +39,7 @@ import {
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
+import { object } from "prop-types";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -236,6 +237,7 @@ export abstract class SchemaGenerator {
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
+                  ...(field.metadata || {}),
                 };
                 return fieldsMap;
               },
@@ -264,6 +266,7 @@ export abstract class SchemaGenerator {
             }
             return fields;
           },
+          ...(objectType.metadata || {}),
         }),
       };
     });

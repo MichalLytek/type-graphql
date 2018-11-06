@@ -12,6 +12,7 @@ import {
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
+  Metadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -39,6 +40,7 @@ export class MetadataStorage {
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
   private params: ParamMetadata[] = [];
+  private metadatas: Metadata[] = [];
 
   constructor() {
     ensureReflectMetadataExists();
@@ -95,6 +97,9 @@ export class MetadataStorage {
   collectHandlerParamMetadata(definition: ParamMetadata) {
     this.params.push(definition);
   }
+  collectAdditionalMetadata(defintion: Metadata) {
+    this.metadatas.push(defintion);
+  }
 
   build() {
     // TODO: disable next build attempts
@@ -130,6 +135,8 @@ export class MetadataStorage {
     this.resolverClasses = [];
     this.fields = [];
     this.params = [];
+
+    this.metadatas = [];
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
@@ -145,8 +152,10 @@ export class MetadataStorage {
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
         );
+        field.metadata = this.findAdditionalMetadata(field.target, field.name);
       });
       def.fields = fields;
+      def.metadata = this.findAdditionalMetadata(def.target);
     });
   }
 
@@ -250,5 +259,12 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private findAdditionalMetadata(target: Function, fieldName?: string) {
+    const metadata = this.metadatas
+      .filter(m => m.target === target && m.name === fieldName)
+      .reduce((obj, meta) => ({ ...obj, ...meta.data }), {});
+    return Object.keys(metadata).length > 0 ? metadata : undefined;
   }
 }
