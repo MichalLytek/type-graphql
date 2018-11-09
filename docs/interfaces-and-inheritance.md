@@ -4,14 +4,14 @@ title: Interfaces and inheritance
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
 
-In object-oriented programming it is common to create interfaces which describes the contract that classes implementing them has to fulfill. We also compose the classes using inheritance mechanism. Hence TypeGraphQL support both GraphQL interfaces as well as composing types definition by extending the classes.
+In object-oriented programming it is common to create interfaces which describes the contract that classes implementing them has to fulfill. We also compose classes using inheritance. Hence TypeGraphQL supports both GraphQL interfaces as well as composing type definitions by extending the classes.
 
 ## Interfaces
-TypeScript has first class support for interfaces. Unfortunately, they exist only on compile-time, so we can't use them to build GraphQL schema on runtime by using decorators.
+TypeScript has first class support for interfaces. Unfortunately, they only exist at compile-time, so we can't use them to build GraphQL schema at runtime by using decorators.
 
-Luckily, we can use abstract class for this purpose - it behave almost like an interface (can't be "newed", can be implemented by class), it just won't stop developers from implementing a method or initializing a field. But until we do the same things like with an interface, we can safely use it.
+Luckily, we can use an abstract class for this purpose.  It behaves almost like an interface (can't be "newed", can be implemented by class), it just won't stop developers from implementing a method or initializing a field. But as long as we treat it like an interface, we can safely use it.
 
-So, how to create GraphQL interface definition? We create an abstract class and decorate it with `@InterfaceType()`. The rest is exactly the same as with object types - we use `@Field` to declare the shape of the type:
+So, how do you create GraphQL interface definition? We create an abstract class and decorate it with `@InterfaceType()`. The rest is exactly the same as with object types: we use `@Field` to declare the shape of the type:
 
 ```typescript
 @InterfaceType()

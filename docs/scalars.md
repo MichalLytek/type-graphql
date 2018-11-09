@@ -25,9 +25,9 @@ class MysteryObject {
   probability: number;
 }
 ```
-In the last case you can omit the `type => Float` since JavaScript `Number` will become `GraphQLFloat` in schema automatically.
+In the last case you can omit the `type => Float` since JavaScript `Number` will become `GraphQLFloat` in the schema automatically.
 
-Other scalars - `GraphQLString` and `GraphQLBoolean` doesn't need aliases - when it's possible, they will be reflected automatically:
+Other scalars - i.e. `GraphQLString` and `GraphQLBoolean` - do not need aliases.  When possible, they will be reflected automatically:
 ```typescript
 @ObjectType()
 class User {
@@ -52,8 +52,8 @@ class SampleObject {
 }
 ```
 
-## Built-in scalars
-TypeGraphQL provides built-in scalars for `Date` type. There are two versions of this scalars:
+## Date Scalars
+TypeGraphQL provides built-in scalars for the `Date` type. There are two versions of this scalar:
 - timestamp based (`"timestamp"`) - `1518037458374`
 - ISO format (`"isoDate"`) - `"2018-02-07T21:04:39.573Z"`
 
@@ -77,12 +77,12 @@ class User {
   registrationDate: Date;
 }
 ```
-Be aware to use `ts-node` with `--type-check` flag due to a [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
+If you use `ts-node`, be aware you must execute it with the `--type-check` flag due to a [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
 
-## Custom scalars
+## Custom Scalars
 TypeGraphQL also support custom scalar types.
 
-First of all, you need to create your own `GraphQLScalarType` instance (or import the scalar type from 3rd-party npm library). Example for Mongo's ObjectId:
+First of all, you need to create your own `GraphQLScalarType` instance or import the scalar type from a 3rd-party npm library. For example, Mongo's ObjectId:
 ```typescript
 import { GraphQLScalarType, Kind } from "graphql";
 import { ObjectId } from "mongodb";
@@ -123,7 +123,7 @@ class User {
 }
 ```
 
-Optionally, you can declare the association between reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
+Optionally, you can declare the association between the reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
 ```typescript
 @ObjectType()
 class User {
@@ -132,7 +132,7 @@ class User {
 }
 ```
 
-All you need to do is register the association map in `buildSchema` options:
+All you need to do is register the association map in the `buildSchema` options:
 ```typescript
 import { ObjectId } from "mongodb";
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
@@ -143,4 +143,4 @@ const schema = await buildSchema({
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
 });
 ```
-However, be aware that this will work only when TypeScript reflection mechanism can handle it. So your class property type must be the `class`, not an enum, union or an interface.
+However, be aware that this will work only when the TypeScript reflection mechanism can handle it. So your class property type must be the `class`, not an enum, union or an interface.
