@@ -115,7 +115,8 @@ There we can trigger the topics and send the payload to all topic subscribers.</
     <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>commentsRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>comment<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment">// here we can trigger subscriptions topics</span>
     <span class="token keyword">const</span> payload<span class="token punctuation">:</span> NotificationPayload <span class="token operator">=</span> <span class="token punctuation">{</span> message<span class="token punctuation">:</span> input<span class="token punctuation">.</span>content <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> pubSub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token string">"NOTIFICATIONS"</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> pubSub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token string">"NOTIFICATIONS"</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -131,7 +132,8 @@ To do this, we use <code>@PubSub(&quot;TOPIC_NAME&quot;)</code> decorator and th
     <span class="token keyword">const</span> comment <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>commentsService<span class="token punctuation">.</span><span class="token function">createNew</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>commentsRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>comment<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment">// here we can trigger subscriptions topics</span>
-    <span class="token keyword">return</span> <span class="token function">publish</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token punctuation">:</span> input<span class="token punctuation">.</span>content <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> <span class="token function">publish</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token punctuation">:</span> input<span class="token punctuation">.</span>content <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
