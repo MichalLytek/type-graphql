@@ -27,9 +27,14 @@ Using path to resolver module files force you to structure yours project folders
 When you have several dozen of resolver classes, it might be easier than always remember about importing and registering each new class.
 
 ### I got error like `Cannot use GraphQLSchema "[object Object]" from another module or realm`. How to fix that?
-This error happens mostly when you have more than one version of `graphql-js` in your project. In most cases it means that one of your dependencies has a dependency on different version of `graphql-js`, e.g. you use `v14.0.2` but `apollo-server-express` depends on `v0.13.2`. You can find it out by searching in `package-lock.json` or `yarn.lock` for multiple `graphql` entries. Then you have to update or downgrade your dependencies, so all of them have matching semver on `graphql` like `^14.0.0`. You may also need to flatten your dependencies, so all your dependencies will share a single instance of `graphql` module in `node_modules` directory - to do this use `npm dedupe` or yarn equivalent.
+This error happens mostly when you have more than one version of `graphql-js` in your project.
+In most cases it means that one of your dependencies has a dependency on different version of `graphql-js`, e.g. you use or TypeGraphQL uses `v14.0.2` but `apollo-server-express` depends on `v0.13.2`.
+You can print the dependency tree by running `npm ls graphql` (or yarn's equivalent) to find the faulty dependencies.
+Then you have to update or downgrade them until they all match the semver on `graphql`, like `^14.0.0`.
+You may also need to flatten your dependencies, so that they all will share a single instance of `graphql` module in `node_modules` directory - to achieve this, just run `npm dedupe` (or yarn's equivalent).
 
-The same rule goes to the error like `node_modules/type-graphql/node_modules/@types/graphql/type/schema").GraphQLSchema' is not assignable to type 'import("node_modules/@types/graphql/type/schema").GraphQLSchema'`. In that case you have to do the same checks but for the `@types/graphql` module in your dependencies.
+The same rule goes to the error like `node_modules/type-graphql/node_modules/@types/graphql/type/schema").GraphQLSchema' is not assignable to type 'import("node_modules/@types/graphql/type/schema").GraphQLSchema'`.
+In that case you have to do the same checks but for the `@types/graphql` module in your dependencies.
 
 ## Types
 

@@ -104,7 +104,8 @@ class SampleResolver {
     await this.commentsRepository.save(comment);
     // here we can trigger subscriptions topics
     const payload: NotificationPayload = { message: input.content };
-    return pubSub.publish("NOTIFICATIONS", payload);
+    await pubSub.publish("NOTIFICATIONS", payload);
+    return true;
   }
 }
 ```
@@ -122,7 +123,8 @@ class SampleResolver {
     const comment = this.commentsService.createNew(input);
     await this.commentsRepository.save(comment);
     // here we can trigger subscriptions topics
-    return publish({ message: input.content });
+    await publish({ message: input.content });
+    return true;
   }
 }
 ```
