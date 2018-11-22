@@ -74,6 +74,8 @@ describe("Resolvers", () => {
         numberArg: number;
         @Field()
         inputObjectArg: SampleInput;
+        @Field({ defaultValue: "defaultStringArgDefaultValue" })
+        defaultStringArg?: string;
       }
 
       @ObjectType()
@@ -104,7 +106,8 @@ describe("Resolvers", () => {
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
           @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
-          @Arg("defaultStringArg", { defaultValue: "bob" }) defaultStringArg?: string,
+          @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
+          defaultStringArg?: string,
         ): any {
           return "argMethodField";
         }
@@ -225,6 +228,7 @@ describe("Resolvers", () => {
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
       argMethodField = sampleObjectType.fields.find(field => field.name === "argMethodField")!;
+      console.log(schemaIntrospection.types);
     });
 
     // helpers
@@ -381,7 +385,7 @@ describe("Resolvers", () => {
         const inputArg = argMethodField.args.find(arg => arg.name === "defaultStringArg")!;
         const nullableDefaultValueStringArgType = inputArg.type as IntrospectionNamedTypeRef;
 
-        expect(inputArg.defaultValue).toBe('"bob"');
+        expect(inputArg.defaultValue).toBe('"defaultStringArgDefaultValue"');
         expect(nullableDefaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
         expect(nullableDefaultValueStringArgType.name).toEqual("String");
       });
@@ -397,6 +401,17 @@ describe("Resolvers", () => {
         expect(stringArg.name).toEqual("stringArg");
         expect(stringArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(stringArgInnerType.name).toEqual("String");
+      });
+
+      it("should generate nullable type arg with defaultValue from args object field", async () => {
+        const argsQuery = getQuery("argsQuery");
+        const defaultStringArg = argsQuery.args.find(arg => arg.name === "defaultStringArg")!;
+        const defaultStringArgType = defaultStringArg.type as IntrospectionNamedTypeRef;
+
+        expect(defaultStringArg.name).toEqual("defaultStringArg");
+        expect(defaultStringArg.defaultValue).toEqual('"defaultStringArgDefaultValue"');
+        expect(defaultStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultStringArgType.name).toEqual("String");
       });
 
       it("should generate nullable type arg from args object field", async () => {
@@ -598,14 +613,14 @@ describe("Resolvers", () => {
         const argsQuery = getQuery("argsQuery");
 
         expect(argsQuery.name).toEqual("argsQuery");
-        expect(argsQuery.args).toHaveLength(3);
+        expect(argsQuery.args).toHaveLength(4);
       });
 
       it("should generate proper definition for query with both @Arg and @Args", async () => {
         const argAndArgsQuery = getQuery("argAndArgsQuery");
 
         expect(argAndArgsQuery.name).toEqual("argAndArgsQuery");
-        expect(argAndArgsQuery.args).toHaveLength(4);
+        expect(argAndArgsQuery.args).toHaveLength(5);
       });
     });
 
