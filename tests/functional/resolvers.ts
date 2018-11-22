@@ -16,6 +16,7 @@ import {
   ValidationContext,
   visit,
   visitWithTypeInfo,
+  IntrospectionInputObjectType,
 } from "graphql";
 import * as path from "path";
 import { plainToClass } from "class-transformer";
@@ -56,6 +57,7 @@ describe("Resolvers", () => {
     let mutationType: IntrospectionObjectType;
     let sampleObjectType: IntrospectionObjectType;
     let argMethodField: IntrospectionField;
+    let sampleInputType: IntrospectionInputObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -64,6 +66,8 @@ describe("Resolvers", () => {
       class SampleInput {
         @Field()
         field: string;
+        @Field({ defaultValue: "defaultStringFieldDefaultValue" })
+        defaultStringField?: string;
       }
 
       @ArgsType()
@@ -228,7 +232,9 @@ describe("Resolvers", () => {
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
       argMethodField = sampleObjectType.fields.find(field => field.name === "argMethodField")!;
-      console.log(schemaIntrospection.types);
+      sampleInputType = schemaIntrospection.types.find(
+        field => field.name === "SampleInput",
+      )! as IntrospectionInputObjectType;
     });
 
     // helpers
@@ -388,6 +394,19 @@ describe("Resolvers", () => {
         expect(inputArg.defaultValue).toBe('"defaultStringArgDefaultValue"');
         expect(nullableDefaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
         expect(nullableDefaultValueStringArgType.name).toEqual("String");
+      });
+    });
+
+    describe("Input object", () => {
+      it("should generate nullable string arg type with defaultValue for input object field", async () => {
+        const defaultValueStringField = sampleInputType.inputFields.find(
+          arg => arg.name === "defaultStringField",
+        )!;
+        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(defaultValueStringField.defaultValue).toBe('"defaultStringFieldDefaultValue"');
+        expect(defaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultValueStringFieldType.name).toEqual("String");
       });
     });
 
