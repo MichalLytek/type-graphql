@@ -104,6 +104,7 @@ describe("Resolvers", () => {
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
           @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
+          @Arg("defaultStringArg", { defaultValue: "bob" }) defaultStringArg?: string,
         ): any {
           return "argMethodField";
         }
@@ -270,7 +271,7 @@ describe("Resolvers", () => {
         const argMethodFieldInnerType = argMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(argMethodField.name).toEqual("argMethodField");
-        expect(argMethodField.args).toHaveLength(8);
+        expect(argMethodField.args).toHaveLength(9);
         expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
         expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
@@ -374,6 +375,15 @@ describe("Resolvers", () => {
         expect(inputArgType.kind).toEqual(TypeKind.NON_NULL);
         expect(inputArgInnerType.kind).toEqual(TypeKind.INPUT_OBJECT);
         expect(inputArgInnerType.name).toEqual("SampleInput");
+      });
+
+      it("should generate nullable string arg type with defaultValue for object field method", async () => {
+        const inputArg = argMethodField.args.find(arg => arg.name === "defaultStringArg")!;
+        const nullableDefaultValueStringArgType = inputArg.type as IntrospectionNamedTypeRef;
+
+        expect(inputArg.defaultValue).toBe('"bob"');
+        expect(nullableDefaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(nullableDefaultValueStringArgType.name).toEqual("String");
       });
     });
 
