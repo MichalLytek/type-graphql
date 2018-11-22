@@ -287,6 +287,7 @@ export abstract class SchemaGenerator {
                 fieldsMap[field.schemaName] = {
                   description: field.description,
                   type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
+                  defaultValue: field.typeOptions.defaultValue,
                 };
                 return fieldsMap;
               },
@@ -410,6 +411,7 @@ export abstract class SchemaGenerator {
         args[param.name] = {
           description: param.description,
           type: this.getGraphQLInputType(param.name, param.getType(), param.typeOptions),
+          defaultValue: param.typeOptions.defaultValue,
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
@@ -437,6 +439,7 @@ export abstract class SchemaGenerator {
       args[field.schemaName] = {
         description: field.description,
         type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
+        defaultValue: field.typeOptions.defaultValue,
       };
     });
   }

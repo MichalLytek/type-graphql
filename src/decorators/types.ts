@@ -21,6 +21,7 @@ export type SubscriptionTopicFunc = (
 
 export interface DecoratorTypeOptions {
   nullable?: boolean;
+  defaultValue?: any;
 }
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;

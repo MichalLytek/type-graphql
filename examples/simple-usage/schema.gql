@@ -26,7 +26,7 @@ type Recipe {
   description: String
   ratings: [Int!]!
   creationDate: DateTime!
-  ratingsCount(minRate: Int): Int!
+  ratingsCount(minRate: Int = 0): Int!
   averageRating: Float
 }
 
