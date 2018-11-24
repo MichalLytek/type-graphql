@@ -184,7 +184,6 @@ export abstract class SchemaGenerator {
     );
 
     this.objectTypesInfo = getMetadataStorage().objectTypes.map<ObjectTypeInfo>(objectType => {
-      console.log("objectType: ", objectType.name);
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
       const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () => {
@@ -221,8 +220,6 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const paramInstance = new (field.target as any)();
-                console.log("objField: ", field.name, paramInstance);
                 const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
                   resolver =>
                     resolver.getObjectType!() === objectType.target &&
@@ -418,9 +415,7 @@ export abstract class SchemaGenerator {
   private static generateHandlerArgs(params: ParamMetadata[]): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
-        console.log("param: ", param.name, param.getType(), new (param.target as any)());
         // const paramInstance = new (param.target as any)();
-        // console.log(param);
         // const implicitDefaultValue = paramInstance[param.name];
         // param.typeOptions.defaultValue =
         //   implicitDefaultValue === undefined

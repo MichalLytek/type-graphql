@@ -402,7 +402,7 @@ describe("Resolvers", () => {
         expect(defaultValueStringArgType.name).toEqual("String");
       });
 
-      it.only("should generate nullable string arg type with implicit defaultValue for object field method", async () => {
+      it("should generate nullable string arg type with implicit defaultValue for object field method", async () => {
         const inputArg = argMethodField.args.find(arg => arg.name === "implicitDefaultStringArg")!;
         const implicitDefaultValueStringArgType = inputArg.type as IntrospectionNamedTypeRef;
 
