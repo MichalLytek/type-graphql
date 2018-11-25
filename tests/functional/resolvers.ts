@@ -126,8 +126,6 @@ describe("Resolvers", () => {
           @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
           defaultStringArg?: string,
-          @Arg("implicitDefaultStringArg")
-          implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue",
         ): any {
           return "argMethodField";
         }
@@ -300,7 +298,7 @@ describe("Resolvers", () => {
         const argMethodFieldInnerType = argMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(argMethodField.name).toEqual("argMethodField");
-        expect(argMethodField.args).toHaveLength(11);
+        expect(argMethodField.args).toHaveLength(10);
         expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
         expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
@@ -414,15 +412,6 @@ describe("Resolvers", () => {
         expect(defaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
         expect(defaultValueStringArgType.name).toEqual("String");
       });
-
-      it("should generate nullable string arg type with implicit defaultValue for object field method", async () => {
-        const inputArg = argMethodField.args.find(arg => arg.name === "implicitDefaultStringArg")!;
-        const implicitDefaultValueStringArgType = inputArg.type as IntrospectionNamedTypeRef;
-
-        expect(inputArg.defaultValue).toBe('"implicitDefaultStringArgDefaultValue"');
-        expect(implicitDefaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
-        expect(implicitDefaultValueStringArgType.name).toEqual("String");
-      });
     });
 
     describe("Input object", () => {
@@ -472,6 +461,33 @@ describe("Resolvers", () => {
         );
         expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitDefaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should throw error when defaultValue in decorator doesn't match implicit defaultValue in input type", async () => {
+        expect.assertions(2);
+
+        @InputType()
+        class InputWithDefaultField {
+          @Field({ defaultValue: "explicitDefaultValue" })
+          twoDefaultValuesField: string = "implicitDefaultValue";
+        }
+
+        try {
+          @Resolver()
+          class SampleResolver {
+            @Query(() => String)
+            sampleQuery(@Arg("inputArg") inputArg: InputWithDefaultField): string {
+              return "argQuery";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolver],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          const error = err as Error;
+          expect(error.message).toContain("conflicting default values");
+        }
       });
     });
 
