@@ -58,6 +58,7 @@ describe("Resolvers", () => {
     let sampleObjectType: IntrospectionObjectType;
     let argMethodField: IntrospectionField;
     let sampleInputType: IntrospectionInputObjectType;
+    let sampleInputChildType: IntrospectionInputObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -70,6 +71,14 @@ describe("Resolvers", () => {
         defaultStringField?: string;
         @Field()
         implicitDefaultStringField?: string = "implicitDefaultStringFieldDefaultValue";
+      }
+
+      @InputType()
+      class SampleInputChild extends SampleInput {
+        @Field({ defaultValue: "defaultValueOverwritten" })
+        defaultStringField?: string;
+        @Field()
+        implicitDefaultStringField?: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
@@ -110,6 +119,7 @@ describe("Resolvers", () => {
           @Arg("booleanArg") booleanArg: boolean,
           @Arg("numberArg") numberArg: number,
           @Arg("inputArg") inputArg: SampleInput,
+          @Arg("inputChildArg") inputChildArg: SampleInputChild,
           @Arg("explicitNullableArg", type => String, { nullable: true }) explicitNullableArg: any,
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
@@ -241,6 +251,9 @@ describe("Resolvers", () => {
       sampleInputType = schemaIntrospection.types.find(
         field => field.name === "SampleInput",
       )! as IntrospectionInputObjectType;
+      sampleInputChildType = schemaIntrospection.types.find(
+        field => field.name === "SampleInputChild",
+      )! as IntrospectionInputObjectType;
     });
 
     // helpers
@@ -287,7 +300,7 @@ describe("Resolvers", () => {
         const argMethodFieldInnerType = argMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(argMethodField.name).toEqual("argMethodField");
-        expect(argMethodField.args).toHaveLength(10);
+        expect(argMethodField.args).toHaveLength(11);
         expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
         expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
@@ -432,6 +445,30 @@ describe("Resolvers", () => {
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultStringFieldDefaultValue"',
+        );
+        expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(implicitDefaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should overwrite defaultValue in child input object", async () => {
+        const defaultValueStringField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "defaultStringField",
+        )!;
+        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(defaultValueStringField.defaultValue).toBe('"defaultValueOverwritten"');
+        expect(defaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should overwrite implicit defaultValue in child input object", async () => {
+        const implicitDefaultValueStringField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "implicitDefaultStringField",
+        )!;
+        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(implicitDefaultValueStringField.defaultValue).toBe(
+          '"implicitDefaultValueOverwritten"',
         );
         expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitDefaultValueStringFieldType.name).toEqual("String");

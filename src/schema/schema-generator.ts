@@ -104,6 +104,22 @@ export abstract class SchemaGenerator {
     }
   }
 
+  private static getDefaultValue(instance: any, name: string, { defaultValue }: TypeOptions) {
+    const implicitDefaultValue = instance[name];
+    if (implicitDefaultValue === undefined) {
+      return defaultValue;
+    } else if (defaultValue === undefined) {
+      return implicitDefaultValue;
+    } else if (defaultValue !== implicitDefaultValue) {
+      throw new Error(
+        // tslint:disable-next-line:max-line-length
+        `The field ${name} has conflicting default values ${defaultValue} !== ${implicitDefaultValue}`,
+      );
+    }
+
+    return undefined;
+  }
+
   private static buildTypesInfo() {
     this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
       return {
@@ -285,11 +301,11 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
               (fieldsMap, field) => {
-                const implicitDefaultValue = inputInstance[field.name];
-                field.typeOptions.defaultValue =
-                  implicitDefaultValue === undefined
-                    ? field.typeOptions.defaultValue
-                    : implicitDefaultValue;
+                field.typeOptions.defaultValue = this.getDefaultValue(
+                  inputInstance,
+                  field.name,
+                  field.typeOptions,
+                );
 
                 fieldsMap[field.schemaName] = {
                   description: field.description,
@@ -415,12 +431,6 @@ export abstract class SchemaGenerator {
   private static generateHandlerArgs(params: ParamMetadata[]): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
-        // const paramInstance = new (param.target as any)();
-        // const implicitDefaultValue = paramInstance[param.name];
-        // param.typeOptions.defaultValue =
-        //   implicitDefaultValue === undefined
-        //     ? param.typeOptions.defaultValue
-        //     : implicitDefaultValue;
         args[param.name] = {
           description: param.description,
           type: this.getGraphQLInputType(param.name, param.getType(), param.typeOptions),
@@ -448,7 +458,13 @@ export abstract class SchemaGenerator {
     argumentType: ClassMetadata,
     args: GraphQLFieldConfigArgumentMap = {},
   ) {
+    const argumentInstance = new (argumentType.target as any)();
     argumentType.fields!.forEach(field => {
+      field.typeOptions.defaultValue = this.getDefaultValue(
+        argumentInstance,
+        field.name,
+        field.typeOptions,
+      );
       args[field.schemaName] = {
         description: field.description,
         type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
