@@ -44,6 +44,7 @@ import {
   PubSub,
   PubSubEngine,
   ClassType,
+  ConflictingDefaultValuesError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
@@ -464,7 +465,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when defaultValue in decorator doesn't match implicit defaultValue in input type", async () => {
-        expect.assertions(2);
+        expect.assertions(7);
 
         @InputType()
         class InputWithDefaultField {
@@ -485,8 +486,13 @@ describe("Resolvers", () => {
           });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
+          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
+          const error = err as ConflictingDefaultValuesError;
           expect(error.message).toContain("conflicting default values");
+          expect(error.message).toContain("InputWithDefaultField");
+          expect(error.message).toContain("twoDefaultValuesField");
+          expect(error.message).toContain("implicitDefaultValue");
+          expect(error.message).toContain("explicitDefaultValue");
         }
       });
     });

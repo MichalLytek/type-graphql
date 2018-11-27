@@ -36,6 +36,7 @@ import {
   UnionResolveTypeError,
   GeneratingSchemaError,
   MissingSubscriptionTopicsError,
+  ConflictingDefaultValuesError,
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
@@ -104,20 +105,28 @@ export abstract class SchemaGenerator {
     }
   }
 
-  private static getDefaultValue(instance: any, name: string, { defaultValue }: TypeOptions) {
-    const implicitDefaultValue = instance[name];
-    if (implicitDefaultValue === undefined) {
-      return defaultValue;
-    } else if (defaultValue === undefined) {
-      return implicitDefaultValue;
-    } else if (defaultValue !== implicitDefaultValue) {
-      throw new Error(
-        // tslint:disable-next-line:max-line-length
-        `The field ${name} has conflicting default values ${defaultValue} !== ${implicitDefaultValue}`,
+  private static getDefaultValue(
+    typeInstance: { [property: string]: unknown },
+    typeOptions: TypeOptions,
+    fieldName: string,
+    typeName: string,
+  ): unknown | undefined {
+    const defaultValueFromInitializer = typeInstance[fieldName];
+    if (
+      typeOptions.defaultValue !== undefined &&
+      defaultValueFromInitializer !== undefined &&
+      typeOptions.defaultValue !== defaultValueFromInitializer
+    ) {
+      throw new ConflictingDefaultValuesError(
+        typeName,
+        fieldName,
+        typeOptions.defaultValue,
+        defaultValueFromInitializer,
       );
     }
-
-    return undefined;
+    return typeOptions.defaultValue !== undefined
+      ? typeOptions.defaultValue
+      : defaultValueFromInitializer;
   }
 
   private static buildTypesInfo() {
@@ -303,8 +312,9 @@ export abstract class SchemaGenerator {
               (fieldsMap, field) => {
                 field.typeOptions.defaultValue = this.getDefaultValue(
                   inputInstance,
-                  field.name,
                   field.typeOptions,
+                  field.name,
+                  inputType.name,
                 );
 
                 fieldsMap[field.schemaName] = {
@@ -462,8 +472,9 @@ export abstract class SchemaGenerator {
     argumentType.fields!.forEach(field => {
       field.typeOptions.defaultValue = this.getDefaultValue(
         argumentInstance,
-        field.name,
         field.typeOptions,
+        field.name,
+        argumentType.name,
       );
       args[field.schemaName] = {
         description: field.description,
