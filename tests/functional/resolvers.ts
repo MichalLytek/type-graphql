@@ -58,8 +58,6 @@ describe("Resolvers", () => {
     let mutationType: IntrospectionObjectType;
     let sampleObjectType: IntrospectionObjectType;
     let argMethodField: IntrospectionField;
-    let sampleInputType: IntrospectionInputObjectType;
-    let sampleInputChildType: IntrospectionInputObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -69,17 +67,17 @@ describe("Resolvers", () => {
         @Field()
         field: string;
         @Field({ defaultValue: "defaultStringFieldDefaultValue" })
-        defaultStringField?: string;
+        defaultStringField: string;
         @Field()
-        implicitDefaultStringField?: string = "implicitDefaultStringFieldDefaultValue";
+        implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
       }
 
       @InputType()
       class SampleInputChild extends SampleInput {
         @Field({ defaultValue: "defaultValueOverwritten" })
-        defaultStringField?: string;
+        defaultStringField: string;
         @Field()
-        implicitDefaultStringField?: string = "implicitDefaultValueOverwritten";
+        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
@@ -91,9 +89,9 @@ describe("Resolvers", () => {
         @Field()
         inputObjectArg: SampleInput;
         @Field({ defaultValue: "defaultStringArgDefaultValue" })
-        defaultStringArg?: string;
+        defaultStringArg: string;
         @Field()
-        implicitDefaultStringArg?: string = "implicitDefaultStringArgDefaultValue";
+        implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
       }
 
       @ObjectType()
@@ -124,9 +122,9 @@ describe("Resolvers", () => {
           @Arg("explicitNullableArg", type => String, { nullable: true }) explicitNullableArg: any,
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
-          @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
-          defaultStringArg?: string,
+          defaultStringArg: string,
+          @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
         ): any {
           return "argMethodField";
         }
@@ -247,12 +245,6 @@ describe("Resolvers", () => {
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
       argMethodField = sampleObjectType.fields.find(field => field.name === "argMethodField")!;
-      sampleInputType = schemaIntrospection.types.find(
-        field => field.name === "SampleInput",
-      )! as IntrospectionInputObjectType;
-      sampleInputChildType = schemaIntrospection.types.find(
-        field => field.name === "SampleInputChild",
-      )! as IntrospectionInputObjectType;
     });
 
     // helpers
@@ -416,6 +408,18 @@ describe("Resolvers", () => {
     });
 
     describe("Input object", () => {
+      let sampleInputType: IntrospectionInputObjectType;
+      let sampleInputChildType: IntrospectionInputObjectType;
+
+      beforeAll(() => {
+        sampleInputType = schemaIntrospection.types.find(
+          field => field.name === "SampleInput",
+        )! as IntrospectionInputObjectType;
+        sampleInputChildType = schemaIntrospection.types.find(
+          field => field.name === "SampleInputChild",
+        )! as IntrospectionInputObjectType;
+      });
+
       it("should generate nullable string arg type with defaultValue for input object field", async () => {
         const defaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "defaultStringField",
