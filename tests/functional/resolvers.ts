@@ -70,6 +70,8 @@ describe("Resolvers", () => {
         defaultStringField: string;
         @Field()
         implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
+        @Field()
+        inheritDefaultField: string = "inheritDefaultFieldValue";
       }
 
       @InputType()
@@ -466,6 +468,17 @@ describe("Resolvers", () => {
         );
         expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitDefaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it.only("should inherit field with defaultValue from parent", async () => {
+        const inheritDefaultField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "inheritDefaultField",
+        )!;
+        const inheritDefaultFieldType = inheritDefaultField.type as IntrospectionNamedTypeRef;
+
+        expect(inheritDefaultField.defaultValue).toBe('"inheritDefaultFieldValue"');
+        expect(inheritDefaultFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(inheritDefaultFieldType.name).toEqual("String");
       });
 
       it("should throw error when defaultValue in decorator doesn't match implicit defaultValue in input type", async () => {
