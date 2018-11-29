@@ -62,6 +62,7 @@ class RecipeResolver {
   @Query(returns => [Recipe])
   async recipes(
     @Arg("title" { nullable: true }) title?: string,
+    @Arg("servings" { defaultValue: 2 }) servings: number,
   ): Promise<Recipe[]> {
     // ...
   }
@@ -81,7 +82,7 @@ class GetRecipesArgs {
   title?: string;
 }
 ```
-You can define default values for optional fields (remember about `nullable: true`!) as well as helper methods.
+You can define default values for optional fields in the `@field()` decorator (it will automatically make the field nullable for you).  You can set a property initializer for fields  for helper methods and fields .
 Also, this way of declaring arguments allows you to perform validation.  You can find more details about this feature in [the validation docs](./validation.md).
 
 ```typescript

@@ -16,6 +16,7 @@ export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
       fieldsMap[fieldName] = {
         type: superField.type,
         description: superField.description,
+        defaultValue: superField.defaultValue,
       };
       return fieldsMap;
     },
