@@ -82,7 +82,7 @@ class GetRecipesArgs {
   title?: string;
 }
 ```
-You can define default values for optional fields in the `@field()` decorator (it will automatically make the field nullable for you).  You can set a property initializer for fields  for helper methods and fields .
+You can define default values for optional fields in the `@field()` decorator (it will automatically make the field nullable for you). Or set a property initializer for fields and `type-graphql` will set it as a default value and make the field nullable.
 Also, this way of declaring arguments allows you to perform validation.  You can find more details about this feature in [the validation docs](./validation.md).
 
 ```typescript
