@@ -24,7 +24,7 @@ export function Resolver(
 
   return target => {
     const getObjectType = objectTypeOrTypeFunc
-      ? objectTypeOrTypeFunc.prototype
+      ? objectTypeOrTypeFunc.name !== ""
         ? () => objectTypeOrTypeFunc as ClassType
         : (objectTypeOrTypeFunc as ClassTypeResolver)
       : () => {
