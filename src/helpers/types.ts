@@ -65,7 +65,7 @@ export function convertToType(Target: any, data?: object): object | undefined {
     return data;
   }
 
-  return Object.assign(new Target(), data);
+  return Object.assign(Object.create(Target.prototype), data);
 }
 
 export function getEnumValuesMap<T extends object>(enumObject: T) {
