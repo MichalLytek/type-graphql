@@ -11,6 +11,7 @@ import {
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { ObjectType, Field, Query, Resolver } from "../../src";
+import { NullableListOptions } from "../../src/decorators/types";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -52,6 +53,12 @@ describe("Fields - schema", () => {
 
       @Field(type => [SampleNestedObject], { nullable: true })
       nullableObjectArrayField: SampleNestedObject[] | null;
+
+      @Field(typoe => [String], { nullable: "itemsAndList" })
+      arrayWithNullableItemField: String[];
+
+      @Field(typoe => [String], { nullable: "items" })
+      nonnullArrayWithNullableItemField: String[];
 
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
@@ -264,6 +271,32 @@ describe("Fields - schema", () => {
     expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(arrayItemFieldType.kind).toEqual(TypeKind.OBJECT);
     expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
+  });
+
+  it("should generate nullable item array with nullalbe option 'itemAndList'", async () => {
+    const arrayWithNullableItemField = sampleObjectType.fields.find(
+      field => field.name === "arrayWithNullableItemField",
+    )!;
+    const nullableArrayType = arrayWithNullableItemField.type as IntrospectionListTypeRef;
+    const nullableItemtype = nullableArrayType.ofType as IntrospectionNamedTypeRef;
+
+    expect(nullableArrayType.kind).toEqual(TypeKind.LIST);
+    expect(nullableItemtype.kind).toEqual(TypeKind.SCALAR);
+    expect(nullableItemtype.name).toEqual("String");
+  });
+
+  it("should generate nullable element nonnull array with nullable option 'item'", async () => {
+    const nonnullArrayWithNullableItemField = sampleObjectType.fields.find(
+      field => field.name === "nonnullArrayWithNullableItemField",
+    )!;
+    const nonNullArrayType = nonnullArrayWithNullableItemField.type as IntrospectionNonNullTypeRef;
+    const arrayType = nonNullArrayType.ofType as IntrospectionListTypeRef;
+    const elementType = arrayType.ofType as IntrospectionNamedTypeRef;
+
+    expect(nonNullArrayType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayType.kind).toEqual(TypeKind.LIST);
+    expect(elementType.kind).toEqual(TypeKind.SCALAR);
+    expect(elementType.name).toEqual("String");
   });
 
   it("should generate field with overwritten name from decorator option", async () => {

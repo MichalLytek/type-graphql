@@ -190,6 +190,16 @@ describe("Resolvers", () => {
           return [];
         }
 
+        @Query(itemType => [String], { nullable: "items" })
+        explicitNullableItemArrayQuery(): any {
+          return [];
+        }
+
+        @Query(itemType => [String], { nullable: "itemsAndList" })
+        explicitNullableArrayWithNullableItemsQuery(): any {
+          return [];
+        }
+
         @Query(returns => String)
         async promiseStringQuery(): Promise<string> {
           return "promiseStringQuery";
@@ -719,6 +729,30 @@ describe("Resolvers", () => {
         const listType = type.ofType as IntrospectionListTypeRef;
         const nonNullItemType = listType.ofType as IntrospectionNonNullTypeRef;
         const itemType = nonNullItemType.ofType as IntrospectionNamedTypeRef;
+
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
+        expect(itemType.name).toEqual("String");
+      });
+
+      it("should generate explicit array of nullable string return type for query", async () => {
+        const explicitNullableItemArrayQuery = getQuery("explicitNullableItemArrayQuery");
+        const type = explicitNullableItemArrayQuery.type as IntrospectionNonNullTypeRef;
+        const listType = type.ofType as IntrospectionListTypeRef;
+        const itemType = listType.ofType as IntrospectionNamedTypeRef;
+
+        expect(type.kind).toEqual(TypeKind.NON_NULL);
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
+        expect(itemType.name).toEqual("String");
+      });
+
+      it("should generate explicit nullable array of nullalbe string return type for query", async () => {
+        const explicitNullableArrayWithNullableItemsQuery = getQuery(
+          "explicitNullableArrayWithNullableItemsQuery",
+        );
+        const listType = explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
+        const itemType = listType.ofType as IntrospectionNamedTypeRef;
 
         expect(listType.kind).toEqual(TypeKind.LIST);
         expect(itemType.kind).toEqual(TypeKind.SCALAR);

@@ -8,7 +8,7 @@ import {
   GraphQLBoolean,
 } from "graphql";
 
-import { TypeOptions } from "../decorators/types";
+import { TypeOptions, NullableListOptions } from "../decorators/types";
 import { GraphQLTimestamp } from "../scalars/timestamp";
 import { GraphQLISODateTime } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";
@@ -42,7 +42,13 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
 ): T {
   let gqlType: GraphQLType = type;
   if (typeOptions.array) {
-    gqlType = new GraphQLList(new GraphQLNonNull(gqlType));
+    if (typeOptions.nullable === "items") {
+      gqlType = new GraphQLNonNull(new GraphQLList(gqlType));
+    } else if (typeOptions.nullable === "itemsAndList") {
+      gqlType = new GraphQLList(gqlType);
+    } else {
+      gqlType = new GraphQLList(GraphQLNonNull(gqlType));
+    }
   }
   if (!typeOptions.nullable && typeOptions.defaultValue === undefined) {
     gqlType = new GraphQLNonNull(gqlType);
