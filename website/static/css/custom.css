@@ -1,9 +1,12 @@
 /* your custom css */
 
 @import "./prism-theme.css";
-
 * {
   box-sizing: border-box;
+}
+
+article a {
+  text-decoration: underline;
 }
 
 .mainContainer {
