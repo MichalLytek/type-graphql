@@ -44,7 +44,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   @FieldResolver()
   ratingsCount(
     @Root() recipe: Recipe,
-    @Arg("minRate", type => Int, { nullable: true, defaultValue: 0.0 }) minRate: number,
+    @Arg("minRate", type => Int, { defaultValue: 0.0 }) minRate: number,
   ): number {
     return recipe.ratings.filter(rating => rating >= minRate).length;
   }

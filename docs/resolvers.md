@@ -2,7 +2,7 @@
 title: Resolvers
 ---
 
-Besides [declaring GraphQL's object types](./types-and-fields.md), TypeGraphQL allows to create queries, mutations and field resolvers in an easy way - like a normal class methods, similar to REST controllers in frameworks like Java's `Spring`, .NET `Web API` or TypeScript's [routing-controllers](https://github.com/typestack/routing-controllers).
+Besides [declaring GraphQL's object types](./types-and-fields.md), TypeGraphQL allows to create queries, mutations and field resolvers in an easy way - like a normal class methods, similar to REST controllers in frameworks like Java's `Spring`, .NET `Web API` or TypeScript's [`routing-controllers`](https://github.com/typestack/routing-controllers).
 
 ## Queries and mutations
 
@@ -54,7 +54,7 @@ class RecipeResolver {
 ### Arguments
 Usually queries have some arguments - it might be an id of the resource, the search phrase or pagination settings. TypeGraphQL allows you to define the arguments in two ways.
 
-First is the inline method using `@Arg()` decorator. The drawback is the need of repeating argument name (due to a reflection system limitation) in the decorator parameter.
+First is the inline method using `@Arg()` decorator. The drawback is the need of repeating argument name (due to a reflection system limitation) in the decorator parameter. As you can see below, you can also pass a `defaultValue` options that will be reflected in the GraphQL schema.
 ```typescript
 @Resolver()
 class RecipeResolver {
@@ -82,17 +82,19 @@ class GetRecipesArgs {
   title?: string;
 }
 ```
-You can define default values for optional fields in the `@field()` decorator (it will automatically make the field nullable for you). Or set a property initializer for fields and `type-graphql` will set it as a default value and make the field nullable.
-Also, this way of declaring arguments allows you to perform validation.  You can find more details about this feature in [the validation docs](./validation.md).
+
+You can define default values for optional fields in the `@Field()` decorator using a `defaultValue` option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.
+
+Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in [the validation docs](./validation.md). You can also define a helper fields and methods for your args or input class.
 
 ```typescript
 @ArgsType()
 class GetRecipesArgs {
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int, { defaultValue: 0 })
   @Min(0)
-  skip = 0;
+  skip: number;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   @Min(1) @Max(50)
   take = 25;
 
@@ -126,7 +128,7 @@ class RecipeResolver {
 This declarations will result in the following part of the schema in SDL:
 ```graphql
 type Query {
-  recipes(skip: Int, take: Int, title: String): [Recipe!]
+  recipes(skip: Int = 0, take: Int = 25, title: String): [Recipe!]
 }
 ```
 

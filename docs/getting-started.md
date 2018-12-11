@@ -120,11 +120,11 @@ class NewRecipeDataInput {
 
 @ArgsType()
 class RecipesArgs {
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   @Min(0)
   skip: number = 0;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   @Min(1) @Max(50)
   take: number = 25;
 }
@@ -159,7 +159,7 @@ input NewRecipeInput {
 }
 type Query {
   recipe(id: ID!): Recipe
-  recipes(skip: Int, take: Int): [Recipe!]!
+  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
 }
 type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!

@@ -50,7 +50,7 @@ For simple types (like `string` or `boolean`) it's enough but unfortunately, due
 
 Why function syntax, not simple `{ type: Rate }` config object? Because this way we solve problems with circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to save some keystrokes but it might be less readable for others.
 
-For nullable properties like `averageRating` (it might be not defined when recipe has no ratings yet), we mark the class property as optional with `?:` operator and also have to pass `{ nullable: true }` decorator parameter. Be aware that when you declare your type as `string | null`, you need to explicitly provide the type to the `@Field` decorator.
+For nullable properties like `averageRating` (it might be not defined when recipe has no ratings yet), we mark the class property as optional with `?:` operator and also have to pass `{ nullable: true }` decorator parameter. Be aware that when you declare your type as a nullable union (e.g. `string | null`), you need to explicitly provide the type to the `@Field` decorator.
 
 In the config object we can also provide `description` and `deprecationReason` for GraphQL schema purposes.
 
