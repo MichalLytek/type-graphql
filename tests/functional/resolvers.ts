@@ -495,38 +495,6 @@ describe("Resolvers", () => {
         expect(inheritDefaultFieldType.kind).toEqual(TypeKind.SCALAR);
         expect(inheritDefaultFieldType.name).toEqual("String");
       });
-
-      it("should throw error when defaultValue in decorator doesn't match implicit defaultValue in input type", async () => {
-        expect.assertions(7);
-
-        @InputType()
-        class InputWithDefaultField {
-          @Field({ defaultValue: "explicitDefaultValue" })
-          twoDefaultValuesField: string = "implicitDefaultValue";
-        }
-
-        try {
-          @Resolver()
-          class SampleResolver {
-            @Query(() => String)
-            sampleQuery(@Arg("inputArg") inputArg: InputWithDefaultField): string {
-              return "argQuery";
-            }
-          }
-          await buildSchema({
-            resolvers: [SampleResolver],
-          });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
-          const error = err as ConflictingDefaultValuesError;
-          expect(error.message).toContain("conflicting default values");
-          expect(error.message).toContain("InputWithDefaultField");
-          expect(error.message).toContain("twoDefaultValuesField");
-          expect(error.message).toContain("implicitDefaultValue");
-          expect(error.message).toContain("explicitDefaultValue");
-        }
-      });
     });
 
     describe("Args object", () => {
@@ -980,7 +948,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when declared default values are not equal ", async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         try {
           @InputType()
@@ -1001,6 +969,7 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(Error);
           expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
           const error = err as ConflictingDefaultValuesError;
+          expect(error.message).toContain("conflicting default values");
           expect(error.message).toContain("inputField");
           expect(error.message).toContain("SampleInput");
           expect(error.message).toContain("is not equal");
