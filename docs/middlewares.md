@@ -98,7 +98,7 @@ But remember to call this middleware with argument, e.g. `NumberInterceptor(3.0)
 Middlewares can also catch errors that were thrown during execution. This way you can easily log them and even filter what can't be returned to user:
 
 ```typescript
-export const ErrorInterceptor: MiddlewareFn<any> = ({ context, info }, next) => {
+export const ErrorInterceptor: MiddlewareFn<any> = async ({ context, info }, next) => {
   try {
     return await next();
   } catch (err) {
