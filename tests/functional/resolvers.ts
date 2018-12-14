@@ -485,7 +485,7 @@ describe("Resolvers", () => {
         expect(implicitDefaultValueStringFieldType.name).toEqual("String");
       });
 
-      it.only("should inherit field with defaultValue from parent", async () => {
+      it("should inherit field with defaultValue from parent", async () => {
         const inheritDefaultField = sampleInputChildType.inputFields.find(
           arg => arg.name === "inheritDefaultField",
         )!;
@@ -976,6 +976,38 @@ describe("Resolvers", () => {
           expect(error.message).toContain("explicit type");
           expect(error.message).toContain("SampleResolver");
           expect(error.message).toContain("independentField");
+        }
+      });
+
+      it("should throw error when declared default values are not equal ", async () => {
+        expect.assertions(9);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "decoratorDefaultValue" })
+            inputField: string = "initializerDefaultValue";
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
+          const error = err as ConflictingDefaultValuesError;
+          expect(error.message).toContain("inputField");
+          expect(error.message).toContain("SampleInput");
+          expect(error.message).toContain("is not equal");
+          expect(error.message).toContain("decorator");
+          expect(error.message).toContain("decoratorDefaultValue");
+          expect(error.message).toContain("initializer");
+          expect(error.message).toContain("initializerDefaultValue");
         }
       });
     });
