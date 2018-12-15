@@ -100,7 +100,7 @@ Be aware that with some `tsconfig.json` settings you might receive `[ts] Return 
 
 This factory should take a parameter that we can use to generate queries/mutations names, as well as the type that we would return from the resolvers:
 ```typescript
-function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   abstract class BaseResolver {}
 
   return BaseResolver;
@@ -109,7 +109,7 @@ function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T
 
 It's very important to mark the `BaseResolver` class using `@Resolver` decorator with `{ isAbstract: true }` option that will prevent throwing error due to registering multiple queries/mutations with the same name.
 ```typescript
-function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {}
 
@@ -119,7 +119,7 @@ function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T
 
 Then we can implement the resolvers methods in the same way as always. The only difference is that we can use `name` decorator option for `@Query`, `@Mutation` and `@Subscription` decorators to overwrite the name that will be emitted in schema:
 ```typescript
-function createBaseResolver<T extends Function>(suffix: string, objectTypeCls: T) {
+function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {
     protected items: T[] = [];
