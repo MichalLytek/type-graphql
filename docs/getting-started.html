@@ -132,11 +132,11 @@ The detailed rules when and why we declare <code>returns =&gt; Recipe</code> fun
 
 @<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">RecipesArgs</span> <span class="token punctuation">{</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
   @<span class="token function">Min</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
   skip<span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
   @<span class="token function">Min</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> @<span class="token function">Max</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
   take<span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -167,7 +167,7 @@ input NewRecipeInput <span class="token punctuation">{</span>
 <span class="token punctuation">}</span>
 type Query <span class="token punctuation">{</span>
   recipe<span class="token punctuation">(</span><span class="token attr-name">id</span><span class="token punctuation">:</span> ID<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Recipe
-  recipes<span class="token punctuation">(</span><span class="token attr-name">skip</span><span class="token punctuation">:</span> Int<span class="token punctuation">,</span> <span class="token attr-name">take</span><span class="token punctuation">:</span> Int<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Recipe<span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
+  recipes<span class="token punctuation">(</span><span class="token attr-name">skip</span><span class="token punctuation">:</span> Int <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token attr-name">take</span><span class="token punctuation">:</span> Int <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Recipe<span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
 <span class="token punctuation">}</span>
 type Mutation <span class="token punctuation">{</span>
   addRecipe<span class="token punctuation">(</span><span class="token attr-name">newRecipeData</span><span class="token punctuation">:</span> NewRecipeInput<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Recipe<span class="token operator">!</span>
