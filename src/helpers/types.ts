@@ -44,7 +44,7 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   if (typeOptions.array) {
     gqlType = new GraphQLList(new GraphQLNonNull(gqlType));
   }
-  if (!typeOptions.nullable) {
+  if (!typeOptions.nullable && typeOptions.defaultValue === undefined) {
     gqlType = new GraphQLNonNull(gqlType);
   }
   return gqlType as T;

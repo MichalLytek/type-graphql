@@ -51,10 +51,10 @@ While creating GraphQL API, it's a common pattern to have pagination args in res
 ```typescript
 @ArgsType()
 class PaginationArgs {
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   skip: number = 0;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   take: number = 25;
 }
 ```
@@ -63,7 +63,7 @@ and then reuse it everywhere:
 ```typescript
 @ArgsType()
 class GetTodosArgs extends PaginationArgs {
-  @Field({ nullable: false })
+  @Field()
   onlyCompleted: boolean = false;
 }
 ```
@@ -83,7 +83,7 @@ class Student extends Person {
 }
 ```
 
-Note that both the subclass and the parent class must be decorated with the same type of decorator, like `@ObjectType()` in the example `Person -> Student` above. Mixing decorator types across parent and child classes is prohibited and might result in schema building error --- you can't e.g decorate the subclass with `@ObjectType()` and the parent with `@InputType()`.
+Note that both the subclass and the parent class must be decorated with the same type of decorator, like `@ObjectType()` in the example `Person -> Student` above. Mixing decorator types across parent and child classes is prohibited and might result in schema building error - you can't e.g decorate the subclass with `@ObjectType()` and the parent with `@InputType()`.
 
 ## Resolvers inheritance
 The special kind of inheritance in TypeGraphQL is a resolver classes inheritance. This pattern allows you to e.g. create a base CRUD resolver class for your resource/entity, so you don't have to repeat the common boilerplate code all the time.

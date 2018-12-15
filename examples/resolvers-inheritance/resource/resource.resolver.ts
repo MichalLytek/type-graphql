@@ -30,10 +30,10 @@ export abstract class BaseResourceResolver<TResource extends Resource> {
 
 @ArgsType()
 export class GetAllArgs {
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   skip: number = 0;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int)
   take: number = 10;
 }
 

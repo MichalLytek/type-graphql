@@ -16,6 +16,7 @@ import {
   ValidationContext,
   visit,
   visitWithTypeInfo,
+  IntrospectionInputObjectType,
 } from "graphql";
 import * as path from "path";
 import { plainToClass } from "class-transformer";
@@ -43,6 +44,7 @@ import {
   PubSub,
   PubSubEngine,
   ClassType,
+  ConflictingDefaultValuesError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
@@ -64,6 +66,20 @@ describe("Resolvers", () => {
       class SampleInput {
         @Field()
         field: string;
+        @Field({ defaultValue: "defaultStringFieldDefaultValue" })
+        defaultStringField: string;
+        @Field()
+        implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
+        @Field()
+        inheritDefaultField: string = "inheritDefaultFieldValue";
+      }
+
+      @InputType()
+      class SampleInputChild extends SampleInput {
+        @Field({ defaultValue: "defaultValueOverwritten" })
+        defaultStringField: string;
+        @Field()
+        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
@@ -74,6 +90,20 @@ describe("Resolvers", () => {
         numberArg: number;
         @Field()
         inputObjectArg: SampleInput;
+        @Field({ defaultValue: "defaultStringArgDefaultValue" })
+        defaultStringArg: string;
+        @Field()
+        implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
+        @Field()
+        inheritDefaultArg: string = "inheritDefaultArgValue";
+      }
+
+      @ArgsType()
+      class SampleArgsChild extends SampleArgs {
+        @Field({ defaultValue: "defaultValueOverwritten" })
+        defaultStringArg: string;
+        @Field()
+        implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
       }
 
       @ObjectType()
@@ -100,9 +130,12 @@ describe("Resolvers", () => {
           @Arg("booleanArg") booleanArg: boolean,
           @Arg("numberArg") numberArg: number,
           @Arg("inputArg") inputArg: SampleInput,
+          @Arg("inputChildArg") inputChildArg: SampleInputChild,
           @Arg("explicitNullableArg", type => String, { nullable: true }) explicitNullableArg: any,
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
+          @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
+          defaultStringArg: string,
           @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
         ): any {
           return "argMethodField";
@@ -192,6 +225,11 @@ describe("Resolvers", () => {
           return "argAndArgsQuery";
         }
 
+        @Query(returns => String)
+        argsInheritanceQuery(@Args() args: SampleArgsChild): any {
+          return "argsInheritanceQuery";
+        }
+
         @Mutation()
         emptyMutation(): boolean {
           return true;
@@ -270,7 +308,7 @@ describe("Resolvers", () => {
         const argMethodFieldInnerType = argMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(argMethodField.name).toEqual("argMethodField");
-        expect(argMethodField.args).toHaveLength(8);
+        expect(argMethodField.args).toHaveLength(10);
         expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
         expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
@@ -375,6 +413,88 @@ describe("Resolvers", () => {
         expect(inputArgInnerType.kind).toEqual(TypeKind.INPUT_OBJECT);
         expect(inputArgInnerType.name).toEqual("SampleInput");
       });
+
+      it("should generate nullable string arg type with defaultValue for object field method", async () => {
+        const inputArg = argMethodField.args.find(arg => arg.name === "defaultStringArg")!;
+        const defaultValueStringArgType = inputArg.type as IntrospectionNamedTypeRef;
+
+        expect(inputArg.defaultValue).toBe('"defaultStringArgDefaultValue"');
+        expect(defaultValueStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultValueStringArgType.name).toEqual("String");
+      });
+    });
+
+    describe("Input object", () => {
+      let sampleInputType: IntrospectionInputObjectType;
+      let sampleInputChildType: IntrospectionInputObjectType;
+
+      beforeAll(() => {
+        sampleInputType = schemaIntrospection.types.find(
+          field => field.name === "SampleInput",
+        )! as IntrospectionInputObjectType;
+        sampleInputChildType = schemaIntrospection.types.find(
+          field => field.name === "SampleInputChild",
+        )! as IntrospectionInputObjectType;
+      });
+
+      it("should generate nullable string arg type with defaultValue for input object field", async () => {
+        const defaultValueStringField = sampleInputType.inputFields.find(
+          arg => arg.name === "defaultStringField",
+        )!;
+        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(defaultValueStringField.defaultValue).toBe('"defaultStringFieldDefaultValue"');
+        expect(defaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should generate nullable string arg type with implicit defaultValue for input object field", async () => {
+        const implicitDefaultValueStringField = sampleInputType.inputFields.find(
+          arg => arg.name === "implicitDefaultStringField",
+        )!;
+        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(implicitDefaultValueStringField.defaultValue).toBe(
+          '"implicitDefaultStringFieldDefaultValue"',
+        );
+        expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(implicitDefaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should overwrite defaultValue in child input object", async () => {
+        const defaultValueStringField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "defaultStringField",
+        )!;
+        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(defaultValueStringField.defaultValue).toBe('"defaultValueOverwritten"');
+        expect(defaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should overwrite implicit defaultValue in child input object", async () => {
+        const implicitDefaultValueStringField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "implicitDefaultStringField",
+        )!;
+        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+
+        expect(implicitDefaultValueStringField.defaultValue).toBe(
+          '"implicitDefaultValueOverwritten"',
+        );
+        expect(implicitDefaultValueStringFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(implicitDefaultValueStringFieldType.name).toEqual("String");
+      });
+
+      it("should inherit field with defaultValue from parent", async () => {
+        const inheritDefaultField = sampleInputChildType.inputFields.find(
+          arg => arg.name === "inheritDefaultField",
+        )!;
+        const inheritDefaultFieldType = inheritDefaultField.type as IntrospectionNamedTypeRef;
+
+        expect(inheritDefaultField.defaultValue).toBe('"inheritDefaultFieldValue"');
+        expect(inheritDefaultFieldType.kind).toEqual(TypeKind.SCALAR);
+        expect(inheritDefaultFieldType.name).toEqual("String");
+      });
     });
 
     describe("Args object", () => {
@@ -387,6 +507,67 @@ describe("Resolvers", () => {
         expect(stringArg.name).toEqual("stringArg");
         expect(stringArgInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(stringArgInnerType.name).toEqual("String");
+      });
+
+      it("should generate nullable type arg with defaultValue from args object field", async () => {
+        const argsQuery = getQuery("argsQuery");
+        const defaultStringArg = argsQuery.args.find(arg => arg.name === "defaultStringArg")!;
+        const defaultStringArgType = defaultStringArg.type as IntrospectionNamedTypeRef;
+
+        expect(defaultStringArg.name).toEqual("defaultStringArg");
+        expect(defaultStringArg.defaultValue).toEqual('"defaultStringArgDefaultValue"');
+        expect(defaultStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultStringArgType.name).toEqual("String");
+      });
+
+      it("should overwrite defaultValue in child args object field", async () => {
+        const argsQuery = getQuery("argsInheritanceQuery");
+        const defaultStringArg = argsQuery.args.find(arg => arg.name === "defaultStringArg")!;
+        const defaultStringArgType = defaultStringArg.type as IntrospectionNamedTypeRef;
+
+        expect(defaultStringArg.name).toEqual("defaultStringArg");
+        expect(defaultStringArg.defaultValue).toEqual('"defaultValueOverwritten"');
+        expect(defaultStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(defaultStringArgType.name).toEqual("String");
+      });
+
+      it("should overwrite implicit defaultValue in child args object field", async () => {
+        const argsQuery = getQuery("argsInheritanceQuery");
+        const implicitDefaultStringArg = argsQuery.args.find(
+          arg => arg.name === "implicitDefaultStringArg",
+        )!;
+        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+
+        expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
+        expect(implicitDefaultStringArg.defaultValue).toEqual('"implicitDefaultValueOverwritten"');
+        expect(implicitDefaultStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(implicitDefaultStringArgType.name).toEqual("String");
+      });
+
+      it("should inherit defaultValue field from parent args object field", async () => {
+        const argsQuery = getQuery("argsInheritanceQuery");
+        const inheritDefaultArg = argsQuery.args.find(arg => arg.name === "inheritDefaultArg")!;
+        const inheritDefaultArgType = inheritDefaultArg.type as IntrospectionNamedTypeRef;
+
+        expect(inheritDefaultArg.name).toEqual("inheritDefaultArg");
+        expect(inheritDefaultArg.defaultValue).toEqual('"inheritDefaultArgValue"');
+        expect(inheritDefaultArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(inheritDefaultArgType.name).toEqual("String");
+      });
+
+      it("should generate nullable type arg with implicit defaultValue from args object field", async () => {
+        const argsQuery = getQuery("argsQuery");
+        const implicitDefaultStringArg = argsQuery.args.find(
+          arg => arg.name === "implicitDefaultStringArg",
+        )!;
+        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+
+        expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
+        expect(implicitDefaultStringArg.defaultValue).toEqual(
+          '"implicitDefaultStringArgDefaultValue"',
+        );
+        expect(implicitDefaultStringArgType.kind).toEqual(TypeKind.SCALAR);
+        expect(implicitDefaultStringArgType.name).toEqual("String");
       });
 
       it("should generate nullable type arg from args object field", async () => {
@@ -588,14 +769,14 @@ describe("Resolvers", () => {
         const argsQuery = getQuery("argsQuery");
 
         expect(argsQuery.name).toEqual("argsQuery");
-        expect(argsQuery.args).toHaveLength(3);
+        expect(argsQuery.args).toHaveLength(6);
       });
 
       it("should generate proper definition for query with both @Arg and @Args", async () => {
         const argAndArgsQuery = getQuery("argAndArgsQuery");
 
         expect(argAndArgsQuery.name).toEqual("argAndArgsQuery");
-        expect(argAndArgsQuery.args).toHaveLength(4);
+        expect(argAndArgsQuery.args).toHaveLength(7);
       });
     });
 
@@ -763,6 +944,39 @@ describe("Resolvers", () => {
           expect(error.message).toContain("explicit type");
           expect(error.message).toContain("SampleResolver");
           expect(error.message).toContain("independentField");
+        }
+      });
+
+      it("should throw error when declared default values are not equal ", async () => {
+        expect.assertions(10);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "decoratorDefaultValue" })
+            inputField: string = "initializerDefaultValue";
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
+          const error = err as ConflictingDefaultValuesError;
+          expect(error.message).toContain("conflicting default values");
+          expect(error.message).toContain("inputField");
+          expect(error.message).toContain("SampleInput");
+          expect(error.message).toContain("is not equal");
+          expect(error.message).toContain("decorator");
+          expect(error.message).toContain("decoratorDefaultValue");
+          expect(error.message).toContain("initializer");
+          expect(error.message).toContain("initializerDefaultValue");
         }
       });
     });
