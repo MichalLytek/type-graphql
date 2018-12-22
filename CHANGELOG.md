@@ -1,6 +1,9 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
+<!-- here goes all the unreleased changes descriptions -->
+
+## v0.16.0
 ### Features
 - add support for default values in schema (#203)
 - add support for lists with nullable items (#211)
