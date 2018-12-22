@@ -22,6 +22,7 @@ import * as path from "path";
 import { plainToClass } from "class-transformer";
 import { fieldConfigEstimator, simpleEstimator } from "graphql-query-complexity";
 import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
+
 import {
   ObjectType,
   Field,
@@ -45,6 +46,8 @@ import {
   PubSubEngine,
   ClassType,
   ConflictingDefaultValuesError,
+  ConflictingDefaultWithNullableError,
+  WrongNullableListOptionError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
@@ -981,7 +984,7 @@ describe("Resolvers", () => {
         }
       });
 
-      it("should throw error when declared default values are not equal ", async () => {
+      it("should throw error when declared default values are not equal", async () => {
         expect.assertions(10);
 
         try {
@@ -1011,6 +1014,68 @@ describe("Resolvers", () => {
           expect(error.message).toContain("decoratorDefaultValue");
           expect(error.message).toContain("initializer");
           expect(error.message).toContain("initializerDefaultValue");
+        }
+      });
+
+      it("should throw error when default value set with non-nullable option", async () => {
+        expect.assertions(8);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "stringDefaultValue", nullable: false })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(ConflictingDefaultWithNullableError);
+          const error = err as ConflictingDefaultWithNullableError;
+          expect(error.message).toContain("cannot combine");
+          expect(error.message).toContain("default value");
+          expect(error.message).toContain("stringDefaultValue");
+          expect(error.message).toContain("nullable");
+          expect(error.message).toContain("false");
+          expect(error.message).toContain("inputField");
+          // expect(error.message).toContain("SampleInput");
+        }
+      });
+
+      it("should throw error when list nullable option is combined with non-list type", async () => {
+        expect.assertions(6);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ nullable: "items" })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(WrongNullableListOptionError);
+          const error = err as WrongNullableListOptionError;
+          expect(error.message).toContain("Wrong nullable option");
+          expect(error.message).toContain("nullable");
+          expect(error.message).toContain("items");
+          expect(error.message).toContain("inputField");
+          // expect(error.message).toContain("SampleInput");
         }
       });
     });

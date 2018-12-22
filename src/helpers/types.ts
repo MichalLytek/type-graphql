@@ -8,10 +8,11 @@ import {
   GraphQLBoolean,
 } from "graphql";
 
-import { TypeOptions, NullableListOptions } from "../decorators/types";
+import { TypeOptions } from "../decorators/types";
 import { GraphQLTimestamp } from "../scalars/timestamp";
 import { GraphQLISODateTime } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";
+import { WrongNullableListOptionError, ConflictingDefaultWithNullableError } from "../errors";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
@@ -37,20 +38,39 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
 }
 
 export function wrapWithTypeOptions<T extends GraphQLType>(
+  typeOwnerName: string,
   type: T,
   typeOptions: TypeOptions = {},
 ): T {
+  if (
+    !typeOptions.array &&
+    (typeOptions.nullable === "items" || typeOptions.nullable === "itemsAndList")
+  ) {
+    throw new WrongNullableListOptionError(typeOwnerName, typeOptions.nullable);
+  }
+  if (
+    typeOptions.defaultValue !== undefined &&
+    (typeOptions.nullable === false || typeOptions.nullable === "items")
+  ) {
+    throw new ConflictingDefaultWithNullableError(
+      typeOwnerName,
+      typeOptions.defaultValue,
+      typeOptions.nullable,
+    );
+  }
+
   let gqlType: GraphQLType = type;
   if (typeOptions.array) {
-    if (typeOptions.nullable === "items") {
-      gqlType = new GraphQLNonNull(new GraphQLList(gqlType));
-    } else if (typeOptions.nullable === "itemsAndList") {
+    if (typeOptions.nullable === "items" || typeOptions.nullable === "itemsAndList") {
       gqlType = new GraphQLList(gqlType);
     } else {
-      gqlType = new GraphQLList(GraphQLNonNull(gqlType));
+      gqlType = new GraphQLList(new GraphQLNonNull(gqlType));
     }
   }
-  if (!typeOptions.nullable && typeOptions.defaultValue === undefined) {
+  if (
+    typeOptions.defaultValue === undefined &&
+    (!typeOptions.nullable || typeOptions.nullable === "items")
+  ) {
     gqlType = new GraphQLNonNull(gqlType);
   }
   return gqlType as T;
