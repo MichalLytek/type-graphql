@@ -20,9 +20,12 @@ export type SubscriptionTopicFunc = (
 ) => string | string[];
 
 export interface DecoratorTypeOptions {
-  nullable?: boolean;
+  nullable?: boolean | NullableListOptions;
   defaultValue?: any;
 }
+
+export type NullableListOptions = "items" | "itemsAndList";
+
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
 }

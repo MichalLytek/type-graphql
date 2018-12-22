@@ -22,6 +22,7 @@ import * as path from "path";
 import { plainToClass } from "class-transformer";
 import { fieldConfigEstimator, simpleEstimator } from "graphql-query-complexity";
 import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
+
 import {
   ObjectType,
   Field,
@@ -45,6 +46,8 @@ import {
   PubSubEngine,
   ClassType,
   ConflictingDefaultValuesError,
+  ConflictingDefaultWithNullableError,
+  WrongNullableListOptionError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { IOCContainer } from "../../src/utils/container";
@@ -187,6 +190,16 @@ describe("Resolvers", () => {
 
         @Query(itemType => [String])
         explicitStringArrayQuery(): any {
+          return [];
+        }
+
+        @Query(itemType => [String], { nullable: "items" })
+        explicitNullableItemArrayQuery(): any {
+          return [];
+        }
+
+        @Query(itemType => [String], { nullable: "itemsAndList" })
+        explicitNullableArrayWithNullableItemsQuery(): any {
           return [];
         }
 
@@ -725,6 +738,30 @@ describe("Resolvers", () => {
         expect(itemType.name).toEqual("String");
       });
 
+      it("should generate explicit array of nullable string return type for query", async () => {
+        const explicitNullableItemArrayQuery = getQuery("explicitNullableItemArrayQuery");
+        const type = explicitNullableItemArrayQuery.type as IntrospectionNonNullTypeRef;
+        const listType = type.ofType as IntrospectionListTypeRef;
+        const itemType = listType.ofType as IntrospectionNamedTypeRef;
+
+        expect(type.kind).toEqual(TypeKind.NON_NULL);
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
+        expect(itemType.name).toEqual("String");
+      });
+
+      it("should generate explicit nullable array of nullalbe string return type for query", async () => {
+        const explicitNullableArrayWithNullableItemsQuery = getQuery(
+          "explicitNullableArrayWithNullableItemsQuery",
+        );
+        const listType = explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
+        const itemType = listType.ofType as IntrospectionNamedTypeRef;
+
+        expect(listType.kind).toEqual(TypeKind.LIST);
+        expect(itemType.kind).toEqual(TypeKind.SCALAR);
+        expect(itemType.name).toEqual("String");
+      });
+
       it("should generate string return type for query returning Promise", async () => {
         const promiseStringQuery = getQuery("promiseStringQuery");
         const promiseStringQueryType = promiseStringQuery.type as IntrospectionNonNullTypeRef;
@@ -947,7 +984,7 @@ describe("Resolvers", () => {
         }
       });
 
-      it("should throw error when declared default values are not equal ", async () => {
+      it("should throw error when declared default values are not equal", async () => {
         expect.assertions(10);
 
         try {
@@ -977,6 +1014,68 @@ describe("Resolvers", () => {
           expect(error.message).toContain("decoratorDefaultValue");
           expect(error.message).toContain("initializer");
           expect(error.message).toContain("initializerDefaultValue");
+        }
+      });
+
+      it("should throw error when default value set with non-nullable option", async () => {
+        expect.assertions(8);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "stringDefaultValue", nullable: false })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(ConflictingDefaultWithNullableError);
+          const error = err as ConflictingDefaultWithNullableError;
+          expect(error.message).toContain("cannot combine");
+          expect(error.message).toContain("default value");
+          expect(error.message).toContain("stringDefaultValue");
+          expect(error.message).toContain("nullable");
+          expect(error.message).toContain("false");
+          expect(error.message).toContain("inputField");
+          // expect(error.message).toContain("SampleInput");
+        }
+      });
+
+      it("should throw error when list nullable option is combined with non-list type", async () => {
+        expect.assertions(6);
+
+        try {
+          @InputType()
+          class SampleInput {
+            @Field({ nullable: "items" })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({ resolvers: [SampleResolver] });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(WrongNullableListOptionError);
+          const error = err as WrongNullableListOptionError;
+          expect(error.message).toContain("Wrong nullable option");
+          expect(error.message).toContain("nullable");
+          expect(error.message).toContain("items");
+          expect(error.message).toContain("inputField");
+          // expect(error.message).toContain("SampleInput");
         }
       });
     });

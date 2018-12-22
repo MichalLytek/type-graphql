@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features
 - add support for default values in schema (#203)
+- add support for lists with nullable items (#211)
 
 ## v0.15.0
 ### Features
