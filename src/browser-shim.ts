@@ -12,7 +12,7 @@ plugins: [
 ]
 */
 
-const dummyFn = () => void 0;
+const dummyFn = () => () => void 0;
 
 export const Arg = dummyFn;
 export const Args = dummyFn;
