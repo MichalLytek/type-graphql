@@ -4,6 +4,8 @@
 ### Features
 - add support for default values in schema (#203)
 - add support for lists with nullable items (#211)
+### Fixes
+- fix browser shim (compatibility with polyfills for decorator support)
 
 ## v0.15.0
 ### Features

@@ -13,24 +13,25 @@ plugins: [
 */
 
 const dummyFn = () => void 0;
+const dummyDecorator = () => dummyFn;
 
-export const Arg = dummyFn;
-export const Args = dummyFn;
-export const ArgsType = dummyFn;
-export const Authorized = dummyFn;
-export const Ctx = dummyFn;
+export const Arg = dummyDecorator;
+export const Args = dummyDecorator;
+export const ArgsType = dummyDecorator;
+export const Authorized = dummyDecorator;
+export const Ctx = dummyDecorator;
 export const registerEnumType = dummyFn;
-export const Field = dummyFn;
-export const FieldResolver = dummyFn;
-export const Info = dummyFn;
-export const InputType = dummyFn;
-export const InterfaceType = dummyFn;
-export const Mutation = dummyFn;
-export const ObjectType = dummyFn;
-export const PubSub = dummyFn;
-export const Query = dummyFn;
-export const Resolver = dummyFn;
-export const Root = dummyFn;
-export const Subscription = dummyFn;
+export const Field = dummyDecorator;
+export const FieldResolver = dummyDecorator;
+export const Info = dummyDecorator;
+export const InputType = dummyDecorator;
+export const InterfaceType = dummyDecorator;
+export const Mutation = dummyDecorator;
+export const ObjectType = dummyDecorator;
+export const PubSub = dummyDecorator;
+export const Query = dummyDecorator;
+export const Resolver = dummyDecorator;
+export const Root = dummyDecorator;
+export const Subscription = dummyDecorator;
 export const createUnionType = dummyFn;
-export const UseMiddleware = dummyFn;
+export const UseMiddleware = dummyDecorator;
