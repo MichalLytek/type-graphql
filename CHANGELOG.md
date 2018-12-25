@@ -1,7 +1,10 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- **Breaking Change**: change the default `PrintSchemaOptions` option `commentDescriptions` to false (no more `#` comments in SDL)
+- add support for passing `PrintSchemaOptions` in `buildSchema.emitSchemaFile` (e.g. `commentDescriptions: true` to restore previous behavior)
 
 ## v0.16.0
 ### Features

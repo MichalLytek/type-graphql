@@ -59,10 +59,14 @@ describe("Emitting schema definition file", () => {
     });
   });
 
-  function checkSchemaSDL() {
+  function checkSchemaSDL(commentPrefix: "#" | `"""` = `"""`) {
     expect(contentArg).toContain("THIS FILE WAS GENERATED");
     expect(contentArg).toContain("MyObject");
-    expect(contentArg).toContain("# Description test");
+    if (commentPrefix === `"""`) {
+      expect(contentArg).toContain(`"""Description test"""`);
+    } else {
+      expect(contentArg).toContain(`# Description test`);
+    }
   }
 
   describe("emitSchemaDefinitionFile", () => {
@@ -85,9 +89,9 @@ describe("Emitting schema definition file", () => {
     it("should generate schema SDL file on selected file path", async () => {
       await buildSchema({
         resolvers: [MyResolverClass],
-        emitSchemaFile: "testPath3",
+        emitSchemaFile: "testPath11",
       });
-      expect(pathArg).toEqual("testPath3");
+      expect(pathArg).toEqual("testPath11");
       checkSchemaSDL();
     });
 
@@ -100,15 +104,39 @@ describe("Emitting schema definition file", () => {
       expect(pathArg).toContain("schema.gql");
       checkSchemaSDL();
     });
+
+    it("should read EmitSchemaFileOptions and apply them in emit", async () => {
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: true,
+          path: "testPath12",
+        },
+      });
+      expect(pathArg).toEqual("testPath12");
+      checkSchemaSDL("#");
+    });
+
+    it("should read EmitSchemaFileOptions and set default path", async () => {
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: true,
+        },
+      });
+      expect(pathArg).toContain(process.cwd());
+      expect(pathArg).toContain("schema.gql");
+      checkSchemaSDL("#");
+    });
   });
 
   describe("buildSchemaSync", () => {
     it("should generate schema SDL file on selected file path", async () => {
       buildSchemaSync({
         resolvers: [MyResolverClass],
-        emitSchemaFile: "testPath4",
+        emitSchemaFile: "testPath21",
       });
-      expect(pathArg).toEqual("testPath4");
+      expect(pathArg).toEqual("testPath21");
       checkSchemaSDL();
     });
 
@@ -120,6 +148,30 @@ describe("Emitting schema definition file", () => {
       expect(pathArg).toContain(process.cwd());
       expect(pathArg).toContain("schema.gql");
       checkSchemaSDL();
+    });
+
+    it("should read EmitSchemaFileOptions and apply them in emit", async () => {
+      buildSchemaSync({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: true,
+          path: "testPath22",
+        },
+      });
+      expect(pathArg).toEqual("testPath22");
+      checkSchemaSDL("#");
+    });
+
+    it("should read EmitSchemaFileOptions and set default path", async () => {
+      buildSchemaSync({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: true,
+        },
+      });
+      expect(pathArg).toContain(process.cwd());
+      expect(pathArg).toContain("schema.gql");
+      checkSchemaSDL("#");
     });
   });
 });
