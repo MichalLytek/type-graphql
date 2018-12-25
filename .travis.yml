@@ -3,6 +3,7 @@ jobs:
     - stage: test
       language: node_js
       node_js:
+        - 11
         - 10
         - 8
         - 6
@@ -22,7 +23,7 @@ jobs:
         only:
           - master
       language: node_js
-      node_js: 8
+      node_js: 10
       install: true
       before_script:
         - chmod +x publish-website.sh
