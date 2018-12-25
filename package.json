@@ -101,9 +101,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run verify",
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "{src,tests,examples}/**/*.{ts,js}": [
+      "tslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "private": true
 }
