@@ -258,7 +258,6 @@ describe("Fields - schema", () => {
     expect(arrayItemFieldType.name).toEqual("String");
   });
 
-  // tslint:disable-next-line:max-line-length
   it("should generate nullable array field object type when declared using mongoose syntax", async () => {
     const nullableArrayFieldNew = sampleObjectType.fields.find(
       field => field.name === "nullableObjectArrayField",

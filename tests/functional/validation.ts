@@ -160,7 +160,6 @@ describe("Validation", () => {
       expect(validationError.validationErrors[0].property).toEqual("optionalField");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should pass input validation when arguments data without optional field is correct", async () => {
       const query = `query {
       sampleQuery(
@@ -175,7 +174,6 @@ describe("Validation", () => {
       expect(argsData).toEqual({ stringField: "12345", numberField: 5 });
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should pass input validation when arguments data with optional field is correct", async () => {
       const query = `query {
         sampleQuery(
@@ -359,7 +357,6 @@ describe("Validation", () => {
       expect(validationError.validationErrors[0].property).toEqual("field");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should throw validation error for incorrect args when applied local validation settings", async () => {
       getMetadataStorage().clear();
 
@@ -404,7 +401,6 @@ describe("Validation", () => {
       expect(validationError.validationErrors[0].property).toEqual("field");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should pass validation of incorrect args when applied local validation settings", async () => {
       getMetadataStorage().clear();
 
@@ -443,7 +439,6 @@ describe("Validation", () => {
       expect(localArgsData).toEqual({ field: "123456789" });
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should merge local validation settings with global one", async () => {
       getMetadataStorage().clear();
 

@@ -38,8 +38,9 @@ export function FieldResolver(
       });
       typeOptions = typeInfo.typeOptions;
       getType = typeInfo.getType;
+    } catch {
       // tslint:disable-next-line:no-empty
-    } catch {}
+    }
 
     getMetadataStorage().collectFieldResolverMetadata({
       kind: "external",

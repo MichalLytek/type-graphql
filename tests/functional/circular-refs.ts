@@ -43,7 +43,6 @@ describe("Circular references", () => {
     expect(circularRef2.kind).toEqual(TypeKind.OBJECT);
   });
 
-  // tslint:disable-next-line:max-line-length
   it("should throw error when not providing type function for circular type references", async () => {
     expect.assertions(6);
     getMetadataStorage().clear();

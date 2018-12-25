@@ -1,4 +1,3 @@
-// tslint:disable:max-line-length
 // tslint:disable:member-ordering
 import "reflect-metadata";
 import {
@@ -362,7 +361,6 @@ describe("Resolvers", () => {
         expect(numberArgInnerType.name).toEqual("Float");
       });
 
-      // tslint:disable-next-line:max-line-length
       it("should generate nullable string arg type for object field method when explicitly sets", async () => {
         const explicitNullableArg = argMethodField.args.find(
           arg => arg.name === "explicitNullableArg",
@@ -389,7 +387,6 @@ describe("Resolvers", () => {
         expect(stringArrayArgArrayItemType.name).toEqual("String");
       });
 
-      // tslint:disable-next-line:max-line-length
       it("should generate string array arg type for object field method when explicitly sets", async () => {
         const explicitArrayArg = argMethodField.args.find(arg => arg.name === "explicitArrayArg")!;
         const explicitArrayArgType = explicitArrayArg.type as IntrospectionNonNullTypeRef;

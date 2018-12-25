@@ -183,7 +183,6 @@ describe("Authorization", () => {
     });
 
     // TODO: check for wrong `@Authorized` usage
-    // tslint:disable-next-line:max-line-length
     // it("should throw error when `@Authorized` is used on args, input or interface class", async () => {
     // }
   });
@@ -365,7 +364,6 @@ describe("Authorization", () => {
       expect(error.path).toContain("authedField");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should throw ForbiddenError when guest accessing object field authed with roles", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -386,7 +384,6 @@ describe("Authorization", () => {
       expect(error.path).toContain("adminField");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should allow for access to authed object field when `authChecker` returns true", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -435,7 +432,6 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should allow for access to authed object field from resolver when access granted", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -473,7 +469,6 @@ describe("Authorization", () => {
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should pass resolver data to `authChecker` when checking for access to handler", async () => {
       let authCheckerResolverData: any;
       const localSchema = await buildSchema({

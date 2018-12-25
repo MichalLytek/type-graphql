@@ -271,7 +271,6 @@ describe("Interfaces and inheritance", () => {
       expect(ownExtendingField2.name).toEqual("Float");
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should generate object type implementing interface when extending object type", async () => {
       expect(sampleExtendingObject2Type).toBeDefined();
 
@@ -283,7 +282,6 @@ describe("Interfaces and inheritance", () => {
       expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
-    // tslint:disable-next-line:max-line-length
     it("should generate object type implicitly implementing mutliple interfaces correctly", async () => {
       expect(sampleMultiImplementingObjectType).toBeDefined();
       expect(sampleMultiImplementingObjectType.fields).toHaveLength(4);
