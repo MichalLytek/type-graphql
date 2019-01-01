@@ -4,39 +4,86 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Modern framework for GraphQL API in Node.js",
-    "authorization": "Authorization",
-    "bootstrap": "Bootstrapping",
-    "browser-usage": "Browser usage",
-    "complexity": "Query complexity",
-    "dependency-injection": "Dependency injection",
-    "emit-schema": "Emitting schema SDL",
-    "enums": "Enums",
-    "examples": "Examples",
-    "List of examples": "List of examples",
-    "faq": "Frequently Asked Questions",
-    "getting-started": "Getting started",
-    "interfaces-and-inheritance": "Interfaces and inheritance",
-    "introduction": "Introduction",
-    "What & Why": "What & Why",
-    "middlewares": "Middlewares and guards",
-    "README": "README",
-    "resolvers": "Resolvers",
-    "scalars": "Scalars",
-    "subscriptions": "Subscriptions",
-    "types-and-fields": "Types and fields",
-    "unions": "Unions",
-    "validation": "Arguments and inputs validation",
-    "Validation": "Validation",
-    "Docs": "Docs",
-    "Examples": "Examples",
-    "FAQ": "FAQ",
-    "Blog": "Blog",
-    "GitHub": "GitHub",
-    "Introduction": "Introduction",
-    "Beginner guides": "Beginner guides",
-    "Advanced guides": "Advanced guides",
-    "Features": "Features",
-    "Others": "Others"
+    "docs": {
+      "authorization": {
+        "title": "Authorization"
+      },
+      "bootstrap": {
+        "title": "Bootstrapping"
+      },
+      "browser-usage": {
+        "title": "Browser usage"
+      },
+      "complexity": {
+        "title": "Query complexity"
+      },
+      "dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "emit-schema": {
+        "title": "Emitting schema SDL"
+      },
+      "enums": {
+        "title": "Enums"
+      },
+      "examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions"
+      },
+      "getting-started": {
+        "title": "Getting started"
+      },
+      "interfaces-and-inheritance": {
+        "title": "Interfaces and inheritance"
+      },
+      "introduction": {
+        "title": "Introduction",
+        "sidebar_label": "What & Why"
+      },
+      "middlewares": {
+        "title": "Middlewares and guards"
+      },
+      "README": {
+        "title": "README"
+      },
+      "resolvers": {
+        "title": "Resolvers"
+      },
+      "scalars": {
+        "title": "Scalars"
+      },
+      "subscriptions": {
+        "title": "Subscriptions"
+      },
+      "types-and-fields": {
+        "title": "Types and fields"
+      },
+      "unions": {
+        "title": "Unions"
+      },
+      "validation": {
+        "title": "Arguments and inputs validation",
+        "sidebar_label": "Validation"
+      }
+    },
+    "links": {
+      "Docs": "Docs",
+      "Examples": "Examples",
+      "FAQ": "FAQ",
+      "Blog": "Blog",
+      "GitHub": "GitHub"
+    },
+    "categories": {
+      "Introduction": "Introduction",
+      "Beginner guides": "Beginner guides",
+      "Advanced guides": "Advanced guides",
+      "Features": "Features",
+      "Others": "Others",
+      "Examples": "Examples"
+    }
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",
