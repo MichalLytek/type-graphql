@@ -7,7 +7,7 @@ However, oftentimes clients want to get pushed updates from the server when data
 To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) package created by [Apollo GraphQL](https://www.apollographql.com/).
 
 ## Creating subscriptions
-Subscription resolvers are basically similar to [queries and mutation resolvers](./resolvers.md) but a little bit more complicated.
+Subscription resolvers are basically similar to [queries and mutation resolvers](resolvers.md) but a little bit more complicated.
 
 At first, we create normal class method as always, this time annotated with `@Subscription()` decorator.
 ```typescript
@@ -149,7 +149,7 @@ const schema = await buildSchema({
 ```
 
 ## Creating subscription server
-The [bootstrap guide](./bootstrap.md) and all the earlier examples used [`apollo-server`](https://github.com/apollographql/apollo-server) to create HTTP endpoint for our GraphQL API.
+The [bootstrap guide](bootstrap.md) and all the earlier examples used [`apollo-server`](https://github.com/apollographql/apollo-server) to create HTTP endpoint for our GraphQL API.
 
 Fortunately, to make subscriptions work, we don't need to manually provide transport layer that doesn't have constraints of HTTP and can do a push-based communication (WebSockets).
 The `apollo-server` package has built-in subscriptions support using websockets, so it's working out of the box without any changes to our bootstrap config. However, if we want, we can provide the `subscriptions` property of config object:

@@ -101,7 +101,7 @@ mutation ValidationMutation {
   }
 }
 ```
-the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](./bootstrap.md):
+the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](bootstrap.md):
 ```typescript
 import { formatArgumentValidationError } from "type-graphql";
 

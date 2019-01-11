@@ -49,7 +49,7 @@ class Recipe {
   ingredients: string[];
 }
 ```
-The detailed rules when to use `nullable`, `array` and others are described in [fields and types docs](./types-and-fields.md).
+The detailed rules when to use `nullable`, `array` and others are described in [fields and types docs](types-and-fields.md).
 
 ## Resolvers
 
@@ -97,7 +97,7 @@ class RecipeResolver {
 ```
 
 We use `@Authorized()` decorator to restrict access only for authorized users or the one that fulfil the roles requirements.
-The detailed rules when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](./resolvers.md).
+The detailed rules when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](resolvers.md).
 
 ## Inputs and arguments
 
@@ -170,4 +170,4 @@ type Mutation {
 ## Want more?
 That was only a tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like authorization checker, inheritance support or field resolvers.
 
-If you want to see how it looks in more complicated case, you can go to the [Examples section](./examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM. 
+If you want to see how it looks in more complicated case, you can go to the [Examples section](examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM. 

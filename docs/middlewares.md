@@ -76,7 +76,7 @@ export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
 
 ### Reusable middlewares
 
-Sometimes the middleware has to be configurable, just like you pass `roles` array to the [`@Autorized()` decorator](./authorization.md). In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.
+Sometimes the middleware has to be configurable, just like you pass `roles` array to the [`@Autorized()` decorator](authorization.md). In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.
 
 ```typescript
 export function NumberInterceptor(minValue: number): MiddlewareFn {
@@ -118,7 +118,7 @@ export const ErrorInterceptor: MiddlewareFn<any> = async ({ context, info }, nex
 
 ### Class-based middlewares
 
-Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of [dependency injection](./dependency-injection.md) and easily mock a file logger or a database repository.
+Sometimes your middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so you might want to test it. In that cases you can create class middleware that is able to take benefits of [dependency injection](dependency-injection.md) and easily mock a file logger or a database repository.
 
 All you need to do is to implement a `MiddlewareInterface` - your class has to have the `use` method that conforms with `MiddlewareFn` signature. Below you can see how the defined earlier `LogAccess` middleware looks after the transformation:
 
@@ -151,7 +151,7 @@ export class RecipeResolver {
 }
 ```
 
-You can also attach the resolver to `ObjectType` fields, the same way as with [`@Autorized()` decorator](./authorization.md).
+You can also attach the resolver to `ObjectType` fields, the same way as with [`@Autorized()` decorator](authorization.md).
 
 ```typescript
 @ObjectType()

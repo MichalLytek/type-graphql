@@ -31,7 +31,7 @@ const schema = await buildSchema({
 });
 ```
 
-There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them in docs.
+There are also other options related to advanced features like [authorization](authorization.md) or [validation](validation.md) - you can read about them in docs.
 
 To make `await` work, we need to declare it as an async function. Example of `main.ts` file:
 
