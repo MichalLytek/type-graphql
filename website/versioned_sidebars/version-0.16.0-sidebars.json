@@ -1,0 +1,41 @@
+{
+  "version-0.16.0-docs": {
+    "Introduction": [
+      "version-0.16.0-introduction"
+    ],
+    "Beginner guides": [
+      "version-0.16.0-getting-started",
+      "version-0.16.0-types-and-fields",
+      "version-0.16.0-resolvers",
+      "version-0.16.0-bootstrap"
+    ],
+    "Advanced guides": [
+      "version-0.16.0-scalars",
+      "version-0.16.0-enums",
+      "version-0.16.0-unions",
+      "version-0.16.0-subscriptions",
+      "version-0.16.0-interfaces-and-inheritance"
+    ],
+    "Features": [
+      "version-0.16.0-dependency-injection",
+      "version-0.16.0-authorization",
+      "version-0.16.0-validation",
+      "version-0.16.0-middlewares",
+      "version-0.16.0-complexity"
+    ],
+    "Others": [
+      "version-0.16.0-emit-schema",
+      "version-0.16.0-browser-usage"
+    ]
+  },
+  "version-0.16.0-examples": {
+    "Examples": [
+      "version-0.16.0-examples"
+    ]
+  },
+  "version-0.16.0-others": {
+    "Others": [
+      "version-0.16.0-faq"
+    ]
+  }
+}

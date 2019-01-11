@@ -67,6 +67,66 @@
       "validation": {
         "title": "Arguments and inputs validation",
         "sidebar_label": "Validation"
+      },
+      "version-0.16.0-authorization": {
+        "title": "Authorization"
+      },
+      "version-0.16.0-bootstrap": {
+        "title": "Bootstrapping"
+      },
+      "version-0.16.0-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-0.16.0-complexity": {
+        "title": "Query complexity"
+      },
+      "version-0.16.0-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-0.16.0-emit-schema": {
+        "title": "Emitting schema SDL"
+      },
+      "version-0.16.0-enums": {
+        "title": "Enums"
+      },
+      "version-0.16.0-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-0.16.0-faq": {
+        "title": "Frequently Asked Questions"
+      },
+      "version-0.16.0-getting-started": {
+        "title": "Getting started"
+      },
+      "version-0.16.0-interfaces-and-inheritance": {
+        "title": "Interfaces and inheritance"
+      },
+      "version-0.16.0-introduction": {
+        "title": "Introduction",
+        "sidebar_label": "What & Why"
+      },
+      "version-0.16.0-middlewares": {
+        "title": "Middlewares and guards"
+      },
+      "version-0.16.0-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-0.16.0-scalars": {
+        "title": "Scalars"
+      },
+      "version-0.16.0-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-0.16.0-types-and-fields": {
+        "title": "Types and fields"
+      },
+      "version-0.16.0-unions": {
+        "title": "Unions"
+      },
+      "version-0.16.0-validation": {
+        "title": "Arguments and inputs validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
