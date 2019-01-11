@@ -6,7 +6,7 @@
 
               ga('create', 'UA-117093147-1', 'auto');
               ga('send', 'pageview');
-            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/type-graphql/css/prism.css"/><link rel="stylesheet" href="/type-graphql/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/type-graphql/"><img class="logo" src="/type-graphql/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/type-graphql/docs/introduction.html" target="_self">Docs</a></li><li class=""><a href="/type-graphql/docs/examples.html" target="_self">Examples</a></li><li class=""><a href="/type-graphql/docs/faq.html" target="_self">FAQ</a></li><li class="siteNavGroupActive"><a href="/type-graphql/blog" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://github.com/19majkel94/type-graphql" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Recent Posts</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Recent Posts</h3><ul><li class="navListItem navListItemActive"><a class="navItem" href="/type-graphql/blog/2018/03/25/medium-article.html">GraphQL + TypeScript = TypeGraphQL</a></li></ul></div></div></section></div><script>
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/type-graphql/css/prism.css"/><link rel="stylesheet" href="/type-graphql/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/type-graphql/"><img class="logo" src="/type-graphql/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/type-graphql/versions.html"><h3>0.16.0</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/type-graphql/docs/introduction.html" target="_self">Docs</a></li><li class=""><a href="/type-graphql/docs/examples.html" target="_self">Examples</a></li><li class=""><a href="/type-graphql/docs/faq.html" target="_self">FAQ</a></li><li class="siteNavGroupActive"><a href="/type-graphql/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://github.com/19majkel94/type-graphql" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Recent Posts</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Recent Posts</h3><ul><li class="navListItem navListItemActive"><a class="navItem" href="/type-graphql/blog/2018/03/25/medium-article.html">GraphQL + TypeScript = TypeGraphQL</a></li></ul></div></div></section></div><script>
             document.addEventListener('DOMContentLoaded', function() {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');
@@ -22,6 +22,10 @@
                 var toggler = document.querySelector(togglerSelector);
                 var target = document.querySelector(targetSelector);
 
+                if (!toggler) {
+                  return;
+                }
+
                 toggler.onclick = function(event) {
                   event.preventDefault();
 
@@ -36,7 +40,7 @@
 <h2><a class="anchor" aria-hidden="true" id="motivation"></a><a href="#motivation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Motivation</h2>
 <p>As I mentioned, developing a GraphQL API in Node.js with TypeScript might be a painful process. Why? Let’s take a look at the steps we usually have to make.</p>
 <p>At first, we create the all the schema types in SDL. We also create our data models using ORM classes, which represents our db entities. Then we start to write resolvers for our queries, mutations and fields but this force us to begin with creating TS interfaces for all arguments and inputs or even object types. And after that we can actually implements the resolvers, using weird generic signatures, e.g.:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> recipesResolver<span class="token punctuation">:</span> GraphQLFieldResolver<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token punctuation">,</span> Context<span class="token punctuation">,</span> RecipesArgs<span class="token operator">></span> <span class="token operator">=</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> recipesResolver<span class="token punctuation">:</span> GraphQLFieldResolver<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token punctuation">,</span> Context<span class="token punctuation">,</span> RecipesArgs<span class="token operator">></span> <span class="token operator">=</span>
   <span class="token keyword">async</span> <span class="token punctuation">(</span>_<span class="token punctuation">,</span> args<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token comment">// stuffs like validation, auth checking, getting from container</span>
     <span class="token comment">// and our business logic, e.g.:</span>
@@ -50,7 +54,7 @@
 <p>To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.</p>
 <p>Let’s start with the Recipe type, which is the foundations of our API.
 We want to get equivalent of this type described in SDL:</p>
-<pre><code class="hljs css languages- graphql">type Recipe <span class="token punctuation">{</span>
+<pre><code class="hljs css language-graphql">type Recipe <span class="token punctuation">{</span>
   <span class="token attr-name">id</span><span class="token punctuation">:</span> ID<span class="token operator">!</span>
   <span class="token attr-name">title</span><span class="token punctuation">:</span> String<span class="token operator">!</span>
   <span class="token attr-name">description</span><span class="token punctuation">:</span> String
@@ -59,7 +63,7 @@ We want to get equivalent of this type described in SDL:</p>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>So we create the Recipe class with all properties and types:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
   title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
   description<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
@@ -68,7 +72,7 @@ We want to get equivalent of this type described in SDL:</p>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Then we annotate the class and it properties with decorators:</p>
-<pre><code class="hljs css languages- typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> <span class="token constant">ID</span><span class="token punctuation">)</span>
   id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
@@ -89,7 +93,7 @@ We want to get equivalent of this type described in SDL:</p>
 <p>The detailed rules when to use <code>nullable</code>, <code>array</code> and other options are described in <a href="https://github.com/19majkel94/type-graphql/blob/master/docs/types-and-fields.md">fields and types docs</a>.</p>
 <h3><a class="anchor" aria-hidden="true" id="resolvers"></a><a href="#resolvers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolvers</h3>
 <p>After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in constructor:</p>
-<pre><code class="hljs css languages- typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span>Recipe<span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span>Recipe<span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> recipeService<span class="token punctuation">:</span> RecipeService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
@@ -131,7 +135,7 @@ We want to get equivalent of this type described in SDL:</p>
 <p>We use <code>@Authorized()</code> decorator to restrict access only for authorized users or the one that fulfill the roles requirements. The detailed rules when and why we declare <code>returns =&gt; Recipe</code> functions and others are described in <a href="https://github.com/19majkel94/type-graphql/blob/master/docs/resolvers.md">resolvers docs</a>.</p>
 <h3><a class="anchor" aria-hidden="true" id="inputs-and-arguments"></a><a href="#inputs-and-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inputs and arguments</h3>
 <p>Ok, but what are theNewRecipeInput and RecipesArgs? There are of course classes that declares input type and arguments:</p>
-<pre><code class="hljs css languages- typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">NewRecipeDataInput</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   @<span class="token function">MaxLength</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span>
@@ -160,14 +164,14 @@ We want to get equivalent of this type described in SDL:</p>
 <p><code>@Length</code>, <code>@Min</code> or <code>@MaxArraySize</code> are decorators from <a href="https://github.com/typestack/class-validator"><code>class-validator</code></a> that automatically perform fields validation in TypeGraphQL.</p>
 <h3><a class="anchor" aria-hidden="true" id="building-schema"></a><a href="#building-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Building schema</h3>
 <p>The last step that we have to do is to actually build the schema from TypeGraphQL definition. We use buildSchema function for this:</p>
-<pre><code class="hljs css languages- typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// ...creating express server or sth</span>
 </code></pre>
 <p>Et voilà! Now we have fully working GraphQL schema! If we print it, we would receive exactly this:</p>
-<pre><code class="hljs css languages- graphql">type Recipe <span class="token punctuation">{</span>
+<pre><code class="hljs css language-graphql">type Recipe <span class="token punctuation">{</span>
   <span class="token attr-name">id</span><span class="token punctuation">:</span> ID<span class="token operator">!</span>
   <span class="token attr-name">title</span><span class="token punctuation">:</span> String<span class="token operator">!</span>
   <span class="token attr-name">description</span><span class="token punctuation">:</span> String
@@ -199,7 +203,18 @@ type Mutation <span class="token punctuation">{</span>
 I promise, it will reduce your codebase by a half or more!</p>
 <p>If you find this framework interesting, please <a href="https://github.com/19majkel94/type-graphql">star the GitHub repository</a>, clap for this article and share it on your social media, if you don’t mind.</p>
 <p>The more feedback I receive, the more time I will devote to continue the development of TypeGraphQL!</p>
-</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/type-graphql/blog">Recent Posts</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#getting-started">Getting started</a><ul class="toc-headings"><li><a href="#resolvers">Resolvers</a></li><li><a href="#inputs-and-arguments">Inputs and arguments</a></li><li><a href="#building-schema">Building schema</a></li></ul></li><li><a href="#want-more">Want more?</a></li><li><a href="#work-in-progress">Work in progress</a></li><li><a href="#spread-the-word">Spread the word</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/type-graphql/blog">Recent Posts</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#getting-started">Getting started</a><ul class="toc-headings"><li><a href="#resolvers">Resolvers</a></li><li><a href="#inputs-and-arguments">Inputs and arguments</a></li><li><a href="#building-schema">Building schema</a></li></ul></li><li><a href="#want-more">Want more?</a></li><li><a href="#work-in-progress">Work in progress</a></li><li><a href="#spread-the-word">Spread the word</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/type-graphql/" class="nav-home"><img src="/type-graphql/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/type-graphql/docs/en/introduction.html">Introduction</a><a href="/type-graphql/docs/en/getting-started.html">Getting Started</a><a href="/type-graphql/docs/en/scalars.html">Advanced Guides</a></div><div><h5>Community</h5><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;">Feature requests and proposals</a><a href="https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;">Issues</a><a href="https://gitter.im/type-graphql/Lobby">Project Chat</a><a href="https://twitter.com/19majkel94" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/type-graphql/blog">Blog</a><a href="https://github.com/19majkel94/type-graphql">GitHub</a><a class="github-button" href="https://github.com/19majkel94/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
               var search = docsearch({
                 
                 apiKey: '2cf66434100c0e30ca9ff499830e7b77',
