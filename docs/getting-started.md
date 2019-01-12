@@ -2,6 +2,8 @@
 title: Getting started
 ---
 
+> Make sure that you've completed all the steps described in the [installation instruction](installation.md).
+
 To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
 
 Let's start with the `Recipe` type, which is the foundations of our API.
