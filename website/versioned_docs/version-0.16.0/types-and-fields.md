@@ -1,5 +1,7 @@
 ---
 title: Types and fields
+id: version-0.16.0-types-and-fields
+original_id: types-and-fields
 ---
 
 The main idea of TypeGraphQL is to automatically create GraphQL schema definition from TypeScript's classes. To avoid the need of schema definition files and interfaces describing the schema, we use a bit of reflection magic and decorators.

@@ -5,8 +5,9 @@
   box-sizing: border-box;
 }
 
-article a {
-  text-decoration: underline;
+a, a:hover {
+  color: #2f7bc5;
+  text-decoration: none;
 }
 
 .mainContainer {

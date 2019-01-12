@@ -1,5 +1,7 @@
 ---
 title: Resolvers
+id: version-0.16.0-resolvers
+original_id: resolvers
 ---
 
 Besides [declaring GraphQL's object types](types-and-fields.md), TypeGraphQL allows to create queries, mutations and field resolvers in an easy way - like a normal class methods, similar to REST controllers in frameworks like Java's `Spring`, .NET `Web API` or TypeScript's [`routing-controllers`](https://github.com/typestack/routing-controllers).

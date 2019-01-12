@@ -1,5 +1,7 @@
 ---
 title: Getting started
+id: version-0.16.0-getting-started
+original_id: getting-started
 ---
 
 To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.

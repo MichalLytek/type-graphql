@@ -1,5 +1,7 @@
 ---
 title: Subscriptions
+id: version-0.16.0-subscriptions
+original_id: subscriptions
 ---
 
 GraphQL can be used to perform reads with queries, and to perform writes with mutations.

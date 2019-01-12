@@ -1,5 +1,7 @@
 ---
 title: Middlewares and guards
+id: version-0.16.0-middlewares
+original_id: middlewares
 ---
 
 Middlewares are a piece of reusable code that can be easily attached to resolvers and fields. By using middlewares you can extract the common used code from your resolvers and then just declaratively attach it using decorator or even register globally.
