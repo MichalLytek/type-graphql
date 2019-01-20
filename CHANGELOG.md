@@ -5,6 +5,7 @@
 ### Features
 - **Breaking Change**: change the default `PrintSchemaOptions` option `commentDescriptions` to false (no more `#` comments in SDL)
 - add support for passing `PrintSchemaOptions` in `buildSchema.emitSchemaFile` (e.g. `commentDescriptions: true` to restore previous behavior)
+- add `buildTypeDefsAndResolvers` utils function for generating apollo-like `typeDefs` and `resolvers` pair (#233)
 
 ## v0.16.0
 ### Features
