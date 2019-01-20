@@ -78,3 +78,37 @@ bootstrap();
 Remember to install `apollo-server` package from npm - it's not bundled with TypeGraphQL.
 
 Of course you can use `express-graphql` middleware, `graphql-yoga` or whatever you want 😉
+
+## Create typeDefs and resolvers map
+
+TypeGraphQL also provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.
+
+It accepts the same `BuildSchemaOptions` like the `buildSchema` function but instead of an executable `GraphQLSchema`, it creates a typeDefs and resolversMap pair that you can use e.g. with [`graphql-tools`](https://github.com/apollographql/graphql-tools):
+```typescript
+import { makeExecutableSchema } from "graphql-tools";
+
+const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
+  resolvers: [FirstResolver, SecondResolver],
+});
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+```
+
+Or even with other libraries that expect the schema info in that shape, like [`apollo-link-state`](https://github.com/apollographql/apollo-link-state):
+```typescript
+import { withClientState } from 'apollo-link-state';
+
+const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
+  resolvers: [FirstResolver, SecondResolver],
+});
+
+const stateLink = withClientState({
+  // ...other options like `cache`
+  typeDefs,
+  resolvers,
+});
+
+// ...the rest of `ApolloClient` initialization code
+```
+
+Be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.
