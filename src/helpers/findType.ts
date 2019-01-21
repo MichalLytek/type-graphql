@@ -48,14 +48,14 @@ export function findType({
     options.array = true;
   }
 
-  if (returnTypeFunc && Array.isArray(returnTypeFunc())) {
-    options.array = true;
-  }
-
   if (returnTypeFunc) {
-    const getType = Array.isArray(returnTypeFunc())
-      ? () => (returnTypeFunc() as [TypeValue])[0]
-      : (returnTypeFunc as TypeValueThunk);
+    const getType = () => {
+      if (Array.isArray(returnTypeFunc())) {
+        options.array = true;
+        return (returnTypeFunc() as [TypeValue])[0];
+      }
+      return returnTypeFunc();
+    };
     return {
       getType,
       typeOptions: options,
