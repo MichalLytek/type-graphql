@@ -39,13 +39,15 @@
     "check": "tsc --noEmit",
     "lint": "tslint --project tsconfig.json"
   },
+  "peerDependencies": {
+    "@types/graphql": "^14.0.5",
+    "graphql": "^14.1.1"
+  },
   "dependencies": {
     "@types/glob": "^7.1.1",
-    "@types/graphql": "^14.0.3",
     "@types/node": "*",
     "class-validator": ">=0.9.1",
     "glob": "^7.1.3",
-    "graphql": "^14.0.2",
     "graphql-query-complexity": "^0.2.2",
     "graphql-subscriptions": "^1.0.0",
     "tslib": "^1.9.3"
@@ -54,6 +56,7 @@
     "@types/del": "^3.0.1",
     "@types/express": "^4.16.0",
     "@types/express-graphql": "^0.6.2",
+    "@types/graphql": "^14.0.5",
     "@types/gulp": "^4.0.5",
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-shell": "0.0.31",
@@ -73,6 +76,7 @@
     "del": "^3.0.0",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
+    "graphql": "^14.1.1",
     "graphql-playground-middleware-express": "^1.7.8",
     "graphql-redis-subscriptions": "^2.0.0",
     "graphql-tag": "^2.10.0",
