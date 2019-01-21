@@ -46,7 +46,7 @@ In next step, you need to integrate `graphql-query-complexity` with your GraphQL
         // in the visitor of the graphql-js library
         variables: req.query.variables,
         // Optional callback function to retrieve the determined query complexity
-        // Will be invoked weather the query is rejected or not
+        // Will be invoked whether the query is rejected or not
         // This can be used for logging or to implement rate limiting
         onComplete: (complexity: number) => {
           console.log("Query Complexity:", complexity);
@@ -55,7 +55,7 @@ In next step, you need to integrate `graphql-query-complexity` with your GraphQL
           // Using fieldConfigEstimator is mandatory to make it work with type-graphql
           fieldConfigEstimator(),
           // This will assign each field a complexity of 1 if no other estimator
-          // returned a value. We can define the default value for field not explicitly annotated
+          // returned a value. We can define the default value for fields not explicitly annotated
           simpleEstimator({
             defaultComplexity: 1,
           }),
@@ -74,7 +74,7 @@ In next step, you need to integrate `graphql-query-complexity` with your GraphQL
 
 And it's done! 😉
 
-For more info about how query complexity is computed, please visit[graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
+For more info about how query complexity is computed, please visit [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
 
 ## Example
