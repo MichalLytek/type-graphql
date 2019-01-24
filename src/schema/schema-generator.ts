@@ -40,6 +40,7 @@ import {
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
+import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -98,6 +99,7 @@ export abstract class SchemaGenerator {
   }
 
   private static checkForErrors(options: SchemaGeneratorOptions) {
+    ensureInstalledCorrectGraphQLPackage();
     if (getMetadataStorage().authorizedFields.length !== 0 && options.authChecker === undefined) {
       throw new Error(
         "You need to provide `authChecker` function for `@Authorized` decorator usage!",

@@ -3,6 +3,7 @@
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
+- **Breaking Change**: make `graphql-js` packages a peer dependencies, bump `graphql` to `^14.1.1` and `@types/graphql` to `^14.0.5` (#239)
 - **Breaking Change**: change the default `PrintSchemaOptions` option `commentDescriptions` to false (no more `#` comments in SDL)
 - add support for passing `PrintSchemaOptions` in `buildSchema.emitSchemaFile` (e.g. `commentDescriptions: true` to restore previous behavior)
 - add `buildTypeDefsAndResolvers` utils function for generating apollo-like `typeDefs` and `resolvers` pair (#233)
