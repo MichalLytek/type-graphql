@@ -1,7 +1,7 @@
 {
   "name": "type-graphql",
   "version": "0.16.0",
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "author": {
     "name": "Michał Lytek",
     "url": "https://github.com/19majkel94"
