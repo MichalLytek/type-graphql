@@ -22,40 +22,42 @@ export async function getParams(
   pubSub: PubSubEngine,
 ): Promise<any[]> {
   return Promise.all(
-    params.sort((a, b) => a.index - b.index).map(async paramInfo => {
-      switch (paramInfo.kind) {
-        case "args":
-          return await validateArg(
-            convertToType(paramInfo.getType(), args),
-            globalValidate,
-            paramInfo.validate,
-          );
-        case "arg":
-          return await validateArg(
-            convertToType(paramInfo.getType(), args[paramInfo.name]),
-            globalValidate,
-            paramInfo.validate,
-          );
-        case "context":
-          if (paramInfo.propertyName) {
-            return context[paramInfo.propertyName];
-          }
-          return context;
-        case "root":
-          const rootValue = paramInfo.propertyName ? root[paramInfo.propertyName] : root;
-          if (!paramInfo.getType) {
-            return rootValue;
-          }
-          return convertToType(paramInfo.getType(), rootValue);
-        case "info":
-          return info;
-        case "pubSub":
-          if (paramInfo.triggerKey) {
-            return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
-          }
-          return pubSub;
-      }
-    }),
+    params
+      .sort((a, b) => a.index - b.index)
+      .map(async paramInfo => {
+        switch (paramInfo.kind) {
+          case "args":
+            return await validateArg(
+              convertToType(paramInfo.getType(), args),
+              globalValidate,
+              paramInfo.validate,
+            );
+          case "arg":
+            return await validateArg(
+              convertToType(paramInfo.getType(), args[paramInfo.name]),
+              globalValidate,
+              paramInfo.validate,
+            );
+          case "context":
+            if (paramInfo.propertyName) {
+              return context[paramInfo.propertyName];
+            }
+            return context;
+          case "root":
+            const rootValue = paramInfo.propertyName ? root[paramInfo.propertyName] : root;
+            if (!paramInfo.getType) {
+              return rootValue;
+            }
+            return convertToType(paramInfo.getType(), rootValue);
+          case "info":
+            return info;
+          case "pubSub":
+            if (paramInfo.triggerKey) {
+              return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
+            }
+            return pubSub;
+        }
+      }),
   );
 }
 

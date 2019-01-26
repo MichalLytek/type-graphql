@@ -66,8 +66,8 @@ function getEmitSchemaDefinitionFileOptions(
       typeof buildSchemaOptions.emitSchemaFile === "string"
         ? buildSchemaOptions.emitSchemaFile
         : typeof buildSchemaOptions.emitSchemaFile === "object"
-          ? buildSchemaOptions.emitSchemaFile.path || defaultSchemaFilePath
-          : defaultSchemaFilePath,
+        ? buildSchemaOptions.emitSchemaFile.path || defaultSchemaFilePath
+        : defaultSchemaFilePath,
     printSchemaOptions:
       typeof buildSchemaOptions.emitSchemaFile === "object"
         ? buildSchemaOptions.emitSchemaFile
