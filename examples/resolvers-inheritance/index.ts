@@ -1,17 +1,16 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
-import { buildSchema, useContainer } from "../../src";
+import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { PersonResolver } from "./person/person.resolver";
-
-useContainer(Container);
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver, PersonResolver],
+    container: Container,
   });
 
   // Create GraphQL server
