@@ -88,6 +88,8 @@ You can define default values for optional fields in the `@Field()` decorator us
 Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in [the validation docs](validation.md). You can also define a helper fields and methods for your args or input class.
 
 ```typescript
+import { Min, Max } from 'class-validator';
+
 @ArgsType()
 class GetRecipesArgs {
   @Field(type => Int, { defaultValue: 0 })
@@ -295,6 +297,8 @@ class Recipe {
 However, if the code is more complicated and has side effects (i.e. api calls, fetching from databases), use a resolver class's method instead.  That way you can leverage the dependency injection mechanism, which is really helpful in testing.  For example:
 
 ```typescript
+import { Repository } from 'typeorm'
+
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(
