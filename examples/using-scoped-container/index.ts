@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import Container, { ContainerInstance } from "typedi";
-import { useContainer, buildSchema, ResolverData } from "../../src";
+import { buildSchema, ResolverData } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { Context } from "./types";
@@ -10,12 +10,11 @@ import { setSamplesInContainer } from "./recipe/recipe.samples";
 async function bootstrap() {
   setSamplesInContainer();
 
-  // register our custom, scoped IOC container by passing a extracting from resolver data function
-  useContainer<Context>(({ context }) => context.container);
-
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
+    // register our custom, scoped IOC container by passing a extracting from resolver data function
+    container: ({ context }: ResolverData<Context>) => context.container,
   });
 
   // Create GraphQL server

@@ -43,7 +43,6 @@ import {
   Authorized,
   UseMiddleware,
   ResolversMap,
-  useContainer,
 } from "../../src";
 
 describe("buildTypeDefsAndResolvers", () => {
@@ -211,13 +210,12 @@ describe("buildTypeDefsAndResolvers", () => {
       }
     }
 
-    useContainer(Container);
-
     pubSub = new PubSub();
     ({ typeDefs, resolvers } = await buildTypeDefsAndResolvers({
       resolvers: [SampleResolver],
       authChecker: () => false,
       pubSub,
+      container: Container,
     }));
     schema = makeExecutableSchema({
       typeDefs,

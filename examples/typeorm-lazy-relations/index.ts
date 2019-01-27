@@ -12,7 +12,6 @@ import { seedDatabase } from "./helpers";
 import { Context } from "./resolvers/types/context";
 
 // register 3rd party IOC container
-TypeGraphQL.useContainer(Container);
 TypeORM.useContainer(Container);
 
 async function bootstrap() {
@@ -39,6 +38,7 @@ async function bootstrap() {
     // build TypeGraphQL executable schema
     const schema = await TypeGraphQL.buildSchema({
       resolvers: [RecipeResolver],
+      container: Container,
     });
 
     // create mocked context

@@ -11,18 +11,17 @@ TypeGraphQL supports this technique by allowing users to provide their IoC conta
 The usage of this feature is very simple - all you need to do is to register 3rd party container. Example using TypeDI:
 
 ```typescript
-import { useContainer, buildSchema } from "type-graphql";
+import { buildSchema } from "type-graphql";
 // import your IoC container
 import { Container } from "typedi";
 
 import { SampleResolver } from "./resolvers";
 
-// register the 3rd party IOC container
-useContainer(Container);
-
 // build the schema as always
 const schema = await buildSchema({
   resolvers: [SampleResolver],
+  // register the 3rd party IOC container
+  container: Container;
 });
 ```
 
@@ -81,16 +80,20 @@ At first you need to provide a container resolver function. It takes the resolve
 For simple container libraries you may define it inline, e.g. using `TypeDI`:
 
 ```typescript
-useContainer<TContext>(({ context }) => Container.of(context.requestId));
-```
-
-For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in `useContainer` getter function:
-
-```typescript
-useContainer<TContext>(({ context }) => context.container);
+await buildSchema({
+  container: (({ context }: ResolverData<TContext>) => Container.of(context.requestId));
+};
 ```
 
 The tricky part is where the `context.requestId` comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like `express-graphql`, `apollo-server` or `graphql-yoga`.
+
+For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in `container` getter function:
+
+```typescript
+await buildSchema({
+  container: (({ context }: ResolverData<TContext>) => context.container);
+};
+```
 
 Example using `TypeDI` and `apollo-server` with the `context` creation method:
 
@@ -136,7 +139,7 @@ And basically that's it! The configuration of container is done and TypeGraphQL 
 
 The only thing that left is the container configuration - you need to check out the docs for your container library (`InversifyJS`, `injection-js`, `TypeDI` or other) to get know how to setup a lifetime of the injectable objects (transient, scoped or singleton).
 
-**Be aware** that some libraries (like `TypeDI`) by default creates new instances for every scoped container, so you might experience a **significant grow of a memory usage** and a some decrease in query resolving speed, so please be careful with using this feature!
+> Be aware that some libraries (like `TypeDI`) by default creates new instances for every scoped container, so you might experience a **significant grow of a memory usage** and a some decrease in query resolving speed, so please be careful with using this feature!
 
 ### Example
 
