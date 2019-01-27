@@ -1,19 +1,18 @@
 import "reflect-metadata";
 import Container from "typedi";
 import { ApolloServer } from "apollo-server";
-import { useContainer, buildSchema, formatArgumentValidationError } from "../../src";
+import { buildSchema, formatArgumentValidationError } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { ResolveTimeMiddleware } from "./middlewares/resolve-time";
 import { ErrorLoggerMiddleware } from "./middlewares/error-logger";
 
 async function bootstrap() {
-  useContainer(Container);
-
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
     globalMiddlewares: [ErrorLoggerMiddleware, ResolveTimeMiddleware],
+    container: Container,
   });
 
   // Create GraphQL server

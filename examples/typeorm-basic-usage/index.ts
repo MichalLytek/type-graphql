@@ -16,7 +16,6 @@ export interface Context {
 }
 
 // register 3rd party IOC container
-TypeGraphQL.useContainer(Container);
 TypeORM.useContainer(Container);
 
 async function bootstrap() {
@@ -43,6 +42,7 @@ async function bootstrap() {
     // build TypeGraphQL executable schema
     const schema = await TypeGraphQL.buildSchema({
       resolvers: [RecipeResolver, RateResolver],
+      container: Container,
     });
 
     // create mocked context

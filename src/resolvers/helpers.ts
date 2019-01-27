@@ -5,13 +5,7 @@ import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
 import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
-import { UnauthorizedError, ForbiddenError } from "../errors";
-import {
-  Middleware,
-  MiddlewareInterface,
-  MiddlewareFn,
-  MiddlewareClass,
-} from "../interfaces/Middleware";
+import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middleware";
 import { IOCContainer } from "../utils/container";
 import { AuthMiddleware } from "../helpers/auth-middleware";
 
@@ -73,6 +67,7 @@ export function applyAuthChecker(
 }
 
 export async function applyMiddlewares(
+  container: IOCContainer,
   resolverData: ResolverData<any>,
   middlewares: Array<Middleware<any>>,
   resolverHandlerFunction: () => any,
@@ -90,7 +85,7 @@ export async function applyMiddlewares(
       const currentMiddleware = middlewares[currentIndex];
       // arrow function or class
       if (currentMiddleware.prototype !== undefined) {
-        const middlewareClassInstance = IOCContainer.getInstance(
+        const middlewareClassInstance = container.getInstance(
           currentMiddleware as MiddlewareClass<any>,
           resolverData,
         );

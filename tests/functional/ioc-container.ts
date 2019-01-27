@@ -2,14 +2,12 @@ import "reflect-metadata";
 import { graphql } from "graphql";
 import { Container, Service } from "typedi";
 
-import { IOCContainer } from "../../src/utils/container";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   ObjectType,
   Field,
   Resolver,
   Query,
-  useContainer,
   buildSchema,
   ResolverData,
   ContainerType,
@@ -18,7 +16,6 @@ import {
 describe("IOC container", () => {
   beforeEach(() => {
     getMetadataStorage().clear();
-    IOCContainer.restoreDefault();
     Container.reset();
   });
 
@@ -44,9 +41,9 @@ describe("IOC container", () => {
       }
     }
 
-    useContainer(Container);
     const schema = await buildSchema({
       resolvers: [SampleResolver],
+      container: Container,
     });
     const query = /* graphql */ `
       query {
@@ -100,12 +97,12 @@ describe("IOC container", () => {
 
   it("should pass resolver's data to container's get", async () => {
     let contextRequestId!: number;
-    useContainer({
+    const testContainer: ContainerType = {
       get(someClass, resolverData: ResolverData<{ requestId: number }>) {
         contextRequestId = resolverData.context.requestId;
         return Container.get(someClass);
       },
-    });
+    };
 
     @Resolver()
     class SampleResolver {
@@ -117,6 +114,7 @@ describe("IOC container", () => {
 
     const schema = await buildSchema({
       resolvers: [SampleResolver],
+      container: testContainer,
     });
 
     const query = /* graphql */ `
@@ -133,12 +131,6 @@ describe("IOC container", () => {
   it("should properly get container from container getter function", async () => {
     let called: boolean = false;
 
-    interface TestContext {
-      container: ContainerType;
-    }
-
-    useContainer<TestContext>(({ context }) => context.container);
-
     @Resolver()
     class SampleResolver {
       @Query()
@@ -147,8 +139,13 @@ describe("IOC container", () => {
       }
     }
 
+    interface TestContext {
+      container: ContainerType;
+    }
+
     const schema = await buildSchema({
       resolvers: [SampleResolver],
+      container: ({ context }: ResolverData<TestContext>) => context.container,
     });
 
     const query = /* graphql */ `

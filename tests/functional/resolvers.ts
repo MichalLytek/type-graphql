@@ -49,7 +49,6 @@ import {
   WrongNullableListOptionError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { IOCContainer } from "../../src/utils/container";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 
@@ -1891,14 +1890,13 @@ describe("Resolvers", () => {
     });
 
     it("should get child class instance when calling base resolver handler", async () => {
-      IOCContainer.getInstance = jest.fn();
       const query = `query {
         prefixQuery(arg: true)
       }`;
 
       await graphql(schema, query);
 
-      expect(IOCContainer.getInstance).toHaveBeenCalledWith(childResolver, expect.anything());
+      expect(thisVar).toBeInstanceOf(childResolver);
     });
   });
 });

@@ -4,6 +4,7 @@ import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
 import { AuthChecker, AuthMode } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
+import { ContainerType, ContainerGetter, IOCContainer } from "../utils/container";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 
@@ -24,6 +25,7 @@ export interface BuildContextOptions {
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
   globalMiddlewares?: Array<Middleware<any>>;
+  container?: ContainerType | ContainerGetter<any>;
 }
 
 export abstract class BuildContext {
@@ -34,6 +36,7 @@ export abstract class BuildContext {
   static authMode: AuthMode;
   static pubSub: PubSubEngine;
   static globalMiddlewares: Array<Middleware<any>>;
+  static container: IOCContainer;
 
   /**
    * Set static fields with current building context data
@@ -42,18 +45,23 @@ export abstract class BuildContext {
     if (options.dateScalarMode !== undefined) {
       this.dateScalarMode = options.dateScalarMode;
     }
+
     if (options.scalarsMap !== undefined) {
       this.scalarsMaps = options.scalarsMap;
     }
+
     if (options.validate !== undefined) {
       this.validate = options.validate;
     }
+
     if (options.authChecker !== undefined) {
       this.authChecker = options.authChecker;
     }
+
     if (options.authMode !== undefined) {
       this.authMode = options.authMode;
     }
+
     if (options.pubSub !== undefined) {
       if ("eventEmitter" in options.pubSub) {
         this.pubSub = new PubSub(options.pubSub as PubSubOptions);
@@ -61,9 +69,12 @@ export abstract class BuildContext {
         this.pubSub = options.pubSub as PubSubEngine;
       }
     }
+
     if (options.globalMiddlewares) {
       this.globalMiddlewares = options.globalMiddlewares;
     }
+
+    this.container = new IOCContainer(options.container);
   }
 
   /**
@@ -77,6 +88,7 @@ export abstract class BuildContext {
     this.authMode = "error";
     this.pubSub = new PubSub();
     this.globalMiddlewares = [];
+    this.container = new IOCContainer();
   }
 }
 
