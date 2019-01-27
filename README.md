@@ -111,9 +111,9 @@ Below you can find installation instructions that are also important.
 
 ### Installation
 
-1. Install module:
+1. Install the package and the `graphql` (peer dependency):
 ```
-npm i type-graphql
+npm i graphql @types/graphql type-graphql
 ```
 
 2. `reflect-metadata` shim is required:

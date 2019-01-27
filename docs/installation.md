@@ -4,23 +4,22 @@ title: Installation
 
 Before getting started with TypeGraphQL we need to install some additional dependencies and properly configure TypeScript configuration for our project.
 
-## Prerequisites
-
-Before you begin, make sure your development environment includes Node.js and npm.
+> #### Prerequisites
+> Before you begin, make sure your development environment includes Node.js and npm.
 
 ## Packages installation
 
-Install module:
+First, you have to install the main package, as well as the [`graphql-js`](https://github.com/graphql/graphql-js) (and it's typings) which is a peer dependency of TypeGraphQL:
 ```sh
-npm i type-graphql
+npm i graphql @types/graphql type-graphql
 ```
 
-`reflect-metadata` shim is required:
+Also, the `reflect-metadata` shim is required to make the type reflection works:
 ```sh
 npm i reflect-metadata
 ```
 
-and make sure to import it on top of your entry file (before you use/import `type-graphql` or your resolvers):
+Please make sure to import it on top of your entry file (before you use/import `type-graphql` or your resolvers):
 ```typescript
 import "reflect-metadata";
 ```

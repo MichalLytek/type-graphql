@@ -12,4 +12,5 @@ export * from "./ReflectMetadataMissingError";
 export * from "./SymbolKeysNotSupportedError";
 export * from "./UnauthorizedError";
 export * from "./UnionResolveTypeError";
+export * from "./UnmetGraphQLPeerDependencyError";
 export * from "./WrongNullableListOptionError";

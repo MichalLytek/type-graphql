@@ -71,7 +71,7 @@ export class Gulpfile {
    */
   @Task()
   packageMoveCompiledFiles() {
-    return gulp.src("./build/package/src/**/*").pipe(gulp.dest("./build/package"));
+    return gulp.src("./build/package/src/**/*").pipe(gulp.dest("./build/package/dist"));
   }
 
   /**
