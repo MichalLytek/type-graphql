@@ -104,7 +104,9 @@ The second is to provide the return type.  Since the method is async, the reflec
 </code></pre>
 <p>You can define default values for optional fields in the <code>@Field()</code> decorator using a <code>defaultValue</code> option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.</p>
 <p>Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in <a href="/type-graphql/docs/next/validation.html">the validation docs</a>. You can also define a helper fields and methods for your args or input class.</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Min<span class="token punctuation">,</span> Max <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'class-validator'</span><span class="token punctuation">;</span>
+
+@<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">GetRecipesArgs</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> defaultValue<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   @<span class="token function">Min</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
@@ -277,7 +279,9 @@ and whether the first parameter of the method is the object type (<code>Recipe</
 <span class="token punctuation">}</span>
 </code></pre>
 <p>However, if the code is more complicated and has side effects (i.e. api calls, fetching from databases), use a resolver class's method instead.  That way you can leverage the dependency injection mechanism, which is really helpful in testing.  For example:</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Repository <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span>
+
+@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token keyword">implements</span> <span class="token class-name">ResolverInterface</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token keyword">constructor</span><span class="token punctuation">(</span>
     <span class="token keyword">private</span> userRepository<span class="token punctuation">:</span> Repository<span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">,</span> <span class="token comment">// dependency injection</span>
