@@ -23,6 +23,10 @@ export function createResolversMap(schema: GraphQLSchema): ResolversMap {
           __isTypeOf: type.isTypeOf || undefined,
           ...generateFieldsResolvers(type.getFields()),
         };
+        if (typeName === 'Query' || typeName === 'Mutation' || typeName === 'Subscription') {
+          resolversMap[typeName] = generateFieldsResolvers(type.getFields());
+          return resolversMap;
+        }
       }
       if (type instanceof GraphQLInterfaceType) {
         resolversMap[typeName] = {
