@@ -20,7 +20,9 @@ export function createResolversMap(schema: GraphQLSchema): ResolversMap {
       const type = typeMap[typeName];
       if (type instanceof GraphQLObjectType) {
         resolversMap[typeName] = {
-          __isTypeOf: type.isTypeOf || undefined,
+          ...(type.isTypeOf && {
+            __isTypeOf: type.isTypeOf,
+          }),
           ...generateFieldsResolvers(type.getFields()),
         };
       }

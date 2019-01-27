@@ -348,6 +348,12 @@ describe("buildTypeDefsAndResolvers", () => {
       expect(resolvers).toBeDefined();
     });
 
+    it("should not emit `__isTypeOf` for root objects", async () => {
+      expect(resolvers.Query).not.toHaveProperty("__isTypeOf");
+      expect(resolvers.Mutation).not.toHaveProperty("__isTypeOf");
+      expect(resolvers.Subscription).not.toHaveProperty("__isTypeOf");
+    });
+
     it("should properly serialize Date scalar", async () => {
       const document = gql`
         query {
