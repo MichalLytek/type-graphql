@@ -2,6 +2,7 @@
   "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-eslint-rules", "tslint-config-prettier"],
   "rules": {
+    "no-empty-interface": false,
     "adjacent-overload-signatures": true,
     "ban-types": false,
     "no-console": [false],

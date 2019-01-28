@@ -12,6 +12,9 @@ import {
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
+  ModelMetadata,
+  DestinationMetadata,
+  ModelFieldMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -21,6 +24,7 @@ import {
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
 } from "./utils";
+import { ObjectType } from "../decorators";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
@@ -28,13 +32,17 @@ export class MetadataStorage {
   subscriptions: SubscriptionResolverMetadata[] = [];
   fieldResolvers: FieldResolverMetadata[] = [];
   objectTypes: ClassMetadata[] = [];
+  objectArgs: ClassMetadata[] = [];
   inputTypes: ClassMetadata[] = [];
   argumentTypes: ClassMetadata[] = [];
   interfaceTypes: ClassMetadata[] = [];
+  args: ClassMetadata[] = [];
   authorizedFields: AuthorizedMetadata[] = [];
   enums: EnumMetadata[] = [];
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
+  models: ModelMetadata[] = [];
+  destinations: DestinationMetadata[] = [];
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -58,6 +66,12 @@ export class MetadataStorage {
   }
   collectObjectMetadata(definition: ClassMetadata) {
     this.objectTypes.push(definition);
+  }
+  collectModelMetadata(definition: ModelMetadata) {
+    this.models.push(definition);
+  }
+  collectDestinationMetadata(definition: DestinationMetadata) {
+    this.destinations.push(definition);
   }
   collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
@@ -103,6 +117,7 @@ export class MetadataStorage {
     this.buildClassMetadata(this.inputTypes);
     this.buildClassMetadata(this.argumentTypes);
     this.buildClassMetadata(this.interfaceTypes);
+    this.buildClassMetadata(this.models);
 
     this.buildFieldResolverMetadata(this.fieldResolvers);
 
@@ -111,6 +126,8 @@ export class MetadataStorage {
     this.buildResolversMetadata(this.subscriptions);
 
     this.buildExtendedResolversMetadata();
+
+    this.buildModels(this.models);
   }
 
   clear() {
@@ -126,14 +143,18 @@ export class MetadataStorage {
     this.enums = [];
     this.unions = [];
     this.middlewares = [];
+    this.models = [];
+    this.destinations = [];
 
     this.resolverClasses = [];
     this.fields = [];
     this.params = [];
   }
 
-  private buildClassMetadata(definitions: ClassMetadata[]) {
-    definitions.forEach(def => {
+  private buildClassMetadata(definitions: ClassMetadata[]): void;
+  private buildClassMetadata(definitions: ModelMetadata[]): void;
+  private buildClassMetadata(definitions: ClassMetadata[] | ModelMetadata[]): void {
+    for (const def of definitions) {
       const fields = this.fields.filter(field => field.target === def.target);
       fields.forEach(field => {
         field.roles = this.findFieldRoles(field.target, field.name);
@@ -147,7 +168,30 @@ export class MetadataStorage {
         );
       });
       def.fields = fields;
+    }
+  }
+
+  private buildModels(definitions: ModelMetadata[]) {
+    definitions.map(def => {
+      const destinations = this.destinations.filter(dest => dest.target === def.target);
+      const objectTypes = this.objectTypes.filter(ot => def.models.indexOf(ot.target) > -1);
+      objectTypes.map(ot => {
+        const compiledFields = this.compileFields(ot);
+        def.fields = compiledFields;
+      });
     });
+  }
+
+  private compileFields(definition: ClassMetadata): FieldMetadata[] {
+    return definition.fields!.map(
+      (field): FieldMetadata => {
+        const modelRelation = this.models.find(model => model.models.indexOf(field.getType()) > -1);
+        return {
+          ...field,
+          getType: modelRelation ? modelRelation.name : field.getType,
+        };
+      },
+    );
   }
 
   private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
@@ -201,10 +245,12 @@ export class MetadataStorage {
             roles: def.roles!,
             middlewares: def.middlewares!,
             params: def.params!,
+            fieldResolver: true,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);
         } else {
+          objectTypeField.fieldResolver = true;
           objectTypeField.complexity = def.complexity;
           if (objectTypeField.params!.length === 0) {
             objectTypeField.params = def.params!;

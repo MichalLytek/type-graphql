@@ -14,5 +14,7 @@ export interface FieldMetadata {
   complexity: Complexity | undefined;
   params?: ParamMetadata[];
   roles?: any[];
+  fieldResolver?: boolean;
   middlewares?: Array<Middleware<any>>;
+  fields?: FieldMetadata[];
 }

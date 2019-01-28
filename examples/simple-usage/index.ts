@@ -2,8 +2,10 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import * as path from "path";
 import { buildSchema } from "../../src";
-
 import { RecipeResolver } from "./recipe-resolver";
+import { RecipeModel } from "./Model";
+
+RecipeModel;
 
 async function bootstrap() {
   // build TypeGraphQL executable schema

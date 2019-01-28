@@ -41,9 +41,15 @@ import {
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
+import { getTypeField } from "../../tests/helpers/getTypeField";
+import { getFieldDef } from "graphql/execution/execute";
 
 interface ObjectTypeInfo {
   target: Function;
+  type: GraphQLObjectType;
+}
+interface ModelTypeInfo {
+  name: string;
   type: GraphQLObjectType;
 }
 interface InputObjectTypeInfo {
@@ -62,15 +68,20 @@ interface UnionTypeInfo {
   unionSymbol: symbol;
   type: GraphQLUnionType;
 }
+interface ArgsInfo {
+  target: Function;
+}
 // tslint:disable-next-line:no-empty-interface
 export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
+  private static ArgsInfo: ClassMetadata[] = [];
   private static inputTypesInfo: InputObjectTypeInfo[] = [];
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
   private static enumTypesInfo: EnumTypeInfo[] = [];
   private static unionTypesInfo: UnionTypeInfo[] = [];
+  private static modelTypesInfo: ModelTypeInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
@@ -341,6 +352,35 @@ export abstract class SchemaGenerator {
         }),
       };
     });
+
+    this.modelTypesInfo = getMetadataStorage().models.map<ModelTypeInfo>(model => {
+      return {
+        name: model.name(),
+        type: new GraphQLObjectType({
+          name: model.name(),
+          fields: model.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fieldsMap, field) => {
+            const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+              resolver =>
+                resolver.getObjectType!() === model.target &&
+                resolver.methodName === field.name &&
+                (resolver.resolverClassMetadata === undefined ||
+                  resolver.resolverClassMetadata.isAbstract === false),
+            );
+            fieldsMap[field.schemaName] = {
+              type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+              complexity: field.complexity,
+              args: this.generateHandlerArgs(field.params!),
+              resolve: fieldResolverMetadata
+                ? createAdvancedFieldResolver(fieldResolverMetadata)
+                : createSimpleFieldResolver(field),
+              description: field.description,
+              deprecationReason: field.deprecationReason,
+            };
+            return fieldsMap;
+          }, {}),
+        }),
+      };
+    });
   }
 
   private static buildRootQueryType(): GraphQLObjectType {
@@ -376,6 +416,7 @@ export abstract class SchemaGenerator {
     return [
       ...this.objectTypesInfo.map(it => it.type),
       ...this.interfaceTypesInfo.map(it => it.type),
+      ...this.modelTypesInfo.map(it => it.type),
     ];
   }
 
@@ -516,6 +557,9 @@ export abstract class SchemaGenerator {
       if (unionType) {
         gqlType = unionType.type;
       }
+    }
+    if (!gqlType) {
+      const modelType = this.modelTypesInfo.find(it => it.name === type);
     }
     if (!gqlType) {
       throw new Error(`Cannot determine GraphQL output type for ${typeOwnerName}`!);

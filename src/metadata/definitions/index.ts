@@ -6,3 +6,6 @@ export * from "./middleware-metadata";
 export * from "./param-metadata";
 export * from "./resolver-metadata";
 export * from "./union-metadata";
+export * from "./model-metadata";
+export * from "./destination-metadata";
+export * from "./modelfield-metadata";

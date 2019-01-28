@@ -3,7 +3,7 @@ import { ValidatorOptions } from "class-validator";
 
 import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
 
-export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
+export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol | string;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
 
 export type TypeValueThunk = (type?: void) => TypeValue;
