@@ -2,8 +2,17 @@ import { Field, ObjectType } from "../../../../src";
 
 import { CircularRef2 } from "./CircularRef2";
 
+let hasModuleFinishedInitialLoad = false;
+
 @ObjectType()
 export class CircularRef1 {
-  @Field(type => CircularRef2)
-  ref2Field: any;
+  @Field(type => {
+    if (!hasModuleFinishedInitialLoad) {
+      throw new Error("Field type function was called synchronously during module load");
+    }
+    return [CircularRef2];
+  })
+  ref2Field: any[];
 }
+
+hasModuleFinishedInitialLoad = true;
