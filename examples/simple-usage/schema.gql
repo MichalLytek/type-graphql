@@ -15,6 +15,7 @@ type Mutation {
 type Query {
   argsRecipe(count: Float, where: RecipeWhereModelwhere, where2: RecipeWhereModelwhere2): Recipe
   argsRecipe2(count: Float, where: TestWhereModelwhere, where2: TestWhereModelwhere2): Test
+  argsRecipe3(count: Float, where3: RecipeWhere2Modelwhere3!, where4: RecipeWhere2Modelwhere4): Recipe
 
   """Get all the recipes from around the world """
   recipes: [Recipe!]!
@@ -37,6 +38,32 @@ type Recipe {
 input RecipeInput {
   title: String!
   description: String
+}
+
+input RecipeWhere2Modelwhere3 {
+  title: String
+  specification: String
+
+  """The recipe description with preparation info"""
+  description: String
+  ratings: [Int!]!
+  creationDate: DateTime
+  ratingsCount: Int!
+  recipe: RecipeWhere2Modelwhere3!
+  averageRating: Float!
+}
+
+input RecipeWhere2Modelwhere4 {
+  title: String!
+  specification: String!
+
+  """The recipe description with preparation info"""
+  description: String!
+  ratings: [Int!]!
+  creationDate: DateTime!
+  ratingsCount: Int!
+  recipe: RecipeWhere2Modelwhere4!
+  averageRating: Float!
 }
 
 input RecipeWhereModelwhere {
@@ -66,6 +93,14 @@ input RecipeWhereModelwhere2 {
 }
 
 type Test {
+  name: String!
+}
+
+input TestWhere2Modelwhere3 {
+  name: String
+}
+
+input TestWhere2Modelwhere4 {
   name: String!
 }
 

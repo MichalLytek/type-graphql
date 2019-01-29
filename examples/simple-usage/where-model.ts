@@ -17,3 +17,22 @@ export class WhereModel<Type> {
   @Field({ nullable: true })
   count: number;
 }
+@Model({ models: [Recipe, Test] })
+export class Where2Model<Type> {
+  @Destination({
+    transformModel: {
+      apply: field => {
+        if (field.getType() instanceof Function) {
+          field.typeOptions.nullable = true;
+        }
+      },
+    },
+  })
+  where3?: Partial<Type>;
+
+  @Destination({ nullable: true })
+  where4: Type;
+
+  @Field({ nullable: true })
+  count: number;
+}

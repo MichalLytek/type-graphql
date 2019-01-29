@@ -566,10 +566,11 @@ export abstract class SchemaGenerator {
   }
 
   private static matchArg(item: TypeClassMetadata, param: ArgsParamMetadata) {
+    const sameTarget = item.target === param.getType();
     if (item.model) {
-      return item.model.name === param.typeOptions.model!.name;
+      return item.model.name === param.typeOptions.model!.name && sameTarget;
     }
-    return item.target === param.getType();
+    return sameTarget;
   }
 
   private static mapArgFields(
