@@ -23,8 +23,8 @@ import {
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
-  FieldMetadata,
   ArgsParamMetadata,
+  TypeClassMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
@@ -43,9 +43,6 @@ import {
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
-import { getTypeField } from "../../tests/helpers/getTypeField";
-import { getFieldDef } from "graphql/execution/execute";
-import { TypeClassMetadata } from "../metadata/definitions/typeclass-metadata";
 
 interface ObjectTypeInfo {
   target: Function;

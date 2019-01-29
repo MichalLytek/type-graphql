@@ -8,4 +8,4 @@ export * from "./resolver-metadata";
 export * from "./union-metadata";
 export * from "./model-metadata";
 export * from "./destination-metadata";
-export * from "./modelfield-metadata";
+export * from "./typeclass-metadata";

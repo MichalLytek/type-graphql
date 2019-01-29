@@ -14,6 +14,7 @@ import {
   MiddlewareMetadata,
   ModelMetadata,
   DestinationMetadata,
+  TypeClassMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -23,7 +24,6 @@ import {
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
 } from "./utils";
-import { TypeClassMetadata } from "./definitions/typeclass-metadata";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];

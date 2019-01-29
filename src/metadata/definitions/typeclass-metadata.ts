@@ -1,5 +1,5 @@
 import { ModelTransformType } from "../../decorators/types";
-import { ClassMetadata } from "./class-metadata";
+import { ClassMetadata } from ".";
 
 export interface TypeClassMetadata extends ClassMetadata {
   toType?: ModelTransformType;
