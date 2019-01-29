@@ -35,7 +35,7 @@ export function createHandlerResolver(
         globalValidate,
         pubSub,
       );
-      return resolverMetadata.handler!.apply(targetInstance, params);
+      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };
 }

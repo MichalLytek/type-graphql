@@ -61,6 +61,16 @@ describe("Resolvers", () => {
     let sampleObjectType: IntrospectionObjectType;
     let argMethodField: IntrospectionField;
 
+    function LogMe(): MethodDecorator {
+      return (obj, methodName, descriptor: any) => {
+        const originalMethod: Function = descriptor.value;
+        descriptor.value = function() {
+          const res = originalMethod.apply(this, arguments);
+          return res;
+        };
+      };
+    }
+
     beforeAll(async () => {
       getMetadataStorage().clear();
 
@@ -157,6 +167,12 @@ describe("Resolvers", () => {
         @Query()
         classQuery(): boolean {
           return true;
+        }
+
+        @Query(() => String)
+        @LogMe()
+        methoedWithCustomDecorator(): string {
+          return "methoedWithCustomDecorator";
         }
       }
 
