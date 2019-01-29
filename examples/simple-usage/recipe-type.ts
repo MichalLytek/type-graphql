@@ -1,4 +1,4 @@
-import { Field, ObjectType, Int, Float, Args, ArgsType } from "../../src";
+import { Field, ObjectType, Int, Float } from "../../src";
 
 @ObjectType()
 export class Test {

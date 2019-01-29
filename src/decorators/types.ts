@@ -4,6 +4,8 @@ import { ValidatorOptions } from "class-validator";
 import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
 import { ClassMetadata, FieldMetadata } from "../metadata/definitions";
 
+export type ModelTransformType = "ObjectType" | "InputType" | "ArgsType";
+
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol | string;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
 
@@ -29,6 +31,7 @@ export type NullableListOptions = "items" | "itemsAndList";
 
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
+  model?: Function;
 }
 export interface DescriptionOptions {
   description?: string;
@@ -38,6 +41,7 @@ export interface DepreciationOptions {
 }
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
+  model?: Function;
 }
 export interface ComplexityOptions {
   complexity?: Complexity;
@@ -62,6 +66,11 @@ export interface TransformModel {
 }
 export interface ModelOptions {
   models?: Function[];
+  type?: ModelTransformType;
+  transformModel?: TransformModel;
+}
+export interface DestinationOptions {
+  nullable?: boolean;
   transformModel?: TransformModel;
 }
 

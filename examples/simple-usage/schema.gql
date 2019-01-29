@@ -13,7 +13,8 @@ type Mutation {
 }
 
 type Query {
-  recipe(title: String!): Recipe
+  argsRecipe(count: Float, where: RecipeWhereModelwhere, where2: RecipeWhereModelwhere2): Recipe
+  argsRecipe2(count: Float, where: TestWhereModelwhere, where2: TestWhereModelwhere2): Test
 
   """Get all the recipes from around the world """
   recipes: [Recipe!]!
@@ -38,34 +39,28 @@ input RecipeInput {
   description: String
 }
 
-type RecipeWhereModelDestination {
-  count: Float!
-  where: RecipeWhereModelwhere
-  where2: RecipeWhereModelwhere2!
-}
-
-type RecipeWhereModelwhere {
+input RecipeWhereModelwhere {
   title: String
-  specification: String @deprecated(reason: "Use `description` field instead")
+  specification: String
 
   """The recipe description with preparation info"""
   description: String
   ratings: [Int!]
   creationDate: DateTime
-  ratingsCount(minRate: Int = 0): Int
+  ratingsCount: Int
   recipe: RecipeWhereModelwhere
   averageRating: Float
 }
 
-type RecipeWhereModelwhere2 {
+input RecipeWhereModelwhere2 {
   title: String!
-  specification: String! @deprecated(reason: "Use `description` field instead")
+  specification: String!
 
   """The recipe description with preparation info"""
   description: String!
   ratings: [Int!]!
   creationDate: DateTime!
-  ratingsCount(minRate: Int = 0): Int!
+  ratingsCount: Int!
   recipe: RecipeWhereModelwhere2!
   averageRating: Float!
 }
@@ -74,16 +69,10 @@ type Test {
   name: String!
 }
 
-type TestWhereModelDestination {
-  count: Float!
-  where: TestWhereModelwhere
-  where2: TestWhereModelwhere2!
-}
-
-type TestWhereModelwhere {
+input TestWhereModelwhere {
   name: String
 }
 
-type TestWhereModelwhere2 {
+input TestWhereModelwhere2 {
   name: String!
 }

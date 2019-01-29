@@ -15,9 +15,16 @@ export function Args(
 ): ParameterDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(paramTypeFnOrOptions, maybeOptions);
   return (prototype, propertyKey, parameterIndex) => {
+    const paramInfo = getParamInfo({
+      prototype,
+      propertyKey,
+      parameterIndex,
+      returnTypeFunc,
+      options,
+    });
     getMetadataStorage().collectHandlerParamMetadata({
       kind: "args",
-      ...getParamInfo({ prototype, propertyKey, parameterIndex, returnTypeFunc, options }),
+      ...paramInfo,
     });
   };
 }

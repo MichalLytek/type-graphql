@@ -8,7 +8,9 @@ export function Model(options?: Partial<ModelOptions>): ClassDecorator {
     getMetadataStorage().collectModelMetadata({
       name: target.name,
       target,
-      ...opts,
+      models: opts.models,
+      transform: opts.transformModel,
+      toType: opts.type || "ArgsType",
     });
   };
 }

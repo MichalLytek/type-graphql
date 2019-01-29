@@ -3,10 +3,9 @@ import { ApolloServer } from "apollo-server";
 import * as path from "path";
 import { buildSchema } from "../../src";
 import { RecipeResolver } from "./recipe-resolver";
-import { RecipeModel } from "./Model";
-import { Test } from "./recipe-type";
+import { WhereModel } from "./where-model";
 
-RecipeModel;
+WhereModel;
 
 async function bootstrap() {
   // build TypeGraphQL executable schema

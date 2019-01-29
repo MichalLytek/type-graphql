@@ -1,10 +1,9 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator, TransformModel } from "./types";
+import { MethodAndPropDecorator, DestinationOptions } from "./types";
 import { SymbolKeysNotSupportedError } from "../errors";
-import { TypeOptions } from "class-transformer";
 
-export function Destination(options?: TransformModel): MethodAndPropDecorator;
-export function Destination(options?: TransformModel): MethodDecorator {
+export function Destination(options?: DestinationOptions): MethodAndPropDecorator;
+export function Destination(options?: DestinationOptions): MethodDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
@@ -13,7 +12,8 @@ export function Destination(options?: TransformModel): MethodDecorator {
     getMetadataStorage().collectDestinationMetadata({
       name: propertyKey,
       target: prototype.constructor,
-      ...opts,
+      transform: opts.transformModel,
+      nullable: opts.nullable,
     });
   };
 }
