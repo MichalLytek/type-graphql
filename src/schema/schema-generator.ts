@@ -23,6 +23,7 @@ import {
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
+  FieldMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
@@ -82,6 +83,7 @@ export abstract class SchemaGenerator {
   private static enumTypesInfo: EnumTypeInfo[] = [];
   private static unionTypesInfo: UnionTypeInfo[] = [];
   private static modelTypesInfo: ModelTypeInfo[] = [];
+  private static destinationTypesInfo: ModelTypeInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
@@ -353,33 +355,66 @@ export abstract class SchemaGenerator {
       };
     });
 
-    this.modelTypesInfo = getMetadataStorage().models.map<ModelTypeInfo>(model => {
+    const models = getMetadataStorage().modelTypes.concat(getMetadataStorage().destinationTypes);
+    this.modelTypesInfo = models.map<ModelTypeInfo>(model => {
       return {
-        name: model.name(),
+        name: model.name,
         type: new GraphQLObjectType({
-          name: model.name(),
-          fields: model.fields!.reduce<GraphQLFieldConfigMap<any, any>>((fieldsMap, field) => {
-            const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
-              resolver =>
-                resolver.getObjectType!() === model.target &&
-                resolver.methodName === field.name &&
-                (resolver.resolverClassMetadata === undefined ||
-                  resolver.resolverClassMetadata.isAbstract === false),
+          name: model.name,
+          fields: () => {
+            const fields = model.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+              (fieldsMap, field) => {
+                const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+                  resolver =>
+                    resolver.getObjectType!() === model.target &&
+                    resolver.methodName === field.name &&
+                    (resolver.resolverClassMetadata === undefined ||
+                      resolver.resolverClassMetadata.isAbstract === false),
+                );
+                fieldsMap[field.schemaName] = {
+                  type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                  complexity: field.complexity,
+                  args: this.generateHandlerArgs(field.params!),
+                  resolve: fieldResolverMetadata
+                    ? createAdvancedFieldResolver(fieldResolverMetadata)
+                    : createSimpleFieldResolver(field),
+                  description: field.description,
+                  deprecationReason: field.deprecationReason,
+                };
+                return fieldsMap;
+              },
+              {},
             );
-            fieldsMap[field.schemaName] = {
-              type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-              complexity: field.complexity,
-              args: this.generateHandlerArgs(field.params!),
-              resolve: fieldResolverMetadata
-                ? createAdvancedFieldResolver(fieldResolverMetadata)
-                : createSimpleFieldResolver(field),
-              description: field.description,
-              deprecationReason: field.deprecationReason,
-            };
-            return fieldsMap;
-          }, {}),
+            return fields;
+          },
         }),
       };
+    });
+  }
+
+  private static buildObjectTypeFields(target: Function, name: string, fields: FieldMetadata[]) {
+    return new GraphQLObjectType({
+      name,
+      fields: fields.reduce<GraphQLFieldConfigMap<any, any>>((fieldsMap, field) => {
+        const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+          resolver =>
+            resolver.getObjectType!() === target &&
+            resolver.methodName === field.name &&
+            (resolver.resolverClassMetadata === undefined ||
+              resolver.resolverClassMetadata.isAbstract === false),
+        );
+        fieldsMap[field.schemaName] = {
+          type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+          complexity: field.complexity,
+          args: this.generateHandlerArgs(field.params!),
+          resolve: fieldResolverMetadata
+            ? createAdvancedFieldResolver(fieldResolverMetadata)
+            : createSimpleFieldResolver(field),
+          description: field.description,
+          deprecationReason: field.deprecationReason,
+        };
+        return fieldsMap;
+      }, {}),
     });
   }
 
@@ -559,7 +594,16 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      const modelType = this.modelTypesInfo.find(it => it.name === type);
+      const modelType = this.modelTypesInfo.find(it => it.type.name === type);
+      if (modelType) {
+        gqlType = modelType.type;
+      }
+    }
+    if (!gqlType) {
+      const destinationType = this.destinationTypesInfo.find(it => it.type.name === type);
+      if (destinationType) {
+        gqlType = destinationType.type;
+      }
     }
     if (!gqlType) {
       throw new Error(`Cannot determine GraphQL output type for ${typeOwnerName}`!);

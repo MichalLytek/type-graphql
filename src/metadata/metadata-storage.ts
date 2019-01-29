@@ -14,7 +14,6 @@ import {
   MiddlewareMetadata,
   ModelMetadata,
   DestinationMetadata,
-  ModelFieldMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -24,7 +23,9 @@ import {
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
 } from "./utils";
-import { ObjectType } from "../decorators";
+import { ObjectType } from "typedi";
+import { dest } from "vinyl-fs";
+import { TransformModel } from "../decorators/types";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
@@ -43,6 +44,8 @@ export class MetadataStorage {
   middlewares: MiddlewareMetadata[] = [];
   models: ModelMetadata[] = [];
   destinations: DestinationMetadata[] = [];
+  modelTypes: ClassMetadata[] = [];
+  destinationTypes: ClassMetadata[] = [];
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -171,25 +174,77 @@ export class MetadataStorage {
     }
   }
 
+  private getModelTypes(model: ModelMetadata) {
+    return this.objectTypes.filter(ot => model.models.indexOf(ot.target) > -1);
+  }
+
   private buildModels(definitions: ModelMetadata[]) {
     definitions.map(def => {
-      const destinations = this.destinations.filter(dest => dest.target === def.target);
-      const objectTypes = this.objectTypes.filter(ot => def.models.indexOf(ot.target) > -1);
-      objectTypes.map(ot => {
-        const compiledFields = this.compileFields(ot);
-        def.fields = compiledFields;
+      const modelTypes = this.getModelTypes(def);
+      modelTypes.map(mt => {
+        const destinationFields: FieldMetadata[] = this.destinations
+          .filter(destination => destination.target === def.target)
+          .map<FieldMetadata>(field => {
+            const typeName = mt.name + def.name + field.name;
+            const destinationField = {
+              name: field.name,
+              target: field.target,
+              typeOptions: {
+                nullable: field.nullable,
+                array: false,
+                defaultValue: undefined,
+              },
+              params: [],
+              schemaName: field.name,
+              getType: () => typeName,
+              complexity: undefined,
+              deprecationReason: undefined,
+              description: undefined,
+            };
+            this.modelTypes.push({
+              ...mt,
+              name: typeName,
+              fields: this.compileFields(mt, def, field),
+            });
+            return destinationField;
+          });
+        this.destinationTypes.push({
+          name: mt.name + def.name + "Destination",
+          target: def.target,
+          fields: def
+            .fields!.map(field => {
+              return field;
+            })
+            .concat(destinationFields),
+        });
       });
     });
   }
 
-  private compileFields(definition: ClassMetadata): FieldMetadata[] {
+  private compileFields(
+    definition: ClassMetadata,
+    model: ModelMetadata,
+    destination: DestinationMetadata,
+  ): FieldMetadata[] {
+    if (!model.transform) {
+      model.transform = {};
+    }
     return definition.fields!.map(
       (field): FieldMetadata => {
-        const modelRelation = this.models.find(model => model.models.indexOf(field.getType()) > -1);
-        return {
+        const modelRelation = this.getModelTypes(model).find(mt => mt.target === field.getType());
+        const newField = {
           ...field,
-          getType: modelRelation ? modelRelation.name : field.getType,
+          typeOptions: {
+            ...field.typeOptions,
+            nullable: destination.nullable || model.transform!.nullable,
+          },
+          getType: modelRelation
+            ? () => modelRelation.name + model.name + destination.name
+            : field.getType,
         };
+        model.transform!.apply && model.transform!.apply!(newField);
+        destination.apply && destination.apply(newField);
+        return newField;
       },
     );
   }

@@ -2,6 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
 import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
+import { ClassMetadata, FieldMetadata } from "../metadata/definitions";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol | string;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -53,6 +54,15 @@ export type AdvancedOptions = BasicOptions &
 export interface EnumConfig {
   name: string;
   description?: string;
+}
+
+export interface TransformModel {
+  apply?: (field: FieldMetadata) => void;
+  nullable?: boolean;
+}
+export interface ModelOptions {
+  models?: Function[];
+  transformModel?: TransformModel;
 }
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;

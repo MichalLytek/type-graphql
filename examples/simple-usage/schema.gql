@@ -29,6 +29,7 @@ type Recipe {
   ratings: [Int!]!
   creationDate: DateTime!
   ratingsCount(minRate: Int = 0): Int!
+  recipe: Recipe!
   averageRating: Float
 }
 
@@ -37,14 +38,52 @@ input RecipeInput {
   description: String
 }
 
-type RecipeModelArgs {
-  title: String!
+type RecipeWhereModelDestination {
+  count: Float!
+  where: RecipeWhereModelwhere
+  where2: RecipeWhereModelwhere2!
+}
+
+type RecipeWhereModelwhere {
+  title: String
   specification: String @deprecated(reason: "Use `description` field instead")
 
   """The recipe description with preparation info"""
   description: String
+  ratings: [Int!]
+  creationDate: DateTime
+  ratingsCount(minRate: Int = 0): Int
+  recipe: RecipeWhereModelwhere
+  averageRating: Float
+}
+
+type RecipeWhereModelwhere2 {
+  title: String!
+  specification: String! @deprecated(reason: "Use `description` field instead")
+
+  """The recipe description with preparation info"""
+  description: String!
   ratings: [Int!]!
   creationDate: DateTime!
   ratingsCount(minRate: Int = 0): Int!
-  averageRating: Float
+  recipe: RecipeWhereModelwhere2!
+  averageRating: Float!
+}
+
+type Test {
+  name: String!
+}
+
+type TestWhereModelDestination {
+  count: Float!
+  where: TestWhereModelwhere
+  where2: TestWhereModelwhere2!
+}
+
+type TestWhereModelwhere {
+  name: String
+}
+
+type TestWhereModelwhere2 {
+  name: String!
 }
