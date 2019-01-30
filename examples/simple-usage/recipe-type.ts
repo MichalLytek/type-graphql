@@ -1,5 +1,4 @@
 import { Field, ObjectType, Int, Float } from "../../src";
-import { Where2Model, WhereModel } from "./where-model";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
@@ -23,9 +22,6 @@ export class Recipe {
   @Field(type => Int)
   ratingsCount: number;
 
-  @Field(type => Recipe)
-  recipe: Recipe;
-
   @Field(type => Float, { nullable: true })
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;
@@ -35,10 +31,4 @@ export class Recipe {
     const ratingsSum = this.ratings.reduce((a, b) => a + b, 0);
     return ratingsSum / ratingsCount;
   }
-}
-
-@ObjectType()
-export class Test {
-  @Field()
-  name: string;
 }

@@ -10,29 +10,25 @@ import {
   Args,
 } from "../../src";
 import { plainToClass } from "class-transformer";
-import { Recipe, Test } from "./recipe-type";
+import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 import { createRecipeSamples } from "./recipe-samples";
-import { WhereModel, Where2Model } from "./where-model";
+import { WhereModel, WhereModelObject } from "./where-model";
+import { HasModel } from "./has-model";
+
+HasModel;
 
 @Resolver(of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[] = createRecipeSamples();
 
-  // @Query(returns => Recipe, { nullable: true })
-  // async argsRecipe(@Args({ type: Recipe }) args: WhereModel<Recipe>): Promise<Recipe> {
-  //   return new Recipe();
-  // }
-
-  // @Query(returns => Test, { nullable: true })
-  // async argsRecipe2(@Args({ type: Test }) args: WhereModel<Test>): Promise<Test> {
-  //   return new Test();
-  // }
-
-  // @Query(returns => Recipe, { nullable: true })
-  // async argsRecipe3(@Args() args: RecipeArgs): Promise<Recipe> {
-  //   return new Recipe();
-  // }
+  @Query(returns => Recipe, { model: WhereModelObject })
+  argsRecipe(@Args({ type: Recipe }) args: WhereModel<Recipe>): WhereModelObject<Recipe> {
+    const recipe = new WhereModelObject<Recipe>();
+    recipe.items = this.items;
+    console.log(recipe);
+    return recipe;
+  }
 
   @Query(returns => [Recipe], { description: "Get all the recipes from around the world " })
   async recipes(): Promise<Recipe[]> {

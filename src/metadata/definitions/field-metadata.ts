@@ -15,6 +15,7 @@ export interface FieldMetadata {
   getter: boolean;
   setter: boolean;
   isAccessor: boolean;
+  destinationField?: boolean;
   params?: ParamMetadata[];
   roles?: any[];
   fieldResolver?: boolean;

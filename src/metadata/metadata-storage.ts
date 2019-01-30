@@ -180,25 +180,32 @@ export class MetadataStorage {
     return [];
   }
 
+  private getFieldTypeName(...types: string[]) {
+    return types.join("_");
+  }
+
   private buildModels(definitions: ModelMetadata[]) {
     definitions.map(def => {
       const modelTypes = this.getModelTypes(def);
       modelTypes.map(ot => {
+        const baseName = this.getFieldTypeName(def.name, ot.name);
         const destinationFields: FieldMetadata[] = this.destinations
           .filter(destination => destination.target === def.target)
           .map<FieldMetadata>(field => {
-            const typeName = ot.name + def.name + field.name;
+            const typeName = this.getFieldTypeName(baseName, field.name);
             const destinationField = {
               name: field.name,
               target: field.target,
               typeOptions: {
                 nullable: field.nullable,
-                array: false,
+                array: field.array,
                 defaultValue: undefined,
               },
               params: [],
               schemaName: field.name,
               getType: () => typeName,
+              destinationField: true,
+              middlewares: [],
               complexity: undefined,
               deprecationReason: undefined,
               description: undefined,
@@ -218,7 +225,7 @@ export class MetadataStorage {
             return destinationField;
           });
         const destinationType: TypeClassMetadata = {
-          name: ot.name + def.name + "Destination",
+          name: this.getFieldTypeName(baseName, "Wrapper"),
           target: def.target,
           toType: def.toType,
           model: def,
@@ -256,7 +263,7 @@ export class MetadataStorage {
             nullable: destination.transform!.nullable || model.transform!.nullable,
           },
           getType: modelRelation
-            ? () => modelRelation.name + model.name + destination.name
+            ? () => this.getFieldTypeName(model.name, modelRelation.name, destination.name)
             : field.getType,
         };
         model.transform!.apply && model.transform!.apply!(newField);

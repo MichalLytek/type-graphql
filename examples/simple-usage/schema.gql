@@ -9,7 +9,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type HasModel {
-  whereModel: RecipeWhereModelDestination!
+  items: [WhereModelObject_Recipe_Wrapper!]!
 }
 
 type Mutation {
@@ -17,6 +17,8 @@ type Mutation {
 }
 
 type Query {
+  argsRecipe(count: Float, where: WhereModel_Recipe_where!): WhereModelObject_Recipe_Wrapper!
+
   """Get all the recipes from around the world """
   recipes: [Recipe!]!
 }
@@ -31,7 +33,6 @@ type Recipe {
   ratings: [Int!]!
   creationDate: DateTime!
   ratingsCount(minRate: Int = 0): Int!
-  recipe: Recipe!
   averageRating: Float
 }
 
@@ -40,13 +41,19 @@ input RecipeInput {
   description: String
 }
 
-input RecipeWhere2ModelDestination {
-  count: Float
-  where3: RecipeWhere2Modelwhere3!
-  where4: RecipeWhere2Modelwhere4
+input WhereModel_Recipe_where {
+  title: String
+  specification: String
+
+  """The recipe description with preparation info"""
+  description: String
+  ratings: [Int!]
+  creationDate: DateTime
+  ratingsCount: Int
+  averageRating: Float
 }
 
-input RecipeWhere2Modelwhere3 {
+input WhereModelInput_Recipe_where {
   title: String
   specification: String
 
@@ -55,43 +62,14 @@ input RecipeWhere2Modelwhere3 {
   ratings: [Int!]!
   creationDate: DateTime
   ratingsCount: Int!
-  recipe: RecipeWhere2Modelwhere3!
   averageRating: Float!
 }
 
-input RecipeWhere2Modelwhere4 {
-  title: String!
-  specification: String!
-
-  """The recipe description with preparation info"""
-  description: String!
-  ratings: [Int!]!
-  creationDate: DateTime!
-  ratingsCount: Int!
-  recipe: RecipeWhere2Modelwhere4!
-  averageRating: Float!
+input WhereModelInput_Recipe_Wrapper {
+  where: WhereModelInput_Recipe_where!
 }
 
-type RecipeWhereModelDestination {
-  count: Float
-  where: RecipeWhereModelwhere
-  where2: RecipeWhereModelwhere2
-}
-
-type RecipeWhereModelwhere {
-  title: String
-  specification: String @deprecated(reason: "Use `description` field instead")
-
-  """The recipe description with preparation info"""
-  description: String
-  ratings: [Int!]
-  creationDate: DateTime
-  ratingsCount(minRate: Int = 0): Int
-  recipe: RecipeWhereModelwhere
-  averageRating: Float
-}
-
-type RecipeWhereModelwhere2 {
+type WhereModelObject_Recipe_items {
   title: String!
   specification: String! @deprecated(reason: "Use `description` field instead")
 
@@ -100,38 +78,9 @@ type RecipeWhereModelwhere2 {
   ratings: [Int!]!
   creationDate: DateTime!
   ratingsCount(minRate: Int = 0): Int!
-  recipe: RecipeWhereModelwhere2!
   averageRating: Float!
 }
 
-type Test {
-  name: String!
-}
-
-input TestWhere2ModelDestination {
-  count: Float
-  where3: TestWhere2Modelwhere3!
-  where4: TestWhere2Modelwhere4
-}
-
-input TestWhere2Modelwhere3 {
-  name: String
-}
-
-input TestWhere2Modelwhere4 {
-  name: String!
-}
-
-type TestWhereModelDestination {
-  count: Float
-  where: TestWhereModelwhere
-  where2: TestWhereModelwhere2
-}
-
-type TestWhereModelwhere {
-  name: String
-}
-
-type TestWhereModelwhere2 {
-  name: String!
+type WhereModelObject_Recipe_Wrapper {
+  items: [WhereModelObject_Recipe_items!]
 }

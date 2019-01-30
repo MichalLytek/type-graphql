@@ -1,25 +1,21 @@
 import { Field, Model, Destination, ObjectType } from "../../src";
-import { Recipe, Test } from "./recipe-type";
+import { Recipe } from "./recipe-type";
 
-@Model({ models: [Recipe, Test], type: "ObjectType" })
+@Model({ models: [Recipe], type: "ArgsType" })
 export class WhereModel<Type> {
   @Destination({
-    nullable: true,
     transformModel: {
       nullable: true,
     },
   })
   where?: Partial<Type>;
 
-  @Destination({ nullable: true })
-  where2: Type;
-
   @Field({ nullable: true })
   count: number;
 }
 
-@Model({ models: [Recipe, Test], type: "InputType" })
-export class Where2Model<Type> {
+@Model({ models: [Recipe], type: "InputType" })
+export class WhereModelInput<Type> {
   @Destination({
     transformModel: {
       apply: field => {
@@ -29,17 +25,11 @@ export class Where2Model<Type> {
       },
     },
   })
-  where3?: Partial<Type>;
-
-  @Destination({ nullable: true })
-  where4: Type;
-
-  @Field({ nullable: true })
-  count: number;
+  where?: Partial<Type>;
 }
 
-@ObjectType()
-export class HasModel {
-  @Field(type => Recipe, { model: WhereModel })
-  whereModel: WhereModel<Recipe>;
+@Model({ models: [Recipe], type: "ObjectType" })
+export class WhereModelObject<Type> {
+  @Destination({ nullable: true, array: true })
+  items: Type[];
 }

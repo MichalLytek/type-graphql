@@ -543,9 +543,10 @@ export abstract class SchemaGenerator {
         };
       } else if (param.kind === "args") {
         try {
-          const argumentType = getMetadataStorage().argumentTypes.find(it =>
-            this.matchArg(it, param),
-          )!;
+          const argumentTypes = getMetadataStorage().argumentTypes;
+          const argumentType = argumentTypes.find(it => {
+            return this.matchArg(it, param);
+          })!;
           let superClass = Object.getPrototypeOf(argumentType.target);
           while (superClass.prototype !== undefined) {
             const superArgumentType = getMetadataStorage().argumentTypes.find(
@@ -574,8 +575,8 @@ export abstract class SchemaGenerator {
 
   private static matchArg(item: TypeClassMetadata, param: ArgsParamMetadata) {
     const sameTarget = item.target === param.getType();
-    if (item.model && param.typeOptions.type) {
-      return item.model.name === param.typeOptions.type.name && sameTarget;
+    if (item.type && param.typeOptions.type) {
+      return item.type.name === param.typeOptions.type.name && sameTarget;
     }
     return sameTarget;
   }

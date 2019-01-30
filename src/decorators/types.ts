@@ -71,6 +71,7 @@ export interface ModelOptions {
   transformModel?: TransformModel;
 }
 export interface DestinationOptions {
+  array?: boolean;
   nullable?: boolean;
   transformModel?: TransformModel;
 }
