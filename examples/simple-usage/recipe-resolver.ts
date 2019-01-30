@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { plainToClass } from "class-transformer";
 import { Recipe, Test } from "./recipe-type";
-import { RecipeInput, RecipeArgs } from "./recipe-input";
+import { RecipeInput } from "./recipe-input";
 import { createRecipeSamples } from "./recipe-samples";
 import { WhereModel, Where2Model } from "./where-model";
 
