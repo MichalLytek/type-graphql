@@ -1,5 +1,6 @@
-import { Recipe } from "./recipe-type";
+import { Recipe, Test } from "./recipe-type";
 import { InputType, Field, ArgsType } from "../../src";
+import { WhereModel, Where2Model } from "./where-model";
 
 @InputType()
 export class RecipeInput implements Partial<Recipe> {
@@ -10,8 +11,11 @@ export class RecipeInput implements Partial<Recipe> {
   description?: string;
 }
 
-@ArgsType()
-export class RecipeArgs {
-  @Field()
-  test: string;
-}
+// @ArgsType()
+// export class RecipeArgs {
+//   @Field()
+//   test: string;
+
+//   @Field(type => Test, { model: Where2Model })
+//   test2: Where2Model<Test>
+// }

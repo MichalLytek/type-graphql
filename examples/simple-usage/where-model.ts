@@ -1,7 +1,7 @@
-import { Field, Model, Destination } from "../../src";
+import { Field, Model, Destination, ObjectType } from "../../src";
 import { Recipe, Test } from "./recipe-type";
 
-@Model({ models: [Recipe, Test] })
+@Model({ models: [Recipe, Test], type: "ObjectType" })
 export class WhereModel<Type> {
   @Destination({
     nullable: true,
@@ -17,7 +17,8 @@ export class WhereModel<Type> {
   @Field({ nullable: true })
   count: number;
 }
-@Model({ models: [Recipe, Test] })
+
+@Model({ models: [Recipe, Test], type: "InputType" })
 export class Where2Model<Type> {
   @Destination({
     transformModel: {
@@ -35,4 +36,10 @@ export class Where2Model<Type> {
 
   @Field({ nullable: true })
   count: number;
+}
+
+@ObjectType()
+export class HasModel {
+  @Field(type => Recipe, { model: WhereModel })
+  whereModel: WhereModel<Recipe>;
 }

@@ -8,15 +8,15 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type HasModel {
+  whereModel: RecipeWhereModelDestination!
+}
+
 type Mutation {
   addRecipe(recipe: RecipeInput!): Recipe!
 }
 
 type Query {
-  argsRecipe(count: Float, where: RecipeWhereModelwhere, where2: RecipeWhereModelwhere2): Recipe
-  argsRecipe2(count: Float, where: TestWhereModelwhere, where2: TestWhereModelwhere2): Test
-  argsRecipe3(count: Float, where3: RecipeWhere2Modelwhere3!, where4: RecipeWhere2Modelwhere4): Recipe
-
   """Get all the recipes from around the world """
   recipes: [Recipe!]!
 }
@@ -38,6 +38,12 @@ type Recipe {
 input RecipeInput {
   title: String!
   description: String
+}
+
+input RecipeWhere2ModelDestination {
+  count: Float
+  where3: RecipeWhere2Modelwhere3!
+  where4: RecipeWhere2Modelwhere4
 }
 
 input RecipeWhere2Modelwhere3 {
@@ -66,34 +72,46 @@ input RecipeWhere2Modelwhere4 {
   averageRating: Float!
 }
 
-input RecipeWhereModelwhere {
+type RecipeWhereModelDestination {
+  count: Float
+  where: RecipeWhereModelwhere
+  where2: RecipeWhereModelwhere2
+}
+
+type RecipeWhereModelwhere {
   title: String
-  specification: String
+  specification: String @deprecated(reason: "Use `description` field instead")
 
   """The recipe description with preparation info"""
   description: String
   ratings: [Int!]
   creationDate: DateTime
-  ratingsCount: Int
+  ratingsCount(minRate: Int = 0): Int
   recipe: RecipeWhereModelwhere
   averageRating: Float
 }
 
-input RecipeWhereModelwhere2 {
+type RecipeWhereModelwhere2 {
   title: String!
-  specification: String!
+  specification: String! @deprecated(reason: "Use `description` field instead")
 
   """The recipe description with preparation info"""
   description: String!
   ratings: [Int!]!
   creationDate: DateTime!
-  ratingsCount: Int!
+  ratingsCount(minRate: Int = 0): Int!
   recipe: RecipeWhereModelwhere2!
   averageRating: Float!
 }
 
 type Test {
   name: String!
+}
+
+input TestWhere2ModelDestination {
+  count: Float
+  where3: TestWhere2Modelwhere3!
+  where4: TestWhere2Modelwhere4
 }
 
 input TestWhere2Modelwhere3 {
@@ -104,10 +122,16 @@ input TestWhere2Modelwhere4 {
   name: String!
 }
 
-input TestWhereModelwhere {
+type TestWhereModelDestination {
+  count: Float
+  where: TestWhereModelwhere
+  where2: TestWhereModelwhere2
+}
+
+type TestWhereModelwhere {
   name: String
 }
 
-input TestWhereModelwhere2 {
+type TestWhereModelwhere2 {
   name: String!
 }

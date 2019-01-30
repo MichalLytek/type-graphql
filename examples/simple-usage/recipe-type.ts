@@ -1,10 +1,5 @@
 import { Field, ObjectType, Int, Float } from "../../src";
-
-@ObjectType()
-export class Test {
-  @Field()
-  name: string;
-}
+import { Where2Model, WhereModel } from "./where-model";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
@@ -40,4 +35,10 @@ export class Recipe {
     const ratingsSum = this.ratings.reduce((a, b) => a + b, 0);
     return ratingsSum / ratingsCount;
   }
+}
+
+@ObjectType()
+export class Test {
+  @Field()
+  name: string;
 }

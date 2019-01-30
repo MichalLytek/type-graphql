@@ -202,21 +202,28 @@ export class MetadataStorage {
               complexity: undefined,
               deprecationReason: undefined,
               description: undefined,
+              getter: false,
+              setter: false,
+              isAccessor: false,
             };
             this.modelTypes.push({
               ...ot,
               name: typeName,
-              model: ot,
+              model: def,
+              type: ot,
+              destination: false,
               fields: this.compileFields(ot, def, field),
               toType: def.toType === "ArgsType" ? "InputType" : def.toType,
             });
             return destinationField;
           });
-        const destinationType = {
+        const destinationType: TypeClassMetadata = {
           name: ot.name + def.name + "Destination",
           target: def.target,
           toType: def.toType,
-          model: ot,
+          model: def,
+          type: ot,
+          destination: true,
           fields: def
             .fields!.map(field => {
               return field;
@@ -311,6 +318,9 @@ export class MetadataStorage {
             middlewares: def.middlewares!,
             params: def.params!,
             fieldResolver: true,
+            getter: true,
+            setter: false,
+            isAccessor: true,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);

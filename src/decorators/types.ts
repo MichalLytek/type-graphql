@@ -25,13 +25,14 @@ export type SubscriptionTopicFunc = (
 export interface DecoratorTypeOptions {
   nullable?: boolean | NullableListOptions;
   defaultValue?: any;
+  model?: Function;
 }
 
 export type NullableListOptions = "items" | "itemsAndList";
 
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
-  model?: Function;
+  type?: Function;
 }
 export interface DescriptionOptions {
   description?: string;
@@ -41,7 +42,7 @@ export interface DepreciationOptions {
 }
 export interface ValidateOptions {
   validate?: boolean | ValidatorOptions;
-  model?: Function;
+  type?: Function;
 }
 export interface ComplexityOptions {
   complexity?: Complexity;
