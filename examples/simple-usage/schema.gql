@@ -3,32 +3,26 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
+# The javascript `Date` as string. Type represents date and time as the ISO Date string.
 scalar DateTime
-
-type HasModel {
-  items: [WhereModelObject_Recipe_Wrapper!]!
-}
 
 type Mutation {
   addRecipe(recipe: RecipeInput!): Recipe!
 }
 
 type Query {
-  argsRecipe(count: Float, where: WhereModel_Recipe_where!): WhereModelObject_Recipe_Wrapper!
+  recipe(title: String!): Recipe
 
-  """Get all the recipes from around the world """
+  # Get all the recipes from around the world 
   recipes: [Recipe!]!
 }
 
-"""Object representing cooking recipe"""
+# Object representing cooking recipe
 type Recipe {
   title: String!
   specification: String @deprecated(reason: "Use `description` field instead")
 
-  """The recipe description with preparation info"""
+  # The recipe description with preparation info
   description: String
   ratings: [Int!]!
   creationDate: DateTime!
@@ -39,48 +33,4 @@ type Recipe {
 input RecipeInput {
   title: String!
   description: String
-}
-
-input WhereModel_Recipe_where {
-  title: String
-  specification: String
-
-  """The recipe description with preparation info"""
-  description: String
-  ratings: [Int!]
-  creationDate: DateTime
-  ratingsCount: Int
-  averageRating: Float
-}
-
-input WhereModelInput_Recipe_where {
-  title: String
-  specification: String
-
-  """The recipe description with preparation info"""
-  description: String
-  ratings: [Int!]!
-  creationDate: DateTime
-  ratingsCount: Int!
-  averageRating: Float!
-}
-
-input WhereModelInput_Recipe_Wrapper {
-  where: WhereModelInput_Recipe_where!
-}
-
-type WhereModelObject_Recipe_items {
-  title: String!
-  specification: String! @deprecated(reason: "Use `description` field instead")
-
-  """The recipe description with preparation info"""
-  description: String!
-  ratings: [Int!]!
-  creationDate: DateTime!
-  ratingsCount(minRate: Int = 0): Int!
-  averageRating: Float!
-}
-
-type WhereModelObject_Recipe_Wrapper {
-  items: [WhereModelObject_Recipe_items!]
 }

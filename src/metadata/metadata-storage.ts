@@ -12,8 +12,8 @@ import {
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
-  ModelMetadata,
-  DestinationMetadata,
+  GenericFieldMetadata,
+  GenericTypeMetadata,
   TypeClassMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
@@ -41,10 +41,10 @@ export class MetadataStorage {
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
 
-  models: ModelMetadata[] = [];
-  destinations: DestinationMetadata[] = [];
-  modelTypes: TypeClassMetadata[] = [];
-  destinationTypes: TypeClassMetadata[] = [];
+  genericTypes: GenericTypeMetadata[] = []; // All @GenericType
+  genericFields: GenericFieldMetadata[] = []; // All @GenericFields
+  subTypes: TypeClassMetadata[] = []; // Compiled type for a generic field
+  wrapperTypes: TypeClassMetadata[] = []; // Compiled type that represent the GenericType class
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -69,11 +69,11 @@ export class MetadataStorage {
   collectObjectMetadata(definition: ClassMetadata) {
     this.objectTypes.push(definition);
   }
-  collectModelMetadata(definition: ModelMetadata) {
-    this.models.push(definition);
+  collectGenericTypeMetadata(definition: GenericTypeMetadata) {
+    this.genericTypes.push(definition);
   }
-  collectDestinationMetadata(definition: DestinationMetadata) {
-    this.destinations.push(definition);
+  collectGenericFieldMetadata(definition: GenericFieldMetadata) {
+    this.genericFields.push(definition);
   }
   collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
@@ -119,7 +119,7 @@ export class MetadataStorage {
     this.buildClassMetadata(this.inputTypes);
     this.buildClassMetadata(this.argumentTypes);
     this.buildClassMetadata(this.interfaceTypes);
-    this.buildClassMetadata(this.models);
+    this.buildClassMetadata(this.genericTypes);
 
     this.buildFieldResolverMetadata(this.fieldResolvers);
 
@@ -129,7 +129,7 @@ export class MetadataStorage {
 
     this.buildExtendedResolversMetadata();
 
-    this.buildModels(this.models);
+    this.buildGenericTypes(this.genericTypes);
   }
 
   clear() {
@@ -145,8 +145,10 @@ export class MetadataStorage {
     this.enums = [];
     this.unions = [];
     this.middlewares = [];
-    this.models = [];
-    this.destinations = [];
+    this.genericTypes = [];
+    this.genericFields = [];
+    this.subTypes = [];
+    this.wrapperTypes = [];
 
     this.resolverClasses = [];
     this.fields = [];
@@ -154,8 +156,8 @@ export class MetadataStorage {
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]): void;
-  private buildClassMetadata(definitions: ModelMetadata[]): void;
-  private buildClassMetadata(definitions: ClassMetadata[] | ModelMetadata[]): void {
+  private buildClassMetadata(definitions: GenericTypeMetadata[]): void;
+  private buildClassMetadata(definitions: ClassMetadata[] | GenericTypeMetadata[]): void {
     for (const def of definitions) {
       const fields = this.fields.filter(field => field.target === def.target);
       fields.forEach(field => {
@@ -173,27 +175,30 @@ export class MetadataStorage {
     }
   }
 
-  private getModelTypes(model: ModelMetadata) {
-    if (model.models) {
-      return this.objectTypes.filter(ot => model.models!.indexOf(ot.target) > -1);
+  private getGenericObjectTypes(genericType: GenericTypeMetadata) {
+    if (genericType.types) {
+      return this.objectTypes.filter(ot => genericType.types!.indexOf(ot.target) > -1);
     }
-    return [];
+    return [...this.objectTypes];
   }
 
   private getFieldTypeName(...types: string[]) {
     return types.join("_");
   }
 
-  private buildModels(definitions: ModelMetadata[]) {
+  private buildGenericTypes(definitions: GenericTypeMetadata[]) {
     definitions.map(def => {
-      const modelTypes = this.getModelTypes(def);
-      modelTypes.map(ot => {
-        const baseName = this.getFieldTypeName(def.name, ot.name);
-        const destinationFields: FieldMetadata[] = this.destinations
-          .filter(destination => destination.target === def.target)
+      // Get the ObjectTypes to wrap into the GenericType
+      this.getGenericObjectTypes(def).map(got => {
+        // Rename the SDL object this is the sub type name
+        const baseName = this.getFieldTypeName(def.name, got.name);
+        // Get the GenericField of the GenericType and convert it into real Fields
+        const genericFields: FieldMetadata[] = this.genericFields
+          .filter(it => it.target === def.target)
           .map<FieldMetadata>(field => {
+            // Create the GenericField type name, it's the sub type name with the GenericField name
             const typeName = this.getFieldTypeName(baseName, field.name);
-            const destinationField = {
+            const genericField = {
               name: field.name,
               target: field.target,
               typeOptions: {
@@ -213,34 +218,33 @@ export class MetadataStorage {
               setter: false,
               isAccessor: false,
             };
-            this.modelTypes.push({
-              ...ot,
+            // Create a sub type for each GenericField it contains the properties of
+            // the class that passed in parameter (Recipe { name; } => SubType.field has a "name" field)
+            this.subTypes.push({
+              ...got,
               name: typeName,
-              model: def,
-              type: ot,
-              destination: false,
-              fields: this.compileFields(ot, def, field),
-              toType: def.toType === "ArgsType" ? "InputType" : def.toType,
+              genericType: def,
+              type: got,
+              isWrapper: false,
+              fields: this.compileFields(got, def, field),
+              gqlType: def.gqlType === "ArgsType" ? "InputType" : def.gqlType,
             });
-            return destinationField;
+            return genericField;
           });
-        const destinationType: TypeClassMetadata = {
+        const wrapperType: TypeClassMetadata = {
           name: this.getFieldTypeName(baseName, "Wrapper"),
           target: def.target,
-          toType: def.toType,
-          model: def,
-          type: ot,
-          destination: true,
-          fields: def
-            .fields!.map(field => {
-              return field;
-            })
-            .concat(destinationFields),
+          gqlType: def.gqlType,
+          genericType: def,
+          type: got,
+          isWrapper: true,
+          // Concat normal field (@Field) with GenericField (@GenericField)
+          fields: [...def.fields!, ...genericFields],
         };
-        if (def.toType === "ArgsType") {
-          this.argumentTypes.push(destinationType);
+        if (def.gqlType === "ArgsType") {
+          this.argumentTypes.push(wrapperType);
         } else {
-          this.destinationTypes.push(destinationType);
+          this.wrapperTypes.push(wrapperType);
         }
       });
     });
@@ -248,26 +252,30 @@ export class MetadataStorage {
 
   private compileFields(
     definition: ClassMetadata,
-    model: ModelMetadata,
-    destination: DestinationMetadata,
+    genericType: GenericTypeMetadata,
+    genericField: GenericFieldMetadata,
   ): FieldMetadata[] {
-    model.transform = model.transform || {};
-    destination.transform = destination.transform || {};
+    genericType.transformFields = genericType.transformFields || {};
+    genericField.transformFields = genericField.transformFields || {};
     return definition.fields!.map(
       (field): FieldMetadata => {
-        const modelRelation = this.getModelTypes(model).find(mt => mt.target === field.getType());
+        // Find the relation between field and ObjectTypes to replace the relation by a SubType relation in SDL (recipe: Recipe => recipe: GT_Recipe_Prop)
+        const typeRelation = this.getGenericObjectTypes(genericType).find(
+          it => it.target === field.getType(),
+        );
         const newField = {
           ...field,
           typeOptions: {
             ...field.typeOptions,
-            nullable: destination.transform!.nullable || model.transform!.nullable,
+            nullable:
+              genericField.transformFields!.nullable || genericType.transformFields!.nullable,
           },
-          getType: modelRelation
-            ? () => this.getFieldTypeName(model.name, modelRelation.name, destination.name)
+          getType: typeRelation
+            ? () => this.getFieldTypeName(genericType.name, typeRelation.name, genericField.name)
             : field.getType,
         };
-        model.transform!.apply && model.transform!.apply!(newField);
-        destination.transform!.apply && destination.transform!.apply!(newField);
+        genericType.transformFields!.apply && genericType.transformFields!.apply!(newField);
+        genericField.transformFields!.apply && genericField.transformFields!.apply!(newField);
         return newField;
       },
     );

@@ -18,5 +18,5 @@ export { Root } from "./Root";
 export { Subscription } from "./Subscription";
 export { createUnionType } from "./unions";
 export { UseMiddleware } from "./UseMiddleware";
-export { Model } from "./Model";
-export { Destination } from "./Destination";
+export { GenericType } from "./GenericType";
+export { GenericField } from "./GenericField";

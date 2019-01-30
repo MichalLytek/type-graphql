@@ -2,9 +2,9 @@ import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
 import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
-import { ClassMetadata, FieldMetadata } from "../metadata/definitions";
+import { FieldMetadata } from "../metadata/definitions";
 
-export type ModelTransformType = "ObjectType" | "InputType" | "ArgsType";
+export type GqlTypes = "ObjectType" | "InputType" | "ArgsType";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol | string;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -25,7 +25,7 @@ export type SubscriptionTopicFunc = (
 export interface DecoratorTypeOptions {
   nullable?: boolean | NullableListOptions;
   defaultValue?: any;
-  model?: Function;
+  generic?: Function;
 }
 
 export type NullableListOptions = "items" | "itemsAndList";
@@ -61,19 +61,20 @@ export interface EnumConfig {
   description?: string;
 }
 
-export interface TransformModel {
+export interface TransformFields {
   apply?: (field: FieldMetadata) => void;
   nullable?: boolean;
 }
-export interface ModelOptions {
-  models?: Function[];
-  type?: ModelTransformType;
-  transformModel?: TransformModel;
+export interface GenericBaseOptions {
+  transformFields?: TransformFields;
 }
-export interface DestinationOptions {
+export interface GenericTypeOptions extends GenericBaseOptions {
+  types?: Function[];
+  gqlType?: GqlTypes;
+}
+export interface GenericFieldOptions extends GenericBaseOptions {
   array?: boolean;
   nullable?: boolean;
-  transformModel?: TransformModel;
 }
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;

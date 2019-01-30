@@ -2,11 +2,10 @@ import { ParamMetadata } from "./param-metadata";
 import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
+import { BaseClassMetadata } from "./types";
 
-export interface FieldMetadata {
-  target: Function;
+export interface FieldMetadata extends BaseClassMetadata {
   schemaName: string;
-  name: string;
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
   description: string | undefined;

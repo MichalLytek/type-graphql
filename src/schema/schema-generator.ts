@@ -48,12 +48,12 @@ interface ObjectTypeInfo {
   target: Function;
   type: GraphQLObjectType;
 }
-interface ModelTypeInfo {
+interface GenericInfo {
   name: string;
-  model: ClassMetadata;
-  typeObject: ClassMetadata;
-  destination: boolean;
-  type: GraphQLObjectType | GraphQLInputObjectType;
+  genericType: ClassMetadata;
+  type: ClassMetadata;
+  isWrapper: boolean;
+  gqlType?: GraphQLObjectType | GraphQLInputObjectType;
 }
 interface InputObjectTypeInfo {
   target: Function;
@@ -84,7 +84,7 @@ export abstract class SchemaGenerator {
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
   private static enumTypesInfo: EnumTypeInfo[] = [];
   private static unionTypesInfo: UnionTypeInfo[] = [];
-  private static modelTypesInfo: ModelTypeInfo[] = [];
+  private static genericsInfo: GenericInfo[] = [];
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
@@ -359,25 +359,25 @@ export abstract class SchemaGenerator {
       };
     });
 
-    const models = getMetadataStorage().modelTypes.concat(getMetadataStorage().destinationTypes);
-    models.map(model => {
+    const generics = [...getMetadataStorage().subTypes, ...getMetadataStorage().wrapperTypes];
+    generics.map(generic => {
       let type: GraphQLObjectType | GraphQLInputObjectType | undefined;
-      const baseObject = {
-        name: model.name,
-        model: model.model!,
-        typeObject: model.type!,
-        destination: model.destination!,
+      const baseObject: GenericInfo = {
+        name: generic.name,
+        genericType: generic.genericType!,
+        type: generic.type!,
+        isWrapper: generic.isWrapper!,
       };
-      switch (model.toType) {
+      switch (generic.gqlType) {
         case "ObjectType":
           type = new GraphQLObjectType({
-            name: model.name,
+            name: generic.name,
             fields: () => {
-              const fields = model.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+              const fields = generic.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
                   const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
                     resolver =>
-                      resolver.getObjectType!() === model.target &&
+                      resolver.getObjectType!() === generic.target &&
                       resolver.methodName === field.name &&
                       (resolver.resolverClassMetadata === undefined ||
                         resolver.resolverClassMetadata.isAbstract === false),
@@ -402,16 +402,16 @@ export abstract class SchemaGenerator {
           break;
 
         case "InputType":
-          const inputInstance = new (model.target as any)();
+          const inputInstance = new (generic.target as any)();
           type = new GraphQLInputObjectType({
-            name: model.name,
+            name: generic.name,
             fields: () => {
-              return model.fields!.reduce<GraphQLInputFieldConfigMap>((fieldsMap, field) => {
+              return generic.fields!.reduce<GraphQLInputFieldConfigMap>((fieldsMap, field) => {
                 field.typeOptions.defaultValue = this.getDefaultValue(
                   inputInstance,
                   field.typeOptions,
                   field.name,
-                  model.name,
+                  generic.name,
                 );
 
                 fieldsMap[field.schemaName] = {
@@ -427,9 +427,9 @@ export abstract class SchemaGenerator {
       }
 
       if (type) {
-        this.modelTypesInfo.push({
+        this.genericsInfo.push({
           ...baseObject,
-          type,
+          gqlType: type,
         });
       }
     });
@@ -468,7 +468,7 @@ export abstract class SchemaGenerator {
     return [
       ...this.objectTypesInfo.map(it => it.type),
       ...this.interfaceTypesInfo.map(it => it.type),
-      ...this.modelTypesInfo.map(it => it.type),
+      ...this.genericsInfo.map(it => it.gqlType!)!,
     ];
   }
 
@@ -542,32 +542,19 @@ export abstract class SchemaGenerator {
           defaultValue: param.typeOptions.defaultValue,
         };
       } else if (param.kind === "args") {
-        try {
-          const argumentTypes = getMetadataStorage().argumentTypes;
-          const argumentType = argumentTypes.find(it => {
-            return this.matchArg(it, param);
-          })!;
-          let superClass = Object.getPrototypeOf(argumentType.target);
-          while (superClass.prototype !== undefined) {
-            const superArgumentType = getMetadataStorage().argumentTypes.find(
-              it => it.target === superClass,
-            )!;
-            this.mapArgFields(superArgumentType, args);
-            superClass = Object.getPrototypeOf(superClass);
-          }
-          this.mapArgFields(argumentType, args);
-        } catch (err) {
-          const fakeUsage = getMetadataStorage().modelTypes.find(it => this.matchArg(it, param));
-          if (fakeUsage) {
-            throw new Error(
-              `Do not use the model ${
-                (param.getType() as Function).name
-              } with @Args if it's not declared as a ArgsType`,
-            );
-          } else {
-            throw err;
-          }
+        const argumentTypes = getMetadataStorage().argumentTypes;
+        const argumentType = argumentTypes.find(it => {
+          return this.matchArg(it, param);
+        })!;
+        let superClass = Object.getPrototypeOf(argumentType.target);
+        while (superClass.prototype !== undefined) {
+          const superArgumentType = getMetadataStorage().argumentTypes.find(
+            it => it.target === superClass,
+          )!;
+          this.mapArgFields(superArgumentType, args);
+          superClass = Object.getPrototypeOf(superClass);
         }
+        this.mapArgFields(argumentType, args);
       }
       return args;
     }, {});
@@ -601,6 +588,21 @@ export abstract class SchemaGenerator {
     });
   }
 
+  private static checkGenericType(
+    generic: GenericInfo,
+    type: TypeValue,
+    typeOptions: TypeOptions = {},
+  ) {
+    // Case for type relation
+    const sameTypeName = generic.name === type;
+    // Case for field with type param or Query for returns
+    const sameType =
+      generic.genericType.target === typeOptions.generic &&
+      generic.type.target === type &&
+      generic.isWrapper;
+    return sameType || sameTypeName;
+  }
+
   private static getGraphQLOutputType(
     typeOwnerName: string,
     type: TypeValue,
@@ -608,7 +610,7 @@ export abstract class SchemaGenerator {
   ): GraphQLOutputType {
     let gqlType: GraphQLOutputType | undefined;
     gqlType = convertTypeIfScalar(type);
-    if (!typeOptions.model) {
+    if (!typeOptions.generic) {
       if (!gqlType) {
         const objectType = this.objectTypesInfo.find(it => it.target === (type as Function));
         if (objectType) {
@@ -635,14 +637,13 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      const modelType = this.modelTypesInfo.find(it => {
-        const sameTypeName = it.type.name === type;
-        const sameType =
-          it.model.target === typeOptions.model && it.typeObject.target === type && it.destination;
-        return it.type instanceof GraphQLObjectType && (sameTypeName || sameType);
+      const generic = this.genericsInfo.find(it => {
+        return (
+          it.gqlType instanceof GraphQLObjectType && this.checkGenericType(it, type, typeOptions)
+        );
       });
-      if (modelType) {
-        gqlType = modelType.type as GraphQLObjectType;
+      if (generic) {
+        gqlType = generic.gqlType as GraphQLObjectType;
       }
     }
     if (!gqlType) {
@@ -672,14 +673,14 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      const modelType = this.modelTypesInfo.find(it => {
-        const sameTypeName = it.type.name === type;
-        const sameType =
-          it.model.target === typeOptions.model && it.typeObject.target === type && it.destination;
-        return it.type instanceof GraphQLInputObjectType && (sameTypeName || sameType);
+      const generic = this.genericsInfo.find(it => {
+        return (
+          it.gqlType instanceof GraphQLInputObjectType &&
+          this.checkGenericType(it, type, typeOptions)
+        );
       });
-      if (modelType) {
-        gqlType = modelType.type as GraphQLInputObjectType;
+      if (generic) {
+        gqlType = generic.gqlType as GraphQLInputObjectType;
       }
     }
     if (!gqlType) {

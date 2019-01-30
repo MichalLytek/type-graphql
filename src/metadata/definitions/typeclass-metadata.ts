@@ -1,9 +1,9 @@
-import { ModelTransformType } from "../../decorators/types";
+import { GqlTypes } from "../../decorators/types";
 import { ClassMetadata } from ".";
 
 export interface TypeClassMetadata extends ClassMetadata {
-  toType?: ModelTransformType;
-  model?: ClassMetadata;
+  gqlType?: GqlTypes;
+  genericType?: ClassMetadata;
   type?: ClassMetadata;
-  destination?: boolean;
+  isWrapper?: boolean;
 }

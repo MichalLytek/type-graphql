@@ -5,29 +5,23 @@ import {
   Arg,
   Root,
   Mutation,
+  Float,
   Int,
   ResolverInterface,
-  Args,
 } from "../../src";
 import { plainToClass } from "class-transformer";
+
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 import { createRecipeSamples } from "./recipe-samples";
-import { WhereModel, WhereModelObject } from "./where-model";
-import { HasModel } from "./has-model";
-
-HasModel;
 
 @Resolver(of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[] = createRecipeSamples();
 
-  @Query(returns => Recipe, { model: WhereModelObject })
-  argsRecipe(@Args({ type: Recipe }) args: WhereModel<Recipe>): WhereModelObject<Recipe> {
-    const recipe = new WhereModelObject<Recipe>();
-    recipe.items = this.items;
-    console.log(recipe);
-    return recipe;
+  @Query(returns => Recipe, { nullable: true })
+  async recipe(@Arg("title") title: string): Promise<Recipe | undefined> {
+    return await this.items.find(recipe => recipe.title === title);
   }
 
   @Query(returns => [Recipe], { description: "Get all the recipes from around the world " })

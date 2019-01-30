@@ -1,19 +1,19 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { MethodAndPropDecorator, DestinationOptions } from "./types";
+import { MethodAndPropDecorator, GenericFieldOptions } from "./types";
 import { SymbolKeysNotSupportedError } from "../errors";
 
-export function Destination(options?: DestinationOptions): MethodAndPropDecorator;
-export function Destination(options?: DestinationOptions): MethodDecorator {
+export function GenericField(options?: GenericFieldOptions): MethodAndPropDecorator;
+export function GenericField(options?: GenericFieldOptions): MethodDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
     }
     const opts = options || {};
-    getMetadataStorage().collectDestinationMetadata({
+    getMetadataStorage().collectGenericFieldMetadata({
       name: propertyKey,
       array: opts.array,
       target: prototype.constructor,
-      transform: opts.transformModel,
+      transformFields: opts.transformFields,
       nullable: opts.nullable,
     });
   };
