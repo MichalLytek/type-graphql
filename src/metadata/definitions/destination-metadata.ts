@@ -4,6 +4,7 @@ import { TypeValueThunk, TypeOptions, TransformModel } from "../../decorators/ty
 export interface DestinationMetadata {
   name: string;
   target: Function;
+  array?: boolean;
   nullable?: boolean;
   transform?: TransformModel;
 }

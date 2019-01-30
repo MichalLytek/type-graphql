@@ -12,9 +12,13 @@ export interface FieldMetadata {
   description: string | undefined;
   deprecationReason: string | undefined;
   complexity: Complexity | undefined;
+  getter: boolean;
+  setter: boolean;
+  isAccessor: boolean;
+  destinationField?: boolean;
   params?: ParamMetadata[];
   roles?: any[];
   fieldResolver?: boolean;
-  middlewares?: Array<Middleware<any>>;
   fields?: FieldMetadata[];
+  middlewares?: Array<Middleware<any>>;
 }

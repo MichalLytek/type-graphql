@@ -1,5 +1,5 @@
 import { Recipe } from "./recipe-type";
-import { InputType, Field, ArgsType } from "../../src";
+import { InputType, Field } from "../../src";
 
 @InputType()
 export class RecipeInput implements Partial<Recipe> {
@@ -8,10 +8,4 @@ export class RecipeInput implements Partial<Recipe> {
 
   @Field({ nullable: true })
   description?: string;
-}
-
-@ArgsType()
-export class RecipeArgs {
-  @Field()
-  test: string;
 }

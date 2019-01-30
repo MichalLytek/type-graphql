@@ -34,6 +34,13 @@ export function Field(
       typeOptions: options,
     });
 
+    let isGetter = false;
+    let isSetter = false;
+    if (descriptor) {
+      isGetter = !!descriptor.get;
+      isSetter = !!descriptor.set;
+    }
+
     getMetadataStorage().collectClassFieldMetadata({
       name: propertyKey,
       schemaName: options.name || propertyKey,
@@ -43,6 +50,9 @@ export function Field(
       target: prototype.constructor,
       description: options.description,
       deprecationReason: options.deprecationReason,
+      getter: isGetter,
+      setter: isSetter,
+      isAccessor: isSetter || isGetter,
     });
 
     if (isResolver) {

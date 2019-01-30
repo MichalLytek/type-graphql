@@ -11,6 +11,7 @@ export function Destination(options?: DestinationOptions): MethodDecorator {
     const opts = options || {};
     getMetadataStorage().collectDestinationMetadata({
       name: propertyKey,
+      array: opts.array,
       target: prototype.constructor,
       transform: opts.transformModel,
       nullable: opts.nullable,

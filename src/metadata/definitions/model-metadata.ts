@@ -8,6 +8,7 @@ export interface ModelMetadata {
   target: Function;
   toType: ModelTransformType;
   models?: Function[];
+  type?: Function;
   transform?: TransformModel;
   fields?: FieldMetadata[];
 }

@@ -180,43 +180,57 @@ export class MetadataStorage {
     return [];
   }
 
+  private getFieldTypeName(...types: string[]) {
+    return types.join("_");
+  }
+
   private buildModels(definitions: ModelMetadata[]) {
     definitions.map(def => {
       const modelTypes = this.getModelTypes(def);
       modelTypes.map(ot => {
+        const baseName = this.getFieldTypeName(def.name, ot.name);
         const destinationFields: FieldMetadata[] = this.destinations
           .filter(destination => destination.target === def.target)
           .map<FieldMetadata>(field => {
-            const typeName = ot.name + def.name + field.name;
+            const typeName = this.getFieldTypeName(baseName, field.name);
             const destinationField = {
               name: field.name,
               target: field.target,
               typeOptions: {
                 nullable: field.nullable,
-                array: false,
+                array: field.array,
                 defaultValue: undefined,
               },
               params: [],
               schemaName: field.name,
               getType: () => typeName,
+              destinationField: true,
+              middlewares: [],
               complexity: undefined,
               deprecationReason: undefined,
               description: undefined,
+              getter: false,
+              setter: false,
+              isAccessor: false,
             };
             this.modelTypes.push({
               ...ot,
               name: typeName,
-              model: ot,
+              model: def,
+              type: ot,
+              destination: false,
               fields: this.compileFields(ot, def, field),
               toType: def.toType === "ArgsType" ? "InputType" : def.toType,
             });
             return destinationField;
           });
-        const destinationType = {
-          name: ot.name + def.name + "Destination",
+        const destinationType: TypeClassMetadata = {
+          name: this.getFieldTypeName(baseName, "Wrapper"),
           target: def.target,
           toType: def.toType,
-          model: ot,
+          model: def,
+          type: ot,
+          destination: true,
           fields: def
             .fields!.map(field => {
               return field;
@@ -249,7 +263,7 @@ export class MetadataStorage {
             nullable: destination.transform!.nullable || model.transform!.nullable,
           },
           getType: modelRelation
-            ? () => modelRelation.name + model.name + destination.name
+            ? () => this.getFieldTypeName(model.name, modelRelation.name, destination.name)
             : field.getType,
         };
         model.transform!.apply && model.transform!.apply!(newField);
@@ -311,6 +325,9 @@ export class MetadataStorage {
             middlewares: def.middlewares!,
             params: def.params!,
             fieldResolver: true,
+            getter: true,
+            setter: false,
+            isAccessor: true,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);

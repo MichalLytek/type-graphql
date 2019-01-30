@@ -1,11 +1,5 @@
 import { Field, ObjectType, Int, Float } from "../../src";
 
-@ObjectType()
-export class Test {
-  @Field()
-  name: string;
-}
-
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
   @Field()
@@ -27,9 +21,6 @@ export class Recipe {
 
   @Field(type => Int)
   ratingsCount: number;
-
-  @Field(type => Recipe)
-  recipe: Recipe;
 
   @Field(type => Float, { nullable: true })
   get averageRating(): number | null {
