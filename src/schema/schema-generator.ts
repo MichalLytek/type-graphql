@@ -79,7 +79,6 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {}
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
-  private static ArgsInfo: ClassMetadata[] = [];
   private static inputTypesInfo: InputObjectTypeInfo[] = [];
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
   private static enumTypesInfo: EnumTypeInfo[] = [];

@@ -7,6 +7,18 @@ type Car {
   mark: String!
 }
 
+type ClassInputType {
+  hello: String!
+}
+
+input GenericInputType_ClassInputType_generic {
+  hello: String!
+}
+
+input GenericInputType_ClassInputType_Wrapper {
+  generic: GenericInputType_ClassInputType_generic!
+}
+
 type Person {
   name: String!
   cars: [Car!]!
@@ -15,6 +27,7 @@ type Person {
 type Query {
   persons(where: WhereArgs_Person_where!): QueryResponse_Person_Wrapper!
   cars(where: WhereArgs_Car_where!): QueryResponse_Car_Wrapper!
+  test(wrap: GenericInputType_ClassInputType_Wrapper!): String!
 }
 
 type QueryResponse_Car_items {
@@ -24,6 +37,15 @@ type QueryResponse_Car_items {
 type QueryResponse_Car_Wrapper {
   count: Int!
   items: [QueryResponse_Car_items!]!
+}
+
+type QueryResponse_ClassInputType_items {
+  hello: String!
+}
+
+type QueryResponse_ClassInputType_Wrapper {
+  count: Int!
+  items: [QueryResponse_ClassInputType_items!]!
 }
 
 type QueryResponse_Person_items {
@@ -38,6 +60,10 @@ type QueryResponse_Person_Wrapper {
 
 input WhereArgs_Car_where {
   mark: String
+}
+
+input WhereArgs_ClassInputType_where {
+  hello: String
 }
 
 input WhereArgs_Person_where {
