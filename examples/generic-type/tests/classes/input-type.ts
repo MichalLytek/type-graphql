@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "../../../../src";
+import { Field, ObjectType, InputType, ArgsType } from "../../../../src";
 
 @ObjectType()
 export class ClassInputType {

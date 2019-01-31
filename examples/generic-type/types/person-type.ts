@@ -1,7 +1,7 @@
 import { Car } from "./car-type";
-import { ObjectType, Field } from "../../../src";
+import { ObjectType, Field, ArgsType } from "../../../src";
 
-@ObjectType()
+@ArgsType()
 export class Person {
   @Field(type => String)
   name: string;

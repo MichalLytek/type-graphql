@@ -176,10 +176,15 @@ export class MetadataStorage {
   }
 
   private getGenericObjectTypes(genericType: GenericTypeMetadata) {
+    const allTypes = [
+      ...this.objectTypes,
+      ...this.inputTypes,
+      ...this.argumentTypes.filter(it => !it.genericType),
+    ];
     if (genericType.types) {
-      return this.objectTypes.filter(ot => genericType.types!.indexOf(ot.target) > -1);
+      return allTypes.filter(it => genericType.types!.indexOf(it.target) > -1);
     }
-    return [...this.objectTypes];
+    return allTypes;
   }
 
   private getFieldTypeName(...types: string[]) {

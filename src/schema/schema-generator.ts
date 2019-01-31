@@ -659,16 +659,18 @@ export abstract class SchemaGenerator {
   ): GraphQLInputType {
     let gqlType: GraphQLInputType | undefined;
     gqlType = convertTypeIfScalar(type);
-    if (!gqlType) {
-      const inputType = this.inputTypesInfo.find(it => it.target === (type as Function));
-      if (inputType) {
-        gqlType = inputType.type;
+    if (!typeOptions.generic) {
+      if (!gqlType) {
+        const inputType = this.inputTypesInfo.find(it => it.target === (type as Function));
+        if (inputType) {
+          gqlType = inputType.type;
+        }
       }
-    }
-    if (!gqlType) {
-      const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
-      if (enumType) {
-        gqlType = enumType.type;
+      if (!gqlType) {
+        const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
+        if (enumType) {
+          gqlType = enumType.type;
+        }
       }
     }
     if (!gqlType) {

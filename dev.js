@@ -14,4 +14,4 @@ require("ts-node/register/transpile-only");
 // require("./examples/using-scoped-container/index.ts");
 // require("./examples/typeorm-basic-usage/index.ts");
 // require("./examples/typeorm-lazy-relations/index.ts");
-require("./examples/generic-type/index.ts");
+// require("./examples/generic-type/index.ts");
