@@ -5,7 +5,7 @@ import {
   SubscriptionTopicFunc,
 } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getHandlerInfo } from "../helpers/handlers";
+import { getResolverMetadata } from "../helpers/resolver-metadata";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { MissingSubscriptionTopicsError } from "../errors";
 
@@ -25,13 +25,13 @@ export function Subscription(
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
-    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
+    const metadata = getResolverMetadata(prototype, methodName, returnTypeFunc, options);
     const subscriptionOptions = options as SubscriptionOptions;
     if (Array.isArray(options.topics) && options.topics.length === 0) {
-      throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+      throw new MissingSubscriptionTopicsError(metadata.target, metadata.methodName);
     }
     getMetadataStorage().collectSubscriptionHandlerMetadata({
-      ...handler,
+      ...metadata,
       topics: subscriptionOptions.topics,
       filter: subscriptionOptions.filter,
     });

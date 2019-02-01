@@ -51,7 +51,6 @@ export function Field(
         methodName: propertyKey,
         schemaName: options.name || propertyKey,
         target: prototype.constructor,
-        handler: isResolverMethod ? (prototype as any)[propertyKey] : undefined,
         complexity: options.complexity,
       });
     }

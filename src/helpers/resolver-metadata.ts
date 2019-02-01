@@ -3,7 +3,7 @@ import { ReturnTypeFunc, AdvancedOptions } from "../decorators/types";
 import { findType } from "./findType";
 import { SymbolKeysNotSupportedError } from "../errors";
 
-export function getHandlerInfo(
+export function getResolverMetadata(
   prototype: object,
   propertyKey: string | symbol,
   returnTypeFunc?: ReturnTypeFunc,
@@ -26,7 +26,6 @@ export function getHandlerInfo(
   return {
     methodName,
     schemaName: options.name || methodName,
-    handler: (prototype as any)[methodName],
     target: prototype.constructor,
     getReturnType: getType,
     returnTypeOptions: typeOptions,

@@ -34,7 +34,7 @@ export function createHandlerResolver(
         globalValidate,
         pubSub,
       );
-      return resolverMetadata.handler!.apply(targetInstance, params);
+      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };
 }
@@ -62,18 +62,19 @@ export function createAdvancedFieldResolver(
     const resolverData: ResolverData<any> = { root, args, context, info };
     const targetInstance: any = convertToType(targetType, root);
     return applyMiddlewares(container, resolverData, middlewares, async () => {
+      const handlerOrGetterValue = targetInstance[fieldResolverMetadata.methodName];
       // method
-      if (fieldResolverMetadata.handler) {
+      if (typeof handlerOrGetterValue === "function") {
         const params: any[] = await getParams(
           fieldResolverMetadata.params!,
           resolverData,
           globalValidate,
           pubSub,
         );
-        return fieldResolverMetadata.handler.apply(targetInstance, params);
+        return handlerOrGetterValue.apply(targetInstance, params);
       }
       // getter
-      return targetInstance[fieldResolverMetadata.methodName];
+      return handlerOrGetterValue;
     });
   };
 }

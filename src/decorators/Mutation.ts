@@ -1,6 +1,6 @@
 import { ReturnTypeFunc, AdvancedOptions } from "./types";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getHandlerInfo } from "../helpers/handlers";
+import { getResolverMetadata } from "../helpers/resolver-metadata";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
 export function Mutation(): MethodDecorator;
@@ -15,7 +15,7 @@ export function Mutation(
 ): MethodDecorator {
   const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
   return (prototype, methodName) => {
-    const handler = getHandlerInfo(prototype, methodName, returnTypeFunc, options);
-    getMetadataStorage().collectMutationHandlerMetadata(handler);
+    const metadata = getResolverMetadata(prototype, methodName, returnTypeFunc, options);
+    getMetadataStorage().collectMutationHandlerMetadata(metadata);
   };
 }
