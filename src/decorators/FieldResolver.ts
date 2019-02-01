@@ -47,7 +47,6 @@ export function FieldResolver(
       methodName: propertyKey,
       schemaName: options.name || propertyKey,
       target: prototype.constructor,
-      handler: (prototype as any)[propertyKey],
       getType,
       typeOptions,
       complexity: options.complexity,

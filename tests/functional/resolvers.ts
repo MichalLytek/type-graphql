@@ -1082,14 +1082,27 @@ describe("Resolvers", () => {
     let queryRoot: any;
     let queryContext: any;
     let queryInfo: any;
+    let descriptorEvaluated: boolean;
+
+    function DescriptorDecorator(): MethodDecorator {
+      return (obj, methodName, descriptor: any) => {
+        const originalMethod: Function = descriptor.value;
+        descriptor.value = function() {
+          descriptorEvaluated = true;
+          return originalMethod.apply(this, arguments);
+        };
+      };
+    }
 
     // helpers
     function generateAndVisitComplexMethod(maximumComplexity: number): ValidationContext {
-      const query = `query {
-                          sampleQuery {
-                          complexResolverMethod
-                          }
-                        }`;
+      const query = /* graphql */ `
+        query {
+          sampleQuery {
+            complexResolverMethod
+          }
+        }
+      `;
       const ast = parse(query);
       const typeInfo = new TypeInfo(schema);
       const context = new ValidationContext(schema, ast, typeInfo);
@@ -1105,6 +1118,7 @@ describe("Resolvers", () => {
       queryRoot = undefined;
       queryContext = undefined;
       queryInfo = undefined;
+      descriptorEvaluated = false;
     });
 
     beforeAll(async () => {
@@ -1213,6 +1227,12 @@ describe("Resolvers", () => {
         ): boolean {
           queryRoot = rootField;
           queryContext = contextField;
+          return true;
+        }
+
+        @Query()
+        @DescriptorDecorator()
+        queryWithCustomDescriptorDecorator(): boolean {
           return true;
         }
 
@@ -1506,6 +1526,19 @@ describe("Resolvers", () => {
 
       expect(queryRoot).toEqual(2);
       expect(queryContext).toEqual("present");
+    });
+
+    it("should allow for overwriting descriptor value in custom decorator", async () => {
+      const query = /* graphql */ `
+        query {
+          queryWithCustomDescriptorDecorator
+        }
+      `;
+
+      const { data } = await graphql(schema, query);
+
+      expect(descriptorEvaluated).toBe(true);
+      expect(data.queryWithCustomDescriptorDecorator).toBe(true);
     });
   });
 

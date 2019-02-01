@@ -11,6 +11,7 @@
 
 ## Fixes
 - fix calling return type getter function `@Field(type => Foo)` before finishing module evaluation (allow for extending circular classes using `require`)
+- fix nullifying other custom method decorators - call the method on target instance, not the stored reference to original function (#247)
 
 ## v0.16.0
 ### Features

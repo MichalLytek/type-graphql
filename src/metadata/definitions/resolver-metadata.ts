@@ -13,7 +13,6 @@ export interface BaseResolverMetadata {
   methodName: string;
   schemaName: string;
   target: Function;
-  handler: Function | undefined;
   complexity: Complexity | undefined;
   resolverClassMetadata?: ResolverClassMetadata;
   params?: ParamMetadata[];
@@ -23,7 +22,6 @@ export interface BaseResolverMetadata {
 
 export interface ResolverMetadata extends BaseResolverMetadata {
   getReturnType: TypeValueThunk;
-  handler: Function;
   returnTypeOptions: TypeOptions;
   description?: string;
   deprecationReason?: string;
