@@ -82,6 +82,10 @@ export function convertToType(Target: any, data?: object): object | undefined {
   if (data == null) {
     return;
   }
+  // Prevent unecessary conversion
+  if (data instanceof Target) {
+    return data;
+  }
   // skip converting scalars (object scalar mostly)
   if (Target instanceof GraphQLScalarType) {
     return data;
