@@ -83,7 +83,7 @@ export function convertToType(Target: any, data?: object): object | undefined {
     return;
   }
   // Prevent unecessary conversion
-  if (data instanceof Target) {
+  if (typeof Target === "object" || data instanceof Target) {
     return data;
   }
   // skip converting scalars (object scalar mostly)

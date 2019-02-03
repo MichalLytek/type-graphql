@@ -1,5 +1,4 @@
 import { convertToType } from "../../src/helpers/types";
-import { Expose } from "class-transformer";
 
 describe("convertToType", () => {
   let globalCounter = 0;
