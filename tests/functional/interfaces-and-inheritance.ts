@@ -28,6 +28,7 @@ import {
   Mutation,
   buildSchema,
   Int,
+  Resolver,
 } from "../../src";
 
 describe("Interfaces and inheritance", () => {
@@ -350,39 +351,37 @@ describe("Interfaces and inheritance", () => {
       expect(baseInputFieldType.name).toEqual("String");
       expect(extendingInputFieldType.name).toEqual("Boolean");
     });
+
+    it("shouldn't throw error when extending wrong class type", async () => {
+      getMetadataStorage().clear();
+
+      @InputType()
+      class SampleInput {
+        @Field()
+        inputField: string;
+      }
+      @ArgsType()
+      class SampleArgs extends SampleInput {
+        @Field()
+        argField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(@Args() args: SampleArgs): boolean {
+          return true;
+        }
+      }
+      const schema = await buildSchema({
+        resolvers: [SampleResolver],
+      });
+      expect(schema).toBeDefined();
+    });
   });
 
   describe("Errors", () => {
     beforeEach(() => {
       getMetadataStorage().clear();
-    });
-
-    it("should throw error when extending wrong class type", async () => {
-      expect.assertions(1);
-      try {
-        @InputType()
-        class SampleInput {
-          @Field()
-          inputField: string;
-        }
-        @ArgsType()
-        class SampleArgs extends SampleInput {
-          @Field()
-          argField: string;
-        }
-        class SampleResolver {
-          @Query()
-          sampleQuery(@Args() args: SampleArgs): boolean {
-            return true;
-          }
-        }
-        await buildSchema({
-          resolvers: [SampleResolver],
-        });
-      } catch (err) {
-        // TODO: test for more meaningfull error message
-        expect(err).toBeDefined();
-      }
     });
 
     it("should throw error when field type doesn't match with interface", async () => {
@@ -424,6 +423,8 @@ describe("Interfaces and inheritance", () => {
     let schema: GraphQLSchema;
     let queryArgs: any;
     let mutationInput: any;
+    let inputFieldValue: any;
+    let argsFieldValue: any;
 
     beforeEach(() => {
       queryArgs = undefined;
@@ -483,13 +484,23 @@ describe("Interfaces and inheritance", () => {
           return "sampleStaticMethod";
         }
       }
-
       @ObjectType()
       class SampleExtendingNormalClassObject extends SampleBaseClass {
         @Field()
         sampleField: string;
       }
+      @InputType()
+      class SampleExtendingNormalClassInput extends SampleBaseClass {
+        @Field()
+        sampleField: string;
+      }
+      @ArgsType()
+      class SampleExtendingNormalClassArgs extends SampleBaseClass {
+        @Field()
+        sampleField: string;
+      }
 
+      @Resolver()
       class InterfacesResolver {
         @Query()
         getInterfacePlainObject(): BaseInterface {
@@ -516,7 +527,12 @@ describe("Interfaces and inheritance", () => {
         }
 
         @Query()
-        baseClassQuery(): string {
+        baseClassQuery(
+          @Arg("input") input: SampleExtendingNormalClassInput,
+          @Args() args: SampleExtendingNormalClassArgs,
+        ): string {
+          inputFieldValue = input.sampleField;
+          argsFieldValue = args.sampleField;
           return SampleExtendingNormalClassObject.sampleStaticMethod();
         }
       }
@@ -621,12 +637,17 @@ describe("Interfaces and inheritance", () => {
 
     it("should correctly extends non-TypeGraphQL class", async () => {
       const query = `query {
-        baseClassQuery
+        baseClassQuery(
+          input: { sampleField: "sampleInputValue" }
+          sampleField: "sampleArgValue"
+        )
       }`;
 
       const { data } = await graphql(schema, query);
 
       expect(data!.baseClassQuery).toEqual("sampleStaticMethod");
+      expect(inputFieldValue).toEqual("sampleInputValue");
+      expect(argsFieldValue).toEqual("sampleArgValue");
     });
   });
 });
