@@ -1083,6 +1083,7 @@ describe("Resolvers", () => {
     let queryContext: any;
     let queryInfo: any;
     let descriptorEvaluated: boolean;
+    let sampleObjectConstructorCallCount: number;
 
     function DescriptorDecorator(): MethodDecorator {
       return (obj, methodName, descriptor: any) => {
@@ -1119,6 +1120,7 @@ describe("Resolvers", () => {
       queryContext = undefined;
       queryInfo = undefined;
       descriptorEvaluated = false;
+      sampleObjectConstructorCallCount = 0;
     });
 
     beforeAll(async () => {
@@ -1155,6 +1157,9 @@ describe("Resolvers", () => {
         private readonly TRUE = true;
         isTrue() {
           return this.TRUE;
+        }
+        constructor() {
+          sampleObjectConstructorCallCount++;
         }
 
         instanceValue = Math.random();
@@ -1425,6 +1430,24 @@ describe("Resolvers", () => {
       const getterFieldResult1 = result1.data!.sampleQuery.getterField;
       const getterFieldResult2 = result2.data!.sampleQuery.getterField;
       expect(getterFieldResult1).not.toEqual(getterFieldResult2);
+    });
+
+    it("shouldn't create new instance for object type if it's already an instance of its class", async () => {
+      const query = /* graphql */ `
+        query {
+          sampleQuery {
+            getterField
+            methodField
+          }
+        }
+      `;
+
+      const result = await graphql(schema, query);
+      const getterFieldValue = result.data!.sampleQuery.getterField;
+      const methodFieldValue = result.data!.sampleQuery.getterField;
+
+      expect(getterFieldValue).toEqual(methodFieldValue);
+      expect(sampleObjectConstructorCallCount).toBe(1);
     });
 
     it("should use the same instance of resolver class for consecutive queries", async () => {

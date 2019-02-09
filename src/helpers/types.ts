@@ -90,6 +90,10 @@ export function convertToType(Target: any, data?: object): object | undefined {
   if (simpleTypes.includes(data.constructor)) {
     return data;
   }
+  // skip converting already converted types
+  if (data instanceof Target) {
+    return data;
+  }
 
   return Object.assign(new Target(), data);
 }

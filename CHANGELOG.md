@@ -13,6 +13,7 @@
 - fix calling return type getter function `@Field(type => Foo)` before finishing module evaluation (allow for extending circular classes using `require`)
 - fix nullifying other custom method decorators - call the method on target instance, not the stored reference to original function (#247)
 - fix throwing error when extending non args class in the `@ArgsType()` class
+- prevent unnecessary conversion of an object that is already an instance of the requested type (avoid constructor side-effects)
 
 ## v0.16.0
 ### Features
