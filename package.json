@@ -6,8 +6,8 @@
     "url": "https://github.com/19majkel94"
   },
   "scripts": {
-    "test": "jest --coverage",
-    "test:ci": "jest --coverage --ci --forceExit --detectOpenHandles --runInBand",
+    "test": "jest --verbose --coverage",
+    "test:ci": "jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "jest --watch",
     "verify": "npm run check && npm run lint",
     "dev": "node ./dev.js",
