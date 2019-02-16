@@ -6,4 +6,5 @@ export interface ClassMetadata {
   fields?: FieldMetadata[];
   description?: string;
   interfaceClasses?: Function[];
+  isAbstract?: boolean;
 }

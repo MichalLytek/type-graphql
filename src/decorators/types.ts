@@ -44,6 +44,9 @@ export interface ComplexityOptions {
 export interface SchemaNameOptions {
   name?: string;
 }
+export interface AbstractClassOptions {
+  isAbstract?: boolean;
+}
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
   DepreciationOptions &
@@ -57,6 +60,4 @@ export interface EnumConfig {
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
 
-export interface ResolverClassOptions {
-  isAbstract?: boolean;
-}
+export type ResolverClassOptions = AbstractClassOptions;
