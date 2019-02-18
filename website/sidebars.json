@@ -1,18 +1,19 @@
 {
   "docs": {
     "Introduction": ["introduction"],
-    "Beginner guides": ["installation", "getting-started", "types-and-fields", "resolvers", "bootstrap"],
-    "Advanced guides": [
-      "scalars",
-      "enums",
-      "unions",
-      "subscriptions",
-      "interfaces-and-inheritance"
+    "Beginner guides": [
+      "installation",
+      "getting-started",
+      "types-and-fields",
+      "resolvers",
+      "bootstrap"
     ],
+    "Advanced guides": ["scalars", "enums", "unions", "interfaces", "subscriptions"],
     "Features": [
       "dependency-injection",
       "authorization",
       "validation",
+      "inheritance",
       "middlewares",
       "complexity"
     ],

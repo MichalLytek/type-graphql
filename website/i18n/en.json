@@ -36,11 +36,14 @@
       "getting-started": {
         "title": "Getting started"
       },
+      "inheritance": {
+        "title": "Inheritance"
+      },
       "installation": {
         "title": "Installation"
       },
-      "interfaces-and-inheritance": {
-        "title": "Interfaces and inheritance"
+      "interfaces": {
+        "title": "Interfaces"
       },
       "introduction": {
         "title": "Introduction",
