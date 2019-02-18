@@ -1,6 +1,6 @@
 import { Resolver, FieldResolver, Root } from "../../../src";
 
-import { createResourceResolver } from "../resource/resource.resolver";
+import { ResourceResolver } from "../resource/resource.resolver";
 import { Recipe } from "./recipe.type";
 
 const recipes: Recipe[] = [
@@ -11,10 +11,8 @@ const recipes: Recipe[] = [
   },
 ];
 
-export const ResourceResolver = createResourceResolver(Recipe, recipes);
-
 @Resolver(of => Recipe)
-export class RecipeResolver extends ResourceResolver<Recipe> {
+export class RecipeResolver extends ResourceResolver(Recipe, recipes) {
   // here you can add resource-specific operations
 
   @FieldResolver()

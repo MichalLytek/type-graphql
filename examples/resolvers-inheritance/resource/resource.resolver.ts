@@ -15,19 +15,6 @@ import {
 import { Resource } from "./resource";
 import { ResourceService, ResourceServiceFactory } from "./resource.service";
 
-// workaround for `return type of exported function has or is using private name`
-export abstract class BaseResourceResolver<TResource extends Resource> {
-  protected resourceService: ResourceService<TResource>;
-
-  protected async getOne(id: number): Promise<TResource | undefined> {
-    throw new Error("Method not implemented.");
-  }
-
-  protected async getAll(args: GetAllArgs): Promise<TResource[]> {
-    throw new Error("Method not implemented.");
-  }
-}
-
 @ArgsType()
 export class GetAllArgs {
   @Field(type => Int)
@@ -37,20 +24,19 @@ export class GetAllArgs {
   take: number = 10;
 }
 
-export function createResourceResolver<TResource extends Resource>(
+export function ResourceResolver<TResource extends Resource>(
   ResourceCls: ClassType,
   resources: TResource[],
-): typeof BaseResourceResolver {
+) {
   const resourceName = ResourceCls.name.toLocaleLowerCase();
 
   // `isAbstract` decorator option is mandatory to prevent multiple registering in schema
   @Resolver(of => ResourceCls, { isAbstract: true })
   @Service()
-  abstract class ResourceResolver extends BaseResourceResolver<TResource> {
+  abstract class ResourceResolverClass {
     protected resourceService: ResourceService<TResource>;
 
     constructor(factory: ResourceServiceFactory) {
-      super();
       this.resourceService = factory.create(resources);
     }
 
@@ -72,6 +58,5 @@ export function createResourceResolver<TResource extends Resource>(
     }
   }
 
-  // workaround for generics conflict
-  return ResourceResolver as any;
+  return ResourceResolverClass;
 }
