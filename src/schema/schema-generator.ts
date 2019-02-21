@@ -42,17 +42,20 @@ import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 
-interface ObjectTypeInfo {
+interface AbstractInfo {
+  isAbstract: boolean;
+}
+interface ObjectTypeInfo extends AbstractInfo {
   target: Function;
   type: GraphQLObjectType;
 }
-interface InputObjectTypeInfo {
-  target: Function;
-  type: GraphQLInputObjectType;
-}
-interface InterfaceTypeInfo {
+interface InterfaceTypeInfo extends AbstractInfo {
   target: Function;
   type: GraphQLInterfaceType;
+}
+interface InputObjectTypeInfo extends AbstractInfo {
+  target: Function;
+  type: GraphQLInputObjectType;
 }
 interface EnumTypeInfo {
   enumObj: object;
@@ -181,6 +184,7 @@ export abstract class SchemaGenerator {
         };
         return {
           target: interfaceType.target,
+          isAbstract: interfaceType.isAbstract || false,
           type: new GraphQLInterfaceType({
             name: interfaceType.name,
             description: interfaceType.description,
@@ -222,6 +226,7 @@ export abstract class SchemaGenerator {
       const interfaceClasses = objectType.interfaceClasses || [];
       return {
         target: objectType.target,
+        isAbstract: objectType.isAbstract || false,
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
@@ -306,6 +311,7 @@ export abstract class SchemaGenerator {
       const inputInstance = new (inputType.target as any)();
       return {
         target: inputType.target,
+        isAbstract: inputType.isAbstract || false,
         type: new GraphQLInputObjectType({
           name: inputType.name,
           description: inputType.description,
@@ -374,8 +380,9 @@ export abstract class SchemaGenerator {
     // TODO: investigate the need of directly providing this types
     // maybe GraphQL can use only the types provided indirectly
     return [
-      ...this.objectTypesInfo.map(it => it.type),
-      ...this.interfaceTypesInfo.map(it => it.type),
+      ...this.objectTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
+      ...this.interfaceTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
+      ...this.inputTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
     ];
   }
 

@@ -1,13 +1,15 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions } from "./types";
+import { DescriptionOptions, AbstractClassOptions } from "./types";
+
+export type InterfaceOptions = DescriptionOptions & AbstractClassOptions;
 
 export function InterfaceType(): ClassDecorator;
-export function InterfaceType(options: DescriptionOptions): ClassDecorator;
-export function InterfaceType(name: string, options?: DescriptionOptions): ClassDecorator;
+export function InterfaceType(options: InterfaceOptions): ClassDecorator;
+export function InterfaceType(name: string, options?: InterfaceOptions): ClassDecorator;
 export function InterfaceType(
-  nameOrOptions?: string | DescriptionOptions,
-  maybeOptions?: DescriptionOptions,
+  nameOrOptions?: string | InterfaceOptions,
+  maybeOptions?: InterfaceOptions,
 ): ClassDecorator {
   const { name, options } = getNameDecoratorParams(nameOrOptions, maybeOptions);
   return target => {
@@ -15,6 +17,7 @@ export function InterfaceType(
       name: name || target.name,
       target,
       description: options.description,
+      isAbstract: options.isAbstract,
     });
   };
 }

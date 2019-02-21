@@ -1,11 +1,12 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions } from "./types";
+import { DescriptionOptions, AbstractClassOptions } from "./types";
 import { ClassType } from "../interfaces";
 
-export type ObjectOptions = DescriptionOptions & {
-  implements?: Function | Function[];
-};
+export type ObjectOptions = DescriptionOptions &
+  AbstractClassOptions & {
+    implements?: Function | Function[];
+  };
 
 export function ObjectType(): ClassDecorator;
 export function ObjectType(options: ObjectOptions): ClassDecorator;
@@ -24,6 +25,7 @@ export function ObjectType(
       target,
       description: options.description,
       interfaceClasses,
+      isAbstract: options.isAbstract,
     });
   };
 }

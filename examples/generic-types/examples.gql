@@ -1,0 +1,16 @@
+query GetRecipes {
+  recipes(first: 3) {
+    items {
+      title
+      ratings
+    }
+    total
+    hasMore
+  }
+}
+
+mutation AddRecipe {
+  addSampleRecipe {
+    title
+  }
+}
