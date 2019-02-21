@@ -59,31 +59,31 @@ export class Gulpfile {
       .pipe(tsProject());
 
     return [
-      tsResult.dts.pipe(gulp.dest("./build/package")),
+      tsResult.dts.pipe(gulp.dest("./build/package/dist")),
       tsResult.js
         // .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
-        .pipe(gulp.dest("./build/package")),
+        .pipe(gulp.dest("./build/package/dist")),
     ];
   }
 
   /**
    * Moves all compiled files to the final package directory.
    */
-  @Task()
-  packageMoveCompiledFiles() {
-    return gulp.src("./build/package/src/**/*").pipe(gulp.dest("./build/package/dist"));
-  }
+  // @Task()
+  // packageMoveCompiledFiles() {
+  //   return gulp.src("./build/package/src/**/*").pipe(gulp.dest("./build/package/dist"));
+  // }
 
   /**
    * Removes unnecessary files from final package directory.
    */
-  @Task()
-  packageClearCompileDirectory(cb: del.Options) {
-    return del(
-      ["./build/package/src/**", "./build/package/tests/**", "./build/package/examples/**"],
-      cb,
-    );
-  }
+  // @Task()
+  // packageClearCompileDirectory(cb: del.Options) {
+  //   return del(
+  //     ["./build/package/src/**", "./build/package/tests/**", "./build/package/examples/**"],
+  //     cb,
+  //   );
+  // }
 
   /**
    * Change the "private" state of the packaged package.json file to public.
@@ -117,8 +117,8 @@ export class Gulpfile {
     return [
       "clean",
       "packageCompile",
-      "packageMoveCompiledFiles",
-      "packageClearCompileDirectory",
+      // "packageMoveCompiledFiles",
+      // "packageClearCompileDirectory",
       ["packagePreparePackageFile", "packageReadmeFile"],
     ];
   }

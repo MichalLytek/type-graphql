@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@types/glob": "^7.1.1",
+    "@types/node": "*",
     "@types/semver": "^5.5.0",
     "class-validator": ">=0.9.1",
     "glob": "^7.1.3",
