@@ -52,7 +52,7 @@ export class Gulpfile {
    */
   @MergedTask()
   packageCompile() {
-    const tsProject = ts.createProject("tsconfig.json");
+    const tsProject = ts.createProject("tsconfig.package.json");
     const tsResult = tsProject
       .src()
       // .pipe(sourcemaps.init())
