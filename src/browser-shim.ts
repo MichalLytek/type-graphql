@@ -1,13 +1,13 @@
 /*
 This "shim" can be used on the frontend to prevent from errors on undefined decorators,
 when you are sharing same classes across backend and frontend.
-To use this shim, simply configure your Webpack configuration to use this file
-instead of normal TypeGraphQL module.
+To use this shim, simply set up your Webpack configuration
+to use this file instead of a normal TypeGraphQL module.
 
 plugins: [
-    ..., // any existing plugins that you already have
-    new webpack.NormalModuleReplacementPlugin(/type-graphql$/, function (result) {
-        result.request = result.request.replace(/type-graphql/, "type-graphql/browser-shim");
+    // ...here are any other existing plugins that you already have
+    new webpack.NormalModuleReplacementPlugin(/type-graphql$/, resource => {
+        resource.request = resource.request.replace(/type-graphql/, "type-graphql/dist/browser-shim");
     }),
 ]
 */
