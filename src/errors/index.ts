@@ -1,5 +1,3 @@
-export * from "./helpers/formatArgumentValidationError";
-
 export * from "./ArgumentValidationError";
 export * from "./CannotDetermineTypeError";
 export * from "./ForbiddenError";

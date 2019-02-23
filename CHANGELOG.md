@@ -11,6 +11,7 @@
 - add support for generic types (#255)
 
 ## Fixes
+- **Breaking Change**: remove the `formatArgumentValidationError` helper as it's not compatible and not needed in new Apollo Server (#258)
 - fix calling return type getter function `@Field(type => Foo)` before finishing module evaluation (allow for extending circular classes using `require`)
 - fix nullifying other custom method decorators - call the method on target instance, not the stored reference to original function (#247)
 - fix throwing error when extending non args class in the `@ArgsType()` class

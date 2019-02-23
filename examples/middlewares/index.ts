@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import Container from "typedi";
 import { ApolloServer } from "apollo-server";
-import { buildSchema, formatArgumentValidationError } from "../../src";
+import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { ResolveTimeMiddleware } from "./middlewares/resolve-time";
@@ -16,7 +16,7 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({ schema, formatError: formatArgumentValidationError });
+  const server = new ApolloServer({ schema });
 
   // Start the server
   const { url } = await server.listen(4000);

@@ -116,20 +116,9 @@ mutation ValidationMutation {
 }
 ```
 
-the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](bootstrap.md):
+the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
 
-```typescript
-import { formatArgumentValidationError } from "type-graphql";
-
-// Create GraphQL server
-const server = new ApolloServer({
-  schema,
-  // pass error formatting helper to make validation errors works
-  formatError: formatArgumentValidationError,
-});
-```
-
-So when `ArgumentValidationError` occurs, client will receive this JSON with nice `validationErrors` property:
+By default, the `apollo-server` package from [bootstrap guide](bootstrap.md) will format the error to match with the `GraphQLFormattedError` interface. So when `ArgumentValidationError` occurs, client will receive this JSON with nice `validationErrors` property inside `extensions.exception`:
 
 ```json
 {
@@ -143,26 +132,38 @@ So when `ArgumentValidationError` occurs, client will receive this JSON with nic
         }
       ],
       "path": ["addRecipe"],
-      "validationErrors": [
-        {
-          "target": {
-            "title": "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
-          },
-          "value": "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet",
-          "property": "title",
-          "children": [],
-          "constraints": {
-            "maxLength": "title must be shorter than or equal to 30 characters"
-          }
+      "extensions": {
+        "code": "INTERNAL_SERVER_ERROR",
+        "exception": {
+          "validationErrors": [
+            {
+              "target": {
+                "title": "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
+              },
+              "value": "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet",
+              "property": "title",
+              "children": [],
+              "constraints": {
+                "maxLength": "title must be shorter than or equal to 30 characters"
+              }
+            }
+          ],
+          "stacktrace": [
+            "Error: Argument Validation Error",
+            "    at Object.<anonymous> (F:\\#Projekty\\type-graphql\\src\\resolvers\\validate-arg.ts:29:11)",
+            "    at Generator.throw (<anonymous>)",
+            "    at rejected (F:\\#Projekty\\type-graphql\\node_modules\\tslib\\tslib.js:105:69)",
+            "    at processTicksAndRejections (internal/process/next_tick.js:81:5)"
+          ]
         }
-      ]
+      }
     }
   ],
   "data": null
 }
 ```
 
-Of course you can replace this with your own custom implementation of function that will transform `GraphQLError` with `ValidationError` array to the desired output format.
+Of course you can also create your own custom implementation of the `formatError` function provided to `ApolloServer` config options which will transform the `GraphQLError` with `ValidationError` array to the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
 
 ## Example
 

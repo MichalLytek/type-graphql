@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import { buildSchema, formatArgumentValidationError } from "../../src";
+import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe-resolver";
 
@@ -11,12 +11,7 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
-    schema,
-    // remember to pass `formatArgumentValidationError`
-    // otherwise validation errors won't be returned to a client
-    formatError: formatArgumentValidationError,
-  });
+  const server = new ApolloServer({ schema });
 
   // Start the server
   const { url } = await server.listen(4000);
