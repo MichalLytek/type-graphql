@@ -10,8 +10,8 @@ Middlewares are a piece of reusable code that can be easily attached to resolver
 
 Middlewares are a very powerful but also a bit complicated feature. Basically, they are functions that take 2 arguments:
 
-* resolver data - the same as for resolvers (`root`, `args`, `context`, `info`)
-* `next` function - used to control execution of next middlewares and the resolver to which they are attached
+- resolver data - the same as for resolvers (`root`, `args`, `context`, `info`)
+- `next` function - used to control execution of next middlewares and the resolver to which they are attached
 
 You might be familiar with how middlewares works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middlewares are inspired by the [`koa.js` ones](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of further middlewares stack and resolver execution.
 
@@ -181,6 +181,7 @@ const schema = await buildSchema({
 ### Custom decorators
 
 If you want to have a more descriptive and declarative API, you can also create custom decorators. They work in the same way like the reusable middleware function, however in this case you need to return the `UseMiddleware` decorator function:
+
 ```typescript
 export function ValidateArgs<T extends object>(schema: Schema<T>) {
   return UseMiddleware(async ({ args }, next) => {
@@ -192,6 +193,7 @@ export function ValidateArgs<T extends object>(schema: Schema<T>) {
 ```
 
 The usage is then very simple, as you have a custom, descriptive decorator - just place it above resolver/field and pass the required arguments to id:
+
 ```typescript
 @Resolver()
 export class RecipeResolver {

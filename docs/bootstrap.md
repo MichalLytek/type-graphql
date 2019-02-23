@@ -24,10 +24,7 @@ So you can also provide an array of paths to resolver module files instead, whic
 
 ```typescript
 const schema = await buildSchema({
-  resolvers: [
-    __dirname + "/modules/**/*.resolver.ts",
-    __dirname + "/resolvers/**/*.ts",
-  ],
+  resolvers: [__dirname + "/modules/**/*.resolver.ts", __dirname + "/resolvers/**/*.ts"],
 });
 ```
 
@@ -51,7 +48,7 @@ bootstrap(); // actually run the async function
 
 ## Create HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server).  Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
+In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server). Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
 
 ```typescript
 import { ApolloServer } from "apollo-server";
@@ -62,7 +59,7 @@ async function bootstrap() {
   // ... Building schema here
 
   // Create GraphQL server
-  const server = new ApolloServer({ 
+  const server = new ApolloServer({
     schema,
     playground: true,
   });
@@ -84,6 +81,7 @@ Of course you can use `express-graphql` middleware, `graphql-yoga` or whatever y
 TypeGraphQL also provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.
 
 It accepts the same `BuildSchemaOptions` like the `buildSchema` function but instead of an executable `GraphQLSchema`, it creates a typeDefs and resolversMap pair that you can use e.g. with [`graphql-tools`](https://github.com/apollographql/graphql-tools):
+
 ```typescript
 import { makeExecutableSchema } from "graphql-tools";
 
@@ -95,8 +93,9 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 ```
 
 Or even with other libraries that expect the schema info in that shape, like [`apollo-link-state`](https://github.com/apollographql/apollo-link-state):
+
 ```typescript
-import { withClientState } from 'apollo-link-state';
+import { withClientState } from "apollo-link-state";
 
 const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
   resolvers: [FirstResolver, SecondResolver],

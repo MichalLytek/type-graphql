@@ -6,14 +6,15 @@
     "url": "https://github.com/19majkel94"
   },
   "scripts": {
+    "dev": "node ./dev.js",
     "test": "jest --verbose --coverage",
     "test:ci": "jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "jest --watch",
-    "verify": "npm run check && npm run lint",
-    "dev": "node ./dev.js",
-    "package": "gulp package",
     "check": "tsc --noEmit",
-    "lint": "tslint --project tsconfig.json"
+    "lint": "tslint --project tsconfig.json",
+    "verify": "npm run check && npm run lint",
+    "package": "gulp package",
+    "docs": "npm run --prefix website start"
   },
   "peerDependencies": {
     "@types/graphql": "^14.0.7",
@@ -89,6 +90,10 @@
   "lint-staged": {
     "{src,tests,examples}/**/*.{ts,js}": [
       "tslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "docs/**/*.md": [
       "prettier --write",
       "git add"
     ]
