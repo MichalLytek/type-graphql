@@ -40,9 +40,7 @@
 <h3><a class="anchor" aria-hidden="true" id="resolvers-classes"></a><a href="#resolvers-classes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolvers classes</h3>
 <p>First you have to create a resolver class and annotate it with <code>@Resolver()</code> decorator. This class will behave like a controller from classic REST frameworks:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
-
-<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 </code></pre>
 <p>You can use a DI framework (as described in <a href="/type-graphql/docs/next/dependency-injection.html">dependency injection docs</a>) to inject class dependencies (like services or repositories) or store data inside resolvers class - it's guaranteed to be a single instance per app.</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -63,7 +61,7 @@
 </code></pre>
 <p>We also need to do two things.
 The first is to add the <code>@Query</code> decorator, which marks the class method as a GraphQL query.
-The second is to provide the return type.  Since the method is async, the reflection metadata system shows the return type as <code>Promise</code>, so we have to add the decorator's parameter as <code>returns =&gt; [Recipe]</code> to declare it resolve to an array of <code>Recipe</code> object types.</p>
+The second is to provide the return type. Since the method is async, the reflection metadata system shows the return type as <code>Promise</code>, so we have to add the decorator's parameter as <code>returns =&gt; [Recipe]</code> to declare it resolve to an array of <code>Recipe</code> object types.</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
   <span class="token keyword">private</span> recipesCollection<span class="token punctuation">:</span> Recipe<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -89,7 +87,7 @@ The second is to provide the return type.  Since the method is async, the reflec
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>This works well when there are 2 - 3 args.  But when you have many more, the resolver's method definitions becomes bloated. In that case you can use a class definition to describe the arguments. It looks like the object type class but it has <code>@ArgsType()</code> decorator on top.</p>
+<p>This works well when there are 2 - 3 args. But when you have many more, the resolver's method definitions becomes bloated. In that case you can use a class definition to describe the arguments. It looks like the object type class but it has <code>@ArgsType()</code> decorator on top.</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">GetRecipesArgs</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -104,7 +102,7 @@ The second is to provide the return type.  Since the method is async, the reflec
 </code></pre>
 <p>You can define default values for optional fields in the <code>@Field()</code> decorator using a <code>defaultValue</code> option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.</p>
 <p>Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in <a href="/type-graphql/docs/next/validation.html">the validation docs</a>. You can also define a helper fields and methods for your args or input class.</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Min<span class="token punctuation">,</span> Max <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'class-validator'</span><span class="token punctuation">;</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Min<span class="token punctuation">,</span> Max <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"class-validator"</span><span class="token punctuation">;</span>
 
 @<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">GetRecipesArgs</span> <span class="token punctuation">{</span>
@@ -113,7 +111,8 @@ The second is to provide the return type.  Since the method is async, the reflec
   skip<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
-  @<span class="token function">Min</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> @<span class="token function">Max</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+  @<span class="token function">Min</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  @<span class="token function">Max</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
   take <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -134,7 +133,7 @@ We can use the destructuring syntax to have access to single arguments as variab
     <span class="token comment">// sample implementation</span>
     <span class="token keyword">let</span> recipes <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>recipesCollection<span class="token punctuation">;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>title<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      recipes <span class="token operator">=</span> recipes<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>recipe <span class="token operator">=></span> recipe<span class="token punctuation">.</span>title <span class="token operator">===</span> title<span class="token punctuation">)</span>
+      recipes <span class="token operator">=</span> recipes<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>recipe <span class="token operator">=></span> recipe<span class="token punctuation">.</span>title <span class="token operator">===</span> title<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> recipes<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>startIndex<span class="token punctuation">,</span> endIndex<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
@@ -148,15 +147,11 @@ We can use the destructuring syntax to have access to single arguments as variab
 <h3><a class="anchor" aria-hidden="true" id="input-types"></a><a href="#input-types" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input types</h3>
 <p>GraphQL's mutations we can create analogously, by declaring the class method, using <code>@Mutation</code> decorator, providing return type (if needed), creating arguments, etc. But for mutation we usually use <code>input</code> types, hence TypeGraphQL allows you to create inputs in the same way as the <a href="/type-graphql/docs/next/types-and-fields.html">object types</a> but using <code>@InputType()</code> decorator:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">class</span> <span class="token class-name">AddRecipeInput</span> <span class="token punctuation">{</span>
-
-<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">AddRecipeInput</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 </code></pre>
 <p>We can also leverage TypeScript type checking system and ensure that we won't accidentally change the type of property by implementing <code>Partial</code> type:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">class</span> <span class="token class-name">AddRecipeInput</span> <span class="token keyword">implements</span> <span class="token class-name">Partial</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span>
-  
-<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">AddRecipeInput</span> <span class="token keyword">implements</span> <span class="token class-name">Partial</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 </code></pre>
 <p>Then we can declare all the input fields we would need, using <code>@Field()</code> decorator:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> description<span class="token punctuation">:</span> <span class="token string">"New recipe data"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -174,10 +169,7 @@ We can use the destructuring syntax to have access to single arguments as variab
 <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
   <span class="token comment">// ...</span>
   @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">addRecipe</span><span class="token punctuation">(</span>
-    @<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"data"</span><span class="token punctuation">)</span> newRecipeData<span class="token punctuation">:</span> AddRecipeInput<span class="token punctuation">,</span>
-    @<span class="token function">Ctx</span><span class="token punctuation">(</span><span class="token punctuation">)</span> ctx<span class="token punctuation">:</span> Context<span class="token punctuation">,</span>
-  <span class="token punctuation">)</span><span class="token punctuation">:</span> Recipe <span class="token punctuation">{</span>
+  <span class="token function">addRecipe</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"data"</span><span class="token punctuation">)</span> newRecipeData<span class="token punctuation">:</span> AddRecipeInput<span class="token punctuation">,</span> @<span class="token function">Ctx</span><span class="token punctuation">(</span><span class="token punctuation">)</span> ctx<span class="token punctuation">:</span> Context<span class="token punctuation">)</span><span class="token punctuation">:</span> Recipe <span class="token punctuation">{</span>
     <span class="token comment">// sample implementation</span>
     <span class="token keyword">const</span> recipe <span class="token operator">=</span> RecipesUtils<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>newRecipeData<span class="token punctuation">,</span> ctx<span class="token punctuation">.</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>recipesCollection<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>recipe<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -248,9 +240,7 @@ and whether the first parameter of the method is the object type (<code>Recipe</
   @<span class="token function">FieldResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">averageRating</span><span class="token punctuation">(</span>@<span class="token function">Root</span><span class="token punctuation">(</span><span class="token punctuation">)</span> recipe<span class="token punctuation">:</span> Recipe<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> ratingsSum <span class="token operator">=</span> recipe<span class="token punctuation">.</span>ratings<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">+</span> b<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> recipe<span class="token punctuation">.</span>ratings<span class="token punctuation">.</span>length
-      <span class="token operator">?</span> ratingsSum <span class="token operator">/</span> recipe<span class="token punctuation">.</span>ratings<span class="token punctuation">.</span>length
-      <span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> recipe<span class="token punctuation">.</span>ratings<span class="token punctuation">.</span>length <span class="token operator">?</span> ratingsSum <span class="token operator">/</span> recipe<span class="token punctuation">.</span>ratings<span class="token punctuation">.</span>length <span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -261,7 +251,7 @@ and whether the first parameter of the method is the object type (<code>Recipe</
   title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> deprecationReason<span class="token punctuation">:</span> <span class="token string">"Use `title` instead"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token keyword">get</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span> 
+  <span class="token keyword">get</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>title<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
@@ -275,11 +265,11 @@ and whether the first parameter of the method is the object type (<code>Recipe</
 
     <span class="token keyword">const</span> ratingsSum <span class="token operator">=</span> ratings<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">+</span> b<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> ratingsSum <span class="token operator">/</span> ratings<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>However, if the code is more complicated and has side effects (i.e. api calls, fetching from databases), use a resolver class's method instead.  That way you can leverage the dependency injection mechanism, which is really helpful in testing.  For example:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Repository <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'typeorm'</span>
+<p>However, if the code is more complicated and has side effects (i.e. api calls, fetching from databases), use a resolver class's method instead. That way you can leverage the dependency injection mechanism, which is really helpful in testing. For example:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Repository <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typeorm"</span><span class="token punctuation">;</span>
 
 @<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token keyword">implements</span> <span class="token class-name">ResolverInterface</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span>
