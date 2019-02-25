@@ -76,7 +76,7 @@ export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
 
 ### Reusable middlewares
 
-Sometimes the middleware has to be configurable, just like you pass `roles` array to the [`@Autorized()` decorator](authorization.md). In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.
+Sometimes the middleware has to be configurable, just like you pass `roles` array to the [`@Authorized()` decorator](authorization.md). In that case, you should create a simple middleware factory - a function that takes your configuration as a parameters and returns a middleware that use that provided value.
 
 ```typescript
 export function NumberInterceptor(minValue: number): MiddlewareFn {
@@ -151,7 +151,7 @@ export class RecipeResolver {
 }
 ```
 
-You can also attach the resolver to `ObjectType` fields, the same way as with [`@Autorized()` decorator](authorization.md).
+You can also attach the resolver to `ObjectType` fields, the same way as with [`@Authorized()` decorator](authorization.md).
 
 ```typescript
 @ObjectType()
