@@ -65,7 +65,7 @@
   types<span class="token punctuation">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// array of object types classes</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>All that left to do is to use the union type in the query.
+<p>All that's left to do is to use the union type in the query.
 Notice, that due to TypeScript's reflection limitation, you have to explicitly use <code>SearchResultUnion</code> value in <code>@Query</code> decorator return type annotation.
 For TS compile-time type safety you can also use <code>typeof SearchResultUnion</code> which is equal to type <code>Movie | Actor</code>.</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
