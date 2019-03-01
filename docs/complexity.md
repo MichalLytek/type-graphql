@@ -4,9 +4,9 @@ title: Query complexity
 
 A single GraphQL query can potentially generate huge workload for a server, like thousands of database operations which can be used to cause DDoS attacks. To keep track and limit of what each GraphQL operation can do , `TypeGraphQL` provides you the option of integrating with Query Complexity tools like [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
-The cost analysis-based solution is very promising, since you can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity` .
+The cost analysis-based solution is very promising, since you can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity`.
 
-All you need to do is define your complexity cost for the fields (fields, mutations, subscriptions) in`TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQL server you have.
+All you need to do is define your complexity cost for the fields (fields, mutations, subscriptions) in `TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQL server you have.
 
 ## How to use?
 
