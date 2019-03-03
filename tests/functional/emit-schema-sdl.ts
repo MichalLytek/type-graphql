@@ -24,7 +24,12 @@ describe("Emitting schema definition file", () => {
   beforeEach(() => {
     pathArg = undefined;
     contentArg = undefined;
-    mockfs({});
+    const travisBuildDir = process.env.TRAVIS_BUILD_DIR;
+    if (typeof travisBuildDir === "string") {
+      mockfs({ [travisBuildDir]: {} });
+    } else {
+      mockfs({});
+    }
   });
 
   beforeAll(async () => {
