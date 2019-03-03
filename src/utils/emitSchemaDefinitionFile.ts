@@ -1,4 +1,4 @@
-import { writeFile, writeFileSync, mkdirSync, existsSync } from "fs";
+import { writeFile, writeFileSync, mkdir, mkdirSync, existsSync } from "fs";
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
@@ -15,17 +15,46 @@ const generatedSchemaWarning = /* graphql */ `\
 
 `;
 
-function mkdirRecursive(targetPath: string) {
+function parsePath(targetPath: string) {
+  const directoryArray: string[] = [];
   path
     .parse(path.resolve(targetPath))
     .dir.split(path.sep)
-    .reduce((previousPath, folder) => {
-      const currentPath = path.join(previousPath, folder, path.sep);
-      if (!existsSync(currentPath)) {
-        mkdirSync(currentPath);
-      }
-      return currentPath;
-    }, "");
+    .reduce((previous, next) => {
+      const directory = path.join(previous, next);
+      directoryArray.push(directory);
+      return path.join(directory);
+    });
+  return directoryArray;
+}
+
+function mkdirRecursiveSync(targetPath: string) {
+  const directoryArray = parsePath(targetPath);
+  directoryArray.forEach(directory => {
+    if (!existsSync(directory)) {
+      mkdirSync(directory);
+    }
+  });
+}
+
+function mkdirRecursive(targetPath: string) {
+  const directoryArray = parsePath(targetPath);
+  return directoryArray
+    .map(directory => {
+      return () =>
+        new Promise((resolve, reject) => {
+          mkdir(directory, err => {
+            if (err && err.code !== "EEXIST") {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+    })
+    .reduce((promise, func) => {
+      return promise.then(() => func());
+    }, Promise.resolve({}));
 }
 
 export function emitSchemaDefinitionFileSync(
@@ -34,7 +63,7 @@ export function emitSchemaDefinitionFileSync(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  mkdirRecursive(schemaFilePath);
+  mkdirRecursiveSync(schemaFilePath);
   writeFileSync(schemaFilePath, schemaFileContent);
 }
 
@@ -45,7 +74,8 @@ export async function emitSchemaDefinitionFile(
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
   return new Promise<void>((resolve, reject) => {
-    mkdirRecursive(schemaFilePath);
-    writeFile(schemaFilePath, schemaFileContent, err => (err ? reject(err) : resolve()));
+    mkdirRecursive(schemaFilePath).then(() =>
+      writeFile(schemaFilePath, schemaFileContent, err => (err ? reject(err) : resolve())),
+    );
   });
 }
