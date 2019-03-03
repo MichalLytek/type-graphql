@@ -64,7 +64,7 @@ export function emitSchemaDefinitionFileSync(
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
   mkdirRecursiveSync(schemaFilePath);
-  writeFileSync(schemaFilePath, schemaFileContent);
+  writeFileSync(path.resolve(schemaFilePath), schemaFileContent);
 }
 
 export async function emitSchemaDefinitionFile(
@@ -75,7 +75,9 @@ export async function emitSchemaDefinitionFile(
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
   return new Promise<void>((resolve, reject) => {
     mkdirRecursive(schemaFilePath).then(() =>
-      writeFile(schemaFilePath, schemaFileContent, err => (err ? reject(err) : resolve())),
+      writeFile(path.resolve(schemaFilePath), schemaFileContent, err =>
+        err ? reject(err) : resolve(),
+      ),
     );
   });
 }
