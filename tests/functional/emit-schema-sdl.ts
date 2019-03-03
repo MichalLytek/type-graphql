@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
-import { join } from "path";
+import * as mockfs from "mock-fs";
+import * as fs from "fs";
+import * as path from "path";
 import {
   Field,
   ObjectType,
@@ -15,24 +17,6 @@ import {
 let pathArg: any;
 let contentArg: any;
 
-jest.mock("fs", () => ({
-  writeFile: (path: any, content: any, callback: (err: any) => void) => {
-    pathArg = path;
-    contentArg = content;
-    callback(null);
-  },
-  writeFileSync: (path: any, content: any) => {
-    pathArg = path;
-    contentArg = content;
-  },
-  existsSync: (path: any) => {
-    pathArg = path;
-  },
-  mkdirSync: (path: any) => {
-    pathArg = path;
-  },
-}));
-
 describe("Emitting schema definition file", () => {
   let schema: GraphQLSchema;
   let MyResolverClass: any;
@@ -40,6 +24,7 @@ describe("Emitting schema definition file", () => {
   beforeEach(() => {
     pathArg = undefined;
     contentArg = undefined;
+    mockfs({});
   });
 
   beforeAll(async () => {
@@ -66,50 +51,57 @@ describe("Emitting schema definition file", () => {
     });
   });
 
-  function checkSchemaSDL(commentPrefix: "#" | `"""` = `"""`) {
-    expect(contentArg).toContain("THIS FILE WAS GENERATED");
-    expect(contentArg).toContain("MyObject");
+  afterEach(() => {
+    mockfs.restore();
+  });
+
+  function checkSchemaSDL(contents: string, commentPrefix: "#" | `"""` = `"""`) {
+    expect(contents).toContain("THIS FILE WAS GENERATED");
+    expect(contents).toContain("MyObject");
     if (commentPrefix === `"""`) {
-      expect(contentArg).toContain(`"""Description test"""`);
+      expect(contents).toContain(`"""Description test"""`);
     } else {
-      expect(contentArg).toContain(`# Description test`);
+      expect(contents).toContain(`# Description test`);
     }
   }
 
   describe("emitSchemaDefinitionFile", () => {
     it("should call writing file with schema SDL", async () => {
-      await emitSchemaDefinitionFile("testPath1", schema);
-      expect(pathArg).toEqual("testPath1");
-      checkSchemaSDL();
+      const targetPath = path.resolve("testPath1");
+      await emitSchemaDefinitionFile(targetPath, schema);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
   });
 
   describe("emitSchemaDefinitionFileSync", () => {
     it("should call writing file with schema SDL", async () => {
-      emitSchemaDefinitionFileSync("testPath2", schema);
-      expect(pathArg).toEqual("testPath2");
-      checkSchemaSDL();
+      const targetPath = path.resolve("testPath2");
+      emitSchemaDefinitionFileSync(targetPath, schema);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
   });
 
   describe("buildSchema", () => {
     it("should generate schema SDL file on selected file path", async () => {
-      await buildSchema({
-        resolvers: [MyResolverClass],
-        emitSchemaFile: "testPath11",
-      });
-      expect(pathArg).toEqual("testPath11");
-      checkSchemaSDL();
-    });
-
-    it("should generate schema SDL file on selected file path", async () => {
-      const targetPath = join(__dirname, "schemas", "graphql", "schema.qgl");
+      const targetPath = path.resolve("testPath11");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      expect(pathArg).toEqual(targetPath);
-      checkSchemaSDL();
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
+    });
+
+    it("should generate schema SDL file on selected file path", async () => {
+      const targetPath = path.join(__dirname, "schemas", "graphql", "schema.qgl");
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
     it("should generate schema SDL file on selected file path", async () => {
@@ -118,87 +110,90 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      expect(pathArg).toEqual(targetPath);
-      checkSchemaSDL();
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
     it("should generate schema SDL file in current working dir", async () => {
+      const targetPath = path.resolve(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: true,
       });
-      expect(pathArg).toContain(process.cwd());
-      expect(pathArg).toContain("schema.gql");
-      checkSchemaSDL();
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
+      const targetPath = path.resolve("testPath12");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
           commentDescriptions: true,
-          path: "testPath12",
+          path: targetPath,
         },
       });
-      expect(pathArg).toEqual("testPath12");
-      checkSchemaSDL("#");
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), "#");
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
+      const targetPath = path.resolve(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
           commentDescriptions: true,
         },
       });
-      expect(pathArg).toContain(process.cwd());
-      expect(pathArg).toContain("schema.gql");
-      checkSchemaSDL("#");
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), "#");
     });
   });
 
   describe("buildSchemaSync", () => {
     it("should generate schema SDL file on selected file path", async () => {
+      const targetPath = path.resolve("testPath21");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: "testPath21",
       });
-      expect(pathArg).toEqual("testPath21");
-      checkSchemaSDL();
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
     it("should generate schema SDL file in current working dir", async () => {
+      const targetPath = path.resolve(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: true,
       });
-      expect(pathArg).toContain(process.cwd());
-      expect(pathArg).toContain("schema.gql");
-      checkSchemaSDL();
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
+      const targetPath = path.resolve("testPath22");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
           commentDescriptions: true,
-          path: "testPath22",
+          path: targetPath,
         },
       });
-      expect(pathArg).toEqual("testPath22");
-      checkSchemaSDL("#");
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), "#");
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
+      const targetPath = path.resolve(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
           commentDescriptions: true,
         },
       });
-      expect(pathArg).toContain(process.cwd());
-      expect(pathArg).toContain("schema.gql");
-      checkSchemaSDL("#");
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), "#");
     });
   });
 });
