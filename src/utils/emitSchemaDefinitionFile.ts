@@ -15,7 +15,7 @@ const generatedSchemaWarning = /* graphql */ `\
 
 `;
 
-export function mkdirRecursive(targetPath: string) {
+function mkdirRecursive(targetPath: string) {
   path
     .parse(path.resolve(targetPath))
     .dir.split(path.sep)
