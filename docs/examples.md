@@ -16,9 +16,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Enums and unions](https://github.com/19majkel94/type-graphql/tree/master/examples/enums-and-unions)
 - [Subscriptions (simple)](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions)
 - [Subscriptions (using Redis)](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions)
-- [Interfaces and types inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
-- [Resolvers inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance)
-- [Generic types](https://github.com/19majkel94/type-graphql/tree/master/examples/generic-types)
+- [Interfaces](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
 
 ## Features usage
 
@@ -26,6 +24,9 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
   - [scoped container](https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container)
 - [Authorization](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization)
 - [Validation](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation)
+- [Types inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance)
+- [Resolvers inheritance](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance)
+- [Generic types](https://github.com/19majkel94/type-graphql/tree/master/examples/generic-types)
 - [Middlewares](https://github.com/19majkel94/type-graphql/tree/master/examples/middlewares)
 
 ## 3rd party libs integration
