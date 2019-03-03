@@ -84,7 +84,7 @@ describe("Emitting schema definition file", () => {
   });
 
   describe("buildSchema", () => {
-    it("should generate schema SDL file on selected file path", async () => {
+    it("should generate schema SDL file on selected file path provided from path.resolve", async () => {
       const targetPath = path.resolve("testPath11");
       await buildSchema({
         resolvers: [MyResolverClass],
@@ -94,7 +94,7 @@ describe("Emitting schema definition file", () => {
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
-    it("should generate schema SDL file on selected file path", async () => {
+    it("should generate schema SDL file on selected file path provided from path.join", async () => {
       const targetPath = path.join(__dirname, "schemas", "graphql", "schema.qgl");
       await buildSchema({
         resolvers: [MyResolverClass],
@@ -104,7 +104,7 @@ describe("Emitting schema definition file", () => {
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
-    it("should generate schema SDL file on selected file path", async () => {
+    it("should generate schema SDL file on selected path provided in string", async () => {
       const targetPath = "schemas/graphql/schema.qgl";
       await buildSchema({
         resolvers: [MyResolverClass],
