@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
+import { join } from "path";
 import {
   Field,
   ObjectType,
@@ -23,6 +24,12 @@ jest.mock("fs", () => ({
   writeFileSync: (path: any, content: any) => {
     pathArg = path;
     contentArg = content;
+  },
+  existsSync: (path: any) => {
+    pathArg = path;
+  },
+  mkdirSync: (path: any) => {
+    pathArg = path;
   },
 }));
 
@@ -92,6 +99,26 @@ describe("Emitting schema definition file", () => {
         emitSchemaFile: "testPath11",
       });
       expect(pathArg).toEqual("testPath11");
+      checkSchemaSDL();
+    });
+
+    it("should generate schema SDL file on selected file path", async () => {
+      const targetPath = join(__dirname, "schemas", "graphql", "schema.qgl");
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      expect(pathArg).toEqual(targetPath);
+      checkSchemaSDL();
+    });
+
+    it("should generate schema SDL file on selected file path", async () => {
+      const targetPath = "schemas/graphql/schema.qgl";
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      expect(pathArg).toEqual(targetPath);
       checkSchemaSDL();
     });
 
