@@ -100,12 +100,34 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
+      const resolvedTargetPath = path.resolve(targetPath);
+      expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
+    });
+
+    it("should generate schema SDL file on selected file path provided in string", async () => {
+      const targetPath = "schemas/graphql/schema.qgl";
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      const resolvedTargetPath = path.resolve(targetPath);
+      expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
+    });
+
+    it("should generate schema SDL file on selected file path provided from path.resolve", async () => {
+      const targetPath = path.resolve("testPath11");
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
-    it("should generate schema SDL file on selected path provided in string", async () => {
-      const targetPath = "schemas/graphql/schema.qgl";
+    it("should generate schema SDL file on selected file path provided from path.resolve", async () => {
+      const targetPath = path.resolve("testPath11");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
@@ -151,14 +173,36 @@ describe("Emitting schema definition file", () => {
   });
 
   describe("buildSchemaSync", () => {
-    it("should generate schema SDL file on selected file path", async () => {
-      const targetPath = path.resolve("testPath21");
+    it("should synchronously generate schema SDL file on selected file path provided from path.resolve", async () => {
+      const targetPath = path.resolve("testPath11");
       buildSchemaSync({
         resolvers: [MyResolverClass],
-        emitSchemaFile: "testPath21",
+        emitSchemaFile: targetPath,
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
+    });
+
+    it("should synchronously generate schema SDL file on selected file path provided from path.join", async () => {
+      const targetPath = path.join(__dirname, "schemas", "graphql", "schema.qgl");
+      buildSchemaSync({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      const resolvedTargetPath = path.resolve(targetPath);
+      expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
+    });
+
+    it("should synchronously generate schema SDL file on selected file path provided in string", async () => {
+      const targetPath = "schemas/graphql/schema.qgl";
+      buildSchemaSync({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: targetPath,
+      });
+      const resolvedTargetPath = path.resolve(targetPath);
+      expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
     });
 
     it("should generate schema SDL file in current working dir", async () => {
