@@ -333,7 +333,7 @@ Note that if a field name of a field resolver doesn't exit in resolver object ty
 
 ## Resolvers inheritance
 
-Inheritance of resolver classes is an advanced topic covered in [interfaces and inheritance docs](interfaces-and-inheritance.md#resolvers-inheritance).
+Inheritance of resolver classes is an advanced topic covered in [resolvers inheritance docs](inheritance.md#resolvers-inheritance).
 
 ## Examples
 
