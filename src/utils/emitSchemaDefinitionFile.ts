@@ -1,6 +1,6 @@
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
-import * as fse from "fs-extra";
+import { outputFile, outputFileSync } from "fs-extra";
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
 
@@ -18,7 +18,7 @@ export function emitSchemaDefinitionFileSync(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  fse.outputFileSync(schemaFilePath, schemaFileContent);
+  outputFileSync(schemaFilePath, schemaFileContent);
 }
 
 export async function emitSchemaDefinitionFile(
@@ -27,5 +27,5 @@ export async function emitSchemaDefinitionFile(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  return fse.outputFile(schemaFilePath, schemaFileContent);
+  return outputFile(schemaFilePath, schemaFileContent);
 }
