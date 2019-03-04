@@ -105,9 +105,9 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      mockfs.restore();
       const resolvedTargetPath = path.resolve(targetPath);
       expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      mockfs.restore();
       checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
     });
 
@@ -117,9 +117,9 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      mockfs.restore();
       const resolvedTargetPath = path.resolve(targetPath);
       expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      mockfs.restore();
       checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
     });
 
@@ -196,9 +196,9 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      mockfs.restore();
       const resolvedTargetPath = path.resolve(targetPath);
       expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      mockfs.restore();
       checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
     });
 
@@ -208,9 +208,9 @@ describe("Emitting schema definition file", () => {
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
       });
-      mockfs.restore();
       const resolvedTargetPath = path.resolve(targetPath);
       expect(fs.existsSync(resolvedTargetPath)).toEqual(true);
+      mockfs.restore();
       checkSchemaSDL(fs.readFileSync(resolvedTargetPath).toString());
     });
 
