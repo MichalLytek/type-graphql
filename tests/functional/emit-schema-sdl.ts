@@ -3,7 +3,6 @@ import { GraphQLSchema } from "graphql";
 import * as fse from "fs-extra";
 import * as fs from "fs";
 import * as path from "path";
-import * as os from "os";
 import {
   buildSchema,
   buildSchemaSync,
@@ -15,7 +14,7 @@ import {
   Resolver,
 } from "../../src";
 
-const TEST_DIR = path.join(os.tmpdir(), "type-graphql", "test-output");
+const TEST_DIR = path.resolve(process.cwd(), "type-graphql", "test-output");
 jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
 
 describe("Emitting schema definition file", () => {
