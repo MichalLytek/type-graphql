@@ -34,7 +34,7 @@ class Recipe {
 }
 ```
 
-Then we decorate the class and it properties with decorators:
+Then we decorate the class and its properties with decorators:
 
 ```typescript
 @ObjectType()
