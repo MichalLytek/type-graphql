@@ -4,11 +4,11 @@ import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import { SchemaGenerator, SchemaGeneratorOptions } from "../schema/schema-generator";
 import { loadResolversFromGlob } from "../helpers/loadResolversFromGlob";
 import {
-  defaultSchemaFilePath,
   emitSchemaDefinitionFileSync,
   emitSchemaDefinitionFile,
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
+import * as path from "path";
 
 interface EmitSchemaFileOptions extends PrintSchemaOptions {
   path?: string;
@@ -61,6 +61,7 @@ function getEmitSchemaDefinitionFileOptions(
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {
+  const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.gql");
   return {
     schemaFileName:
       typeof buildSchemaOptions.emitSchemaFile === "string"

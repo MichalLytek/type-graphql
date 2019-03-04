@@ -3,8 +3,6 @@ import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
 
-export const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.gql");
-
 export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
 
 const generatedSchemaWarning = /* graphql */ `\
