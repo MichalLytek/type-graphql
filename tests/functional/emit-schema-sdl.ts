@@ -15,7 +15,7 @@ import {
   Resolver,
 } from "../../src";
 
-const TEST_DIR = path.join(os.tmpdir(), "fs-extra", "output");
+const TEST_DIR = path.join(os.tmpdir(), "type-graphql", "test-output");
 jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
 
 describe("Emitting schema definition file", () => {
@@ -66,6 +66,7 @@ describe("Emitting schema definition file", () => {
   describe("emitSchemaDefinitionFile", () => {
     it("should call writing file with schema SDL", async () => {
       const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
+      console.log("targetPath", targetPath);
       await emitSchemaDefinitionFile(targetPath, schema);
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());

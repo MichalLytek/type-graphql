@@ -1,4 +1,4 @@
-import { writeFile, writeFileSync, mkdir, mkdirSync, existsSync } from "fs";
+import { existsSync, mkdir, mkdirSync, writeFile, writeFileSync } from "fs";
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
@@ -23,6 +23,7 @@ function parsePath(targetPath: string) {
       directoryArray.push(directory);
       return path.join(directory);
     });
+  console.log("directoryArray", directoryArray);
   return directoryArray;
 }
 
