@@ -1,35 +1,28 @@
 import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
-import * as mockfs from "mock-fs";
+import * as fse from "fs-extra";
 import * as fs from "fs";
 import * as path from "path";
 import {
-  Field,
-  ObjectType,
   buildSchema,
-  Query,
-  Resolver,
+  buildSchemaSync,
   emitSchemaDefinitionFile,
   emitSchemaDefinitionFileSync,
-  buildSchemaSync,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
 } from "../../src";
 
-let pathArg: any;
-let contentArg: any;
+const TEST_DIR = path.resolve(process.cwd(), "type-graphql", "test-output");
+jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
 
 describe("Emitting schema definition file", () => {
   let schema: GraphQLSchema;
   let MyResolverClass: any;
 
-  beforeEach(() => {
-    pathArg = undefined;
-    contentArg = undefined;
-    const travisBuildDir = process.env.TRAVIS_BUILD_DIR;
-    if (typeof travisBuildDir === "string") {
-      mockfs({ [travisBuildDir]: {} });
-    } else {
-      mockfs({});
-    }
+  beforeEach(done => {
+    fse.emptyDir(TEST_DIR, done);
   });
 
   beforeAll(async () => {
@@ -49,6 +42,7 @@ describe("Emitting schema definition file", () => {
         return {} as MyObject;
       }
     }
+
     MyResolverClass = MyResolver;
 
     schema = await buildSchema({
@@ -56,11 +50,9 @@ describe("Emitting schema definition file", () => {
     });
   });
 
-  afterEach(() => {
-    mockfs.restore();
-  });
+  afterEach(done => fse.remove(TEST_DIR, done));
 
-  function checkSchemaSDL(contents: string, commentPrefix: "#" | `"""` = `"""`) {
+  function checkSchemaSDL(contents: string, commentPrefix = `"""`) {
     expect(contents).toContain("THIS FILE WAS GENERATED");
     expect(contents).toContain("MyObject");
     if (commentPrefix === `"""`) {
@@ -72,7 +64,14 @@ describe("Emitting schema definition file", () => {
 
   describe("emitSchemaDefinitionFile", () => {
     it("should call writing file with schema SDL", async () => {
-      const targetPath = path.resolve("testPath1");
+      const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
+      await emitSchemaDefinitionFile(targetPath, schema);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
+    });
+
+    it("should call writing file with schema SDL", async () => {
+      const targetPath = "./schemas/schema.gql";
       await emitSchemaDefinitionFile(targetPath, schema);
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
@@ -81,7 +80,14 @@ describe("Emitting schema definition file", () => {
 
   describe("emitSchemaDefinitionFileSync", () => {
     it("should call writing file with schema SDL", async () => {
-      const targetPath = path.resolve("testPath2");
+      const targetPath = path.join(TEST_DIR, "schemas", "test2", "schema.gql");
+      emitSchemaDefinitionFileSync(targetPath, schema);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString());
+    });
+
+    it("should call writing file with schema SDL", async () => {
+      const targetPath = "./schemas/schema.gql";
       emitSchemaDefinitionFileSync(targetPath, schema);
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
@@ -89,8 +95,8 @@ describe("Emitting schema definition file", () => {
   });
 
   describe("buildSchema", () => {
-    it("should generate schema SDL file on selected file path provided from path.resolve", async () => {
-      const targetPath = path.resolve("testPath11");
+    it("should generate schema SDL file on selected file path", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test3", "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
@@ -100,7 +106,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should generate schema SDL file in current working dir", async () => {
-      const targetPath = path.resolve(process.cwd(), "schema.gql");
+      const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: true,
@@ -110,7 +116,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
-      const targetPath = path.resolve("testPath12");
+      const targetPath = path.join(TEST_DIR, "schemas", "test5", "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
@@ -123,7 +129,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
-      const targetPath = path.resolve(process.cwd(), "schema.gql");
+      const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
@@ -136,8 +142,8 @@ describe("Emitting schema definition file", () => {
   });
 
   describe("buildSchemaSync", () => {
-    it("should synchronously generate schema SDL file on selected file path provided from path.resolve", async () => {
-      const targetPath = path.resolve("testPath11");
+    it("should synchronously generate schema SDL file on selected file path", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test7", "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
@@ -147,7 +153,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should generate schema SDL file in current working dir", async () => {
-      const targetPath = path.resolve(process.cwd(), "schema.gql");
+      const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: true,
@@ -157,7 +163,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
-      const targetPath = path.resolve("testPath22");
+      const targetPath = path.join(TEST_DIR, "schemas", "test9", "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
@@ -170,7 +176,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
-      const targetPath = path.resolve(process.cwd(), "schema.gql");
+      const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
