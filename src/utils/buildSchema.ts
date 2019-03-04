@@ -8,7 +8,7 @@ import {
   emitSchemaDefinitionFile,
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
-import * as path from "path";
+import { resolve } from "path";
 
 interface EmitSchemaFileOptions extends PrintSchemaOptions {
   path?: string;
@@ -61,7 +61,7 @@ function getEmitSchemaDefinitionFileOptions(
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {
-  const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.gql");
+  const defaultSchemaFilePath = resolve(process.cwd(), "schema.gql");
   return {
     schemaFileName:
       typeof buildSchemaOptions.emitSchemaFile === "string"
