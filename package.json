@@ -21,7 +21,6 @@
     "graphql": "^14.1.1"
   },
   "dependencies": {
-    "@types/fs-extra": "^5.0.5",
     "@types/glob": "^7.1.1",
     "@types/node": "*",
     "@types/semver": "^5.5.0",
@@ -42,7 +41,6 @@
     "@types/gulp-shell": "0.0.31",
     "@types/ioredis": "^4.0.8",
     "@types/jest": "^23.3.14",
-    "@types/mock-fs": "^3.6.30",
     "@types/node": "^11.9.4",
     "@types/rimraf": "^2.0.2",
     "@types/ws": "^6.0.1",
@@ -70,7 +68,6 @@
     "ioredis": "^4.6.2",
     "jest": "^24.1.0",
     "lint-staged": "^8.1.4",
-    "mock-fs": "^4.8.0",
     "mysql": "^2.16.0",
     "prettier": "^1.16.4",
     "reflect-metadata": "^0.1.13",
