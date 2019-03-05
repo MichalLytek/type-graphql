@@ -32,7 +32,12 @@ function mkdirRecursive(filePath: string) {
         });
     })
     .reduce((promise, func) => {
-      return promise.then(() => func());
+      return promise.then(
+        () => func(),
+        err => {
+          throw err;
+        },
+      );
     }, Promise.resolve({}));
 }
 
@@ -51,15 +56,19 @@ export function outputFile(filePath: string, fileContent: any) {
       if (err && err.code !== "ENOENT") {
         reject(err);
       } else {
-        mkdirRecursive(filePath).then(() => {
-          fs.writeFile(filePath, fileContent, error => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve();
-            }
+        mkdirRecursive(filePath)
+          .then(() => {
+            fs.writeFile(filePath, fileContent, error => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve();
+              }
+            });
+          })
+          .catch(e => {
+            reject(e);
           });
-        });
       }
     });
   });
