@@ -1,6 +1,6 @@
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
-import { outputFile, outputFileSync } from "fs-extra";
+import { outputFile, outputFileSync } from "./fileWriter";
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
 

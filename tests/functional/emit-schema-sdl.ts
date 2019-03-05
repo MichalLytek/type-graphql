@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
-import * as fse from "fs-extra";
+
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -20,10 +20,6 @@ jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
 describe("Emitting schema definition file", () => {
   let schema: GraphQLSchema;
   let MyResolverClass: any;
-
-  beforeEach(done => {
-    fse.emptyDir(TEST_DIR, done);
-  });
 
   beforeAll(async () => {
     @ObjectType()
@@ -49,8 +45,6 @@ describe("Emitting schema definition file", () => {
       resolvers: [MyResolver],
     });
   });
-
-  afterEach(done => fse.remove(TEST_DIR, done));
 
   function checkSchemaSDL(contents: string, commentPrefix = `"""`) {
     expect(contents).toContain("THIS FILE WAS GENERATED");
