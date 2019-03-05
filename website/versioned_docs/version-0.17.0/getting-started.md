@@ -1,15 +1,19 @@
 ---
 title: Getting started
-id: version-0.16.0-getting-started
+id: version-0.17.0-getting-started
 original_id: getting-started
 ---
+
+> Make sure that you've completed all the steps described in the [installation instruction](installation.md).
 
 To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
 
 Let's start with the `Recipe` type, which is the foundations of our API.
 
 ## Types
+
 We want to get equivalent of this type described in SDL:
+
 ```graphql
 type Recipe {
   id: ID!
@@ -21,6 +25,7 @@ type Recipe {
 ```
 
 So we create the `Recipe` class with all properties and types:
+
 ```typescript
 class Recipe {
   id: string;
@@ -32,6 +37,7 @@ class Recipe {
 ```
 
 Then we decorate the class and its properties with decorators:
+
 ```typescript
 @ObjectType()
 class Recipe {
@@ -51,6 +57,7 @@ class Recipe {
   ingredients: string[];
 }
 ```
+
 The detailed rules when to use `nullable`, `array` and others are described in [fields and types docs](types-and-fields.md).
 
 ## Resolvers
@@ -104,6 +111,7 @@ The detailed rules when and why we declare `returns => Recipe` functions and oth
 ## Inputs and arguments
 
 Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
+
 ```typescript
 @InputType()
 class NewRecipeDataInput {
@@ -127,18 +135,21 @@ class RecipesArgs {
   skip: number = 0;
 
   @Field(type => Int)
-  @Min(1) @Max(50)
+  @Min(1)
+  @Max(50)
   take: number = 25;
 }
-
 ```
+
 `@Length`, `@Min` or `@MaxArraySize` are decorators from [`class-validator`](https://github.com/typestack/class-validator) that automatically perform fields validation in TypeGraphQL.
 
 ## Building schema
+
 The last step that we have to do is to actually build the schema from TypeGraphQL definition. We use `buildSchema` function for this:
+
 ```typescript
 const schema = await buildSchema({
-  resolvers: [RecipeResolver]
+  resolvers: [RecipeResolver],
 });
 
 // ...creating express server or sth
@@ -146,6 +157,7 @@ const schema = await buildSchema({
 
 Et voilà! Now we have fully working GraphQL schema!
 If we print it, we would receive exactly this:
+
 ```graphql
 type Recipe {
   id: ID!
@@ -170,6 +182,7 @@ type Mutation {
 ```
 
 ## Want more?
+
 That was only a tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like authorization checker, inheritance support or field resolvers.
 
-If you want to see how it looks in more complicated case, you can go to the [Examples section](examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM. 
+If you want to see how it looks in more complicated case, you can go to the [Examples section](examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM.
