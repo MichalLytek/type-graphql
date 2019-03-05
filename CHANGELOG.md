@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v0.17.0
 ### Features
 - **Breaking Change**: make `graphql-js` packages a peer dependencies, bump `graphql` to `^14.1.1` and `@types/graphql` to `^14.0.7` (#239)
 - **Breaking Change**: remove `useContainer` function and allow to register container by `buildSchema` options (#241)
@@ -9,8 +11,7 @@
 - add support for passing `PrintSchemaOptions` in `buildSchema.emitSchemaFile` (e.g. `commentDescriptions: true` to restore previous behavior)
 - add `buildTypeDefsAndResolvers` utils function for generating apollo-like `typeDefs` and `resolvers` pair (#233)
 - add support for generic types (#255)
-
-## Fixes
+### Fixes
 - **Breaking Change**: remove the `formatArgumentValidationError` helper as it's not compatible and not needed in new Apollo Server (#258)
 - fix calling return type getter function `@Field(type => Foo)` before finishing module evaluation (allow for extending circular classes using `require`)
 - fix nullifying other custom method decorators - call the method on target instance, not the stored reference to original function (#247)
