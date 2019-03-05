@@ -45,7 +45,7 @@ Tools like [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-g
 
 ## Introduction
 
-As I mentioned, **TypeGraphQL** makes developing a GraphQL API and enjoyable process, i.e. by defining the schema using only classes and a bit of decorator magic.
+As I mentioned, **TypeGraphQL** makes developing a GraphQL API an enjoyable process, i.e. by defining the schema using only classes and a bit of decorator magic.
 
 So, to create types like object type or input type, we use kind of DTO classes.
 For example, to declare `Recipe` type we simply create a class and annotate it with decorators:
