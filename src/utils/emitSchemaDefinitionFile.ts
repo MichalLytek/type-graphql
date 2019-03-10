@@ -1,6 +1,7 @@
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
-import { outputFile, outputFileSync } from "./fileWriter";
+
+import { outputFile, outputFileSync } from "../helpers/filesystem";
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
 
@@ -27,5 +28,5 @@ export async function emitSchemaDefinitionFile(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  return outputFile(schemaFilePath, schemaFileContent);
+  await outputFile(schemaFilePath, schemaFileContent);
 }

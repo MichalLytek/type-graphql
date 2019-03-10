@@ -3,6 +3,7 @@ import { GraphQLSchema } from "graphql";
 import * as fs from "fs";
 import * as path from "path";
 import * as rimraf from "rimraf";
+
 import {
   buildSchema,
   buildSchemaSync,
@@ -13,17 +14,13 @@ import {
   Query,
   Resolver,
 } from "../../src";
+import * as filesystem from "../../src/helpers/filesystem";
 
-const TEST_DIR = path.resolve(process.cwd(), "type-graphql", "test-output");
-jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
+const TEST_DIR = path.resolve(process.cwd(), "tests", "test-output-dir");
 
 describe("Emitting schema definition file", () => {
   let schema: GraphQLSchema;
   let MyResolverClass: any;
-
-  afterAll(() => {
-    rimraf(TEST_DIR, () => null);
-  });
 
   beforeAll(async () => {
     @ObjectType()
@@ -50,6 +47,11 @@ describe("Emitting schema definition file", () => {
     });
   });
 
+  afterEach(done => {
+    jest.restoreAllMocks();
+    rimraf(TEST_DIR, done);
+  });
+
   function checkSchemaSDL(contents: string, commentPrefix = `"""`) {
     expect(contents).toContain("THIS FILE WAS GENERATED");
     expect(contents).toContain("MyObject");
@@ -61,30 +63,16 @@ describe("Emitting schema definition file", () => {
   }
 
   describe("emitSchemaDefinitionFile", () => {
-    it("should call writing file with schema SDL", async () => {
+    it("should write file with schema SDL successfully", async () => {
       const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
       await emitSchemaDefinitionFile(targetPath, schema);
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
-    it("should call writing file with schema SDL", async () => {
-      const targetPath = "./type-graphql/schemas/schema.gql";
-      await emitSchemaDefinitionFile(targetPath, schema);
-      expect(fs.existsSync(targetPath)).toEqual(true);
-      checkSchemaSDL(fs.readFileSync(targetPath).toString());
-    });
-
-    it("should fail writing file with schema SDL", async () => {
-      const fsSpy = jest
-        .spyOn(fs, "writeFile")
-        .mockImplementationOnce((p: any, c: any, cb: (err: any) => void) => {
-          cb({ code: "TEST ERROR" });
-        })
-        .mockImplementationOnce((p: any, c: any, cb: (err: any) => void) => {
-          cb({ code: "ENOENT" });
-        });
-      const targetPath = "./type-graphql/schemas/fail5/schema.gql";
+    it("should throw error when unknown error occur while writing file with schema SDL", async () => {
+      jest.spyOn(filesystem, "fsWriteFile").mockRejectedValueOnce({ code: "TEST ERROR" });
+      const targetPath = path.join(TEST_DIR, "schemas", "fail1", "schema.gql");
       let error;
       try {
         await emitSchemaDefinitionFile(targetPath, schema);
@@ -93,22 +81,11 @@ describe("Emitting schema definition file", () => {
       }
       expect(error).toEqual({ code: "TEST ERROR" });
       expect(fs.existsSync(targetPath)).toEqual(false);
-      fsSpy.mockClear();
     });
 
-    it("should fail writing file with schema SDL", async () => {
-      const fsSpy = jest
-        .spyOn(fs, "writeFile")
-        .mockImplementationOnce((p: any, c: any, cb: (err: any) => void) => {
-          cb({ code: "TEST ERROR" });
-        })
-        .mockImplementationOnce((p: any, c: any, cb: (err: any) => void) => {
-          cb({ code: "ENOENT" });
-        })
-        .mockImplementationOnce((p: any, c: any, cb: (err: any) => void) => {
-          cb({ code: "ENOENT" });
-        });
-      const targetPath = "./type-graphql/schemas/fail5/schema.gql";
+    it("should throw error when unknown error occur while creating directory with schema SDL", async () => {
+      jest.spyOn(filesystem, "fsMkdir").mockRejectedValueOnce({ code: "TEST ERROR" });
+      const targetPath = path.join(TEST_DIR, "schemas", "fail2", "schema.gql");
       let error;
       try {
         await emitSchemaDefinitionFile(targetPath, schema);
@@ -117,66 +94,45 @@ describe("Emitting schema definition file", () => {
       }
       expect(error).toEqual({ code: "TEST ERROR" });
       expect(fs.existsSync(targetPath)).toEqual(false);
-      fsSpy.mockClear();
-    });
-
-    it("should fail creating directory with schema SDL", async done => {
-      const fsSpy = jest
-        .spyOn(fs, "mkdir")
-        .mockImplementationOnce((p: any, cb: (err: any) => void) => {
-          cb({ code: "TEST ERROR" });
-        })
-        .mockImplementationOnce((p: any, cb: (err: any) => void) => {
-          cb({ code: "ENOENT" });
-        });
-      const targetPath = "./type-graphql/schemas/fail5/schema.gql";
-      let error;
-      try {
-        await emitSchemaDefinitionFile(targetPath, schema);
-      } catch (e) {
-        error = e;
-        expect(error).toEqual({ code: "TEST ERROR" });
-        done();
-      }
-      expect(fs.existsSync(targetPath)).toEqual(false);
-      fsSpy.mockClear();
     });
   });
 
   describe("emitSchemaDefinitionFileSync", () => {
-    it("should call writing file with schema SDL", async () => {
+    it("should write file with schema SDL successfully", async () => {
       const targetPath = path.join(TEST_DIR, "schemas", "test2", "schema.gql");
       emitSchemaDefinitionFileSync(targetPath, schema);
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString());
     });
 
-    it("should call writing file with schema SDL", async () => {
-      const targetPath = "./type-graphql/schemas/schema.gql";
-      emitSchemaDefinitionFileSync(targetPath, schema);
-      expect(fs.existsSync(targetPath)).toEqual(true);
-      checkSchemaSDL(fs.readFileSync(targetPath).toString());
-    });
-
-    it("should fail writing file with schema SDL", async () => {
-      jest
-        .spyOn(fs, "writeFileSync")
-        .mockImplementationOnce((p: any, c: any) => {
-          throw { code: "TEST ERROR" };
-        })
-        .mockImplementationOnce((p: any, c: any) => {
-          throw { code: "ENOENT" };
-        });
-      const targetPath = "./type-graphql/schemas/fail1/schema.gql";
+    it("should throw error when unknown error occur while writing file with schema SDL", () => {
+      jest.spyOn(fs, "writeFileSync").mockImplementationOnce(() => {
+        throw { code: "TEST ERROR" };
+      });
+      const targetPath = path.join(TEST_DIR, "schemas", "fail3", "schema.gql");
       let error;
       try {
-        await emitSchemaDefinitionFileSync(targetPath, schema);
+        emitSchemaDefinitionFileSync(targetPath, schema);
       } catch (e) {
         error = e;
       }
       expect(error).toEqual({ code: "TEST ERROR" });
       expect(fs.existsSync(targetPath)).toEqual(false);
-      jest.restoreAllMocks();
+    });
+
+    it("should throw error when unknown error occur while creating directory with schema SDL", () => {
+      jest.spyOn(fs, "mkdirSync").mockImplementationOnce(() => {
+        throw { code: "TEST ERROR" };
+      });
+      const targetPath = path.join(TEST_DIR, "schemas", "fail4", "schema.gql");
+      let error;
+      try {
+        emitSchemaDefinitionFileSync(targetPath, schema);
+      } catch (e) {
+        error = e;
+      }
+      expect(error).toEqual({ code: "TEST ERROR" });
+      expect(fs.existsSync(targetPath)).toEqual(false);
     });
   });
 
@@ -192,6 +148,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should generate schema SDL file in current working dir", async () => {
+      jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
@@ -202,7 +159,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
-      const targetPath = path.join(TEST_DIR, "schemas", "test5", "schema.gql");
+      const targetPath = path.join(TEST_DIR, "schemas", "test4", "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
@@ -215,6 +172,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
+      jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
@@ -229,7 +187,7 @@ describe("Emitting schema definition file", () => {
 
   describe("buildSchemaSync", () => {
     it("should synchronously generate schema SDL file on selected file path", async () => {
-      const targetPath = path.join(TEST_DIR, "schemas", "test7", "schema.gql");
+      const targetPath = path.join(TEST_DIR, "schemas", "test5", "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: targetPath,
@@ -239,6 +197,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should generate schema SDL file in current working dir", async () => {
+      jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
@@ -249,7 +208,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and apply them in emit", async () => {
-      const targetPath = path.join(TEST_DIR, "schemas", "test9", "schema.gql");
+      const targetPath = path.join(TEST_DIR, "schemas", "test6", "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
@@ -262,6 +221,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should read EmitSchemaFileOptions and set default path", async () => {
+      jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
