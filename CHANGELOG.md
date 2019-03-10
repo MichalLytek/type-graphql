@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Others
+- **Breaking Change**: drop support for Node.js v6 (end of LTS in April 2019)
 
 ## v0.17.0
 ### Features
