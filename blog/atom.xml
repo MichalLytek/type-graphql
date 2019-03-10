@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://19majkel94.github.io/type-graphql/blog</id>
+    <id>http://typegraphql.ml/blog</id>
     <title>TypeGraphQL Blog</title>
     <updated>2018-03-25T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
-    <link rel="alternate" href="https://19majkel94.github.io/type-graphql/blog"/>
+    <link rel="alternate" href="http://typegraphql.ml/blog"/>
     <subtitle>The best place to stay up-to-date with the latest TypeGraphQL news and events.</subtitle>
-    <logo>https://19majkel94.github.io/type-graphql/img/logo.png</logo>
+    <logo>http://typegraphql.ml/img/logo.png</logo>
     <rights>Copyright © 2019 Michał Lytek</rights>
     <entry>
         <title type="html"><![CDATA[GraphQL + TypeScript = TypeGraphQL]]></title>
-        <id>https://19majkel94.github.io/type-graphql/blog/2018/03/25/medium-article.html</id>
-        <link href="https://19majkel94.github.io/type-graphql/blog/2018/03/25/medium-article.html">
+        <id>http://typegraphql.ml/blog/2018/03/25/medium-article.html</id>
+        <link href="http://typegraphql.ml/blog/2018/03/25/medium-article.html">
         </link>
         <updated>2018-03-25T06:00:00Z</updated>
         <summary type="html"><![CDATA[<p>We all love GraphQL! It’s so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain.</p>
