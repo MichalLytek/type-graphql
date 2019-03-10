@@ -315,7 +315,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 Note that if a field name of a field resolver doesn't exit in resolver object type, it will create in schema a field with this name. This feature is useful when the field is purely calculable (eg. `averageRating` from `ratings` array) and you don't want to pollute the class signature.
 
 ## Resolvers inheritance
-Inheritance of resolver classes is an advanced topic covered in [interfaces and inheritance docs](interfaces-and-inheritance.md#resolvers-inheritance).
+Inheritance of resolver classes is an advanced topic covered in [inheritance docs](inheritance.md#resolvers-inheritance).
 
 ## Examples
 These code samples are made up just for tutorial purposes.
