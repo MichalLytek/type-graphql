@@ -18,8 +18,9 @@ const users = [
 const siteConfig = {
   title: "TypeGraphQL" /* title for your website */,
   tagline: "Modern framework for GraphQL API in Node.js",
-  url: "https://19majkel94.github.io" /* your website url */,
-  baseUrl: "/type-graphql/" /* base url for your project */,
+  url: "http://typegraphql.ml" /* your website url */,
+  baseUrl: "/" /* base url for your project */,
+  cname: "typegraphql.ml" /* the CNAME for your website */,
   projectName: "type-graphql",
   headerLinks: [
     { doc: "introduction", label: "Docs" },
@@ -27,12 +28,12 @@ const siteConfig = {
     { doc: "examples", label: "Examples" },
     { doc: "faq", label: "FAQ" },
     { blog: true, label: "Blog" },
-    { search: true },
     { href: "https://github.com/19majkel94/type-graphql", label: "GitHub" },
+    { search: true },
   ],
   algolia: {
     apiKey: "2cf66434100c0e30ca9ff499830e7b77",
-    indexName: "typegraphql"
+    indexName: "typegraphql",
   },
   users,
   /* path to images for header/footer */
