@@ -33,8 +33,8 @@ class MyObject {
 }
 ```
 
-You can leave the `@Authorized` decorator brackets empty or you can specify the role/roles that the user needs to have to get access to the field, query or mutation.
-By default the roles are of type `string` but you can change them easily as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
+We can leave the `@Authorized` decorator brackets empty or you can specify the role/roles that the user needs to have to get access to the field, query or mutation.
+By default the roles are of type `string` but we can change them easily as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
 
 This way, authorized users (regardless of their roles) can only read the `publicField` or the `authorizedField` from the `MyObject` object. They will receive `null` when accessing the `hiddenField` field and will receive an error (that will propagate through the whole query tree looking for a nullable field) for the `adminField` when they don't satisfy role constraints.
 
