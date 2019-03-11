@@ -1,7 +1,6 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
 import { DescriptionOptions, AbstractClassOptions } from "./types";
-import { ClassType } from "../interfaces";
 
 export type ObjectOptions = DescriptionOptions &
   AbstractClassOptions & {
@@ -16,8 +15,7 @@ export function ObjectType(
   maybeOptions?: ObjectOptions,
 ): ClassDecorator {
   const { name, options } = getNameDecoratorParams(nameOrOptions, maybeOptions);
-  const interfaceClasses: ClassType[] | undefined =
-    options.implements && [].concat(options.implements as any);
+  const interfaceClasses = options.implements && ([] as Function[]).concat(options.implements);
 
   return target => {
     getMetadataStorage().collectObjectMetadata({
