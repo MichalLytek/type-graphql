@@ -20,6 +20,7 @@ const siteConfig = {
   tagline: "Modern framework for GraphQL API in Node.js",
   url: "http://typegraphql.ml" /* your website url */,
   baseUrl: "/" /* base url for your project */,
+  cname: "typegraphql.ml" /* the CNAME for your website */,
   projectName: "type-graphql",
   headerLinks: [
     { doc: "introduction", label: "Docs" },
