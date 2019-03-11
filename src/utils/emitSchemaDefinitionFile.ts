@@ -1,9 +1,7 @@
-import { writeFile, writeFileSync } from "fs";
 import { GraphQLSchema, printSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
-import * as path from "path";
 
-export const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.gql");
+import { outputFile, outputFileSync } from "../helpers/filesystem";
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
 
@@ -21,7 +19,7 @@ export function emitSchemaDefinitionFileSync(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  writeFileSync(schemaFilePath, schemaFileContent);
+  outputFileSync(schemaFilePath, schemaFileContent);
 }
 
 export async function emitSchemaDefinitionFile(
@@ -30,7 +28,5 @@ export async function emitSchemaDefinitionFile(
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
   const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
-  return new Promise<void>((resolve, reject) =>
-    writeFile(schemaFilePath, schemaFileContent, err => (err ? reject(err) : resolve())),
-  );
+  await outputFile(schemaFilePath, schemaFileContent);
 }
