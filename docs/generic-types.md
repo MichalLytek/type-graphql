@@ -2,13 +2,13 @@
 title: Generic types
 ---
 
-[Types inheritance](inheritance.md) is a great way to reduce the code duplication by extracting common fields to the base class. But in some cases, the strict set of fields is not enough because we might need to declare the types of some fields in a more flexible way, like a type parameter (e.g. `items: T[]` in case of a pagination).
+[Types inheritance](inheritance.md) is a great way to reduce code duplication by extracting common fields to the base class. But in some cases, the strict set of fields is not enough because we might need to declare the types of some fields in a more flexible way, like a type parameter (e.g. `items: T[]` in case of a pagination).
 
-Hence TypeGraphQL has also support for describing generic GraphQL types.
+Hence TypeGraphQL also has support for describing generic GraphQL types.
 
 ## How to?
 
-Unfortunately, the limited reflection capabilities of TypeScript doesn't allow for combining decorator with the standard generic classes. To achieve a behavior like the generic types, we will use the same class-creator pattern like the one described in [resolvers inheritance](inheritance.md) docs.
+Unfortunately, the limited reflection capabilities of TypeScript doesn't allow for combining decorators with standard generic classes. To achieve behavior like that of generic types, we will use the same class-creator pattern like the one described in [resolvers inheritance](inheritance.md) docs.
 
 So we will start by defining a `PaginatedResponse` function that creates and returns a `PaginatedResponseClass`:
 
@@ -21,7 +21,7 @@ export default function PaginatedResponse() {
 }
 ```
 
-To achieve a generic-like behavior, the function has to be generic and take some runtime argument related to the type parameter:
+To achieve generic-like behavior, the function has to be generic and take some runtime argument related to the type parameter:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
@@ -32,7 +32,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-Then, we need to add proper decorators to the class - it might be `@ObjectType`, `@InterfaceType` or `@InputType`.
+Then, we need to add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`.
 It also should have set `isAbstract: true` to prevent registering in schema:
 
 ```typescript
@@ -93,14 +93,14 @@ class UserResolver {
 }
 ```
 
-You can also create a generic class without using `isAbstract` option or `abstract` keyword.
-But types created with this kind of factory will be registered in schema, so it's not recommended to use this way to extend the types for adding some more fields.
+We can also create a generic class without using the `isAbstract` option or `abstract` keyword.
+But types created with this kind of factory will be registered in schema, so this way is not recommended to extend the types for adding some more fields.
 
-To avoid generating schema errors about duplicated `PaginatedResponseClass` type names, you need to provide your own, unique, generated type name:
+To avoid generating schema errors of duplicated `PaginatedResponseClass` type names, we must provide our own unique, generated type name:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
-  // instead of `isAbstract`, you have to provide a unique type name used in schema
+  // instead of `isAbstract`, we have to provide a unique type name used in schema
   @ObjectType({ name: `Paginated${TItemClass.name}Response` })
   class PaginatedResponseClass {
     // the same fields as in the earlier code snippet
@@ -109,7 +109,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-Then, you can store the generated class in a variable. To be able to use it both as a runtime object and a type, you also have to create a type for this new class:
+Then, we can store the generated class in a variable and in order to use it both as a runtime object and as a type, we must also create a type for this new class:
 
 ```typescript
 const PaginatedUserResponse = PaginatedResponse(User);
@@ -127,4 +127,4 @@ class UserResolver {
 
 ## Examples
 
-More advanced usage example of a generic types feature you can see in [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/generic-types).
+A more advanced usage example of the generic types feature can be found in [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/generic-types).
