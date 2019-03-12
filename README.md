@@ -15,7 +15,7 @@ https://typegraphql.ml/
 
 ## Motivation
 
-We all know that GraphQL is great and solves many problems that we have with REST APIs, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain. Why? Let's take a look at the steps we usually have to take.
+We all know that GraphQL is great and solves many problems we have with REST APIs, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of a pain. Why? Let's take a look at the steps we usually have to take.
 
 First, we create all the GraphQL types in `schema.gql` using SDL. Then we create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represent our db entities. Then we start to write resolvers for our queries, mutations and fields, but this forces us to first create TS interfaces for all arguments, inputs, and even object types.
 
