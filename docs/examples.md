@@ -3,9 +3,9 @@ title: Examples
 sidebar_label: List of examples
 ---
 
-On the [GitHub repository](https://github.com/19majkel94/type-graphql) there are a few simple examples showing how to use different TypeGraphQL features and how well it integrates with 3rd party libraries.
+On the [GitHub repository](https://github.com/19majkel94/type-graphql) there are a few simple examples of how to use different TypeGraphQL features and how well it integrates with 3rd party libraries.
 
-All examples has a `examples.gql` file with sample queries/mutations/subscriptions that you can execute.
+All examples have an `examples.gql` file with sample queries/mutations/subscriptions that we can execute.
 
 ## Basics
 
@@ -35,6 +35,6 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [TypeORM (automatic, lazy relations) \*](https://github.com/19majkel94/type-graphql/tree/master/examples/typeorm-lazy-relations)
 - [Apollo Engine (Apollo Cache Control) \*\*](https://github.com/19majkel94/type-graphql/tree/master/examples/apollo-engine)
 
-_\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
+_\* Note that we need to edit the TypeORM example's `index.ts` with the credentials of our local database_
 
-_\*\* Note that you need to provide `APOLLO_ENGINE_API_KEY` env variable with your own API key_
+_\*\* Note that we need to provide an `APOLLO_ENGINE_API_KEY` env variable with our own API key_
