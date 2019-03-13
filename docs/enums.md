@@ -2,15 +2,13 @@
 title: Enums
 ---
 
-Nowadays almost all typed languages have support for enumerated types, including TypeScript.
-Enums limit the range of a variable's values to a set of predefined constants, which makes it easier to document intent.
+Nowadays almost all typed languages have support for enumerated types, including TypeScript. Enums limit the range of a variable's values to a set of predefined constants, which makes it easier to document intent.
 
-GraphQL also has enum type support, so `TypeGraphQL` allows you to use TypeScript enums in your GraphQL schema.
+GraphQL also has enum type support, so TypeGraphQL allows us to use TypeScript enums in our GraphQL schema.
 
 ## Usage
+Let's create a TypeScript enum. It can be a numeric or string enum - the internal values of enums are taken from the enum definition values and the public names taken from the enum keys:
 
-First of all, we need to create a TypeScript enum.
-It can be a numeric or string enum - the internal value of enums will be taken from the enum definition values and the public names from the enum keys:
 
 ```typescript
 enum Direction {
