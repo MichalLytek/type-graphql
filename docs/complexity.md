@@ -4,13 +4,13 @@ title: Query complexity
 
 A single GraphQL query can potentially generate a huge workload for a server, like thousands of database operations which can be used to cause DDoS attacks. In order to limit and keep track of what each GraphQL operation can do, `TypeGraphQL` provides the option of integrating with Query Complexity tools like [graphql-query-complexity](https://github.com/ivome/graphql-query-complexity).
 
-This cost analysis-based solution is very promising, since you can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity`.
+This cost analysis-based solution is very promising, since we can define a “cost” per field and then analyze the AST to estimate the total cost of the GraphQL query. Of course all the analysis is handled by `graphql-query-complexity`.
 
-All you need to do is define your complexity cost for the fields (fields, mutations, subscriptions) in `TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQL server you have.
+All we must do is define our complexity cost for the fields, mutations or subscriptions in `TypeGraphQL` and implement `graphql-query-complexity` in whatever GraphQL server that is being used.
 
 ## How to use
 
-First, you need to pass `complexity` as an option to the decorator on a field, query or mutation.
+First, we need to pass `complexity` as an option to the decorator on a field, query or mutation.
 
 Example of complexity
 
@@ -25,10 +25,10 @@ class MyObject {
 }
 ```
 
-You can omit the `complexity` option if the complexity value is 1.
-You can pass complexity as an option to any `@Field`, `@FieldResolver`, `@Mutation` or `@Subscription` decorators. If both `@FieldResolver` and `@Field` decorators of the same property have complexity defined, then the complexity passed to the field resolver decorator takes precedence.
+The `complexity` option may be omitted if the complexity value is 1.
+Complexity can be passed as an option to any `@Field`, `@FieldResolver`, `@Mutation` or `@Subscription` decorator. If both `@FieldResolver` and `@Field` decorators of the same property have complexity defined, then the complexity passed to the field resolver decorator takes precedence.
 
-In the next step, you need to integrate `graphql-query-complexity` with your GraphQL server.
+In the next step, we will integrate `graphql-query-complexity` with the GraphQL server.
 
 ```typescript
 // Create GraphQL server
