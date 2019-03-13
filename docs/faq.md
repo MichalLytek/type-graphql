@@ -4,15 +4,15 @@ title: Frequently Asked Questions
 
 ## Resolvers
 
-### Should I implement a field's resolver as a object type's getter, method or as a resolver class's method?
+### Should I implement a field's resolver as an object type's getter, method or as a resolver class method?
 
-It really depends on various factors:
+This depends on various factors:
 
-- if your resolver need access only to the root/object value - use a getter
+- if your resolver needs access only to the root/object value - use a getter
 - if your field has arguments
-  - and need to perform side effects (like db call) - use resolver class's method (leverage dependency injection mechanism)
-  - otherwise - use object type's methods (pure function, calculate based on object value and arguments)
-- if you want to separate business logic from type definition - use resolver class's method
+  - and need to perform side effects (like a database call) - use a resolver class method (leverage the dependency injection mechanism)
+  - otherwise - use object type methods (pure function, calculate based on object value and arguments)
+- if you want to separate business logic from type definition - use a resolver class method
 
 ### Are there any global error handlers to catch errors from a resolver or service?
 
@@ -26,17 +26,17 @@ Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type c
 
 ## Bootstrapping
 
-### Should I use an array of manually imported resolver classes or use a glob path string?
+### Should I use an array of manually imported resolver classes or a glob path string?
 
-Using a path to resolver module files force you to structure our project folders or constantly name files with prefix/suffix.
-When there are several resolver classes, it might be easier than always remembering to import and register each new class.
+Using a path to resolver module files forces us to structure our project folders or constantly name files with a prefix/suffix.
+When there are several resolver classes, it might be easier than to always remember to import and register each new class.
 
-### I got an error like `Cannot use GraphQLSchema "[object Object]" from another module or realm`. How do I fix that?
+### I got an error like `Cannot use GraphQLSchema "[object Object]" from another module or realm`. How do I fix it?
 
 This error occurs mostly when there are more than one version of `graphql-js` in our project.
-In most cases it means that one of our dependencies has a dependency on a different version of `graphql-js`, e.g. we, or TypeGraphQL uses `v14.0.2` but `apollo-server-express` depends on `v0.13.2`.
+In most cases it means that one of our dependencies has a dependency on a different version of `graphql-js`, e.g. we, or TypeGraphQL use `v14.0.2` but `apollo-server-express` depends on `v0.13.2`.
 We can print the dependency tree by running `npm ls graphql` (or yarn's equivalent) to find the faulty dependencies.
-Then we have to update or downgrade them until they all match the semver on `graphql`, like `^14.0.0`.
+Then we must update or downgrade them until they all match the semver on `graphql`, like `^14.0.0`.
 Dependencies may also need to be flattened, so that they all share a single instance of the `graphql` module in the `node_modules` directory - to achieve this, just run `npm dedupe` (or yarn's equivalent).
 
 The same rule applies to an error like `node_modules/type-graphql/node_modules/@types/graphql/type/schema").GraphQLSchema' is not assignable to type 'import("node_modules/@types/graphql/type/schema").GraphQLSchema'`.
@@ -47,7 +47,7 @@ In this case we must do the same checks but for the `@types/graphql` module in o
 ### Is `@InputType()` different from `@ArgsType()`?
 
 Of course!
-`@InputType` will generate real `GraphQLInputType` and should be used when we want to have nested object in args:
+`@InputType` will generate a real `GraphQLInputType` and should be used when we want to have a nested object in the args:
 
 ```graphql
 updateItem(data: UpdateItemInput!): Item!
@@ -61,7 +61,7 @@ updateItem(id: Int!, userId: Int!): Item!
 
 ### When should I use the `() => [ItemType]` syntax?
 
-We should use the `[ItemType]` syntax every time our field type is an array or a return array from a query or mutation.
+We should use the `[ItemType]` syntax every time our field type is an array or the return array from a query or mutation.
 
 Even though we can technically omit the array notation (when the base type is not `Promise`) and only provide the type of array item (e.g. `@Field(() => ItemType) field: ItemType[]`) - it's better to be consistent with other annotations by explicitly defining the type.
 
