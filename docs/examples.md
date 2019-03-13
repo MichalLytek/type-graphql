@@ -3,7 +3,7 @@ title: Examples
 sidebar_label: List of examples
 ---
 
-On the [GitHub repository](https://github.com/19majkel94/type-graphql) there are a few simple examples of how to use different TypeGraphQL features and how well it integrates with 3rd party libraries.
+On the [GitHub repository](https://github.com/19majkel94/type-graphql) there are a few simple examples of how to use different TypeGraphQL features and how well they integrate with 3rd party libraries.
 
 All examples have an `examples.gql` file with sample queries/mutations/subscriptions that we can execute.
 
