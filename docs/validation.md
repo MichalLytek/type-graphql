@@ -1,17 +1,17 @@
 ---
-title: Arguments and inputs validation
+title: Argument and Input validation
 sidebar_label: Validation
 ---
 
 ## Scalars
 
-The standard way to make sure that the input and arguments are correct, like the `email` field really has an e-mail, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However creating scalars for all single case of data type (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to make sure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
-And that's why TypeGraphQL has built-in support for validation of arguments and inputs using [`class-validator`](https://github.com/typestack/class-validator) features! You can use awesomeness of decorators to declare the requirement for incoming data (e.g. number is in range 0-255 or password is longer than 8 chars) in an easy way.
+That's why TypeGraphQL has built-in support for argument and input validation by using the [`class-validator`](https://github.com/typestack/class-validator) library! We can use the awesomeness of decorators to easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters).
 
 ## How to use
 
-At first, you have to decorate the input/arguments class with appropriate decorators from `class-validator`. So we take this:
+First we decorate the input/arguments class with the appropriate decorators from `class-validator`. So we take this:
 
 ```typescript
 @InputType()
@@ -24,7 +24,7 @@ export class RecipeInput {
 }
 ```
 
-and produce this:
+...and turn it into this:
 
 ```typescript
 import { MaxLength, Length } from "class-validator";
@@ -58,18 +58,18 @@ export class RecipeResolver {
 }
 ```
 
-Of course [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators), not only the simple `@Length` used in the example above, so take a look at `class-validator` documentation.
+Of course [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators) we have at our disposal, not just the simple `@Length` decorator used in the example above, so take a look at the `class-validator` documentation.
 
-This feature is enabled by default. However, if you need, you can disable it:
+This feature is enabled by default. However, we can disable it if we must:
 
 ```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
-  validate: false, // disable automatic validation or pass default config object
+  validate: false, // disable automatic validation or pass the default config object
 });
 ```
 
-And if you need, you can still enable it per resolver's argument:
+And we can still enable it per resolver's argument if we need to:
 
 ```typescript
 class RecipeResolver {
@@ -80,7 +80,7 @@ class RecipeResolver {
 }
 ```
 
-You can also pass `ValidatorOptions` object, for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups):
+The `ValidatorOptions` object used for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups) can also be passed:
 
 ```typescript
 class RecipeResolver {
@@ -94,13 +94,13 @@ class RecipeResolver {
 }
 ```
 
-Note that by default `skipMissingProperties` setting of `class-validator` is set to `true` because GraphQL will check by itself whether the params/fields exists or not.
+Note that by default, the `skipMissingProperties` setting of the `class-validator` is set to `true` because GraphQL will independently check whether the params/fields exist or not.
 
-GraphQL will also checks whether the fields have correct types (String, Int, Float, Boolean, etc.) so you don't have to use `@IsOptional`, `@Allow`, `@IsString` or `@IsInt` decorators at all!
+GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the `@IsOptional`, `@Allow`, `@IsString` or the `@IsInt` decorators at all!
 
 ## Response to the client
 
-When client send incorrect data to the server:
+When a client sends incorrect data to the server:
 
 ```graphql
 mutation ValidationMutation {
@@ -118,7 +118,7 @@ mutation ValidationMutation {
 
 the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
 
-By default, the `apollo-server` package from [bootstrap guide](bootstrap.md) will format the error to match with the `GraphQLFormattedError` interface. So when `ArgumentValidationError` occurs, client will receive this JSON with nice `validationErrors` property inside `extensions.exception`:
+By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
 
 ```json
 {
@@ -163,7 +163,7 @@ By default, the `apollo-server` package from [bootstrap guide](bootstrap.md) wil
 }
 ```
 
-Of course you can also create your own custom implementation of the `formatError` function provided to `ApolloServer` config options which will transform the `GraphQLError` with `ValidationError` array to the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
+Of course we can also create our own custom implementation of the `formatError` function provided in the `ApolloServer` config options which will transform the `GraphQLError` with a `ValidationError` array in the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
 
 ## Example
 
