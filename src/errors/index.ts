@@ -4,6 +4,7 @@ export * from "./ForbiddenError";
 export * from "./GeneratingSchemaError";
 export * from "./ConflictingDefaultValuesError";
 export * from "./ConflictingDefaultWithNullableError";
+export * from "./InterfaceResolveTypeError";
 export * from "./MissingSubscriptionTopicsError";
 export * from "./NoExplicitTypeError";
 export * from "./ReflectMetadataMissingError";

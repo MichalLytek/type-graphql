@@ -7,12 +7,6 @@ import createSampleRecipes from "./recipe.samples";
 // we need to create a temporary class for the abstract, generic class "instance"
 @ObjectType()
 class RecipesResponse extends PaginatedResponse(Recipe) {
-  // simple helper for creating new instances easily
-  constructor(recipesResponse: RecipesResponse) {
-    super();
-    Object.assign(this, recipesResponse);
-  }
-
   // you can add more fields here if you need
 }
 
@@ -25,11 +19,11 @@ export default class RecipeResolver {
     @Arg("first", type => Int, { nullable: true, defaultValue: 10 }) first: number,
   ): RecipesResponse {
     const total = this.recipes.length;
-    return new RecipesResponse({
+    return {
       items: this.recipes.slice(0, first),
       hasMore: total > first,
       total,
-    });
+    };
   }
 
   @Mutation()
