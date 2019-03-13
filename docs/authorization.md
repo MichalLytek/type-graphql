@@ -33,10 +33,10 @@ class MyObject {
 }
 ```
 
-We can leave the `@Authorized` decorator brackets empty or you can specify the role/roles that the user needs to have to get access to the field, query or mutation.
-By default the roles are of type `string` but we can change them easily as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
+We can leave the `@Authorized` decorator brackets empty or we can specify the role/roles that the user needs to possess in order to get access to the field, query or mutation.
+By default the roles are of type `string` but they can easily be changed as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
 
-This way, authorized users (regardless of their roles) can only read the `publicField` or the `authorizedField` from the `MyObject` object. They will receive `null` when accessing the `hiddenField` field and will receive an error (that will propagate through the whole query tree looking for a nullable field) for the `adminField` when they don't satisfy role constraints.
+Thus, authorized users (regardless of their roles) can only read the `publicField` or the `authorizedField` from the `MyObject` object. They will receive `null` when accessing the `hiddenField` field and will receive an error (that will propagate through the whole query tree looking for a nullable field) for the `adminField` when they don't satisfy the role constraints.
 
 Sample query and mutation guards:
 
@@ -68,14 +68,14 @@ class MyResolver {
 
 Authorized users (regardless of their roles) will be able to read data from the `publicQuery` and the `authedQuery` queries, but will receive an error when trying to perform the `adminMutation` when their roles don't include `ADMIN` or `MODERATOR`.
 
-In the next step, we need to create our auth checker function. Its implementation may depend on your business logic:
+Next, we need to create our auth checker function. Its implementation may depend on our business logic:
 
 ```typescript
 export const customAuthChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
-  // here you can read the user from context
+  // here we can read the user from context
   // and check his permission in the db against the `roles` argument
   // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 
@@ -100,7 +100,7 @@ const schema = await buildSchema({
 
 And it's done! 😉
 
-If we need silent auth guards and don't want to return auth errors to users, we can set the `authMode` property of the `buildSchema` config object to `"null"`:
+If we need silent auth guards and don't want to return authorization errors to users, we can set the `authMode` property of the `buildSchema` config object to `"null"`:
 
 ```typescript
 const schema = await buildSchema({
@@ -157,7 +157,7 @@ app.listen({ port: 4000 }, () =>
 );
 ```
 
-Then we can use standard, token based authorization in the HTTP header like in a classic REST API and take advantage of the `TypeGraphQL` authorization mechanism.
+Then we can use standard, token based authorization in the HTTP header like in classic REST APIs and take advantage of the `TypeGraphQL` authorization mechanism.
 
 ## Example
 
