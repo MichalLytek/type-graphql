@@ -4,18 +4,18 @@ title: Middleware and guards
 
 Middleware are pieces of reusable code that can be easily attached to resolvers and fields. By using middleware we can extract the commonly used code from our resolvers and then declaratively attach it using a decorator or even registering it globally.
 
-## Creating middleware
+## Creating Middleware
 
-### What are middleware?
+### What is Middleware?
 
-Middleware are a very powerful but also a somewhat complicated feature. Basically, they are functions that take 2 arguments:
+Middleware is a very powerful but somewhat complicated feature. Basically, middleware is a function that takes 2 arguments:
 
-- resolver data - the same as for resolvers (`root`, `args`, `context`, `info`)
-- the `next` function - used to control the execution of the next middleware and the resolver to which they are attached
+- resolver data - the same as resolvers (`root`, `args`, `context`, `info`)
+- the `next` function - used to control the execution of the next middleware and the resolver to which it is attached
 
-You might be familiar with how middleware works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middleware is inspired by [`koa.js`](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of further middleware stack and resolver execution.
+We may be familiar with how middleware works in [`express.js`](https://expressjs.com/en/guide/writing-middleware.html) but TypeGraphQL middleware is inspired by [`koa.js`](http://koajs.com/#application). The difference is that the `next` function returns a promise of the value of subsequent middleware and resolver execution from the stack.
 
-Thanks to this it's easy to perform some action not only before resolver execution but also after. So things like measuring execution time are simple to implement:
+This makes it easy to perform actions before or after resolver execution. So things like measuring execution time are simple to implement:
 
 ```typescript
 export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
@@ -28,7 +28,7 @@ export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
 
 ### Intercepting the execution result
 
-Middleware also have the ability to intercept the result of a resolver's execution. They are able not only to e.g. log it but can also replace it with a new value:
+Middleware also has the ability to intercept the result of a resolver's execution. It's not only able to e.g. create a log but also replace the result with a new value:
 
 ```typescript
 export const CompetitorInterceptor: MiddlewareFn = async (_, next) => {
@@ -40,9 +40,9 @@ export const CompetitorInterceptor: MiddlewareFn = async (_, next) => {
 };
 ```
 
-It might be not very useful from this library's users perspective but this feature was mainly introduced for plugin systems and 3rd-party library integration. Thanks to this, it's possible to e.g. wrap the returned object with lazy-relation wrapper that will automatically fetch relations from database on demand under the hood.
+It might not seem very useful from the perspective of this library's users but this feature was mainly introduced for plugin systems and 3rd-party library integration. Thanks to this, it's possible to e.g. wrap the returned object with a lazy-relation wrapper that automatically fetches relations from a database on demand under the hood.
 
-### Simple middleware
+### Simple Middleware
 
 If we only want to do something before an action, like log the access to the resolver, we can just place the `return next()` statement at the end of our middleware:
 
@@ -58,9 +58,9 @@ const LogAccess: MiddlewareFn<TContext> = ({ context, info }, next) => {
 
 Middleware can also break the middleware stack by not calling the `next` function. This way, the result returned from the middleware will be used instead of calling the resolver and returning it's result.
 
-We can also throw an error in the middleware if the execution must be terminated and an error should be returned to the user, e.g. when resolver args are incorrect.
+We can also throw an error in the middleware if the execution must be terminated and an error returned to the user, e.g. when resolver arguments are incorrect.
 
-This way we can create a guard that will block access to the resolver and prevent executing it or returning any data.
+This way we can create a guard that blocks access to the resolver and prevents execution or any data return.
 
 ```typescript
 export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
@@ -74,9 +74,9 @@ export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
 };
 ```
 
-### Reusable middleware
+### Reusable Middleware
 
-Sometimes middleware has to be configurable, just like we pass a `roles` array to the [`@Authorized()` decorator](authorization.md). In this case, we should create a simple middleware factory - a function that takes our configuration as a parameter and returns a middleware that uses that provided value.
+Sometimes middleware has to be configurable, just like we pass a `roles` array to the [`@Authorized()` decorator](authorization.md). In this case, we should create a simple middleware factory - a function that takes our configuration as a parameter and returns a middleware that uses the provided value.
 
 ```typescript
 export function NumberInterceptor(minValue: number): MiddlewareFn {
@@ -91,11 +91,11 @@ export function NumberInterceptor(minValue: number): MiddlewareFn {
 }
 ```
 
-But remember to call this middleware with an argument, e.g. `NumberInterceptor(3.0)` when you attach the middleware to a resolver!
+Remember to call this middleware with an argument, e.g. `NumberInterceptor(3.0)`, when attaching it to a resolver!
 
-### Errors interceptors
+### Error Interceptors
 
-Middlewares can also catch errors that were thrown during execution. This way we can easily log them and even filter what can't be returned to user:
+Middleware can also catch errors that were thrown during execution. This way, they can easily be logged and even filtered for info that can't be returned to the user:
 
 ```typescript
 export const ErrorInterceptor: MiddlewareFn<any> = async ({ context, info }, next) => {
@@ -116,11 +116,11 @@ export const ErrorInterceptor: MiddlewareFn<any> = async ({ context, info }, nex
 };
 ```
 
-### Class-based middleware
+### Class-based Middleware
 
-Sometimes our middleware logic might be a bit complicated - it can communicate with database, write logs to file, etc., so we might want to test it. In that case we can create class middleware that is able to benefit from [dependency injection](dependency-injection.md) and easily mock a file logger or a database repository.
+Sometimes our middleware logic can be a bit complicated - it may communicate with a database, write logs to file, etc., so we might want to test it. In that case we create class middleware that is able to benefit from [dependency injection](dependency-injection.md) and easily mock a file logger or a database repository.
 
-All you need to do is to implement a `MiddlewareInterface` - your class has to have the `use` method that conforms with the `MiddlewareFn` signature. Below you can see how the defined earlier `LogAccess` middleware looks after the transformation:
+To accomplish this, we implement a `MiddlewareInterface`. Our class must have the `use` method that conforms with the `MiddlewareFn` signature. Below we can see how the previously defined `LogAccess` middleware looks after the transformation:
 
 ```typescript
 export class LogAccess implements MiddlewareInterface<TContext> {
@@ -136,7 +136,7 @@ export class LogAccess implements MiddlewareInterface<TContext> {
 
 ## How to use
 
-### Attaching middlewares
+### Attaching Middleware
 
 To attach middleware to a resolver, place the `@UseMiddleware()` decorator above the field or resolver declaration. It accepts an array of middleware that will be called in the provided order. We can also pass them without an array as it supports [rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters):
 
@@ -151,7 +151,7 @@ export class RecipeResolver {
 }
 ```
 
-We can also attach the resolver to the `ObjectType` fields, the same way as with the [`@Authorized()` decorator](authorization.md).
+We can also attach the middleware to the `ObjectType` fields, the same way as with the [`@Authorized()` decorator](authorization.md).
 
 ```typescript
 @ObjectType()
@@ -165,11 +165,11 @@ export class Recipe {
 }
 ```
 
-### Global middleware
+### Global Middleware
 
-However, for common middleware like measuring resolving time or catching errors, it might be annoying to place a `@UseMiddleware(ResolveTime)` decorator on every field/resolver.
+However, for common middleware like measuring resolve time or catching errors, it might be annoying to place a `@UseMiddleware(ResolveTime)` decorator on every field/resolver.
 
-Hence, in TypeGraphQL we can also register a global middleware that will be called for each query, mutation, subscription and field resolver. For this, we use the `globalMiddlewares` property of `buildSchema` configuration object:
+Hence, in TypeGraphQL we can also register a global middleware that will be called for each query, mutation, subscription and field resolver. For this, we use the `globalMiddlewares` property of the `buildSchema` configuration object:
 
 ```typescript
 const schema = await buildSchema({
@@ -178,7 +178,7 @@ const schema = await buildSchema({
 });
 ```
 
-### Custom decorators
+### Custom Decorators
 
 If we want to have a more descriptive and declarative API, we can also create custom decorators. They work in the same way as the reusable middleware function, however, in this case we need to return the `UseMiddleware` decorator function:
 
