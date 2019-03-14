@@ -10,7 +10,7 @@ Let's start with the `Recipe` type, which is the foundation of our API.
 
 ## Types
 
-We want to get the equivalent of this type described in SDL:
+Our goal is to get the equivalent of this type described in SDL:
 
 ```graphql
 type Recipe {
@@ -22,7 +22,7 @@ type Recipe {
 }
 ```
 
-So we create the `Recipe` class with all properties and types:
+So we create the `Recipe` class with all its properties and types:
 
 ```typescript
 class Recipe {
