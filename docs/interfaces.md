@@ -4,9 +4,9 @@ title: Interfaces
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
 
-In object-oriented programming its common to create interfaces which describe the contract that classes implementing them have to fulfill - hence TypeGraphQL supports defining GraphQL interfaces.
+In object-oriented programming it is common to create interfaces which describe the contract that classes implementing them must adhere to. Hence, TypeGraphQL supports defining GraphQL interfaces.
 
-## How to?
+## How to
 
 TypeScript has first class support for interfaces. Unfortunately, they only exist at compile-time, so we can't use them to build GraphQL schema at runtime by using decorators.
 
@@ -41,10 +41,10 @@ class Person implements IPerson {
 
 The only difference is that we have to let TypeGraphQL know that this `ObjectType` is implementing the `InterfaceType`. We do this by passing the param `({ implements: IPerson })` to the decorator. If we implement multiple interfaces, we pass an array of interfaces like so: `({ implements: [IPerson, IAnimal, IMachine] })`.
 
-We can also omit the decorators since the GraphQL types will be copied from the interface definition - this way we don't have to maintain two definitions and just rely on TypeScript type checking for correct interface implementation.
+We can also omit the decorators since the GraphQL types will be copied from the interface definition - this way we won't have to maintain two definitions and solely rely on TypeScript type checking for correct interface implementation.
 
 Be aware that when our object type is implementing a GraphQL interface type, **we have to return an instance of the type class** in our resolvers. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly.
 
 ## Examples
 
-For more advanced usage examples of interfaces (and types inheritance), e.g. with query returning an interface type, got to [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
+For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, got to [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
