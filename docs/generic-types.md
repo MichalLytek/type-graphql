@@ -1,16 +1,16 @@
 ---
-title: Generic types
+title: Generic Types
 ---
 
-[Types inheritance](inheritance.md) is a great way to reduce code duplication by extracting common fields to the base class. But in some cases, the strict set of fields is not enough because we might need to declare the types of some fields in a more flexible way, like a type parameter (e.g. `items: T[]` in case of a pagination).
+[Type Inheritance](inheritance.md) is a great way to reduce code duplication by extracting common fields to the base class. But in some cases, the strict set of fields is not enough because we might need to declare the types of some fields in a more flexible way, like a type parameter (e.g. `items: T[]` in case of a pagination).
 
 Hence TypeGraphQL also has support for describing generic GraphQL types.
 
 ## How to?
 
-Unfortunately, the limited reflection capabilities of TypeScript doesn't allow for combining decorators with standard generic classes. To achieve behavior like that of generic types, we will use the same class-creator pattern like the one described in [resolvers inheritance](inheritance.md) docs.
+Unfortunately, the limited reflection capabilities of TypeScript don't allow for combining decorators with standard generic classes. To achieve behavior like that of generic types, we use the same class-creator pattern like the one described in the [Resolvers Inheritance](inheritance.md) docs.
 
-So we will start by defining a `PaginatedResponse` function that creates and returns a `PaginatedResponseClass`:
+Start by defining a `PaginatedResponse` function that creates and returns a `PaginatedResponseClass`:
 
 ```typescript
 export default function PaginatedResponse() {
@@ -32,8 +32,8 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-Then, we need to add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`.
-It also should have set `isAbstract: true` to prevent registering in schema:
+Then, add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`.
+It also should have set `isAbstract: true` to prevent getting registered in the schema:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
@@ -45,7 +45,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-After that, we can add fields like in a normal class but using the generic type and parameters:
+After that, add fields like in a normal class but using the generic type and parameters:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
@@ -67,7 +67,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-Finally, we can use the generic function factory to create a dedicated type class:
+Finally, use the generic function factory to create a dedicated type class:
 
 ```typescript
 @ObjectType()
@@ -93,8 +93,8 @@ class UserResolver {
 }
 ```
 
-We can also create a generic class without using the `isAbstract` option or `abstract` keyword.
-But types created with this kind of factory will be registered in schema, so this way is not recommended to extend the types for adding some more fields.
+We can also create a generic class without using the `isAbstract` option or the `abstract` keyword.
+But types created with this kind of factory will be registered in the schema, so this way is not recommended to extend the types for adding fields.
 
 To avoid generating schema errors of duplicated `PaginatedResponseClass` type names, we must provide our own unique, generated type name:
 
