@@ -5,7 +5,7 @@ sidebar_label: Validation
 
 ## Scalars
 
-The standard way to make sure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
 That's why TypeGraphQL has built-in support for argument and input validation by using the [`class-validator`](https://github.com/typestack/class-validator) library! We can use the awesomeness of decorators to easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters).
 
@@ -43,7 +43,7 @@ export class RecipeInput {
 
 And that's it! 😉
 
-TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
+TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
 
 ```typescript
 @Resolver(of => Recipe)
@@ -58,7 +58,7 @@ export class RecipeResolver {
 }
 ```
 
-Of course [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators) we have at our disposal, not just the simple `@Length` decorator used in the example above, so take a look at the `class-validator` documentation.
+Of course, [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators) we have access to, not just the simple `@Length` decorator used in the example above, so take a look at the `class-validator` documentation.
 
 This feature is enabled by default. However, we can disable it if we must:
 
@@ -98,7 +98,7 @@ Note that by default, the `skipMissingProperties` setting of the `class-validato
 
 GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the `@IsOptional`, `@Allow`, `@IsString` or the `@IsInt` decorators at all!
 
-## Response to the client
+## Response to the Client
 
 When a client sends incorrect data to the server:
 
@@ -167,4 +167,4 @@ Of course we can also create our own custom implementation of the `formatError` 
 
 ## Example
 
-You can see how this fits together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation).
