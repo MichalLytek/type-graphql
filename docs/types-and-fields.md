@@ -56,7 +56,7 @@ Why use function syntax and not a simple `{ type: Rate }` config object? Because
 
 For nullable properties like `averageRating` which might not be defined when a recipe has no ratings yet, we mark the class property as optional with a `?:` operator and also have to pass the `{ nullable: true }` decorator parameter. We should be aware that when we declare our type as a nullable union (e.g. `string | null`), we need to explicitly provide the type to the `@Field` decorator.
 
-In the case of lists, we may also need to define their nullability in a more detailed form. The basic `{ nullable: true | false }` setting only applies to the the whole list (`[Item!]` or `[Item!]!`), so if we need a sparse array, we can control the list items' nullability via `nullable: items` (for `[Item]!`) or `nullable: itemsAndList` (for the `[Item]`) option.
+In the case of lists, we may also need to define their nullability in a more detailed form. The basic `{ nullable: true | false }` setting only applies to the whole list (`[Item!]` or `[Item!]!`), so if we need a sparse array, we can control the list items' nullability via `nullable: items` (for `[Item]!`) or `nullable: itemsAndList` (for the `[Item]`) option.
 
 In the config object we can also provide the `description` and `deprecationReason` properties for GraphQL schema purposes.
 
@@ -118,4 +118,4 @@ As we can see, for the `id` property of `Recipe` we passed `type => ID` and for 
 
 Also the `user` property doesn't have a `@Field()` decorator - this way we can hide some properties of our data model. In this case, we need to store the `user` field of the `Rate` object to the database in order to prevent multiple rates, but we don't want to make it publicly accessible.
 
-Note that if a field of an object type is purely calculable (eg. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
+Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
