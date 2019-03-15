@@ -44,7 +44,7 @@ const SearchResultUnion = createUnionType({
 ```
 
 Now we can use the union type in the query.
-Notice, that due to TypeScript's reflection limitation, we have to explicitly use the `SearchResultUnion` value in `@Query` decorator return type annotation.
+Notice, that due to TypeScript's reflection limitation, we have to explicitly use the `SearchResultUnion` value in the `@Query` decorator return type annotation.
 For TypeScript compile-time type safety we can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
 
 ```typescript
