@@ -2,20 +2,20 @@
 title: Resolvers
 ---
 
-Besides [declaring GraphQL's object types](types-and-fields.md), TypeGraphQL allows us to create queries, mutations and field resolvers easily - like normal class methods, similar to REST controllers in frameworks like Java `Spring`, .NET `Web API` or TypeScript [`routing-controllers`](https://github.com/typestack/routing-controllers).
+Besides [declaring GraphQL's object types](types-and-fields.md), TypeGraphQL allows us to easily create queries, mutations and field resolvers - like normal class methods, similar to REST controllers in frameworks like Java `Spring`, .NET `Web API` or TypeScript [`routing-controllers`](https://github.com/typestack/routing-controllers).
 
 ## Queries and Mutations
 
 ### Resolver classes
 
-First we have to create a resolver class and annotate it with the `@Resolver()` decorator. This class will behave like a controller from classic REST frameworks:
+First we create the resolver class and annotate it with the `@Resolver()` decorator. This class will behave like a controller from classic REST frameworks:
 
 ```typescript
 @Resolver()
 class RecipeResolver {}
 ```
 
-We can use a DI framework (as described in the [dependency injection docs](dependency-injection.md)) to inject class dependencies (like services or repositories) or store data inside the resolver class - it's guaranteed to be a single instance per app.
+We can use a DI framework (as described in the [dependency injection docs](dependency-injection.md)) to inject class dependencies (like services or repositories) or to store data inside the resolver class - it's guaranteed to be a single instance per app.
 
 ```typescript
 @Resolver()
@@ -24,7 +24,7 @@ class RecipeResolver {
 }
 ```
 
-Then we can create class methods which will handle queries and mutations. For example let's add the `recipes` query to return a collection of all recipes:
+Then we can create class methods which will handle queries and mutations. For example, let's add the `recipes` query to return a collection of all recipes:
 
 ```typescript
 @Resolver()
@@ -58,7 +58,7 @@ class RecipeResolver {
 
 Usually, queries have some arguments - it might be the id of a resource, a search phrase or pagination settings. TypeGraphQL allows you to define arguments in two ways.
 
-First is the inline method using the `@Arg()` decorator. The drawback is the need to repeating argument name (due to a limitation of the reflection system) in the decorator parameter. As we can see below, we can also pass a `defaultValue` options that will be reflected in the GraphQL schema.
+First is the inline method using the `@Arg()` decorator. The drawback is the need to repeating the argument name (due to a limitation of the reflection system) in the decorator parameter. As we can see below, we can also pass a `defaultValue` option that will be reflected in the GraphQL schema.
 
 ```typescript
 @Resolver()
@@ -74,7 +74,7 @@ class RecipeResolver {
 }
 ```
 
-This works well when there are 2 - 3 args. But when you have many more, the resolver's method definitions becomes bloated. In this case we can use a class definition to describe the arguments. It looks like the object type class but it has the `@ArgsType()` decorator on top.
+This works well when there are 2 - 3 args. But when you have many more, the resolver's method definitions become bloated. In this case we can use a class definition to describe the arguments. It looks like the object type class but it has the `@ArgsType()` decorator on top.
 
 ```typescript
 @ArgsType()
@@ -92,7 +92,7 @@ class GetRecipesArgs {
 
 We can define default values for optional fields in the `@Field()` decorator using the `defaultValue` option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.
 
-Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in [the validation docs](validation.md). You can also define a helper fields and methods for your args or input class.
+Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the [validation docs](validation.md). You can also define helper fields and methods for your args or input class.
 
 ```typescript
 import { Min, Max } from "class-validator";
@@ -118,7 +118,7 @@ class GetRecipesArgs {
 ```
 
 Then all that is left to do is use the args class as the type of the method parameter.
-We can use the destructuring syntax to have access to single arguments as variables, instead of the reference to the whole args object.
+We can use the destructuring syntax to gain access to single arguments as variables, instead of the reference to the whole args object.
 
 ```typescript
 @Resolver()
@@ -173,7 +173,7 @@ class AddRecipeInput implements Partial<Recipe> {
 }
 ```
 
-After that we can use the `AddRecipeInput` type in our mutation. We can do this inline (using `@Arg()` decorator) or as a field of the args class like in the query example above.
+After that we can use the `AddRecipeInput` type in our mutation. We can do this inline (using the `@Arg()` decorator) or as a field of the args class like in the query example above.
 
 We may also need access to the context. To achieve this we use the `@Ctx()` decorator with the optional user-defined `Context` interface:
 
@@ -208,13 +208,13 @@ type Mutation {
 }
 ```
 
-By using parameter decorators, we can get rid of unnecessary parameters (like `root`) that bloat our method definition and have to be ignored by prefixing the parameter name with `_`. Also, we can achieve a clean separation between GraphQL and our business code by using decorators, so our resolvers and their methods behave just like services which can easily unit-tested.
+By using parameter decorators, we can get rid of unnecessary parameters (like `root`) that bloat our method definition and have to be ignored by prefixing the parameter name with `_`. Also, we can achieve a clean separation between GraphQL and our business code by using decorators, so our resolvers and their methods behave just like services which can be easily unit-tested.
 
 ## Field resolvers
 
 Queries and mutations are not the only type of resolvers. We often create object type field resolvers (e.g. when a `user` type has a `posts` field) which we have to resolve by fetching relational data from the database.
 
-Field resolvers in TypeGraphQL are very similar to queries and mutations - we create them as a method on the resolver class but with a few modifications. First we declare which object type's fields we are resolving by providing the type to the `@Resolver` decorator:
+Field resolvers in TypeGraphQL are very similar to queries and mutations - we create them as a method on the resolver class but with a few modifications. First we declare which object type fields we are resolving by providing the type to the `@Resolver` decorator:
 
 ```typescript
 @Resolver(of => Recipe)
@@ -266,7 +266,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 }
 ```
 
-Here is a full sample implementation of the `averageRating` field resolver:
+Here is the full implementation of the sample `averageRating` field resolver:
 
 ```typescript
 @Resolver(of => Recipe)
@@ -308,7 +308,7 @@ class Recipe {
 }
 ```
 
-However, if the code is more complicated and has side effects (i.e. api calls, fetching data from a databases), use a resolver class method instead. This way we can leverage the dependency injection mechanism, which is really helpful in testing. For example:
+However, if the code is more complicated and has side effects (i.e. api calls, fetching data from a databases), a resolver class method should be used instead. This way we can leverage the dependency injection mechanism, which is really helpful in testing. For example:
 
 ```typescript
 import { Repository } from "typeorm";
@@ -328,7 +328,7 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 }
 ```
 
-Note that if a field name of a field resolver doesn't exist in the resolver object type, it will create a field the in schema with this name. This feature is useful when the field is purely calculable (eg. `averageRating` from `ratings` array) and avoid polluting the class signature.
+Note that if a field name of a field resolver doesn't exist in the resolver object type, it will create a field in the schema with this name. This feature is useful when the field is purely calculable (eg. `averageRating` from `ratings` array) and to avoid polluting the class signature.
 
 ## Resolver Inheritance
 
@@ -336,5 +336,5 @@ Resolver class `inheritance` is an advanced topic covered in the [resolver inher
 
 ## Examples
 
-These code samples are made up just for tutorial purposes.
+These code samples are just made up for tutorial purposes.
 You can find more advanced, real examples in the [examples folder] repository(https://github.com/19majkel94/type-graphql/tree/master/examples).
