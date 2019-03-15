@@ -2,13 +2,13 @@
 title: Subscriptions
 ---
 
-GraphQL can be used to perform reads with queries and to perform writes with mutations.
+GraphQL can be used to perform reads with queries and writes with mutations.
 However, oftentimes clients want to get updates pushed to them from the server when data they care about changes.
-To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) package created by [Apollo GraphQL](https://www.apollographql.com/).
+To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) package created by [Apollo GraphQL](https://www.apollographql.com/).
 
-## Creating subscriptions
+## Creating Subscriptions
 
-Subscription resolvers are basically similar to [queries and mutation resolvers](resolvers.md) but a little bit more complicated.
+Subscription resolvers are similar to [queries and mutation resolvers](resolvers.md) but slightly more complicated.
 
 First we create a normal class method as always, but this time annotated with the `@Subscription()` decorator.
 
@@ -22,7 +22,7 @@ class SampleResolver {
 }
 ```
 
-Then we have to provide the topics we wish subscribe to. This can be a single topic string, an array of topics or a function to dynamically create a topic based on subscription arguments passed to the query. We can also use TypeScript enums for enhanced type safety.
+Then we have to provide the topics we wish to subscribe to. This can be a single topic string, an array of topics or a function to dynamically create a topic based on subscription arguments passed to the query. We can also use TypeScript enums for enhanced type safety.
 
 ```typescript
 class SampleResolver {
@@ -39,7 +39,7 @@ class SampleResolver {
 ```
 
 We can also provide the `filter` option to decide which topic events should trigger our subscription.
-This function should return `boolean` or `Promise<boolean>`.
+This function should return a `boolean` or `Promise<boolean>` type.
 
 ```typescript
 class SampleResolver {
@@ -54,7 +54,7 @@ class SampleResolver {
 }
 ```
 
-Then we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There we can transform it to the returned shape.
+Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There, we can transform it to the returned shape.
 
 ```typescript
 class SampleResolver {
@@ -82,7 +82,7 @@ Ok, we've created subscriptions, but what is the `pubsub` system and how do we t
 They might be triggered from external sources like a database but also in mutations,
 e.g. when we modify some resource that clients want to receive notifications about when it changes.
 
-So, assuming we have this mutation for adding a new comment:
+So, let us assume we have this mutation for adding a new comment:
 
 ```typescript
 class SampleResolver {
@@ -114,8 +114,8 @@ class SampleResolver {
 }
 ```
 
-For easier testability (easier mocking/stubbing), we can also inject only the `publish` method bound to a selected topic.
-To do this, we use `@PubSub("TOPIC_NAME")` decorator and the `Publisher<TPayload>` type:
+For easier testability (mocking/stubbing), we can also inject the `publish` method by itself bound to a selected topic.
+This is done by using the `@PubSub("TOPIC_NAME")` decorator and the `Publisher<TPayload>` type:
 
 ```typescript
 class SampleResolver {
@@ -138,11 +138,10 @@ And that's it! Now all subscriptions attached to the `NOTIFICATIONS` topic will 
 
 ## Using a custom PubSub system
 
-By default, TypeGraphQL use simple `PubSub` system from `grapqhl-subscriptions` which is based on EventEmitter.
-This solution has a big drawback in that it will works correctly only when we have a single instance (process) of our Node.js app.
+By default, TypeGraphQL uses a simple `PubSub` system from `grapqhl-subscriptions` which is based on EventEmitter.
+This solution has a big drawback in that it will work correctly only when we have a single instance (process) of our Node.js app.
 
-For better scalability we'll want to use one of the [PubSub implementations](<(https://github.com/apollographql/graphql-subscriptions#pubsub-implementations)>) backed by an external store.
-It might be e.g. Redis with the [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.
+For better scalability we'll want to use one of the [`PubSub implementations`](https://github.com/apollographql/graphql-subscriptions#pubsub-implementations) backed by an external store like Redis with the [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.
 
 All we need to do is create an instance of PubSub according to the package instructions and then provide it to the TypeGraphQL `buildSchema` options:
 
@@ -179,5 +178,5 @@ And it's done! We have a working GraphQL subscription server on `/subscriptions`
 
 See how subscriptions work in a [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions).
 
-For production usage, it's better to use something more scalable, e.g. a Redis-based pubsub system - [working example is also available](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions).
-However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection params.
+For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions).
+However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection parameters.
