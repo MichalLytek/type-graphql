@@ -520,6 +520,7 @@ describe("Interfaces and inheritance", () => {
           queryArgs = args;
           return true;
         }
+
         @Mutation()
         mutationWithInput(@Arg("input") input: ChildInput): boolean {
           mutationInput = input;
@@ -534,6 +535,14 @@ describe("Interfaces and inheritance", () => {
           inputFieldValue = input.sampleField;
           argsFieldValue = args.sampleField;
           return SampleExtendingNormalClassObject.sampleStaticMethod();
+        }
+
+        @Query()
+        secondImplementationPlainQuery(): SecondImplementation {
+          return {
+            baseInterfaceField: "baseInterfaceField",
+            secondField: "secondField",
+          };
         }
       }
 
@@ -582,11 +591,11 @@ describe("Interfaces and inheritance", () => {
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
-      const error = result.errors![0];
-      expect(error.message).toContain("BaseInterface");
-      expect(error.message).toContain("getInterfacePlainObject");
-      expect(error.message).toContain("resolveType");
-      expect(error.message).toContain("isTypeOf");
+      const errorMessage = result.errors![0].message;
+      expect(errorMessage).toContain("resolve");
+      expect(errorMessage).toContain("BaseInterface");
+      expect(errorMessage).toContain("instance");
+      expect(errorMessage).toContain("plain");
     });
 
     it("should return fields data of object type implementing interface", async () => {
@@ -648,6 +657,21 @@ describe("Interfaces and inheritance", () => {
       expect(data!.baseClassQuery).toEqual("sampleStaticMethod");
       expect(inputFieldValue).toEqual("sampleInputValue");
       expect(argsFieldValue).toEqual("sampleArgValue");
+    });
+
+    it("should allow to return plain object when return type is a class that implements an interface", async () => {
+      const query = `query {
+        secondImplementationPlainQuery {
+          baseInterfaceField
+          secondField
+        }
+      }`;
+
+      const { data, errors } = await graphql(schema, query);
+
+      expect(errors).toBeUndefined();
+      expect(data!.secondImplementationPlainQuery.baseInterfaceField).toEqual("baseInterfaceField");
+      expect(data!.secondImplementationPlainQuery.secondField).toEqual("secondField");
     });
   });
 });

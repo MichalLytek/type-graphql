@@ -37,6 +37,7 @@ import {
   GeneratingSchemaError,
   MissingSubscriptionTopicsError,
   ConflictingDefaultValuesError,
+  InterfaceResolveTypeError,
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
@@ -182,6 +183,13 @@ export abstract class SchemaGenerator {
           );
           return superClassTypeInfo ? superClassTypeInfo.type : undefined;
         };
+        const implementingObjectTypesTargets = getMetadataStorage()
+          .objectTypes.filter(
+            objectType =>
+              objectType.interfaceClasses &&
+              objectType.interfaceClasses.includes(interfaceType.target),
+          )
+          .map(objectType => objectType.target);
         return {
           target: interfaceType.target,
           isAbstract: interfaceType.isAbstract || false,
@@ -209,6 +217,15 @@ export abstract class SchemaGenerator {
               }
               return fields;
             },
+            resolveType: instance => {
+              const typeTarget = implementingObjectTypesTargets.find(
+                typeCls => instance instanceof typeCls,
+              );
+              if (!typeTarget) {
+                throw new InterfaceResolveTypeError(interfaceType);
+              }
+              return this.objectTypesInfo.find(type => type.target === typeTarget)!.type;
+            },
           }),
         };
       },
@@ -230,10 +247,6 @@ export abstract class SchemaGenerator {
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
-          isTypeOf:
-            hasExtended || interfaceClasses.length > 0
-              ? instance => instance instanceof objectType.target
-              : undefined,
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
