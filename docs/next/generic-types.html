@@ -120,10 +120,14 @@ It also should have set <code>isAbstract: true</code> to prevent registering in 
 <span class="token keyword">class</span> <span class="token class-name">UserResolver</span> <span class="token punctuation">{</span>
   @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> PaginatedUserResponse <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PaginatedUserResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment">// here is your custom business logic,</span>
     <span class="token comment">// depending on underlying data source and libraries</span>
-    <span class="token keyword">return</span> response<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      items<span class="token punctuation">,</span>
+      total<span class="token punctuation">,</span>
+      hasMore<span class="token punctuation">,</span>
+      otherInfo<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
