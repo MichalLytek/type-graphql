@@ -140,7 +140,17 @@ There are also plans for more features like better TypeORM, Prisma and dataloade
 
 I encourage you to give it a try and experiment with TypeGraphQL. If you have any question, you can [ask about it on gitter](https://gitter.im/type-graphql/Lobby). If you find a bug, please report it as an issue on GitHub. If you have an interesting feature request, I will be happy to hear about it.
 
-## Contribution
+## Support
+
+TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends. TypeGraphQL doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
+
+[![](https://opencollective.com/typegraphql/donate/button.png?color=blue)](https://opencollective.com/typegraphql)
+
+### Backers
+
+[![](https://opencollective.com/typegraphql/backers.svg?width=890)](https://opencollective.com/typegraphql/donate)
+
+### Contribution
 
 PRs are welcome, but first check, test and build your code before committing it.
 
