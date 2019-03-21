@@ -359,6 +359,7 @@ export abstract class SchemaGenerator {
                   fieldsMap[field.schemaName] = {
                     description: field.description,
                     type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                    args: this.generateHandlerArgs(field.params!),
                     resolve: createBasicFieldResolver(field),
                   };
                   return fieldsMap;
