@@ -27,8 +27,9 @@ const siteConfig = {
     // { doc: "doc4", label: "API" },
     { doc: "examples", label: "Examples" },
     { doc: "faq", label: "FAQ" },
-    { blog: true, label: "Blog" },
+    { href: "https://opencollective.com/typegraphql", label: "Donate" },
     { href: "https://github.com/19majkel94/type-graphql", label: "GitHub" },
+    { blog: true, label: "Blog" },
     { search: true },
   ],
   algolia: {
