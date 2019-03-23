@@ -62,7 +62,7 @@ class Recipe {
   @Field(type => [Rate])
   ratings: Rate[];
 
-  @Field({ nullable: true })
+  @Field(type => Float, { nullable: true })
   averageRating?: number;
 }
 ```
