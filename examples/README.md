@@ -30,6 +30,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 
 - [TypeORM (manual, synchronous) \*](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
+- [Typegoose](./typegoose)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
 
 _\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
