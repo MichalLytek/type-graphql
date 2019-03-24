@@ -92,13 +92,18 @@ class HomeSplash extends React.Component {
 }
 
 const Block = props => (
-  <Container padding={["bottom", "top"]} id={props.id} background={props.background} className={props.className}>
+  <Container
+    padding={["bottom", "top"]}
+    id={props.id}
+    background={props.background}
+    className={props.className}
+  >
     <GridBlock align={props.align || "center"} contents={props.children} layout={props.layout} />
   </Container>
 );
 
 const Features = props => (
-  <Block layout="fourColumn" className="highlight">
+  <Block layout="fourColumn" className="highlight features-section">
     {[
       {
         image: imgUrl("GraphQL_Logo.svg"),
@@ -133,7 +138,7 @@ const DefineSchemaSection = props => (
     id="define-schema"
     padding={["bottom", "top"]}
     background="light"
-    className="snippet-container"
+    className="snippet-container highlight"
   >
     <GridBlock
       align="left"
@@ -155,11 +160,7 @@ const testabilitySnippet = fs
   .readFileSync(process.cwd() + "/pages/snippets/testability.md")
   .toString();
 const ResolversSection = props => (
-  <Container
-    id="validation"
-    padding={["bottom", "top"]}
-    className="snippet-container highlight"
-  >
+  <Container id="validation" padding={["bottom", "top"]} className="snippet-container">
     <div className="snippet">
       <MarkdownBlock>{testabilitySnippet}</MarkdownBlock>
     </div>
@@ -180,7 +181,12 @@ const validationSnippet = fs
   .readFileSync(process.cwd() + "/pages/snippets/validation.md")
   .toString();
 const Validation = props => (
-  <Container id="validation" padding={["bottom", "top"]} className="snippet-container" background="light">
+  <Container
+    id="validation"
+    padding={["bottom", "top"]}
+    className="snippet-container highlight"
+    background="light"
+  >
     <GridBlock
       align="left"
       contents={[
@@ -199,11 +205,7 @@ const Validation = props => (
 
 const typeormSnippet = fs.readFileSync(process.cwd() + "/pages/snippets/typeorm.md").toString();
 const InteroperableSection = props => (
-  <Container
-    id="interoperable"
-    padding={["bottom", "top"]}
-    className="snippet-container highlight"
-  >
+  <Container id="interoperable" padding={["bottom", "top"]} className="snippet-container">
     <div className="snippet">
       <MarkdownBlock>{typeormSnippet}</MarkdownBlock>
     </div>
@@ -220,13 +222,37 @@ const InteroperableSection = props => (
   </Container>
 );
 
+const CollectiveSection = props => (
+  <Container id="collective" padding={["bottom", "top"]} className="snippet-container highlight">
+    <GridBlock
+      align="left"
+      contents={[
+        {
+          title: "Community supported",
+          content:
+            "TypeGraphQL is an MIT-licensed open source project. It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.<br><br>If you fell in love with TypeGraphQL, please consider supporting our efforts and help it grow, especially if you are using it commercially - just to ensure that the project which your product relies on is actively maintained and improved.",
+        },
+      ]}
+    />
+    <div className="collective-button">
+      <a href="https://opencollective.com/typegraphql">
+        <img
+          srcSet="https://opencollective.com/typegraphql/donate/button.png?color=blue, https://opencollective.com/typegraphql/donate/button@2x.png?color=blue 2x"
+          src="https://opencollective.com/typegraphql/donate/button.png?color=blue"
+        />
+      </a>
+    </div>
+  </Container>
+);
+
 const WantMoreSection = props => {
   let language = props.language || "";
   return (
     <div className="want-more-section">
       <div className="productShowcaseSection" style={{ textAlign: "center" }}>
         <h2>Want more?</h2>
-        That was only a tip of the iceberg. Interested?<br />
+        That was only a tip of the iceberg. Interested?
+        <br />
         Give it a try and experiment with TypeGraphQL! It will reduce your codebase size by a half
         or more!
         <br />
@@ -282,6 +308,7 @@ class Index extends React.Component {
           <ResolversSection />
           <Validation />
           <InteroperableSection />
+          <CollectiveSection />
           <WantMoreSection language={language} />
           {/* <Showcase language={language} /> */}
         </div>

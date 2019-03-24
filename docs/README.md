@@ -1,4 +1,4 @@
 # Documentation
 
-**The documentation has been moved to [TypeGraphQL website](https://19majkel94.github.io/type-graphql), please update your bookmarks!**
-https://19majkel94.github.io/type-graphql/docs/introduction.html
+**The documentation has been moved to [TypeGraphQL website](https://typegraphql.ml), please update your bookmarks!**
+https://typegraphql.ml/docs/introduction.html

@@ -11,7 +11,10 @@
 
 Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
-https://19majkel94.github.io/type-graphql/
+[**https://typegraphql.ml/**](https://typegraphql.ml/)
+<br>
+<br>
+[![](https://opencollective.com/typegraphql/donate/button.png?color=white)](https://opencollective.com/typegraphql)
 
 ## Motivation
 
@@ -118,11 +121,11 @@ type Mutation {
 
 ## Getting started
 
-Full getting started guide with a simple walkthrough (tutorial) can be found in [getting started docs](https://19majkel94.github.io/type-graphql/docs/getting-started.html).
+Full getting started guide with a simple walkthrough (tutorial) can be found in [getting started docs](https://typegraphql.ml/docs/getting-started.html).
 
 ## Documentation
 
-The documentation with installation guide, detailed description of the API and all the features is [available on the website](https://19majkel94.github.io/type-graphql/).
+The documentation with installation guide, detailed description of the API and all the features is [available on the website](https://typegraphql.ml/).
 
 ## Examples
 
@@ -143,6 +146,8 @@ I encourage you to give it a try and experiment with TypeGraphQL. If you have an
 ## Support
 
 TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends. TypeGraphQL doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
+
+It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
 
 [![](https://opencollective.com/typegraphql/donate/button.png?color=blue)](https://opencollective.com/typegraphql)
 
