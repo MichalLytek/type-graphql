@@ -18,10 +18,10 @@ export type ContainerGetter<TContext extends object> = (
 class DefaultContainer {
   private instances: Array<{ type: Function; object: any }> = [];
 
-  get<T>(someClass: SupportedType<T>): T {
+  get<T>(someClass: SupportedType<T>, resolverData: ResolverData): T {
     let instance = this.instances.find(it => it.type === someClass);
     if (!instance) {
-      instance = { type: someClass, object: new (someClass as any)() };
+      instance = { type: someClass, object: new (someClass as any)(resolverData) };
       this.instances.push(instance);
     }
 
@@ -49,7 +49,7 @@ export class IOCContainer {
   getInstance<T = any>(someClass: SupportedType<T>, resolverData: ResolverData<any>): T {
     const container = this.containerGetter ? this.containerGetter(resolverData) : this.container;
     if (!container) {
-      return this.defaultContainer.get<T>(someClass);
+      return this.defaultContainer.get<T>(someClass, resolverData);
     }
     return container.get(someClass, resolverData);
   }
