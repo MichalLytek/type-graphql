@@ -145,7 +145,7 @@ I encourage you to give it a try and experiment with TypeGraphQL. If you have an
 
 ## Support
 
-TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends. TypeGraphQL doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
+TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends.
 
 It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
 
