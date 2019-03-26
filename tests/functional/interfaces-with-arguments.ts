@@ -33,11 +33,14 @@ describe("Interfaces with arguments", () => {
         headline?: string;
 
         @Field()
-        image1(@Arg("width") width: number, @Arg("height") height: number): string {
+        interfaceFieldInlineArguments(
+          @Arg("width") width: number,
+          @Arg("height") height: number,
+        ): string {
           return `http://lorempixel.com/${width}/${height}/`;
         }
         @Field()
-        image2(@Args(type => ImageArgs) args: any): string {
+        interfaceFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
           return `http://lorempixel.com/${args.width}/${args.height}/`;
         }
       }
@@ -48,8 +51,15 @@ describe("Interfaces with arguments", () => {
         url: string;
 
         @Field()
-        image3(@Arg("width") width: number, @Arg("height") height: number): string {
+        implemetingObjectTypeFieldInlineArguments(
+          @Arg("width") width: number,
+          @Arg("height") height: number,
+        ): string {
           return `http://lorempixel.com/${width}/${height}/`;
+        }
+        @Field()
+        implemetingObjectTypeFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
+          return `http://lorempixel.com/${args.width}/${args.height}/`;
         }
       }
 
@@ -72,34 +82,52 @@ describe("Interfaces with arguments", () => {
       expect(schemaIntrospection).toBeDefined();
     });
 
-    it("should have arguments for the interface field 'image1' with @Arg() decorator", async () => {
-      const image1Field = (schemaIntrospection.types.find(
+    it("should have arguments for the interface field 'interfaceFieldInlineArguments' with @Arg() decorator", async () => {
+      const sampleField = (schemaIntrospection.types.find(
         type => type.name === "Article",
-      ) as IntrospectionInterfaceType).fields.find(f => f.name === "image1") as IntrospectionField;
+      ) as IntrospectionInterfaceType).fields.find(
+        f => f.name === "interfaceFieldInlineArguments",
+      ) as IntrospectionField;
 
-      expect(image1Field.args).toBeDefined();
-      expect(image1Field.args.length).toEqual(2);
-      expect(image1Field.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(sampleField.args).toBeDefined();
+      expect(sampleField.args.length).toEqual(2);
+      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
     });
 
-    it("should have arguments for the interface field 'image2' with @Args() decorator", async () => {
-      const image1Field = (schemaIntrospection.types.find(
+    it("should have arguments for the interface field 'interfaceFieldArgumentsType' with @Args() decorator", async () => {
+      const sampleField = (schemaIntrospection.types.find(
         type => type.name === "Article",
-      ) as IntrospectionInterfaceType).fields.find(f => f.name === "image2") as IntrospectionField;
+      ) as IntrospectionInterfaceType).fields.find(
+        f => f.name === "interfaceFieldArgumentsType",
+      ) as IntrospectionField;
 
-      expect(image1Field.args).toBeDefined();
-      expect(image1Field.args.length).toEqual(2);
-      expect(image1Field.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(sampleField.args).toBeDefined();
+      expect(sampleField.args.length).toEqual(2);
+      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
     });
 
-    it("should have arguments for the object field 'image3'", async () => {
-      const image1Field = (schemaIntrospection.types.find(
+    it("should have arguments for the object field 'implemetingObjectTypeFieldInlineArguments'", async () => {
+      const sampleField = (schemaIntrospection.types.find(
         type => type.name === "WebArticle",
-      ) as IntrospectionInterfaceType).fields.find(f => f.name === "image3") as IntrospectionField;
+      ) as IntrospectionInterfaceType).fields.find(
+        f => f.name === "implemetingObjectTypeFieldInlineArguments",
+      ) as IntrospectionField;
 
-      expect(image1Field.args).toBeDefined();
-      expect(image1Field.args.length).toEqual(2);
-      expect(image1Field.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(sampleField.args).toBeDefined();
+      expect(sampleField.args.length).toEqual(2);
+      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+    });
+
+    it("should have arguments for the object field 'implemetingObjectTypeFieldArgumentsType'", async () => {
+      const sampleField = (schemaIntrospection.types.find(
+        type => type.name === "WebArticle",
+      ) as IntrospectionInterfaceType).fields.find(
+        f => f.name === "implemetingObjectTypeFieldArgumentsType",
+      ) as IntrospectionField;
+
+      expect(sampleField.args).toBeDefined();
+      expect(sampleField.args.length).toEqual(2);
+      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
     });
   });
 });
