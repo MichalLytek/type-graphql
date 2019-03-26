@@ -5,14 +5,27 @@ import {
   IntrospectionObjectType,
   IntrospectionInterfaceType,
   IntrospectionField,
+  GraphQLSchema,
+  graphql,
 } from "graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ArgsType, Field, Int, InterfaceType, ID, Query, ObjectType, Arg, Args } from "../../src";
+import {
+  Arg,
+  Args,
+  ArgsType,
+  Field,
+  ID,
+  Int,
+  InterfaceType,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
+} from "../../src";
 
 describe("Interfaces with arguments", () => {
   describe("Schema", () => {
     let schemaIntrospection: IntrospectionSchema;
-    let queryType: IntrospectionObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -63,6 +76,7 @@ describe("Interfaces with arguments", () => {
         }
       }
 
+      @Resolver()
       class SampleResolver {
         @Query(returns => [Article])
         sampleQuery(): Article[] {
@@ -74,7 +88,6 @@ describe("Interfaces with arguments", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
       });
-      queryType = schemaInfo.queryType;
       schemaIntrospection = schemaInfo.schemaIntrospection;
     });
 
@@ -128,6 +141,110 @@ describe("Interfaces with arguments", () => {
       expect(sampleField.args).toBeDefined();
       expect(sampleField.args.length).toEqual(2);
       expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+    });
+  });
+
+  describe("Functional", () => {
+    const getImageUrl = (width: number, height: number) =>
+      `http://lorempixel.com/${width}/${height}/`;
+    let schema: GraphQLSchema;
+
+    beforeAll(async () => {
+      getMetadataStorage().clear();
+
+      @ArgsType()
+      class ImageArgs {
+        @Field(type => Int, { nullable: true })
+        width?: number;
+        @Field(type => Int, { nullable: true })
+        height?: number;
+      }
+
+      @InterfaceType()
+      abstract class Article {
+        @Field(type => ID)
+        id: string;
+        @Field({ nullable: true })
+        headline?: string;
+        constructor(id: string) {
+          this.id = id;
+        }
+
+        @Field()
+        interfaceFieldInlineArguments(
+          @Arg("width") width: number,
+          @Arg("height") height: number,
+        ): string {
+          console.log(width);
+          return getImageUrl(width, height);
+        }
+        @Field()
+        interfaceFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
+          return getImageUrl(args.width, args.height);
+        }
+      }
+
+      @ObjectType({ implements: Article })
+      class WebArticle extends Article {
+        @Field()
+        url: string;
+        constructor(id: string, url: string) {
+          super(id);
+          this.url = url;
+        }
+
+        @Field()
+        implemetingObjectTypeFieldInlineArguments(
+          @Arg("width") width: number,
+          @Arg("height") height: number,
+        ): string {
+          return getImageUrl(width, height);
+        }
+        @Field()
+        implemetingObjectTypeFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
+          return getImageUrl(args.width, args.height);
+        }
+      }
+
+      @Resolver()
+      class SampleResolver {
+        @Query(returns => [Article])
+        sampleQuery(): Article[] {
+          return [new WebArticle("fake123456", "http://fake.domain.com/dummy-article")];
+        }
+      }
+
+      schema = await buildSchema({
+        resolvers: [SampleResolver],
+      });
+    });
+
+    it("should build the schema without errors", () => {
+      expect(schema).toBeDefined();
+    });
+
+    fit("should properly resolve arguments", async () => {
+      const query = `query {
+        sampleQuery {
+          interfaceFieldInlineArguments(width: 200, height: 200)
+          interfaceFieldArgumentsType(width: 200, height: 200)
+          ... on WebArticle {
+            url
+            implemetingObjectTypeFieldInlineArguments(width: 200, height: 200)
+            implemetingObjectTypeFieldArgumentsType(width: 200, height: 200)
+          }
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].interfaceFieldInlineArguments).toEqual(getImageUrl(200, 200));
+      expect(result[0].interfaceFieldArgumentsType).toEqual(getImageUrl(200, 200));
+      expect(result[0].implemetingObjectTypeFieldInlineArguments).toEqual(getImageUrl(200, 200));
+      expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(getImageUrl(200, 200));
     });
   });
 });
