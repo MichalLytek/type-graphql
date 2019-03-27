@@ -88,8 +88,6 @@ class User {
   registrationDate: Date;
 }
 ```
-Note:
-When using `ts-node`, it must be executed with the `--type-check` flag due to a [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
 
 ## Custom Scalars
 
