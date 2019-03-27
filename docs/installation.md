@@ -39,7 +39,7 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js 6, 8 and the latest stable releases. It uses features from ES7 (ES2016) so we should set our `tsconfig.json` file appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS (8, 10) and the latest stable releases. It uses features from ES7 (ES2016) so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
