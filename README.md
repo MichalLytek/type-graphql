@@ -9,7 +9,7 @@
 [![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
 [![gitter](https://badges.gitter.im/type-graphql.svg)](https://gitter.im/type-graphql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Create GraphQL schemata and resolvers with TypeScript, using classes and decorators!
+Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
 https://typegraphql.ml/
 
@@ -134,7 +134,7 @@ The [Tests folder](https://github.com/19majkel94/type-graphql/tree/master/tests)
 
 The currently released version is a MVP (Minimum Viable Product). It is well tested (96% coverage, 8000 lines of test code) and has 95% of the planned features already implemented.
 
-However there's still work to be before the [1.0.0 release](https://github.com/19majkel94/type-graphql/milestone/3) and it's mostly about documentation (website, api reference and jsdoc) and compatibility with the GraphQL spec and other tools.
+However there's still work to be done before the [1.0.0 release](https://github.com/19majkel94/type-graphql/milestone/3) and it's mostly about documentation (website, api reference and jsdoc) and compatibility with the GraphQL spec and other tools.
 
 There are also plans for more features like better TypeORM, Prisma and dataloader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
 
