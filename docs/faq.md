@@ -10,7 +10,7 @@ This depends on various factors:
 
 - if the resolver only needs access to the root/object value - use a getter
 - if the field has arguments
-  - and must perform side effects e.g. a database call - use a resolver class method and leverage the dependency injection      mechanism
+  - and must perform side effects e.g. a database call - use a resolver class method and leverage the dependency injection mechanism
   - otherwise, use object type methods (pure functions, calculations based on object values and arguments)
 - if the business logic must be separated from the type definition - use a resolver class method
 
@@ -60,7 +60,7 @@ updateItem(id: Int!, userId: Int!): Item!
 
 ### When should I use the `() => [ItemType]` syntax?
 
-We should use the `[ItemType]` syntax any time the field type is an array or the return array from a query or mutation.
+We should use the `[ItemType]` syntax any time the field type or the return type is an array from a query or mutation.
 
 Even though technically the array notation can be omitted (when the base type is not `Promise`) and only provide the type of array item (e.g. `@Field(() => ItemType) field: ItemType[]`) - it's better to be consistent with other annotations by explicitly defining the type.
 
