@@ -85,10 +85,14 @@ And then use it in our resolvers:
 class UserResolver {
   @Query()
   users(): PaginatedUserResponse {
-    const response = new PaginatedUserResponse();
     // here is your custom business logic,
     // depending on underlying data source and libraries
-    return response;
+    return {
+      items,
+      total,
+      hasMore,
+      otherInfo,
+    };
   }
 }
 ```

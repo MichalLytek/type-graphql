@@ -4,6 +4,9 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - add support for emitting schema file in not existing directory (#269)
+### Fixes
+- fix typings discovery support for WebStorm (#276)
+- allow for returning plain objects when using `ObjectType`s that implements `InterfaceType`s or extends others `ObjectType`s (#160)
 ### Others
 - **Breaking Change**: drop support for Node.js v6 (end of LTS in April 2019)
 

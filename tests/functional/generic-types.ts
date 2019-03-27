@@ -178,12 +178,10 @@ describe("Generic types", () => {
       @ObjectType()
       class DogConnection extends Connection(Dog) {}
 
-      // FIXME: refactor after inheritance instance fix
-      dogsResponseMock = new DogConnection();
-      Object.assign(dogsResponseMock, {
+      dogsResponseMock = {
         count: 2,
         items: [{ canBark: false }, { canBark: true }],
-      });
+      } as DogConnection;
 
       @Resolver()
       class GenericConnectionResolver {
@@ -293,7 +291,7 @@ describe("Generic types", () => {
           title: "recipeTitle",
         },
         personalNotes: "recipePersonalNotes",
-      };
+      } as RecipeEdge;
 
       @ObjectType()
       class FriendshipEdge extends Edge(User) {
@@ -306,24 +304,18 @@ describe("Generic types", () => {
           name: "userName",
         },
         friendedAt: new Date(),
-      };
+      } as FriendshipEdge;
 
       @Resolver()
       class EdgeResolver {
         @Query()
         recipeEdge(): RecipeEdge {
-          // TODO: refactor when inheritance fix is ready
-          const response = new RecipeEdge();
-          Object.assign(response, recipeEdgeResponse);
-          return response;
+          return recipeEdgeResponse;
         }
 
         @Query()
         friendshipEdge(): FriendshipEdge {
-          // TODO: refactor when inheritance fix is ready
-          const response = new FriendshipEdge();
-          Object.assign(response, friendshipEdgeResponse);
-          return response;
+          return friendshipEdgeResponse;
         }
       }
 
@@ -440,15 +432,12 @@ describe("Generic types", () => {
       class OverwriteResolver {
         @Query()
         child(): Child {
-          // TODO: refactor when inheritance instance fix appear
-          const response = new Child();
-          Object.assign(response, {
+          return {
             baseField: {
               sampleField: "sampleField",
               childField: "childField",
             },
-          } as Child);
-          return response;
+          };
         }
       }
 

@@ -38,6 +38,8 @@ class Footer extends React.Component {
             <a href={this.docUrl("introduction.html", this.props.language)}>Introduction</a>
             <a href={this.docUrl("getting-started.html", this.props.language)}>Getting Started</a>
             <a href={this.docUrl("scalars.html", this.props.language)}>Advanced Guides</a>
+            <a href={this.docUrl("dependency-injection.html", this.props.language)}>Features</a>
+            <a href={this.docUrl("emit-schema.html", this.props.language)}>Others</a>
             {/* <a href={this.docUrl('api.html', this.props.language)}>
               API Reference
             </a> */}
@@ -57,6 +59,7 @@ class Footer extends React.Component {
                 this.props.config.repoUrl +
                 '/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Enhancement+%3Anew%3A"'
               }
+              target="_blank"
             >
               Feature requests and proposals
             </a>
@@ -65,18 +68,26 @@ class Footer extends React.Component {
                 this.props.config.repoUrl +
                 '/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Bug+%3Abug%3A"'
               }
+              target="_blank"
             >
               Issues
             </a>
-            <a href="https://gitter.im/type-graphql/Lobby">Project Chat</a>
-            <a href="https://twitter.com/19majkel94" target="_blank">
+            <a href="https://gitter.im/type-graphql/Lobby" target="_blank">
+              Project Chat
+            </a>
+            <a href="https://twitter.com/typegraphql" target="_blank">
               Twitter
+            </a>
+            <a href="https://opencollective.com/typegraphql" target="_blank">
+              Open Collective
             </a>
           </div>
           <div>
             <h5>More</h5>
             <a href={this.props.config.baseUrl + "blog"}>Blog</a>
-            <a href={this.props.config.repoUrl}>GitHub</a>
+            <a href={this.props.config.repoUrl} target="_blank">
+              GitHub
+            </a>
             <a
               className="github-button"
               href={this.props.config.repoUrl}
