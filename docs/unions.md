@@ -2,13 +2,13 @@
 title: Unions
 ---
 
-Sometimes our API has to be flexible and return not a specific type but the one from the range of possible types. The example might be a movie site's search functionality: using the provided phrase we search in database not only for movies but also for actors, so the query has to return the list `Movie` or `Actor` types.
+Sometimes our API has to be flexible and return a type that is not specific but one from a range of possible types. An example might be a movie site's search functionality: using the provided phrase we search the database for movies but also actors. So the query has to return a list of `Movie` or `Actor` types.
 
-You can read more about GraphQL union type in [official docs](http://graphql.org/learn/schema/#union-types).
+Read more about the GraphQL union type in the [official docs](http://graphql.org/learn/schema/#union-types).
 
 ## Usage
 
-Let's start by creating the object types from example above:
+Let's start by creating the object types from the example above:
 
 ```typescript
 @ObjectType()
@@ -32,7 +32,7 @@ class Actor {
 }
 ```
 
-Then we have to create the union type from the object types above:
+Now let's create a union type from the object types above:
 
 ```typescript
 import { createUnionType } from "type-graphql";
@@ -43,9 +43,9 @@ const SearchResultUnion = createUnionType({
 });
 ```
 
-All that's left to do is to use the union type in the query.
-Notice, that due to TypeScript's reflection limitation, you have to explicitly use `SearchResultUnion` value in `@Query` decorator return type annotation.
-For TS compile-time type safety you can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
+Now we can use the union type in the query.
+Notice, that due to TypeScript's reflection limitation, we have to explicitly use the `SearchResultUnion` value in the `@Query` decorator return type annotation.
+For TypeScript compile-time type safety we can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
 
 ```typescript
 @Resolver()
@@ -60,9 +60,9 @@ class SearchResolver {
 }
 ```
 
-Be aware that when your query/mutation return type (or field type) is an union, you have to return an specific instance of the object type class. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly when you use plain JS objects.
+Be aware that when the query/mutation return type (or field type) is a union, we have to return a specific instance of the object type class. Otherwise, `graphql-js` will not be able to detect the underlying GraphQL type correctly when we use plain JS objects.
 
-**Et Voilà!** You can now build the schema and make the example query 😉
+**Et Voilà!** We can now build the schema and make the example query 😉
 
 ```graphql
 query {

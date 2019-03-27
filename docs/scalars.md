@@ -10,7 +10,7 @@ TypeGraphQL provides aliases for 3 basic scalars:
 - Float --> GraphQLFloat;
 - ID --> GraphQLID;
 
-This shorthand allows you to save keystrokes when declaring field type:
+This shorthand allows you to save keystrokes when declaring field types:
 
 ```typescript
 // import the aliases
@@ -44,7 +44,7 @@ class User {
 }
 ```
 
-However in some cases you will have to explicitly declare the string/bool scalar type. Use JS constructor functions (`String`, `Boolean`) then:
+However in some cases we must explicitly declare the string/bool scalar type. Use JS constructor functions (`String`, `Boolean`) then:
 
 ```typescript
 @ObjectType()
@@ -66,9 +66,9 @@ TypeGraphQL provides built-in scalars for the `Date` type. There are two version
 - timestamp based (`"timestamp"`) - `1518037458374`
 - ISO format (`"isoDate"`) - `"2018-02-07T21:04:39.573Z"`
 
-They are exported from `type-graphql` package as `GraphQLISODateScalar` and `GraphQLTimestampScalar`.
+They are exported from the `type-graphql` package as `GraphQLISODateScalar` and `GraphQLTimestampScalar`.
 
-By default TypeGraphQL use the ISO date format, however you can change it in `buildSchema` options:
+By default, TypeGraphQL uses the ISO date format, however you can change it in the `buildSchema` options:
 
 ```typescript
 import { buildSchema } from "type-graphql";
@@ -79,7 +79,7 @@ const schema = await buildSchema({
 });
 ```
 
-There's no need to explicitly declare the field type then:
+There's no need then to explicitly declare the field type:
 
 ```typescript
 @ObjectType()
@@ -89,13 +89,11 @@ class User {
 }
 ```
 
-If you use `ts-node`, be aware you must execute it with the `--type-check` flag due to a [Date reflection bug](https://github.com/TypeStrong/ts-node/issues/511).
-
 ## Custom Scalars
 
-TypeGraphQL also support custom scalar types.
+TypeGraphQL also supports custom scalar types!
 
-First of all, you need to create your own `GraphQLScalarType` instance or import the scalar type from a 3rd-party npm library. For example, Mongo's ObjectId:
+First of all, we need to create our own `GraphQLScalarType` instance or import a scalar type from a 3rd-party npm library. For example, Mongo's ObjectId:
 
 ```typescript
 import { GraphQLScalarType, Kind } from "graphql";
@@ -119,7 +117,7 @@ export const ObjectIdScalar = new GraphQLScalarType({
 });
 ```
 
-Then you can just use it in your field decorators:
+Then we can just use it in our field decorators:
 
 ```typescript
 // import the earlier created const
@@ -138,7 +136,7 @@ class User {
 }
 ```
 
-Optionally, you can declare the association between the reflected property type and your scalars to automatically map them (no need to explicit type annotation!):
+Optionally, we can declare the association between the reflected property type and our scalars to automatically map them (no need for explicit type annotation!):
 
 ```typescript
 @ObjectType()
@@ -148,7 +146,7 @@ class User {
 }
 ```
 
-All you need to do is register the association map in the `buildSchema` options:
+All we need to do is register the association map in the `buildSchema` options:
 
 ```typescript
 import { ObjectId } from "mongodb";
@@ -161,4 +159,4 @@ const schema = await buildSchema({
 });
 ```
 
-However, be aware that this will work only when the TypeScript reflection mechanism can handle it. So your class property type must be the `class`, not an enum, union or an interface.
+However, we must be aware that this will only work when the TypeScript reflection mechanism can handle it. So our class property type must be a `class`, not an enum, union or interface.

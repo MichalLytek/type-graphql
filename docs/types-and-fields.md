@@ -1,10 +1,10 @@
 ---
-title: Types and fields
+title: Types and Fields
 ---
 
-The main idea of TypeGraphQL is to automatically create GraphQL schema definition from TypeScript's classes. To avoid the need of schema definition files and interfaces describing the schema, we use a bit of reflection magic and decorators.
+The main idea of TypeGraphQL is to automatically create GraphQL schema definitions from TypeScript classes. To avoid the need for schema definition files and interfaces describing the schema, we use decorators and a bit of reflection magic.
 
-Let's start with defining the example TypeScript class. It will represent our `Recipe` model with fields storing recipe's data:
+Let's start by defining our example TypeScript class which represents our `Recipe` model with fields for storing the recipe data:
 
 ```typescript
 class Recipe {
@@ -15,7 +15,7 @@ class Recipe {
 }
 ```
 
-First what we have to do is to decorate the class with e.g. `@ObjectType` decorator. It marks the class as the `type` known from GraphQL SDL or `GraphQLObjectType` from `graphql-js`:
+The first thing we must do is decorate the class with the `@ObjectType` decorator. It marks the class as the `type` known from the GraphQL SDL or `GraphQLObjectType` from `graphql-js`:
 
 ```typescript
 @ObjectType()
@@ -27,8 +27,8 @@ class Recipe {
 }
 ```
 
-Then we need to declare which class properties should be mapped to GraphQL fields.
-To do this, we use `@Field` decorator, which is also used to collect the metadata from TypeScript reflection system:
+Then we declare which class properties should be mapped to the GraphQL fields.
+To do this, we use the `@Field` decorator, which is also used to collect metadata from the TypeScript reflection system:
 
 ```typescript
 @ObjectType()
@@ -47,20 +47,20 @@ class Recipe {
 }
 ```
 
-For simple types (like `string` or `boolean`) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like `Array` or `Promise`). So to declare `Rate[]` type, there are two options available:
+For simple types (like `string` or `boolean`) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like `Array` or `Promise`). So to declare the `Rate[]` type, we have two options available:
 
-- `@Field(type => [Rate])` (the recommended way - explicit `[ ]` syntax for Array)
-- `@Field(itemType => Rate)` (`array` is inferred from reflection - also ok but prone to error)
+- `@Field(type => [Rate])` (recommended, explicit `[ ]` syntax for Array types)
+- `@Field(itemType => Rate)` (`array` is inferred from reflection - also works but is prone to errors)
 
-Why function syntax, not simple `{ type: Rate }` config object? Because this way we solve problems with circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to save some keystrokes but it might be less readable for others.
+Why use function syntax and not a simple `{ type: Rate }` config object? Because, by using function syntax we solve the problem of circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to save some keystrokes but it might be less readable for others.
 
-For nullable properties like `averageRating` (it might be not defined when recipe has no ratings yet), we mark the class property as optional with `?:` operator and also have to pass `{ nullable: true }` decorator parameter. Be aware that when you declare your type as a nullable union (e.g. `string | null`), you need to explicitly provide the type to the `@Field` decorator.
+For nullable properties like `averageRating` which might not be defined when a recipe has no ratings yet, we mark the class property as optional with a `?:` operator and also have to pass the `{ nullable: true }` decorator parameter. We should be aware that when we declare our type as a nullable union (e.g. `string | null`), we need to explicitly provide the type to the `@Field` decorator.
 
-In case of lists, you may also need to define the nullability in a more detailed fashion. The basic `{ nullable: true | false }` settings apply only to the a whole list (`[Item!]` or `[Item!]!`), so if you need a sparse array, you can control the list items nullability via `nullable: items` (for `[Item]!`) or `nullable: itemsAndList` (for `[Item]`) option.
+In the case of lists, we may also need to define their nullability in a more detailed form. The basic `{ nullable: true | false }` setting only applies to the whole list (`[Item!]` or `[Item!]!`), so if we need a sparse array, we can control the list items' nullability via `nullable: items` (for `[Item]!`) or `nullable: itemsAndList` (for the `[Item]`) option.
 
-In the config object we can also provide `description` and `deprecationReason` for GraphQL schema purposes.
+In the config object we can also provide the `description` and `deprecationReason` properties for GraphQL schema purposes.
 
-So after this changes our example class would look like this:
+So after these changes our example class would look like this:
 
 ```typescript
 @ObjectType({ description: "The recipe model" })
@@ -79,7 +79,7 @@ class Recipe {
 }
 ```
 
-Which in result will generate following part of GraphQL schema in SDL:
+Which will result in generating the following part of the GraphQL schema in SDL:
 
 ```graphql
 type Recipe {
@@ -90,7 +90,7 @@ type Recipe {
 }
 ```
 
-Analogously, the `Rate` type class would look like this:
+Similarly, the `Rate` type class would look like this:
 
 ```typescript
 @ObjectType()
@@ -105,7 +105,7 @@ class Rate {
 }
 ```
 
-which results in this equivalent of GraphQL's SDL:
+which results in this equivalent of the GraphQL SDL:
 
 ```graphql
 type Rate {
@@ -114,8 +114,8 @@ type Rate {
 }
 ```
 
-As you could see, for `id` property of `Recipe` we've passed `type => ID` and for `value` field of `Rate` - `type => Int`. This way we can overwrite the inferred type from reflection metadata. You can read more about the ID and Int scalars in [the scalars docs](scalars.md). There is also a section about the built-in `Date` scalar.
+As we can see, for the `id` property of `Recipe` we passed `type => ID` and for the `value` field of `Rate` we passed `type => Int`. This way we can overwrite the inferred type from the reflection metadata. We can read more about the ID and Int scalars in [the scalars docs](scalars.md). There is also a section about the built-in `Date` scalar.
 
-Also the `user` property doesn't have `@Field()` decorator - this way we can hide some properties of our data model. In this case we need to store in database `user` info inside `Rate` object to prevent multiple rates but we don't want to make it public, accessible to every API consumer.
+Also the `user` property doesn't have a `@Field()` decorator - this way we can hide some properties of our data model. In this case, we need to store the `user` field of the `Rate` object to the database in order to prevent multiple rates, but we don't want to make it publicly accessible.
 
-Note that if a field of an object type is purely calculable (eg. `averageRating` from `ratings` array) and you don't want to pollute the class signature, you can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
+Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
