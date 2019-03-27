@@ -4,6 +4,9 @@ This folder consist of simple examples showing how to use different `TypeGraphQL
 
 All examples has a `examples.gql` file with sample queries/mutations/subscriptions that you can execute.
 
+> **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
+So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/19majkel94/type-graphql/tree/v0.16.0/examples).
+
 ## Basics
 
 - [Simple usage of fields, basic types and resolvers](./simple-usage)
