@@ -223,14 +223,57 @@ describe("Interfaces with arguments", () => {
       expect(schema).toBeDefined();
     });
 
-    fit("should properly resolve arguments", async () => {
+    it("should properly resolve interfaceFieldInlineArguments", async () => {
       const query = `query {
         sampleQuery {
           interfaceFieldInlineArguments(width: 200, height: 200)
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].interfaceFieldInlineArguments).toEqual(getImageUrl(200, 200));
+    });
+
+    it("should properly resolve interfaceFieldArgumentsType", async () => {
+      const query = `query {
+        sampleQuery {
           interfaceFieldArgumentsType(width: 200, height: 200)
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].interfaceFieldArgumentsType).toEqual(getImageUrl(200, 200));
+    });
+
+    it("should properly resolve implemetingObjectTypeFieldInlineArguments", async () => {
+      const query = `query {
+        sampleQuery {
           ... on WebArticle {
-            url
             implemetingObjectTypeFieldInlineArguments(width: 200, height: 200)
+          }
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].implemetingObjectTypeFieldInlineArguments).toEqual(getImageUrl(200, 200));
+    });
+
+    it("should properly resolve implemetingObjectTypeFieldArgumentsType", async () => {
+      const query = `query {
+        sampleQuery {
+          ... on WebArticle {
             implemetingObjectTypeFieldArgumentsType(width: 200, height: 200)
           }
         }
@@ -241,9 +284,6 @@ describe("Interfaces with arguments", () => {
       const result = response.data!.sampleQuery;
       expect(result).toBeDefined();
       expect(result.length).toEqual(1);
-      expect(result[0].interfaceFieldInlineArguments).toEqual(getImageUrl(200, 200));
-      expect(result[0].interfaceFieldArgumentsType).toEqual(getImageUrl(200, 200));
-      expect(result[0].implemetingObjectTypeFieldInlineArguments).toEqual(getImageUrl(200, 200));
       expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(getImageUrl(200, 200));
     });
   });
