@@ -2,11 +2,11 @@
 title: Bootstrapping
 ---
 
-After creating our resolvers, types classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it by HTTP server, WebSockets or even MQTT.
+After creating our resolvers, type classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it with an HTTP server, WebSockets or even MQTT.
 
 ## Create Executable Schema
 
-To create an executable schema from type and resolver definitions, you need to use the `buildSchema` function.
+To create an executable schema from type and resolver definitions, we need to use the `buildSchema` function.
 It takes a configuration object as a parameter and returns a promise of a `GraphQLSchema` object.
 
 In the configuration object you must provide a `resolvers` property, which can be an array of resolver classes:
@@ -19,8 +19,8 @@ const schema = await buildSchema({
 });
 ```
 
-However, when there are several dozen of resolver classes, manual imports can be tedious.
-So you can also provide an array of paths to resolver module files instead, which can include globs:
+However, when there are several resolver classes, manual imports can be cumbersome.
+So we can also provide an array of paths to resolver module files instead, which can include globs:
 
 ```typescript
 const schema = await buildSchema({
@@ -46,9 +46,9 @@ async function bootstrap() {
 bootstrap(); // actually run the async function
 ```
 
-## Create HTTP GraphQL endpoint
+## Create an HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server). Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
+In most cases, the GraphQL app is served by an HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server). Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
 
 ```typescript
 import { ApolloServer } from "apollo-server";
@@ -58,7 +58,7 @@ const PORT = process.env.PORT || 4000;
 async function bootstrap() {
   // ... Building schema here
 
-  // Create GraphQL server
+  // Create the GraphQL server
   const server = new ApolloServer({
     schema,
     playground: true,
@@ -72,15 +72,15 @@ async function bootstrap() {
 bootstrap();
 ```
 
-Remember to install `apollo-server` package from npm - it's not bundled with TypeGraphQL.
+Remember to install the `apollo-server` package from npm - it's not bundled with TypeGraphQL.
 
-Of course you can use `express-graphql` middleware, `graphql-yoga` or whatever you want 😉
+Of course you can use the `express-graphql` middleware, `graphql-yoga` or whatever you want 😉
 
 ## Create typeDefs and resolvers map
 
-TypeGraphQL also provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.
+TypeGraphQL provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.
 
-It accepts the same `BuildSchemaOptions` like the `buildSchema` function but instead of an executable `GraphQLSchema`, it creates a typeDefs and resolversMap pair that you can use e.g. with [`graphql-tools`](https://github.com/apollographql/graphql-tools):
+It accepts the same `BuildSchemaOptions` as the `buildSchema` function but instead of an executable `GraphQLSchema`, it creates a typeDefs and resolversMap pair that you can use e.g. with [`graphql-tools`](https://github.com/apollographql/graphql-tools):
 
 ```typescript
 import { makeExecutableSchema } from "graphql-tools";
@@ -110,4 +110,4 @@ const stateLink = withClientState({
 // ...the rest of `ApolloClient` initialization code
 ```
 
-Be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.
+Be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with the `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.

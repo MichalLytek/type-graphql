@@ -2,15 +2,15 @@
 title: Getting started
 ---
 
-> Make sure that you've completed all the steps described in the [installation instruction](installation.md).
+> Make sure you've completed all the steps described in the [installation instructions](installation.md).
 
-To explore all powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
+To explore all of the powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
 
-Let's start with the `Recipe` type, which is the foundations of our API.
+Let's start with the `Recipe` type, which is the foundation of our API.
 
 ## Types
 
-We want to get equivalent of this type described in SDL:
+Our goal is to get the equivalent of this type described in SDL:
 
 ```graphql
 type Recipe {
@@ -22,7 +22,7 @@ type Recipe {
 }
 ```
 
-So we create the `Recipe` class with all properties and types:
+So we create the `Recipe` class with all its properties and types:
 
 ```typescript
 class Recipe {
@@ -56,11 +56,11 @@ class Recipe {
 }
 ```
 
-The detailed rules when to use `nullable`, `array` and others are described in [fields and types docs](types-and-fields.md).
+The detailed rules of when to use `nullable`, `array` and others are described in the [fields and types docs](types-and-fields.md).
 
 ## Resolvers
 
-After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected `RecipeService` in constructor:
+After that we want to create typical crud queries and mutations. To do so, we create the resolver (controller) class that will have injected the `RecipeService` in the constructor:
 
 ```typescript
 @Resolver(Recipe)
@@ -103,10 +103,10 @@ class RecipeResolver {
 }
 ```
 
-We use `@Authorized()` decorator to restrict access only for authorized users or the one that fulfil the roles requirements.
-The detailed rules when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](resolvers.md).
+We use the `@Authorized()` decorator to restrict access to authorized users only or the users that fulfil the roles requirements.
+The detailed rules for when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](resolvers.md).
 
-## Inputs and arguments
+## Inputs and Arguments
 
 Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
 
@@ -139,11 +139,11 @@ class RecipesArgs {
 }
 ```
 
-`@Length`, `@Min` or `@MaxArraySize` are decorators from [`class-validator`](https://github.com/typestack/class-validator) that automatically perform fields validation in TypeGraphQL.
+`@Length`, `@Min` and `@MaxArraySize` are decorators from [`class-validator`](https://github.com/typestack/class-validator) that automatically perform field validation in TypeGraphQL.
 
 ## Building schema
 
-The last step that we have to do is to actually build the schema from TypeGraphQL definition. We use `buildSchema` function for this:
+The last step that needs to be done is to actually build the schema from the TypeGraphQL definition. We use the `buildSchema` function for this:
 
 ```typescript
 const schema = await buildSchema({
@@ -153,8 +153,8 @@ const schema = await buildSchema({
 // ...creating express server or sth
 ```
 
-Et voilà! Now we have fully working GraphQL schema!
-If we print it, we would receive exactly this:
+Et voilà! Now we have fully functional GraphQL schema!
+If we print it, this is how it would look:
 
 ```graphql
 type Recipe {
@@ -181,6 +181,6 @@ type Mutation {
 
 ## Want more?
 
-That was only a tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like authorization checker, inheritance support or field resolvers.
+That was only the tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like the authorization checker, inheritance support and field resolvers.
 
-If you want to see how it looks in more complicated case, you can go to the [Examples section](examples.md) where you can find e.g. how nice TypeGraphQL integrates with TypeORM.
+For more complicated cases, go to the [Examples section](examples.md) where you can discover e.g. how well TypeGraphQL integrates with TypeORM.

@@ -67,6 +67,25 @@ You should use `[ItemType]` syntax every time when your field type is array or y
 
 Even if you technically can omit the array notation (when the base type is not `Promise`) and provide only the type of array item (e.g. `@Field(() => ItemType) field: ItemType[]`) - it's better to be consistent with other annotations by explicit defining the type.
 
+### How can I define the two-dimension array (nested arrays, array of arrays)?
+
+Unfortunately, [GraphQL spec doesn't support 2D arrays](https://github.com/graphql/graphql-spec/issues/423), so you can't just use `data: [[Float]]` as a GraphQL type.
+
+Instead, you have to create a transient object (or input) type that fits your data, e.g.:
+
+```graphql
+type DataPoint {
+  x: Int
+  y: Float
+}
+```
+
+and then use it in the list type as your GraphQL type:
+
+```graphql
+data: [DataPoint]
+```
+
 ### In many cases I have a situation where InputType and ObjectType have exactly the same shape. How can I share the definitions?
 
 In GraphQL, input objects have a separate type in the system because object types can contain fields that express circular references or references to interfaces and unions, neither of which is appropriate for use as an input argument.

@@ -2,27 +2,27 @@
 title: Installation
 ---
 
-Before getting started with TypeGraphQL we need to install some additional dependencies and properly configure TypeScript configuration for our project.
+Before getting started with TypeGraphQL we need to install some additional dependencies and properly configure the TypeScript configuration for our project.
 
 > #### Prerequisites
 >
-> Before you begin, make sure your development environment includes Node.js and npm.
+> Before we begin, we must make sure our development environment includes Node.js and npm.
 
 ## Packages installation
 
-First, you have to install the main package, as well as the [`graphql-js`](https://github.com/graphql/graphql-js) (and it's typings) which is a peer dependency of TypeGraphQL:
+First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) (and it's typings) which is a peer dependency of TypeGraphQL:
 
 ```sh
 npm i graphql @types/graphql type-graphql
 ```
 
-Also, the `reflect-metadata` shim is required to make the type reflection works:
+Also, the `reflect-metadata` shim is required to make the type reflection work:
 
 ```sh
 npm i reflect-metadata
 ```
 
-Please make sure to import it on top of your entry file (before you use/import `type-graphql` or your resolvers):
+We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
 ```typescript
 import "reflect-metadata";
@@ -30,7 +30,7 @@ import "reflect-metadata";
 
 ## TypeScript configuration
 
-It's important to set these options in `tsconfig.json` file of your project:
+It's important to set these options in the `tsconfig.json` file of our project:
 
 ```json
 {
@@ -39,7 +39,7 @@ It's important to set these options in `tsconfig.json` file of your project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js 6, 8 and latest stable. It uses features from ES7 (ES2016) so you should set your `tsconfig.json` appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS (8, 10) and the latest stable releases. It uses features from ES7 (ES2016) so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
@@ -47,7 +47,7 @@ It's important to set these options in `tsconfig.json` file of your project:
 }
 ```
 
-Due to using `graphql-subscription` dependency that rely on an `AsyncIterator`, you may also have to provide the `esnext.asynciterable` to the `lib` option:
+Due to using the `graphql-subscription` dependency that relies on an `AsyncIterator`, we may also have to provide the `esnext.asynciterable` to the `lib` option:
 
 ```json
 {
