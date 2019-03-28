@@ -2,15 +2,13 @@
 title: Enums
 ---
 
-Nowadays almost all typed languages have support for enumerated types, including TypeScript.
-Enums allow to limit the range of possible variable's values to a set of predefined constants, which make it easier to document intent.
+Nowadays almost all typed languages have support for enumerated types, including TypeScript. Enums limit the range of a variable's values to a set of predefined constants, which makes it easier to document intent.
 
-GraphQL also has enum type support, so `TypeGraphQL` allows you to use TypeScript enums in your GraphQL schema.
+GraphQL also has enum type support, so TypeGraphQL allows us to use TypeScript enums in our GraphQL schema.
 
 ## Usage
 
-First of all, you need to create a TypeScript enum.
-It can be a numeric or string enum - the internal value of enums will be taken from enums definition values and the public names from the enum keys:
+Let's create a TypeScript enum. It can be a numeric or string enum - the internal values of enums are taken from the enum definition values and the public names taken from the enum keys:
 
 ```typescript
 enum Direction {
@@ -28,7 +26,7 @@ enum Direction {
 }
 ```
 
-To tell TypeGraphQL about your enum, you would ideally mark the enums with `@GraphQLEnumType()` decorator. However, TypeScript's decorators only works with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
+To tell TypeGraphQL about our enum, we would ideally mark the enums with the `@GraphQLEnumType()` decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
 
 ```typescript
 import { registerEnumType } from "type-graphql";
@@ -51,7 +49,7 @@ class JourneyInput {
 
 Without this annotation, the generated GQL type would be `String` or `Float` (depending on the enum type), rather than the `ENUM` we are aiming for.
 
-With all that in place, you can use your enum directly in your code 😉
+With all that in place, we can use our enum directly in our code 😉
 
 ```typescript
 class Resolver {

@@ -2,16 +2,16 @@
 title: Authorization
 ---
 
-Authorization is a core feature used in almost all APIs. Sometimes we want to restrict access to some actions or reading some data only for specific group of users.
+Authorization is a core feature used in almost all APIs. Sometimes we want to restrict data access or actions for a specific group of users.
 
-In express.js (and other Node.js framework) we use middlewares for this, like `passport.js` or the custom ones. However in GraphQL's resolvers architecture we don't have middlewares so we have to imperatively call the auth checking function and manually passing context data in each resolver, which might be quite tedious work.
+In express.js (and other Node.js frameworks) we use middleware for this, like `passport.js` or the custom ones. However, in GraphQL's resolver architecture we don't have middleware so we have to imperatively call the auth checking function and manually pass context data to each resolver, which might be a bit tedious.
 
-And that's why authorization is a first-class feature in `TypeGraphQL`!
+That's why authorization is a first-class feature in `TypeGraphQL`!
 
-## How to use?
+## How to use
 
-At first, you need to use `@Authorized` decorator as a guard on a field or a query/mutation.
-Example object type's fields guards:
+First, we need to use the `@Authorized` decorator as a guard on a field, query or mutation.
+Example object type field guards:
 
 ```typescript
 @ObjectType()
@@ -33,12 +33,12 @@ class MyObject {
 }
 ```
 
-You can leave the `@Authorized` decorator brackets empty or you can specify the roles that the user needs to have to get access to the field, query or mutation.
-By default the roles are `string` but you can change it easily as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
+We can leave the `@Authorized` decorator brackets empty or we can specify the role/roles that the user needs to possess in order to get access to the field, query or mutation.
+By default the roles are of type `string` but they can easily be changed as the decorator is generic - `@Authorized<number>(1, 7, 22)`.
 
-This way authed users (regardless of theirs roles) could read only `publicField` or `authorizedField` from `MyObject` object. They will receive `null` when accessing `hiddenField` field and will receive error (that will propagate through the whole query tree looking for nullable field) for `adminField` when they don't satisfy roles constraints.
+Thus, authorized users (regardless of their roles) can only read the `publicField` or the `authorizedField` from the `MyObject` object. They will receive `null` when accessing the `hiddenField` field and will receive an error (that will propagate through the whole query tree looking for a nullable field) for the `adminField` when they don't satisfy the role constraints.
 
-Sample query and mutations guards:
+Sample query and mutation guards:
 
 ```typescript
 @Resolver()
@@ -47,7 +47,7 @@ class MyResolver {
   publicQuery(): MyObject {
     return {
       publicField: "Some public data",
-      authorizedField: "Data only for logged users",
+      authorizedField: "Data for logged users only",
       adminField: "Top secret info for admin",
     };
   }
@@ -55,35 +55,35 @@ class MyResolver {
   @Authorized()
   @Query()
   authedQuery(): string {
-    return "Only for authed users!";
+    return "Authorized users only!";
   }
 
   @Authorized("ADMIN", "MODERATOR")
   @Mutation()
   adminMutation(): string {
-    return "You are an admin/moderator, you can safely drop database ;)";
+    return "You are an admin/moderator, you can safely drop the database ;)";
   }
 }
 ```
 
-Authed users (regardless of theirs roles) will be able to read data from `publicQuery` and `authedQuery` but will receive error trying to perform `adminMutation` when their roles doesn't include `ADMIN` or `MODERATOR`.
+Authorized users (regardless of their roles) will be able to read data from the `publicQuery` and the `authedQuery` queries, but will receive an error when trying to perform the `adminMutation` when their roles don't include `ADMIN` or `MODERATOR`.
 
-In next step, you need to create your auth checker function. Its implementation may depends on your business logic:
+Next, we need to create our auth checker function. Its implementation may depend on our business logic:
 
 ```typescript
 export const customAuthChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
-  // here you can read user from context
-  // and check his permission in db against `roles` argument
-  // that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]
+  // here we can read the user from context
+  // and check his permission in the db against the `roles` argument
+  // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 
-  return true; // or false if access denied
+  return true; // or false if access is denied
 };
 ```
 
-The second argument of `AuthChecker` generic type is `RoleType` - use it together with `@Authorized` decorator generic type.
+The second argument of the `AuthChecker` generic type is `RoleType` - used together with the `@Authorized` decorator generic type.
 
 The last step is to register the function while building the schema:
 
@@ -100,7 +100,7 @@ const schema = await buildSchema({
 
 And it's done! 😉
 
-If you need silent auth guards and you don't want to return auth errors to users, you can set `authMode` property of `buildSchema` config object to `"null"`:
+If we need silent auth guards and don't want to return authorization errors to users, we can set the `authMode` property of the `buildSchema` config object to `"null"`:
 
 ```typescript
 const schema = await buildSchema({
@@ -110,11 +110,12 @@ const schema = await buildSchema({
 });
 ```
 
-It will then return `null` instead of throwing authorization error.
+It will then return `null` instead of throwing an authorization error.
 
 ## Recipes
 
-You can also use `TypeGraphQL` with JWT authentication. Example using `apollo-server-express`:
+We can also use `TypeGraphQL` with JWT authentication.
+Here's an example using `apollo-server-express`:
 
 ```typescript
 import express from "express";
@@ -156,8 +157,8 @@ app.listen({ port: 4000 }, () =>
 );
 ```
 
-Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
+Then we can use standard, token based authorization in the HTTP header like in classic REST APIs and take advantage of the `TypeGraphQL` authorization mechanism.
 
 ## Example
 
-You can see how this works together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization).
+See how this works in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization).

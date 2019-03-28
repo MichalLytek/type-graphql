@@ -21,7 +21,7 @@
         "title": "Dependency injection"
       },
       "emit-schema": {
-        "title": "Emitting schema SDL"
+        "title": "Emitting the schema SDL"
       },
       "enums": {
         "title": "Enums"
@@ -34,7 +34,7 @@
         "title": "Frequently Asked Questions"
       },
       "generic-types": {
-        "title": "Generic types"
+        "title": "Generic Types"
       },
       "getting-started": {
         "title": "Getting started"
@@ -53,7 +53,7 @@
         "sidebar_label": "What & Why"
       },
       "middlewares": {
-        "title": "Middlewares and guards"
+        "title": "Middleware and guards"
       },
       "README": {
         "title": "README"
@@ -68,13 +68,13 @@
         "title": "Subscriptions"
       },
       "types-and-fields": {
-        "title": "Types and fields"
+        "title": "Types and Fields"
       },
       "unions": {
         "title": "Unions"
       },
       "validation": {
-        "title": "Arguments and inputs validation",
+        "title": "Argument and Input validation",
         "sidebar_label": "Validation"
       },
       "version-0.16.0-authorization": {

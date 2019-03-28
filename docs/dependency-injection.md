@@ -8,7 +8,7 @@ TypeGraphQL supports this technique by allowing users to provide their IoC conta
 
 ## Basic usage
 
-The usage of this feature is very simple - all you need to do is to register 3rd party container. Example using TypeDI:
+The usage of this feature is very simple - all you need to do is register a 3rd party container. Example using TypeDI:
 
 ```typescript
 import { buildSchema } from "type-graphql";
@@ -25,7 +25,7 @@ const schema = await buildSchema({
 });
 ```
 
-Then, your resolvers will be able to declare their dependencies and TypeGraphQL will use the container to solve them:
+Our resolvers will then be able to declare their dependencies and TypeGraphQL will use the container to solve them:
 
 ```typescript
 import { Service } from "typedi";
@@ -46,7 +46,7 @@ export class RecipeResolver {
 }
 ```
 
-And the sample recipe service implementation may look like this:
+A sample recipe service implementation may look like this:
 
 ```typescript
 import { Service, Inject } from "typedi";
@@ -72,12 +72,12 @@ You can see how this fits together in the [simple example](https://github.com/19
 
 ## Scoped containers
 
-Dependency injection is a really powerful pattern. But some advanced users may encounter the need of creating fresh instances of some services or resolvers for every request. Since `v0.13.0`, **TypeGraphQL** supports this feature, that is extremely useful for tracking logs by individual requests or managing stateful services.
+Dependency injection is a really powerful pattern, but some advanced users may encounter the need for creating fresh instances of some services or resolvers for every request. Since `v0.13.0`, **TypeGraphQL** supports this feature, that is extremely useful for tracking logs by individual requests or managing stateful services.
 
-To register scoped container, you need to make some changes in the server bootstrapping config code.
-At first you need to provide a container resolver function. It takes the resolver data (like context) as an argument and should return instance of the container scoped to the request.
+To register a scoped container, we need to make some changes in the server bootstrapping config code.
+First we need to provide a container resolver function. It takes the resolver data (like context) as an argument and should return an instance of the container scoped to the request.
 
-For simple container libraries you may define it inline, e.g. using `TypeDI`:
+For simple container libraries we may define it inline, e.g. using `TypeDI`:
 
 ```typescript
 await buildSchema({
@@ -85,9 +85,9 @@ await buildSchema({
 };
 ```
 
-The tricky part is where the `context.requestId` comes from. Unfortunately, you need to provide it manually using hooks that are exposed by HTTP GraphQL middlewares like `express-graphql`, `apollo-server` or `graphql-yoga`.
+The tricky part is where the `context.requestId` comes from. Unfortunately, we need to provide it manually using hooks that are exposed by HTTP GraphQL middleware like `express-graphql`, `apollo-server` or `graphql-yoga`.
 
-For some other advanced libraries, you might need to create an instance of the container, place it in the context object and then retrieve it in `container` getter function:
+For some other advanced libraries, we might need to create an instance of the container, place it in the context object and then retrieve it in the `container` getter function:
 
 ```typescript
 await buildSchema({
@@ -116,9 +116,9 @@ const server = new ApolloServer({
 });
 ```
 
-You also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
+We also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
 
-Unfortunately, Apollo Server doesn't have the "document middlewares" feature yet, so some dirty tricks are needed to do the cleanup.
+Unfortunately, Apollo Server doesn't have a "document middleware" feature yet, so some dirty tricks are needed to do the cleanup.
 Example using `TypeDI` and `apollo-server` with the `formatResponse` method:
 
 ```typescript
@@ -135,12 +135,12 @@ const server = new ApolloServer({
 });
 ```
 
-And basically that's it! The configuration of container is done and TypeGraphQL will be able to use different instances of resolvers for each request.
+And basically that's it! The configuration of the container is done and TypeGraphQL will be able to use different instances of resolvers for each request.
 
-The only thing that left is the container configuration - you need to check out the docs for your container library (`InversifyJS`, `injection-js`, `TypeDI` or other) to get know how to setup a lifetime of the injectable objects (transient, scoped or singleton).
+The only thing that's left is the container configuration - we need to check out the docs for our container library (`InversifyJS`, `injection-js`, `TypeDI` or other) to get know how to setup the lifetime of the injectable objects (transient, scoped or singleton).
 
-> Be aware that some libraries (like `TypeDI`) by default creates new instances for every scoped container, so you might experience a **significant grow of a memory usage** and a some decrease in query resolving speed, so please be careful with using this feature!
+> Be aware that some libraries (like `TypeDI`) by default create new instances for every scoped container, so you might experience a **significant increase in memory usage** and some slowing down in query resolving speed, so please be careful with using this feature!
 
 ### Example
 
-For more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container).
+For a more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/19majkel94/type-graphql/tree/master/examples/using-scoped-container).

@@ -39,6 +39,13 @@
     "interface-name": [true, "never-prefix"],
     "ordered-imports": false,
     "no-unused-expression": false,
-    "callable-types": false
+    "callable-types": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
   }
 }
