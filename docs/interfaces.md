@@ -32,10 +32,24 @@ Then we can use this "interface" in object type class definition:
 
 ```typescript
 @ObjectType({ implements: IPerson })
-class Person implements IPerson {
+class Person extends IPerson {
   id: string;
   name: string;
   age: number;
+}
+```
+
+We can also define dynamic fields for an interface using the same syntax you would use when defining one for your object types:
+
+```typescript
+@InterfaceType()
+abstract class IPerson {
+  // ...
+
+  @Field()
+  avatar(@Arg("size") size: number): string {
+    return `http://i.pravatar.cc/${size}`;
+  }
 }
 ```
 
