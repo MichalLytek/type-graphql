@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - add support for emitting schema file in not existing directory (#269)
+- add support for arguments in fields of interfaces (#284)
 ### Fixes
 - fix typings discovery support for WebStorm (#276)
 - allow for returning plain objects when using `ObjectType`s that implements `InterfaceType`s or extends others `ObjectType`s (#160)
