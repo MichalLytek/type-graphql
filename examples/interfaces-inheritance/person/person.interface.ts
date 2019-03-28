@@ -1,4 +1,4 @@
-import { InterfaceType, Field, Int, ID } from "../../../src";
+import { InterfaceType, Field, Int, ID, Arg } from "../../../src";
 
 import { IResource } from "../resource/resource.interface";
 
@@ -12,4 +12,9 @@ export abstract class IPerson implements IResource {
 
   @Field(type => Int)
   age: number;
+
+  @Field()
+  avatar(@Arg("size") size: number): string {
+    return `http://i.pravatar.cc/${size}`;
+  }
 }
