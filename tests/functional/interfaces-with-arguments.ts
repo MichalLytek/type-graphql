@@ -175,7 +175,6 @@ describe("Interfaces with arguments", () => {
           @Arg("width") width: number,
           @Arg("height") height: number,
         ): string {
-          console.log(width);
           return getImageUrl(width, height);
         }
         @Field()
