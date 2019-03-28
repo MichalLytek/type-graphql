@@ -30,7 +30,7 @@ abstract class IPerson {
 }
 ```
 
-We can then we use this "interface" in the object type class definition:
+We can then use this "interface" in the object type class definition:
 
 ```typescript
 @ObjectType({ implements: IPerson })
@@ -43,7 +43,21 @@ class Person implements IPerson {
 
 The only difference is that we have to let TypeGraphQL know that this `ObjectType` is implementing the `InterfaceType`. We do this by passing the param `({ implements: IPerson })` to the decorator. If we implement multiple interfaces, we pass an array of interfaces like so: `({ implements: [IPerson, IAnimal, IMachine] })`.
 
-We can also omit the decorators since the GraphQL types will be copied from the interface definition - this way we won't have to maintain two definitions and solely rely on TypeScript type checking for correct interface implementation.
+It is also allowed to omit the decorators since the GraphQL types will be copied from the interface definition - this way we won't have to maintain two definitions and solely rely on TypeScript type checking for correct interface implementation.
+
+We can also define dynamic fields for an interface using the same syntax you would use when defining one for your object types:
+
+```typescript
+@InterfaceType()
+abstract class IPerson {
+  // ...
+
+  @Field()
+  avatar(@Arg("size") size: number): string {
+    return `http://i.pravatar.cc/${size}`;
+  }
+}
+```
 
 ## Resolving Type
 
