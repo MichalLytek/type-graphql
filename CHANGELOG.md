@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- add postinstall script for printing info on console about supporting the project
 
 ## v0.17.1
 ### Features
