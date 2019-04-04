@@ -1565,7 +1565,7 @@ describe("Resolvers", () => {
     });
   });
 
-  describe("buildSchema", async () => {
+  describe("buildSchema", () => {
     it("should load resolvers from glob paths", async () => {
       getMetadataStorage().clear();
 
@@ -1626,7 +1626,7 @@ describe("Resolvers", () => {
     });
   });
 
-  describe("Inheritance", async () => {
+  describe("Inheritance", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
     let queryType: IntrospectionObjectType;
