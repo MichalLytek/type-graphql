@@ -31,55 +31,55 @@ describe("Interfaces with arguments", () => {
       getMetadataStorage().clear();
 
       @ArgsType()
-      class ImageArgs {
+      class SampleArgs1 {
         @Field(type => Int, { nullable: true })
-        width?: number;
+        intValue1?: number;
         @Field(type => Int, { nullable: true })
-        height?: number;
+        intValue2?: number;
       }
 
       @InterfaceType()
-      abstract class Article {
+      abstract class SampleInterface1 {
         @Field(type => ID)
         id: string;
         @Field({ nullable: true })
-        headline?: string;
+        interfaceStringField1?: string;
 
         @Field()
         interfaceFieldInlineArguments(
-          @Arg("width") width: number,
-          @Arg("height") height: number,
+          @Arg("intValue1") intValue1: number,
+          @Arg("intValue2") intValue2: number,
         ): string {
-          return `http://lorempixel.com/${width}/${height}/`;
+          return `${intValue1}-${intValue2}`;
         }
         @Field()
-        interfaceFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
-          return `http://lorempixel.com/${args.width}/${args.height}/`;
+        interfaceFieldArgumentsType(@Args() args: SampleArgs1): string {
+          return `${args.intValue1}-${args.intValue2}`;
         }
       }
 
-      @ObjectType({ implements: Article })
-      class WebArticle extends Article {
+      @ObjectType({ implements: SampleInterface1 })
+      class SampleImplementingObject1 extends SampleInterface1 {
         @Field()
         url: string;
 
         @Field()
         implemetingObjectTypeFieldInlineArguments(
-          @Arg("width") width: number,
-          @Arg("height") height: number,
+          @Arg("intValue1") intValue1: number,
+          @Arg("intValue2") intValue2: number,
         ): string {
-          return `http://lorempixel.com/${width}/${height}/`;
+          return `${intValue1}-${intValue2}`;
         }
         @Field()
-        implemetingObjectTypeFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
-          return `http://lorempixel.com/${args.width}/${args.height}/`;
+        implemetingObjectTypeFieldArgumentsType(@Args() args: SampleArgs1): string {
+          return `${args.intValue1}-${args.intValue2}`;
         }
       }
 
       @Resolver()
       class SampleResolver {
-        @Query(returns => [Article])
-        sampleQuery(): Article[] {
+        @Query(returns => [SampleInterface1])
+        sampleQuery(): SampleInterface1[] {
           return [];
         }
       }
@@ -95,121 +95,128 @@ describe("Interfaces with arguments", () => {
       expect(schemaIntrospection).toBeDefined();
     });
 
-    it("should have arguments for the interface field 'interfaceFieldInlineArguments' with @Arg() decorator", async () => {
+    it("should have proper arguments for the interface field with inline arguments", async () => {
       const sampleField = (schemaIntrospection.types.find(
-        type => type.name === "Article",
+        type => type.name === "SampleInterface1",
       ) as IntrospectionInterfaceType).fields.find(
         f => f.name === "interfaceFieldInlineArguments",
       ) as IntrospectionField;
 
       expect(sampleField.args).toBeDefined();
       expect(sampleField.args.length).toEqual(2);
-      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(
+        sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
+      ).toBeTruthy();
     });
 
-    it("should have arguments for the interface field 'interfaceFieldArgumentsType' with @Args() decorator", async () => {
+    it("should have proper arguments for the interface field with an arguments type", async () => {
       const sampleField = (schemaIntrospection.types.find(
-        type => type.name === "Article",
+        type => type.name === "SampleInterface1",
       ) as IntrospectionInterfaceType).fields.find(
         f => f.name === "interfaceFieldArgumentsType",
       ) as IntrospectionField;
 
       expect(sampleField.args).toBeDefined();
       expect(sampleField.args.length).toEqual(2);
-      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(
+        sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
+      ).toBeTruthy();
     });
 
-    it("should have arguments for the object field 'implemetingObjectTypeFieldInlineArguments'", async () => {
+    it("should have proper arguments for the object field with inline arguments", async () => {
       const sampleField = (schemaIntrospection.types.find(
-        type => type.name === "WebArticle",
+        type => type.name === "SampleImplementingObject1",
       ) as IntrospectionInterfaceType).fields.find(
         f => f.name === "implemetingObjectTypeFieldInlineArguments",
       ) as IntrospectionField;
 
       expect(sampleField.args).toBeDefined();
       expect(sampleField.args.length).toEqual(2);
-      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(
+        sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
+      ).toBeTruthy();
     });
 
-    it("should have arguments for the object field 'implemetingObjectTypeFieldArgumentsType'", async () => {
+    it("should have proper arguments for the object field with an arguments type", async () => {
       const sampleField = (schemaIntrospection.types.find(
-        type => type.name === "WebArticle",
+        type => type.name === "SampleImplementingObject1",
       ) as IntrospectionInterfaceType).fields.find(
         f => f.name === "implemetingObjectTypeFieldArgumentsType",
       ) as IntrospectionField;
 
       expect(sampleField.args).toBeDefined();
       expect(sampleField.args.length).toEqual(2);
-      expect(sampleField.args.every(arg => ["width", "height"].includes(arg.name))).toBeTruthy();
+      expect(
+        sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
+      ).toBeTruthy();
     });
   });
 
   describe("Functional", () => {
-    const getImageUrl = (width: number, height: number) =>
-      `http://lorempixel.com/${width}/${height}/`;
+    const resolvedValueString = (intValue1?: number, intValue2?: number) =>
+      `${intValue1}-${intValue2}`;
     let schema: GraphQLSchema;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
 
       @ArgsType()
-      class ImageArgs {
+      class SampleArgs1 {
         @Field(type => Int, { nullable: true })
-        width?: number;
+        intValue1?: number;
         @Field(type => Int, { nullable: true })
-        height?: number;
+        intValue2?: number;
       }
 
       @InterfaceType()
-      abstract class Article {
+      abstract class SampleInterface1 {
         @Field(type => ID)
         id: string;
         @Field({ nullable: true })
-        headline?: string;
-        constructor(id: string) {
-          this.id = id;
-        }
+        interfaceStringField1?: string;
 
         @Field()
         interfaceFieldInlineArguments(
-          @Arg("width") width: number,
-          @Arg("height") height: number,
+          @Arg("intValue1") intValue1: number,
+          @Arg("intValue2") intValue2: number,
         ): string {
-          return getImageUrl(width, height);
+          return resolvedValueString(intValue1, intValue2);
         }
         @Field()
-        interfaceFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
-          return getImageUrl(args.width, args.height);
+        interfaceFieldArgumentsType(@Args() args: SampleArgs1): string {
+          return resolvedValueString(args.intValue1, args.intValue2);
         }
       }
 
-      @ObjectType({ implements: Article })
-      class WebArticle extends Article {
+      @ObjectType({ implements: SampleInterface1 })
+      class SampleImplementingObject1 extends SampleInterface1 {
         @Field()
-        url: string;
-        constructor(id: string, url: string) {
-          super(id);
-          this.url = url;
+        ownStringField1: string;
+
+        constructor(id: string, ownStringField1: string) {
+          super();
+          this.id = id;
+          this.ownStringField1 = ownStringField1;
         }
 
         @Field()
         implemetingObjectTypeFieldInlineArguments(
-          @Arg("width") width: number,
-          @Arg("height") height: number,
+          @Arg("intValue1") intValue1: number,
+          @Arg("intValue2") intValue2: number,
         ): string {
-          return getImageUrl(width, height);
+          return resolvedValueString(intValue1, intValue2);
         }
         @Field()
-        implemetingObjectTypeFieldArgumentsType(@Args(type => ImageArgs) args: any): string {
-          return getImageUrl(args.width, args.height);
+        implemetingObjectTypeFieldArgumentsType(@Args() args: SampleArgs1): string {
+          return resolvedValueString(args.intValue1, args.intValue2);
         }
       }
 
       @Resolver()
       class SampleResolver {
-        @Query(returns => [Article])
-        sampleQuery(): Article[] {
-          return [new WebArticle("fake123456", "http://fake.domain.com/dummy-article")];
+        @Query(returns => [SampleInterface1])
+        sampleQuery(): SampleInterface1[] {
+          return [new SampleImplementingObject1("sampleId", "sampleString1")];
         }
       }
 
@@ -222,10 +229,10 @@ describe("Interfaces with arguments", () => {
       expect(schema).toBeDefined();
     });
 
-    it("should properly resolve interfaceFieldInlineArguments", async () => {
+    it("should properly resolve the interface field with inline arguments", async () => {
       const query = `query {
         sampleQuery {
-          interfaceFieldInlineArguments(width: 200, height: 200)
+          interfaceFieldInlineArguments(intValue1: 200, intValue2: 200)
         }
       }`;
 
@@ -234,13 +241,13 @@ describe("Interfaces with arguments", () => {
       const result = response.data!.sampleQuery;
       expect(result).toBeDefined();
       expect(result.length).toEqual(1);
-      expect(result[0].interfaceFieldInlineArguments).toEqual(getImageUrl(200, 200));
+      expect(result[0].interfaceFieldInlineArguments).toEqual(resolvedValueString(200, 200));
     });
 
-    it("should properly resolve interfaceFieldArgumentsType", async () => {
+    it("should properly resolve the interface field with an arguments type", async () => {
       const query = `query {
         sampleQuery {
-          interfaceFieldArgumentsType(width: 200, height: 200)
+          interfaceFieldArgumentsType(intValue1: 200, intValue2: 200)
         }
       }`;
 
@@ -249,14 +256,14 @@ describe("Interfaces with arguments", () => {
       const result = response.data!.sampleQuery;
       expect(result).toBeDefined();
       expect(result.length).toEqual(1);
-      expect(result[0].interfaceFieldArgumentsType).toEqual(getImageUrl(200, 200));
+      expect(result[0].interfaceFieldArgumentsType).toEqual(resolvedValueString(200, 200));
     });
 
-    it("should properly resolve implemetingObjectTypeFieldInlineArguments", async () => {
+    it("should properly resolve the object field with inline arguments", async () => {
       const query = `query {
         sampleQuery {
-          ... on WebArticle {
-            implemetingObjectTypeFieldInlineArguments(width: 200, height: 200)
+          ... on SampleImplementingObject1 {
+            implemetingObjectTypeFieldInlineArguments(intValue1: 200, intValue2: 200)
           }
         }
       }`;
@@ -266,14 +273,16 @@ describe("Interfaces with arguments", () => {
       const result = response.data!.sampleQuery;
       expect(result).toBeDefined();
       expect(result.length).toEqual(1);
-      expect(result[0].implemetingObjectTypeFieldInlineArguments).toEqual(getImageUrl(200, 200));
+      expect(result[0].implemetingObjectTypeFieldInlineArguments).toEqual(
+        resolvedValueString(200, 200),
+      );
     });
 
-    it("should properly resolve implemetingObjectTypeFieldArgumentsType", async () => {
+    it("should properly resolve the object field with an arguments type", async () => {
       const query = `query {
         sampleQuery {
-          ... on WebArticle {
-            implemetingObjectTypeFieldArgumentsType(width: 200, height: 200)
+          ... on SampleImplementingObject1 {
+            implemetingObjectTypeFieldArgumentsType(intValue1: 200, intValue2: 200)
           }
         }
       }`;
@@ -283,7 +292,9 @@ describe("Interfaces with arguments", () => {
       const result = response.data!.sampleQuery;
       expect(result).toBeDefined();
       expect(result.length).toEqual(1);
-      expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(getImageUrl(200, 200));
+      expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(
+        resolvedValueString(200, 200),
+      );
     });
   });
 });
