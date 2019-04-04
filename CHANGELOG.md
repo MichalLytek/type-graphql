@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - add postinstall script for printing info on console about supporting the project
+- add support for setting default nullability for fields and return types (#297)
 
 ## v0.17.1
 ### Features
