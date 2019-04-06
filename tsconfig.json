@@ -63,5 +63,8 @@
     "./examples",
     "./src",
     "./tests"
+  ],
+  "exclude": [
+    "./examples/apollo-client"
   ]
 }

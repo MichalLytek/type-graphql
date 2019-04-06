@@ -94,8 +94,12 @@
     }
   },
   "lint-staged": {
-    "{src,tests,examples}/**/*.{ts,js}": [
+    "{src,tests,examples}/**/*.ts": [
       "tslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "{src,tests,examples}/**/*.js": [
       "prettier --write",
       "git add"
     ],

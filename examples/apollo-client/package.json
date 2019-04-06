@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "parcel ./src/index.html"
+  },
+  "dependencies": {
+    "@types/react": "^16.8.12",
+    "@types/react-dom": "^16.8.3",
+    "apollo-boost": "^0.3.1",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.4",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3"
+  },
+  "alias": {
+    "util": "./mocks/utils.js",
+    "glob": "./mocks/empty-module.js",
+    "fs": "./mocks/empty-module.js",
+    "path": "./mocks/empty-module.js"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
+}
