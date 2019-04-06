@@ -66,8 +66,13 @@ interface UnionTypeInfo {
   unionSymbol: symbol;
   type: GraphQLUnionType;
 }
-// tslint:disable-next-line:no-empty-interface
-export interface SchemaGeneratorOptions extends BuildContextOptions {}
+
+export interface SchemaGeneratorOptions extends BuildContextOptions {
+  /**
+   * Disable checking on build the correctness of a schema
+   */
+  skipCheck?: boolean;
+}
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
@@ -78,9 +83,11 @@ export abstract class SchemaGenerator {
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
-    const { errors } = await graphql(schema, getIntrospectionQuery());
-    if (errors) {
-      throw new GeneratingSchemaError(errors);
+    if (!options.skipCheck) {
+      const { errors } = await graphql(schema, getIntrospectionQuery());
+      if (errors) {
+        throw new GeneratingSchemaError(errors);
+      }
     }
     return schema;
   }
