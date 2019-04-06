@@ -543,7 +543,8 @@ export abstract class SchemaGenerator {
       throw new Error(`Cannot determine GraphQL output type for ${typeOwnerName}`!);
     }
 
-    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions);
+    const { nullableByDefault } = BuildContext;
+    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions, nullableByDefault);
   }
 
   private static getGraphQLInputType(
@@ -569,6 +570,7 @@ export abstract class SchemaGenerator {
       throw new Error(`Cannot determine GraphQL input type for ${typeOwnerName}`!);
     }
 
-    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions);
+    const { nullableByDefault } = BuildContext;
+    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions, nullableByDefault);
   }
 }
