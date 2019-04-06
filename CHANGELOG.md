@@ -5,6 +5,8 @@
 ### Features
 - add postinstall script for printing info on console about supporting the project
 - add support for setting default nullability for fields and return types (#297)
+### Fixes
+- fix generating plain resolvers for queries and mutations (compatibility with Apollo client state)
 
 ## v0.17.1
 ### Features
