@@ -15,8 +15,6 @@ interface EmitSchemaFileOptions extends PrintSchemaOptions {
 }
 
 export interface BuildSchemaOptions extends SchemaGeneratorOptions {
-  /** Array of resolvers classes or glob paths to resolver files */
-  resolvers: Array<Function | string>;
   /**
    * Path to the file to where emit the schema
    * or config object with print schema options
@@ -25,8 +23,8 @@ export interface BuildSchemaOptions extends SchemaGeneratorOptions {
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
 }
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
-  loadResolvers(options);
-  const schema = await SchemaGenerator.generateFromMetadata(options);
+  checkOptions(options);
+  const schema = await new SchemaGenerator().generateFromMetadata(options);
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     await emitSchemaDefinitionFile(schemaFileName, schema, printSchemaOptions);
@@ -35,8 +33,8 @@ export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLS
 }
 
 export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
-  loadResolvers(options);
-  const schema = SchemaGenerator.generateFromMetadataSync(options);
+  checkOptions(options);
+  const schema = new SchemaGenerator().generateFromMetadataSync(options);
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     emitSchemaDefinitionFileSync(schemaFileName, schema, printSchemaOptions);
@@ -44,15 +42,13 @@ export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
   return schema;
 }
 
-function loadResolvers(options: BuildSchemaOptions) {
-  if (options.resolvers.length === 0) {
+function checkOptions(options: BuildSchemaOptions) {
+  if (!options.resolvers || options.resolvers.length === 0) {
     throw new Error("Empty `resolvers` array property found in `buildSchema` options!");
   }
-  options.resolvers.forEach(resolver => {
-    if (typeof resolver === "string") {
-      loadResolversFromGlob(resolver);
-    }
-  });
+  if (!options.types || options.types.length === 0) {
+    throw new Error("Empty `types` array property found in `buildSchema` options!");
+  }
 }
 
 function getEmitSchemaDefinitionFileOptions(

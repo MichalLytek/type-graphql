@@ -8,6 +8,10 @@ import { Middleware } from "../interfaces/Middleware";
 import { isThrowing } from "../helpers/isThrowing";
 import { ReflectMetadataMissingError } from "../errors";
 
+export function copyMetadata<T>(array: T[]): T[] {
+  return array.map(item => Object.assign({}, item));
+}
+
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   definitions: T[],
   superResolver: Function,
