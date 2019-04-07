@@ -9,6 +9,7 @@ require("ts-node/register/transpile-only");
 // require("./examples/query-complexity/index.ts");
 // require("./examples/redis-subscriptions/index.ts");
 // require("./examples/resolvers-inheritance/index.ts");
+require("./examples/multiple-schemas/index.ts");
 // require("./examples/simple-subscriptions/index.ts");
 // require("./examples/simple-usage/index.ts");
 // require("./examples/typegoose/index.ts");
