@@ -182,5 +182,6 @@ type Mutation {
 ## Want more?
 
 That was only the tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like the authorization checker, inheritance support and field resolvers.
+A lot of these topics are covered in Ben Awad's [TypeGraphQL](https://www.youtube.com/playlist?list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs) video series on youtube.
 
 For more complicated cases, go to the [Examples section](examples.md) where you can discover e.g. how well TypeGraphQL integrates with TypeORM.
