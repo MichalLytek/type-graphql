@@ -145,15 +145,27 @@ I encourage you to give TypeGraphQL a try and experiment with. If you have any q
 
 ## Support
 
-TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends. 
+TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends.
 
 It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
 
 [![](https://opencollective.com/typegraphql/donate/button.png?color=blue)](https://opencollective.com/typegraphql)
 
+### Gold Sponsors 🏆
+
+Please ask your company to also support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors) and getting your company logo on our README on Github as well as on the landing page of the official documentation site with a link to your company site.
+
+### Sponsors 🚀
+
+[![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
+
+| [![](https://www.gravatar.com/avatar/19f1c31552033bb25536b0cad33077c0)](https://opencollective.com/demid-nikitin) |
+| :---: |
+| [**Demid Nikitin**](https://opencollective.com/demid-nikitin) |
+
 ### Backers
 
-[![](https://opencollective.com/typegraphql/backers.svg?width=890)](https://opencollective.com/typegraphql/donate)
+[![](https://opencollective.com/typegraphql/backers.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 
 ### Contribution
 
