@@ -26,6 +26,10 @@ export interface BuildContextOptions {
   pubSub?: PubSubEngine | PubSubOptions;
   globalMiddlewares?: Array<Middleware<any>>;
   container?: ContainerType | ContainerGetter<any>;
+  /**
+   * Default value for type decorators, like `@Field({ nullable: true })`
+   */
+  nullableByDefault?: boolean;
 }
 
 export abstract class BuildContext {
@@ -37,6 +41,7 @@ export abstract class BuildContext {
   static pubSub: PubSubEngine;
   static globalMiddlewares: Array<Middleware<any>>;
   static container: IOCContainer;
+  static nullableByDefault: boolean;
 
   /**
    * Set static fields with current building context data
@@ -75,6 +80,10 @@ export abstract class BuildContext {
     }
 
     this.container = new IOCContainer(options.container);
+
+    if (options.nullableByDefault !== undefined) {
+      this.nullableByDefault = options.nullableByDefault;
+    }
   }
 
   /**
@@ -89,6 +98,7 @@ export abstract class BuildContext {
     this.pubSub = new PubSub();
     this.globalMiddlewares = [];
     this.container = new IOCContainer();
+    this.nullableByDefault = false;
   }
 }
 

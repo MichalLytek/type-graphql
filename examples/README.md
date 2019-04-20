@@ -35,6 +35,7 @@ So if you are looking for examples that are compatible with the version you use,
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
 - [Typegoose](./typegoose)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
+- [Apollo client state](./apollo-client)
 
 _\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
 

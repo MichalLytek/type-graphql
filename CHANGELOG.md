@@ -3,12 +3,19 @@
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
+- add postinstall script for printing info on console about supporting the project
+- add support for setting default nullability for fields and return types (#297)
+- add `skipCheck` option in `buildSchema` to disable checking the correctness of a schema
+### Fixes
+- fix generating plain resolvers for queries and mutations (compatibility with Apollo client state)
+
+## v0.17.1
+### Features
 - add support for emitting schema file in not existing directory (#269)
+- drop support for Node.js v6 (end of LTS in April 2019)
 ### Fixes
 - fix typings discovery support for WebStorm (#276)
-- allow for returning plain objects when using `ObjectType`s that implements `InterfaceType`s or extends others `ObjectType`s (#160)
-### Others
-- **Breaking Change**: drop support for Node.js v6 (end of LTS in April 2019)
+- allow for returning plain objects when using `ObjectType`s that implements `InterfaceType`s or extends other classes (#160)
 
 ## v0.17.0
 ### Features

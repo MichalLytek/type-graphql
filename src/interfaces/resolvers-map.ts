@@ -14,7 +14,7 @@ export interface ResolversMap<TSource = any, TContext = any> {
 }
 
 export interface ResolverObject<TSource = any, TContext = any> {
-  [key: string]: ResolverOptions<TSource, TContext>;
+  [key: string]: ResolverOptions<TSource, TContext> | GraphQLFieldResolver<TSource, TContext>;
 }
 
 export interface EnumResolver {

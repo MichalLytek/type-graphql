@@ -1,6 +1,6 @@
 {
   "name": "type-graphql",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "author": {
     "name": "Michał Lytek",
     "url": "https://github.com/19majkel94"
@@ -14,7 +14,8 @@
     "lint": "tslint --project tsconfig.json",
     "verify": "npm run check && npm run lint",
     "package": "gulp package",
-    "docs": "npm run --prefix website start"
+    "docs": "npm run --prefix website start",
+    "postinstall": "node ./dist/postinstall || exit 0"
   },
   "peerDependencies": {
     "@types/graphql": "^14.0.7",
@@ -93,8 +94,12 @@
     }
   },
   "lint-staged": {
-    "{src,tests,examples}/**/*.{ts,js}": [
+    "{src,tests,examples}/**/*.ts": [
       "tslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "{src,tests,examples}/**/*.js": [
       "prettier --write",
       "git add"
     ],
