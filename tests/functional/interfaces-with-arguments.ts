@@ -50,18 +50,28 @@ describe("Interfaces with arguments", () => {
           @Arg("intValue1") intValue1: number,
           @Arg("intValue2") intValue2: number,
         ): string {
-          return `${intValue1}-${intValue2}`;
+          throw new Error("Method not implemented.");
         }
         @Field()
         interfaceFieldArgumentsType(@Args() args: SampleArgs1): string {
-          return `${args.intValue1}-${args.intValue2}`;
+          throw new Error("Method not implemented.");
         }
       }
 
       @ObjectType({ implements: SampleInterface1 })
-      class SampleImplementingObject1 extends SampleInterface1 {
+      class SampleImplementingObject1 implements SampleInterface1 {
+        id: string;
+        interfaceStringField1?: string;
+
         @Field()
         url: string;
+
+        interfaceFieldInlineArguments(intValue1: number, intValue2: number): string {
+          return `${intValue1}-${intValue2}`;
+        }
+        interfaceFieldArgumentsType(args: SampleArgs1): string {
+          return `${args.intValue1}-${args.intValue2}`;
+        }
 
         @Field()
         implemetingObjectTypeFieldInlineArguments(
@@ -78,8 +88,8 @@ describe("Interfaces with arguments", () => {
 
       @Resolver()
       class SampleResolver {
-        @Query(returns => [SampleInterface1])
-        sampleQuery(): SampleInterface1[] {
+        @Query(returns => [SampleImplementingObject1])
+        sampleQuery(): SampleImplementingObject1[] {
           return [];
         }
       }
@@ -180,23 +190,37 @@ describe("Interfaces with arguments", () => {
           @Arg("intValue1") intValue1: number,
           @Arg("intValue2") intValue2: number,
         ): string {
+          throw new Error("Method not implemented.");
+        }
+        @Field()
+        interfaceFieldArgumentsType(@Args() args: SampleArgs1): string {
+          throw new Error("Method not implemented.");
+        }
+      }
+
+      @ObjectType({ implements: SampleInterface1 })
+      class SampleImplementingObject1 implements SampleInterface1 {
+        id: string;
+        interfaceStringField1?: string;
+
+        @Field()
+        ownStringField1: string;
+
+        constructor(id: string, ownStringField1: string) {
+          this.id = id;
+          this.ownStringField1 = ownStringField1;
+        }
+
+        @Field()
+        interfaceFieldInlineArguments(
+          @Arg("intValue1") intValue1: number,
+          @Arg("intValue2") intValue2: number,
+        ): string {
           return resolvedValueString(intValue1, intValue2);
         }
         @Field()
         interfaceFieldArgumentsType(@Args() args: SampleArgs1): string {
           return resolvedValueString(args.intValue1, args.intValue2);
-        }
-      }
-
-      @ObjectType({ implements: SampleInterface1 })
-      class SampleImplementingObject1 extends SampleInterface1 {
-        @Field()
-        ownStringField1: string;
-
-        constructor(id: string, ownStringField1: string) {
-          super();
-          this.id = id;
-          this.ownStringField1 = ownStringField1;
         }
 
         @Field()
@@ -214,8 +238,8 @@ describe("Interfaces with arguments", () => {
 
       @Resolver()
       class SampleResolver {
-        @Query(returns => [SampleInterface1])
-        sampleQuery(): SampleInterface1[] {
+        @Query(returns => [SampleImplementingObject1])
+        sampleQuery(): SampleImplementingObject1[] {
           return [new SampleImplementingObject1("sampleId", "sampleString1")];
         }
       }

@@ -15,6 +15,6 @@ export abstract class IPerson implements IResource {
 
   @Field()
   avatar(@Arg("size") size: number): string {
-    return `http://i.pravatar.cc/${size}`;
+    throw new Error("Method not implemented.");
   }
 }
