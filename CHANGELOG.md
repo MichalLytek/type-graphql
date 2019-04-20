@@ -4,6 +4,11 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - add support for arguments in fields of interfaces (#284)
+- add postinstall script for printing info on console about supporting the project
+- add support for setting default nullability for fields and return types (#297)
+- add `skipCheck` option in `buildSchema` to disable checking the correctness of a schema
+### Fixes
+- fix generating plain resolvers for queries and mutations (compatibility with Apollo client state)
 
 ## v0.17.1
 ### Features

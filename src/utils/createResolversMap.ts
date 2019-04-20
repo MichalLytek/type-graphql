@@ -79,10 +79,14 @@ function generateTypeResolver(
 function generateFieldsResolvers(fields: GraphQLFieldMap<any, any>): ResolverObject {
   return Object.keys(fields).reduce<ResolverObject>((fieldsMap, fieldName) => {
     const field = fields[fieldName];
-    fieldsMap[fieldName] = {
-      subscribe: field.subscribe,
-      resolve: field.resolve,
-    };
+    if (field.subscribe) {
+      fieldsMap[fieldName] = {
+        subscribe: field.subscribe,
+        resolve: field.resolve,
+      };
+    } else if (field.resolve) {
+      fieldsMap[fieldName] = field.resolve;
+    }
     return fieldsMap;
   }, {});
 }

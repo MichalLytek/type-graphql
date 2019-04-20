@@ -35,18 +35,18 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl("introduction.html", this.props.language)}>Introduction</a>
-            <a href={this.docUrl("getting-started.html", this.props.language)}>Getting Started</a>
-            <a href={this.docUrl("scalars.html", this.props.language)}>Advanced Guides</a>
-            <a href={this.docUrl("dependency-injection.html", this.props.language)}>Features</a>
-            <a href={this.docUrl("emit-schema.html", this.props.language)}>Others</a>
-            {/* <a href={this.docUrl('api.html', this.props.language)}>
+            <a href={this.docUrl("introduction.html")}>Introduction</a>
+            <a href={this.docUrl("getting-started.html")}>Getting Started</a>
+            <a href={this.docUrl("scalars.html")}>Advanced Guides</a>
+            <a href={this.docUrl("dependency-injection.html")}>Features</a>
+            <a href={this.docUrl("emit-schema.html")}>Others</a>
+            {/* <a href={this.docUrl('api.html')}>
               API Reference
             </a> */}
           </div>
           <div>
             <h5>Community</h5>
-            {/* <a href={this.pageUrl('users.html', this.props.language)}>
+            {/* <a href={this.pageUrl('users.html')}>
               User Showcase
             </a> */}
             {/* <a

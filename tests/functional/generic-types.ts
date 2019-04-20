@@ -143,7 +143,7 @@ describe("Generic types", () => {
     expect(baseInputInfo).toBeUndefined();
   });
 
-  describe("multiple children of base generic class", async () => {
+  describe("multiple children of base generic class", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
     let dogsResponseMock: any;
@@ -394,7 +394,7 @@ describe("Generic types", () => {
     });
   });
 
-  describe("overwriting a property from base generic class in child class", async () => {
+  describe("overwriting a property from base generic class in child class", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
 

@@ -1565,7 +1565,7 @@ describe("Resolvers", () => {
     });
   });
 
-  describe("buildSchema", async () => {
+  describe("buildSchema", () => {
     it("should load resolvers from glob paths", async () => {
       getMetadataStorage().clear();
 
@@ -1613,6 +1613,25 @@ describe("Resolvers", () => {
       expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
     });
 
+    it("should generate the schema when schema is incorrect but `skipCheck` is set to true", async () => {
+      getMetadataStorage().clear();
+
+      @Resolver()
+      class SampleResolver {
+        @Mutation()
+        sampleMutation(): string {
+          return "sampleMutation";
+        }
+      }
+
+      const schema = await buildSchema({
+        resolvers: [SampleResolver],
+        skipCheck: true,
+      });
+
+      expect(schema).toBeDefined();
+    });
+
     it("should throw errors when no resolvers provided", async () => {
       getMetadataStorage().clear();
       expect.assertions(2);
@@ -1626,7 +1645,7 @@ describe("Resolvers", () => {
     });
   });
 
-  describe("Inheritance", async () => {
+  describe("Inheritance", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
     let queryType: IntrospectionObjectType;

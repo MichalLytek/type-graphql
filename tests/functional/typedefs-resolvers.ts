@@ -43,6 +43,8 @@ import {
   Authorized,
   UseMiddleware,
   ResolversMap,
+  ResolverObject,
+  ResolverOptions,
 } from "../../src";
 
 describe("buildTypeDefsAndResolvers", () => {
@@ -527,6 +529,23 @@ describe("buildTypeDefsAndResolvers", () => {
       const data = await firstValuePromise;
 
       expect(data.value.data!.sampleSubscription).toBe(payload);
+    });
+
+    it("should generate simple resolvers function for queries and mutations", async () => {
+      expect((resolvers.Query as ResolverObject<any, any>).sampleDateQuery).toBeInstanceOf(
+        Function,
+      );
+      expect((resolvers.Mutation as ResolverObject<any, any>).sampleBooleanMutation).toBeInstanceOf(
+        Function,
+      );
+    });
+
+    it("should generate resolvers object for subscriptions", async () => {
+      const sampleSubscription = (resolvers.Subscription as ResolverObject<any, any>)
+        .sampleSubscription as ResolverOptions<any, any>;
+
+      expect(sampleSubscription.resolve).toBeInstanceOf(Function);
+      expect(sampleSubscription.subscribe).toBeInstanceOf(Function);
     });
   });
 });
