@@ -123,6 +123,10 @@ type Mutation {
 
 A full getting started guide with a simple walkthrough (tutorial) can be found at [getting started docs](https://typegraphql.ml/docs/getting-started.html).
 
+## Video tutorial
+
+If you prefer video tutorials, you can watch [Ben Awad](https://github.com/benawad)'s [TypeGraphQL video series](https://www.youtube.com/playlist?list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs) on YouTube.
+
 ## Documentation
 
 The documentation, installation guide, detailed description of the API and all of its features is [available on the website](https://typegraphql.ml/).
