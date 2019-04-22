@@ -43,6 +43,34 @@ describe("Unions", () => {
       types: [ObjectOne, ObjectTwo, ObjectThree],
     });
 
+    const UnionWithStringResolveType = createUnionType({
+      name: "UnionWithStringResolveType",
+      types: [ObjectOne, ObjectTwo],
+      resolveType: value => {
+        if ("fieldOne" in value) {
+          return "ObjectOne";
+        }
+        if ("fieldTwo" in value) {
+          return "ObjectTwo";
+        }
+        return;
+      },
+    });
+
+    const UnionWithClassResolveType = createUnionType({
+      name: "UnionWithClassResolveType",
+      types: [ObjectOne, ObjectTwo],
+      resolveType: value => {
+        if ("fieldOne" in value) {
+          return ObjectOne;
+        }
+        if ("fieldTwo" in value) {
+          return ObjectTwo;
+        }
+        return;
+      },
+    });
+
     @ObjectType()
     class ObjectUnion {
       @Field(type => OneTwoThreeUnion)
@@ -68,6 +96,20 @@ describe("Unions", () => {
 
       @Query(returns => OneTwoThreeUnion)
       getPlainObjectFromUnion(): typeof OneTwoThreeUnion {
+        return {
+          fieldTwo: "fieldTwo",
+        };
+      }
+
+      @Query(returns => UnionWithStringResolveType)
+      getObjectOneFromStringResolveTypeUnion(): typeof UnionWithStringResolveType {
+        return {
+          fieldTwo: "fieldTwo",
+        };
+      }
+
+      @Query(returns => UnionWithClassResolveType)
+      getObjectOneFromClassResolveTypeUnion(): typeof UnionWithClassResolveType {
         return {
           fieldTwo: "fieldTwo",
         };
@@ -127,7 +169,7 @@ describe("Unions", () => {
   });
 
   describe("Functional", () => {
-    it("should correctly recognize returned object type on query returning union", async () => {
+    it("should correctly recognize returned object type using default `instance of` check", async () => {
       const query = `query {
         getObjectOneFromUnion {
           __typename
@@ -142,6 +184,46 @@ describe("Unions", () => {
 
       const result = await graphql(schema, query);
       const data = result.data!.getObjectOneFromUnion;
+      expect(data.__typename).toEqual("ObjectTwo");
+      expect(data.fieldTwo).toEqual("fieldTwo");
+      expect(data.fieldOne).toBeUndefined();
+    });
+
+    it("should correctly recognize returned object type using string provided by `resolveType` function", async () => {
+      const query = `query {
+        getObjectOneFromStringResolveTypeUnion {
+          __typename
+          ... on ObjectOne {
+            fieldOne
+          }
+          ... on ObjectTwo {
+            fieldTwo
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+      const data = result.data!.getObjectOneFromStringResolveTypeUnion;
+      expect(data.__typename).toEqual("ObjectTwo");
+      expect(data.fieldTwo).toEqual("fieldTwo");
+      expect(data.fieldOne).toBeUndefined();
+    });
+
+    it("should correctly recognize returned object type using class provided by `resolveType` function", async () => {
+      const query = `query {
+        getObjectOneFromClassResolveTypeUnion {
+          __typename
+          ... on ObjectOne {
+            fieldOne
+          }
+          ... on ObjectTwo {
+            fieldTwo
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+      const data = result.data!.getObjectOneFromClassResolveTypeUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
       expect(data.fieldOne).toBeUndefined();

@@ -1,7 +1,13 @@
 import { GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 
-import { ResolverFilterData, ClassType, ResolverTopicData, Complexity } from "../interfaces";
+import {
+  ResolverFilterData,
+  ClassType,
+  ResolverTopicData,
+  Complexity,
+  TypeResolver,
+} from "../interfaces";
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | [TypeValue];
@@ -46,6 +52,9 @@ export interface SchemaNameOptions {
 }
 export interface AbstractClassOptions {
   isAbstract?: boolean;
+}
+export interface ResolveTypeOptions<TSource = any, TContext = any> {
+  resolveType?: TypeResolver<TSource, TContext>;
 }
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &

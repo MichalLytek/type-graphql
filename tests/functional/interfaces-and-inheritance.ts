@@ -465,7 +465,6 @@ describe("Interfaces and inheritance", () => {
         @Field()
         baseInterfaceField: string;
       }
-
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
         baseInterfaceField: string;
@@ -474,6 +473,62 @@ describe("Interfaces and inheritance", () => {
       }
       @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
+        baseInterfaceField: string;
+        @Field()
+        secondField: string;
+      }
+
+      @InterfaceType({
+        resolveType: value => {
+          if ("firstField" in value) {
+            return "FirstInterfaceWithStringResolveTypeObject";
+          }
+          if ("secondField" in value) {
+            return "SecondInterfaceWithStringResolveTypeObject";
+          }
+          return;
+        },
+      })
+      abstract class InterfaceWithStringResolveType {
+        @Field()
+        baseInterfaceField: string;
+      }
+      @ObjectType({ implements: InterfaceWithStringResolveType })
+      class FirstInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
+        baseInterfaceField: string;
+        @Field()
+        firstField: string;
+      }
+      @ObjectType({ implements: InterfaceWithStringResolveType })
+      class SecondInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
+        baseInterfaceField: string;
+        @Field()
+        secondField: string;
+      }
+
+      @InterfaceType({
+        resolveType: value => {
+          if ("firstField" in value) {
+            return FirstInterfaceWithClassResolveTypeObject;
+          }
+          if ("secondField" in value) {
+            return SecondInterfaceWithClassResolveTypeObject;
+          }
+          return;
+        },
+      })
+      abstract class InterfaceWithClassResolveType {
+        @Field()
+        baseInterfaceField: string;
+      }
+      @ObjectType({ implements: InterfaceWithClassResolveType })
+      class FirstInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
+        baseInterfaceField: string;
+        @Field()
+        firstField: string;
+      }
+      @ObjectType({ implements: InterfaceWithClassResolveType })
+      class SecondInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
         baseInterfaceField: string;
         @Field()
         secondField: string;
@@ -513,6 +568,22 @@ describe("Interfaces and inheritance", () => {
           obj.baseInterfaceField = "baseInterfaceField";
           obj.firstField = "firstField";
           return obj;
+        }
+
+        @Query()
+        getSecondInterfaceWithStringResolveTypeObject(): InterfaceWithStringResolveType {
+          return {
+            baseInterfaceField: "baseInterfaceField",
+            secondField: "secondField",
+          } as SecondInterfaceWithStringResolveTypeObject;
+        }
+
+        @Query()
+        getSecondInterfaceWithClassResolveTypeObject(): InterfaceWithClassResolveType {
+          return {
+            baseInterfaceField: "baseInterfaceField",
+            secondField: "secondField",
+          } as SecondInterfaceWithClassResolveTypeObject;
         }
 
         @Query()
@@ -563,10 +634,13 @@ describe("Interfaces and inheritance", () => {
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
     });
 
-    it("should correctly recognize returned object type on query returning interface", async () => {
+    it("should correctly recognize returned object type using default `instance of` check", async () => {
       const query = `query {
         getFirstInterfaceImplementationObject {
           baseInterfaceField
+          ... on FirstImplementation {
+            firstField
+          }
           ... on SecondImplementation {
             secondField
           }
@@ -576,7 +650,48 @@ describe("Interfaces and inheritance", () => {
       const result = await graphql(schema, query);
       const data = result.data!.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
+      expect(data.firstField).toEqual("firstField");
       expect(data.secondField).toBeUndefined();
+    });
+
+    it("should correctly recognize returned object type using string provided by `resolveType` function", async () => {
+      const query = `query {
+        getSecondInterfaceWithStringResolveTypeObject {
+          baseInterfaceField
+          ... on FirstInterfaceWithStringResolveTypeObject {
+            firstField
+          }
+          ... on SecondInterfaceWithStringResolveTypeObject {
+            secondField
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+      const data = result.data!.getSecondInterfaceWithStringResolveTypeObject;
+      expect(data.baseInterfaceField).toEqual("baseInterfaceField");
+      expect(data.firstField).toBeUndefined();
+      expect(data.secondField).toEqual("secondField");
+    });
+
+    it("should correctly recognize returned object type using class provided by `resolveType` function", async () => {
+      const query = `query {
+        getSecondInterfaceWithClassResolveTypeObject {
+          baseInterfaceField
+          ... on FirstInterfaceWithClassResolveTypeObject {
+            firstField
+          }
+          ... on SecondInterfaceWithClassResolveTypeObject {
+            secondField
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+      const data = result.data!.getSecondInterfaceWithClassResolveTypeObject;
+      expect(data.baseInterfaceField).toEqual("baseInterfaceField");
+      expect(data.firstField).toBeUndefined();
+      expect(data.secondField).toEqual("secondField");
     });
 
     it("should throw error when not returning instance of object class", async () => {
