@@ -1,26 +1,29 @@
 import { ClassType } from "../interfaces";
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { InstanceSideOfClass, ArrayElementTypes } from "../helpers/utils";
+import { UnionFromClasses } from "../helpers/utils";
+import { ResolveTypeOptions } from "./types";
 
-export interface UnionTypeConfig<ObjectTypes extends ClassType[]> {
+export interface UnionTypeConfig<TClassTypes extends ClassType[]>
+  extends ResolveTypeOptions<UnionFromClasses<TClassTypes>> {
   name: string;
   description?: string;
-  types: ObjectTypes;
+  types: TClassTypes;
 }
 
-export type UnionFromClasses<T extends any[]> = InstanceSideOfClass<ArrayElementTypes<T>>;
-
-export function createUnionType<T extends ClassType[]>({
-  types,
+export function createUnionType<T extends ClassType[]>(
+  config: UnionTypeConfig<T>,
+): UnionFromClasses<T>;
+export function createUnionType({
   name,
   description,
-}: UnionTypeConfig<T>): UnionFromClasses<T>;
-export function createUnionType({ types, name, description }: UnionTypeConfig<ClassType[]>): any {
+  types: classTypes,
+  resolveType,
+}: UnionTypeConfig<ClassType[]>): any {
   const unionMetadataSymbol = getMetadataStorage().collectUnionMetadata({
-    types,
     name,
     description,
+    classTypes,
+    resolveType,
   });
-
   return unionMetadataSymbol;
 }

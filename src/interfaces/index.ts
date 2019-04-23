@@ -8,3 +8,4 @@ export * from "./ResolverFilterData";
 export * from "./ResolverInterface";
 export * from "./resolvers-map";
 export * from "./ResolverTopicData";
+export * from "./TypeResolver";
