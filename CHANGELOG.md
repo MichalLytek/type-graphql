@@ -1,12 +1,13 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+## v0.17.2
 ### Features
 - add support for defining `resolveType` function for interfaces and unions (#319)
-- add postinstall script for printing info on console about supporting the project
 - add support for setting default nullability for fields and return types (#297)
 - add `skipCheck` option in `buildSchema` to disable checking the correctness of a schema
+- add postinstall script for printing info on console about supporting the project
 ### Fixes
 - fix generating plain resolvers for queries and mutations (compatibility with Apollo client state)
 
