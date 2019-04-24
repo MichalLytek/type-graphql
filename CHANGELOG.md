@@ -1,7 +1,8 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+## v0.17.3
 ### Features
 - update packages `semver` to `^6.0.0` and `graphql-subscriptions` to `^1.1.0` 
 ### Fixes
