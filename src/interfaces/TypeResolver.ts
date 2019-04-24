@@ -1,8 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
-import { MaybePromise } from "graphql/jsutils/MaybePromise";
-import Maybe from "graphql/tsutils/Maybe";
 
 import { ClassType } from "./ClassType";
+import { MaybePromise, Maybe } from "./Maybe";
 
 export type TypeResolver<TSource, TContext> = (
   value: TSource,

@@ -1,7 +1,10 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- fix broken compatibility with newer `@types/graphql` due to using removed private types (e.g. `MaybePromise`) (#320)
+
 ## v0.17.2
 ### Features
 - add support for defining `resolveType` function for interfaces and unions (#319)
