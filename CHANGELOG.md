@@ -2,6 +2,8 @@
 
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- update packages `semver` to `^6.0.0` and `graphql-subscriptions` to `^1.1.0` 
 ### Fixes
 - fix broken compatibility with newer `@types/graphql` due to using removed private types (e.g. `MaybePromise`) (#320)
 
