@@ -3,7 +3,7 @@ export class ReflectMetadataMissingError extends Error {
     super(
       "Looks like you've forgot to provide experimental metadata API polyfill. " +
         "Please read the installation instruction for more details: " +
-        "https://github.com/19majkel94/type-graphql#installation",
+        "https://typegraphql.ml/docs/installation.html",
     );
 
     Object.setPrototypeOf(this, new.target.prototype);
