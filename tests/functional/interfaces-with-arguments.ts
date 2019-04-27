@@ -350,7 +350,7 @@ describe("Interfaces with arguments", () => {
       );
     });
 
-    fit("should properly resolve field with nullable argument", async () => {
+    it("should properly resolve field with nullable argument", async () => {
       const query = `query {
         sampleQuery {
           ... on SampleImplementingObject1 {
@@ -369,7 +369,7 @@ describe("Interfaces with arguments", () => {
       );
     });
 
-    fit("should properly resolve field with nullable argument but default value", async () => {
+    it("should properly resolve field with nullable argument but default value", async () => {
       const query = `query {
         sampleQuery {
           ... on SampleImplementingObject1 {
