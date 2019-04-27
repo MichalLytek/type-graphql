@@ -21,6 +21,8 @@ import {
   Query,
   Resolver,
   buildSchema,
+  FieldResolver,
+  Root,
 } from "../../src";
 
 describe("Interfaces with arguments", () => {
@@ -86,11 +88,16 @@ describe("Interfaces with arguments", () => {
         }
       }
 
-      @Resolver()
+      @Resolver(of => SampleImplementingObject1)
       class SampleResolver {
         @Query(returns => [SampleImplementingObject1])
         sampleQuery(): SampleImplementingObject1[] {
           return [];
+        }
+
+        @FieldResolver(type => String)
+        sampleFieldResolver(@Root() sample: SampleImplementingObject1, @Args() args: SampleArgs1) {
+          return `${args.intValue1}-${args.intValue2}`;
         }
       }
 
@@ -153,6 +160,21 @@ describe("Interfaces with arguments", () => {
         type => type.name === "SampleImplementingObject1",
       ) as IntrospectionInterfaceType).fields.find(
         f => f.name === "implemetingObjectTypeFieldArgumentsType",
+      ) as IntrospectionField;
+
+      expect(sampleField.args).toBeDefined();
+      expect(sampleField.args.length).toEqual(2);
+      expect(
+        sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
+      ).toBeTruthy();
+      expect(sampleField.args.find(a => a.name === "intValue1")!.defaultValue).toEqual("50");
+    });
+
+    it("should have proper arguments for the object field-resolver", async () => {
+      const sampleField = (schemaIntrospection.types.find(
+        type => type.name === "SampleImplementingObject1",
+      ) as IntrospectionInterfaceType).fields.find(
+        f => f.name === "sampleFieldResolver",
       ) as IntrospectionField;
 
       expect(sampleField.args).toBeDefined();
@@ -238,11 +260,16 @@ describe("Interfaces with arguments", () => {
         }
       }
 
-      @Resolver()
+      @Resolver(of => SampleImplementingObject1)
       class SampleResolver {
         @Query(returns => [SampleImplementingObject1])
         sampleQuery(): SampleImplementingObject1[] {
           return [new SampleImplementingObject1("sampleId", "sampleString1")];
+        }
+
+        @FieldResolver(type => String)
+        sampleFieldResolver(@Root() sample: SampleImplementingObject1, @Args() args: SampleArgs1) {
+          return resolvedValueString(args.intValue1, args.intValue2);
         }
       }
 
@@ -359,6 +386,21 @@ describe("Interfaces with arguments", () => {
       expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(
         resolvedValueString(50, 200),
       );
+    });
+
+    it("should properly resolve a field-resolver", async () => {
+      const query = `query {
+        sampleQuery {
+          sampleFieldResolver(intValue1: 200, intValue2: 200)
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].sampleFieldResolver).toEqual(resolvedValueString(200, 200));
     });
   });
 });
