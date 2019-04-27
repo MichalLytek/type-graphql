@@ -32,7 +32,7 @@ describe("Interfaces with arguments", () => {
 
       @ArgsType()
       class SampleArgs1 {
-        @Field(type => Int, { nullable: true })
+        @Field(type => Int, { nullable: true, defaultValue: 50 })
         intValue1?: number;
         @Field(type => Int, { nullable: true })
         intValue2?: number;
@@ -131,6 +131,7 @@ describe("Interfaces with arguments", () => {
       expect(
         sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
       ).toBeTruthy();
+      expect(sampleField.args.find(a => a.name === "intValue1")!.defaultValue).toEqual("50");
     });
 
     it("should have proper arguments for the object field with inline arguments", async () => {
@@ -159,6 +160,7 @@ describe("Interfaces with arguments", () => {
       expect(
         sampleField.args.every(arg => ["intValue1", "intValue2"].includes(arg.name)),
       ).toBeTruthy();
+      expect(sampleField.args.find(a => a.name === "intValue1")!.defaultValue).toEqual("50");
     });
   });
 
@@ -172,7 +174,7 @@ describe("Interfaces with arguments", () => {
 
       @ArgsType()
       class SampleArgs1 {
-        @Field(type => Int, { nullable: true })
+        @Field(type => Int, { nullable: true, defaultValue: 50 })
         intValue1?: number;
         @Field(type => Int, { nullable: true })
         intValue2?: number;
@@ -318,6 +320,44 @@ describe("Interfaces with arguments", () => {
       expect(result.length).toEqual(1);
       expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(
         resolvedValueString(200, 200),
+      );
+    });
+
+    fit("should properly resolve field with nullable argument", async () => {
+      const query = `query {
+        sampleQuery {
+          ... on SampleImplementingObject1 {
+            implemetingObjectTypeFieldArgumentsType(intValue1: 200)
+          }
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(
+        resolvedValueString(200, undefined),
+      );
+    });
+
+    fit("should properly resolve field with nullable argument but default value", async () => {
+      const query = `query {
+        sampleQuery {
+          ... on SampleImplementingObject1 {
+            implemetingObjectTypeFieldArgumentsType(intValue2: 200)
+          }
+        }
+      }`;
+
+      const response = await graphql(schema, query);
+
+      const result = response.data!.sampleQuery;
+      expect(result).toBeDefined();
+      expect(result.length).toEqual(1);
+      expect(result[0].implemetingObjectTypeFieldArgumentsType).toEqual(
+        resolvedValueString(50, 200),
       );
     });
   });
