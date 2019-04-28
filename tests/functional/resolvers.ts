@@ -47,6 +47,7 @@ import {
   ConflictingDefaultValuesError,
   ConflictingDefaultWithNullableError,
   WrongNullableListOptionError,
+  createParamDecorator,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -1082,6 +1083,8 @@ describe("Resolvers", () => {
     let queryRoot: any;
     let queryContext: any;
     let queryInfo: any;
+    let queryFirstCustom: any;
+    let querySecondCustom: any;
     let descriptorEvaluated: boolean;
     let sampleObjectConstructorCallCount: number;
 
@@ -1119,12 +1122,17 @@ describe("Resolvers", () => {
       queryRoot = undefined;
       queryContext = undefined;
       queryInfo = undefined;
+      queryFirstCustom = undefined;
+      querySecondCustom = undefined;
       descriptorEvaluated = false;
       sampleObjectConstructorCallCount = 0;
     });
 
     beforeAll(async () => {
       getMetadataStorage().clear();
+
+      const FirstCustomArgDecorator = () => createParamDecorator(resolverData => resolverData);
+      const SecondCustomArgDecorator = (arg: string) => createParamDecorator(async () => arg);
 
       @ArgsType()
       class SampleArgs {
@@ -1232,6 +1240,16 @@ describe("Resolvers", () => {
         ): boolean {
           queryRoot = rootField;
           queryContext = contextField;
+          return true;
+        }
+
+        @Query()
+        queryWithCustomDecorators(
+          @FirstCustomArgDecorator() firstCustom: any,
+          @SecondCustomArgDecorator("secondCustom") secondCustom: any,
+        ): boolean {
+          queryFirstCustom = firstCustom;
+          querySecondCustom = secondCustom;
           return true;
         }
 
@@ -1549,6 +1567,23 @@ describe("Resolvers", () => {
 
       expect(queryRoot).toEqual(2);
       expect(queryContext).toEqual("present");
+    });
+
+    it("should inject resolver data to custom arg decorator resolver and return its value", async () => {
+      const query = /* graphql */ `
+        query {
+          queryWithCustomDecorators
+        }
+      `;
+      const root = { rootField: 2 };
+      const context = { contextField: "present" };
+
+      await graphql(schema, query, root, context);
+
+      expect(queryFirstCustom.root).toEqual(root);
+      expect(queryFirstCustom.context).toEqual(context);
+      expect(queryFirstCustom.info).toBeDefined();
+      expect(querySecondCustom).toEqual("secondCustom");
     });
 
     it("should allow for overwriting descriptor value in custom decorator", async () => {
