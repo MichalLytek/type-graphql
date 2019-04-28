@@ -274,6 +274,26 @@
       "version-0.17.1-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-0.17.2-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-0.17.2-getting-started": {
+        "title": "Getting started"
+      },
+      "version-0.17.2-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-0.17.2-introduction": {
+        "title": "Introduction",
+        "sidebar_label": "What & Why"
+      },
+      "version-0.17.2-types-and-fields": {
+        "title": "Types and Fields"
+      },
+      "version-0.17.2-unions": {
+        "title": "Unions"
       }
     },
     "links": {

@@ -1,5 +1,7 @@
 ---
 title: Interfaces
+id: version-0.17.2-interfaces
+original_id: interfaces
 ---
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
@@ -34,24 +36,10 @@ We can then we use this "interface" in the object type class definition:
 
 ```typescript
 @ObjectType({ implements: IPerson })
-class Person extends IPerson {
+class Person implements IPerson {
   id: string;
   name: string;
   age: number;
-}
-```
-
-We can also define dynamic fields for an interface using the same syntax you would use when defining one for your object types:
-
-```typescript
-@InterfaceType()
-abstract class IPerson {
-  // ...
-
-  @Field()
-  avatar(@Arg("size") size: number): string {
-    return `http://i.pravatar.cc/${size}`;
-  }
 }
 ```
 
@@ -83,4 +71,4 @@ However in case of interfaces, it might be a little bit more tricky than with un
 
 ## Examples
 
-For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
+For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](https://github.com/19majkel94/type-graphql/tree/v0.17.2/examples/interfaces-inheritance).

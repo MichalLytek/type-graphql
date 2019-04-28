@@ -1,5 +1,7 @@
 ---
 title: Unions
+id: version-0.17.2-unions
+original_id: unions
 ---
 
 Sometimes our API has to be flexible and return a type that is not specific but one from a range of possible types. An example might be a movie site's search functionality: using the provided phrase we search the database for movies but also actors. So the query has to return a list of `Movie` or `Actor` types.
@@ -104,4 +106,4 @@ query {
 
 ## Examples
 
-More advanced usage examples of unions (and enums) are located in [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/enums-and-unions).
+More advanced usage examples of unions (and enums) are located in [this examples folder](https://github.com/19majkel94/type-graphql/tree/v0.17.2/examples/enums-and-unions).

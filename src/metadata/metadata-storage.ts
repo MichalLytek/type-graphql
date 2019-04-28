@@ -21,16 +21,18 @@ import {
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
 } from "./utils";
+import { ObjectClassMetadata } from "./definitions/object-class-metdata";
+import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
   mutations: ResolverMetadata[] = [];
   subscriptions: SubscriptionResolverMetadata[] = [];
   fieldResolvers: FieldResolverMetadata[] = [];
-  objectTypes: ClassMetadata[] = [];
+  objectTypes: ObjectClassMetadata[] = [];
   inputTypes: ClassMetadata[] = [];
   argumentTypes: ClassMetadata[] = [];
-  interfaceTypes: ClassMetadata[] = [];
+  interfaceTypes: InterfaceClassMetadata[] = [];
   authorizedFields: AuthorizedMetadata[] = [];
   enums: EnumMetadata[] = [];
   unions: UnionMetadataWithSymbol[] = [];
@@ -56,7 +58,7 @@ export class MetadataStorage {
   collectFieldResolverMetadata(definition: FieldResolverMetadata) {
     this.fieldResolvers.push(definition);
   }
-  collectObjectMetadata(definition: ClassMetadata) {
+  collectObjectMetadata(definition: ObjectClassMetadata) {
     this.objectTypes.push(definition);
   }
   collectInputMetadata(definition: ClassMetadata) {
@@ -65,7 +67,7 @@ export class MetadataStorage {
   collectArgsMetadata(definition: ClassMetadata) {
     this.argumentTypes.push(definition);
   }
-  collectInterfaceMetadata(definition: ClassMetadata) {
+  collectInterfaceMetadata(definition: InterfaceClassMetadata) {
     this.interfaceTypes.push(definition);
   }
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {

@@ -4,9 +4,19 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - add support for arguments in fields of interfaces (#284)
-- add postinstall script for printing info on console about supporting the project
+
+## v0.17.3
+### Features
+- update packages `semver` to `^6.0.0` and `graphql-subscriptions` to `^1.1.0` 
+### Fixes
+- fix broken compatibility with newer `@types/graphql` due to using removed private types (e.g. `MaybePromise`) (#320)
+
+## v0.17.2
+### Features
+- add support for defining `resolveType` function for interfaces and unions (#319)
 - add support for setting default nullability for fields and return types (#297)
 - add `skipCheck` option in `buildSchema` to disable checking the correctness of a schema
+- add postinstall script for printing info on console about supporting the project
 ### Fixes
 - fix generating plain resolvers for queries and mutations (compatibility with Apollo client state)
 
