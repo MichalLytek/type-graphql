@@ -3,6 +3,7 @@ export { Args } from "./Args";
 export { ArgsType } from "./ArgsType";
 export { Authorized } from "./Authorized";
 export { createParamDecorator } from "./createParamDecorator";
+export { createMethodDecorator } from "./createMethodDecorator";
 export { Ctx } from "./Ctx";
 export { registerEnumType } from "./enums";
 export { Field } from "./Field";
