@@ -180,28 +180,8 @@ const schema = await buildSchema({
 
 ### Custom Decorators
 
-If we want to have a more descriptive and declarative API, we can also create custom decorators. They work in the same way as the reusable middleware function, however, in this case we need to return the `UseMiddleware` decorator function:
+If we want to use middlewares with a more descriptive and declarative API, we can also create a custom method decorators. See how to do this in [custom decorators docs](custom-decorators.md#method-decorators).
 
-```typescript
-export function ValidateArgs<T extends object>(schema: Schema<T>) {
-  return UseMiddleware(async ({ args }, next) => {
-    // here place your validation logic, e.g. based on schema using joi
-    await joiValidate(schema, args);
-    return next();
-  });
-}
-```
+## Example
 
-The usage is then very simple, as we have a custom, descriptive decorator - we just place it above the resolver/field and pass the required arguments to the id:
-
-```typescript
-@Resolver()
-export class RecipeResolver {
-  @Query()
-  @ValidateArgs(MyArgsSchema) // custom decorator
-  @UseMiddleware(ResolveTime) // explicit middleware
-  randomValue(@Args() { scale }: MyArgs): number {
-    return Math.random() * scale;
-  }
-}
-```
+See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/19majkel94/type-graphql/tree/master/examples/middlewares-custom-decorators).

@@ -17,6 +17,9 @@
       "complexity": {
         "title": "Query complexity"
       },
+      "custom-decorators": {
+        "title": "Custom decorators"
+      },
       "dependency-injection": {
         "title": "Dependency injection"
       },
