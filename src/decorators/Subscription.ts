@@ -8,10 +8,12 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getResolverMetadata } from "../helpers/resolver-metadata";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { MissingSubscriptionTopicsError } from "../errors";
+import { ResolverFn } from "graphql-subscriptions";
 
 export interface SubscriptionOptions extends AdvancedOptions {
   topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
+  subscribe?: ResolverFn;
 }
 
 export function Subscription(options: SubscriptionOptions): MethodDecorator;
@@ -34,6 +36,7 @@ export function Subscription(
       ...metadata,
       topics: subscriptionOptions.topics,
       filter: subscriptionOptions.filter,
+      subscribe: subscriptionOptions.subscribe,
     });
   };
 }

@@ -54,6 +54,30 @@ class SampleResolver {
 }
 ```
 
+You can also provide a custom subscription logic, if you pass it to the `subscribe` option. The could become useful, if you want to use the Prisma subscription functionality or something similar.
+
+This function should return an`AsyncIterator<any>` type.
+
+```typescript
+class SampleResolver {
+  // ...
+  @Subscription({
+    topics: "",
+    subscribe: ({ args, context }) =>
+      context.prisma.$subscribe.users({ mutation_in: [args.mutationType] }),
+  })
+  newNotification(): Notification {
+    // ...
+  }
+}
+```
+
+Please consider, that the `subscribe` option has 2 restrictions:
+
+- if you are using this option, `topics` and `filter` become useless. If you still need a filter function, you can use the `withFilter` function from the `graphql-subscriptions` package.
+- as this option does not have any access to class properties, DI might not be easy or even impossible.  
+  <br>
+
 Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There, we can transform it to the returned shape.
 
 ```typescript

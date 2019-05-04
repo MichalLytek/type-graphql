@@ -10,6 +10,7 @@ import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 import { EventEmitter } from "events";
 import { ApolloServer } from "apollo-server";
+import { PubSub as LocalPubSub } from "graphql-subscriptions";
 
 import {
   Subscription,
@@ -126,6 +127,7 @@ describe("Subscriptions", () => {
     let schema: GraphQLSchema;
     let apolloClient: ApolloClient<any>;
     let apolloServer: ApolloServer;
+    const localPubSub: PubSubEngine = new LocalPubSub();
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -138,6 +140,7 @@ describe("Subscriptions", () => {
 
       const SAMPLE_TOPIC = "SAMPLE";
       const OTHER_TOPIC = "OTHER";
+      const CUSTOM_SUBSCRIBE_TOPIC = "CUSTOM_SUBSCRIBE_TOPIC";
       @Resolver()
       class SampleResolver {
         @Query()
@@ -151,6 +154,12 @@ describe("Subscriptions", () => {
           @PubSub() pubSub: PubSubEngine,
         ): Promise<boolean> {
           await pubSub.publish(SAMPLE_TOPIC, value);
+          return true;
+        }
+
+        @Mutation(returns => Boolean)
+        async pubSubMutationCustomSubscription(@Arg("value") value: number): Promise<boolean> {
+          await localPubSub.publish(CUSTOM_SUBSCRIBE_TOPIC, value);
           return true;
         }
 
@@ -202,6 +211,14 @@ describe("Subscriptions", () => {
 
         @Subscription({ topics: ({ args }) => args.topic })
         dynamicTopicSubscription(@Root() value: number, @Arg("topic") topic: string): SampleObject {
+          return { value };
+        }
+
+        @Subscription({
+          topics: "",
+          subscribe: () => localPubSub.asyncIterator(CUSTOM_SUBSCRIBE_TOPIC),
+        })
+        customSubscribeSubscription(@Root() value: number): SampleObject {
           return { value };
         }
       }
@@ -556,6 +573,32 @@ describe("Subscriptions", () => {
         expect(err.message).toContain("SampleResolver");
         expect(err.message).toContain("sampleSubscription");
       }
+    });
+
+    it("should correctly subscribe with custom subscribe function", async () => {
+      let subscriptionValue!: number;
+      const testedValue = Math.PI;
+      const subscriptionQuery = gql`
+        subscription {
+          customSubscribeSubscription {
+            value
+          }
+        }
+      `;
+      const mutation = gql`
+        mutation {
+          pubSubMutationCustomSubscription(value: ${testedValue})
+        }
+      `;
+
+      apolloClient.subscribe({ query: subscriptionQuery }).subscribe({
+        next: ({ data }) => {
+          subscriptionValue = data!.customSubscribeSubscription.value;
+        },
+      });
+      await apolloClient.mutate({ mutation });
+
+      expect(subscriptionValue).toEqual(testedValue);
     });
   });
 });

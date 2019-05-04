@@ -448,6 +448,11 @@ export abstract class SchemaGenerator {
         return fields;
       }
 
+      if (handler.subscribe) {
+        fields[handler.schemaName].subscribe = handler.subscribe;
+        return fields;
+      }
+
       let pubSubIterator: ResolverFn;
       if (typeof handler.topics === "function") {
         const getTopics = handler.topics;

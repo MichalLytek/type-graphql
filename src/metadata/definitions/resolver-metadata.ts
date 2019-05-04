@@ -8,6 +8,7 @@ import {
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
+import { ResolverFn } from "graphql-subscriptions";
 
 export interface BaseResolverMetadata {
   methodName: string;
@@ -39,6 +40,7 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
 export interface SubscriptionResolverMetadata extends ResolverMetadata {
   topics: string | string[] | SubscriptionTopicFunc;
   filter: SubscriptionFilterFunc | undefined;
+  subscribe: ResolverFn | undefined;
 }
 
 export interface ResolverClassMetadata {
