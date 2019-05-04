@@ -130,6 +130,20 @@ describe("buildTypeDefsAndResolvers", () => {
       description: "SampleUnion description",
     });
 
+    const SampleResolveUnion = createUnionType({
+      types: [SampleType2, SampleType3],
+      name: "SampleResolveUnion",
+      resolveType: value => {
+        if ("sampleType2StringField" in value) {
+          return "SampleType2";
+        }
+        if ("sampleType3StringField" in value) {
+          return "SampleType3";
+        }
+        return;
+      },
+    });
+
     @Resolver()
     class SampleResolver {
       constructor(private readonly sampleService: SampleService) {}
@@ -186,6 +200,14 @@ describe("buildTypeDefsAndResolvers", () => {
         type3.sampleType3StringField = "sampleType3StringField";
 
         return type3;
+      }
+
+      @Query(returns => SampleResolveUnion)
+      sampleResolveUnionQuery(): typeof SampleResolveUnion {
+        return {
+          sampleInterfaceStringField: "sampleInterfaceStringField",
+          sampleType3StringField: "sampleType3StringField",
+        };
       }
 
       @Query(returns => SampleNumberEnum)
@@ -317,7 +339,7 @@ describe("buildTypeDefsAndResolvers", () => {
         it => it.name === schemaIntrospection.queryType.name,
       ) as IntrospectionObjectType;
 
-      expect(queryType.fields).toHaveLength(7);
+      expect(queryType.fields).toHaveLength(8);
     });
 
     it("should generate mutations", async () => {
@@ -484,6 +506,26 @@ describe("buildTypeDefsAndResolvers", () => {
       const { data } = await execute(schema, document);
 
       expect(data.sampleUnionQuery).toEqual({
+        sampleInterfaceStringField: "sampleInterfaceStringField",
+        sampleType3StringField: "sampleType3StringField",
+      });
+    });
+
+    it("should detect returned object type using resolveType from union", async () => {
+      const document = gql`
+        query {
+          sampleResolveUnionQuery {
+            ... on SampleType3 {
+              sampleInterfaceStringField
+              sampleType3StringField
+            }
+          }
+        }
+      `;
+
+      const { data } = await execute(schema, document);
+
+      expect(data.sampleResolveUnionQuery).toEqual({
         sampleInterfaceStringField: "sampleInterfaceStringField",
         sampleType3StringField: "sampleType3StringField",
       });
