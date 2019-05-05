@@ -465,7 +465,7 @@ export abstract class SchemaGenerator {
           return pubSub.asyncIterator(topics);
         };
       } else {
-        const topics = handler.topics;
+        const topics = handler.topics!;
         pubSubIterator = () => pubSub.asyncIterator(topics);
       }
 

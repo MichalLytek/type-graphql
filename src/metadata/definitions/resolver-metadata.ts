@@ -1,3 +1,5 @@
+import { ResolverFn } from "graphql-subscriptions";
+
 import {
   TypeValueThunk,
   TypeOptions,
@@ -8,7 +10,6 @@ import {
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
-import { ResolverFn } from "graphql-subscriptions";
 
 export interface BaseResolverMetadata {
   methodName: string;
@@ -38,7 +39,7 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
 }
 
 export interface SubscriptionResolverMetadata extends ResolverMetadata {
-  topics: string | string[] | SubscriptionTopicFunc;
+  topics: string | string[] | SubscriptionTopicFunc | undefined;
   filter: SubscriptionFilterFunc | undefined;
   subscribe: ResolverFn | undefined;
 }

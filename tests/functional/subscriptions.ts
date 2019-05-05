@@ -214,10 +214,7 @@ describe("Subscriptions", () => {
           return { value };
         }
 
-        @Subscription({
-          topics: "",
-          subscribe: () => localPubSub.asyncIterator(CUSTOM_SUBSCRIBE_TOPIC),
-        })
+        @Subscription({ subscribe: () => localPubSub.asyncIterator(CUSTOM_SUBSCRIBE_TOPIC) })
         customSubscribeSubscription(@Root() value: number): SampleObject {
           return { value };
         }
