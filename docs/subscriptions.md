@@ -54,6 +54,26 @@ class SampleResolver {
 }
 ```
 
+We can also provide a custom subscription logic which might be useful, e.g. if we want to use the Prisma subscription functionality or something similar.
+
+All we need to do is to use the the `subscribe` option which should be a function that returns an `AsyncIterator`. Example using Prisma client subscription feature:
+
+```typescript
+class SampleResolver {
+  // ...
+  @Subscription({
+    subscribe: ({ args, context }) => {
+      return context.prisma.$subscribe.users({ mutation_in: [args.mutationType] });
+    },
+  })
+  newNotification(): Notification {
+    // ...
+  }
+}
+```
+
+> Be aware that we can't mix the `subscribe` option with the `topics` and `filter` options. If the filtering is still needed, we can use the [`withFilter` function](https://github.com/apollographql/graphql-subscriptions#filters) from the `graphql-subscriptions` package.
+
 Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There, we can transform it to the returned shape.
 
 ```typescript

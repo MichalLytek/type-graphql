@@ -1,3 +1,5 @@
+import { ResolverFn } from "graphql-subscriptions";
+
 import {
   ReturnTypeFunc,
   AdvancedOptions,
@@ -8,11 +10,18 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getResolverMetadata } from "../helpers/resolver-metadata";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { MissingSubscriptionTopicsError } from "../errors";
+import { MergeExclusive } from "../utils/types";
 
-export interface SubscriptionOptions extends AdvancedOptions {
+interface PubSubOptions {
   topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
 }
+
+interface SubscribeOptions {
+  subscribe: ResolverFn;
+}
+
+export type SubscriptionOptions = AdvancedOptions & MergeExclusive<PubSubOptions, SubscribeOptions>;
 
 export function Subscription(options: SubscriptionOptions): MethodDecorator;
 export function Subscription(
@@ -23,17 +32,18 @@ export function Subscription(
   returnTypeFuncOrOptions: ReturnTypeFunc | SubscriptionOptions,
   maybeOptions?: SubscriptionOptions,
 ): MethodDecorator {
-  const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
+  const params = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);
+  const options = params.options as SubscriptionOptions;
   return (prototype, methodName) => {
-    const metadata = getResolverMetadata(prototype, methodName, returnTypeFunc, options);
-    const subscriptionOptions = options as SubscriptionOptions;
+    const metadata = getResolverMetadata(prototype, methodName, params.returnTypeFunc, options);
     if (Array.isArray(options.topics) && options.topics.length === 0) {
       throw new MissingSubscriptionTopicsError(metadata.target, metadata.methodName);
     }
     getMetadataStorage().collectSubscriptionHandlerMetadata({
       ...metadata,
-      topics: subscriptionOptions.topics,
-      filter: subscriptionOptions.filter,
+      topics: options.topics,
+      filter: options.filter,
+      subscribe: options.subscribe,
     });
   };
 }
