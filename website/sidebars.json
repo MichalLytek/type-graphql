@@ -16,6 +16,7 @@
       "inheritance",
       "generic-types",
       "middlewares",
+      "custom-decorators",
       "complexity"
     ],
     "Others": ["emit-schema", "browser-usage"]

@@ -1,6 +1,7 @@
 import { ValidatorOptions } from "class-validator";
 
 import { TypeValueThunk, TypeOptions } from "../../decorators/types";
+import { ResolverData } from "../../interfaces";
 
 export interface BasicParamMetadata {
   target: Function;
@@ -36,6 +37,10 @@ export interface ArgParamMetadata extends CommonArgMetadata {
 export interface ArgsParamMetadata extends CommonArgMetadata {
   kind: "args";
 }
+export interface CustomParamMetadata extends BasicParamMetadata {
+  kind: "custom";
+  resolver: (resolverData: ResolverData<any>) => any;
+}
 // prettier-ignore
 export type ParamMetadata =
   | InfoParamMetadata
@@ -44,4 +49,5 @@ export type ParamMetadata =
   | RootParamMetadata
   | ArgParamMetadata
   | ArgsParamMetadata
+  | CustomParamMetadata
 ;

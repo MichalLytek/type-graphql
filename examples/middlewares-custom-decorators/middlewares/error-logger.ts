@@ -2,7 +2,6 @@ import { Service } from "typedi";
 import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "../../../src";
 
 import { Context } from "../context";
-import { Middleware } from "../../../src/interfaces/Middleware";
 import { Logger } from "../logger";
 
 @Service()
@@ -17,7 +16,7 @@ export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
         message: err.message,
         operation: info.operation.operation,
         fieldName: info.fieldName,
-        userName: context.username,
+        userName: context.currentUser.name,
       });
       if (!(err instanceof ArgumentValidationError)) {
         // hide errors from db like printing sql query

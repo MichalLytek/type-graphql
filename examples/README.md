@@ -27,7 +27,7 @@ So if you are looking for examples that are compatible with the version you use,
 - [Types inheritance](./interfaces-inheritance)
 - [Resolvers inheritance](./resolvers-inheritance)
 - [Generic types](./generic-types)
-- [Middlewares](./middlewares)
+- [Middlewares and custom decorators](./middlewares-custom-decorators)
 
 ## 3rd party libs integration
 

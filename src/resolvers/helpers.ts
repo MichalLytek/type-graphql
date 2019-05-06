@@ -11,7 +11,7 @@ import { AuthMiddleware } from "../helpers/auth-middleware";
 
 export async function getParams(
   params: ParamMetadata[],
-  { root, args, context, info }: ResolverData<any>,
+  resolverData: ResolverData<any>,
   globalValidate: boolean | ValidatorOptions,
   pubSub: PubSubEngine,
 ): Promise<any[]> {
@@ -22,34 +22,38 @@ export async function getParams(
         switch (paramInfo.kind) {
           case "args":
             return await validateArg(
-              convertToType(paramInfo.getType(), args),
+              convertToType(paramInfo.getType(), resolverData.args),
               globalValidate,
               paramInfo.validate,
             );
           case "arg":
             return await validateArg(
-              convertToType(paramInfo.getType(), args[paramInfo.name]),
+              convertToType(paramInfo.getType(), resolverData.args[paramInfo.name]),
               globalValidate,
               paramInfo.validate,
             );
           case "context":
             if (paramInfo.propertyName) {
-              return context[paramInfo.propertyName];
+              return resolverData.context[paramInfo.propertyName];
             }
-            return context;
+            return resolverData.context;
           case "root":
-            const rootValue = paramInfo.propertyName ? root[paramInfo.propertyName] : root;
+            const rootValue = paramInfo.propertyName
+              ? resolverData.root[paramInfo.propertyName]
+              : resolverData.root;
             if (!paramInfo.getType) {
               return rootValue;
             }
             return convertToType(paramInfo.getType(), rootValue);
           case "info":
-            return info;
+            return resolverData.info;
           case "pubSub":
             if (paramInfo.triggerKey) {
               return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
             }
             return pubSub;
+          case "custom":
+            return await paramInfo.resolver(resolverData);
         }
       }),
   );

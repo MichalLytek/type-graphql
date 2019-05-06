@@ -20,6 +20,7 @@ import {
   NextFn,
   ResolverData,
 } from "../../src";
+import { createMethodDecorator } from "../../src/decorators/createMethodDecorator";
 
 describe("Middlewares", () => {
   let schema: GraphQLSchema;
@@ -98,6 +99,10 @@ describe("Middlewares", () => {
         return result;
       }
     }
+    const CustomMethodDecorator = createMethodDecorator(async (resolverData, next) => {
+      middlewareLogs.push("CustomMethodDecorator");
+      return next();
+    });
 
     @ObjectType()
     class SampleObject {
@@ -198,6 +203,13 @@ describe("Middlewares", () => {
       classMiddlewareQuery(): string {
         middlewareLogs.push("classMiddlewareQuery");
         return "classMiddlewareQueryResult";
+      }
+
+      @Query()
+      @CustomMethodDecorator
+      customMethodDecoratorQuery(): string {
+        middlewareLogs.push("customMethodDecoratorQuery");
+        return "customMethodDecoratorQuery";
       }
 
       @FieldResolver()
@@ -367,13 +379,26 @@ describe("Middlewares", () => {
       classMiddlewareQuery
     }`;
 
-    const { data, errors } = await graphql(schema, query);
+    const { data } = await graphql(schema, query);
 
     expect(data!.classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
     expect(middlewareLogs).toHaveLength(3);
     expect(middlewareLogs[0]).toEqual("ClassMiddleware before");
     expect(middlewareLogs[1]).toEqual("classMiddlewareQuery");
     expect(middlewareLogs[2]).toEqual("ClassMiddleware after");
+  });
+
+  it("should correctly call resolver of custom method decorator", async () => {
+    const query = `query {
+      customMethodDecoratorQuery
+    }`;
+
+    const { data } = await graphql(schema, query);
+
+    expect(data!.customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
+    expect(middlewareLogs).toHaveLength(2);
+    expect(middlewareLogs[0]).toEqual("CustomMethodDecorator");
+    expect(middlewareLogs[1]).toEqual("customMethodDecoratorQuery");
   });
 
   it("should call middlewares for normal field", async () => {
