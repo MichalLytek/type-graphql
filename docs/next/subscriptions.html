@@ -98,6 +98,23 @@ This function should return a <code>boolean</code> or <code>Promise&lt;boolean&g
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<p>We can also provide a custom subscription logic which might be useful, e.g. if we want to use the Prisma subscription functionality or something similar.</p>
+<p>All we need to do is to use the the <code>subscribe</code> option which should be a function that returns an <code>AsyncIterator</code>. Example using Prisma client subscription feature:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">SampleResolver</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  @<span class="token function">Subscription</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    subscribe<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> args<span class="token punctuation">,</span> context <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> context<span class="token punctuation">.</span>prisma<span class="token punctuation">.</span>$subscribe<span class="token punctuation">.</span><span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">{</span> mutation_in<span class="token punctuation">:</span> <span class="token punctuation">[</span>args<span class="token punctuation">.</span>mutationType<span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token function">newNotification</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Notification <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>Be aware that we can't mix the <code>subscribe</code> option with the <code>topics</code> and <code>filter</code> options. If the filtering is still needed, we can use the <a href="https://github.com/apollographql/graphql-subscriptions#filters"><code>withFilter</code> function</a> from the <code>graphql-subscriptions</code> package.</p>
+</blockquote>
 <p>Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the <code>@Root()</code> decorator. There, we can transform it to the returned shape.</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">SampleResolver</span> <span class="token punctuation">{</span>
   <span class="token comment">// ...</span>
