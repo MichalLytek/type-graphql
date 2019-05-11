@@ -1,10 +1,11 @@
-import { GraphQLScalarType } from "graphql";
+import { GraphQLFieldResolver, GraphQLScalarType } from "graphql";
 import { ValidatorOptions } from "class-validator";
 import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 
-import { AuthChecker, AuthMode } from "../interfaces";
+import { AuthChecker, AuthMode, ClassType } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
 import { ContainerType, ContainerGetter, IOCContainer } from "../utils/container";
+import { BaseResolverMetadata } from "../metadata/definitions";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 
@@ -30,6 +31,7 @@ export interface BuildContextOptions {
    * Default value for type decorators, like `@Field({ nullable: true })`
    */
   nullableByDefault?: boolean;
+  resolverBuilder?: (metadata: BaseResolverMetadata) => GraphQLFieldResolver<any, any, any>;
 }
 
 export abstract class BuildContext {
@@ -42,6 +44,7 @@ export abstract class BuildContext {
   static globalMiddlewares: Array<Middleware<any>>;
   static container: IOCContainer;
   static nullableByDefault: boolean;
+  static resolverBuilder?: (metadata: BaseResolverMetadata) => GraphQLFieldResolver<any, any, any>;
 
   /**
    * Set static fields with current building context data
@@ -83,6 +86,10 @@ export abstract class BuildContext {
 
     if (options.nullableByDefault !== undefined) {
       this.nullableByDefault = options.nullableByDefault;
+    }
+
+    if (options.resolverBuilder !== undefined) {
+      this.resolverBuilder = options.resolverBuilder;
     }
   }
 

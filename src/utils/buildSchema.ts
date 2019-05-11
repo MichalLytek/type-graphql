@@ -1,4 +1,4 @@
-import { GraphQLSchema } from "graphql";
+import { GraphQLFieldResolver, GraphQLSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
 
@@ -9,6 +9,8 @@ import {
   emitSchemaDefinitionFile,
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
+import { ClassType } from "../interfaces";
+import { BaseResolverMetadata } from "../metadata/definitions";
 
 interface EmitSchemaFileOptions extends PrintSchemaOptions {
   path?: string;
@@ -23,7 +25,13 @@ export interface BuildSchemaOptions extends SchemaGeneratorOptions {
    * or `true` for the default `./schema.gql` one
    */
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
+
+  /**
+   * Resolver builder function that overrides generating resolvers for framework integrations
+   */
+  resolverBuilder?: (metadata: BaseResolverMetadata) => GraphQLFieldResolver<any, any, any>;
 }
+
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   loadResolvers(options);
   const schema = await SchemaGenerator.generateFromMetadata(options);

@@ -20,23 +20,28 @@ export function createHandlerResolver(
     pubSub,
     globalMiddlewares,
     container,
+    resolverBuilder,
   } = BuildContext;
-  const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
-  applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
+  if (!resolverBuilder) {
+    const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
+    applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
-  return async (root, args, context, info) => {
-    const resolverData: ResolverData<any> = { root, args, context, info };
-    const targetInstance = container.getInstance(resolverMetadata.target, resolverData);
-    return applyMiddlewares(container, resolverData, middlewares, async () => {
-      const params: any[] = await getParams(
-        resolverMetadata.params!,
-        resolverData,
-        globalValidate,
-        pubSub,
-      );
-      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
-    });
-  };
+    return async (root, args, context, info) => {
+      const resolverData: ResolverData<any> = { root, args, context, info };
+      const targetInstance = container.getInstance(resolverMetadata.target, resolverData);
+      return applyMiddlewares(container, resolverData, middlewares, async () => {
+        const params: any[] = await getParams(
+          resolverMetadata.params!,
+          resolverData,
+          globalValidate,
+          pubSub,
+        );
+        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
+      });
+    };
+  } else {
+    return resolverBuilder(resolverMetadata);
+  }
 }
 
 export function createAdvancedFieldResolver(
