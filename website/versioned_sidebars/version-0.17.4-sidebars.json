@@ -1,0 +1,45 @@
+{
+  "version-0.17.4-docs": {
+    "Introduction": [
+      "version-0.17.4-introduction"
+    ],
+    "Beginner guides": [
+      "version-0.17.4-installation",
+      "version-0.17.4-getting-started",
+      "version-0.17.4-types-and-fields",
+      "version-0.17.4-resolvers",
+      "version-0.17.4-bootstrap"
+    ],
+    "Advanced guides": [
+      "version-0.17.4-scalars",
+      "version-0.17.4-enums",
+      "version-0.17.4-unions",
+      "version-0.17.4-interfaces",
+      "version-0.17.4-subscriptions"
+    ],
+    "Features": [
+      "version-0.17.4-dependency-injection",
+      "version-0.17.4-authorization",
+      "version-0.17.4-validation",
+      "version-0.17.4-inheritance",
+      "version-0.17.4-generic-types",
+      "version-0.17.4-middlewares",
+      "version-0.17.4-custom-decorators",
+      "version-0.17.4-complexity"
+    ],
+    "Others": [
+      "version-0.17.4-emit-schema",
+      "version-0.17.4-browser-usage"
+    ]
+  },
+  "version-0.17.4-examples": {
+    "Examples": [
+      "version-0.17.4-examples"
+    ]
+  },
+  "version-0.17.4-others": {
+    "Others": [
+      "version-0.17.4-faq"
+    ]
+  }
+}

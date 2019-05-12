@@ -297,6 +297,25 @@
       },
       "version-0.17.2-unions": {
         "title": "Unions"
+      },
+      "version-0.17.4-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-0.17.4-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-0.17.4-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-0.17.4-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-0.17.4-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-0.17.4-unions": {
+        "title": "Unions"
       }
     },
     "links": {

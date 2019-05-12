@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v0.17.4
 ## Features
 - add support for creating custom parameter decorators (#329)
 - allow to provide custom `subscribe` function in `@Subscription` decorator (#328)
