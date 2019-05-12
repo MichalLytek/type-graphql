@@ -41,6 +41,36 @@ a:hover {
   padding: 15px 30px 15px 15px;
 }
 
+#sponsors {
+  background-color: #f9f9f9;
+  margin-top: -36px;
+  padding-bottom: 60px;
+}
+
+#sponsors .wrapper {
+  display: block;
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+#sponsors .tiles {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#sponsors .tiles > a {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0 20px 20px;
+  align-items: center;
+  justify-content: stretch;
+}
+#sponsors .tiles > a > :first-child {
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
 .want-more-section {
   padding: 30px 0;
 }
@@ -109,6 +139,9 @@ a:hover {
   }
   .nav.toc {
     width: 100%;
+  }
+  #sponsors .wrapper {
+    padding: 40px 20px 0;
   }
 }
 

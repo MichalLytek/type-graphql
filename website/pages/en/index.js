@@ -223,26 +223,53 @@ const InteroperableSection = props => (
 );
 
 const CollectiveSection = props => (
-  <Container id="collective" padding={["bottom", "top"]} className="snippet-container highlight">
-    <GridBlock
-      align="left"
-      contents={[
-        {
-          title: "Community supported",
-          content:
-            "TypeGraphQL is an MIT-licensed open source project. It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.<br><br>If you fell in love with TypeGraphQL, please consider supporting our efforts and help it grow, especially if you are using it commercially - just to ensure that the project which your product relies on is actively maintained and improved.",
-        },
-      ]}
-    />
-    <div className="collective-button">
-      <a href="https://opencollective.com/typegraphql">
-        <img
-          srcSet="https://opencollective.com/typegraphql/donate/button.png?color=blue, https://opencollective.com/typegraphql/donate/button@2x.png?color=blue 2x"
-          src="https://opencollective.com/typegraphql/donate/button.png?color=blue"
-        />
-      </a>
+  <React.Fragment>
+    <Container id="collective" padding={["top"]} className="snippet-container highlight">
+      <GridBlock
+        align="left"
+        contents={[
+          {
+            title: "Community supported",
+            content:
+              "TypeGraphQL is an MIT-licensed open source project. It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.<br><br>If you fell in love with TypeGraphQL, please consider supporting our efforts and help it grow, especially if you are using it commercially - just to ensure that the project which your product relies on is actively maintained and improved.",
+          },
+        ]}
+      />
+      <div className="collective-button">
+        <a href="https://opencollective.com/typegraphql">
+          <img
+            srcSet="https://opencollective.com/typegraphql/donate/button.png?color=blue, https://opencollective.com/typegraphql/donate/button@2x.png?color=blue 2x"
+            src="https://opencollective.com/typegraphql/donate/button.png?color=blue"
+          />
+        </a>
+      </div>
+    </Container>
+    <div id="sponsors" className="snippet-container">
+      <div className="wrapper">
+        <h3>Sponsors 🚀</h3>
+        <div className="tiles">
+          <a href="https://gorrion.io/">
+            <img
+              src="https://d33wubrfki0l68.cloudfront.net/f3b1ddcebb093d3c7689d1e6ca7cd4f54cecd258/4fb6e/images/gorrionsidelogotype.svg"
+              width="250"
+            />
+            <span>Gorrion Software House</span>
+          </a>
+          <a href="https://opencollective.com/demid-nikitin">
+            <img
+              src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg"
+              height="100"
+            />
+            <span>Demid Nikitin</span>
+          </a>
+        </div>
+        <h3>Backers ☕</h3>
+        <a href="https://opencollective.com/typegraphql#contributors">
+          <img src="https://opencollective.com/typegraphql/backers.svg?width=1024&button=false" />
+        </a>
+      </div>
     </div>
-  </Container>
+  </React.Fragment>
 );
 
 const WantMoreSection = props => {
