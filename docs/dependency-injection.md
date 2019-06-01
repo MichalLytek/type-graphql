@@ -21,7 +21,7 @@ import { SampleResolver } from "./resolvers";
 const schema = await buildSchema({
   resolvers: [SampleResolver],
   // register the 3rd party IOC container
-  container: Container;
+  container: Container
 });
 ```
 
