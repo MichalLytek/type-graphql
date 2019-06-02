@@ -105,7 +105,7 @@ To avoid generating schema errors of duplicated `PaginatedResponseClass` type na
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
   // instead of `isAbstract`, we have to provide a unique type name used in schema
-  @ObjectType({ name: `Paginated${TItemClass.name}Response` })
+  @ObjectType(`Paginated${TItemClass.name}Response`)
   class PaginatedResponseClass {
     // the same fields as in the earlier code snippet
   }
