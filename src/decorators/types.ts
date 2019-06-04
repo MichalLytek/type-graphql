@@ -58,7 +58,7 @@ export interface ResolveTypeOptions<TSource = any, TContext = any> {
 }
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
-  DepreciationOptions &
+  DeprecationOptions &
   SchemaNameOptions &
   ComplexityOptions;
 
