@@ -69,7 +69,7 @@ class RecipeResolver {
 
   @Query(returns => Recipe)
   async recipe(@Arg("id") id: string) {
-    const recipe = await this.recipeService.findById(id);
+    const recipe = await this.recipeService.find(id);
     if (recipe === undefined) {
       throw new RecipeNotFoundError(id);
     }
