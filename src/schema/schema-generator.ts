@@ -15,6 +15,11 @@ import {
   GraphQLEnumValueConfigMap,
   GraphQLUnionType,
   GraphQLTypeResolver,
+  GraphQLDirective,
+  DirectiveNode,
+  ObjectTypeDefinitionNode,
+  FieldDefinitionNode,
+  ArgumentNode,
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
@@ -43,6 +48,10 @@ import {
 import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
+import {
+  DirectiveClassMetadata,
+  DirectiveFieldMetadata,
+} from "../metadata/definitions/directive-metadata";
 
 interface AbstractInfo {
   isAbstract: boolean;
@@ -81,6 +90,7 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Disable checking on build the correctness of a schema
    */
   skipCheck?: boolean;
+  directives?: GraphQLDirective[];
 }
 
 export abstract class SchemaGenerator {
@@ -262,12 +272,66 @@ export abstract class SchemaGenerator {
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const interfaceClasses = objectType.interfaceClasses || [];
+
+      const classDirectiveAstNodes = (
+        name: string,
+        classMetas?: DirectiveClassMetadata[],
+      ): ObjectTypeDefinitionNode | undefined => {
+        if (!classMetas || !classMetas.length) {
+          return;
+        }
+
+        const directives: DirectiveNode[] = classMetas.map(meta =>
+          this.createDirective(meta.name, meta.args),
+        );
+
+        return {
+          kind: "ObjectTypeDefinition",
+          name: {
+            kind: "Name",
+            value: name,
+          },
+          interfaces: [],
+          directives,
+        };
+      };
+
+      const fieldDirectiveAstNodes = (
+        name: string,
+        fieldMetas?: DirectiveFieldMetadata[],
+      ): FieldDefinitionNode | undefined => {
+        if (!fieldMetas || !fieldMetas.length) {
+          return;
+        }
+
+        const directives: DirectiveNode[] = fieldMetas.map(meta =>
+          this.createDirective(meta.name, meta.args),
+        );
+
+        return {
+          kind: "FieldDefinition",
+          type: {
+            kind: "NamedType",
+            name: {
+              kind: "Name",
+              value: name,
+            },
+          },
+          name: {
+            kind: "Name",
+            value: name,
+          },
+          directives,
+        };
+      };
+
       return {
         target: objectType.target,
         isAbstract: objectType.isAbstract || false,
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
+          astNode: classDirectiveAstNodes(objectType.name, objectType.directives),
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>

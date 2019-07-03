@@ -1,5 +1,4 @@
 import { printSchema } from "graphql";
-
 import { BuildSchemaOptions, buildSchema } from "./buildSchema";
 import { createResolversMap } from "./createResolversMap";
 
