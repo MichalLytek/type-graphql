@@ -38,7 +38,9 @@ export interface TypeOptions extends DecoratorTypeOptions {
 export interface DescriptionOptions {
   description?: string;
 }
-export interface DepreciationOptions {
+/** @deprecated use `DeprecationOptions` instead */
+export type DepreciationOptions = DeprecationOptions;
+export interface DeprecationOptions {
   deprecationReason?: string;
 }
 export interface ValidateOptions {
@@ -58,7 +60,7 @@ export interface ResolveTypeOptions<TSource = any, TContext = any> {
 }
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
-  DepreciationOptions &
+  DeprecationOptions &
   SchemaNameOptions &
   ComplexityOptions;
 

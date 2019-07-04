@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+## Features
+- rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
 
 ## v0.17.4
 ## Features
@@ -194,7 +196,7 @@
 ## v0.3.0
 ### Features
 - add support for descriptions in schema (types, args, queries, etc.)
-- add support for declaring depreciation reason on object fields and queries/mutations
+- add support for declaring deprecation reason on object fields and queries/mutations
 ### Fixes
 - fix scalars ID alias (GraphQLID not GraphQLString)
 
