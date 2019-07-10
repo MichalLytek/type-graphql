@@ -8,7 +8,7 @@
 
               ga('create', 'UA-117093147-1', 'auto');
               ga('send', 'pageview');
-            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>0.17.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/0.17.1/introduction.html" target="_self">Docs</a></li><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/0.17.1/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/0.17.1/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/19majkel94/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Examples</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/0.17.1/examples.html">List of examples</a></li></ul></div></div></section></div><script>
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>0.17.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/0.17.1/introduction.html" target="_self">Docs</a></li><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/0.17.1/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/0.17.1/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/19majkel94/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Examples</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/0.17.1/examples.html">List of examples</a></li></ul></div></div></section></div><script>
             var coll = document.getElementsByClassName('collapsible');
             var checkActiveCategory = true;
             for (var i = 0; i < coll.length; i++) {
@@ -36,10 +36,16 @@
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');
 
-              const headings = document.querySelector('.toc-headings');
+              var headings = document.querySelector('.toc-headings');
               headings && headings.addEventListener('click', function(event) {
-                if (event.target.tagName === 'A') {
-                  document.body.classList.remove('tocActive');
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
                 }
               }, false);
 
