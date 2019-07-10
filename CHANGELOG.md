@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ## Features
 - rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
+- update deps to newest minor versions (`tslib`, `semver`, `graphql-query-complexity` and `glob`)
 
 ## v0.17.4
 ## Features
