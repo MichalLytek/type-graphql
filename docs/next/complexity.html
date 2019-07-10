@@ -75,47 +75,64 @@
 </code></pre>
 <p>The <code>complexity</code> option may be omitted if the complexity value is 1.
 Complexity can be passed as an option to any <code>@Field</code>, <code>@FieldResolver</code>, <code>@Mutation</code> or <code>@Subscription</code> decorator. If both <code>@FieldResolver</code> and <code>@Field</code> decorators of the same property have complexity defined, then the complexity passed to the field resolver decorator takes precedence.</p>
-<p>In the next step, we will integrate <code>graphql-query-complexity</code> with the GraphQL server.</p>
-<pre><code class="hljs css language-typescript"><span class="token comment">// Create GraphQL server</span>
-<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> schema <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>In the next step, we will integrate <code>graphql-query-complexity</code> with the server that expose our GraphQL schema over HTTP.
+You can use it with <code>express-graphql</code> like <a href="https://github.com/slicknode/graphql-query-complexity/blob/b6a000c0984f7391f3b4e886e3df6a7ed1093b07/README.md#usage-with-express-graphql">in the lib examples</a>, however we will use Apollo Server like in our other examples:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...build TypeGraphQL schema as always</span>
 
-<span class="token comment">// Configure server options</span>
-<span class="token keyword">const</span> serverOptions<span class="token punctuation">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
-  port<span class="token punctuation">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
-  endpoint<span class="token punctuation">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
-  playground<span class="token punctuation">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
-  validationRules<span class="token punctuation">:</span> req <span class="token operator">=></span> <span class="token punctuation">[</span>
-    <span class="token function">queryComplexity</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      <span class="token comment">// The maximum allowed query complexity, queries above this threshold will be rejected</span>
-      maximumComplexity<span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-      <span class="token comment">// The query variables. This is needed because the variables are not available</span>
-      <span class="token comment">// in the visitor of the graphql-js library</span>
-      variables<span class="token punctuation">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
-      <span class="token comment">// Optional callback function to retrieve the determined query complexity</span>
-      <span class="token comment">// Will be invoked whether the query is rejected or not</span>
-      <span class="token comment">// This can be used for logging or to implement rate limiting</span>
-      onComplete<span class="token punctuation">:</span> <span class="token punctuation">(</span>complexity<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-        <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Query Complexity:"</span><span class="token punctuation">,</span> complexity<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      estimators<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token comment">// Using fieldConfigEstimator is mandatory to make it work with type-graphql</span>
-        <span class="token function">fieldConfigEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token comment">// This will assign each field a complexity of 1 if no other estimator</span>
-        <span class="token comment">// returned a value. We can define the default value for fields not explicitly annotated</span>
-        <span class="token function">simpleEstimator</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-          defaultComplexity<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token comment">// Create GraphQL server</span>
+  <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    schema<span class="token punctuation">,</span>
+    <span class="token comment">// Create a plugin that will allow for query complexity calculation for every request</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        requestDidStart<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+          <span class="token function">didResolveOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span> request<span class="token punctuation">,</span> document <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">/**
+             * This provides GraphQL query analysis to be able to react on complex queries to your GraphQL server.
+             * This can be used to protect your GraphQL servers against resource exhaustion and DoS attacks.
+             * More documentation can be found at https://github.com/ivome/graphql-query-complexity.
+             */</span>
+            <span class="token keyword">const</span> complexity <span class="token operator">=</span> <span class="token function">getComplexity</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+              <span class="token comment">// Our built schema</span>
+              schema<span class="token punctuation">,</span>
+              <span class="token comment">// To calculate query complexity properly,</span>
+              <span class="token comment">// we have to check if the document contains multiple operations</span>
+              <span class="token comment">// and eventually extract it operation from the whole query document.</span>
+              query<span class="token punctuation">:</span> request<span class="token punctuation">.</span>operationName
+                <span class="token operator">?</span> <span class="token function">separateOperations</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">[</span>request<span class="token punctuation">.</span>operationName<span class="token punctuation">]</span>
+                <span class="token punctuation">:</span> document<span class="token punctuation">,</span>
+              <span class="token comment">// The variables for our GraphQL query</span>
+              variables<span class="token punctuation">:</span> request<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
+              <span class="token comment">// Add any number of estimators. The estimators are invoked in order, the first</span>
+              <span class="token comment">// numeric value that is being returned by an estimator is used as the field complexity.</span>
+              <span class="token comment">// If no estimator returns a value, an exception is raised.</span>
+              estimators<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                <span class="token comment">// Using fieldConfigEstimator is mandatory to make it work with type-graphql.</span>
+                <span class="token function">fieldConfigEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token comment">// Add more estimators here...</span>
+                <span class="token comment">// This will assign each field a complexity of 1</span>
+                <span class="token comment">// if no other estimator returned a value.</span>
+                <span class="token function">simpleEstimator</span><span class="token punctuation">(</span><span class="token punctuation">{</span> defaultComplexity<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Here we can react to the calculated complexity,</span>
+            <span class="token comment">// like compare it with max and throw error when the threshold is reached.</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>complexity <span class="token operator">>=</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>
+                <span class="token template-string"><span class="token string">`Sorry, too complicated query! </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>complexity<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is over 20 that is the max allowed complexity.`</span></span><span class="token punctuation">,</span>
+              <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// And here we can e.g. subtract the complexity point from hourly API calls limit.</span>
+            <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Used query complexity points:"</span><span class="token punctuation">,</span> complexity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment">// Start the server</span>
-server<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>serverOptions<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> port<span class="token punctuation">,</span> playground <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
-    <span class="token template-string"><span class="token string">`Server is running, GraphQL Playground available at http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>playground<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// ...start the server as always</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>And it's done! 😉</p>
 <p>For more info about how query complexity is computed, please visit <a href="https://github.com/ivome/graphql-query-complexity">graphql-query-complexity</a>.</p>
