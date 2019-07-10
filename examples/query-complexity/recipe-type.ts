@@ -2,15 +2,11 @@ import { Field, ObjectType, Int, Float } from "../../src";
 
 @ObjectType()
 export class Recipe {
-  /*
-    By default, every field gets a complexity of 1.
-  */
+  /* By default, every field gets a complexity of 1. */
   @Field()
   title: string;
 
-  /*
-    Which can be customized by passing the complexity parameter
-  */
+  /* Which can be customized by passing the complexity parameter */
   @Field(type => Int, { complexity: 2 })
   ratingsCount: number;
 
