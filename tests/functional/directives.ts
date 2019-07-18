@@ -26,6 +26,7 @@ import {
   Directive,
   buildSchema,
   ObjectType,
+  Mutation,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import Maybe from "graphql/tsutils/Maybe";
@@ -288,6 +289,55 @@ describe("Directives", () => {
         queryWithUpperAndAppendSDL(): string {
           return "hello";
         }
+
+        @Mutation()
+        @Directive("foo")
+        mutationWithDirective(): string {
+          return "mutationWithDirective";
+        }
+
+        @Mutation()
+        @Directive("bar", { baz: "true" })
+        mutationWithDirectiveWithArgs(): string {
+          return "mutationWithDirectiveWithArgs";
+        }
+
+        @Mutation()
+        @Directive("upper")
+        mutationWithUpper(): string {
+          return "mutationWithUpper";
+        }
+
+        @Mutation()
+        @Directive("@upper")
+        mutationWithUpperSDL(): string {
+          return "mutationWithUpper";
+        }
+
+        @Mutation()
+        @Directive("append")
+        mutationWithAppend(): string {
+          return "hello";
+        }
+
+        @Mutation()
+        @Directive("@append")
+        mutationWithAppendSDL(): string {
+          return "hello";
+        }
+
+        @Mutation()
+        @Directive("append")
+        @Directive("upper")
+        mutationWithUpperAndAppend(): string {
+          return "hello";
+        }
+
+        @Mutation()
+        @Directive("@append @upper")
+        mutationWithUpperAndAppendSDL(): string {
+          return "hello";
+        }
       }
 
       schema = await buildSchema({
@@ -382,6 +432,87 @@ describe("Directives", () => {
 
         expect(data).toHaveProperty("queryWithUpperAndAppendSDL");
         expect(data.queryWithUpperAndAppendSDL).toBe("HELLO, WORLD!");
+      });
+    });
+
+    describe("Mutation", () => {
+      it("should add directives to mutation types", async () => {
+        const mutationWithDirective = schema.getMutationType()!.getFields().mutationWithDirective;
+
+        assertValidFieldDirective(mutationWithDirective.astNode, "foo");
+      });
+
+      it("should add directives to mutation types with arguments", async () => {
+        const mutationWithDirectiveWithArgs = schema.getMutationType()!.getFields()
+          .mutationWithDirectiveWithArgs;
+
+        assertValidFieldDirective(mutationWithDirectiveWithArgs.astNode, "bar", { baz: "true" });
+      });
+
+      it("calls directive 'upper'", async () => {
+        const mutation = `mutation {
+          mutationWithUpper
+        }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithUpper");
+        expect(data.mutationWithUpper).toBe("MUTATIONWITHUPPER");
+      });
+
+      it("calls directive 'upper' using SDL", async () => {
+        const mutation = `mutation {
+          mutationWithUpperSDL
+        }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithUpperSDL");
+        expect(data.mutationWithUpperSDL).toBe("MUTATIONWITHUPPER");
+      });
+
+      it("calls directive 'append'", async () => {
+        const mutation = `mutation {
+          mutationWithAppend(append: ", world!")
+        }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithAppend");
+        expect(data.mutationWithAppend).toBe("hello, world!");
+      });
+
+      it("calls directive 'append' using SDL", async () => {
+        const mutation = `mutation {
+          mutationWithAppendSDL(append: ", world!")
+      }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithAppendSDL");
+        expect(data.mutationWithAppendSDL).toBe("hello, world!");
+      });
+
+      it("calls directive 'upper' and 'append'", async () => {
+        const mutation = `mutation {
+          mutationWithUpperAndAppend(append: ", world!")
+        }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithUpperAndAppend");
+        expect(data.mutationWithUpperAndAppend).toBe("HELLO, WORLD!");
+      });
+
+      it("calls directive 'upper' and 'append' using SDL", async () => {
+        const mutation = `mutation {
+          mutationWithUpperAndAppendSDL(append: ", world!")
+      }`;
+
+        const { data } = await graphql(schema, mutation);
+
+        expect(data).toHaveProperty("mutationWithUpperAndAppendSDL");
+        expect(data.mutationWithUpperAndAppendSDL).toBe("HELLO, WORLD!");
       });
     });
 
