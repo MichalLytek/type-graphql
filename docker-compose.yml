@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  linux-node:
+    image: node:12.6.0
+    entrypoint: bash
+    working_dir: /usr/app
+    volumes:
+      - ./:/usr/app/
+      - node_modules/:/usr/app/node_modules/
+
+volumes:
+  node_modules:
