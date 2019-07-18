@@ -1,7 +1,14 @@
 export interface DirectiveMetadata {
-  name: string;
-  args?: { [key: string]: any };
+  nameOrSDL: string;
+  args: { [key: string]: string };
 }
 
-export type DirectiveClassMetadata = DirectiveMetadata & { target: Function };
-export type DirectiveFieldMetadata = DirectiveMetadata & { target: Function; field: string };
+export interface DirectiveClassMetadata {
+  target: Function;
+  directive: DirectiveMetadata;
+}
+export interface DirectiveFieldMetadata {
+  target: Function;
+  field: string;
+  directive: DirectiveMetadata;
+}

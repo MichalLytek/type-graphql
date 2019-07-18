@@ -1,5 +1,5 @@
 import { FieldMetadata } from "./field-metadata";
-import { DirectiveClassMetadata } from "./directive-metadata";
+import { DirectiveMetadata } from "./directive-metadata";
 
 export interface ClassMetadata {
   name: string;
@@ -7,5 +7,5 @@ export interface ClassMetadata {
   fields?: FieldMetadata[];
   description?: string;
   isAbstract?: boolean;
-  directives?: DirectiveClassMetadata[];
+  directives?: DirectiveMetadata[];
 }

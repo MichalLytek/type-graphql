@@ -19,7 +19,11 @@ import {
   DirectiveNode,
   ObjectTypeDefinitionNode,
   FieldDefinitionNode,
-  ArgumentNode,
+  parse,
+  parseValue,
+  TypeDefinitionNode,
+  InputObjectTypeDefinitionNode,
+  InputValueDefinitionNode,
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
@@ -48,10 +52,8 @@ import {
 import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
-import {
-  DirectiveClassMetadata,
-  DirectiveFieldMetadata,
-} from "../metadata/definitions/directive-metadata";
+import { DirectiveMetadata } from "../metadata/definitions/directive-metadata";
+import { InvalidDirectiveError } from "../errors/InvalidDirectiveError";
 
 interface AbstractInfo {
   isAbstract: boolean;
@@ -273,65 +275,16 @@ export abstract class SchemaGenerator {
       };
       const interfaceClasses = objectType.interfaceClasses || [];
 
-      const classDirectiveAstNodes = (
-        name: string,
-        classMetas?: DirectiveClassMetadata[],
-      ): ObjectTypeDefinitionNode | undefined => {
-        if (!classMetas || !classMetas.length) {
-          return;
-        }
-
-        const directives: DirectiveNode[] = classMetas.map(meta =>
-          this.createDirective(meta.name, meta.args),
-        );
-
-        return {
-          kind: "ObjectTypeDefinition",
-          name: {
-            kind: "Name",
-            value: name,
-          },
-          interfaces: [],
-          directives,
-        };
-      };
-
-      const fieldDirectiveAstNodes = (
-        name: string,
-        fieldMetas?: DirectiveFieldMetadata[],
-      ): FieldDefinitionNode | undefined => {
-        if (!fieldMetas || !fieldMetas.length) {
-          return;
-        }
-
-        const directives: DirectiveNode[] = fieldMetas.map(meta =>
-          this.createDirective(meta.name, meta.args),
-        );
-
-        return {
-          kind: "FieldDefinition",
-          type: {
-            kind: "NamedType",
-            name: {
-              kind: "Name",
-              value: name,
-            },
-          },
-          name: {
-            kind: "Name",
-            value: name,
-          },
-          directives,
-        };
-      };
-
       return {
         target: objectType.target,
         isAbstract: objectType.isAbstract || false,
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
-          astNode: classDirectiveAstNodes(objectType.name, objectType.directives),
+          astNode: this.createClassDirectiveNodes(
+            objectType.name,
+            objectType.directives,
+          ) as ObjectTypeDefinitionNode,
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
@@ -429,6 +382,10 @@ export abstract class SchemaGenerator {
                   description: field.description,
                   type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
                   defaultValue: field.typeOptions.defaultValue,
+                  astNode: this.createFieldDirectiveNodes(
+                    field.name,
+                    field.directives,
+                  ) as InputValueDefinitionNode,
                 };
                 return fieldsMap;
               },
@@ -444,6 +401,10 @@ export abstract class SchemaGenerator {
             }
             return fields;
           },
+          astNode: this.createClassDirectiveNodes(
+            inputType.name,
+            inputType.directives,
+          ) as InputObjectTypeDefinitionNode,
         }),
       };
     });
@@ -713,5 +674,53 @@ export abstract class SchemaGenerator {
     return typesInfo
       .filter(it => !it.isAbstract && (!orphanedTypes || orphanedTypes.includes(it.target)))
       .map(it => it.type);
+  }
+
+  private static createDirectiveNodes(directive: DirectiveMetadata): DirectiveNode[] {
+    const { nameOrSDL, args } = directive;
+
+    if (!nameOrSDL.startsWith("@")) {
+      return [
+        {
+          kind: "Directive",
+          name: {
+            kind: "Name",
+            value: nameOrSDL,
+          },
+          arguments: Object.keys(args).map(arg => ({
+            kind: "Argument",
+            name: {
+              kind: "Name",
+              value: arg,
+            },
+            value: parseValue(args[arg]),
+          })),
+        },
+      ];
+    }
+
+    let directives: DirectiveNode[] = [];
+
+    try {
+      const parsed = parse(`type String ${nameOrSDL}`);
+
+      const definitions = parsed.definitions as ObjectTypeDefinitionNode[];
+
+      if (definitions && definitions.length > 0) {
+        definitions.forEach(def => {
+          if (def.directives && def.directives.length > 0) {
+            directives = [...directives, ...def.directives];
+          }
+        });
+      }
+    } catch (err) {
+      /** noop */
+    }
+
+    if (!directives) {
+      throw new InvalidDirectiveError(directive);
+    }
+
+    return directives;
   }
 }

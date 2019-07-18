@@ -123,8 +123,6 @@ export class MetadataStorage {
     this.buildResolversMetadata(this.subscriptions);
 
     this.buildExtendedResolversMetadata();
-
-    this.buildDirectiveMetadata();
   }
 
   clear() {
@@ -161,8 +159,14 @@ export class MetadataStorage {
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
         );
+        field.directives = this.fieldDirectives
+          .filter(it => it.target === field.target && it.field === field.name)
+          .map(it => it.directive);
       });
       def.fields = fields;
+      def.directives = this.classDirectives
+        .filter(it => it.target === def.target)
+        .map(it => it.directive);
     });
   }
 
@@ -181,6 +185,9 @@ export class MetadataStorage {
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
       );
+      def.directives = this.fieldDirectives
+        .filter(it => it.target === def.target && it.field === def.methodName)
+        .map(it => it.directive);
     });
   }
 
@@ -254,49 +261,6 @@ export class MetadataStorage {
           );
         }
         superResolver = Object.getPrototypeOf(superResolver);
-      }
-    });
-  }
-
-  private buildDirectiveMetadata() {
-    this.classDirectives.forEach(def => {
-      const objectType = this.objectTypes.find(it => it.target === def.target);
-
-      if (objectType) {
-        objectType.directives = this.findClassDirectives(def.target);
-      }
-    });
-
-    const addFieldDirective = (
-      directiveDef: DirectiveFieldMetadata,
-      classDefs: ObjectClassMetadata,
-    ) => {
-      (classDefs.fields || []).forEach(fieldDef => {
-        if (!fieldDef.directives) {
-          fieldDef.directives = [];
-        }
-
-        if (fieldDef.name === directiveDef.field) {
-          fieldDef.directives.push(directiveDef);
-        }
-      });
-    };
-
-    this.fieldDirectives.forEach(directiveDef => {
-      let objectType = this.objectTypes.find(it => it.target === directiveDef.target);
-
-      // try to get directives from resolver classes
-      if (!objectType) {
-        const resolverCls = this.resolverClasses.find(
-          resolver => resolver.target === directiveDef.target,
-        );
-        if (resolverCls) {
-          objectType = this.objectTypes.find(it => it.target === resolverCls.getObjectType());
-        }
-      }
-
-      if (objectType) {
-        addFieldDirective(directiveDef, objectType);
       }
     });
   }
