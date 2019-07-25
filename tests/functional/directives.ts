@@ -1,22 +1,7 @@
 // tslint:disable:member-ordering
 import "reflect-metadata";
 
-import {
-  GraphQLSchema,
-  FieldDefinitionNode,
-  GraphQLField,
-  GraphQLDirective,
-  DirectiveLocation,
-  GraphQLString,
-  parseValue,
-  graphql,
-  GraphQLInputObjectType,
-  InputValueDefinitionNode,
-  InputObjectTypeDefinitionNode,
-  GraphQLInputField,
-  GraphQLScalarType,
-  GraphQLNonNull,
-} from "graphql";
+import { GraphQLSchema, graphql, GraphQLInputObjectType } from "graphql";
 import {
   Field,
   InputType,
@@ -29,131 +14,10 @@ import {
   Mutation,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import Maybe from "graphql/tsutils/Maybe";
 import { SchemaDirectiveVisitor } from "graphql-tools";
-import { ApolloServer } from "apollo-server";
-
-class UpperCaseType extends GraphQLScalarType {
-  constructor(type: any) {
-    super({
-      name: "UpperCase",
-      parseValue: value => type.parseValue(value),
-      serialize: value => type.serialize(value),
-      parseLiteral: ast => {
-        const result = type.parseLiteral(ast);
-
-        if (typeof result === "string") {
-          return result.toUpperCase();
-        }
-
-        return result;
-      },
-    });
-  }
-}
-
-class UpperCaseDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field: GraphQLField<any, any>) {
-    const resolve = field.resolve;
-
-    field.resolve = async function(...args) {
-      const result = await resolve!.apply(this, args);
-      if (typeof result === "string") {
-        return result.toUpperCase();
-      }
-
-      return result;
-    };
-  }
-
-  visitInputObject(object: GraphQLInputObjectType) {
-    const fields = object.getFields();
-
-    Object.keys(fields).forEach(field => {
-      this.visitInputFieldDefinition(fields[field]);
-    });
-  }
-
-  visitInputFieldDefinition(field: GraphQLInputField) {
-    if (field.type instanceof UpperCaseType) {
-      /* noop */
-    } else if (
-      field.type instanceof GraphQLNonNull &&
-      field.type.ofType instanceof GraphQLScalarType
-    ) {
-      field.type = new GraphQLNonNull(new UpperCaseType(field.type.ofType));
-    } else if (field.type instanceof GraphQLScalarType) {
-      field.type = new UpperCaseType(field.type);
-    } else {
-      throw new Error(`Not a scalar type: ${field.type}`);
-    }
-  }
-
-  static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
-    return new GraphQLDirective({
-      name: directiveName,
-      locations: [DirectiveLocation.FIELD_DEFINITION],
-    });
-  }
-}
-
-class AppendDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field: GraphQLField<any, any>) {
-    const resolve = field.resolve;
-
-    field.args.push({
-      name: "append",
-      type: GraphQLString,
-    });
-
-    field.resolve = async function(source, { append, ...otherArgs }, context, info) {
-      const result = await resolve!.call(this, source, otherArgs, context, info);
-
-      return `${result}${append}`;
-    };
-  }
-
-  static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
-    return new GraphQLDirective({
-      name: directiveName,
-      locations: [DirectiveLocation.FIELD_DEFINITION],
-    });
-  }
-}
-
-const assertValidFieldDirective = (
-  astNode: Maybe<FieldDefinitionNode | InputObjectTypeDefinitionNode | InputValueDefinitionNode>,
-  name: string,
-  args?: { [key: string]: string },
-): void => {
-  if (!astNode) {
-    throw new Error(`Directive with name ${name} does not exist`);
-  }
-
-  const directives = (astNode || {}).directives || [];
-
-  const directive = directives.find(it => it.name.kind === "Name" && it.name.value === name);
-
-  if (!directive) {
-    throw new Error(`Directive with name ${name} does not exist`);
-  }
-
-  if (!args) {
-    if (Array.isArray(directive.arguments)) {
-      expect(directive.arguments).toHaveLength(0);
-    } else {
-      expect(directive.arguments).toBeFalsy();
-    }
-  } else {
-    expect(directive.arguments).toEqual(
-      Object.keys(args).map(arg => ({
-        kind: "Argument",
-        name: { kind: "Name", value: arg },
-        value: parseValue(args[arg]),
-      })),
-    );
-  }
-};
+import { UpperCaseDirective } from "../helpers/directives/UpperCaseDirective";
+import { AppendDirective } from "../helpers/directives/AppendDirective";
+import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 
 describe("Directives", () => {
   let schema: GraphQLSchema;
@@ -192,7 +56,7 @@ describe("Directives", () => {
 
         @Field()
         @Directive("@upper")
-        withUpperSDL: string = "withUpperSDL";
+        withUpperDefinition: string = "withUpperDefinition";
 
         @Field()
         @Directive("append")
@@ -200,16 +64,12 @@ describe("Directives", () => {
 
         @Field()
         @Directive("@append")
-        withAppendSDL: string = "hello";
+        withAppendDefinition: string = "hello";
 
         @Field()
         @Directive("append")
         @Directive("upper")
         withUpperAndAppend: string = "hello";
-
-        @Field()
-        @Directive("@append @upper")
-        withUpperAndAppendSDL: string = "hello";
 
         @Field()
         withInput(@Arg("input") input: DirectiveOnFieldInput): string {
@@ -261,7 +121,7 @@ describe("Directives", () => {
 
         @Query()
         @Directive("@upper")
-        queryWithUpperSDL(): string {
+        queryWithUpperDefinition(): string {
           return "queryWithUpper";
         }
 
@@ -273,7 +133,7 @@ describe("Directives", () => {
 
         @Query()
         @Directive("@append")
-        queryWithAppendSDL(): string {
+        queryWithAppendDefinition(): string {
           return "hello";
         }
 
@@ -281,12 +141,6 @@ describe("Directives", () => {
         @Directive("append")
         @Directive("upper")
         queryWithUpperAndAppend(): string {
-          return "hello";
-        }
-
-        @Query()
-        @Directive("@append @upper")
-        queryWithUpperAndAppendSDL(): string {
           return "hello";
         }
 
@@ -310,7 +164,7 @@ describe("Directives", () => {
 
         @Mutation()
         @Directive("@upper")
-        mutationWithUpperSDL(): string {
+        mutationWithUpperDefinition(): string {
           return "mutationWithUpper";
         }
 
@@ -322,7 +176,7 @@ describe("Directives", () => {
 
         @Mutation()
         @Directive("@append")
-        mutationWithAppendSDL(): string {
+        mutationWithAppendDefinition(): string {
           return "hello";
         }
 
@@ -330,12 +184,6 @@ describe("Directives", () => {
         @Directive("append")
         @Directive("upper")
         mutationWithUpperAndAppend(): string {
-          return "hello";
-        }
-
-        @Mutation()
-        @Directive("@append @upper")
-        mutationWithUpperAndAppendSDL(): string {
           return "hello";
         }
       }
@@ -358,20 +206,20 @@ describe("Directives", () => {
       it("should add directives to query types", async () => {
         const queryWithDirective = schema.getQueryType()!.getFields().queryWithDirective;
 
-        assertValidFieldDirective(queryWithDirective.astNode, "foo");
+        assertValidDirective(queryWithDirective.astNode, "foo");
       });
 
       it("should add directives to query types with arguments", async () => {
         const queryWithDirectiveWithArgs = schema.getQueryType()!.getFields()
           .queryWithDirectiveWithArgs;
 
-        assertValidFieldDirective(queryWithDirectiveWithArgs.astNode, "bar", { baz: "true" });
+        assertValidDirective(queryWithDirectiveWithArgs.astNode, "bar", { baz: "true" });
       });
 
       it("calls directive 'upper'", async () => {
         const query = `query {
-        queryWithUpper
-      }`;
+          queryWithUpper
+        }`;
 
         const { data } = await graphql(schema, query);
 
@@ -379,21 +227,21 @@ describe("Directives", () => {
         expect(data.queryWithUpper).toBe("QUERYWITHUPPER");
       });
 
-      it("calls directive 'upper' using SDL", async () => {
+      it("calls directive 'upper' using Definition", async () => {
         const query = `query {
-        queryWithUpperSDL
-      }`;
+          queryWithUpperDefinition
+        }`;
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithUpperSDL");
-        expect(data.queryWithUpperSDL).toBe("QUERYWITHUPPER");
+        expect(data).toHaveProperty("queryWithUpperDefinition");
+        expect(data.queryWithUpperDefinition).toBe("QUERYWITHUPPER");
       });
 
       it("calls directive 'append'", async () => {
         const query = `query {
-        queryWithAppend(append: ", world!")
-      }`;
+          queryWithAppend(append: ", world!")
+        }`;
 
         const { data } = await graphql(schema, query);
 
@@ -401,37 +249,26 @@ describe("Directives", () => {
         expect(data.queryWithAppend).toBe("hello, world!");
       });
 
-      it("calls directive 'append' using SDL", async () => {
+      it("calls directive 'append' using Definition", async () => {
         const query = `query {
-        queryWithAppendSDL(append: ", world!")
-      }`;
+          queryWithAppendDefinition(append: ", world!")
+        }`;
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithAppendSDL");
-        expect(data.queryWithAppendSDL).toBe("hello, world!");
+        expect(data).toHaveProperty("queryWithAppendDefinition");
+        expect(data.queryWithAppendDefinition).toBe("hello, world!");
       });
 
       it("calls directive 'upper' and 'append'", async () => {
         const query = `query {
-        queryWithUpperAndAppend(append: ", world!")
-      }`;
+          queryWithUpperAndAppend(append: ", world!")
+        }`;
 
         const { data } = await graphql(schema, query);
 
         expect(data).toHaveProperty("queryWithUpperAndAppend");
         expect(data.queryWithUpperAndAppend).toBe("HELLO, WORLD!");
-      });
-
-      it("calls directive 'upper' and 'append' using SDL", async () => {
-        const query = `query {
-        queryWithUpperAndAppendSDL(append: ", world!")
-      }`;
-
-        const { data } = await graphql(schema, query);
-
-        expect(data).toHaveProperty("queryWithUpperAndAppendSDL");
-        expect(data.queryWithUpperAndAppendSDL).toBe("HELLO, WORLD!");
       });
     });
 
@@ -439,14 +276,14 @@ describe("Directives", () => {
       it("should add directives to mutation types", async () => {
         const mutationWithDirective = schema.getMutationType()!.getFields().mutationWithDirective;
 
-        assertValidFieldDirective(mutationWithDirective.astNode, "foo");
+        assertValidDirective(mutationWithDirective.astNode, "foo");
       });
 
       it("should add directives to mutation types with arguments", async () => {
         const mutationWithDirectiveWithArgs = schema.getMutationType()!.getFields()
           .mutationWithDirectiveWithArgs;
 
-        assertValidFieldDirective(mutationWithDirectiveWithArgs.astNode, "bar", { baz: "true" });
+        assertValidDirective(mutationWithDirectiveWithArgs.astNode, "bar", { baz: "true" });
       });
 
       it("calls directive 'upper'", async () => {
@@ -460,15 +297,15 @@ describe("Directives", () => {
         expect(data.mutationWithUpper).toBe("MUTATIONWITHUPPER");
       });
 
-      it("calls directive 'upper' using SDL", async () => {
+      it("calls directive 'upper' using Definition", async () => {
         const mutation = `mutation {
-          mutationWithUpperSDL
+          mutationWithUpperDefinition
         }`;
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithUpperSDL");
-        expect(data.mutationWithUpperSDL).toBe("MUTATIONWITHUPPER");
+        expect(data).toHaveProperty("mutationWithUpperDefinition");
+        expect(data.mutationWithUpperDefinition).toBe("MUTATIONWITHUPPER");
       });
 
       it("calls directive 'append'", async () => {
@@ -482,15 +319,15 @@ describe("Directives", () => {
         expect(data.mutationWithAppend).toBe("hello, world!");
       });
 
-      it("calls directive 'append' using SDL", async () => {
+      it("calls directive 'append' using Definition", async () => {
         const mutation = `mutation {
-          mutationWithAppendSDL(append: ", world!")
-      }`;
+          mutationWithAppendDefinition(append: ", world!")
+        }`;
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithAppendSDL");
-        expect(data.mutationWithAppendSDL).toBe("hello, world!");
+        expect(data).toHaveProperty("mutationWithAppendDefinition");
+        expect(data.mutationWithAppendDefinition).toBe("hello, world!");
       });
 
       it("calls directive 'upper' and 'append'", async () => {
@@ -503,17 +340,6 @@ describe("Directives", () => {
         expect(data).toHaveProperty("mutationWithUpperAndAppend");
         expect(data.mutationWithUpperAndAppend).toBe("HELLO, WORLD!");
       });
-
-      it("calls directive 'upper' and 'append' using SDL", async () => {
-        const mutation = `mutation {
-          mutationWithUpperAndAppendSDL(append: ", world!")
-      }`;
-
-        const { data } = await graphql(schema, mutation);
-
-        expect(data).toHaveProperty("mutationWithUpperAndAppendSDL");
-        expect(data.mutationWithUpperAndAppendSDL).toBe("HELLO, WORLD!");
-      });
     });
 
     describe("InputType", () => {
@@ -521,7 +347,7 @@ describe("Directives", () => {
         const inputType = schema.getType("DirectiveOnClassInput") as GraphQLInputObjectType;
 
         expect(inputType).toHaveProperty("astNode");
-        assertValidFieldDirective(inputType.astNode, "upper");
+        assertValidDirective(inputType.astNode, "upper");
       });
 
       it("adds field directives to input type fields", async () => {
@@ -531,7 +357,7 @@ describe("Directives", () => {
 
         expect(fields).toHaveProperty("append");
         expect(fields.append).toHaveProperty("astNode");
-        assertValidFieldDirective(fields.append.astNode, "upper");
+        assertValidDirective(fields.append.astNode, "upper");
       });
     });
 
@@ -542,11 +368,10 @@ describe("Directives", () => {
             withDirective
             withDirectiveWithArgs
             withUpper
-            withUpperSDL
+            withUpperDefinition
             withAppend(append: ", world!")
-            withAppendSDL(append: ", world!")
+            withAppendDefinition(append: ", world!")
             withUpperAndAppend(append: ", world!")
-            withUpperAndAppendSDL(append: ", world!")
             withInput(input: { append: ", world!" })
             withInputUpper(input: { append: ", world!" })
             withInputOnClass(input: { append: ", world!" })
@@ -561,94 +386,15 @@ describe("Directives", () => {
           withDirective: "withDirective",
           withDirectiveWithArgs: "withDirectiveWithArgs",
           withUpper: "WITHUPPER",
-          withUpperSDL: "WITHUPPERSDL",
+          withUpperDefinition: "WITHUPPERDEFINITION",
           withAppend: "hello, world!",
-          withAppendSDL: "hello, world!",
+          withAppendDefinition: "hello, world!",
           withUpperAndAppend: "HELLO, WORLD!",
-          withUpperAndAppendSDL: "HELLO, WORLD!",
           withInput: "hello, WORLD!",
           withInputUpper: "HELLO, WORLD!",
           withInputOnClass: "hello, WORLD!",
           withInputUpperOnClass: "HELLO, WORLD!",
         });
-      });
-    });
-  });
-
-  describe("@cacheControl", () => {
-    it("works with ApolloServer and @cacheControl", async () => {
-      @ObjectType()
-      @Directive("@cacheControl(maxAge: 240)")
-      class Post {
-        @Field()
-        id: number = 1;
-
-        @Field()
-        @Directive("@cacheControl(maxAge: 30)")
-        votes: number = 1;
-
-        @Field(() => [Comment])
-        comments: Comment[] = [new Comment()];
-
-        @Field()
-        @Directive("@cacheControl(scope: PRIVATE)")
-        readByCurrentUser: boolean = true;
-      }
-
-      @ObjectType()
-      @Directive("@cacheControl(maxAge: 1000)")
-      class Comment {
-        @Field()
-        comment: string = "comment";
-      }
-
-      @Resolver()
-      class PostsResolver {
-        @Query(() => Post)
-        @Directive("@cacheControl(maxAge: 10)")
-        latestPost(): Post {
-          return new Post();
-        }
-      }
-
-      const server = new ApolloServer({
-        schema: await buildSchema({ resolvers: [PostsResolver] }),
-        cacheControl: true,
-      });
-
-      const { extensions } = await server.executeOperation({
-        query: `query {
-          latestPost {
-            id
-            votes
-            comments { comment }
-            readByCurrentUser
-          }
-        }`,
-      });
-
-      expect(extensions).toBeDefined();
-      expect(extensions).toHaveProperty("cacheControl");
-      expect(extensions!.cacheControl).toEqual({
-        version: 1,
-        hints: [
-          {
-            maxAge: 10,
-            path: ["latestPost"],
-          },
-          {
-            maxAge: 30,
-            path: ["latestPost", "votes"],
-          },
-          {
-            maxAge: 1000,
-            path: ["latestPost", "comments"],
-          },
-          {
-            path: ["latestPost", "readByCurrentUser"],
-            scope: "PRIVATE",
-          },
-        ],
       });
     });
   });

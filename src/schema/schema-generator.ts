@@ -281,10 +281,7 @@ export abstract class SchemaGenerator {
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
-          astNode: this.createClassDirectiveNodes(
-            objectType.name,
-            objectType.directives,
-          ) as ObjectTypeDefinitionNode,
+          astNode: this.getObjectTypeDefinitionNode(objectType.name, objectType.directives),
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
@@ -382,10 +379,7 @@ export abstract class SchemaGenerator {
                   description: field.description,
                   type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
                   defaultValue: field.typeOptions.defaultValue,
-                  astNode: this.createFieldDirectiveNodes(
-                    field.name,
-                    field.directives,
-                  ) as InputValueDefinitionNode,
+                  astNode: this.getInputValueDefinitionNode(field.name, field.directives),
                 };
                 return fieldsMap;
               },
@@ -401,10 +395,7 @@ export abstract class SchemaGenerator {
             }
             return fields;
           },
-          astNode: this.createClassDirectiveNodes(
-            inputType.name,
-            inputType.directives,
-          ) as InputObjectTypeDefinitionNode,
+          astNode: this.getInputObjectTypeDefinitionNode(inputType.name, inputType.directives),
         }),
       };
     });
@@ -676,33 +667,56 @@ export abstract class SchemaGenerator {
       .map(it => it.type);
   }
 
-  private static createDirectiveNodes(directive: DirectiveMetadata): DirectiveNode[] {
-    const { nameOrSDL, args } = directive;
+  private static getInputValueDefinitionNode(
+    name: string,
+    directiveMetas?: DirectiveMetadata[],
+  ): InputValueDefinitionNode | undefined {
+    if (!directiveMetas || !directiveMetas.length) {
+      return;
+    }
 
-    if (!nameOrSDL.startsWith("@")) {
-      return [
-        {
-          kind: "Directive",
+    return {
+      kind: "InputValueDefinition",
+      type: {
+        kind: "NamedType",
+        name: {
+          kind: "Name",
+          value: name,
+        },
+      },
+      name: {
+        kind: "Name",
+        value: name,
+      },
+      directives: directiveMetas.map(this.getDirectiveNodes),
+    };
+  }
+
+  private static getDirectiveNodes(directive: DirectiveMetadata): DirectiveNode {
+    const { nameOrDefinition, args } = directive;
+
+    if (!nameOrDefinition.startsWith("@")) {
+      return {
+        kind: "Directive",
+        name: {
+          kind: "Name",
+          value: nameOrDefinition,
+        },
+        arguments: Object.keys(args).map(arg => ({
+          kind: "Argument",
           name: {
             kind: "Name",
-            value: nameOrSDL,
+            value: arg,
           },
-          arguments: Object.keys(args).map(arg => ({
-            kind: "Argument",
-            name: {
-              kind: "Name",
-              value: arg,
-            },
-            value: parseValue(args[arg]),
-          })),
-        },
-      ];
+          value: parseValue(args[arg]),
+        })),
+      };
     }
 
     let directives: DirectiveNode[] = [];
 
     try {
-      const parsed = parse(`type String ${nameOrSDL}`);
+      const parsed = parse(`type String ${nameOrDefinition}`);
 
       const definitions = parsed.definitions as ObjectTypeDefinitionNode[];
 
@@ -714,13 +728,16 @@ export abstract class SchemaGenerator {
         });
       }
     } catch (err) {
-      /** noop */
+      throw new InvalidDirectiveError("Error parsing directive", directive);
     }
 
-    if (!directives) {
-      throw new InvalidDirectiveError(directive);
+    if (directives.length !== 1) {
+      throw new InvalidDirectiveError(
+        "There must be exactly one directive defined for directive",
+        directive,
+      );
     }
 
-    return directives;
+    return directives[0];
   }
 }

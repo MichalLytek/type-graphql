@@ -102,10 +102,10 @@ export class MetadataStorage {
   }
 
   collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
-    this.classDirectives.push(definition);
+    this.classDirectives.unshift(definition);
   }
   collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
-    this.fieldDirectives.push(definition);
+    this.fieldDirectives.unshift(definition);
   }
 
   build() {
@@ -273,9 +273,5 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
-  }
-
-  private findClassDirectives(target: ClassMetadata["target"]): DirectiveClassMetadata[] {
-    return this.classDirectives.filter(it => it.target === target);
   }
 }

@@ -1,6 +1,6 @@
 export interface DirectiveMetadata {
-  nameOrSDL: string;
-  args: { [key: string]: string };
+  nameOrDefinition: string;
+  args: Record<string, any>;
 }
 
 export interface DirectiveClassMetadata {
