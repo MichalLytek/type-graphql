@@ -709,13 +709,13 @@ export abstract class SchemaGenerator {
           kind: "Name",
           value: nameOrDefinition,
         },
-        arguments: Object.keys(args).map(arg => ({
+        arguments: Object.keys(args).map(argKey => ({
           kind: "Argument",
           name: {
             kind: "Name",
-            value: arg,
+            value: argKey,
           },
-          value: parseValue(args[arg]),
+          value: parseValue(args[argKey]),
         })),
       };
     }
