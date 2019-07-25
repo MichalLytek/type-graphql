@@ -17,4 +17,3 @@ require("ts-node/register/transpile-only");
 // require("./examples/typeorm-lazy-relations/index.ts");
 // require("./examples/using-container/index.ts");
 // require("./examples/using-scoped-container/index.ts");
-// require("./examples/apollo-federation/index.ts");
