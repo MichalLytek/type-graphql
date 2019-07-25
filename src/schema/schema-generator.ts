@@ -695,6 +695,13 @@ export abstract class SchemaGenerator {
   private static getDirectiveNodes(directive: DirectiveMetadata): DirectiveNode {
     const { nameOrDefinition, args } = directive;
 
+    if (nameOrDefinition === "") {
+      throw new InvalidDirectiveError(
+        "There must be exactly one directive defined for directive",
+        directive,
+      );
+    }
+
     if (!nameOrDefinition.startsWith("@")) {
       return {
         kind: "Directive",

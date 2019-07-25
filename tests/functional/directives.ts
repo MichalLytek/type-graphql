@@ -18,6 +18,7 @@ import { SchemaDirectiveVisitor } from "graphql-tools";
 import { UpperCaseDirective } from "../helpers/directives/UpperCaseDirective";
 import { AppendDirective } from "../helpers/directives/AppendDirective";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
+import { InvalidDirectiveError } from "../../src/errors/InvalidDirectiveError";
 
 describe("Directives", () => {
   let schema: GraphQLSchema;
@@ -396,6 +397,79 @@ describe("Directives", () => {
           withInputUpperOnClass: "HELLO, WORLD!",
         });
       });
+    });
+  });
+
+  describe("errors", () => {
+    beforeEach(async () => {
+      getMetadataStorage().clear();
+    });
+
+    it("throws error on multiple directive definitions", async () => {
+      expect.assertions(2);
+
+      @Resolver()
+      class InvalidQuery {
+        @Query()
+        @Directive("@upper @append")
+        invalid(): string {
+          return "invalid";
+        }
+      }
+
+      try {
+        await buildSchema({ resolvers: [InvalidQuery] });
+      } catch (err) {
+        expect(err).toBeInstanceOf(InvalidDirectiveError);
+        const error: InvalidDirectiveError = err;
+        expect(error.message).toContain(
+          'There must be exactly one directive defined for directive "@upper @append"',
+        );
+      }
+    });
+
+    it("throws error when parsing invalid directives", async () => {
+      expect.assertions(2);
+
+      @Resolver()
+      class InvalidQuery {
+        @Query()
+        @Directive("@invalid(@directive)")
+        invalid(): string {
+          return "invalid";
+        }
+      }
+
+      try {
+        await buildSchema({ resolvers: [InvalidQuery] });
+      } catch (err) {
+        expect(err).toBeInstanceOf(InvalidDirectiveError);
+        const error: InvalidDirectiveError = err;
+        expect(error.message).toContain('Error parsing directive "@invalid(@directive)"');
+      }
+    });
+
+    it("throws error when no directives are defined", async () => {
+      expect.assertions(2);
+
+      @Resolver()
+      class InvalidQuery {
+        @Query()
+        @Directive("")
+        invalid(): string {
+          return "invalid";
+        }
+      }
+
+      try {
+        await buildSchema({ resolvers: [InvalidQuery] });
+      } catch (err) {
+        expect(err).toBeInstanceOf(InvalidDirectiveError);
+        const error: InvalidDirectiveError = err;
+        expect(error.message).toContain(
+          'There must be exactly one directive defined for directive ""',
+        );
+      }
     });
   });
 });
