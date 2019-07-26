@@ -3,8 +3,17 @@
     {
       "name": "Role",
       "values": [
-        "Admin",
-        "User"
+        "USER",
+        "ADMIN"
+      ],
+      "dbName": null,
+      "documentation": "Role enum comment\r"
+    },
+    {
+      "name": "PostKind",
+      "values": [
+        "BLOG",
+        "ADVERT"
       ],
       "dbName": null
     }
@@ -30,7 +39,8 @@
             "args": []
           },
           "isGenerated": false,
-          "isUpdatedAt": false
+          "isUpdatedAt": false,
+          "documentation": "User model field comment\r"
         },
         {
           "name": "email",
@@ -53,6 +63,30 @@
           "isUnique": false,
           "isId": false,
           "type": "String",
+          "isGenerated": false,
+          "isUpdatedAt": false
+        },
+        {
+          "name": "age",
+          "kind": "scalar",
+          "dbName": null,
+          "isList": false,
+          "isRequired": true,
+          "isUnique": false,
+          "isId": false,
+          "type": "Int",
+          "isGenerated": false,
+          "isUpdatedAt": false
+        },
+        {
+          "name": "balance",
+          "kind": "scalar",
+          "dbName": null,
+          "isList": false,
+          "isRequired": true,
+          "isUnique": false,
+          "isId": false,
+          "type": "Float",
           "isGenerated": false,
           "isUpdatedAt": false
         },
@@ -84,7 +118,8 @@
           "isUpdatedAt": false
         }
       ],
-      "isGenerated": false
+      "isGenerated": false,
+      "documentation": "User model comment\r"
     },
     {
       "name": "Post",
@@ -187,6 +222,18 @@
             "id"
           ],
           "relationOnDelete": "NONE",
+          "isGenerated": false,
+          "isUpdatedAt": false
+        },
+        {
+          "name": "kind",
+          "kind": "enum",
+          "dbName": null,
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "isId": false,
+          "type": "PostKind",
           "isGenerated": false,
           "isUpdatedAt": false
         }
