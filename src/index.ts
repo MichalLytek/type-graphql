@@ -1,10 +1,12 @@
 import { getDMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
 import fs from "fs";
 import path from "path";
 import { Project } from "ts-morph";
 
 import { getDatamodel } from "./photon/getDatamodel";
 import generateEnum from "./generateEnum";
+import generateClassFromModel from "./generateClass";
 
 async function writeDmmf(cwd: string) {
   try {
@@ -42,17 +44,29 @@ async function logDmmf(cwd: string) {
 }
 
 async function generateCode(cwd: string) {
+  console.log("Loading datamodel...");
   const datamodel = await getDatamodel(cwd);
   const dmmf = await getDMMF({ datamodel, cwd });
+  // const dmmf = {
+  //   datamodel: require("../data/dmmf-datamodel.json") as DMMF.Datamodel,
+  // };
   const project = new Project();
   const sourceFile = project.createSourceFile(
     path.resolve(__dirname, "../data/generated.ts"),
     undefined,
     { overwrite: true },
   );
+  console.log("Generating enums...");
   await Promise.all(
     dmmf.datamodel.enums.map(enumDef => generateEnum(sourceFile, enumDef)),
   );
+  console.log("Generating models...");
+  await Promise.all(
+    dmmf.datamodel.models.map(model =>
+      generateClassFromModel(sourceFile, model),
+    ),
+  );
+  console.log("Saving generated code...");
   await sourceFile.save();
 }
 

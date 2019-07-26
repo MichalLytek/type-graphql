@@ -91,6 +91,18 @@
           "isUpdatedAt": false
         },
         {
+          "name": "amount",
+          "kind": "scalar",
+          "dbName": null,
+          "isList": false,
+          "isRequired": true,
+          "isUnique": false,
+          "isId": false,
+          "type": "Float",
+          "isGenerated": false,
+          "isUpdatedAt": false
+        },
+        {
           "name": "posts",
           "kind": "object",
           "dbName": null,

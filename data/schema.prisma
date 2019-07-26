@@ -3,6 +3,8 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+type Numeric = Float
+
 // generator photon {
 //   provider = "photonjs"
 // }
@@ -22,7 +24,8 @@ model User {
   email    String  @unique
   name     String?
   age      Int
-  balance  Float
+  balance  Numeric
+  amount   Float
   posts    Post[]
   role     Role
   // address  Address
