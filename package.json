@@ -3,11 +3,11 @@
   "version": "1.0.0-alpha.0",
   "scripts": {
     "docker": "docker-compose run linux-node",
-    "dev": "ts-node ./src/index.ts"
+    "dev": "ts-node --transpile-only ./src/index.ts"
   },
   "dependencies": {
-    "@prisma/lift": "^0.0.155",
-    "@prisma/photon": "^0.0.179",
+    "@prisma/lift": "^0.1.0",
+    "@prisma/photon": "^0.1.0",
     "@types/node": "^12.6.8",
     "ts-morph": "^3.1.3"
   },
