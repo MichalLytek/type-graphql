@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/19majkel94/type-graphql/master/logo.png)
+![logo](https://raw.githubusercontent.com/19majkel94/type-graphql/master/img/logo.png)
 
 # TypeGraphQL
 
@@ -163,7 +163,7 @@ Please ask your company to also support this open source project by [becoming a 
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
-| [<img src="https://d33wubrfki0l68.cloudfront.net/f3b1ddcebb093d3c7689d1e6ca7cd4f54cecd258/4fb6e/images/gorrionsidelogotype.svg" width="250">](https://gorrion.io/) |  [<img src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg" height="100">](https://opencollective.com/demid-nikitin) |
+| [<img src="https://raw.githubusercontent.com/19majkel94/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) |  [<img src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg" height="100">](https://opencollective.com/demid-nikitin) |
 | :---: | :---: |
 | [**Gorrion Software House**](https://gorrion.io/) | [**Demid Nikitin**](https://opencollective.com/demid-nikitin) |
 
