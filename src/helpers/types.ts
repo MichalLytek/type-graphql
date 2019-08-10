@@ -61,17 +61,36 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   }
 
   let gqlType: GraphQLType = type;
+
   if (typeOptions.array) {
+    const makeNestedList = (
+      depth: number | undefined,
+      targetType: GraphQLType,
+      nullable = false,
+    ): GraphQLList<GraphQLType> => {
+      const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
+
+      if (depth === undefined) {
+        return new GraphQLList(targetTypeNonNull);
+      }
+      if (depth > 0) {
+        return makeNestedList(depth - 1, new GraphQLList(targetTypeNonNull), nullable);
+      } else {
+        return targetType as GraphQLList<GraphQLType>;
+      }
+    };
+
     if (
       typeOptions.nullable === "items" ||
       typeOptions.nullable === "itemsAndList" ||
       (typeOptions.nullable === undefined && nullableByDefault === true)
     ) {
-      gqlType = new GraphQLList(gqlType);
+      gqlType = makeNestedList(typeOptions.arrayDepth, gqlType, true);
     } else {
-      gqlType = new GraphQLList(new GraphQLNonNull(gqlType));
+      gqlType = makeNestedList(typeOptions.arrayDepth, gqlType);
     }
   }
+
   if (
     typeOptions.defaultValue === undefined &&
     (typeOptions.nullable === false ||
@@ -80,6 +99,7 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   ) {
     gqlType = new GraphQLNonNull(gqlType);
   }
+
   return gqlType as T;
 }
 

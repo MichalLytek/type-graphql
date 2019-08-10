@@ -52,7 +52,22 @@ export function findType({
     const getType = () => {
       if (Array.isArray(returnTypeFunc())) {
         options.array = true;
-        return (returnTypeFunc() as [TypeValue])[0];
+
+        const findArrayDepth = (
+          array: unknown[],
+          innerDepth = 1,
+        ): { depth: number; returnType: TypeValue } => {
+          if (Array.isArray(array[0])) {
+            return findArrayDepth(array[0] as unknown[], innerDepth + 1);
+          } else {
+            return { depth: innerDepth, returnType: (array as [TypeValue])[0] };
+          }
+        };
+
+        const { depth, returnType } = findArrayDepth(returnTypeFunc() as [TypeValue]);
+        options.arrayDepth = depth;
+
+        return returnType;
       }
       return returnTypeFunc();
     };

@@ -34,6 +34,7 @@ export type NullableListOptions = "items" | "itemsAndList";
 
 export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
+  arrayDepth?: number;
 }
 export interface DescriptionOptions {
   description?: string;
