@@ -9,8 +9,10 @@ import {
   TypeResolver,
 } from "../interfaces";
 
+export interface RecursiveArray<TValue> extends Array<RecursiveArray<TValue> | TValue> {}
+
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
-export type ReturnTypeFuncValue = TypeValue | [TypeValue];
+export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;
 
 export type TypeValueThunk = (type?: void) => TypeValue;
 export type ClassTypeResolver = (of?: void) => ClassType;

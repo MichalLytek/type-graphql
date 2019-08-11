@@ -63,32 +63,11 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   let gqlType: GraphQLType = type;
 
   if (typeOptions.array) {
-    const makeNestedList = (
-      depth: number | undefined,
-      targetType: GraphQLType,
-      nullable = false,
-    ): GraphQLList<GraphQLType> => {
-      const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
-
-      if (depth === undefined) {
-        return new GraphQLList(targetTypeNonNull);
-      }
-      if (depth > 0) {
-        return makeNestedList(depth - 1, new GraphQLList(targetTypeNonNull), nullable);
-      } else {
-        return targetType as GraphQLList<GraphQLType>;
-      }
-    };
-
-    if (
+    const isNullableArray =
       typeOptions.nullable === "items" ||
       typeOptions.nullable === "itemsAndList" ||
-      (typeOptions.nullable === undefined && nullableByDefault === true)
-    ) {
-      gqlType = makeNestedList(typeOptions.arrayDepth, gqlType, true);
-    } else {
-      gqlType = makeNestedList(typeOptions.arrayDepth, gqlType);
-    }
+      (typeOptions.nullable === undefined && nullableByDefault === true);
+    gqlType = wrapTypeInNestedList(gqlType, typeOptions.arrayDepth!, isNullableArray);
   }
 
   if (
@@ -132,4 +111,17 @@ export function getEnumValuesMap<T extends object>(enumObject: T) {
     return map;
   }, {});
   return enumMap;
+}
+
+function wrapTypeInNestedList(
+  targetType: GraphQLType,
+  depth: number,
+  nullable: boolean,
+): GraphQLList<GraphQLType> {
+  const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
+
+  if (depth === 0) {
+    return targetType as GraphQLList<GraphQLType>;
+  }
+  return wrapTypeInNestedList(new GraphQLList(targetTypeNonNull), depth - 1, nullable);
 }

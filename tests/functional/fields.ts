@@ -70,10 +70,10 @@ describe("Fields - schema", () => {
       nullableNestedArrayField: string[][] | null;
 
       @Field(type => [[String]], { nullable: "items" })
-      nonNullNestedArrayWithNullableItemField: Array<Array<String | null> | null>;
+      nonNullNestedArrayWithNullableItemField: Array<Array<string | null> | null>;
 
       @Field(type => [[String]], { nullable: "itemsAndList" })
-      nestedArrayWithNullableItemField: Array<Array<String | null> | null> | null;
+      nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
     }
 
     @Resolver(of => SampleObject)
