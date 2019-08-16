@@ -61,17 +61,15 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   }
 
   let gqlType: GraphQLType = type;
+
   if (typeOptions.array) {
-    if (
+    const isNullableArray =
       typeOptions.nullable === "items" ||
       typeOptions.nullable === "itemsAndList" ||
-      (typeOptions.nullable === undefined && nullableByDefault === true)
-    ) {
-      gqlType = new GraphQLList(gqlType);
-    } else {
-      gqlType = new GraphQLList(new GraphQLNonNull(gqlType));
-    }
+      (typeOptions.nullable === undefined && nullableByDefault === true);
+    gqlType = wrapTypeInNestedList(gqlType, typeOptions.arrayDepth!, isNullableArray);
   }
+
   if (
     typeOptions.defaultValue === undefined &&
     (typeOptions.nullable === false ||
@@ -80,6 +78,7 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   ) {
     gqlType = new GraphQLNonNull(gqlType);
   }
+
   return gqlType as T;
 }
 
@@ -112,4 +111,17 @@ export function getEnumValuesMap<T extends object>(enumObject: T) {
     return map;
   }, {});
   return enumMap;
+}
+
+function wrapTypeInNestedList(
+  targetType: GraphQLType,
+  depth: number,
+  nullable: boolean,
+): GraphQLList<GraphQLType> {
+  const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
+
+  if (depth === 0) {
+    return targetType as GraphQLList<GraphQLType>;
+  }
+  return wrapTypeInNestedList(new GraphQLList(targetTypeNonNull), depth - 1, nullable);
 }

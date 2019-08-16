@@ -1,4 +1,10 @@
-import { ReturnTypeFunc, TypeOptions, TypeValueThunk, TypeValue } from "../decorators/types";
+import {
+  ReturnTypeFunc,
+  TypeOptions,
+  TypeValueThunk,
+  TypeValue,
+  RecursiveArray,
+} from "../decorators/types";
 import { bannedTypes } from "./returnTypes";
 import { NoExplicitTypeError, CannotDetermineTypeError } from "../errors";
 
@@ -46,15 +52,19 @@ export function findType({
   }
   if (metadataDesignType === Array) {
     options.array = true;
+    options.arrayDepth = 1;
   }
 
   if (returnTypeFunc) {
     const getType = () => {
-      if (Array.isArray(returnTypeFunc())) {
+      const returnTypeFuncReturnValue = returnTypeFunc();
+      if (Array.isArray(returnTypeFuncReturnValue)) {
+        const { depth, returnType } = findTypeValueArrayDepth(returnTypeFuncReturnValue);
         options.array = true;
-        return (returnTypeFunc() as [TypeValue])[0];
+        options.arrayDepth = depth;
+        return returnType;
       }
-      return returnTypeFunc();
+      return returnTypeFuncReturnValue;
     };
     return {
       getType,
@@ -68,4 +78,14 @@ export function findType({
   } else {
     throw new CannotDetermineTypeError(prototype.constructor.name, propertyKey, parameterIndex);
   }
+}
+
+function findTypeValueArrayDepth(
+  [typeValueOrArray]: RecursiveArray<TypeValue>,
+  innerDepth = 1,
+): { depth: number; returnType: TypeValue } {
+  if (!Array.isArray(typeValueOrArray)) {
+    return { depth: innerDepth, returnType: typeValueOrArray };
+  }
+  return findTypeValueArrayDepth(typeValueOrArray, innerDepth + 1);
 }

@@ -5,6 +5,7 @@
 ## Features
 - rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
 - update deps to newest minor versions (`tslib`, `semver`, `graphql-query-complexity` and `glob`)
+- support nested array types (`@Field(() => [[Int]])`)
 
 ## v0.17.4
 ## Features

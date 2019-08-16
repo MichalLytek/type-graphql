@@ -65,6 +65,15 @@ describe("Fields - schema", () => {
 
       @Field({ name: "complexField", complexity: 10 })
       complexField: string;
+
+      @Field(type => [[String]], { nullable: true })
+      nullableNestedArrayField: string[][] | null;
+
+      @Field(type => [[String]], { nullable: "items" })
+      nonNullNestedArrayWithNullableItemField: Array<Array<string | null> | null>;
+
+      @Field(type => [[String]], { nullable: "itemsAndList" })
+      nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
     }
 
     @Resolver(of => SampleObject)
@@ -310,5 +319,54 @@ describe("Fields - schema", () => {
     expect(overwrittenStringField).toBeUndefined();
     expect(overwrittenNameFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(overwrittenNameFieldType.name).toEqual("String");
+  });
+
+  it("should generate nullable nested array field type when declared using mongoose syntax", async () => {
+    const nullableNestedArrayField = sampleObjectType.fields.find(
+      field => field.name === "nullableNestedArrayField",
+    )!;
+    const arrayFieldType = nullableNestedArrayField.type as IntrospectionListTypeRef;
+    const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionListTypeRef;
+    const arrayItemScalarNonNullFieldType = arrayItemFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemScalarFieldType = arrayItemScalarNonNullFieldType.ofType as IntrospectionNamedTypeRef;
+
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemScalarNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemScalarFieldType.kind).toEqual(TypeKind.SCALAR);
+    expect(arrayItemScalarFieldType.name).toEqual("String");
+  });
+
+  it("should generate nested array with nullable option 'items'", async () => {
+    const nestedArrayField = sampleObjectType.fields.find(
+      field => field.name === "nonNullNestedArrayWithNullableItemField",
+    )!;
+
+    const arrayNonNullFieldType = nestedArrayField.type as IntrospectionNonNullTypeRef;
+    const arrayItemFieldType = arrayNonNullFieldType.ofType as IntrospectionListTypeRef;
+    const arrayItemInnerFieldType = arrayItemFieldType.ofType as IntrospectionListTypeRef;
+    const arrayItemScalarFieldType = arrayItemInnerFieldType.ofType as IntrospectionNamedTypeRef;
+
+    expect(arrayNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemInnerFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemScalarFieldType.kind).toEqual(TypeKind.SCALAR);
+    expect(arrayItemScalarFieldType.name).toEqual("String");
+  });
+
+  it("should generate nullable nested array with nullable option 'itemsAndList'", async () => {
+    const nullableNestedArrayField = sampleObjectType.fields.find(
+      field => field.name === "nestedArrayWithNullableItemField",
+    )!;
+    const arrayFieldType = nullableNestedArrayField.type as IntrospectionListTypeRef;
+    const arrayItemFieldType = arrayFieldType.ofType as IntrospectionListTypeRef;
+    const arrayItemScalarFieldType = arrayItemFieldType.ofType as IntrospectionNamedTypeRef;
+
+    expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemFieldType.kind).toEqual(TypeKind.LIST);
+    expect(arrayItemScalarFieldType.kind).toEqual(TypeKind.SCALAR);
+    expect(arrayItemScalarFieldType.name).toEqual("String");
   });
 });
