@@ -1,0 +1,33 @@
+{
+  users {
+    ...UserData
+    # posts {
+    #   id
+    # }
+  }
+  posts {
+    ...PostData
+    # author {
+    #   id
+    # }
+  }
+}
+
+fragment UserData on User {
+  id
+  email
+  age
+  balance
+  amount
+  role
+}
+
+fragment PostData on Post {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  content
+  kind
+}

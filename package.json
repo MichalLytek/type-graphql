@@ -3,7 +3,10 @@
   "version": "1.0.0-alpha.0",
   "scripts": {
     "docker": "docker-compose run linux-node",
-    "dev": "ts-node --transpile-only ./src/index.ts"
+    "dev": "ts-node --transpile-only ./src/index.ts",
+    "example:run": "ts-node --transpile-only ./examples/index.ts",
+    "example:seed": "ts-node --transpile-only ./examples/seed.ts",
+    "example:docker": "docker-compose up -d --force-recreate example && docker-compose logs -f example"
   },
   "dependencies": {
     "@prisma/lift": "^0.2.3",
@@ -13,8 +16,11 @@
   },
   "devDependencies": {
     "@types/graphql": "^14.2.3",
+    "apollo-server": "^2.8.1",
     "graphql": "^14.4.2",
     "prettier": "^1.18.2",
+    "prisma2": "^2.0.0-preview-7",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^8.3.0",
     "type-graphql": "^0.17.4",
     "typescript": "^3.5.3"
