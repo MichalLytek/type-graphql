@@ -2,13 +2,13 @@
 
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
-## Features
+### Features
 - rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
 - update deps to newest minor versions (`tslib`, `semver`, `graphql-query-complexity` and `glob`)
-- support nested array types (`@Field(() => [[Int]])`)
+- support nested array types (`@Field(type => [[Int]])`) (#393)
 
 ## v0.17.4
-## Features
+### Features
 - add support for creating custom parameter decorators (#329)
 - allow to provide custom `subscribe` function in `@Subscription` decorator (#328)
 
