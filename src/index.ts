@@ -15,7 +15,7 @@ async function writeDmmf(cwd: string) {
     const dmmf = await getDMMF({ datamodel, cwd });
     console.log("Writing datamodel...");
     fs.writeFileSync(
-      path.resolve(__dirname, "../data/dmmf-datamodel.json"),
+      path.resolve(__dirname, "../prisma/dmmf-datamodel.json"),
       JSON.stringify(dmmf.datamodel, null, 2),
     );
   } catch (err) {
@@ -50,11 +50,11 @@ async function generateCode(cwd: string) {
   // const datamodel = await getDatamodel(cwd);
   // const dmmf = await getDMMF({ datamodel, cwd });
   const dmmf = {
-    datamodel: require("../data/dmmf-datamodel.json") as DMMF.Datamodel,
+    datamodel: require("../prisma/dmmf-datamodel.json") as DMMF.Datamodel,
   };
   const project = new Project();
   const sourceFile = project.createSourceFile(
-    path.resolve(__dirname, "../data/generated.ts"),
+    path.resolve(__dirname, "../prisma/generated.ts"),
     undefined,
     { overwrite: true },
   );
@@ -83,7 +83,7 @@ async function generateCode(cwd: string) {
 }
 
 (async () => {
-  await writeDmmf("./data");
-  // await logDmmf("./data");
-  await generateCode("./data");
+  await writeDmmf("./prisma");
+  // await logDmmf("./prisma");
+  await generateCode("./prisma");
 })();

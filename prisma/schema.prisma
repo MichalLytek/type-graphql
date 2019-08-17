@@ -5,9 +5,9 @@ datasource db {
 
 type Numeric = Float
 
-// generator photon {
-//   provider = "photonjs"
-// }
+generator photon {
+  provider = "photonjs"
+}
 
 /// Role enum comment
 enum Role {

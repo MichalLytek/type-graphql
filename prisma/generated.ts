@@ -4,8 +4,8 @@ import { Field, ObjectType, Int, Float, registerEnumType } from "type-graphql";
  * Role enum comment
  */
 export enum Role {
-  USER,
-  ADMIN
+  USER = "USER",
+  ADMIN = "ADMIN"
 }
 registerEnumType(Role, {
   name: "Role",
@@ -13,8 +13,8 @@ registerEnumType(Role, {
 })
 
 export enum PostKind {
-  BLOG,
-  ADVERT
+  BLOG = "BLOG",
+  ADVERT = "ADVERT"
 }
 registerEnumType(PostKind, {
   name: "PostKind",
@@ -48,7 +48,7 @@ export class BaseUser {
     nullable: true,
     description: undefined,
   })
-  name?: string;
+  name?: string | null;
 
   @Field(() => Int, {
     nullable: false,
@@ -72,13 +72,13 @@ export class BaseUser {
     nullable: true,
     description: undefined,
   })
-  posts?: BasePost[];
+  posts?: BasePost[] | null;
 
   @Field(() => Role, {
     nullable: false,
     description: undefined,
   })
-  role!: Role;
+  role!: keyof typeof Role;
 }
 
 @ObjectType({
@@ -92,17 +92,17 @@ export class BasePost {
   })
   id!: string;
 
-  @Field(() => Date, {
+  @Field(() => String, {
     nullable: false,
     description: undefined,
   })
-  createdAt!: Date;
+  createdAt!: string;
 
-  @Field(() => Date, {
+  @Field(() => String, {
     nullable: false,
     description: undefined,
   })
-  updatedAt!: Date;
+  updatedAt!: string;
 
   @Field(() => Boolean, {
     nullable: false,
@@ -120,17 +120,17 @@ export class BasePost {
     nullable: true,
     description: undefined,
   })
-  content?: string;
+  content?: string | null;
 
   @Field(() => BaseUser, {
     nullable: true,
     description: undefined,
   })
-  author?: BaseUser;
+  author?: BaseUser | null;
 
   @Field(() => PostKind, {
     nullable: true,
     description: undefined,
   })
-  kind?: PostKind;
+  kind?: keyof typeof PostKind | null;
 }
