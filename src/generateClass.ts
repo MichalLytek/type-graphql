@@ -73,11 +73,16 @@ function getFieldTSType(field: DMMF.Field) {
     type = mapScalarToTSType(field.type);
   } else if (field.kind === "object") {
     type = getBaseModelTypeName(field.type);
+  } else if (field.kind === "enum") {
+    type = `keyof typeof ${field.type}`;
   } else {
-    type = field.type;
+    throw new Error(`Unsupported field type kind: ${field.kind}`);
   }
   if (field.isList) {
     type += "[]";
+  }
+  if (!field.isRequired) {
+    type += " | null";
   }
   return type;
 }
@@ -91,7 +96,9 @@ function mapScalarToTSType(scalar: string) {
       return "boolean";
     }
     case "DateTime": {
-      return "Date";
+      // TODO: replace when Photon has been fixed
+      // return "Date";
+      return "string";
     }
     case "Int":
     case "Float": {
@@ -120,7 +127,9 @@ function getTypeGraphQLType(field: DMMF.Field) {
 function mapScalarToTypeGraphQLType(scalar: string) {
   switch (scalar) {
     case "DateTime": {
-      return "Date";
+      // TODO: replace when Photon has been fixed
+      // return "Date";
+      return "String";
     }
     case "Boolean":
     case "String":

@@ -16,6 +16,7 @@ export default async function generateEnum(
     members: enumDef.values.map<OptionalKind<EnumMemberStructure>>(
       enumValue => ({
         name: enumValue,
+        value: enumValue,
         // TODO: add support for string enums (values)
         // TODO: add support for enum members docs
       }),
