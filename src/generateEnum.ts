@@ -5,11 +5,13 @@ export default async function generateEnum(
   sourceFile: SourceFile,
   enumDef: DMMF.Enum,
 ) {
+  const documentation =
+    enumDef.documentation && enumDef.documentation.replace("\r", "");
   sourceFile.addEnum({
     isExported: true,
     name: enumDef.name,
-    ...(enumDef.documentation && {
-      docs: [{ description: enumDef.documentation }],
+    ...(documentation && {
+      docs: [{ description: documentation }],
     }),
     members: enumDef.values.map<OptionalKind<EnumMemberStructure>>(
       enumValue => ({
@@ -19,4 +21,11 @@ export default async function generateEnum(
       }),
     ),
   });
+
+  sourceFile.addStatements([
+    `registerEnumType(${enumDef.name}, {
+      name: "${enumDef.name}",
+      description: ${documentation ? `"${documentation}"` : "undefined"},
+    })`,
+  ]);
 }

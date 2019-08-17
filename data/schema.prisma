@@ -20,15 +20,16 @@ enum Role {
 /// User model comment
 model User {
   /// User model field comment
-  id       String  @default(cuid()) @id @unique
-  email    String  @unique
-  name     String?
-  age      Int
-  balance  Numeric
-  amount   Float
-  posts    Post[]
-  role     Role
-  // address  Address
+  id          String  @default(cuid()) @id @unique
+  email       String  @unique
+  name        String?
+  age         Int
+  balance     Numeric
+  amount      Float
+  posts       Post[]
+  // maybePosts  Post[]?
+  role        Role
+  // address     Address
   // address2 embed {
   //   street  String
   //   zipCode String
