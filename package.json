@@ -6,9 +6,9 @@
     "dev": "ts-node --transpile-only ./src/index.ts"
   },
   "dependencies": {
-    "@prisma/lift": "^0.1.0",
-    "@prisma/photon": "^0.1.0",
-    "@types/node": "^12.6.8",
+    "@prisma/lift": "^0.2.3",
+    "@prisma/photon": "^0.2.4",
+    "@types/node": "^12.7.2",
     "ts-morph": "^3.1.3"
   },
   "devDependencies": {
