@@ -12,12 +12,18 @@ export default async function generateClassFromModel(
   sourceFile.addClass({
     name: model.name,
     isExported: true,
+    ...(model.documentation && {
+      docs: [{ description: model.documentation }],
+    }),
     properties: model.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => ({
         name: field.name,
         type: getFieldType(field),
-        hasExclamationToken: field.isRequired,
-        hasQuestionToken: !field.isRequired,
+        hasExclamationToken: !field.relationName && field.isRequired,
+        hasQuestionToken: !!field.relationName || !field.isRequired,
+        ...(field.documentation && {
+          docs: [{ description: field.documentation }],
+        }),
       }),
     ),
   });

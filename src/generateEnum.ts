@@ -5,13 +5,11 @@ export default async function generateEnum(
   sourceFile: SourceFile,
   enumDef: DMMF.Enum,
 ) {
-  // FIXME: remove casting after photon defs fix
-  const documentation = (enumDef as any).documentation;
   sourceFile.addEnum({
     isExported: true,
     name: enumDef.name,
-    ...(documentation && {
-      docs: [{ description: documentation }],
+    ...(enumDef.documentation && {
+      docs: [{ description: enumDef.documentation }],
     }),
     members: enumDef.values.map<OptionalKind<EnumMemberStructure>>(
       enumValue => ({

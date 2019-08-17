@@ -11,7 +11,13 @@ export enum PostKind {
     ADVERT
 }
 
+/**
+ * User model comment
+ */
 export class User {
+    /**
+     * User model field comment
+     */
     id!: string;
     email!: string;
     name?: string;
