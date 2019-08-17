@@ -91,7 +91,7 @@
 
 <span class="token keyword">const</span> SearchResultUnion <span class="token operator">=</span> <span class="token function">createUnionType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">"SearchResult"</span><span class="token punctuation">,</span> <span class="token comment">// the name of the GraphQL union</span>
-  types<span class="token punctuation">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// array of object types classes</span>
+  <span class="token function-variable function">types</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// function that returns array of object types classes</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Now we can use the union type in the query.
@@ -113,7 +113,7 @@ For TypeScript compile-time type safety we can also use <code>typeof SearchResul
 <p>However, we can also provide our own <code>resolveType</code> function implementation to the <code>createUnionType</code> options. This way we can return plain objects in resolvers and then determine the returned object type by checking the shape of the data object, e.g.:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">const</span> SearchResultUnion <span class="token operator">=</span> <span class="token function">createUnionType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">"SearchResult"</span><span class="token punctuation">,</span>
-  types<span class="token punctuation">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">types</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token comment">// our implementation of detecting returned object type</span>
   <span class="token function-variable function">resolveType</span><span class="token punctuation">:</span> <span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"rating"</span> <span class="token keyword">in</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
