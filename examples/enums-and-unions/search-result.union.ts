@@ -5,5 +5,5 @@ import { Cook } from "./cook.type";
 
 export const SearchResult = createUnionType({
   name: "SearchResult",
-  types: [Recipe, Cook],
+  types: () => [Recipe, Cook],
 });

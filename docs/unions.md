@@ -39,7 +39,7 @@ import { createUnionType } from "type-graphql";
 
 const SearchResultUnion = createUnionType({
   name: "SearchResult", // the name of the GraphQL union
-  types: [Movie, Actor], // array of object types classes
+  types: () => [Movie, Actor], // function that returns array of object types classes
 });
 ```
 
@@ -69,7 +69,7 @@ However, we can also provide our own `resolveType` function implementation to th
 ```typescript
 const SearchResultUnion = createUnionType({
   name: "SearchResult",
-  types: [Movie, Actor],
+  types: () => [Movie, Actor],
   // our implementation of detecting returned object type
   resolveType: value => {
     if ("rating" in value) {
