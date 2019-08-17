@@ -42,6 +42,11 @@ describe("Unions", () => {
       description: "OneTwoThreeUnion description",
       types: [ObjectOne, ObjectTwo, ObjectThree],
     });
+    const OneTwoThreeUnionFn = createUnionType({
+      name: "OneTwoThreeUnionFn",
+      description: "OneTwoThreeUnionFn description",
+      types: () => [ObjectOne, ObjectTwo, ObjectThree],
+    });
 
     const UnionWithStringResolveType = createUnionType({
       name: "UnionWithStringResolveType",
@@ -80,6 +85,13 @@ describe("Unions", () => {
     class SampleResolver {
       @Query(returns => OneTwoThreeUnion)
       getObjectOneFromUnion(): typeof OneTwoThreeUnion {
+        const oneInstance = new ObjectTwo();
+        oneInstance.fieldTwo = "fieldTwo";
+        return oneInstance;
+      }
+
+      @Query(returns => OneTwoThreeUnionFn)
+      getObjectOneFromUnionFn(): typeof OneTwoThreeUnionFn {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
         return oneInstance;
@@ -142,6 +154,28 @@ describe("Unions", () => {
       expect(oneTwoThreeUnionType.kind).toEqual(TypeKind.UNION);
       expect(oneTwoThreeUnionType.name).toEqual("OneTwoThreeUnion");
       expect(oneTwoThreeUnionType.description).toEqual("OneTwoThreeUnion description");
+      expect(objectOne.kind).toEqual(TypeKind.OBJECT);
+      expect(objectTwo.kind).toEqual(TypeKind.OBJECT);
+      expect(objectThree.kind).toEqual(TypeKind.OBJECT);
+    });
+
+    it("should correctly generate union type from function syntax", async () => {
+      const oneTwoThreeUnionFnType = schemaIntrospection.types.find(
+        type => type.name === "OneTwoThreeUnionFn",
+      ) as IntrospectionUnionType;
+      const objectOne = oneTwoThreeUnionFnType.possibleTypes.find(
+        type => type.name === "ObjectOne",
+      )!;
+      const objectTwo = oneTwoThreeUnionFnType.possibleTypes.find(
+        type => type.name === "ObjectTwo",
+      )!;
+      const objectThree = oneTwoThreeUnionFnType.possibleTypes.find(
+        type => type.name === "ObjectThree",
+      )!;
+
+      expect(oneTwoThreeUnionFnType.kind).toEqual(TypeKind.UNION);
+      expect(oneTwoThreeUnionFnType.name).toEqual("OneTwoThreeUnionFn");
+      expect(oneTwoThreeUnionFnType.description).toEqual("OneTwoThreeUnionFn description");
       expect(objectOne.kind).toEqual(TypeKind.OBJECT);
       expect(objectTwo.kind).toEqual(TypeKind.OBJECT);
       expect(objectThree.kind).toEqual(TypeKind.OBJECT);

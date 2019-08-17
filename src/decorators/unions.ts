@@ -7,7 +7,11 @@ export interface UnionTypeConfig<TClassTypes extends ClassType[]>
   extends ResolveTypeOptions<UnionFromClasses<TClassTypes>> {
   name: string;
   description?: string;
-  types: TClassTypes;
+  /**
+   * The direct array syntax is deprecated.
+   * Use the function syntax `() => TClassTypes` instead.
+   */
+  types: TClassTypes | (() => TClassTypes);
 }
 
 export function createUnionType<T extends ClassType[]>(
@@ -16,13 +20,16 @@ export function createUnionType<T extends ClassType[]>(
 export function createUnionType({
   name,
   description,
-  types: classTypes,
+  types: classTypesOrClassTypesFn,
   resolveType,
 }: UnionTypeConfig<ClassType[]>): any {
   const unionMetadataSymbol = getMetadataStorage().collectUnionMetadata({
     name,
     description,
-    classTypes,
+    getClassTypes:
+      typeof classTypesOrClassTypesFn === "function"
+        ? classTypesOrClassTypesFn
+        : () => classTypesOrClassTypesFn,
     resolveType,
   });
   return unionMetadataSymbol;

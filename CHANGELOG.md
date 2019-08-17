@@ -6,6 +6,10 @@
 - rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
 - update deps to newest minor versions (`tslib`, `semver`, `graphql-query-complexity` and `glob`)
 - support nested array types (`@Field(type => [[Int]])`) (#393)
+- deprecate the direct array syntax for union types
+
+## Fixes
+- fix errors on circular refs in union types (#364) by adding the function syntax (`() => TClassTypes`)
 
 ## v0.17.4
 ### Features
