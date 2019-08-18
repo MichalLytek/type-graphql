@@ -316,6 +316,40 @@
       },
       "version-0.17.4/version-0.17.4-unions": {
         "title": "Unions"
+      },
+      "version-0.17.5/version-0.17.5-complexity": {
+        "title": "Query complexity"
+      },
+      "version-0.17.5/version-0.17.5-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-0.17.5/version-0.17.5-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-0.17.5/version-0.17.5-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-0.17.5/version-0.17.5-faq": {
+        "title": "Frequently Asked Questions"
+      },
+      "version-0.17.5/version-0.17.5-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-0.17.5/version-0.17.5-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-0.17.5/version-0.17.5-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-0.17.5/version-0.17.5-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-0.17.5/version-0.17.5-types-and-fields": {
+        "title": "Types and Fields"
+      },
+      "version-0.17.5/version-0.17.5-unions": {
+        "title": "Unions"
       }
     },
     "links": {
