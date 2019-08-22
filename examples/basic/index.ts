@@ -11,8 +11,8 @@ import {
 import { ApolloServer } from "apollo-server";
 import path from "path";
 
-import { BaseUser, BasePost } from "../prisma/generated/type-graphql";
-import Photon from "../prisma/generated/photon";
+import { BaseUser, BasePost } from "./prisma/generated/type-graphql";
+import Photon from "./prisma/generated/photon";
 
 const photon = new Photon();
 

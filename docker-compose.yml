@@ -5,21 +5,22 @@ services:
     image: node:12.6.0
     entrypoint: bash
     working_dir: /usr/app
-    ports:
-      - "4000:4000"
     volumes:
       - ./:/usr/app/
       - node_modules/:/usr/app/node_modules/
+      - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
 
-  example:
+  basic-example:
     image: node:12.6.0
-    command: npm run example:run
-    working_dir: /usr/app
+    command: npm start
+    working_dir: /usr/app/examples/basic
     ports:
       - "4000:4000"
     volumes:
       - ./:/usr/app/
       - node_modules/:/usr/app/node_modules/
+      - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
 
 volumes:
   node_modules:
+  examples_basic_node_modules:

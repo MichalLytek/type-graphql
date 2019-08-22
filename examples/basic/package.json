@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "ts-node --transpile-only ./index.ts",
+    "generate": "prisma2 generate",
+    "seed": "ts-node --transpile-only ./seed.ts"
+  },
+  "dependencies": {
+    "@types/graphql": "^14.2.3",
+    "apollo-server": "^2.8.2",
+    "graphql": "^14.4.2",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^0.17.5"
+  },
+  "devDependencies": {
+    "prisma2": "^2.0.0-preview-7",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}
