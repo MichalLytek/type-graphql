@@ -68,10 +68,6 @@ export class BaseUser {
   })
   amount!: number;
 
-  @Field(() => [BasePost], {
-    nullable: true,
-    description: undefined,
-  })
   posts?: BasePost[] | null;
 
   @Field(() => Role, {
@@ -122,10 +118,6 @@ export class BasePost {
   })
   content?: string | null;
 
-  @Field(() => BaseUser, {
-    nullable: true,
-    description: undefined,
-  })
   author?: BaseUser | null;
 
   @Field(() => PostKind, {

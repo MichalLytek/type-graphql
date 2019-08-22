@@ -20,6 +20,7 @@ export default async function generateClassFromModel(
         name: "ObjectType",
         arguments: [
           // `"${model.name}"`,
+          // `"${getBaseModelTypeName(model.name)}"`,
           `{
             isAbstract: true,
             description: ${modelDocs ? `"${modelDocs}"` : "undefined"},
@@ -40,16 +41,22 @@ export default async function generateClassFromModel(
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
           decorators: [
-            {
-              name: "Field",
-              arguments: [
-                `type => ${getTypeGraphQLType(field)}`,
-                `{
-                  nullable: ${isOptional},
-                  description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
-                }`,
-              ],
-            },
+            ...(field.relationName
+              ? []
+              : [
+                  {
+                    name: "Field",
+                    arguments: [
+                      `type => ${getTypeGraphQLType(field)}`,
+                      `{
+                        nullable: ${isOptional},
+                        description: ${
+                          fieldDocs ? `"${fieldDocs}"` : "undefined"
+                        },
+                      }`,
+                    ],
+                  },
+                ]),
           ],
           ...(fieldDocs && {
             docs: [{ description: fieldDocs }],

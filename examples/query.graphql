@@ -1,15 +1,15 @@
-{
+query GetUsersAndPosts {
   users {
     ...UserData
-    # posts {
-    #   id
-    # }
+    posts {
+      ...PostData
+    }
   }
   posts {
     ...PostData
-    # author {
-    #   id
-    # }
+    author {
+      ...UserData
+    }
   }
 }
 
