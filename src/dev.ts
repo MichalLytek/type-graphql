@@ -5,9 +5,9 @@ import path from "path";
 import { Project } from "ts-morph";
 
 import { getDatamodel } from "./photon/getDatamodel";
-import generateEnum from "./generateEnum";
-import generateClassFromModel from "./generateClass";
-import generateImports from "./generateImports";
+import generateEnum from "./generator/generateEnum";
+import generateClassFromModel from "./generator/generateClass";
+import generateImports from "./generator/generateImports";
 
 async function writeDmmf(cwd: string) {
   try {
