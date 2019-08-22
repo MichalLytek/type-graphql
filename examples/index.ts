@@ -2,8 +2,8 @@ import "reflect-metadata";
 import { ObjectType, Resolver, Query, buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 
-import { BaseUser, BasePost } from "../prisma/generated";
-import Photon from "@generated/photon";
+import { BaseUser, BasePost } from "../prisma/generated/type-graphql";
+import Photon from "../prisma/generated/photon";
 
 const photon = new Photon();
 

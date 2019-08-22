@@ -54,7 +54,7 @@ async function generateCode(cwd: string) {
   };
   const project = new Project();
   const sourceFile = project.createSourceFile(
-    path.resolve(__dirname, "../prisma/generated.ts"),
+    path.resolve(__dirname, "../prisma/generated/type-graphql.ts"),
     undefined,
     { overwrite: true },
   );
