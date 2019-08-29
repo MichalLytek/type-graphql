@@ -10,7 +10,6 @@ import {
   GraphQLSchema,
   IntrospectionSchema,
   IntrospectionInputObjectType,
-  GraphQLObjectType,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
