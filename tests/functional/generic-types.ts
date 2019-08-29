@@ -10,6 +10,7 @@ import {
   GraphQLSchema,
   IntrospectionSchema,
   IntrospectionInputObjectType,
+  GraphQLObjectType,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -24,6 +25,7 @@ import {
   Int,
   InputType,
   Arg,
+  Subscription,
 } from "../../src";
 
 describe("Generic types", () => {
@@ -480,6 +482,71 @@ describe("Generic types", () => {
           },
         },
       });
+    });
+  });
+
+  describe("should not emit resolver fields marked as skipSchemaEmit", () => {
+    let queryFields: any;
+    let subscriptionFields: any;
+
+    beforeAll(async () => {
+      @Resolver()
+      class SkipSchemaResolver {
+        @Query()
+        normalQuery(): boolean {
+          return true;
+        }
+
+        @Query({ skipSchemaEmit: true })
+        skipQuery(): boolean {
+          return true;
+        }
+
+        @Subscription({ topics: "SAMPLE" })
+        normalSubscription(): boolean {
+          return true;
+        }
+
+        @Subscription({ topics: "SAMPLE", skipSchemaEmit: true })
+        skipSubscription(): boolean {
+          return true;
+        }
+      }
+
+      const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SkipSchemaResolver] });
+
+      const schemaObjectTypes = schemaIntrospection.types.filter(
+        it => it.kind === TypeKind.OBJECT && !it.name.startsWith("__"),
+      );
+
+      const queryObjects = schemaObjectTypes.filter(it => it.name === "Query") as any;
+      queryFields = queryObjects.map((object: any) =>
+        object.fields.map((field: any) => field.name),
+      );
+
+      const subscriptionObjects = schemaObjectTypes.filter(it => it.name === "Subscription") as any;
+      subscriptionFields = subscriptionObjects.map((object: any) =>
+        object.fields.map((field: any) => field.name),
+      );
+
+      console.log("Query Fields", queryFields);
+      console.log("Subscription Fields", subscriptionFields);
+    });
+
+    it("should emit the normalQuery", () => {
+      expect(queryFields).toContainEqual(["normalQuery"]);
+    });
+
+    it("should not emit the skippedQuery", () => {
+      expect(queryFields).not.toContainEqual(["skippedQuery"]);
+    });
+
+    it("should emit the normalSubscription", () => {
+      expect(subscriptionFields).toContainEqual(["normalSubscription"]);
+    });
+
+    it("should not emit the skippedSubscription", () => {
+      expect(subscriptionFields).not.toContainEqual(["skippedSubscription"]);
     });
   });
 });

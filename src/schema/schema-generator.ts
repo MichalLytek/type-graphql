@@ -422,6 +422,10 @@ export abstract class SchemaGenerator {
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
       }
+      // omit emitting skipped fields
+      if (handler.skipSchemaEmit) {
+        return fields;
+      }
       fields[handler.schemaName] = {
         type: this.getGraphQLOutputType(
           handler.methodName,
@@ -446,6 +450,10 @@ export abstract class SchemaGenerator {
     return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       // omit emitting abstract resolver fields
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
+        return fields;
+      }
+      // omit emitting skipped fields
+      if (handler.skipSchemaEmit) {
         return fields;
       }
 

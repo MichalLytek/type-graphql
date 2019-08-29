@@ -58,6 +58,9 @@ export interface SchemaNameOptions {
 export interface AbstractClassOptions {
   isAbstract?: boolean;
 }
+export interface SkipSchemaEmitOptions {
+  skipSchemaEmit?: boolean;
+}
 export interface ResolveTypeOptions<TSource = any, TContext = any> {
   resolveType?: TypeResolver<TSource, TContext>;
 }
@@ -65,7 +68,8 @@ export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
   DeprecationOptions &
   SchemaNameOptions &
-  ComplexityOptions;
+  ComplexityOptions &
+  SkipSchemaEmitOptions;
 
 export interface EnumConfig {
   name: string;

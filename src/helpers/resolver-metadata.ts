@@ -32,5 +32,6 @@ export function getResolverMetadata(
     description: options.description,
     deprecationReason: options.deprecationReason,
     complexity: options.complexity,
+    skipSchemaEmit: options.skipSchemaEmit,
   };
 }

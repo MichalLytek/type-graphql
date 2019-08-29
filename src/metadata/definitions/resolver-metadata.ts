@@ -27,6 +27,7 @@ export interface ResolverMetadata extends BaseResolverMetadata {
   returnTypeOptions: TypeOptions;
   description?: string;
   deprecationReason?: string;
+  skipSchemaEmit?: boolean;
 }
 
 export interface FieldResolverMetadata extends BaseResolverMetadata {
