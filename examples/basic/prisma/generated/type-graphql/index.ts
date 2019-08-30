@@ -1,4 +1,4 @@
-import { Field, ObjectType, Int, Float, registerEnumType } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, Resolver, FieldResolver, Root, Ctx } from "type-graphql";
 
 /**
  * Role enum comment
@@ -118,11 +118,37 @@ export class BasePost {
   })
   content?: string | null;
 
-  author?: BaseUser | null;
+  author?: BaseUser;
 
   @Field(() => PostKind, {
     nullable: true,
     description: undefined,
   })
   kind?: keyof typeof PostKind | null;
+}
+
+@Resolver(() => BaseUser)
+export class UserRelationsResolver {
+  @FieldResolver(() => [BasePost], {
+    nullable: true,
+    description: undefined,
+  })
+  async posts(@Root() user: BaseUser, @Ctx() ctx: any): Promise<BasePost[] | null> {
+    return ctx.photon.users.findOne({
+      where: { id: user.id }
+    }).posts();
+  }
+}
+
+@Resolver(() => BasePost)
+export class PostRelationsResolver {
+  @FieldResolver(() => BaseUser, {
+    nullable: false,
+    description: undefined,
+  })
+  async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
+    return ctx.photon.posts.findOne({
+      where: { id: post.id }
+    }).author();
+  }
 }

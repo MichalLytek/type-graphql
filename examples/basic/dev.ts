@@ -4,10 +4,11 @@ import fs from "fs";
 import path from "path";
 import { Project } from "ts-morph";
 
-import { getDatamodel } from "./photon/getDatamodel";
-import generateEnum from "./generator/generateEnum";
-import generateClassFromModel from "./generator/generateClass";
-import generateImports from "./generator/generateImports";
+import { getDatamodel } from "../../src/photon/getDatamodel";
+import generateEnumsFromDef from "../../src/generator/enums";
+import generateObjectTypeClassesFromModel from "../../src/generator/object-type-classes";
+import generateImports from "../../src/generator/imports";
+import generateRelationsResolverClassesFromModel from "../../src/generator/relations-resolver-classes";
 
 async function writeDmmf(cwd: string) {
   try {
@@ -15,7 +16,10 @@ async function writeDmmf(cwd: string) {
     const dmmf = await getDMMF({ datamodel, cwd });
     console.log("Writing datamodel...");
     fs.writeFileSync(
-      path.resolve(__dirname, "../prisma/dmmf-datamodel.json"),
+      path.resolve(
+        __dirname,
+        "prisma/generated/type-graphql/dmmf-datamodel.json",
+      ),
       JSON.stringify(dmmf.datamodel, null, 2),
     );
   } catch (err) {
@@ -50,11 +54,11 @@ async function generateCode(cwd: string) {
   // const datamodel = await getDatamodel(cwd);
   // const dmmf = await getDMMF({ datamodel, cwd });
   const dmmf = {
-    datamodel: require("../prisma/dmmf-datamodel.json") as DMMF.Datamodel,
+    datamodel: require("./prisma/generated/type-graphql/dmmf-datamodel.json") as DMMF.Datamodel,
   };
   const project = new Project();
   const sourceFile = project.createSourceFile(
-    path.resolve(__dirname, "../prisma/generated/type-graphql.ts"),
+    path.resolve(__dirname, "prisma/generated/type-graphql/index.ts"),
     undefined,
     { overwrite: true },
   );
@@ -64,18 +68,27 @@ async function generateCode(cwd: string) {
 
   console.log("Generating enums...");
   await Promise.all(
-    dmmf.datamodel.enums.map(enumDef => generateEnum(sourceFile, enumDef)),
+    dmmf.datamodel.enums.map(enumDef =>
+      generateEnumsFromDef(sourceFile, enumDef),
+    ),
   );
 
   console.log("Generating models...");
   await Promise.all(
     dmmf.datamodel.models.map(model =>
-      generateClassFromModel(sourceFile, model),
+      generateObjectTypeClassesFromModel(sourceFile, model),
     ),
   );
 
-  console.log("Cleaning and formating generated code...");
-  sourceFile.fixUnusedIdentifiers();
+  console.log("Generating relation resolvers...");
+  await Promise.all(
+    dmmf.datamodel.models.map(model =>
+      generateRelationsResolverClassesFromModel(sourceFile, model),
+    ),
+  );
+
+  console.log("Formating generated code...");
+  // sourceFile.fixUnusedIdentifiers();
   sourceFile.formatText({ indentSize: 2 });
 
   console.log("Saving generated code...");

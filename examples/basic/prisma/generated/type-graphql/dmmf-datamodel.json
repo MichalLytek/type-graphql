@@ -225,7 +225,7 @@
           "kind": "object",
           "dbName": null,
           "isList": false,
-          "isRequired": false,
+          "isRequired": true,
           "isUnique": false,
           "isId": false,
           "type": "User",

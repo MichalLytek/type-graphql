@@ -970,7 +970,7 @@ export declare type PostCreateInput = {
     title: string;
     content?: string | null;
     kind?: PostKind | null;
-    author?: UserCreateOneWithoutAuthorInput | null;
+    author: UserCreateOneWithoutAuthorInput;
 };
 export declare type UserUpdateWithoutPostsDataInput = {
     id?: string | null;
@@ -985,11 +985,9 @@ export declare type UserUpsertWithoutPostsInput = {
     update: UserUpdateWithoutPostsDataInput;
     create: UserCreateWithoutPostsInput;
 };
-export declare type UserUpdateOneWithoutPostsInput = {
+export declare type UserUpdateOneRequiredWithoutPostsInput = {
     create?: UserCreateWithoutPostsInput | null;
     connect?: UserWhereUniqueInput | null;
-    disconnect?: boolean | null;
-    delete?: boolean | null;
     update?: UserUpdateWithoutPostsDataInput | null;
     upsert?: UserUpsertWithoutPostsInput | null;
 };
@@ -1001,7 +999,7 @@ export declare type PostUpdateInput = {
     title?: string | null;
     content?: string | null;
     kind?: PostKind | null;
-    author?: UserUpdateOneWithoutPostsInput | null;
+    author?: UserUpdateOneRequiredWithoutPostsInput | null;
 };
 export declare type PostUpdateManyMutationInput = {
     id?: string | null;

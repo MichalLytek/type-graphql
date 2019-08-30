@@ -3,7 +3,7 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Post {
+type BasePost {
   id: String!
   createdAt: String!
   updatedAt: String!
@@ -11,26 +11,11 @@ type Post {
   title: String!
   content: String
   kind: PostKind
-  author: User
+  author: BaseUser!
 }
 
-enum PostKind {
-  BLOG
-  ADVERT
-}
-
-type Query {
-  users: [User!]!
-  posts: [Post!]!
-}
-
-"""Role enum comment"""
-enum Role {
-  USER
-  ADMIN
-}
-
-type User {
+"""User model comment"""
+type BaseUser {
   """User model field comment"""
   id: String!
   email: String!
@@ -39,6 +24,22 @@ type User {
   balance: Float!
   amount: Float!
   role: Role!
-  posts: [Post!]!
+  posts: [BasePost!]
   hello: String!
+}
+
+enum PostKind {
+  BLOG
+  ADVERT
+}
+
+type Query {
+  users: [BaseUser!]!
+  posts: [BasePost!]!
+}
+
+"""Role enum comment"""
+enum Role {
+  USER
+  ADMIN
 }
