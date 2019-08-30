@@ -4,12 +4,16 @@ export default async function generateImports(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "type-graphql",
     namedImports: [
-      { name: "Field" },
+      { name: "registerEnumType" },
       { name: "ObjectType" },
+      { name: "Field" },
       { name: "Int" },
       { name: "Float" },
       { name: "ID" },
-      { name: "registerEnumType" },
+      { name: "Resolver" },
+      { name: "FieldResolver" },
+      { name: "Root" },
+      { name: "Ctx" },
     ],
   });
 }
