@@ -9,14 +9,15 @@ import {
   emitSchemaDefinitionFile,
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
+import { NonEmptyArray } from "./types";
 
 interface EmitSchemaFileOptions extends PrintSchemaOptions {
   path?: string;
 }
 
-export interface BuildSchemaOptions extends SchemaGeneratorOptions {
+export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolvers"> {
   /** Array of resolvers classes or glob paths to resolver files */
-  resolvers: Array<Function | string>;
+  resolvers: NonEmptyArray<Function> | NonEmptyArray<string>;
   /**
    * Path to the file to where emit the schema
    * or config object with print schema options
@@ -25,8 +26,8 @@ export interface BuildSchemaOptions extends SchemaGeneratorOptions {
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
 }
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
-  loadResolvers(options);
-  const schema = await SchemaGenerator.generateFromMetadata(options);
+  const resolvers = loadResolvers(options);
+  const schema = await SchemaGenerator.generateFromMetadata({ ...options, resolvers });
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     await emitSchemaDefinitionFile(schemaFileName, schema, printSchemaOptions);
@@ -35,8 +36,8 @@ export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLS
 }
 
 export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
-  loadResolvers(options);
-  const schema = SchemaGenerator.generateFromMetadataSync(options);
+  const resolvers = loadResolvers(options);
+  const schema = SchemaGenerator.generateFromMetadataSync({ ...options, resolvers });
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     emitSchemaDefinitionFileSync(schemaFileName, schema, printSchemaOptions);
@@ -44,15 +45,20 @@ export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
   return schema;
 }
 
-function loadResolvers(options: BuildSchemaOptions) {
+function loadResolvers(options: BuildSchemaOptions): Function[] | undefined {
+  // TODO: remove that check as it's covered by `NonEmptyArray` type guard
   if (options.resolvers.length === 0) {
     throw new Error("Empty `resolvers` array property found in `buildSchema` options!");
   }
-  options.resolvers.forEach(resolver => {
-    if (typeof resolver === "string") {
-      loadResolversFromGlob(resolver);
-    }
-  });
+  if (options.resolvers.some((resolver: Function | string) => typeof resolver === "string")) {
+    (options.resolvers as string[]).forEach(resolver => {
+      if (typeof resolver === "string") {
+        loadResolversFromGlob(resolver);
+      }
+    });
+    return undefined;
+  }
+  return options.resolvers as Function[];
 }
 
 function getEmitSchemaDefinitionFileOptions(

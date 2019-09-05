@@ -144,6 +144,15 @@ describe("Interfaces and inheritance", () => {
       // get builded schema info from retrospection
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
+        orphanedTypes: [
+          SampleInterface1,
+          SampleInterfaceExtending1,
+          SampleImplementingObject1,
+          SampleImplementingObject2,
+          SampleMultiImplementingObject,
+          SampleExtendingImplementingObject,
+          SampleExtendingObject2,
+        ],
       });
       queryType = schemaInfo.queryType;
       schemaIntrospection = schemaInfo.schemaIntrospection;
@@ -619,6 +628,13 @@ describe("Interfaces and inheritance", () => {
 
       schema = await buildSchema({
         resolvers: [InterfacesResolver],
+        orphanedTypes: [
+          FirstImplementation,
+          SecondInterfaceWithStringResolveTypeObject,
+          FirstInterfaceWithStringResolveTypeObject,
+          SecondInterfaceWithClassResolveTypeObject,
+          FirstInterfaceWithClassResolveTypeObject,
+        ],
       });
     });
 

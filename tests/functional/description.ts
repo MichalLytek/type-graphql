@@ -120,6 +120,7 @@ describe("Description", () => {
       // get builded schema info from retrospection
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
+        orphanedTypes: [SampleObject],
       });
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;

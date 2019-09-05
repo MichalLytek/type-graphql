@@ -747,7 +747,7 @@ describe("Resolvers", () => {
         expect(itemType.name).toEqual("String");
       });
 
-      it("should generate explicit nullable array of nullalbe string return type for query", async () => {
+      it("should generate explicit nullable array of nullable string return type for query", async () => {
         const explicitNullableArrayWithNullableItemsQuery = getQuery(
           "explicitNullableArrayWithNullableItemsQuery",
         );
@@ -1617,6 +1617,50 @@ describe("Resolvers", () => {
       expect(directoryQueryReturnType.name).toEqual("SampleObject");
     });
 
+    it("should emit only things from provided `resolvers` property", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleObject {
+          return { sampleField: "sampleField" };
+        }
+      }
+      @ObjectType()
+      class OmittedObject {
+        @Field()
+        omittedField: string;
+      }
+      @Resolver()
+      class OmittedResolver {
+        @Query()
+        omittedQuery(): OmittedObject {
+          return { omittedField: "omittedField" };
+        }
+      }
+
+      const { queryType, schemaIntrospection } = await getSchemaInfo({
+        resolvers: [SampleResolver],
+      });
+      const objectTypes = schemaIntrospection.types.filter(
+        type =>
+          type.kind === "OBJECT" &&
+          !type.name.startsWith("__") &&
+          !["Query", "Mutation", "Subscription"].includes(type.name),
+      );
+
+      expect(queryType.fields).toHaveLength(1);
+      expect(queryType.fields[0].name).toEqual("sampleQuery");
+      expect(objectTypes).toHaveLength(1);
+      expect(objectTypes[0].name).toEqual("SampleObject");
+    });
+
     it("should build the schema synchronously", async () => {
       getMetadataStorage().clear();
 
@@ -1672,7 +1716,7 @@ describe("Resolvers", () => {
       expect.assertions(2);
 
       try {
-        await buildSchema({ resolvers: [] });
+        await buildSchema({ resolvers: [] as any });
       } catch (err) {
         expect(err.message).toContain("Empty");
         expect(err.message).toContain("resolvers");
@@ -1734,8 +1778,8 @@ describe("Resolvers", () => {
           }
 
           @Mutation(returns => Boolean, { name: `${name}Trigger` })
-          async baseTrigger(@PubSub() pubsub: PubSubEngine): Promise<boolean> {
-            await pubsub.publish("baseTopic", null);
+          async baseTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
+            await pubSub.publish("baseTopic", null);
             return true;
           }
 
@@ -1776,8 +1820,8 @@ describe("Resolvers", () => {
         }
 
         @Mutation(returns => Boolean)
-        async childTrigger(@PubSub() pubsub: PubSubEngine): Promise<boolean> {
-          await pubsub.publish("childTopic", null);
+        async childTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
+          await pubSub.publish("childTopic", null);
           return true;
         }
       }
@@ -1800,7 +1844,7 @@ describe("Resolvers", () => {
       overrideResolver = OverrideResolver;
 
       const schemaInfo = await getSchemaInfo({
-        resolvers: [childResolver],
+        resolvers: [childResolver, overrideResolver],
       });
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;
