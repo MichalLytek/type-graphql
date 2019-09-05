@@ -144,32 +144,29 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo() {
-    this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
-      const unionClassTypes = unionMetadata.getClassTypes();
-      return {
-        unionSymbol: unionMetadata.symbol,
-        type: new GraphQLUnionType({
-          name: unionMetadata.name,
-          description: unionMetadata.description,
-          types: () =>
-            unionClassTypes.map(
-              objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type,
-            ),
-          resolveType: unionMetadata.resolveType
-            ? this.getResolveTypeFunction(unionMetadata.resolveType)
-            : instance => {
-                const instanceTarget = unionClassTypes.find(
-                  ClassType => instance instanceof ClassType,
-                );
-                if (!instanceTarget) {
-                  throw new UnionResolveTypeError(unionMetadata);
-                }
-                // TODO: refactor to map for quicker access
-                return this.objectTypesInfo.find(type => type.target === instanceTarget)!.type;
-              },
-        }),
-      };
-    });
+    this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => ({
+      unionSymbol: unionMetadata.symbol,
+      type: new GraphQLUnionType({
+        name: unionMetadata.name,
+        description: unionMetadata.description,
+        types: () =>
+          unionMetadata
+            .getClassTypes()
+            .map(objectType => this.objectTypesInfo.find(type => type.target === objectType)!.type),
+        resolveType: unionMetadata.resolveType
+          ? this.getResolveTypeFunction(unionMetadata.resolveType)
+          : instance => {
+              const instanceTarget = unionMetadata
+                .getClassTypes()
+                .find(ClassType => instance instanceof ClassType);
+              if (!instanceTarget) {
+                throw new UnionResolveTypeError(unionMetadata);
+              }
+              // TODO: refactor to map for quicker access
+              return this.objectTypesInfo.find(type => type.target === instanceTarget)!.type;
+            },
+      }),
+    }));
     this.enumTypesInfo = getMetadataStorage().enums.map<EnumTypeInfo>(enumMetadata => {
       const enumMap = getEnumValuesMap(enumMetadata.enumObj);
       return {

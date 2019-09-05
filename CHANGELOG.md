@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- refactor union types function syntax handling to prevent possible errors with circular refs
 
 ## v0.17.5
 ### Features
@@ -10,7 +12,7 @@
 - support nested array types (`@Field(type => [[Int]])`) (#393)
 - deprecate the direct array syntax for union types
 
-## Fixes
+### Fixes
 - fix errors on circular refs in union types (#364) by adding the function syntax (`() => TClassTypes`)
 
 ## v0.17.4
