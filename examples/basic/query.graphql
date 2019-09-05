@@ -13,17 +13,18 @@ query GetUsersAndPosts {
   }
 }
 
-fragment UserData on User {
+fragment UserData on BaseUser {
   id
   email
   age
   balance
   amount
   role
+  hello
 }
 
-fragment PostData on Post {
-  id
+fragment PostData on BasePost {
+  uuid
   createdAt
   updatedAt
   published

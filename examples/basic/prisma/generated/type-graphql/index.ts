@@ -32,11 +32,11 @@ export class BaseUser {
   /**
    * User model field comment
    */
-  @Field(() => String, {
+  @Field(() => Int, {
     nullable: false,
     description: "User model field comment",
   })
-  id!: string;
+  id!: number;
 
   @Field(() => String, {
     nullable: false,
@@ -86,7 +86,7 @@ export class BasePost {
     nullable: false,
     description: undefined,
   })
-  id!: string;
+  uuid!: string;
 
   @Field(() => String, {
     nullable: false,
@@ -148,7 +148,7 @@ export class PostRelationsResolver {
   })
   async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
     return ctx.photon.posts.findOne({
-      where: { id: post.id }
+      where: { uuid: post.uuid }
     }).author();
   }
 }

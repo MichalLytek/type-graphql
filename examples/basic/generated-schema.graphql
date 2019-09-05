@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type BasePost {
-  id: String!
+  uuid: String!
   createdAt: String!
   updatedAt: String!
   published: Boolean!
@@ -17,7 +17,7 @@ type BasePost {
 """User model comment"""
 type BaseUser {
   """User model field comment"""
-  id: String!
+  id: Int!
   email: String!
   name: String
   age: Int!

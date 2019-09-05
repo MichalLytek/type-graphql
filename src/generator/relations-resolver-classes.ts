@@ -26,6 +26,7 @@ export default async function generateRelationsResolverClassesFromModel(
         const fieldDocs =
           field.documentation && field.documentation.replace("\r", "");
         const rootArgName = toCamelCase(model.name);
+        const idFieldName = model.fields.find(field => field.isId)!.name;
         return {
           name: field.name,
           isAsync: true,
@@ -55,7 +56,12 @@ export default async function generateRelationsResolverClassesFromModel(
             },
           ],
           statements: [
-            createPhotonReturnStatement(model.name, field.name, rootArgName),
+            createPhotonRelationResolverStatement(
+              model.name,
+              field.name,
+              rootArgName,
+              idFieldName,
+            ),
           ],
         };
       },
@@ -63,12 +69,13 @@ export default async function generateRelationsResolverClassesFromModel(
   });
 }
 
-function createPhotonReturnStatement(
+function createPhotonRelationResolverStatement(
   modelName: string,
-  fieldName: string,
+  relationFieldName: string,
   rootArgName: string,
+  idFieldName: string,
 ) {
   return `return ctx.photon.${toCamelCase(modelName)}s.findOne({
-    where: { id: ${rootArgName}.id }
-  }).${fieldName}();`;
+    where: { ${idFieldName}: ${rootArgName}.${idFieldName} }
+  }).${relationFieldName}();`;
 }

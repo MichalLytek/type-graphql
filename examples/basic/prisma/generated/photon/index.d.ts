@@ -89,7 +89,7 @@ export declare type PostKind = (typeof PostKind)[keyof typeof PostKind];
  * Model User
  */
 export declare type User = {
-    id: string;
+    id: number;
     email: string;
     name: string | null;
     age: number;
@@ -455,7 +455,7 @@ export declare type ExtractUserIncludeArgs<S extends undefined | boolean | UserI
  * Model Post
  */
 export declare type Post = {
-    id: string;
+    uuid: string;
     createdAt: string;
     updatedAt: string;
     published: boolean;
@@ -463,9 +463,9 @@ export declare type Post = {
     content: string | null;
     kind: PostKind | null;
 };
-export declare type PostScalars = 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'content' | 'kind';
+export declare type PostScalars = 'uuid' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'content' | 'kind';
 export declare type PostSelect = {
-    id?: boolean;
+    uuid?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     published?: boolean;
@@ -478,7 +478,7 @@ export declare type PostInclude = {
     author?: boolean | UserIncludeArgsOptional;
 };
 declare type PostDefault = {
-    id: true;
+    uuid: true;
     createdAt: true;
     updatedAt: true;
     published: true;
@@ -821,7 +821,7 @@ export declare type ExtractPostIncludeArgs<S extends undefined | boolean | PostI
  * Deep Input Types
  */
 export declare type PostWhereInput = {
-    id?: string | StringFilter | null;
+    uuid?: string | StringFilter | null;
     createdAt?: string | Date | DateTimeFilter | null;
     updatedAt?: string | Date | DateTimeFilter | null;
     published?: boolean | BooleanFilter | null;
@@ -834,7 +834,7 @@ export declare type PostWhereInput = {
     author?: UserWhereInput | null;
 };
 export declare type UserWhereInput = {
-    id?: string | StringFilter | null;
+    id?: number | IntFilter | null;
     email?: string | StringFilter | null;
     name?: string | NullableStringFilter | null | null;
     age?: number | IntFilter | null;
@@ -847,14 +847,14 @@ export declare type UserWhereInput = {
     NOT?: Enumerable<UserWhereInput>;
 };
 export declare type UserWhereUniqueInput = {
-    id?: string | null;
+    id?: number | null;
     email?: string | null;
 };
 export declare type PostWhereUniqueInput = {
-    id?: string | null;
+    uuid?: string | null;
 };
 export declare type PostCreateWithoutAuthorInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published: boolean;
@@ -867,7 +867,6 @@ export declare type PostCreateManyWithoutPostsInput = {
     connect?: Enumerable<PostWhereUniqueInput>;
 };
 export declare type UserCreateInput = {
-    id?: string | null;
     email: string;
     name?: string | null;
     age: number;
@@ -877,7 +876,7 @@ export declare type UserCreateInput = {
     posts?: PostCreateManyWithoutPostsInput | null;
 };
 export declare type PostUpdateWithoutAuthorDataInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published?: boolean | null;
@@ -890,7 +889,7 @@ export declare type PostUpdateWithWhereUniqueWithoutAuthorInput = {
     data: PostUpdateWithoutAuthorDataInput;
 };
 export declare type PostScalarWhereInput = {
-    id?: string | StringFilter | null;
+    uuid?: string | StringFilter | null;
     createdAt?: string | Date | DateTimeFilter | null;
     updatedAt?: string | Date | DateTimeFilter | null;
     published?: boolean | BooleanFilter | null;
@@ -902,7 +901,7 @@ export declare type PostScalarWhereInput = {
     NOT?: Enumerable<PostScalarWhereInput>;
 };
 export declare type PostUpdateManyDataInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published?: boolean | null;
@@ -931,7 +930,7 @@ export declare type PostUpdateManyWithoutAuthorInput = {
     upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput>;
 };
 export declare type UserUpdateInput = {
-    id?: string | null;
+    id?: number | null;
     email?: string | null;
     name?: string | null;
     age?: number | null;
@@ -941,7 +940,7 @@ export declare type UserUpdateInput = {
     posts?: PostUpdateManyWithoutAuthorInput | null;
 };
 export declare type UserUpdateManyMutationInput = {
-    id?: string | null;
+    id?: number | null;
     email?: string | null;
     name?: string | null;
     age?: number | null;
@@ -950,7 +949,6 @@ export declare type UserUpdateManyMutationInput = {
     role?: Role | null;
 };
 export declare type UserCreateWithoutPostsInput = {
-    id?: string | null;
     email: string;
     name?: string | null;
     age: number;
@@ -963,7 +961,7 @@ export declare type UserCreateOneWithoutAuthorInput = {
     connect?: UserWhereUniqueInput | null;
 };
 export declare type PostCreateInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published: boolean;
@@ -973,7 +971,7 @@ export declare type PostCreateInput = {
     author: UserCreateOneWithoutAuthorInput;
 };
 export declare type UserUpdateWithoutPostsDataInput = {
-    id?: string | null;
+    id?: number | null;
     email?: string | null;
     name?: string | null;
     age?: number | null;
@@ -992,7 +990,7 @@ export declare type UserUpdateOneRequiredWithoutPostsInput = {
     upsert?: UserUpsertWithoutPostsInput | null;
 };
 export declare type PostUpdateInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published?: boolean | null;
@@ -1002,7 +1000,7 @@ export declare type PostUpdateInput = {
     author?: UserUpdateOneRequiredWithoutPostsInput | null;
 };
 export declare type PostUpdateManyMutationInput = {
-    id?: string | null;
+    uuid?: string | null;
     createdAt?: string | Date | null;
     updatedAt?: string | Date | null;
     published?: boolean | null;
@@ -1087,7 +1085,7 @@ export declare type UserOrderByInput = {
     role?: OrderByArg | null;
 };
 export declare type PostOrderByInput = {
-    id?: OrderByArg | null;
+    uuid?: OrderByArg | null;
     createdAt?: OrderByArg | null;
     updatedAt?: OrderByArg | null;
     published?: OrderByArg | null;

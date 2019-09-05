@@ -32,12 +32,7 @@
           "isRequired": true,
           "isUnique": true,
           "isId": true,
-          "type": "String",
-          "default": {
-            "name": "cuid",
-            "returnType": "String",
-            "args": []
-          },
+          "type": "Int",
           "isGenerated": false,
           "isUpdatedAt": false,
           "documentation": "User model field comment\r"
@@ -139,7 +134,7 @@
       "dbName": null,
       "fields": [
         {
-          "name": "id",
+          "name": "uuid",
           "kind": "scalar",
           "dbName": null,
           "isList": false,
