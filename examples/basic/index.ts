@@ -5,6 +5,7 @@ import {
   Query,
   buildSchema,
   FieldResolver,
+  Ctx,
 } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 import path from "path";
@@ -19,18 +20,20 @@ import {
 } from "./prisma/generated/type-graphql";
 import Photon from "./prisma/generated/photon";
 
-const photon = new Photon();
-
 // @ObjectType()
 // class User extends BaseUser {}
 
 // @ObjectType()
 // class Post extends BasePost {}
 
+interface Context {
+  photon: Photon;
+}
+
 @Resolver(of => User)
 class UserResolver {
   @Query(returns => [User])
-  async users(): Promise<User[]> {
+  async users(@Ctx() { photon }: Context): Promise<User[]> {
     return photon.users.findMany();
   }
 
@@ -43,7 +46,7 @@ class UserResolver {
 @Resolver(of => Post)
 class PostResolver {
   @Query(returns => [Post])
-  async posts(): Promise<Post[]> {
+  async posts(@Ctx() { photon }: Context): Promise<Post[]> {
     return photon.posts.findMany();
   }
 }
@@ -59,10 +62,14 @@ async function main() {
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),
   });
 
+  const photon = new Photon({
+    // debug: true, // uncomment to see how dataloader for relations works
+  });
+
   const server = new ApolloServer({
     schema,
     playground: true,
-    context: { photon },
+    context: (): Context => ({ photon }),
   });
   const { port } = await server.listen(4000);
   console.log(`GraphQL is listening on ${port}!`);

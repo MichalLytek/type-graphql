@@ -79,6 +79,10 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
   }
 }
 
-export function toCamelCase(str: string) {
+export function camelCase(str: string) {
   return str[0].toLowerCase() + str.slice(1);
+}
+
+export function pascalCase(str: string): string {
+  return str[0].toUpperCase() + str.slice(1);
 }

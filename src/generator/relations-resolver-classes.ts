@@ -1,10 +1,13 @@
 import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
 import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import pluralize from "pluralize";
+
 import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
-  toCamelCase,
+  camelCase,
+  pascalCase,
 } from "./helpers";
 
 export default async function generateRelationsResolverClassesFromModel(
@@ -12,30 +15,44 @@ export default async function generateRelationsResolverClassesFromModel(
   model: DMMF.Model,
 ) {
   const relationFields = model.fields.filter(field => field.relationName);
+  const idField = model.fields.find(field => field.isId)!;
+  const rootArgName = camelCase(model.name);
+
   sourceFile.addClass({
     name: `${model.name}RelationsResolver`,
     isExported: true,
     decorators: [
       {
         name: "Resolver",
-        arguments: [`of => ${getBaseModelTypeName(model.name)}`],
+        arguments: [`_of => ${getBaseModelTypeName(model.name)}`],
       },
     ],
     methods: relationFields.map<OptionalKind<MethodDeclarationStructure>>(
       field => {
         const fieldDocs =
           field.documentation && field.documentation.replace("\r", "");
-        const rootArgName = toCamelCase(model.name);
-        const idFieldName = model.fields.find(field => field.isId)!.name;
+        const fieldType = getFieldTSType(field);
+        const [
+          createDataLoaderFunctionName,
+          dataLoaderInCtxName,
+        ] = createDataLoaderCreationStatement(
+          sourceFile,
+          model.name,
+          field.name,
+          idField.name,
+          getFieldTSType(idField),
+          fieldType,
+        );
+
         return {
           name: field.name,
           isAsync: true,
-          returnType: `Promise<${getFieldTSType(field)}>`,
+          returnType: `Promise<${fieldType}>`,
           decorators: [
             {
               name: "FieldResolver",
               arguments: [
-                `type => ${getTypeGraphQLType(field)}`,
+                `_type => ${getTypeGraphQLType(field)}`,
                 `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
@@ -56,12 +73,8 @@ export default async function generateRelationsResolverClassesFromModel(
             },
           ],
           statements: [
-            createPhotonRelationResolverStatement(
-              model.name,
-              field.name,
-              rootArgName,
-              idFieldName,
-            ),
+            `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon);
+            return ctx.${dataLoaderInCtxName}.load(${rootArgName}.${idField.name});`,
           ],
         };
       },
@@ -69,13 +82,34 @@ export default async function generateRelationsResolverClassesFromModel(
   });
 }
 
-function createPhotonRelationResolverStatement(
+function createDataLoaderCreationStatement(
+  sourceFile: SourceFile,
   modelName: string,
   relationFieldName: string,
-  rootArgName: string,
   idFieldName: string,
+  rootKeyType: string,
+  fieldType: string,
 ) {
-  return `return ctx.photon.${toCamelCase(modelName)}s.findOne({
-    where: { ${idFieldName}: ${rootArgName}.${idFieldName} }
-  }).${relationFieldName}();`;
+  const dataLoaderInCtxName = `${camelCase(modelName)}${pascalCase(
+    relationFieldName,
+  )}Loader`;
+  const functionName = `create${pascalCase(dataLoaderInCtxName)}`;
+  const collectionName = pluralize(camelCase(modelName));
+
+  sourceFile.addFunction({
+    name: functionName,
+    parameters: [{ name: "photon", type: "any" }],
+    statements: [
+      `return new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {
+        const fetchedData: any[] = await photon.${collectionName}.findMany({
+          where: { ${idFieldName}: { in: keys } },
+          select: { ${idFieldName}: true, ${relationFieldName}: true },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.${idFieldName} === key)!)
+          .map(data => data.${relationFieldName});
+      });`,
+    ],
+  });
+  return [functionName, dataLoaderInCtxName];
 }

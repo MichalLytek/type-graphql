@@ -52,7 +52,7 @@ export default async function generateObjectTypeClassesFromModel(
                   {
                     name: "Field",
                     arguments: [
-                      `type => ${getTypeGraphQLType(field)}`,
+                      `_type => ${getTypeGraphQLType(field)}`,
                       `{
                         nullable: ${isOptional},
                         description: ${

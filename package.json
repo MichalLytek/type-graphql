@@ -10,6 +10,9 @@
     "@prisma/lift": "^0.2.35",
     "@prisma/photon": "^0.2.37",
     "@types/node": "^12.7.4",
+    "@types/pluralize": "0.0.29",
+    "dataloader": "^1.4.0",
+    "pluralize": "^8.0.0",
     "ts-morph": "^4.0.0"
   },
   "devDependencies": {

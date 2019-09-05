@@ -1,4 +1,5 @@
 import { registerEnumType, ObjectType, Field, Int, Float, Resolver, FieldResolver, Root, Ctx } from "type-graphql";
+import DataLoader from "dataloader";
 
 /**
  * Role enum comment
@@ -32,37 +33,37 @@ export class BaseUser {
   /**
    * User model field comment
    */
-  @Field(() => Int, {
+  @Field(_type => Int, {
     nullable: false,
     description: "User model field comment",
   })
   id!: number;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   email!: string;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined,
   })
   name?: string | null;
 
-  @Field(() => Int, {
+  @Field(_type => Int, {
     nullable: false,
     description: undefined,
   })
   age!: number;
 
-  @Field(() => Float, {
+  @Field(_type => Float, {
     nullable: false,
     description: undefined,
   })
   balance!: number;
 
-  @Field(() => Float, {
+  @Field(_type => Float, {
     nullable: false,
     description: undefined,
   })
@@ -70,7 +71,7 @@ export class BaseUser {
 
   posts?: BasePost[] | null;
 
-  @Field(() => Role, {
+  @Field(_type => Role, {
     nullable: false,
     description: undefined,
   })
@@ -82,37 +83,37 @@ export class BaseUser {
   description: undefined,
 })
 export class BasePost {
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   uuid!: string;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   createdAt!: string;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   updatedAt!: string;
 
-  @Field(() => Boolean, {
+  @Field(_type => Boolean, {
     nullable: false,
     description: undefined,
   })
   published!: boolean;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   title!: string;
 
-  @Field(() => String, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined,
   })
@@ -120,35 +121,57 @@ export class BasePost {
 
   author?: BaseUser;
 
-  @Field(() => PostKind, {
+  @Field(_type => PostKind, {
     nullable: true,
     description: undefined,
   })
   kind?: keyof typeof PostKind | null;
 }
 
-@Resolver(() => BaseUser)
+function createUserPostsLoader(photon: any) {
+  return new DataLoader<number, BasePost[] | null>(async keys => {
+    const fetchedData: any[] = await photon.users.findMany({
+      where: { id: { in: keys } },
+      select: { id: true, posts: true },
+    });
+    return keys
+      .map(key => fetchedData.find(data => data.id === key)!)
+      .map(data => data.posts);
+  });
+}
+
+@Resolver(_of => BaseUser)
 export class UserRelationsResolver {
-  @FieldResolver(() => [BasePost], {
+  @FieldResolver(_type => [BasePost], {
     nullable: true,
     description: undefined,
   })
   async posts(@Root() user: BaseUser, @Ctx() ctx: any): Promise<BasePost[] | null> {
-    return ctx.photon.users.findOne({
-      where: { id: user.id }
-    }).posts();
+    ctx.userPostsLoader = ctx.userPostsLoader || createUserPostsLoader(ctx.photon);
+    return ctx.userPostsLoader.load(user.id);
   }
 }
 
-@Resolver(() => BasePost)
+function createPostAuthorLoader(photon: any) {
+  return new DataLoader<string, BaseUser>(async keys => {
+    const fetchedData: any[] = await photon.posts.findMany({
+      where: { uuid: { in: keys } },
+      select: { uuid: true, author: true },
+    });
+    return keys
+      .map(key => fetchedData.find(data => data.uuid === key)!)
+      .map(data => data.author);
+  });
+}
+
+@Resolver(_of => BasePost)
 export class PostRelationsResolver {
-  @FieldResolver(() => BaseUser, {
+  @FieldResolver(_type => BaseUser, {
     nullable: false,
     description: undefined,
   })
   async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
-    return ctx.photon.posts.findOne({
-      where: { uuid: post.uuid }
-    }).author();
+    ctx.postAuthorLoader = ctx.postAuthorLoader || createPostAuthorLoader(ctx.photon);
+    return ctx.postAuthorLoader.load(post.uuid);
   }
 }

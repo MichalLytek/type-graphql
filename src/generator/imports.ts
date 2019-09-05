@@ -16,4 +16,8 @@ export default async function generateImports(sourceFile: SourceFile) {
       { name: "Ctx" },
     ],
   });
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: "dataloader",
+    defaultImport: "DataLoader",
+  });
 }
