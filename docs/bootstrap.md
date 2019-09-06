@@ -15,7 +15,22 @@ In the configuration object you must provide a `resolvers` property, which can b
 import { FirstResolver, SecondResolver } from "../app/src/resolvers";
 // ...
 const schema = await buildSchema({
-  resolvers: [FirstResolver, SampleResolver],
+  resolvers: [FirstResolver, SecondResolver],
+});
+```
+
+Be aware that only operations (queries, mutation, etc.) defined in the resolvers classes (and types directly connected to them) will be emitted in schema.
+
+So if you e.g. have defined some object types that implements an interface but are not directly used in other types definition (like a part of an union, a type of a field or a return type of an operation), you need to provide them manually in `orphanedTypes` options of `buildSchema`:
+
+```typescript
+import { FirstResolver, SecondResolver } from "../app/src/resolvers";
+import { FirstObject } from "../app/src/types";
+// ...
+const schema = await buildSchema({
+  resolvers: [FirstResolver, SecondResolver],
+  // here provide all the types that are missing in schema
+  orphanedTypes: [FirstObject],
 });
 ```
 
@@ -27,6 +42,8 @@ const schema = await buildSchema({
   resolvers: [__dirname + "/modules/**/*.resolver.ts", __dirname + "/resolvers/**/*.ts"],
 });
 ```
+
+> Be aware that in case of providing paths to resolvers files, TypeGraphQL will emit all the operations and types that are imported in the resolvers files or their dependencies.
 
 There are also other options related to advanced features like [authorization](authorization.md) or [validation](validation.md) - you can read about them in docs.
 
