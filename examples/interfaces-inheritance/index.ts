@@ -1,13 +1,19 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
+import * as path from "path";
 import { buildSchema } from "../../src";
 
 import { MultiResolver } from "./resolver";
+import { Person } from "./person/person.type";
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [MultiResolver],
+    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // provide the type that implements an interface
+    // but is not directly used in schema
+    orphanedTypes: [Person],
   });
 
   // Create GraphQL server
