@@ -68,6 +68,7 @@ describe("buildSchema -> nullableByDefault", () => {
     beforeEach(async () => {
       ({ schemaIntrospection, queryType } = await getSchemaInfo({
         resolvers: [SampleResolverClass],
+        orphanedTypes: [SampleObjectClass],
       }));
       sampleObjectType = schemaIntrospection.types.find(
         type => type.name === "SampleObject",
@@ -121,6 +122,7 @@ describe("buildSchema -> nullableByDefault", () => {
     beforeEach(async () => {
       ({ schemaIntrospection, queryType } = await getSchemaInfo({
         resolvers: [SampleResolverClass],
+        orphanedTypes: [SampleObjectClass],
         nullableByDefault: true,
       }));
       sampleObjectType = schemaIntrospection.types.find(

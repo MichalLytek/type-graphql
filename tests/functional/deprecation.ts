@@ -35,8 +35,8 @@ describe("Deprecation", () => {
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
-        normalQuery(): string {
-          return "normalQuery";
+        normalQuery(): SampleObject {
+          return {} as SampleObject;
         }
 
         @Query({ deprecationReason: "sample query deprecation reason" })

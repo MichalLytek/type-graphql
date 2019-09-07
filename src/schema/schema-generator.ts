@@ -70,6 +70,14 @@ interface UnionTypeInfo {
 
 export interface SchemaGeneratorOptions extends BuildContextOptions {
   /**
+   * Array of resolvers classes
+   */
+  resolvers?: Function[];
+  /**
+   * Array of orphaned type classes that are not used explicitly in GraphQL types definitions
+   */
+  orphanedTypes?: Function[];
+  /**
    * Disable checking on build the correctness of a schema
    */
   skipCheck?: boolean;
@@ -99,11 +107,12 @@ export abstract class SchemaGenerator {
     getMetadataStorage().build();
     this.buildTypesInfo();
 
+    const orphanedTypes = options.orphanedTypes || (options.resolvers ? [] : undefined);
     const schema = new GraphQLSchema({
-      query: this.buildRootQueryType(),
-      mutation: this.buildRootMutationType(),
-      subscription: this.buildRootSubscriptionType(),
-      types: this.buildOtherTypes(),
+      query: this.buildRootQueryType(options.resolvers),
+      mutation: this.buildRootMutationType(options.resolvers),
+      subscription: this.buildRootSubscriptionType(options.resolvers),
+      types: this.buildOtherTypes(orphanedTypes),
     });
 
     BuildContext.reset();
@@ -374,40 +383,59 @@ export abstract class SchemaGenerator {
     });
   }
 
-  private static buildRootQueryType(): GraphQLObjectType {
+  private static buildRootQueryType(resolvers?: Function[]): GraphQLObjectType {
+    const queriesHandlers = this.filterHandlersByResolvers(getMetadataStorage().queries, resolvers);
+
     return new GraphQLObjectType({
       name: "Query",
-      fields: this.generateHandlerFields(getMetadataStorage().queries),
+      fields: this.generateHandlerFields(queriesHandlers),
     });
   }
 
-  private static buildRootMutationType(): GraphQLObjectType | undefined {
-    if (getMetadataStorage().mutations.length === 0) {
+  private static buildRootMutationType(resolvers?: Function[]): GraphQLObjectType | undefined {
+    const mutationsHandlers = this.filterHandlersByResolvers(
+      getMetadataStorage().mutations,
+      resolvers,
+    );
+    if (mutationsHandlers.length === 0) {
       return;
     }
+
     return new GraphQLObjectType({
       name: "Mutation",
-      fields: this.generateHandlerFields(getMetadataStorage().mutations),
+      fields: this.generateHandlerFields(mutationsHandlers),
     });
   }
 
-  private static buildRootSubscriptionType(): GraphQLObjectType | undefined {
-    if (getMetadataStorage().subscriptions.length === 0) {
+  private static buildRootSubscriptionType(resolvers?: Function[]): GraphQLObjectType | undefined {
+    const subscriptionsHandlers = this.filterHandlersByResolvers(
+      getMetadataStorage().subscriptions,
+      resolvers,
+    );
+    if (subscriptionsHandlers.length === 0) {
       return;
     }
+
     return new GraphQLObjectType({
       name: "Subscription",
-      fields: this.generateSubscriptionsFields(getMetadataStorage().subscriptions),
+      fields: this.generateSubscriptionsFields(subscriptionsHandlers),
     });
   }
 
-  private static buildOtherTypes(): GraphQLNamedType[] {
-    // TODO: investigate the need of directly providing this types
-    // maybe GraphQL can use only the types provided indirectly
+  private static buildOtherTypes(orphanedTypes?: Function[]): GraphQLNamedType[] {
     return [
-      ...this.objectTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
-      ...this.interfaceTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
-      ...this.inputTypesInfo.filter(it => !it.isAbstract).map(it => it.type),
+      ...this.filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
+        this.objectTypesInfo,
+        orphanedTypes,
+      ),
+      ...this.filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
+        this.interfaceTypesInfo,
+        orphanedTypes,
+      ),
+      ...this.filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
+        this.inputTypesInfo,
+        orphanedTypes,
+      ),
     ];
   }
 
@@ -601,5 +629,21 @@ export abstract class SchemaGenerator {
       }
       return this.objectTypesInfo.find(objectType => objectType.target === resolvedType)!.type;
     };
+  }
+
+  private static filterHandlersByResolvers<T extends ResolverMetadata>(
+    handlers: T[],
+    resolvers: Function[] | undefined,
+  ) {
+    return resolvers ? handlers.filter(query => resolvers.includes(query.target)) : handlers;
+  }
+
+  private static filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
+    typesInfo: Array<ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo>,
+    orphanedTypes: Function[] | undefined,
+  ) {
+    return typesInfo
+      .filter(it => !it.isAbstract && (!orphanedTypes || orphanedTypes.includes(it.target)))
+      .map(it => it.type);
   }
 }

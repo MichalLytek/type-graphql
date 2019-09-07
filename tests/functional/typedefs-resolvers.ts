@@ -240,6 +240,7 @@ describe("buildTypeDefsAndResolvers", () => {
       authChecker: () => false,
       pubSub,
       container: Container,
+      orphanedTypes: [SampleType1],
     }));
     schema = makeExecutableSchema({
       typeDefs,
