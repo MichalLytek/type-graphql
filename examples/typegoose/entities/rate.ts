@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from "../../../src";
-import { prop as Property, Ref } from "typegoose";
+import { prop as Property } from "typegoose";
 
 import { User } from "./user";
+import { Ref } from "../types";
 
 @ObjectType()
 export class Rate {
