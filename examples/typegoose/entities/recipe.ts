@@ -1,9 +1,10 @@
-import { prop as Property, arrayProp as ArrayProperty, Typegoose, Ref } from "typegoose";
+import { prop as Property, arrayProp as ArrayProperty, Typegoose } from "typegoose";
 import { ObjectId } from "mongodb";
 import { Field, ObjectType } from "../../../src";
 
 import { Rate } from "./rate";
 import { User } from "./user";
+import { Ref } from "../types";
 
 @ObjectType()
 export class Recipe extends Typegoose {

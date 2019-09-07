@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
+- **Breaking Change**: update `graphql-js` peer dependency to `^14.5.4`
 
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
