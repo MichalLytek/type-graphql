@@ -70,6 +70,9 @@ a:hover {
   flex-grow: 1;
   margin-bottom: 10px;
 }
+#sponsors .tiles > a > img {
+  object-fit: contain;
+}
 
 .want-more-section {
   padding: 30px 0;

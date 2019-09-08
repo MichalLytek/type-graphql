@@ -249,10 +249,7 @@ const CollectiveSection = props => (
         <h3>Sponsors 🚀</h3>
         <div className="tiles">
           <a href="https://gorrion.io/">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/f3b1ddcebb093d3c7689d1e6ca7cd4f54cecd258/4fb6e/images/gorrionsidelogotype.svg"
-              width="250"
-            />
+            <img src={imgUrl("gorrion.png")} width="250" />
             <span>Gorrion Software House</span>
           </a>
           <a href="https://opencollective.com/demid-nikitin">
