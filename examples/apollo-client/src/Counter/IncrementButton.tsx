@@ -1,17 +1,15 @@
 import React, { FC } from "react";
-import { Mutation } from "react-apollo";
+import { useMutation } from "react-apollo";
 import { gql } from "apollo-boost";
 
-const IncrementButton: FC = () => (
-  <Mutation<void>
-    mutation={gql`
-      mutation {
-        incrementCounter @client
-      }
-    `}
-  >
-    {increment => <button onClick={() => increment()}>Increment</button>}
-  </Mutation>
-);
+const IncrementButton: FC = () => {
+  const [increment] = useMutation<() => void>(gql`
+    mutation {
+      incrementCounter @client
+    }
+  `);
+
+  return <button onClick={() => increment()}>Increment</button>;
+};
 
 export default IncrementButton;
