@@ -1,6 +1,7 @@
 import { ValidationError } from "class-validator";
+import { ClientError } from "./ClientError";
 
-export class ArgumentValidationError extends Error {
+export class ArgumentValidationError extends ClientError {
   constructor(public validationErrors: ValidationError[]) {
     super("Argument Validation Error");
 
