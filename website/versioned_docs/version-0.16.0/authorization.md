@@ -145,4 +145,4 @@ app.listen({ port: 4000 }, () =>
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 
 ## Example
-You can see how this works together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/authorization).
+You can see how this works together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization).

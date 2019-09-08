@@ -1,11 +1,11 @@
-![logo](https://raw.githubusercontent.com/19majkel94/type-graphql/master/img/logo.png)
+![logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/logo.png)
 
 # TypeGraphQL
 
 [![npm version](https://badge.fury.io/js/type-graphql.svg)](https://badge.fury.io/js/type-graphql)
-[![Build Status](https://travis-ci.org/19majkel94/type-graphql.svg?branch=master)](https://travis-ci.org/19majkel94/type-graphql)
-[![codecov](https://codecov.io/gh/19majkel94/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/19majkel94/type-graphql)
-[![dependencies](https://david-dm.org/19majkel94/type-graphql/status.svg)](https://david-dm.org/19majkel94/type-graphql)
+[![Build Status](https://travis-ci.org/MichalLytek/type-graphql.svg?branch=master)](https://travis-ci.org/MichalLytek/type-graphql)
+[![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
+[![dependencies](https://david-dm.org/MichalLytek/type-graphql/status.svg)](https://david-dm.org/MichalLytek/type-graphql)
 [![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
 [![gitter](https://badges.gitter.im/type-graphql.svg)](https://gitter.im/type-graphql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -133,17 +133,17 @@ The documentation, installation guide, detailed description of the API and all o
 
 ## Examples
 
-You can also check the [examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples) in this repository for more examples of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
+You can also check the [examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples) in this repository for more examples of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
 
-The [Tests folder](https://github.com/19majkel94/type-graphql/tree/master/tests) might also give you some tips how to get various things done.
+The [Tests folder](https://github.com/MichalLytek/type-graphql/tree/master/tests) might also give you some tips how to get various things done.
 
 ## Towards v1.0
 
 The currently released version is a MVP (Minimum Viable Product). It is well tested (96% coverage, 8000 lines of test code) and has 95% of the planned features already implemented.
 
-However there's still work to be done before the [1.0.0 release](https://github.com/19majkel94/type-graphql/milestone/3) and it's mostly about documentation (website, api reference and jsdoc) and compatibility with the GraphQL spec and other tools.
+However there's still work to be done before the [1.0.0 release](https://github.com/MichalLytek/type-graphql/milestone/3) and it's mostly about documentation (website, api reference and jsdoc) and compatibility with the GraphQL spec and other tools.
 
-There are also plans for more features like better TypeORM, Prisma and dataloader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
+There are also plans for more features like better TypeORM, Prisma and dataloader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on project board](https://github.com/MichalLytek/type-graphql/projects/1).
 
 I encourage you to give TypeGraphQL a try and experiment with. If you have any questions, you can [ask on gitter](https://gitter.im/type-graphql/Lobby). If you find a bug, please report it as an issue on GitHub. If you have any interesting feature requests, I would be happy to hear about them.
 
@@ -163,7 +163,7 @@ Please ask your company to also support this open source project by [becoming a 
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
-| [<img src="https://raw.githubusercontent.com/19majkel94/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) |  [<img src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg" height="100">](https://opencollective.com/demid-nikitin) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) |  [<img src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg" height="100">](https://opencollective.com/demid-nikitin) |
 | :---: | :---: |
 | [**Gorrion Software House**](https://gorrion.io/) | [**Demid Nikitin**](https://opencollective.com/demid-nikitin) |
 

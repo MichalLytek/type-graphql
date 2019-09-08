@@ -4,7 +4,7 @@ import { User, UserModel } from "./entities/user";
 export async function seedDatabase() {
   const defaultUser = await new UserModel({
     email: "test@github.com",
-    nickname: "19majkel94",
+    nickname: "MichalLytek",
     password: "s3cr3tp4ssw0rd",
   } as User).save();
 

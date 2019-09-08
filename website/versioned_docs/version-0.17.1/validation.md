@@ -7,7 +7,7 @@ original_id: validation
 
 ## Scalars
 
-The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
 That's why TypeGraphQL has built-in support for argument and input validation by using the [`class-validator`](https://github.com/typestack/class-validator) library! We can use the awesomeness of decorators to easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters).
 
@@ -118,7 +118,7 @@ mutation ValidationMutation {
 }
 ```
 
-the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
+the [`ArgumentValidationError`](https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
 
 By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
 
@@ -169,4 +169,4 @@ Of course we can also create our own custom implementation of the `formatError` 
 
 ## Example
 
-To see how this works, check out the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).

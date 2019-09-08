@@ -6,7 +6,7 @@ original_id: validation
 ---
 
 ## Scalars
-The standard way to make sure that the input and arguments are correct, like the `email` field really has an e-mail, is to use [custom scalars](https://github.com/19majkel94/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However creating scalars for all single case of data type (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to make sure that the input and arguments are correct, like the `email` field really has an e-mail, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However creating scalars for all single case of data type (credit card number, base64, IP, URL) might be cumbersome.
 
 And that's why TypeGraphQL has built-in support for validation of arguments and inputs using [`class-validator`](https://github.com/typestack/class-validator) features! You can use awesomeness of decorators to declare the requirement for incoming data (e.g. number is in range 0-255 or password is longer than 8 chars) in an easy way.
 
@@ -103,7 +103,7 @@ mutation ValidationMutation {
   }
 }
 ```
-the [`ArgumentValidationError`](https://github.com/19majkel94/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](bootstrap.md):
+the [`ArgumentValidationError`](https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](bootstrap.md):
 ```typescript
 import { formatArgumentValidationError } from "type-graphql";
 
@@ -152,4 +152,4 @@ So when `ArgumentValidationError` occurs, client will receive this JSON with nic
 Of course you can replace this with your own custom implementation of function that will transform `GraphQLError` with `ValidationError` array to the desired output format.
 
 ## Example
-You can see how this fits together in the [simple real life example](https://github.com/19majkel94/type-graphql/tree/master/examples/automatic-validation).
+You can see how this fits together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
