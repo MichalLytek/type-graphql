@@ -13,3 +13,4 @@ export * from "./UnauthorizedError";
 export * from "./UnionResolveTypeError";
 export * from "./UnmetGraphQLPeerDependencyError";
 export * from "./WrongNullableListOptionError";
+export * from "./ClientError";
