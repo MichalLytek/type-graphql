@@ -4,12 +4,12 @@
     "start": "parcel ./src/index.html"
   },
   "dependencies": {
-    "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.4",
-    "apollo-boost": "^0.4.3",
-    "react": "^16.8.6",
-    "react-apollo": "^2.5.8",
-    "react-dom": "^16.8.6"
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "apollo-boost": "^0.4.4",
+    "react": "^16.9.0",
+    "react-apollo": "^3.1.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.3"

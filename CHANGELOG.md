@@ -172,7 +172,7 @@
 
 ## v0.7.0
 ### Features
-- add authorization feature - `@Authorized` decorator and `authChecker` function in schema options ([see docs](https://github.com/19majkel94/type-graphql/blob/master/docs/authorization.md))
+- add authorization feature - `@Authorized` decorator and `authChecker` function in schema options ([see docs](https://github.com/MichalLytek/type-graphql/blob/master/docs/authorization.md))
 - add support for defining array type using mongoose-like notation `[Type]`
 - **Breaking Change**: remove deprecated `@GraphQLArgumentType` decorator - use `@GraphQLArgsType` instead
 

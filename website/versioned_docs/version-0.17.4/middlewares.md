@@ -186,4 +186,4 @@ If we want to use middlewares with a more descriptive and declarative API, we ca
 
 ## Example
 
-See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/19majkel94/type-graphql/tree/v0.17.4/examples/middlewares-custom-decorators).
+See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/MichalLytek/type-graphql/tree/v0.17.4/examples/middlewares-custom-decorators).

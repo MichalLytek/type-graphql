@@ -98,4 +98,4 @@ For more info about how query complexity is computed, please visit [graphql-quer
 
 ## Example
 
-See how this works in the [simple query complexity example](https://github.com/19majkel94/type-graphql/tree/v0.17.5/examples/query-complexity).
+See how this works in the [simple query complexity example](https://github.com/MichalLytek/type-graphql/tree/v0.17.5/examples/query-complexity).

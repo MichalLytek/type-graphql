@@ -166,6 +166,6 @@ And that's it! We just need to normally register `PersonResolver` in `buildSchem
 Be aware that if you want to overwrite the query/mutation/subscription from parent resolver class, you need to generate the same schema name (using `name` decorator option or the class method name). It will overwrite the implementation along with GraphQL args and return types. If you only provide different implementation of the inherited method like `getOne`, it won't work.
 
 ## Examples
-More advanced usage example of interfaces and types inheritance (e.g. with query returning interface type) you can see in [this examples folder](https://github.com/19majkel94/type-graphql/tree/master/examples/interfaces-inheritance).
+More advanced usage example of interfaces and types inheritance (e.g. with query returning interface type) you can see in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).
 
-For more advanced resolvers inheritance example, please go to [the example folder](https://github.com/19majkel94/type-graphql/tree/master/examples/resolvers-inheritance).
+For more advanced resolvers inheritance example, please go to [the example folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance).

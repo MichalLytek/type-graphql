@@ -3,7 +3,7 @@
   "version": "0.17.5",
   "author": {
     "name": "Michał Lytek",
-    "url": "https://github.com/19majkel94"
+    "url": "https://github.com/MichalLytek"
   },
   "scripts": {
     "dev": "node ./dev.js",
@@ -110,10 +110,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/19majkel94/type-graphql.git"
+    "url": "https://github.com/MichalLytek/type-graphql.git"
   },
   "bugs": {
-    "url": "https://github.com/19majkel94/type-graphql/issues"
+    "url": "https://github.com/MichalLytek/type-graphql/issues"
   },
   "keywords": [
     "typescript",

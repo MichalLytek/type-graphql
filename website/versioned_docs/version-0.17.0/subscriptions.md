@@ -179,7 +179,7 @@ And it's done!. We have a working GraphQL subscription server on `/subscriptions
 
 ## Examples
 
-You can see how the subscriptions works in a [simple example](https://github.com/19majkel94/type-graphql/tree/master/examples/simple-subscriptions).
+You can see how the subscriptions works in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions).
 
-For production usage, it's better to use something more scalable, e.g. a Redis-based pubsub system - [working example is also available](https://github.com/19majkel94/type-graphql/tree/master/examples/redis-subscriptions).
+For production usage, it's better to use something more scalable, e.g. a Redis-based pubsub system - [working example is also available](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions).
 However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection params.

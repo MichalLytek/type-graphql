@@ -133,4 +133,4 @@ class UserResolver {
 
 ## Examples
 
-A more advanced usage example of the generic types feature can be found in [this examples folder](https://github.com/19majkel94/type-graphql/tree/v0.17.5/examples/generic-types).
+A more advanced usage example of the generic types feature can be found in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v0.17.5/examples/generic-types).

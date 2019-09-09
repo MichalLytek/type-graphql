@@ -339,4 +339,4 @@ Resolver class `inheritance` is an advanced topic covered in the [resolver inher
 ## Examples
 
 These code samples are just made up for tutorial purposes.
-You can find more advanced, real examples in the [examples folder on the repository](https://github.com/19majkel94/type-graphql/tree/master/examples).
+You can find more advanced, real examples in the [examples folder on the repository](https://github.com/MichalLytek/type-graphql/tree/master/examples).

@@ -28,7 +28,7 @@ const siteConfig = {
     { doc: "examples", label: "Examples" },
     { doc: "faq", label: "FAQ" },
     { href: "https://opencollective.com/typegraphql", label: "Donate" },
-    { href: "https://github.com/19majkel94/type-graphql", label: "GitHub" },
+    { href: "https://github.com/MichalLytek/type-graphql", label: "GitHub" },
     { blog: true, label: "Blog" },
     { search: true },
   ],
@@ -41,7 +41,7 @@ const siteConfig = {
   headerIcon: "img/logo.png",
   footerIcon: "img/logo.png",
   favicon: "img/favicon.png",
-  editUrl: "https://github.com/19majkel94/type-graphql/edit/master/docs/",
+  editUrl: "https://github.com/MichalLytek/type-graphql/edit/master/docs/",
   /* colors for website */
   colors: {
     primaryColor: "#222",
@@ -60,12 +60,12 @@ const siteConfig = {
   },*/
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright: "Copyright © " + new Date().getFullYear() + " Michał Lytek",
-  organizationName: "19majkel94", // or set an env variable ORGANIZATION_NAME
+  organizationName: "MichalLytek", // or set an env variable ORGANIZATION_NAME
   projectName: "type-graphql", // or set an env variable PROJECT_NAME
   usePrism: true,
   scripts: ["https://buttons.github.io/buttons.js"],
   // You may provide arbitrary config keys to be used as needed by your template.
-  repoUrl: "https://github.com/19majkel94/type-graphql",
+  repoUrl: "https://github.com/MichalLytek/type-graphql",
   /* On page navigation for the current documentation page */
   onPageNav: "separate",
   gaTrackingId: "UA-117093147-1",

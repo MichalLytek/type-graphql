@@ -1,7 +1,7 @@
 ---
 title: GraphQL + TypeScript = TypeGraphQL
 author: Michał Lytek
-authorURL: https://github.com/19majkel94
+authorURL: https://github.com/MichalLytek
 authorImage: /img/author.jpg
 ---
 
@@ -79,7 +79,7 @@ class Recipe {
 }
 ```
 
-The detailed rules when to use `nullable`, `array` and other options are described in [fields and types docs](https://github.com/19majkel94/type-graphql/blob/master/docs/types-and-fields.md).
+The detailed rules when to use `nullable`, `array` and other options are described in [fields and types docs](https://github.com/MichalLytek/type-graphql/blob/master/docs/types-and-fields.md).
 
 ### Resolvers
 After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in constructor:
@@ -124,7 +124,7 @@ class RecipeResolver {
 }
 ```
 
-We use `@Authorized()` decorator to restrict access only for authorized users or the one that fulfill the roles requirements. The detailed rules when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](https://github.com/19majkel94/type-graphql/blob/master/docs/resolvers.md).
+We use `@Authorized()` decorator to restrict access only for authorized users or the one that fulfill the roles requirements. The detailed rules when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](https://github.com/MichalLytek/type-graphql/blob/master/docs/resolvers.md).
 
 ### Inputs and arguments
 Ok, but what are theNewRecipeInput and RecipesArgs? There are of course classes that declares input type and arguments:
@@ -196,17 +196,17 @@ type Mutation {
 ## Want more?
 That was only a tip of the iceberg — a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That’s great because TypeGraphQL fully supports them too!
 
-If you want to see how it looks in more complicated case, you can go to the [Examples section](https://github.com/19majkel94/type-graphql/blob/master/examples) where you can find how nice TypeGraphQL integrates with TypeORM. Want to learn about more advanced concepts like authorization checker, inheritance support or field resolvers? Check out the [Docs section](https://github.com/19majkel94/type-graphql/blob/master/docs).
+If you want to see how it looks in more complicated case, you can go to the [Examples section](https://github.com/MichalLytek/type-graphql/blob/master/examples) where you can find how nice TypeGraphQL integrates with TypeORM. Want to learn about more advanced concepts like authorization checker, inheritance support or field resolvers? Check out the [Docs section](https://github.com/MichalLytek/type-graphql/blob/master/docs).
 
 ## Work in progress
 Currently released version is a **MVP** (Minimum Viable Product). It is well tested (95% coverage, 4400 lines of test code) and has 90% of the planned features already implemented. However there’s some work to be done before 1.0.0 release and it’s mostly about documentation (website, api reference and jsdoc).
 
-There are also plans for more features like better TypeORM and dataloader integration or middlewares and custom decorators support — [the full list of ideas](https://github.com/19majkel94/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A%22Enhancement+%3Anew%3A%22) is available on the GitHub repo. You can also keep track of [development’s progress on project board](https://github.com/19majkel94/type-graphql/projects/1).
+There are also plans for more features like better TypeORM and dataloader integration or middlewares and custom decorators support — [the full list of ideas](https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A%22Enhancement+%3Anew%3A%22) is available on the GitHub repo. You can also keep track of [development’s progress on project board](https://github.com/MichalLytek/type-graphql/projects/1).
 
 ## Spread the word
 I strongly encourage you to give it a try and experiment with **TypeGraphQL**.
 I promise, it will reduce your codebase by a half or more!
 
-If you find this framework interesting, please [star the GitHub repository](https://github.com/19majkel94/type-graphql), clap for this article and share it on your social media, if you don’t mind.
+If you find this framework interesting, please [star the GitHub repository](https://github.com/MichalLytek/type-graphql), clap for this article and share it on your social media, if you don’t mind.
 
 The more feedback I receive, the more time I will devote to continue the development of TypeGraphQL!

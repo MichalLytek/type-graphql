@@ -13,7 +13,7 @@ query FirstRecipe {
 mutation AddCommentToRecipe1 {
 	addNewComment(comment: {
     recipeId: "1",
-    nickname: "19majkel94",
+    nickname: "MichalLytek",
     content: "Nice one!"
   })
 }
@@ -21,7 +21,7 @@ mutation AddCommentToRecipe1 {
 mutation AddCommentToRecipe2 {
 	addNewComment(comment: {
     recipeId: "2",
-    nickname: "19majkel94",
+    nickname: "MichalLytek",
     content: "Nice two!"
   })
 }
