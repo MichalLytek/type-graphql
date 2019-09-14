@@ -254,13 +254,22 @@ const CollectiveSection = props => (
           </a>
           <a href="https://opencollective.com/demid-nikitin">
             <img
-              src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg"
+              src={
+                "https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg"
+              }
               height="100"
             />
             <span>Demid Nikitin</span>
           </a>
+          <a href="https://redo.qa/">
+            <img src={imgUrl("redo.png")} width="150" />
+            <span>Redo</span>
+          </a>
         </div>
-        <h3>Backers ☕</h3>
+        <h3>Backers ☕ and Members 💪</h3>
+        <a href="https://opencollective.com/typegraphql#contributors">
+          <img src="https://opencollective.com/typegraphql/sponsors.svg?width=1024&button=false" />
+        </a>
         <a href="https://opencollective.com/typegraphql#contributors">
           <img src="https://opencollective.com/typegraphql/backers.svg?width=1024&button=false" />
         </a>
