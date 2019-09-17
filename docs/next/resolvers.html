@@ -146,8 +146,12 @@ The second is to provide the return type. Since the method is async, the reflect
   title<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   <span class="token comment">// helpers - index calculations</span>
-  startIndex <span class="token operator">=</span> skip<span class="token punctuation">;</span>
-  endIndex <span class="token operator">=</span> skip <span class="token operator">+</span> take<span class="token punctuation">;</span>
+  <span class="token keyword">get</span> <span class="token function">startIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>skip<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">get</span> <span class="token function">endIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>skip <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>take<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Then all that is left to do is use the args class as the type of the method parameter.
