@@ -112,8 +112,12 @@ class GetRecipesArgs {
   title?: string;
 
   // helpers - index calculations
-  startIndex = skip;
-  endIndex = skip + take;
+  get startIndex(): number {
+    return this.skip;
+  }
+  get endIndex(): number {
+    return this.skip + this.take;
+  }
 }
 ```
 
