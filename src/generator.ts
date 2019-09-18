@@ -3,25 +3,28 @@ import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
 import fs from "fs";
 import path from "path";
 
-import generator from "./generator/generator";
+import generateCode from "./generator/generate-code";
 
 const defaultOutput = "node_modules/@generated/type-graphql";
 
-export const generate: GeneratorFunction = async ({
-  generator: generatorConfig,
-  dmmf,
-  cwd,
-}) => {
-  const outputDir = generatorConfig.output
-    ? path.resolve(cwd, generatorConfig.output)
+export const generate: GeneratorFunction = async options => {
+  const outputDir = options.generator.output
+    ? path.resolve(options.cwd, options.generator.output)
     : defaultOutput; // TODO: find node_modules dir
+  const dmmf = options.dmmf as DMMF.Document;
+  const photonDmmf = require(options.otherGenerators.find(
+    it => it.provider === "photonjs",
+  )!.output!).dmmf as DMMF.Document;
 
-  const datamodel: DMMF.Datamodel = dmmf.datamodel;
   fs.writeFileSync(
-    path.resolve(outputDir, "./dmmf-datamodel.json"),
-    JSON.stringify(datamodel, null, 2),
+    path.resolve(outputDir, "./dmmf.json"),
+    JSON.stringify(dmmf, null, 2),
   );
-  await generator(datamodel, path.resolve(outputDir, "./index.ts"));
+  fs.writeFileSync(
+    path.resolve(outputDir, "./photon-dmmf.json"),
+    JSON.stringify(photonDmmf, null, 2),
+  );
 
+  await generateCode(photonDmmf, path.resolve(outputDir, "./index.ts"));
   return "";
 };

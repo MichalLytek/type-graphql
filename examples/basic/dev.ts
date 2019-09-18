@@ -1,12 +1,12 @@
 import path from "path";
 
-import { writeDmmf } from "../../src/dev/writeDmmf";
-import { logDmmf } from "../../src/dev/logDmmf";
+// import { writeDmmf } from "../../src/dev/writeDmmf";
+// import { logDmmf } from "../../src/dev/logDmmf";
 import { generateCode } from "../../src/dev/generateCode";
 
-const dataModelJSONPath = path.resolve(
+const dmmfJSONPath = path.resolve(
   __dirname,
-  "prisma/generated/type-graphql/dmmf-datamodel.json",
+  "prisma/generated/type-graphql/photon-dmmf.json",
 );
 const outputTSFilePath = path.resolve(
   __dirname,
@@ -14,7 +14,7 @@ const outputTSFilePath = path.resolve(
 );
 
 (async () => {
-  await writeDmmf("./prisma", dataModelJSONPath);
+  // await writeDmmf("./prisma", dataModelJSONPath);
   // await logDmmf("./prisma");
-  await generateCode(dataModelJSONPath, outputTSFilePath);
+  await generateCode(dmmfJSONPath, outputTSFilePath);
 })();

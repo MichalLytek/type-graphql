@@ -13,6 +13,7 @@ import {
 export default async function generateRelationsResolverClassesFromModel(
   sourceFile: SourceFile,
   model: DMMF.Model,
+  modelNames: string[],
 ) {
   const relationFields = model.fields.filter(field => field.relationName);
   const idField = model.fields.find(field => field.isId)!;
@@ -31,7 +32,7 @@ export default async function generateRelationsResolverClassesFromModel(
       field => {
         const fieldDocs =
           field.documentation && field.documentation.replace("\r", "");
-        const fieldType = getFieldTSType(field);
+        const fieldType = getFieldTSType(field, modelNames);
         const [
           createDataLoaderFunctionName,
           dataLoaderInCtxName,
@@ -40,7 +41,7 @@ export default async function generateRelationsResolverClassesFromModel(
           model.name,
           field.name,
           idField.name,
-          getFieldTSType(idField),
+          getFieldTSType(idField, modelNames),
           fieldType,
         );
 
@@ -52,7 +53,7 @@ export default async function generateRelationsResolverClassesFromModel(
             {
               name: "FieldResolver",
               arguments: [
-                `_type => ${getTypeGraphQLType(field)}`,
+                `_type => ${getTypeGraphQLType(field, modelNames)}`,
                 `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
@@ -71,6 +72,7 @@ export default async function generateRelationsResolverClassesFromModel(
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
+            // TODO: input types with pagination, filtering and sorting
           ],
           statements: [
             `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon);
@@ -90,6 +92,7 @@ function createDataLoaderCreationStatement(
   rootKeyType: string,
   fieldType: string,
 ) {
+  // TODO: use `mappings`
   const dataLoaderInCtxName = `${camelCase(modelName)}${pascalCase(
     relationFieldName,
   )}Loader`;

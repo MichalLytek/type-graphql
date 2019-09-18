@@ -10,9 +10,10 @@ import {
   getTypeGraphQLType,
 } from "./helpers";
 
-export default async function generateObjectTypeClassesFromModel(
+export default async function generateObjectTypeClassFromModel(
   sourceFile: SourceFile,
   model: DMMF.Model,
+  modelNames: string[],
 ) {
   const modelDocs =
     model.documentation && model.documentation.replace("\r", "");
@@ -41,7 +42,7 @@ export default async function generateObjectTypeClassesFromModel(
 
         return {
           name: field.name,
-          type: getFieldTSType(field),
+          type: getFieldTSType(field, modelNames),
           hasExclamationToken: !isOptional,
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
@@ -52,7 +53,7 @@ export default async function generateObjectTypeClassesFromModel(
                   {
                     name: "Field",
                     arguments: [
-                      `_type => ${getTypeGraphQLType(field)}`,
+                      `_type => ${getTypeGraphQLType(field, modelNames)}`,
                       `{
                         nullable: ${isOptional},
                         description: ${

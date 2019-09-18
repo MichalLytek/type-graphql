@@ -1,31 +1,41 @@
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMFTypeInfo } from "./types";
+
+export function noop() {}
 
 export function getBaseModelTypeName(modelName: string) {
   return `Base${modelName}`;
 }
 
-export function getFieldTSType(field: DMMF.Field) {
-  let type: string;
-  if (field.kind === "scalar") {
-    type = mapScalarToTSType(field.type);
-  } else if (field.kind === "object") {
-    type = getBaseModelTypeName(field.type);
-  } else if (field.kind === "enum") {
-    type = `keyof typeof ${field.type}`;
+export function getFieldTSType(typeInfo: DMMFTypeInfo, modelNames: string[]) {
+  let TSType: string;
+  if (typeInfo.kind === "scalar") {
+    TSType = mapScalarToTSType(typeInfo.type);
+  } else if (typeInfo.kind === "object") {
+    if (modelNames.includes(typeInfo.type)) {
+      TSType = getBaseModelTypeName(typeInfo.type);
+    } else {
+      TSType = typeInfo.type;
+    }
+  } else if (typeInfo.kind === "enum") {
+    TSType = `keyof typeof ${typeInfo.type}`;
   } else {
-    throw new Error(`Unsupported field type kind: ${field.kind}`);
+    throw new Error(`Unsupported field type kind: ${typeInfo.kind}`);
   }
-  if (field.isList) {
-    type += "[]";
+  if (typeInfo.isList) {
+    TSType += "[]";
   }
-  if (!field.isRequired) {
-    type += " | null";
+  if (!typeInfo.isRequired) {
+    TSType += " | null";
   }
-  return type;
+  return TSType;
 }
 
 export function mapScalarToTSType(scalar: string) {
   switch (scalar) {
+    case "ID": {
+      // TODO: detect proper type of id field
+      return "string";
+    }
     case "String": {
       return "string";
     }
@@ -46,19 +56,26 @@ export function mapScalarToTSType(scalar: string) {
   }
 }
 
-export function getTypeGraphQLType(field: DMMF.Field) {
-  let type: string;
-  if (field.kind === "scalar") {
-    type = mapScalarToTypeGraphQLType(field.type);
-  } else if (field.kind === "object") {
-    type = getBaseModelTypeName(field.type);
+export function getTypeGraphQLType(
+  typeInfo: DMMFTypeInfo,
+  modelNames: string[],
+) {
+  let GraphQLType: string;
+  if (typeInfo.kind === "scalar") {
+    GraphQLType = mapScalarToTypeGraphQLType(typeInfo.type);
+  } else if (typeInfo.kind === "object") {
+    if (modelNames.includes(typeInfo.type)) {
+      GraphQLType = getBaseModelTypeName(typeInfo.type);
+    } else {
+      GraphQLType = typeInfo.type;
+    }
   } else {
-    type = field.type;
+    GraphQLType = typeInfo.type;
   }
-  if (field.isList) {
-    type = `[${type}]`;
+  if (typeInfo.isList) {
+    GraphQLType = `[${GraphQLType}]`;
   }
-  return type;
+  return GraphQLType;
 }
 
 export function mapScalarToTypeGraphQLType(scalar: string) {
@@ -70,6 +87,7 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
     }
     case "Boolean":
     case "String":
+    case "ID":
     case "Int":
     case "Float": {
       return scalar;

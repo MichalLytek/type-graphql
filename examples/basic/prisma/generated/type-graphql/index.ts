@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, Resolver, FieldResolver, Root, Ctx } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx } from "type-graphql";
 import DataLoader from "dataloader";
 
 /**
@@ -126,6 +126,42 @@ export class BasePost {
     description: undefined,
   })
   kind?: keyof typeof PostKind | null;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class AggregateUser {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class AggregatePost {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BatchPayload {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
 }
 
 function createUserPostsLoader(photon: any) {
