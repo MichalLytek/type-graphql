@@ -1,5 +1,5 @@
 import { GeneratorFunction } from "@prisma/cli";
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMF } from "@prisma/photon";
 import fs from "fs";
 import path from "path";
 

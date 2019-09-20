@@ -1,5 +1,5 @@
 import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMF } from "@prisma/photon";
 import pluralize from "pluralize";
 
 import {

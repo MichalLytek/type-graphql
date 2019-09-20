@@ -1,11 +1,11 @@
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMF } from "@prisma/photon";
 import { Project } from "ts-morph";
 
 import { noop } from "./helpers";
 import generateImports from "./imports";
-import generateEnumsFromDef from "./enums";
-import generateObjectTypeClassFromModel from "./object-type-classes";
-import generateRelationsResolverClassFromModel from "./relations-resolver-classes";
+import generateEnumFromDef from "./enum";
+import generateObjectTypeClassFromModel from "./object-type-class";
+import generateRelationsResolverClassFromModel from "./relations-resolver-class";
 import generateOutputTypeClassFromType from "./type-class";
 
 export default async function generateCode(
@@ -22,10 +22,17 @@ export default async function generateCode(
   await generateImports(sourceFile);
 
   log("Generating enums...");
+  const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
   await Promise.all(
     dmmf.datamodel.enums.map(enumDef =>
-      generateEnumsFromDef(sourceFile, enumDef),
+      generateEnumFromDef(sourceFile, enumDef),
     ),
+  );
+  await Promise.all(
+    dmmf.schema.enums
+      // skip enums from datamodel
+      .filter(enumDef => !datamodelEnumNames.includes(enumDef.name))
+      .map(enumDef => generateEnumFromDef(sourceFile, enumDef)),
   );
 
   log("Generating models...");

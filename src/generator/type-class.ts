@@ -3,7 +3,8 @@ import {
   PropertyDeclarationStructure,
   OptionalKind,
 } from "ts-morph";
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMF } from "@prisma/photon";
+
 import { getFieldTSType, getTypeGraphQLType } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 

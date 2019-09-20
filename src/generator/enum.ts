@@ -1,7 +1,7 @@
 import { EnumMemberStructure, OptionalKind, SourceFile } from "ts-morph";
-import { DMMF } from "@prisma/photon/dist/runtime/dmmf-types";
+import { DMMF } from "@prisma/photon";
 
-export default async function generateEnumsFromDef(
+export default async function generateEnumFromDef(
   sourceFile: SourceFile,
   enumDef: DMMF.Enum,
 ) {
@@ -27,6 +27,6 @@ export default async function generateEnumsFromDef(
     `registerEnumType(${enumDef.name}, {
       name: "${enumDef.name}",
       description: ${documentation ? `"${documentation}"` : "undefined"},
-    })`,
+    });`,
   ]);
 }

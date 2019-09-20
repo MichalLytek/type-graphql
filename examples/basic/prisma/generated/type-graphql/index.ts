@@ -11,7 +11,7 @@ export enum Role {
 registerEnumType(Role, {
   name: "Role",
   description: "Role enum comment",
-})
+});
 
 export enum PostKind {
   BLOG = "BLOG",
@@ -20,7 +20,16 @@ export enum PostKind {
 registerEnumType(PostKind, {
   name: "PostKind",
   description: undefined,
-})
+});
+
+export enum OrderByArg {
+  asc = "asc",
+  desc = "desc"
+}
+registerEnumType(OrderByArg, {
+  name: "OrderByArg",
+  description: undefined,
+});
 
 /**
  * User model comment
