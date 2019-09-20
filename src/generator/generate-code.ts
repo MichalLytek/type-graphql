@@ -48,10 +48,15 @@ export default async function generateCode(
   );
 
   log("Generating output types...");
+  const rootTypes = dmmf.schema.outputTypes.filter(type =>
+    ["Query", "Mutation"].includes(type.name),
+  );
   await Promise.all(
     dmmf.schema.outputTypes
-      // skip generating models and resolvers
-      .filter(type => ![...modelNames, "Query", "Mutation"].includes(type.name))
+      .filter(
+        // skip generating models and root resolvers
+        type => !modelNames.includes(type.name) && !rootTypes.includes(type),
+      )
       .map(type =>
         generateOutputTypeClassFromType(sourceFile, type, modelNames),
       ),
@@ -68,6 +73,18 @@ export default async function generateCode(
   await Promise.all(
     dmmf.datamodel.models.map(model =>
       generateRelationsResolverClassFromModel(sourceFile, model, modelNames),
+    ),
+  );
+
+  log("Generating crud resolvers...");
+  await Promise.all(
+    dmmf.mappings.map(mapping =>
+      generateCrudResolverClassFromRootType(
+        sourceFile,
+        mapping,
+        rootTypes,
+        modelNames,
+      ),
     ),
   );
 

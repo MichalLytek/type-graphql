@@ -15,6 +15,8 @@ export default async function generateImports(sourceFile: SourceFile) {
       { name: "Root" },
       { name: "Ctx" },
       { name: "InputType" },
+      { name: "Query" },
+      { name: "Mutation" },
     ],
   });
   sourceFile.addImportDeclaration({

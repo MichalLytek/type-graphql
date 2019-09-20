@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, Query, Mutation, InputType } from "type-graphql";
 import DataLoader from "dataloader";
 
 /**
@@ -1660,5 +1660,139 @@ export class PostRelationsResolver {
   async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
     ctx.postAuthorLoader = ctx.postAuthorLoader || createPostAuthorLoader(ctx.photon);
     return ctx.postAuthorLoader.load(post.uuid);
+  }
+}
+
+@Resolver(_of => BaseUser)
+export class BaseUserCrudResolver {
+  @Query(_type => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async findOneUser(): Promise<BaseUser | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Query(_type => [BaseUser], {
+    nullable: true,
+    description: undefined
+  })
+  async findManyUser(): Promise<BaseUser[] | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BaseUser, {
+    nullable: false,
+    description: undefined
+  })
+  async createOneUser(): Promise<BaseUser> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteOneUser(): Promise<BaseUser | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async updateOneUser(): Promise<BaseUser | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyUser(): Promise<BatchPayload> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BaseUser, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertOneUser(): Promise<BaseUser> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Query(_type => AggregateUser, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateUser(): Promise<AggregateUser> {
+    throw new Error("Not implemented yet!");
+  }
+}
+
+@Resolver(_of => BasePost)
+export class BasePostCrudResolver {
+  @Query(_type => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async findOnePost(): Promise<BasePost | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Query(_type => [BasePost], {
+    nullable: true,
+    description: undefined
+  })
+  async findManyPost(): Promise<BasePost[] | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BasePost, {
+    nullable: false,
+    description: undefined
+  })
+  async createOnePost(): Promise<BasePost> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteOnePost(): Promise<BasePost | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async updateOnePost(): Promise<BasePost | null> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyPost(): Promise<BatchPayload> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Mutation(_type => BasePost, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertOnePost(): Promise<BasePost> {
+    throw new Error("Not implemented yet!");
+  }
+
+  @Query(_type => AggregatePost, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregatePost(): Promise<AggregatePost> {
+    throw new Error("Not implemented yet!");
   }
 }
