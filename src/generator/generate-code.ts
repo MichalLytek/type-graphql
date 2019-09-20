@@ -6,7 +6,11 @@ import generateImports from "./imports";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./object-type-class";
 import generateRelationsResolverClassFromModel from "./relations-resolver-class";
-import generateOutputTypeClassFromType from "./type-class";
+import {
+  generateOutputTypeClassFromType,
+  generateInputTypeClassFromType,
+} from "./type-class";
+import generateCrudResolverClassFromRootType from "./crud-resolver-class";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
@@ -51,6 +55,13 @@ export default async function generateCode(
       .map(type =>
         generateOutputTypeClassFromType(sourceFile, type, modelNames),
       ),
+  );
+
+  log("Generating input types...");
+  await Promise.all(
+    dmmf.schema.inputTypes.map(type =>
+      generateInputTypeClassFromType(sourceFile, type, modelNames),
+    ),
   );
 
   log("Generating relation resolvers...");

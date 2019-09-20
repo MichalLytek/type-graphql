@@ -14,6 +14,7 @@ export default async function generateImports(sourceFile: SourceFile) {
       { name: "FieldResolver" },
       { name: "Root" },
       { name: "Ctx" },
+      { name: "InputType" },
     ],
   });
   sourceFile.addImportDeclaration({
