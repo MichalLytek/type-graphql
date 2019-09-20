@@ -3092,6 +3092,9 @@ function getFilterArgName(arg, filter) {
     if (filter === 'equals') {
         return arg;
     }
+    if (filter === 'notIn') {
+        return `${arg}_not_in`;
+    }
     return `${arg}_${filter}`;
 }
 function selectionToFields(dmmf, selection, schemaField, path) {
@@ -3665,7 +3668,7 @@ class NodeEngine extends Engine_1.Engine {
             debug(e, why);
             await this.stop();
         };
-        this.cwd = cwd;
+        this.cwd = this.resolveCwd(cwd);
         this.debug = args.debug || false;
         this.datamodel = datamodel;
         this.prismaPath = prismaPath;
@@ -3696,6 +3699,12 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
         if (this.debug) {
             debug_1.default.enable('*');
         }
+    }
+    resolveCwd(cwd) {
+        if (cwd && fs_1.default.existsSync(cwd) && fs_1.default.lstatSync(cwd).isDirectory()) {
+            return cwd;
+        }
+        return process.cwd();
     }
     on(event, listener) {
         this.logEmitter.on(event, listener);
@@ -3815,9 +3824,11 @@ ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}
                     env.OVERWRITE_DATASOURCES = this.printDatasources();
                 }
                 debug(env);
+                debug({ cwd: this.cwd });
                 const prismaPath = await this.getPrismaPath();
                 this.child = child_process_1.spawn(prismaPath, [], {
                     env: Object.assign({}, process.env, env),
+                    cwd: this.cwd,
                     stdio: ['pipe', 'pipe', 'pipe'],
                 });
                 this.child.stderr.on('data', msg => {
@@ -4047,6 +4058,8 @@ var chalk_1 = __webpack_require__(946);
 exports.chalk = chalk_1.default;
 var printStack_1 = __webpack_require__(41);
 exports.printStack = printStack_1.printStack;
+var mergeBy_1 = __webpack_require__(316);
+exports.mergeBy = mergeBy_1.mergeBy;
 
 
 /***/ }),
@@ -4778,6 +4791,47 @@ module.exports = (socket, callback) => {
 	} else {
 		socket.once('connect', callback);
 	}
+};
+
+
+/***/ }),
+
+/***/ 316:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Merge two arrays, their elements uniqueness decided by the callback.
+ * In case of a duplicate, elements of `arr2` are taken.
+ * If there is a duplicate within an array, the last element is being taken.
+ * @param arr1 Base array
+ * @param arr2 Array to overwrite the first one if there is a match
+ * @param cb The function to calculate uniqueness
+ */
+function mergeBy(arr1, arr2, cb) {
+    const groupedArr1 = groupBy(arr1, cb);
+    const groupedArr2 = groupBy(arr2, cb);
+    const result = Object.values(groupedArr2).map(value => value[value.length - 1]);
+    const arr2Keys = Object.keys(groupedArr2);
+    Object.entries(groupedArr1).forEach(([key, value]) => {
+        if (!arr2Keys.includes(key)) {
+            result.push(value[value.length - 1]);
+        }
+    });
+    return result;
+}
+exports.mergeBy = mergeBy;
+const groupBy = (arr, cb) => {
+    return arr.reduce((acc, curr) => {
+        const key = cb(curr);
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(curr);
+        return acc;
+    }, {});
 };
 
 
@@ -9324,10 +9378,13 @@ async function gracefulExec(cmd) {
 }
 async function getPlatform() {
     const { platform, libssl, distro } = await getos();
+    debug({ platform, libssl });
     if (platform === 'darwin') {
         return 'darwin';
     }
-    debug({ platform, libssl });
+    if (platform === 'win32') {
+        return 'windows';
+    }
     if (platform === 'linux' && libssl) {
         if (libssl === '1.0.2') {
             if (distro && distro.codename === 'xenial') {

@@ -1,4 +1,4 @@
-import Photon from "./prisma/generated/photon";
+import { Photon } from "./prisma/generated/photon";
 
 const photon = new Photon();
 

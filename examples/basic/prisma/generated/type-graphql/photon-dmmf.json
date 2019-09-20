@@ -261,7 +261,8 @@
       "update": "updateOneUser",
       "deleteMany": "deleteManyUser",
       "updateMany": "updateManyUser",
-      "upsert": "upsertOneUser"
+      "upsert": "upsertOneUser",
+      "aggregate": "aggregateUser"
     },
     {
       "model": "Post",
@@ -273,7 +274,8 @@
       "update": "updateOnePost",
       "deleteMany": "deleteManyPost",
       "updateMany": "updateManyPost",
-      "upsert": "upsertOnePost"
+      "upsert": "upsertOnePost",
+      "aggregate": "aggregatePost"
     }
   ],
   "schema": {

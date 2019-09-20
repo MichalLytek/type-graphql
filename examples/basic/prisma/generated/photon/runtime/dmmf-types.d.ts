@@ -124,6 +124,7 @@ export declare namespace DMMF {
         isEmbedded: boolean;
         dbName: string | null;
         fields: Field[];
+        documentation?: string;
         [key: string]: any;
     }
     type FieldKind = 'scalar' | 'object' | 'enum';
@@ -140,7 +141,14 @@ export declare namespace DMMF {
         relationToFields?: any[];
         relationOnDelete?: string;
         relationName?: string;
+        documentation?: string;
+        default?: FieldDefault;
         [key: string]: any;
+    }
+    interface FieldDefault {
+        name: string;
+        returnType: string;
+        args: any[];
     }
     interface Schema {
         rootQueryType?: string;
@@ -205,6 +213,7 @@ export declare namespace DMMF {
         upsert?: string | null;
         delete?: string | null;
         deleteMany?: string | null;
+        aggregate?: string | null;
     }
     enum ModelAction {
         findOne = "findOne",

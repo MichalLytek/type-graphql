@@ -18,7 +18,7 @@ import {
   UserRelationsResolver,
   PostRelationsResolver,
 } from "./prisma/generated/type-graphql";
-import Photon from "./prisma/generated/photon";
+import { Photon } from "./prisma/generated/photon";
 
 // @ObjectType()
 // class User extends BaseUser {}

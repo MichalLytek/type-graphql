@@ -7,7 +7,7 @@ services:
     working_dir: /usr/app
     volumes:
       - ./:/usr/app/
-      - node_modules/:/usr/app/node_modules/
+      - root_node_modules/:/usr/app/node_modules/
       - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
 
   basic-example:
@@ -18,9 +18,9 @@ services:
       - "4000:4000"
     volumes:
       - ./:/usr/app/
-      - node_modules/:/usr/app/node_modules/
+      - root_node_modules/:/usr/app/node_modules/
       - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
 
 volumes:
-  node_modules:
+  root_node_modules:
   examples_basic_node_modules:
