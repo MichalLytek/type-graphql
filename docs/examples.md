@@ -27,6 +27,7 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
 - [Types inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
 - [Resolvers inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance)
 - [Generic types](https://github.com/MichalLytek/type-graphql/tree/master/examples/generic-types)
+- [Mixin classes](https://github.com/MichalLytek/type-graphql/tree/master/examples/mixin-classes)
 - [Middlewares and Custom Decorators](https://github.com/MichalLytek/type-graphql/tree/master/examples/middlewares-custom-decorators)
 
 ## 3rd party libs integration

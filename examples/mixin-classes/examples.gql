@@ -1,0 +1,38 @@
+query GetUsers {
+  users {
+    ...UserInfo
+  }
+}
+
+mutation CreateUser {
+  createUser(
+    input: {
+      forename: "Sample 1"
+      dateOfBirth: "2000-09-21T14:54:17.369Z"
+      email: "test@test.test"
+      password: "qwerty123"
+    }
+  ) {
+    ...UserInfo
+  }
+}
+mutation AmendUser {
+  amendUser(
+    input: {
+      id: 1
+      forename: "Sample Amend 1"
+      dateOfBirth: "2000-09-21T14:54:17.369Z"
+      email: "test2@test.test"
+    }
+  ) {
+    ...UserInfo
+  }
+}
+
+fragment UserInfo on User {
+  id
+  forename
+  surname
+  dateOfBirth
+  email
+}
