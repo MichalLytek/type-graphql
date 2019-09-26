@@ -69,6 +69,7 @@ export default async function generateRelationsResolverClassesFromModel(
             },
             {
               name: "ctx",
+              // TODO: import custom `ContextType`
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
@@ -101,6 +102,7 @@ function createDataLoaderCreationStatement(
 
   sourceFile.addFunction({
     name: functionName,
+    // TODO: import Photon type
     parameters: [{ name: "photon", type: "any" }],
     statements: [
       `return new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {

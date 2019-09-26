@@ -17,6 +17,8 @@ import {
   BasePost as Post,
   UserRelationsResolver,
   PostRelationsResolver,
+  BaseUserCrudResolver as UserCrudResolver,
+  BasePostCrudResolver as PostCrudResolver,
 } from "./prisma/generated/type-graphql";
 import { Photon } from "./prisma/generated/photon";
 
@@ -56,9 +58,12 @@ async function main() {
     resolvers: [
       UserResolver,
       UserRelationsResolver,
+      UserCrudResolver,
       PostResolver,
       PostRelationsResolver,
+      PostCrudResolver,
     ],
+    validate: false,
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),
   });
 

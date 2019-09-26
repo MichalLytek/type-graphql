@@ -5,7 +5,11 @@ import {
 } from "ts-morph";
 import { DMMF } from "@prisma/photon";
 
-import { getFieldTSType, getTypeGraphQLType } from "./helpers";
+import {
+  getFieldTSType,
+  getTypeGraphQLType,
+  selectInputTypeFromTypes,
+} from "./helpers";
 import { DMMFTypeInfo } from "./types";
 
 export async function generateOutputTypeClassFromType(
@@ -79,13 +83,7 @@ export async function generateInputTypeClassFromType(
     ],
     properties: type.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
-        // solution from `nexus-prisma`
-        // FIXME: *Enum*Filter are currently empty
-        const inputType = field.inputType.some(it => it.kind === "enum")
-          ? field.inputType[0]
-          : field.inputType.find(it => it.kind === "object") ||
-            field.inputType[0];
-
+        const inputType = selectInputTypeFromTypes(field.inputType);
         return {
           name: field.name,
           type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),

@@ -3,6 +3,14 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AggregatePost {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
 type BasePost {
   uuid: String!
   createdAt: String!
@@ -28,12 +36,234 @@ type BaseUser {
   hello: String!
 }
 
+type BatchPayload {
+  count: Int!
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+input DateTimeFilter {
+  equals: String
+  not: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+}
+
+input FloatFilter {
+  equals: Float
+  not: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+}
+
+input IntFilter {
+  equals: Int
+  not: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+}
+
+type Mutation {
+  createOneUser(data: UserCreateInput!): BaseUser!
+  deleteOneUser(where: UserWhereUniqueInput!): BaseUser
+  updateOneUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): BaseUser
+  updateManyUser(where: UserWhereInput!, data: UserUpdateManyMutationInput!): BatchPayload!
+  upsertOneUser(update: UserUpdateInput!, create: UserCreateInput!, where: UserWhereUniqueInput!): BaseUser!
+  createOnePost(data: PostCreateInput!): BasePost!
+  deleteOnePost(where: PostWhereUniqueInput!): BasePost
+  updateOnePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): BasePost
+  updateManyPost(where: PostWhereInput!, data: PostUpdateManyMutationInput!): BatchPayload!
+  upsertOnePost(update: PostUpdateInput!, create: PostCreateInput!, where: PostWhereUniqueInput!): BasePost!
+}
+
+input NullableStringFilter {
+  equals: String
+  not: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+}
+
+enum OrderByArg {
+  asc
+  desc
+}
+
+input PostCreateInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean!
+  title: String!
+  content: String
+  kind: PostKind
+  author: UserCreateOneWithoutAuthorInput!
+}
+
+input PostCreateManyWithoutPostsInput {
+  create: [PostCreateWithoutAuthorInput!]
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostCreateWithoutAuthorInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean!
+  title: String!
+  content: String
+  kind: PostKind
+}
+
+input PostFilter {
+  every: PostWhereInput
+  some: PostWhereInput
+  none: PostWhereInput
+}
+
 enum PostKind {
   BLOG
   ADVERT
 }
 
+input PostOrderByInput {
+  uuid: OrderByArg
+  createdAt: OrderByArg
+  updatedAt: OrderByArg
+  published: OrderByArg
+  title: OrderByArg
+  content: OrderByArg
+  kind: OrderByArg
+}
+
+input PostScalarWhereInput {
+  uuid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  published: BooleanFilter
+  title: StringFilter
+  content: NullableStringFilter
+  kind: PostKind
+  AND: [PostScalarWhereInput!]
+  OR: [PostScalarWhereInput!]
+  NOT: [PostScalarWhereInput!]
+}
+
+input PostUpdateInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean
+  title: String
+  content: String
+  kind: PostKind
+  author: UserUpdateOneRequiredWithoutPostsInput
+}
+
+input PostUpdateManyDataInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean
+  title: String
+  content: String
+  kind: PostKind
+}
+
+input PostUpdateManyMutationInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean
+  title: String
+  content: String
+  kind: PostKind
+}
+
+input PostUpdateManyWithoutAuthorInput {
+  create: [PostCreateWithoutAuthorInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  delete: [PostWhereUniqueInput!]
+  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+  deleteMany: [PostScalarWhereInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput!
+  data: PostUpdateManyDataInput!
+}
+
+input PostUpdateWithoutAuthorDataInput {
+  uuid: ID
+  createdAt: String
+  updatedAt: String
+  published: Boolean
+  title: String
+  content: String
+  kind: PostKind
+}
+
+input PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  data: PostUpdateWithoutAuthorDataInput!
+}
+
+input PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  update: PostUpdateWithoutAuthorDataInput!
+  create: PostCreateWithoutAuthorInput!
+}
+
+input PostWhereInput {
+  uuid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  published: BooleanFilter
+  title: StringFilter
+  content: NullableStringFilter
+  kind: PostKind
+  AND: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  NOT: [PostWhereInput!]
+  author: UserWhereInput
+}
+
+input PostWhereUniqueInput {
+  uuid: ID
+}
+
 type Query {
+  findOneUser(where: UserWhereUniqueInput!): BaseUser
+  findManyUser(last: Int!, first: Int!, before: String!, after: String!, skip: Int!, orderBy: UserOrderByInput!, where: UserWhereInput!): [BaseUser!]
+  aggregateUser: AggregateUser!
+  findOnePost(where: PostWhereUniqueInput!): BasePost
+  findManyPost(last: Int!, first: Int!, before: String!, after: String!, skip: Int!, orderBy: PostOrderByInput!, where: PostWhereInput!): [BasePost!]
+  aggregatePost: AggregatePost!
   users: [BaseUser!]!
   posts: [BasePost!]!
 }
@@ -42,4 +272,114 @@ type Query {
 enum Role {
   USER
   ADMIN
+}
+
+input StringFilter {
+  equals: String
+  not: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+}
+
+input UserCreateInput {
+  email: String!
+  name: String
+  age: Int!
+  balance: Float!
+  amount: Float!
+  role: Role!
+  posts: PostCreateManyWithoutPostsInput
+}
+
+input UserCreateOneWithoutAuthorInput {
+  create: UserCreateWithoutPostsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPostsInput {
+  email: String!
+  name: String
+  age: Int!
+  balance: Float!
+  amount: Float!
+  role: Role!
+}
+
+input UserOrderByInput {
+  id: OrderByArg
+  email: OrderByArg
+  name: OrderByArg
+  age: OrderByArg
+  balance: OrderByArg
+  amount: OrderByArg
+  role: OrderByArg
+}
+
+input UserUpdateInput {
+  id: Int
+  email: String
+  name: String
+  age: Int
+  balance: Float
+  amount: Float
+  role: Role
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateManyMutationInput {
+  id: Int
+  email: String
+  name: String
+  age: Int
+  balance: Float
+  amount: Float
+  role: Role
+}
+
+input UserUpdateOneRequiredWithoutPostsInput {
+  create: UserCreateWithoutPostsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutPostsDataInput
+  upsert: UserUpsertWithoutPostsInput
+}
+
+input UserUpdateWithoutPostsDataInput {
+  id: Int
+  email: String
+  name: String
+  age: Int
+  balance: Float
+  amount: Float
+  role: Role
+}
+
+input UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput!
+  create: UserCreateWithoutPostsInput!
+}
+
+input UserWhereInput {
+  id: IntFilter
+  email: StringFilter
+  name: NullableStringFilter
+  age: IntFilter
+  balance: FloatFilter
+  amount: FloatFilter
+  posts: PostFilter
+  role: Role
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+}
+
+input UserWhereUniqueInput {
+  id: Int
+  email: String
 }

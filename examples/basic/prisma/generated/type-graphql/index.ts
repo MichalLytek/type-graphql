@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg } from "type-graphql";
 import DataLoader from "dataloader";
 
 /**
@@ -1665,63 +1665,63 @@ export class PostRelationsResolver {
 
 @Resolver(_of => BaseUser)
 export class BaseUserCrudResolver {
-  @Query(_type => BaseUser, {
+  @Query(_returns => BaseUser, {
     nullable: true,
     description: undefined
   })
-  async findOneUser(): Promise<BaseUser | null> {
+  async findOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Query(_type => [BaseUser], {
+  @Query(_returns => [BaseUser], {
     nullable: true,
     description: undefined
   })
-  async findManyUser(): Promise<BaseUser[] | null> {
+  async findManyUser(@Arg("where", _type => UserWhereInput) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int) skip?: number | null, @Arg("after", _type => String) after?: string | null, @Arg("before", _type => String) before?: string | null, @Arg("first", _type => Int) first?: number | null, @Arg("last", _type => Int) last?: number | null): Promise<BaseUser[] | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BaseUser, {
+  @Mutation(_returns => BaseUser, {
     nullable: false,
     description: undefined
   })
-  async createOneUser(): Promise<BaseUser> {
+  async createOneUser(@Arg("data", _type => UserCreateInput) data: UserCreateInput): Promise<BaseUser> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BaseUser, {
+  @Mutation(_returns => BaseUser, {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(): Promise<BaseUser | null> {
+  async deleteOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BaseUser, {
+  @Mutation(_returns => BaseUser, {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(): Promise<BaseUser | null> {
+  async updateOneUser(@Arg("data", _type => UserUpdateInput) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BatchPayload, {
+  @Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyUser(): Promise<BatchPayload> {
+  async updateManyUser(@Arg("data", _type => UserUpdateManyMutationInput) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput) where?: UserWhereInput | null): Promise<BatchPayload> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BaseUser, {
+  @Mutation(_returns => BaseUser, {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(): Promise<BaseUser> {
+  async upsertOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput) create: UserCreateInput, @Arg("update", _type => UserUpdateInput) update: UserUpdateInput): Promise<BaseUser> {
     throw new Error("Not implemented yet!");
   }
 
-  @Query(_type => AggregateUser, {
+  @Query(_returns => AggregateUser, {
     nullable: false,
     description: undefined
   })
@@ -1732,63 +1732,63 @@ export class BaseUserCrudResolver {
 
 @Resolver(_of => BasePost)
 export class BasePostCrudResolver {
-  @Query(_type => BasePost, {
+  @Query(_returns => BasePost, {
     nullable: true,
     description: undefined
   })
-  async findOnePost(): Promise<BasePost | null> {
+  async findOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Query(_type => [BasePost], {
+  @Query(_returns => [BasePost], {
     nullable: true,
     description: undefined
   })
-  async findManyPost(): Promise<BasePost[] | null> {
+  async findManyPost(@Arg("where", _type => PostWhereInput) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int) skip?: number | null, @Arg("after", _type => String) after?: string | null, @Arg("before", _type => String) before?: string | null, @Arg("first", _type => Int) first?: number | null, @Arg("last", _type => Int) last?: number | null): Promise<BasePost[] | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BasePost, {
+  @Mutation(_returns => BasePost, {
     nullable: false,
     description: undefined
   })
-  async createOnePost(): Promise<BasePost> {
+  async createOnePost(@Arg("data", _type => PostCreateInput) data: PostCreateInput): Promise<BasePost> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BasePost, {
+  @Mutation(_returns => BasePost, {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(): Promise<BasePost | null> {
+  async deleteOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BasePost, {
+  @Mutation(_returns => BasePost, {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(): Promise<BasePost | null> {
+  async updateOnePost(@Arg("data", _type => PostUpdateInput) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BatchPayload, {
+  @Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyPost(): Promise<BatchPayload> {
+  async updateManyPost(@Arg("data", _type => PostUpdateManyMutationInput) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput) where?: PostWhereInput | null): Promise<BatchPayload> {
     throw new Error("Not implemented yet!");
   }
 
-  @Mutation(_type => BasePost, {
+  @Mutation(_returns => BasePost, {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(): Promise<BasePost> {
+  async upsertOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput) create: PostCreateInput, @Arg("update", _type => PostUpdateInput) update: PostUpdateInput): Promise<BasePost> {
     throw new Error("Not implemented yet!");
   }
 
-  @Query(_type => AggregatePost, {
+  @Query(_returns => AggregatePost, {
     nullable: false,
     description: undefined
   })

@@ -1,4 +1,9 @@
-import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
+import {
+  SourceFile,
+  OptionalKind,
+  MethodDeclarationStructure,
+  ParameterDeclarationStructure,
+} from "ts-morph";
 import { DMMF } from "@prisma/photon";
 // import pluralize from "pluralize";
 
@@ -8,6 +13,7 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
+  selectInputTypeFromTypes,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 import {
@@ -70,7 +76,7 @@ export default async function generateCrudResolverClassFromMapping(
             {
               name: operationKind,
               arguments: [
-                `_type => ${getTypeGraphQLType(
+                `_returns => ${getTypeGraphQLType(
                   method.outputType as DMMFTypeInfo,
                   modelNames,
                 )}`,
@@ -81,9 +87,29 @@ export default async function generateCrudResolverClassFromMapping(
               ],
             },
           ],
-          parameters: [
-            // TODO: generate args using input types
-          ],
+          parameters: method.args.map<
+            OptionalKind<ParameterDeclarationStructure>
+          >(arg => {
+            const inputType = selectInputTypeFromTypes(arg.inputType);
+            // TODO: replace with arg classes
+            return {
+              name: arg.name,
+              type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
+              hasQuestionToken: !inputType.isRequired,
+              decorators: [
+                {
+                  name: "Arg",
+                  arguments: [
+                    `"${arg.name}"`,
+                    `_type => ${getTypeGraphQLType(
+                      inputType as DMMFTypeInfo,
+                      modelNames,
+                    )}`,
+                  ],
+                },
+              ],
+            };
+          }),
           statements: [
             // TODO: add method body that uses Photon
             `throw new Error("Not implemented yet!");`,
