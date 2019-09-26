@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, Query, Mutation, InputType } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation } from "type-graphql";
 import DataLoader from "dataloader";
 
 /**
@@ -178,41 +178,41 @@ export class BatchPayload {
   description: undefined,
 })
 export class PostWhereInput {
-  @Field(_type => String, {
+  @Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null;
+  uuid?: StringFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: DateTimeFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: DateTimeFilter | null;
 
-  @Field(_type => Boolean, {
+  @Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  published?: boolean | null;
+  published?: BooleanFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: string | null;
+  title?: StringFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  content?: string | null;
+  content?: NullableStringFilter | null;
 
   @Field(_type => PostKind, {
     nullable: true,
@@ -250,41 +250,41 @@ export class PostWhereInput {
   description: undefined,
 })
 export class UserWhereInput {
-  @Field(_type => Int, {
+  @Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  id?: number | null;
+  id?: IntFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  email?: string | null;
+  email?: StringFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  name?: string | null;
+  name?: NullableStringFilter | null;
 
-  @Field(_type => Int, {
+  @Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  age?: number | null;
+  age?: IntFilter | null;
 
-  @Field(_type => Float, {
+  @Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  balance?: number | null;
+  balance?: FloatFilter | null;
 
-  @Field(_type => Float, {
+  @Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  amount?: number | null;
+  amount?: FloatFilter | null;
 
   @Field(_type => PostFilter, {
     nullable: true,
@@ -532,41 +532,41 @@ export class PostUpdateWithWhereUniqueWithoutAuthorInput {
   description: undefined,
 })
 export class PostScalarWhereInput {
-  @Field(_type => String, {
+  @Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null;
+  uuid?: StringFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: DateTimeFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: DateTimeFilter | null;
 
-  @Field(_type => Boolean, {
+  @Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  published?: boolean | null;
+  published?: BooleanFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: string | null;
+  title?: StringFilter | null;
 
-  @Field(_type => String, {
+  @Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  content?: string | null;
+  content?: NullableStringFilter | null;
 
   @Field(_type => PostKind, {
     nullable: true,

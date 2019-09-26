@@ -79,15 +79,18 @@ export async function generateInputTypeClassFromType(
     ],
     properties: type.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
-        // TODO: figure out how to handle the array (union?)
-        const inputType = field.inputType[0];
-        const isRequired = inputType.isRequired;
+        // solution from `nexus-prisma`
+        // FIXME: *Enum*Filter are currently empty
+        const inputType = field.inputType.some(it => it.kind === "enum")
+          ? field.inputType[0]
+          : field.inputType.find(it => it.kind === "object") ||
+            field.inputType[0];
 
         return {
           name: field.name,
           type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
-          hasExclamationToken: isRequired,
-          hasQuestionToken: !isRequired,
+          hasExclamationToken: inputType.isRequired,
+          hasQuestionToken: !inputType.isRequired,
           trailingTrivia: "\r\n",
           decorators: [
             {
@@ -98,7 +101,7 @@ export async function generateInputTypeClassFromType(
                   modelNames,
                 )}`,
                 `{
-                  nullable: ${!isRequired},
+                  nullable: ${!inputType.isRequired},
                   description: undefined
                 }`,
               ],
