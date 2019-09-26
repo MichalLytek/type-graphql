@@ -82,12 +82,12 @@ type Mutation {
   createOneUser(data: UserCreateInput!): BaseUser!
   deleteOneUser(where: UserWhereUniqueInput!): BaseUser
   updateOneUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): BaseUser
-  updateManyUser(where: UserWhereInput!, data: UserUpdateManyMutationInput!): BatchPayload!
+  updateManyUser(where: UserWhereInput, data: UserUpdateManyMutationInput!): BatchPayload!
   upsertOneUser(update: UserUpdateInput!, create: UserCreateInput!, where: UserWhereUniqueInput!): BaseUser!
   createOnePost(data: PostCreateInput!): BasePost!
   deleteOnePost(where: PostWhereUniqueInput!): BasePost
   updateOnePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): BasePost
-  updateManyPost(where: PostWhereInput!, data: PostUpdateManyMutationInput!): BatchPayload!
+  updateManyPost(where: PostWhereInput, data: PostUpdateManyMutationInput!): BatchPayload!
   upsertOnePost(update: PostUpdateInput!, create: PostCreateInput!, where: PostWhereUniqueInput!): BasePost!
 }
 
@@ -259,10 +259,10 @@ input PostWhereUniqueInput {
 
 type Query {
   findOneUser(where: UserWhereUniqueInput!): BaseUser
-  findManyUser(last: Int!, first: Int!, before: String!, after: String!, skip: Int!, orderBy: UserOrderByInput!, where: UserWhereInput!): [BaseUser!]
+  findManyUser(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: UserOrderByInput, where: UserWhereInput): [BaseUser!]
   aggregateUser: AggregateUser!
   findOnePost(where: PostWhereUniqueInput!): BasePost
-  findManyPost(last: Int!, first: Int!, before: String!, after: String!, skip: Int!, orderBy: PostOrderByInput!, where: PostWhereInput!): [BasePost!]
+  findManyPost(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: PostOrderByInput, where: PostWhereInput): [BasePost!]
   aggregatePost: AggregatePost!
   users: [BaseUser!]!
   posts: [BasePost!]!

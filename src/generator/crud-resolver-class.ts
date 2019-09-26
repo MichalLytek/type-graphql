@@ -14,6 +14,7 @@ import {
   camelCase,
   pascalCase,
   selectInputTypeFromTypes,
+  mapSchemaArgToParameterDeclaration,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 import {
@@ -87,29 +88,9 @@ export default async function generateCrudResolverClassFromMapping(
               ],
             },
           ],
-          parameters: method.args.map<
-            OptionalKind<ParameterDeclarationStructure>
-          >(arg => {
-            const inputType = selectInputTypeFromTypes(arg.inputType);
-            // TODO: replace with arg classes
-            return {
-              name: arg.name,
-              type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
-              hasQuestionToken: !inputType.isRequired,
-              decorators: [
-                {
-                  name: "Arg",
-                  arguments: [
-                    `"${arg.name}"`,
-                    `_type => ${getTypeGraphQLType(
-                      inputType as DMMFTypeInfo,
-                      modelNames,
-                    )}`,
-                  ],
-                },
-              ],
-            };
-          }),
+          parameters: method.args.map(arg =>
+            mapSchemaArgToParameterDeclaration(arg, modelNames),
+          ),
           statements: [
             // TODO: add method body that uses Photon
             `throw new Error("Not implemented yet!");`,

@@ -1669,7 +1669,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+  async findOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1677,7 +1677,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findManyUser(@Arg("where", _type => UserWhereInput) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int) skip?: number | null, @Arg("after", _type => String) after?: string | null, @Arg("before", _type => String) before?: string | null, @Arg("first", _type => Int) first?: number | null, @Arg("last", _type => Int) last?: number | null): Promise<BaseUser[] | null> {
+  async findManyUser(@Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput, { nullable: true }) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BaseUser[] | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1685,7 +1685,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@Arg("data", _type => UserCreateInput) data: UserCreateInput): Promise<BaseUser> {
+  async createOneUser(@Arg("data", _type => UserCreateInput, { nullable: false }) data: UserCreateInput): Promise<BaseUser> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1693,7 +1693,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+  async deleteOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1701,7 +1701,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@Arg("data", _type => UserUpdateInput) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+  async updateOneUser(@Arg("data", _type => UserUpdateInput, { nullable: false }) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1709,7 +1709,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async updateManyUser(@Arg("data", _type => UserUpdateManyMutationInput) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput) where?: UserWhereInput | null): Promise<BatchPayload> {
+  async updateManyUser(@Arg("data", _type => UserUpdateManyMutationInput, { nullable: false }) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null): Promise<BatchPayload> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1717,7 +1717,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@Arg("where", _type => UserWhereUniqueInput) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput) create: UserCreateInput, @Arg("update", _type => UserUpdateInput) update: UserUpdateInput): Promise<BaseUser> {
+  async upsertOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput, { nullable: false }) create: UserCreateInput, @Arg("update", _type => UserUpdateInput, { nullable: false }) update: UserUpdateInput): Promise<BaseUser> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1736,7 +1736,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
+  async findOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1744,7 +1744,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findManyPost(@Arg("where", _type => PostWhereInput) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int) skip?: number | null, @Arg("after", _type => String) after?: string | null, @Arg("before", _type => String) before?: string | null, @Arg("first", _type => Int) first?: number | null, @Arg("last", _type => Int) last?: number | null): Promise<BasePost[] | null> {
+  async findManyPost(@Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1752,7 +1752,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOnePost(@Arg("data", _type => PostCreateInput) data: PostCreateInput): Promise<BasePost> {
+  async createOnePost(@Arg("data", _type => PostCreateInput, { nullable: false }) data: PostCreateInput): Promise<BasePost> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1760,7 +1760,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
+  async deleteOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1768,7 +1768,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(@Arg("data", _type => PostUpdateInput) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput): Promise<BasePost | null> {
+  async updateOnePost(@Arg("data", _type => PostUpdateInput, { nullable: false }) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1776,7 +1776,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async updateManyPost(@Arg("data", _type => PostUpdateManyMutationInput) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput) where?: PostWhereInput | null): Promise<BatchPayload> {
+  async updateManyPost(@Arg("data", _type => PostUpdateManyMutationInput, { nullable: false }) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null): Promise<BatchPayload> {
     throw new Error("Not implemented yet!");
   }
 
@@ -1784,7 +1784,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(@Arg("where", _type => PostWhereUniqueInput) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput) create: PostCreateInput, @Arg("update", _type => PostUpdateInput) update: PostUpdateInput): Promise<BasePost> {
+  async upsertOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput, { nullable: false }) create: PostCreateInput, @Arg("update", _type => PostUpdateInput, { nullable: false }) update: PostUpdateInput): Promise<BasePost> {
     throw new Error("Not implemented yet!");
   }
 

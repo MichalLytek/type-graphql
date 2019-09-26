@@ -1,6 +1,7 @@
 import { DMMF } from "@prisma/photon";
 
 import { DMMFTypeInfo } from "./types";
+import { OptionalKind, ParameterDeclarationStructure } from "ts-morph";
 
 export function noop() {}
 
@@ -107,6 +108,32 @@ export function selectInputTypeFromTypes(
   return inputTypes.some(it => it.kind === "enum")
     ? inputTypes[0]
     : inputTypes.find(it => it.kind === "object") || inputTypes[0];
+}
+
+export function mapSchemaArgToParameterDeclaration(
+  arg: DMMF.SchemaArg,
+  modelNames: string[],
+): OptionalKind<ParameterDeclarationStructure> {
+  const inputType = selectInputTypeFromTypes(arg.inputType);
+  // TODO: replace with arg classes
+  return {
+    name: arg.name,
+    type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
+    hasQuestionToken: !inputType.isRequired,
+    decorators: [
+      {
+        name: "Arg",
+        arguments: [
+          `"${arg.name}"`,
+          `_type => ${getTypeGraphQLType(
+            inputType as DMMFTypeInfo,
+            modelNames,
+          )}`,
+          `{ nullable: ${!inputType.isRequired} }`,
+        ],
+      },
+    ],
+  };
 }
 
 export function camelCase(str: string) {
