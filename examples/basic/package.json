@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "apollo-server": "^2.9.3",
-    "graphql": "^14.5.6",
+    "graphql": "^14.5.8",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "0.18.0-beta.1"
   },
   "devDependencies": {
-    "prisma2": "2.0.0-preview-12",
+    "prisma2": "^2.0.0-alpha.206",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   }
