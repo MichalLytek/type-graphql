@@ -1633,7 +1633,7 @@ export class UserRelationsResolver {
     nullable: true,
     description: undefined,
   })
-  async posts(@Root() user: BaseUser, @Ctx() ctx: any): Promise<BasePost[] | null> {
+  async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
     ctx.userPostsLoader = ctx.userPostsLoader || createUserPostsLoader(ctx.photon);
     return ctx.userPostsLoader.load(user.id);
   }

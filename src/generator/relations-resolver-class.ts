@@ -1,4 +1,9 @@
-import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
+import {
+  SourceFile,
+  OptionalKind,
+  MethodDeclarationStructure,
+  ParameterDeclarationStructure,
+} from "ts-morph";
 import { DMMF } from "@prisma/photon";
 import pluralize from "pluralize";
 
@@ -8,11 +13,15 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
+  selectInputTypeFromTypes,
+  mapSchemaArgToParameterDeclaration,
 } from "./helpers";
+import { DMMFTypeInfo } from "./types";
 
 export default async function generateRelationsResolverClassesFromModel(
   sourceFile: SourceFile,
   model: DMMF.Model,
+  outputType: DMMF.OutputType,
   modelNames: string[],
 ) {
   const relationFields = model.fields.filter(field => field.relationName);
@@ -30,6 +39,9 @@ export default async function generateRelationsResolverClassesFromModel(
     ],
     methods: relationFields.map<OptionalKind<MethodDeclarationStructure>>(
       field => {
+        const outputTypeField = outputType.fields.find(
+          it => it.name === field.name,
+        )!;
         const fieldDocs =
           field.documentation && field.documentation.replace("\r", "");
         const fieldType = getFieldTSType(field, modelNames);
@@ -73,7 +85,9 @@ export default async function generateRelationsResolverClassesFromModel(
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
-            // TODO: input types with pagination, filtering and sorting
+            ...outputTypeField.args.map(arg =>
+              mapSchemaArgToParameterDeclaration(arg, modelNames),
+            ),
           ],
           statements: [
             `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon);

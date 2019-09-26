@@ -32,7 +32,7 @@ type BaseUser {
   balance: Float!
   amount: Float!
   role: Role!
-  posts: [BasePost!]
+  posts(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: PostOrderByInput, where: PostWhereInput): [BasePost!]
   hello: String!
 }
 

@@ -70,10 +70,19 @@ export default async function generateCode(
   );
 
   log("Generating relation resolvers...");
+
   await Promise.all(
-    dmmf.datamodel.models.map(model =>
-      generateRelationsResolverClassFromModel(sourceFile, model, modelNames),
-    ),
+    dmmf.datamodel.models.map(model => {
+      const outputType = dmmf.schema.outputTypes.find(
+        type => type.name === model.name,
+      )!;
+      return generateRelationsResolverClassFromModel(
+        sourceFile,
+        model,
+        outputType,
+        modelNames,
+      );
+    }),
   );
 
   log("Generating crud resolvers...");
