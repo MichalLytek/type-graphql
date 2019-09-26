@@ -1,18 +1,18 @@
 datasource db {
   provider = "sqlite"
-  url      = "file:../dev.db"
+  url      = "./dev.db"
 }
 
 type Numeric = Float
 
-generator typegraphql {
-  provider = "../../../src/bin.ts"
-  output   = "./generated/type-graphql"
-}
+// generator typegraphql {
+//   provider = "../../../src/bin.ts"
+//   output   = "./prisma/generated/type-graphql"
+// }
 
 generator photon {
   provider = "photonjs"
-  output   = "./generated/photon"
+  output   = "./prisma/generated/photon"
 }
 
 /// Role enum comment

@@ -3626,7 +3626,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Engine_1 = __webpack_require__(284);
 const got_1 = __importDefault(__webpack_require__(798));
 const debug_1 = __importDefault(__webpack_require__(784));
-const get_platform_1 = __webpack_require__(251);
+const get_platform_1 = __webpack_require__(311);
 const path = __importStar(__webpack_require__(622));
 const net = __importStar(__webpack_require__(631));
 const fs_1 = __importDefault(__webpack_require__(747));
@@ -3646,10 +3646,12 @@ const exists = util_2.promisify(fs_1.default.exists);
 const knownPlatforms = [
     'native',
     'darwin',
+    'windows',
     'linux-glibc-libssl1.0.1',
     'linux-glibc-libssl1.0.2',
+    'linux-glibc-libssl1.0.2-ubuntu1604',
     'linux-glibc-libssl1.1.0',
-    'linux-musl-libssl1.1.0',
+    'windows',
 ];
 class NodeEngine extends Engine_1.Engine {
     constructor(_a) {
@@ -3716,6 +3718,13 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
         this.platformPromise = get_platform_1.getPlatform();
         return this.platformPromise;
     }
+    getQueryEnginePath(platform, prefix = __dirname) {
+        let queryEnginePath = path.join(prefix, `query-engine-${platform}`);
+        if (platform === 'windows') {
+            queryEnginePath = `${queryEnginePath}.exe`;
+        }
+        return queryEnginePath;
+    }
     handlePanic(log) {
         this.child.kill();
         if (this.currentRequestPromise) {
@@ -3734,17 +3743,18 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
         this.platform = this.platform || platform;
         const fileName = eval(`path.basename(__filename)`);
         if (fileName === 'NodeEngine.js') {
-            return path.join(__dirname, `../query-engine-${this.platform}`);
+            return this.getQueryEnginePath(this.platform, path.resolve(__dirname, `..`));
         }
         else {
-            return path.join(__dirname, `query-engine-${this.platform}`);
+            return this.getQueryEnginePath(this.platform);
         }
     }
     // If we couldn't find the correct binary path, let's look for an alternative
     // This is interesting for libssl 1.0.1 vs libssl 1.0.2 cases
-    async resolveAlternativeBinaryPath() {
-        const binariesExist = await Promise.all(knownPlatforms.slice(1).map(async (platform) => {
-            const filePath = path.join(__dirname, `query-engine-${platform}`);
+    async resolveAlternativeBinaryPath(platform) {
+        const compatiblePlatforms = knownPlatforms.slice(1).filter(p => get_platform_1.mayBeCompatible(p, platform));
+        const binariesExist = await Promise.all(compatiblePlatforms.map(async (platform) => {
+            const filePath = this.getQueryEnginePath(platform);
             return {
                 exists: await exists(filePath),
                 platform,
@@ -3760,28 +3770,29 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
     // get prisma path
     async getPrismaPath() {
         const prismaPath = await this.resolvePrismaPath();
+        const platform = await this.getPlatform();
         if (!(await exists(prismaPath))) {
             let info = '.';
             if (this.generator) {
-                const fixedGenerator = Object.assign({}, this.generator, { platforms: util_1.fixPlatforms(this.generator.platforms, this.platform) });
+                const fixedGenerator = Object.assign(Object.assign({}, this.generator), { platforms: util_1.fixPlatforms(this.generator.platforms, this.platform) });
                 if (this.generator.pinnedPlatform && this.incorrectlyPinnedPlatform) {
-                    fixedGenerator.pinnedPlatform = await this.getPlatform();
+                    fixedGenerator.pinnedPlatform = platform;
                 }
                 info = `:\n${chalk_1.default.greenBright(printGeneratorConfig_1.printGeneratorConfig(fixedGenerator))}`;
             }
             const pinnedStr = this.incorrectlyPinnedPlatform
                 ? `\nYou incorrectly pinned it to ${chalk_1.default.redBright.bold(`${this.incorrectlyPinnedPlatform}`)}\n`
                 : '';
-            const alternativePath = await this.resolveAlternativeBinaryPath();
+            const alternativePath = await this.resolveAlternativeBinaryPath(platform);
             if (!alternativePath) {
-                throw new Error(`Photon binary for current platform ${chalk_1.default.bold.greenBright(await this.getPlatform())} could not be found.${pinnedStr}
+                throw new Error(`Photon binary for current platform ${chalk_1.default.bold.greenBright(platform)} could not be found.${pinnedStr}
   Make sure to adjust the generator configuration in the ${chalk_1.default.bold('schema.prisma')} file${info}
   Please run ${chalk_1.default.greenBright('prisma2 generate')} for your changes to take effect.
-  ${chalk_1.default.gray(`Note, that by providing \`native\`, Photon automatically resolves \`${await this.getPlatform()}\`.
+  ${chalk_1.default.gray(`Note, that by providing \`native\`, Photon automatically resolves \`${platform}\`.
   Read more about deploying Photon: ${chalk_1.default.underline('https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md')}`)}`);
             }
             else {
-                console.error(`${chalk_1.default.yellow('warning')} Photon could not resolve the needed binary for the current platform ${chalk_1.default.greenBright(await this.getPlatform())}.
+                console.error(`${chalk_1.default.yellow('warning')} Photon could not resolve the needed binary for the current platform ${chalk_1.default.greenBright(platform)}.
 Instead we found ${chalk_1.default.bold(alternativePath)}, which we're trying for now. In case Photon runs, just ignore this message.`);
                 util_1.plusX(alternativePath);
                 return alternativePath;
@@ -3827,7 +3838,7 @@ ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}
                 debug({ cwd: this.cwd });
                 const prismaPath = await this.getPrismaPath();
                 this.child = child_process_1.spawn(prismaPath, [], {
-                    env: Object.assign({}, process.env, env),
+                    env: Object.assign(Object.assign({}, process.env), env),
                     cwd: this.cwd,
                     stdio: ['pipe', 'pipe', 'pipe'],
                 });
@@ -3849,13 +3860,24 @@ ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}
                     }
                 });
                 this.child.on('exit', code => {
-                    const message = this.stderrLogs ? this.stderrLogs : this.stdoutLogs;
-                    this.lastError = {
-                        application: 'datamodel',
-                        date: new Date(),
-                        level: 'error',
-                        message,
-                    };
+                    // const message = this.stderrLogs ? this.stderrLogs : this.stdoutLogs
+                    if (code === 126) {
+                        this.lastError = {
+                            application: 'exit',
+                            date: new Date(),
+                            level: 'error',
+                            message: `Couldn't start query engine as it's not executable on this operating system.
+You very likely have the wrong defined in the schema.prisma file.`,
+                        };
+                    }
+                    else {
+                        this.lastError = {
+                            application: 'exit',
+                            date: new Date(),
+                            level: 'error',
+                            message: (this.stderrLogs || '') + (this.stdoutLogs || '') + code,
+                        };
+                    }
                 });
                 this.child.on('error', err => {
                     reject(err);
@@ -4417,18 +4439,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ 251:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var getPlatform_1 = __webpack_require__(715);
-exports.getPlatform = getPlatform_1.getPlatform;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
 /***/ 257:
 /***/ (function(module) {
 
@@ -4638,6 +4648,9 @@ function serializeError(log) {
     if (application === 'datamodel') {
         return chalk_1.default.red.bold('Schema ') + message;
     }
+    if (application === 'exit') {
+        return chalk_1.default.red.bold('Engine exited ') + message;
+    }
     return chalk_1.default.red(log.message + ' ' + serializeObject(rest));
 }
 function serializePanic(log) {
@@ -4796,6 +4809,20 @@ module.exports = (socket, callback) => {
 
 /***/ }),
 
+/***/ 311:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var getPlatform_1 = __webpack_require__(949);
+exports.getPlatform = getPlatform_1.getPlatform;
+var platforms_1 = __webpack_require__(636);
+exports.mayBeCompatible = platforms_1.mayBeCompatible;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ 316:
 /***/ (function(__unusedmodule, exports) {
 
@@ -4833,175 +4860,6 @@ const groupBy = (arr, cb) => {
         return acc;
     }, {});
 };
-
-
-/***/ }),
-
-/***/ 317:
-/***/ (function(module) {
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
 
 
 /***/ }),
@@ -6248,7 +6106,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(317);
+	createDebug.humanize = __webpack_require__(854);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -8556,6 +8414,29 @@ module.exports = (response, options, emitter) => {
 
 /***/ }),
 
+/***/ 636:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function mayBeCompatible(platformA, platformB) {
+    if (platformA === 'native' || platformB === 'native') {
+        return true;
+    }
+    if (platformA === 'darwin' || platformB === 'darwin') {
+        return false;
+    }
+    if (platformA === 'windows' || platformB === 'windows') {
+        return false;
+    }
+    return true;
+}
+exports.mayBeCompatible = mayBeCompatible;
+//# sourceMappingURL=platforms.js.map
+
+/***/ }),
+
 /***/ 637:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -9287,119 +9168,6 @@ module.exports.buffer = (stream, options) => getStream(stream, Object.assign({},
 module.exports.array = (stream, options) => getStream(stream, Object.assign({}, options, {array: true}));
 module.exports.MaxBufferError = MaxBufferError;
 
-
-/***/ }),
-
-/***/ 715:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const os_1 = __importDefault(__webpack_require__(87));
-const fs_1 = __importDefault(__webpack_require__(747));
-const util_1 = __webpack_require__(669);
-const child_process_1 = __webpack_require__(129);
-const debug_1 = __importDefault(__webpack_require__(784));
-const debug = debug_1.default('getos');
-const readFile = util_1.promisify(fs_1.default.readFile);
-const exists = util_1.promisify(fs_1.default.exists);
-async function getos() {
-    const platform = os_1.default.platform();
-    if (platform !== 'linux') {
-        return {
-            platform,
-        };
-    }
-    return {
-        platform: 'linux',
-        libssl: await getLibSslVersion(),
-        distro: await resolveUbuntu(),
-    };
-}
-exports.getos = getos;
-async function resolveUbuntu() {
-    if (await exists('/etc/lsb-release')) {
-        const idRegex = /distrib_id=(.*)/i;
-        const releaseRegex = /distrib_release=(.*)/i;
-        const codenameRegex = /distrib_codename=(.*)/i;
-        const file = await readFile('/etc/lsb-release', 'utf-8');
-        const idMatch = file.match(idRegex);
-        const id = (idMatch && idMatch[1]) || null;
-        const codenameMatch = file.match(codenameRegex);
-        const codename = (codenameMatch && codenameMatch[1]) || null;
-        const releaseMatch = file.match(releaseRegex);
-        const release = (releaseMatch && releaseMatch[1]) || null;
-        if (id && codename && release && id.toLowerCase() === 'ubuntu') {
-            return { dist: id, release, codename };
-        }
-    }
-    return null;
-}
-exports.resolveUbuntu = resolveUbuntu;
-async function getLibSslVersion() {
-    const [version, ls] = await Promise.all([
-        gracefulExec(`openssl version -v`),
-        gracefulExec(`ls -l /lib64 | grep ssl;
-    ls -l /usr/lib64 | grep ssl`),
-    ]);
-    debug({ version });
-    debug({ ls });
-    if (version) {
-        const match = /^OpenSSL\s(\d+\.\d+\.\d+)/.exec(version);
-        if (match) {
-            return match[1];
-        }
-    }
-    if (ls) {
-        const match = /libssl\.so\.(\d+\.\d+\.\d+)/.exec(ls);
-        if (match) {
-            return match[1];
-        }
-    }
-    return undefined;
-}
-exports.getLibSslVersion = getLibSslVersion;
-async function gracefulExec(cmd) {
-    return new Promise(resolve => {
-        try {
-            child_process_1.exec(cmd, (err, stdout, stderr) => {
-                resolve(String(stdout));
-            });
-        }
-        catch (e) {
-            resolve(undefined);
-            return undefined;
-        }
-    });
-}
-async function getPlatform() {
-    const { platform, libssl, distro } = await getos();
-    debug({ platform, libssl });
-    if (platform === 'darwin') {
-        return 'darwin';
-    }
-    if (platform === 'win32') {
-        return 'windows';
-    }
-    if (platform === 'linux' && libssl) {
-        if (libssl === '1.0.2') {
-            if (distro && distro.codename === 'xenial') {
-                return 'linux-glibc-libssl1.0.2-ubuntu1604';
-            }
-            return 'linux-glibc-libssl1.0.2';
-        }
-        if (libssl === '1.0.1') {
-            return 'linux-glibc-libssl1.0.1';
-        }
-    }
-    return 'linux-glibc-libssl1.1.0';
-}
-exports.getPlatform = getPlatform;
-//# sourceMappingURL=getPlatform.js.map
 
 /***/ }),
 
@@ -10760,6 +10528,175 @@ function getColorForSyntaxKind(syntaxKind) {
 
 /***/ }),
 
+/***/ 854:
+/***/ (function(module) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
 /***/ 861:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -11373,6 +11310,119 @@ module.exports = string => {
 	return string.replace(regex, '');
 };
 
+
+/***/ }),
+
+/***/ 949:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const os_1 = __importDefault(__webpack_require__(87));
+const fs_1 = __importDefault(__webpack_require__(747));
+const util_1 = __webpack_require__(669);
+const child_process_1 = __webpack_require__(129);
+const debug_1 = __importDefault(__webpack_require__(784));
+const debug = debug_1.default('getos');
+const readFile = util_1.promisify(fs_1.default.readFile);
+const exists = util_1.promisify(fs_1.default.exists);
+async function getos() {
+    const platform = os_1.default.platform();
+    if (platform !== 'linux') {
+        return {
+            platform,
+        };
+    }
+    return {
+        platform: 'linux',
+        libssl: await getLibSslVersion(),
+        distro: await resolveUbuntu(),
+    };
+}
+exports.getos = getos;
+async function resolveUbuntu() {
+    if (await exists('/etc/lsb-release')) {
+        const idRegex = /distrib_id=(.*)/i;
+        const releaseRegex = /distrib_release=(.*)/i;
+        const codenameRegex = /distrib_codename=(.*)/i;
+        const file = await readFile('/etc/lsb-release', 'utf-8');
+        const idMatch = file.match(idRegex);
+        const id = (idMatch && idMatch[1]) || null;
+        const codenameMatch = file.match(codenameRegex);
+        const codename = (codenameMatch && codenameMatch[1]) || null;
+        const releaseMatch = file.match(releaseRegex);
+        const release = (releaseMatch && releaseMatch[1]) || null;
+        if (id && codename && release && id.toLowerCase() === 'ubuntu') {
+            return { dist: id, release, codename };
+        }
+    }
+    return null;
+}
+exports.resolveUbuntu = resolveUbuntu;
+async function getLibSslVersion() {
+    const [version, ls] = await Promise.all([
+        gracefulExec(`openssl version -v`),
+        gracefulExec(`ls -l /lib64 | grep ssl;
+    ls -l /usr/lib64 | grep ssl`),
+    ]);
+    debug({ version });
+    debug({ ls });
+    if (version) {
+        const match = /^OpenSSL\s(\d+\.\d+\.\d+)/.exec(version);
+        if (match) {
+            return match[1];
+        }
+    }
+    if (ls) {
+        const match = /libssl\.so\.(\d+\.\d+\.\d+)/.exec(ls);
+        if (match) {
+            return match[1];
+        }
+    }
+    return undefined;
+}
+exports.getLibSslVersion = getLibSslVersion;
+async function gracefulExec(cmd) {
+    return new Promise(resolve => {
+        try {
+            child_process_1.exec(cmd, (err, stdout, stderr) => {
+                resolve(String(stdout));
+            });
+        }
+        catch (e) {
+            resolve(undefined);
+            return undefined;
+        }
+    });
+}
+async function getPlatform() {
+    const { platform, libssl, distro } = await getos();
+    debug({ platform, libssl });
+    if (platform === 'darwin') {
+        return 'darwin';
+    }
+    if (platform === 'win32') {
+        return 'windows';
+    }
+    if (platform === 'linux' && libssl) {
+        if (libssl === '1.0.2') {
+            if (distro && distro.codename === 'xenial') {
+                return 'linux-glibc-libssl1.0.2-ubuntu1604';
+            }
+            return 'linux-glibc-libssl1.0.2';
+        }
+        if (libssl === '1.0.1') {
+            return 'linux-glibc-libssl1.0.1';
+        }
+    }
+    return 'linux-glibc-libssl1.1.0';
+}
+exports.getPlatform = getPlatform;
+//# sourceMappingURL=getPlatform.js.map
 
 /***/ }),
 
