@@ -182,6 +182,12 @@ const schema = await buildSchema({
 
 If we want to use middlewares with a more descriptive and declarative API, we can also create a custom method decorators. See how to do this in [custom decorators docs](custom-decorators.md#method-decorators).
 
+### caveats
+
+- Specify ECMAScript target version to **ES6 or higher**, because in older versions the arrow function is treated like a constructor function so it tries to create an instance of the class using the DI container.
+
+- Use the arrow functions to declare [Middlewares](https://github.com/MichalLytek/type-graphql/edit/master/docs/middlewares.md).
+
 ## Example
 
 See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/MichalLytek/type-graphql/tree/master/examples/middlewares-custom-decorators).
