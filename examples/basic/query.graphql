@@ -1,7 +1,7 @@
 query GetUsersAndPosts {
   users {
     ...UserData
-    posts {
+    posts(where: { kind: ADVERT }) {
       ...PostData
     }
   }

@@ -50,12 +50,15 @@ export default async function generateRelationsResolverClassesFromModel(
           dataLoaderInCtxName,
         ] = createDataLoaderCreationStatement(
           sourceFile,
+          modelNames,
           model.name,
           field.name,
           idField.name,
           getFieldTSType(idField, modelNames),
           fieldType,
+          outputTypeField.args,
         );
+        const argNames = outputTypeField.args.map(arg => arg.name).join(", ");
 
         return {
           name: field.name,
@@ -86,11 +89,12 @@ export default async function generateRelationsResolverClassesFromModel(
               decorators: [{ name: "Ctx", arguments: [] }],
             },
             ...outputTypeField.args.map(arg =>
-              mapSchemaArgToParameterDeclaration(arg, modelNames),
+              mapSchemaArgToParameterDeclaration(arg, modelNames, true),
             ),
           ],
+          // TODO: refactor to AST
           statements: [
-            `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon);
+            `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon, ${argNames});
             return ctx.${dataLoaderInCtxName}.load(${rootArgName}.${idField.name});`,
           ],
         };
@@ -101,11 +105,13 @@ export default async function generateRelationsResolverClassesFromModel(
 
 function createDataLoaderCreationStatement(
   sourceFile: SourceFile,
+  modelNames: string[],
   modelName: string,
   relationFieldName: string,
   idFieldName: string,
   rootKeyType: string,
   fieldType: string,
+  args: DMMF.SchemaArg[],
 ) {
   // TODO: use `mappings`
   const dataLoaderInCtxName = `${camelCase(modelName)}${pascalCase(
@@ -113,16 +119,26 @@ function createDataLoaderCreationStatement(
   )}Loader`;
   const functionName = `create${pascalCase(dataLoaderInCtxName)}`;
   const collectionName = pluralize(camelCase(modelName));
+  const argNames = args.map(arg => arg.name).join(", ");
 
   sourceFile.addFunction({
     name: functionName,
-    // TODO: import Photon type
-    parameters: [{ name: "photon", type: "any" }],
+    parameters: [
+      // TODO: import Photon type
+      { name: "photon", type: "any" },
+      ...args.map(arg =>
+        mapSchemaArgToParameterDeclaration(arg, modelNames, false),
+      ),
+    ],
     statements: [
+      // TODO: refactor to AST
       `return new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {
         const fetchedData: any[] = await photon.${collectionName}.findMany({
           where: { ${idFieldName}: { in: keys } },
-          select: { ${idFieldName}: true, ${relationFieldName}: true },
+          select: {
+            ${idFieldName}: true,
+            ${relationFieldName}: {${argNames}},
+          },
         });
         return keys
           .map(key => fetchedData.find(data => data.${idFieldName} === key)!)

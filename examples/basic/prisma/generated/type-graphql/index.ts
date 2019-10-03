@@ -1615,11 +1615,14 @@ export class PostOrderByInput {
   kind?: keyof typeof OrderByArg | null;
 }
 
-function createUserPostsLoader(photon: any) {
+function createUserPostsLoader(photon: any, where?: PostWhereInput | null, orderBy?: PostOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null) {
   return new DataLoader<number, BasePost[] | null>(async keys => {
     const fetchedData: any[] = await photon.users.findMany({
       where: { id: { in: keys } },
-      select: { id: true, posts: true },
+      select: {
+        id: true,
+        posts: { where, orderBy, skip, after, before, first, last },
+      },
     });
     return keys
       .map(key => fetchedData.find(data => data.id === key)!)
@@ -1634,7 +1637,7 @@ export class UserRelationsResolver {
     description: undefined,
   })
   async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
-    ctx.userPostsLoader = ctx.userPostsLoader || createUserPostsLoader(ctx.photon);
+    ctx.userPostsLoader = ctx.userPostsLoader || createUserPostsLoader(ctx.photon, where, orderBy, skip, after, before, first, last);
     return ctx.userPostsLoader.load(user.id);
   }
 }
@@ -1643,7 +1646,10 @@ function createPostAuthorLoader(photon: any) {
   return new DataLoader<string, BaseUser>(async keys => {
     const fetchedData: any[] = await photon.posts.findMany({
       where: { uuid: { in: keys } },
-      select: { uuid: true, author: true },
+      select: {
+        uuid: true,
+        author: {},
+      },
     });
     return keys
       .map(key => fetchedData.find(data => data.uuid === key)!)

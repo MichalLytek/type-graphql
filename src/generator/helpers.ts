@@ -113,6 +113,7 @@ export function selectInputTypeFromTypes(
 export function mapSchemaArgToParameterDeclaration(
   arg: DMMF.SchemaArg,
   modelNames: string[],
+  emitDecorators: boolean,
 ): OptionalKind<ParameterDeclarationStructure> {
   const inputType = selectInputTypeFromTypes(arg.inputType);
   // TODO: replace with arg classes
@@ -120,19 +121,21 @@ export function mapSchemaArgToParameterDeclaration(
     name: arg.name,
     type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
     hasQuestionToken: !inputType.isRequired,
-    decorators: [
-      {
-        name: "Arg",
-        arguments: [
-          `"${arg.name}"`,
-          `_type => ${getTypeGraphQLType(
-            inputType as DMMFTypeInfo,
-            modelNames,
-          )}`,
-          `{ nullable: ${!inputType.isRequired} }`,
-        ],
-      },
-    ],
+    ...(emitDecorators && {
+      decorators: [
+        {
+          name: "Arg",
+          arguments: [
+            `"${arg.name}"`,
+            `_type => ${getTypeGraphQLType(
+              inputType as DMMFTypeInfo,
+              modelNames,
+            )}`,
+            `{ nullable: ${!inputType.isRequired} }`,
+          ],
+        },
+      ],
+    }),
   };
 }
 

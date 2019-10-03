@@ -89,7 +89,7 @@ export default async function generateCrudResolverClassFromMapping(
             },
           ],
           parameters: method.args.map(arg =>
-            mapSchemaArgToParameterDeclaration(arg, modelNames),
+            mapSchemaArgToParameterDeclaration(arg, modelNames, true),
           ),
           statements: [
             // TODO: add method body that uses Photon
