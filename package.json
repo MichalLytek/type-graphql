@@ -6,18 +6,18 @@
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
   "dependencies": {
-    "@prisma/cli": "^0.1.6",
-    "@prisma/lift": "^0.3.1",
-    "@prisma/photon": "^0.2.79",
-    "@types/node": "^12.7.8",
+    "@prisma/cli": "^0.1.10",
+    "@prisma/lift": "^0.3.19",
+    "@prisma/photon": "^0.2.93",
+    "@types/node": "^12.7.9",
     "@types/pluralize": "0.0.29",
     "dataloader": "^1.4.0",
     "pluralize": "^8.0.0",
-    "ts-morph": "^4.0.1"
+    "ts-morph": "^4.1.1"
   },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "prisma2": "^2.0.0-alpha.206",
+    "prisma2": "^2.0.0-alpha.225",
     "typescript": "^3.6.3"
   },
   "license": "MIT",

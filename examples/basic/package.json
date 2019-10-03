@@ -13,7 +13,7 @@
     "type-graphql": "0.18.0-beta.1"
   },
   "devDependencies": {
-    "prisma2": "^2.0.0-alpha.206",
+    "prisma2": "^2.0.0-alpha.225",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   }

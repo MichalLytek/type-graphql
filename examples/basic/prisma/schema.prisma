@@ -1,6 +1,6 @@
 datasource db {
   provider = "sqlite"
-  url      = "./dev.db"
+  url      = "../dev.db"
 }
 
 type Numeric = Float
