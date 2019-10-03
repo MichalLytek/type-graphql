@@ -24,6 +24,30 @@ query GetUsersAndPosts {
   }
 }
 
+mutation AddUser {
+  createOneUser(
+    data: {
+      age: 50
+      amount: 123
+      balance: 0
+      email: "test3@test3.test3"
+      name: "Test"
+      role: USER
+    }
+  ) {
+    ...UserData
+  }
+}
+
+query FindUsers {
+  findManyUser(
+    orderBy: { id: desc }
+    where: { OR: [{ email: { contains: "test3" } }, { role: ADMIN }] }
+  ) {
+    ...UserData
+  }
+}
+
 fragment UserData on BaseUser {
   id
   email

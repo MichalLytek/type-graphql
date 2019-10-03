@@ -59,6 +59,7 @@ export default async function generateCrudResolverClassFromMapping(
           method.outputType as DMMFTypeInfo,
           modelNames,
         );
+        const argNames = method.args.map(arg => arg.name).join(", ");
 
         return {
           name: method.name,
@@ -79,13 +80,21 @@ export default async function generateCrudResolverClassFromMapping(
               ],
             },
           ],
-          parameters: method.args.map(arg =>
-            // TODO: replace with arg classes
-            mapSchemaArgToParameterDeclaration(arg, modelNames, true),
-          ),
+          parameters: [
+            {
+              name: "ctx",
+              // TODO: import custom `ContextType`
+              type: "any",
+              decorators: [{ name: "Ctx", arguments: [] }],
+            },
+            ...method.args.map(arg =>
+              // TODO: replace with arg classes
+              mapSchemaArgToParameterDeclaration(arg, modelNames, true),
+            ),
+          ],
           statements: [
-            // TODO: add method body that uses Photon
-            `throw new Error("Not implemented yet!");`,
+            `const args = { ${argNames} };`,
+            `return ctx.photon.${mapping.plural}.${actionName}(args);`,
           ],
         };
       }),

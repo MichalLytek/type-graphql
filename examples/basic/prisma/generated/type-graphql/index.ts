@@ -1697,64 +1697,72 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    throw new Error("Not implemented yet!");
+  async findOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+    const args = { where };
+    return ctx.photon.users.findOne(args);
   }
 
   @Query(_returns => [BaseUser], {
     nullable: true,
     description: undefined
   })
-  async findManyUser(@Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput, { nullable: true }) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BaseUser[] | null> {
-    throw new Error("Not implemented yet!");
+  async findManyUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput, { nullable: true }) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BaseUser[] | null> {
+    const args = { where, orderBy, skip, after, before, first, last };
+    return ctx.photon.users.findMany(args);
   }
 
   @Mutation(_returns => BaseUser, {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@Arg("data", _type => UserCreateInput, { nullable: false }) data: UserCreateInput): Promise<BaseUser> {
-    throw new Error("Not implemented yet!");
+  async createOneUser(@Ctx() ctx: any, @Arg("data", _type => UserCreateInput, { nullable: false }) data: UserCreateInput): Promise<BaseUser> {
+    const args = { data };
+    return ctx.photon.users.create(args);
   }
 
   @Mutation(_returns => BaseUser, {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    throw new Error("Not implemented yet!");
+  async deleteOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+    const args = { where };
+    return ctx.photon.users.delete(args);
   }
 
   @Mutation(_returns => BaseUser, {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@Arg("data", _type => UserUpdateInput, { nullable: false }) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    throw new Error("Not implemented yet!");
+  async updateOneUser(@Ctx() ctx: any, @Arg("data", _type => UserUpdateInput, { nullable: false }) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
+    const args = { data, where };
+    return ctx.photon.users.update(args);
   }
 
   @Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyUser(@Arg("data", _type => UserUpdateManyMutationInput, { nullable: false }) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null): Promise<BatchPayload> {
-    throw new Error("Not implemented yet!");
+  async updateManyUser(@Ctx() ctx: any, @Arg("data", _type => UserUpdateManyMutationInput, { nullable: false }) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null): Promise<BatchPayload> {
+    const args = { data, where };
+    return ctx.photon.users.updateMany(args);
   }
 
   @Mutation(_returns => BaseUser, {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput, { nullable: false }) create: UserCreateInput, @Arg("update", _type => UserUpdateInput, { nullable: false }) update: UserUpdateInput): Promise<BaseUser> {
-    throw new Error("Not implemented yet!");
+  async upsertOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput, { nullable: false }) create: UserCreateInput, @Arg("update", _type => UserUpdateInput, { nullable: false }) update: UserUpdateInput): Promise<BaseUser> {
+    const args = { where, create, update };
+    return ctx.photon.users.upsert(args);
   }
 
   @Query(_returns => AggregateUser, {
     nullable: false,
     description: undefined
   })
-  async aggregateUser(): Promise<AggregateUser> {
-    throw new Error("Not implemented yet!");
+  async aggregateUser(@Ctx() ctx: any): Promise<AggregateUser> {
+    const args = {};
+    return ctx.photon.users.aggregate(args);
   }
 }
 
@@ -1764,63 +1772,71 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    throw new Error("Not implemented yet!");
+  async findOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
+    const args = { where };
+    return ctx.photon.posts.findOne(args);
   }
 
   @Query(_returns => [BasePost], {
     nullable: true,
     description: undefined
   })
-  async findManyPost(@Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
-    throw new Error("Not implemented yet!");
+  async findManyPost(@Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
+    const args = { where, orderBy, skip, after, before, first, last };
+    return ctx.photon.posts.findMany(args);
   }
 
   @Mutation(_returns => BasePost, {
     nullable: false,
     description: undefined
   })
-  async createOnePost(@Arg("data", _type => PostCreateInput, { nullable: false }) data: PostCreateInput): Promise<BasePost> {
-    throw new Error("Not implemented yet!");
+  async createOnePost(@Ctx() ctx: any, @Arg("data", _type => PostCreateInput, { nullable: false }) data: PostCreateInput): Promise<BasePost> {
+    const args = { data };
+    return ctx.photon.posts.create(args);
   }
 
   @Mutation(_returns => BasePost, {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    throw new Error("Not implemented yet!");
+  async deleteOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
+    const args = { where };
+    return ctx.photon.posts.delete(args);
   }
 
   @Mutation(_returns => BasePost, {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(@Arg("data", _type => PostUpdateInput, { nullable: false }) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    throw new Error("Not implemented yet!");
+  async updateOnePost(@Ctx() ctx: any, @Arg("data", _type => PostUpdateInput, { nullable: false }) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
+    const args = { data, where };
+    return ctx.photon.posts.update(args);
   }
 
   @Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyPost(@Arg("data", _type => PostUpdateManyMutationInput, { nullable: false }) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null): Promise<BatchPayload> {
-    throw new Error("Not implemented yet!");
+  async updateManyPost(@Ctx() ctx: any, @Arg("data", _type => PostUpdateManyMutationInput, { nullable: false }) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null): Promise<BatchPayload> {
+    const args = { data, where };
+    return ctx.photon.posts.updateMany(args);
   }
 
   @Mutation(_returns => BasePost, {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(@Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput, { nullable: false }) create: PostCreateInput, @Arg("update", _type => PostUpdateInput, { nullable: false }) update: PostUpdateInput): Promise<BasePost> {
-    throw new Error("Not implemented yet!");
+  async upsertOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput, { nullable: false }) create: PostCreateInput, @Arg("update", _type => PostUpdateInput, { nullable: false }) update: PostUpdateInput): Promise<BasePost> {
+    const args = { where, create, update };
+    return ctx.photon.posts.upsert(args);
   }
 
   @Query(_returns => AggregatePost, {
     nullable: false,
     description: undefined
   })
-  async aggregatePost(): Promise<AggregatePost> {
-    throw new Error("Not implemented yet!");
+  async aggregatePost(@Ctx() ctx: any): Promise<AggregatePost> {
+    const args = {};
+    return ctx.photon.posts.aggregate(args);
   }
 }
