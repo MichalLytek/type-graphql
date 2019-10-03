@@ -1615,19 +1615,29 @@ export class PostOrderByInput {
   kind?: keyof typeof OrderByArg | null;
 }
 
-function createUserPostsLoader(photon: any, where?: PostWhereInput | null, orderBy?: PostOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null) {
-  return new DataLoader<number, BasePost[] | null>(async keys => {
-    const fetchedData: any[] = await photon.users.findMany({
-      where: { id: { in: keys } },
-      select: {
-        id: true,
-        posts: { where, orderBy, skip, after, before, first, last },
-      },
-    });
-    return keys
-      .map(key => fetchedData.find(data => data.id === key)!)
-      .map(data => data.posts);
-  });
+function createGetUserPostsDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<number, BasePost[] | null>>();
+  return function getUserPostsDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!userPostsDataLoader) {
+      userPostsDataLoader = new DataLoader<number, BasePost[] | null>(async keys => {
+        const fetchedData: any[] = await photon.users.findMany({
+          where: { id: { in: keys } },
+          select: {
+            id: true,
+            posts: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.id === key)!)
+          .map(data => data.posts);
+      });
+      argsToDataLoaderMap.set(argsJSON, userPostsDataLoader);
+    }
+    return userPostsDataLoader;
+  }
+
 }
 
 @Resolver(_of => BaseUser)
@@ -1637,24 +1647,35 @@ export class UserRelationsResolver {
     description: undefined,
   })
   async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
-    ctx.userPostsLoader = ctx.userPostsLoader || createUserPostsLoader(ctx.photon, where, orderBy, skip, after, before, first, last);
-    return ctx.userPostsLoader.load(user.id);
+    const args = { where, orderBy, skip, after, before, first, last };
+    ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
+    return ctx.getUserPostsDataLoader(args).load(user.id);
   }
 }
 
-function createPostAuthorLoader(photon: any) {
-  return new DataLoader<string, BaseUser>(async keys => {
-    const fetchedData: any[] = await photon.posts.findMany({
-      where: { uuid: { in: keys } },
-      select: {
-        uuid: true,
-        author: {},
-      },
-    });
-    return keys
-      .map(key => fetchedData.find(data => data.uuid === key)!)
-      .map(data => data.author);
-  });
+function createGetPostAuthorDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<string, BaseUser>>();
+  return function getPostAuthorDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!postAuthorDataLoader) {
+      postAuthorDataLoader = new DataLoader<string, BaseUser>(async keys => {
+        const fetchedData: any[] = await photon.posts.findMany({
+          where: { uuid: { in: keys } },
+          select: {
+            uuid: true,
+            author: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.uuid === key)!)
+          .map(data => data.author);
+      });
+      argsToDataLoaderMap.set(argsJSON, postAuthorDataLoader);
+    }
+    return postAuthorDataLoader;
+  }
+
 }
 
 @Resolver(_of => BasePost)
@@ -1664,8 +1685,9 @@ export class PostRelationsResolver {
     description: undefined,
   })
   async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
-    ctx.postAuthorLoader = ctx.postAuthorLoader || createPostAuthorLoader(ctx.photon);
-    return ctx.postAuthorLoader.load(post.uuid);
+    const args = {};
+    ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
+    return ctx.getPostAuthorDataLoader(args).load(post.uuid);
   }
 }
 

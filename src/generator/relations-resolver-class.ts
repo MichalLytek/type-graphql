@@ -1,9 +1,4 @@
-import {
-  SourceFile,
-  OptionalKind,
-  MethodDeclarationStructure,
-  ParameterDeclarationStructure,
-} from "ts-morph";
+import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
 import { DMMF } from "@prisma/photon";
 import pluralize from "pluralize";
 
@@ -13,10 +8,8 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
-  selectInputTypeFromTypes,
   mapSchemaArgToParameterDeclaration,
 } from "./helpers";
-import { DMMFTypeInfo } from "./types";
 
 export default async function generateRelationsResolverClassesFromModel(
   sourceFile: SourceFile,
@@ -46,17 +39,15 @@ export default async function generateRelationsResolverClassesFromModel(
           field.documentation && field.documentation.replace("\r", "");
         const fieldType = getFieldTSType(field, modelNames);
         const [
-          createDataLoaderFunctionName,
-          dataLoaderInCtxName,
-        ] = createDataLoaderCreationStatement(
+          createDataLoaderGetterFunctionName,
+          dataLoaderGetterInCtxName,
+        ] = createDataLoaderGetterCreationStatement(
           sourceFile,
-          modelNames,
           model.name,
           field.name,
           idField.name,
           getFieldTSType(idField, modelNames),
           fieldType,
-          outputTypeField.args,
         );
         const argNames = outputTypeField.args.map(arg => arg.name).join(", ");
 
@@ -94,8 +85,9 @@ export default async function generateRelationsResolverClassesFromModel(
           ],
           // TODO: refactor to AST
           statements: [
-            `ctx.${dataLoaderInCtxName} = ctx.${dataLoaderInCtxName} || ${createDataLoaderFunctionName}(ctx.photon, ${argNames});
-            return ctx.${dataLoaderInCtxName}.load(${rootArgName}.${idField.name});`,
+            `const args = { ${argNames} };
+            ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);
+            return ctx.${dataLoaderGetterInCtxName}(args).load(${rootArgName}.${idField.name});`,
           ],
         };
       },
@@ -103,48 +95,53 @@ export default async function generateRelationsResolverClassesFromModel(
   });
 }
 
-function createDataLoaderCreationStatement(
+function createDataLoaderGetterCreationStatement(
   sourceFile: SourceFile,
-  modelNames: string[],
   modelName: string,
   relationFieldName: string,
   idFieldName: string,
   rootKeyType: string,
   fieldType: string,
-  args: DMMF.SchemaArg[],
 ) {
   // TODO: use `mappings`
-  const dataLoaderInCtxName = `${camelCase(modelName)}${pascalCase(
+  const dataLoaderName = `${camelCase(modelName)}${pascalCase(
     relationFieldName,
-  )}Loader`;
-  const functionName = `create${pascalCase(dataLoaderInCtxName)}`;
+  )}DataLoader`;
+  const dataLoaderGetterInCtxName = `get${pascalCase(dataLoaderName)}`;
+  const functionName = `create${pascalCase(dataLoaderGetterInCtxName)}`;
   const collectionName = pluralize(camelCase(modelName));
-  const argNames = args.map(arg => arg.name).join(", ");
 
   sourceFile.addFunction({
     name: functionName,
     parameters: [
       // TODO: import Photon type
       { name: "photon", type: "any" },
-      ...args.map(arg =>
-        mapSchemaArgToParameterDeclaration(arg, modelNames, false),
-      ),
     ],
     statements: [
       // TODO: refactor to AST
-      `return new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {
-        const fetchedData: any[] = await photon.${collectionName}.findMany({
-          where: { ${idFieldName}: { in: keys } },
-          select: {
-            ${idFieldName}: true,
-            ${relationFieldName}: {${argNames}},
-          },
-        });
-        return keys
-          .map(key => fetchedData.find(data => data.${idFieldName} === key)!)
-          .map(data => data.${relationFieldName});
-      });`,
+      `const argsToDataLoaderMap = new Map<string, DataLoader<${rootKeyType}, ${fieldType}>>();
+      return function ${dataLoaderGetterInCtxName}(args: any) {
+        const argsJSON = JSON.stringify(args);
+        let ${dataLoaderName} = argsToDataLoaderMap.get(argsJSON);
+        if (!${dataLoaderName}) {
+          ${dataLoaderName} = new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {
+            const fetchedData: any[] = await photon.${collectionName}.findMany({
+              where: { ${idFieldName}: { in: keys } },
+              select: {
+                ${idFieldName}: true,
+                ${relationFieldName}: args,
+              },
+            });
+            return keys
+              .map(key => fetchedData.find(data => data.${idFieldName} === key)!)
+              .map(data => data.${relationFieldName});
+          });
+          argsToDataLoaderMap.set(argsJSON, ${dataLoaderName});
+        }
+        return ${dataLoaderName};
+      }
+      `,
     ],
   });
-  return [functionName, dataLoaderInCtxName];
+  return [functionName, dataLoaderGetterInCtxName];
 }

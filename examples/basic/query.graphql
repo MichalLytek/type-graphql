@@ -1,7 +1,18 @@
 query GetUsersAndPosts {
   users {
     ...UserData
-    posts(where: { kind: ADVERT }) {
+    advertPosts: posts(where: { kind: ADVERT }) {
+      ...PostData
+    }
+    blogPosts: posts(where: { kind: BLOG }) {
+      ...PostData
+      author {
+        posts(where: { kind: ADVERT }) {
+          ...PostData
+        }
+      }
+    }
+    posts {
       ...PostData
     }
   }
