@@ -79,15 +79,17 @@ export default async function generateRelationsResolverClassesFromModel(
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
+            // TODO: replace with arg classes
             ...outputTypeField.args.map(arg =>
               mapSchemaArgToParameterDeclaration(arg, modelNames, true),
             ),
           ],
           // TODO: refactor to AST
           statements: [
-            `const args = { ${argNames} };
-            ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);
-            return ctx.${dataLoaderGetterInCtxName}(args).load(${rootArgName}.${idField.name});`,
+            // TODO: replace with arg classes
+            `const args = { ${argNames} };`,
+            `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);`,
+            `return ctx.${dataLoaderGetterInCtxName}(args).load(${rootArgName}.${idField.name});`,
           ],
         };
       },

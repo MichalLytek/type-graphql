@@ -1,6 +1,6 @@
 import { DMMF } from "@prisma/photon";
 
-import generateCode from "../generator/generate-code";
+import generateCode from "../generator";
 
 export default async function generate(
   dmmfJSONPath: string,

@@ -1,19 +1,10 @@
-import {
-  SourceFile,
-  OptionalKind,
-  MethodDeclarationStructure,
-  ParameterDeclarationStructure,
-} from "ts-morph";
+import { SourceFile, OptionalKind, MethodDeclarationStructure } from "ts-morph";
 import { DMMF } from "@prisma/photon";
-// import pluralize from "pluralize";
 
 import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
-  camelCase,
-  pascalCase,
-  selectInputTypeFromTypes,
   mapSchemaArgToParameterDeclaration,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
@@ -89,6 +80,7 @@ export default async function generateCrudResolverClassFromMapping(
             },
           ],
           parameters: method.args.map(arg =>
+            // TODO: replace with arg classes
             mapSchemaArgToParameterDeclaration(arg, modelNames, true),
           ),
           statements: [

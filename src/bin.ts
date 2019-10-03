@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import { generate } from "./generator";
+import { generate } from "./prisma-generator";
 
 let dataBuffer = "";
 

@@ -103,11 +103,12 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
 export function selectInputTypeFromTypes(
   inputTypes: DMMF.SchemaArgInputType[],
 ): DMMF.SchemaArgInputType {
-  // solution from `nexus-prisma`
   // FIXME: *Enum*Filter are currently empty
-  return inputTypes.some(it => it.kind === "enum")
-    ? inputTypes[0]
-    : inputTypes.find(it => it.kind === "object") || inputTypes[0];
+  return (
+    inputTypes.find(it => it.kind === "enum") ||
+    inputTypes.find(it => it.kind === "object") ||
+    inputTypes[0]
+  );
 }
 
 export function mapSchemaArgToParameterDeclaration(

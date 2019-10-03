@@ -3,7 +3,7 @@ import { DMMF } from "@prisma/photon";
 import fs from "fs";
 import path from "path";
 
-import generateCode from "./generator/generate-code";
+import generateCode from "./generator";
 
 const defaultOutput = "node_modules/@generated/type-graphql";
 
