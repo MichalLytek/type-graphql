@@ -112,8 +112,8 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
               <span class="token comment">// numeric value that is being returned by an estimator is used as the field complexity.</span>
               <span class="token comment">// If no estimator returns a value, an exception is raised.</span>
               estimators<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token comment">// Using fieldConfigEstimator is mandatory to make it work with type-graphql.</span>
-                <span class="token function">fieldConfigEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token comment">// Using fieldExtensionsEstimator is mandatory to make it work with type-graphql.</span>
+                <span class="token function">fieldExtensionsEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
                 <span class="token comment">// Add more estimators here...</span>
                 <span class="token comment">// This will assign each field a complexity of 1</span>
                 <span class="token comment">// if no other estimator returned a value.</span>
