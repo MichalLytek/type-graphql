@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import { getComplexity, simpleEstimator, fieldConfigEstimator } from "graphql-query-complexity";
+import { getComplexity, simpleEstimator, fieldExtensionsEstimator } from "graphql-query-complexity";
 import { separateOperations } from "graphql";
 import { buildSchema } from "../../src";
 
@@ -40,8 +40,8 @@ async function bootstrap() {
               // numeric value that is being returned by an estimator is used as the field complexity.
               // If no estimator returns a value, an exception is raised.
               estimators: [
-                // Using fieldConfigEstimator is mandatory to make it work with type-graphql.
-                fieldConfigEstimator(),
+                // Using fieldExtensionsEstimator is mandatory to make it work with type-graphql.
+                fieldExtensionsEstimator(),
                 // Add more estimators here...
                 // This will assign each field a complexity of 1
                 // if no other estimator returned a value.

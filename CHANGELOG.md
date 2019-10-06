@@ -5,8 +5,7 @@
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.4`
-- update `graphql-query-complexity` dependency to `^0.4.0`
-
+- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 
@@ -16,7 +15,6 @@
 - update deps to newest minor versions (`tslib`, `semver`, `graphql-query-complexity` and `glob`)
 - support nested array types (`@Field(type => [[Int]])`) (#393)
 - deprecate the direct array syntax for union types
-
 ### Fixes
 - fix errors on circular refs in union types (#364) by adding the function syntax (`() => TClassTypes`)
 
