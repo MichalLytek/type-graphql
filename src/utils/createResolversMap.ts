@@ -56,8 +56,8 @@ function generateTypeResolver(
   schema: GraphQLSchema,
 ): GraphQLTypeResolver<any, any> {
   if (abstractType.resolveType) {
-    return async (source, context, info) => {
-      const detectedType = await abstractType.resolveType!(source, context, info);
+    return async (...args) => {
+      const detectedType = await abstractType.resolveType!(...args);
       if (detectedType instanceof GraphQLObjectType) {
         return detectedType.name;
       }

@@ -6,6 +6,7 @@
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.8`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
+- update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 
