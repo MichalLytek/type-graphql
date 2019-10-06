@@ -26,7 +26,7 @@
     "@types/semver": "^6.0.2",
     "class-validator": ">=0.9.1",
     "glob": "^7.1.4",
-    "graphql-query-complexity": "^0.3.0",
+    "graphql-query-complexity": "^0.4.0",
     "graphql-subscriptions": "^1.1.0",
     "semver": "^6.3.0",
     "tslib": "^1.10.0"
