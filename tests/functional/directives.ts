@@ -423,7 +423,7 @@ describe("Directives", () => {
         expect(err).toBeInstanceOf(InvalidDirectiveError);
         const error: InvalidDirectiveError = err;
         expect(error.message).toContain(
-          'There must be exactly one directive defined for directive "@upper @append"',
+          'You can pass only one directive to the @Directive decorator at a time for "@upper @append"',
         );
       }
     });
@@ -467,7 +467,7 @@ describe("Directives", () => {
         expect(err).toBeInstanceOf(InvalidDirectiveError);
         const error: InvalidDirectiveError = err;
         expect(error.message).toContain(
-          'There must be exactly one directive defined for directive ""',
+          'You can pass only one directive to the @Directive decorator at a time for ""',
         );
       }
     });

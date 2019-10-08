@@ -15,7 +15,7 @@ export function assertValidDirective(
     throw new Error(`Directive with name ${name} does not exist`);
   }
 
-  const directives = (astNode || {}).directives || [];
+  const directives = (astNode && astNode.directives) || [];
 
   const directive = directives.find(it => it.name.kind === "Name" && it.name.value === name);
 

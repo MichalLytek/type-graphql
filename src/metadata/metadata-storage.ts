@@ -102,14 +102,17 @@ export class MetadataStorage {
   }
 
   collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
-    this.classDirectives.unshift(definition);
+    this.classDirectives.push(definition);
   }
   collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
-    this.fieldDirectives.unshift(definition);
+    this.fieldDirectives.push(definition);
   }
 
   build() {
     // TODO: disable next build attempts
+
+    this.classDirectives.reverse();
+    this.fieldDirectives.reverse();
 
     this.buildClassMetadata(this.objectTypes);
     this.buildClassMetadata(this.inputTypes);

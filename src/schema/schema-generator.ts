@@ -21,9 +21,9 @@ import {
   FieldDefinitionNode,
   parse,
   parseValue,
-  TypeDefinitionNode,
   InputObjectTypeDefinitionNode,
   InputValueDefinitionNode,
+  astFromValue,
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
@@ -32,6 +32,7 @@ import {
   ResolverMetadata,
   ParamMetadata,
   ClassMetadata,
+  DirectiveMetadata,
   SubscriptionResolverMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
@@ -48,12 +49,11 @@ import {
   MissingSubscriptionTopicsError,
   ConflictingDefaultValuesError,
   InterfaceResolveTypeError,
+  InvalidDirectiveError,
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
-import { DirectiveMetadata } from "../metadata/definitions/directive-metadata";
-import { InvalidDirectiveError } from "../errors/InvalidDirectiveError";
 
 interface AbstractInfo {
   isAbstract: boolean;
@@ -92,6 +92,10 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Disable checking on build the correctness of a schema
    */
   skipCheck?: boolean;
+
+  /**
+   * Array of graphql directives
+   */
   directives?: GraphQLDirective[];
 }
 
@@ -125,6 +129,7 @@ export abstract class SchemaGenerator {
       mutation: this.buildRootMutationType(options.resolvers),
       subscription: this.buildRootSubscriptionType(options.resolvers),
       types: this.buildOtherTypes(orphanedTypes),
+      directives: options.directives,
     });
 
     BuildContext.reset();
@@ -274,7 +279,6 @@ export abstract class SchemaGenerator {
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const interfaceClasses = objectType.interfaceClasses || [];
-
       return {
         target: objectType.target,
         isAbstract: objectType.isAbstract || false,
@@ -315,6 +319,7 @@ export abstract class SchemaGenerator {
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
+                  astNode: this.getFieldDefinitionNode(field.name, field.directives),
                   extensions: {
                     complexity: field.complexity,
                   },
@@ -475,6 +480,7 @@ export abstract class SchemaGenerator {
         resolve: createHandlerResolver(handler),
         description: handler.description,
         deprecationReason: handler.deprecationReason,
+        astNode: this.getFieldDefinitionNode(handler.schemaName, handler.directives),
         extensions: {
           complexity: handler.complexity,
         },
@@ -667,6 +673,67 @@ export abstract class SchemaGenerator {
       .map(it => it.type);
   }
 
+  private static getObjectTypeDefinitionNode(
+    name: string,
+    directiveMetas?: DirectiveMetadata[],
+  ): ObjectTypeDefinitionNode | undefined {
+    if (!directiveMetas || !directiveMetas.length) {
+      return;
+    }
+
+    return {
+      kind: "ObjectTypeDefinition",
+      name: {
+        kind: "Name",
+        value: name,
+      },
+      directives: directiveMetas.map(this.getDirectiveNodes),
+    };
+  }
+
+  private static getInputObjectTypeDefinitionNode(
+    name: string,
+    directiveMetas?: DirectiveMetadata[],
+  ): InputObjectTypeDefinitionNode | undefined {
+    if (!directiveMetas || !directiveMetas.length) {
+      return;
+    }
+
+    return {
+      kind: "InputObjectTypeDefinition",
+      name: {
+        kind: "Name",
+        value: name,
+      },
+      directives: directiveMetas.map(this.getDirectiveNodes),
+    };
+  }
+
+  private static getFieldDefinitionNode(
+    name: string,
+    directiveMetas?: DirectiveMetadata[],
+  ): FieldDefinitionNode | undefined {
+    if (!directiveMetas || !directiveMetas.length) {
+      return;
+    }
+
+    return {
+      kind: "FieldDefinition",
+      type: {
+        kind: "NamedType",
+        name: {
+          kind: "Name",
+          value: name,
+        },
+      },
+      name: {
+        kind: "Name",
+        value: name,
+      },
+      directives: directiveMetas.map(this.getDirectiveNodes),
+    };
+  }
+
   private static getInputValueDefinitionNode(
     name: string,
     directiveMetas?: DirectiveMetadata[],
@@ -697,7 +764,7 @@ export abstract class SchemaGenerator {
 
     if (nameOrDefinition === "") {
       throw new InvalidDirectiveError(
-        "There must be exactly one directive defined for directive",
+        "You can pass only one directive to the @Directive decorator at a time for",
         directive,
       );
     }
@@ -740,7 +807,7 @@ export abstract class SchemaGenerator {
 
     if (directives.length !== 1) {
       throw new InvalidDirectiveError(
-        "There must be exactly one directive defined for directive",
+        "You can pass only one directive to the @Directive decorator at a time for",
         directive,
       );
     }

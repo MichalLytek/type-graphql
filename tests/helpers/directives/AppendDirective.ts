@@ -14,7 +14,11 @@ export class AppendDirective extends SchemaDirectiveVisitor {
 
     field.args.push({
       name: "append",
+      description: "Appends a string to the end of a field",
       type: GraphQLString,
+      defaultValue: "",
+      extensions: {},
+      astNode: undefined,
     });
 
     field.resolve = async function(source, { append, ...otherArgs }, context, info) {

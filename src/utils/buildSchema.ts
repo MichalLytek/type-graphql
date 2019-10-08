@@ -24,7 +24,6 @@ export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolv
    * or `true` for the default `./schema.gql` one
    */
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
-  directives?: GraphQLDirective[];
 }
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   const resolvers = loadResolvers(options);
