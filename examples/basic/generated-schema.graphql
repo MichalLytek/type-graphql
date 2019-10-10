@@ -32,7 +32,7 @@ type BaseUser {
   balance: Float!
   amount: Float!
   role: Role!
-  posts(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: PostOrderByInput, where: PostWhereInput): [BasePost!]
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
   hello: String!
 }
 
@@ -81,14 +81,14 @@ input IntFilter {
 type Mutation {
   createOneUser(data: UserCreateInput!): BaseUser!
   deleteOneUser(where: UserWhereUniqueInput!): BaseUser
-  updateOneUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): BaseUser
-  updateManyUser(where: UserWhereInput, data: UserUpdateManyMutationInput!): BatchPayload!
-  upsertOneUser(update: UserUpdateInput!, create: UserCreateInput!, where: UserWhereUniqueInput!): BaseUser!
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): BaseUser
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): BaseUser!
   createOnePost(data: PostCreateInput!): BasePost!
   deleteOnePost(where: PostWhereUniqueInput!): BasePost
-  updateOnePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): BasePost
-  updateManyPost(where: PostWhereInput, data: PostUpdateManyMutationInput!): BatchPayload!
-  upsertOnePost(update: PostUpdateInput!, create: PostCreateInput!, where: PostWhereUniqueInput!): BasePost!
+  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): BasePost
+  updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): BasePost!
 }
 
 input NullableStringFilter {
@@ -259,10 +259,10 @@ input PostWhereUniqueInput {
 
 type Query {
   findOneUser(where: UserWhereUniqueInput!): BaseUser
-  findManyUser(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: UserOrderByInput, where: UserWhereInput): [BaseUser!]
+  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BaseUser!]
   aggregateUser: AggregateUser!
   findOnePost(where: PostWhereUniqueInput!): BasePost
-  findManyPost(last: Int, first: Int, before: String, after: String, skip: Int, orderBy: PostOrderByInput, where: PostWhereInput): [BasePost!]
+  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
   aggregatePost: AggregatePost!
   users: [BaseUser!]!
   posts: [BasePost!]!

@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg } from "type-graphql";
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
 import DataLoader from "dataloader";
 
 /**
@@ -1640,14 +1640,37 @@ function createGetUserPostsDataLoader(photon: any) {
 
 }
 
+@ArgsType()
+export class UserPostsArgs {
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+
+  @Field(_type => PostOrderByInput, { nullable: true })
+  orderBy?: PostOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
 @Resolver(_of => BaseUser)
 export class UserRelationsResolver {
   @FieldResolver(_type => [BasePost], {
     nullable: true,
     description: undefined,
   })
-  async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
-    const args = { where, orderBy, skip, after, before, first, last };
+  async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<BasePost[] | null> {
     ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
     return ctx.getUserPostsDataLoader(args).load(user.id);
   }
@@ -1685,10 +1708,81 @@ export class PostRelationsResolver {
     description: undefined,
   })
   async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
-    const args = {};
     ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
-    return ctx.getPostAuthorDataLoader(args).load(post.uuid);
+    return ctx.getPostAuthorDataLoader({}).load(post.uuid);
   }
+}
+
+@ArgsType()
+export class FindOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class FindManyUserArgs {
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+
+  @Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
+@ArgsType()
+export class CreateOneUserArgs {
+  @Field(_type => UserCreateInput, { nullable: false })
+  data!: UserCreateInput;
+}
+
+@ArgsType()
+export class DeleteOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateOneUserArgs {
+  @Field(_type => UserUpdateInput, { nullable: false })
+  data!: UserUpdateInput;
+
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateManyUserArgs {
+  @Field(_type => UserUpdateManyMutationInput, { nullable: false })
+  data!: UserUpdateManyMutationInput;
+
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+}
+
+@ArgsType()
+export class UpsertOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+
+  @Field(_type => UserCreateInput, { nullable: false })
+  create!: UserCreateInput;
+
+  @Field(_type => UserUpdateInput, { nullable: false })
+  update!: UserUpdateInput;
 }
 
 @Resolver(_of => BaseUser)
@@ -1697,8 +1791,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    const args = { where };
+  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<BaseUser | null> {
     return ctx.photon.users.findOne(args);
   }
 
@@ -1706,8 +1799,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null, @Arg("orderBy", _type => UserOrderByInput, { nullable: true }) orderBy?: UserOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BaseUser[] | null> {
-    const args = { where, orderBy, skip, after, before, first, last };
+  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<BaseUser[] | null> {
     return ctx.photon.users.findMany(args);
   }
 
@@ -1715,8 +1807,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@Ctx() ctx: any, @Arg("data", _type => UserCreateInput, { nullable: false }) data: UserCreateInput): Promise<BaseUser> {
-    const args = { data };
+  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<BaseUser> {
     return ctx.photon.users.create(args);
   }
 
@@ -1724,8 +1815,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    const args = { where };
+  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<BaseUser | null> {
     return ctx.photon.users.delete(args);
   }
 
@@ -1733,8 +1823,7 @@ export class BaseUserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@Ctx() ctx: any, @Arg("data", _type => UserUpdateInput, { nullable: false }) data: UserUpdateInput, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput): Promise<BaseUser | null> {
-    const args = { data, where };
+  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<BaseUser | null> {
     return ctx.photon.users.update(args);
   }
 
@@ -1742,8 +1831,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async updateManyUser(@Ctx() ctx: any, @Arg("data", _type => UserUpdateManyMutationInput, { nullable: false }) data: UserUpdateManyMutationInput, @Arg("where", _type => UserWhereInput, { nullable: true }) where?: UserWhereInput | null): Promise<BatchPayload> {
-    const args = { data, where };
+  async updateManyUser(@Ctx() ctx: any, @Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
     return ctx.photon.users.updateMany(args);
   }
 
@@ -1751,8 +1839,7 @@ export class BaseUserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@Ctx() ctx: any, @Arg("where", _type => UserWhereUniqueInput, { nullable: false }) where: UserWhereUniqueInput, @Arg("create", _type => UserCreateInput, { nullable: false }) create: UserCreateInput, @Arg("update", _type => UserUpdateInput, { nullable: false }) update: UserUpdateInput): Promise<BaseUser> {
-    const args = { where, create, update };
+  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<BaseUser> {
     return ctx.photon.users.upsert(args);
   }
 
@@ -1761,9 +1848,80 @@ export class BaseUserCrudResolver {
     description: undefined
   })
   async aggregateUser(@Ctx() ctx: any): Promise<AggregateUser> {
-    const args = {};
-    return ctx.photon.users.aggregate(args);
+    return ctx.photon.users.aggregate();
   }
+}
+
+@ArgsType()
+export class FindOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class FindManyPostArgs {
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+
+  @Field(_type => PostOrderByInput, { nullable: true })
+  orderBy?: PostOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
+@ArgsType()
+export class CreateOnePostArgs {
+  @Field(_type => PostCreateInput, { nullable: false })
+  data!: PostCreateInput;
+}
+
+@ArgsType()
+export class DeleteOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateOnePostArgs {
+  @Field(_type => PostUpdateInput, { nullable: false })
+  data!: PostUpdateInput;
+
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateManyPostArgs {
+  @Field(_type => PostUpdateManyMutationInput, { nullable: false })
+  data!: PostUpdateManyMutationInput;
+
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+}
+
+@ArgsType()
+export class UpsertOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+
+  @Field(_type => PostCreateInput, { nullable: false })
+  create!: PostCreateInput;
+
+  @Field(_type => PostUpdateInput, { nullable: false })
+  update!: PostUpdateInput;
 }
 
 @Resolver(_of => BasePost)
@@ -1772,8 +1930,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    const args = { where };
+  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<BasePost | null> {
     return ctx.photon.posts.findOne(args);
   }
 
@@ -1781,8 +1938,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findManyPost(@Ctx() ctx: any, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null, @Arg("orderBy", _type => PostOrderByInput, { nullable: true }) orderBy?: PostOrderByInput | null, @Arg("skip", _type => Int, { nullable: true }) skip?: number | null, @Arg("after", _type => String, { nullable: true }) after?: string | null, @Arg("before", _type => String, { nullable: true }) before?: string | null, @Arg("first", _type => Int, { nullable: true }) first?: number | null, @Arg("last", _type => Int, { nullable: true }) last?: number | null): Promise<BasePost[] | null> {
-    const args = { where, orderBy, skip, after, before, first, last };
+  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<BasePost[] | null> {
     return ctx.photon.posts.findMany(args);
   }
 
@@ -1790,8 +1946,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOnePost(@Ctx() ctx: any, @Arg("data", _type => PostCreateInput, { nullable: false }) data: PostCreateInput): Promise<BasePost> {
-    const args = { data };
+  async createOnePost(@Ctx() ctx: any, @Args() args: CreateOnePostArgs): Promise<BasePost> {
     return ctx.photon.posts.create(args);
   }
 
@@ -1799,8 +1954,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    const args = { where };
+  async deleteOnePost(@Ctx() ctx: any, @Args() args: DeleteOnePostArgs): Promise<BasePost | null> {
     return ctx.photon.posts.delete(args);
   }
 
@@ -1808,8 +1962,7 @@ export class BasePostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(@Ctx() ctx: any, @Arg("data", _type => PostUpdateInput, { nullable: false }) data: PostUpdateInput, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput): Promise<BasePost | null> {
-    const args = { data, where };
+  async updateOnePost(@Ctx() ctx: any, @Args() args: UpdateOnePostArgs): Promise<BasePost | null> {
     return ctx.photon.posts.update(args);
   }
 
@@ -1817,8 +1970,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async updateManyPost(@Ctx() ctx: any, @Arg("data", _type => PostUpdateManyMutationInput, { nullable: false }) data: PostUpdateManyMutationInput, @Arg("where", _type => PostWhereInput, { nullable: true }) where?: PostWhereInput | null): Promise<BatchPayload> {
-    const args = { data, where };
+  async updateManyPost(@Ctx() ctx: any, @Args() args: UpdateManyPostArgs): Promise<BatchPayload> {
     return ctx.photon.posts.updateMany(args);
   }
 
@@ -1826,8 +1978,7 @@ export class BasePostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(@Ctx() ctx: any, @Arg("where", _type => PostWhereUniqueInput, { nullable: false }) where: PostWhereUniqueInput, @Arg("create", _type => PostCreateInput, { nullable: false }) create: PostCreateInput, @Arg("update", _type => PostUpdateInput, { nullable: false }) update: PostUpdateInput): Promise<BasePost> {
-    const args = { where, create, update };
+  async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<BasePost> {
     return ctx.photon.posts.upsert(args);
   }
 
@@ -1836,7 +1987,6 @@ export class BasePostCrudResolver {
     description: undefined
   })
   async aggregatePost(@Ctx() ctx: any): Promise<AggregatePost> {
-    const args = {};
-    return ctx.photon.posts.aggregate(args);
+    return ctx.photon.posts.aggregate();
   }
 }

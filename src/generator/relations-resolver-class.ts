@@ -8,8 +8,8 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
-  mapSchemaArgToParameterDeclaration,
 } from "./helpers";
+import generateArgsTypeClassFromArgs from "./args-class";
 
 export default async function generateRelationsResolverClassesFromModel(
   sourceFile: SourceFile,
@@ -49,7 +49,15 @@ export default async function generateRelationsResolverClassesFromModel(
           getFieldTSType(idField, modelNames),
           fieldType,
         );
-        const argNames = outputTypeField.args.map(arg => arg.name).join(", ");
+        const argsTypeName =
+          outputTypeField.args.length > 0
+            ? generateArgsTypeClassFromArgs(
+                sourceFile,
+                outputTypeField.args,
+                model.name + pascalCase(field.name),
+                modelNames,
+              )
+            : undefined;
 
         return {
           name: field.name,
@@ -79,17 +87,22 @@ export default async function generateRelationsResolverClassesFromModel(
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
-            // TODO: replace with arg classes
-            ...outputTypeField.args.map(arg =>
-              mapSchemaArgToParameterDeclaration(arg, modelNames, true),
-            ),
+            ...(!argsTypeName
+              ? []
+              : [
+                  {
+                    name: "args",
+                    type: argsTypeName,
+                    decorators: [{ name: "Args", arguments: [] }],
+                  },
+                ]),
           ],
           // TODO: refactor to AST
           statements: [
-            // TODO: replace with arg classes
-            `const args = { ${argNames} };`,
             `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);`,
-            `return ctx.${dataLoaderGetterInCtxName}(args).load(${rootArgName}.${idField.name});`,
+            `return ctx.${dataLoaderGetterInCtxName}(${
+              argsTypeName ? "args" : "{}"
+            }).load(${rootArgName}.${idField.name});`,
           ],
         };
       },

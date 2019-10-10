@@ -18,6 +18,8 @@ export default async function generateImports(sourceFile: SourceFile) {
       { name: "Query" },
       { name: "Mutation" },
       { name: "Arg" },
+      { name: "ArgsType" },
+      { name: "Args" },
     ],
   });
   sourceFile.addImportDeclaration({

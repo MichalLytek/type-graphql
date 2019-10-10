@@ -5,7 +5,6 @@ import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
-  mapSchemaArgToParameterDeclaration,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 import {
@@ -14,6 +13,7 @@ import {
   supportedMutations as supportedMutationActions,
   supportedQueries as supportedQueryActions,
 } from "./config";
+import generateArgsTypeClassFromArgs from "./args-class";
 
 export default async function generateCrudResolverClassFromMapping(
   sourceFile: SourceFile,
@@ -59,7 +59,15 @@ export default async function generateCrudResolverClassFromMapping(
           method.outputType as DMMFTypeInfo,
           modelNames,
         );
-        const argNames = method.args.map(arg => arg.name).join(", ");
+        const argsTypeName =
+          method.args.length > 0
+            ? generateArgsTypeClassFromArgs(
+                sourceFile,
+                method.args,
+                method.name,
+                modelNames,
+              )
+            : undefined;
 
         return {
           name: method.name,
@@ -87,14 +95,20 @@ export default async function generateCrudResolverClassFromMapping(
               type: "any",
               decorators: [{ name: "Ctx", arguments: [] }],
             },
-            ...method.args.map(arg =>
-              // TODO: replace with arg classes
-              mapSchemaArgToParameterDeclaration(arg, modelNames, true),
-            ),
+            ...(!argsTypeName
+              ? []
+              : [
+                  {
+                    name: "args",
+                    type: argsTypeName,
+                    decorators: [{ name: "Args", arguments: [] }],
+                  },
+                ]),
           ],
           statements: [
-            `const args = { ${argNames} };`,
-            `return ctx.photon.${mapping.plural}.${actionName}(args);`,
+            `return ctx.photon.${mapping.plural}.${actionName}(${
+              argsTypeName ? "args" : ""
+            });`,
           ],
         };
       }),
