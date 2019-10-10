@@ -7,18 +7,17 @@
   },
   "dependencies": {
     "@prisma/cli": "^0.1.10",
-    "@prisma/lift": "^0.3.19",
-    "@prisma/photon": "^0.2.93",
-    "@types/node": "^12.7.9",
+    "@prisma/lift": "^0.3.31",
+    "@prisma/photon": "^0.2.98",
+    "@types/node": "^12.7.12",
     "@types/pluralize": "0.0.29",
     "dataloader": "^1.4.0",
     "pluralize": "^8.0.0",
-    "ts-morph": "^4.1.1"
+    "ts-morph": "^4.2.0"
   },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "prisma2": "^2.0.0-alpha.225",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "license": "MIT",
   "repository": {
