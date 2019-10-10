@@ -7,6 +7,7 @@ export interface DirectiveClassMetadata {
   target: Function;
   directive: DirectiveMetadata;
 }
+
 export interface DirectiveFieldMetadata {
   target: Function;
   field: string;
