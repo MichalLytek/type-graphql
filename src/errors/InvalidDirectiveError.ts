@@ -1,5 +1,3 @@
-import { DirectiveMetadata } from "../metadata/definitions/directive-metadata";
-
 export class InvalidDirectiveError extends Error {
   constructor(msg: string) {
     super(msg);
