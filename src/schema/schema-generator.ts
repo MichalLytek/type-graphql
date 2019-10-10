@@ -764,8 +764,7 @@ export abstract class SchemaGenerator {
 
     if (nameOrDefinition === "") {
       throw new InvalidDirectiveError(
-        "You can pass only one directive to the @Directive decorator at a time for",
-        directive,
+        "Please pass at-least one directive name or definition to the @Directive decorator",
       );
     }
 
@@ -802,13 +801,14 @@ export abstract class SchemaGenerator {
         });
       }
     } catch (err) {
-      throw new InvalidDirectiveError("Error parsing directive", directive);
+      throw new InvalidDirectiveError(
+        `Error parsing directive definition "${directive.nameOrDefinition}"`,
+      );
     }
 
     if (directives.length !== 1) {
       throw new InvalidDirectiveError(
-        "You can pass only one directive to the @Directive decorator at a time for",
-        directive,
+        `Please pass only one directive name or definition at a time to the @Directive decorator "${directive.nameOrDefinition}"`,
       );
     }
 

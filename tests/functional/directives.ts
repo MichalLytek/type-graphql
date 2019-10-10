@@ -423,7 +423,7 @@ describe("Directives", () => {
         expect(err).toBeInstanceOf(InvalidDirectiveError);
         const error: InvalidDirectiveError = err;
         expect(error.message).toContain(
-          'You can pass only one directive to the @Directive decorator at a time for "@upper @append"',
+          'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
         );
       }
     });
@@ -445,7 +445,9 @@ describe("Directives", () => {
       } catch (err) {
         expect(err).toBeInstanceOf(InvalidDirectiveError);
         const error: InvalidDirectiveError = err;
-        expect(error.message).toContain('Error parsing directive "@invalid(@directive)"');
+        expect(error.message).toContain(
+          'Error parsing directive definition "@invalid(@directive)"',
+        );
       }
     });
 
@@ -467,7 +469,7 @@ describe("Directives", () => {
         expect(err).toBeInstanceOf(InvalidDirectiveError);
         const error: InvalidDirectiveError = err;
         expect(error.message).toContain(
-          'You can pass only one directive to the @Directive decorator at a time for ""',
+          "Please pass at-least one directive name or definition to the @Directive decorator",
         );
       }
     });
