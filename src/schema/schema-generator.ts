@@ -311,15 +311,20 @@ export abstract class SchemaGenerator {
                     (resolver.resolverClassMetadata === undefined ||
                       resolver.resolverClassMetadata.isAbstract === false),
                 );
+                const type = this.getGraphQLOutputType(
+                  field.name,
+                  field.getType(),
+                  field.typeOptions,
+                );
                 fieldsMap[field.schemaName] = {
-                  type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                  type,
                   args: this.generateHandlerArgs(field.params!),
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : createSimpleFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
-                  astNode: this.getFieldDefinitionNode(field.name, field.directives),
+                  astNode: this.getFieldDefinitionNode(field.name, type, field.directives),
                   extensions: {
                     complexity: field.complexity,
                   },
@@ -380,11 +385,16 @@ export abstract class SchemaGenerator {
                   inputType.name,
                 );
 
+                const type = this.getGraphQLInputType(
+                  field.name,
+                  field.getType(),
+                  field.typeOptions,
+                );
                 fieldsMap[field.schemaName] = {
                   description: field.description,
-                  type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
+                  type,
                   defaultValue: field.typeOptions.defaultValue,
-                  astNode: this.getInputValueDefinitionNode(field.name, field.directives),
+                  astNode: this.getInputValueDefinitionNode(field.name, type, field.directives),
                 };
                 return fieldsMap;
               },
@@ -470,17 +480,18 @@ export abstract class SchemaGenerator {
       if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
         return fields;
       }
+      const type = this.getGraphQLOutputType(
+        handler.methodName,
+        handler.getReturnType(),
+        handler.returnTypeOptions,
+      );
       fields[handler.schemaName] = {
-        type: this.getGraphQLOutputType(
-          handler.methodName,
-          handler.getReturnType(),
-          handler.returnTypeOptions,
-        ),
+        type,
         args: this.generateHandlerArgs(handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,
         deprecationReason: handler.deprecationReason,
-        astNode: this.getFieldDefinitionNode(handler.schemaName, handler.directives),
+        astNode: this.getFieldDefinitionNode(handler.schemaName, type, handler.directives),
         extensions: {
           complexity: handler.complexity,
         },
@@ -711,6 +722,7 @@ export abstract class SchemaGenerator {
 
   private static getFieldDefinitionNode(
     name: string,
+    type: GraphQLOutputType,
     directiveMetas?: DirectiveMetadata[],
   ): FieldDefinitionNode | undefined {
     if (!directiveMetas || !directiveMetas.length) {
@@ -723,7 +735,7 @@ export abstract class SchemaGenerator {
         kind: "NamedType",
         name: {
           kind: "Name",
-          value: name,
+          value: type.toString(),
         },
       },
       name: {
@@ -736,6 +748,7 @@ export abstract class SchemaGenerator {
 
   private static getInputValueDefinitionNode(
     name: string,
+    type: GraphQLInputType,
     directiveMetas?: DirectiveMetadata[],
   ): InputValueDefinitionNode | undefined {
     if (!directiveMetas || !directiveMetas.length) {
@@ -748,7 +761,7 @@ export abstract class SchemaGenerator {
         kind: "NamedType",
         name: {
           kind: "Name",
-          value: name,
+          value: type.toString(),
         },
       },
       name: {
