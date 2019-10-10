@@ -1,8 +1,8 @@
 import path from "path";
 
-// import { writeDmmf } from "../../src/dev/writeDmmf";
+import { writeDmmf } from "../src/dev/writeDmmf";
 // import { logDmmf } from "../../src/dev/logDmmf";
-import generate from "../../src/dev/generate";
+import generate from "../src/dev/generate";
 
 const dmmfJSONPath = path.resolve(
   __dirname,
@@ -14,7 +14,7 @@ const outputTSFilePath = path.resolve(
 );
 
 (async () => {
-  // await writeDmmf("./prisma", dataModelJSONPath);
+  await writeDmmf("./prisma", dmmfJSONPath);
   // await logDmmf("./prisma");
   await generate(dmmfJSONPath, outputTSFilePath);
 })();
