@@ -1,0 +1,1615 @@
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
+import DataLoader from "dataloader";
+
+export enum OrderByArg {
+  asc = "asc",
+  desc = "desc"
+}
+registerEnumType(OrderByArg, {
+  name: "OrderByArg",
+  description: undefined,
+});
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BaseUser {
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: string;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  email!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined,
+  })
+  name?: string | null;
+
+  posts?: BasePost[] | null;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BasePost {
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: string;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  createdAt!: string;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  updatedAt!: string;
+
+  @Field(_type => Boolean, {
+    nullable: false,
+    description: undefined,
+  })
+  published!: boolean;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  title!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined,
+  })
+  content?: string | null;
+
+  author?: BaseUser | null;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class AggregateUser {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class AggregatePost {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
+}
+
+@ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BatchPayload {
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined
+  })
+  count!: number;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostWhereInput {
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  id?: StringFilter | null;
+
+  @Field(_type => DateTimeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: DateTimeFilter | null;
+
+  @Field(_type => DateTimeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: DateTimeFilter | null;
+
+  @Field(_type => BooleanFilter, {
+    nullable: true,
+    description: undefined
+  })
+  published?: BooleanFilter | null;
+
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  title?: StringFilter | null;
+
+  @Field(_type => NullableStringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  content?: NullableStringFilter | null;
+
+  @Field(_type => [PostWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  AND?: PostWhereInput[] | null;
+
+  @Field(_type => [PostWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  OR?: PostWhereInput[] | null;
+
+  @Field(_type => [PostWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  NOT?: PostWhereInput[] | null;
+
+  @Field(_type => UserWhereInput, {
+    nullable: true,
+    description: undefined
+  })
+  author?: UserWhereInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserWhereInput {
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  id?: StringFilter | null;
+
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  email?: StringFilter | null;
+
+  @Field(_type => NullableStringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  name?: NullableStringFilter | null;
+
+  @Field(_type => PostFilter, {
+    nullable: true,
+    description: undefined
+  })
+  posts?: PostFilter | null;
+
+  @Field(_type => [UserWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  AND?: UserWhereInput[] | null;
+
+  @Field(_type => [UserWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  OR?: UserWhereInput[] | null;
+
+  @Field(_type => [UserWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  NOT?: UserWhereInput[] | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserWhereUniqueInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  email?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostWhereUniqueInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostCreateWithoutAuthorInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: false,
+    description: undefined
+  })
+  published!: boolean;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  title!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostCreateManyWithoutPostsInput {
+  @Field(_type => [PostCreateWithoutAuthorInput], {
+    nullable: true,
+    description: undefined
+  })
+  create?: PostCreateWithoutAuthorInput[] | null;
+
+  @Field(_type => [PostWhereUniqueInput], {
+    nullable: true,
+    description: undefined
+  })
+  connect?: PostWhereUniqueInput[] | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserCreateInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  email!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  name?: string | null;
+
+  @Field(_type => PostCreateManyWithoutPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  posts?: PostCreateManyWithoutPostsInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateWithoutAuthorDataInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  published?: boolean | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  title?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateWithWhereUniqueWithoutAuthorInput {
+  @Field(_type => PostWhereUniqueInput, {
+    nullable: false,
+    description: undefined
+  })
+  where!: PostWhereUniqueInput;
+
+  @Field(_type => PostUpdateWithoutAuthorDataInput, {
+    nullable: false,
+    description: undefined
+  })
+  data!: PostUpdateWithoutAuthorDataInput;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostScalarWhereInput {
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  id?: StringFilter | null;
+
+  @Field(_type => DateTimeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: DateTimeFilter | null;
+
+  @Field(_type => DateTimeFilter, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: DateTimeFilter | null;
+
+  @Field(_type => BooleanFilter, {
+    nullable: true,
+    description: undefined
+  })
+  published?: BooleanFilter | null;
+
+  @Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  title?: StringFilter | null;
+
+  @Field(_type => NullableStringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  content?: NullableStringFilter | null;
+
+  @Field(_type => [PostScalarWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  AND?: PostScalarWhereInput[] | null;
+
+  @Field(_type => [PostScalarWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  OR?: PostScalarWhereInput[] | null;
+
+  @Field(_type => [PostScalarWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  NOT?: PostScalarWhereInput[] | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateManyDataInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  published?: boolean | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  title?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateManyWithWhereNestedInput {
+  @Field(_type => PostScalarWhereInput, {
+    nullable: false,
+    description: undefined
+  })
+  where!: PostScalarWhereInput;
+
+  @Field(_type => PostUpdateManyDataInput, {
+    nullable: false,
+    description: undefined
+  })
+  data!: PostUpdateManyDataInput;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpsertWithWhereUniqueWithoutAuthorInput {
+  @Field(_type => PostWhereUniqueInput, {
+    nullable: false,
+    description: undefined
+  })
+  where!: PostWhereUniqueInput;
+
+  @Field(_type => PostUpdateWithoutAuthorDataInput, {
+    nullable: false,
+    description: undefined
+  })
+  update!: PostUpdateWithoutAuthorDataInput;
+
+  @Field(_type => PostCreateWithoutAuthorInput, {
+    nullable: false,
+    description: undefined
+  })
+  create!: PostCreateWithoutAuthorInput;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateManyWithoutAuthorInput {
+  @Field(_type => [PostCreateWithoutAuthorInput], {
+    nullable: true,
+    description: undefined
+  })
+  create?: PostCreateWithoutAuthorInput[] | null;
+
+  @Field(_type => [PostWhereUniqueInput], {
+    nullable: true,
+    description: undefined
+  })
+  connect?: PostWhereUniqueInput[] | null;
+
+  @Field(_type => [PostWhereUniqueInput], {
+    nullable: true,
+    description: undefined
+  })
+  set?: PostWhereUniqueInput[] | null;
+
+  @Field(_type => [PostWhereUniqueInput], {
+    nullable: true,
+    description: undefined
+  })
+  disconnect?: PostWhereUniqueInput[] | null;
+
+  @Field(_type => [PostWhereUniqueInput], {
+    nullable: true,
+    description: undefined
+  })
+  delete?: PostWhereUniqueInput[] | null;
+
+  @Field(_type => [PostUpdateWithWhereUniqueWithoutAuthorInput], {
+    nullable: true,
+    description: undefined
+  })
+  update?: PostUpdateWithWhereUniqueWithoutAuthorInput[] | null;
+
+  @Field(_type => [PostUpdateManyWithWhereNestedInput], {
+    nullable: true,
+    description: undefined
+  })
+  updateMany?: PostUpdateManyWithWhereNestedInput[] | null;
+
+  @Field(_type => [PostScalarWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  deleteMany?: PostScalarWhereInput[] | null;
+
+  @Field(_type => [PostUpsertWithWhereUniqueWithoutAuthorInput], {
+    nullable: true,
+    description: undefined
+  })
+  upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpdateInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  email?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  name?: string | null;
+
+  @Field(_type => PostUpdateManyWithoutAuthorInput, {
+    nullable: true,
+    description: undefined
+  })
+  posts?: PostUpdateManyWithoutAuthorInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpdateManyMutationInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  email?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  name?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserCreateWithoutPostsInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  email!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  name?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserCreateOneWithoutAuthorInput {
+  @Field(_type => UserCreateWithoutPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  create?: UserCreateWithoutPostsInput | null;
+
+  @Field(_type => UserWhereUniqueInput, {
+    nullable: true,
+    description: undefined
+  })
+  connect?: UserWhereUniqueInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostCreateInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: false,
+    description: undefined
+  })
+  published!: boolean;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  title!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+
+  @Field(_type => UserCreateOneWithoutAuthorInput, {
+    nullable: true,
+    description: undefined
+  })
+  author?: UserCreateOneWithoutAuthorInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpdateWithoutPostsDataInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  email?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  name?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpsertWithoutPostsInput {
+  @Field(_type => UserUpdateWithoutPostsDataInput, {
+    nullable: false,
+    description: undefined
+  })
+  update!: UserUpdateWithoutPostsDataInput;
+
+  @Field(_type => UserCreateWithoutPostsInput, {
+    nullable: false,
+    description: undefined
+  })
+  create!: UserCreateWithoutPostsInput;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpdateOneWithoutPostsInput {
+  @Field(_type => UserCreateWithoutPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  create?: UserCreateWithoutPostsInput | null;
+
+  @Field(_type => UserWhereUniqueInput, {
+    nullable: true,
+    description: undefined
+  })
+  connect?: UserWhereUniqueInput | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  disconnect?: boolean | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  delete?: boolean | null;
+
+  @Field(_type => UserUpdateWithoutPostsDataInput, {
+    nullable: true,
+    description: undefined
+  })
+  update?: UserUpdateWithoutPostsDataInput | null;
+
+  @Field(_type => UserUpsertWithoutPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  upsert?: UserUpsertWithoutPostsInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  published?: boolean | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  title?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+
+  @Field(_type => UserUpdateOneWithoutPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  author?: UserUpdateOneWithoutPostsInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostUpdateManyMutationInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: string | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  published?: boolean | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  title?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class StringFilter {
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  not?: string | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  in?: string[] | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  notIn?: string[] | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lte?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gte?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  contains?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  startsWith?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  endsWith?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class DateTimeFilter {
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  not?: string | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  in?: string[] | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  notIn?: string[] | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lte?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gte?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BooleanFilter {
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: boolean | null;
+
+  @Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  not?: boolean | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class NullableStringFilter {
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  not?: string | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  in?: string[] | null;
+
+  @Field(_type => [String], {
+    nullable: true,
+    description: undefined
+  })
+  notIn?: string[] | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  lte?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gt?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  gte?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  contains?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  startsWith?: string | null;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  endsWith?: string | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostFilter {
+  @Field(_type => PostWhereInput, {
+    nullable: true,
+    description: undefined
+  })
+  every?: PostWhereInput | null;
+
+  @Field(_type => PostWhereInput, {
+    nullable: true,
+    description: undefined
+  })
+  some?: PostWhereInput | null;
+
+  @Field(_type => PostWhereInput, {
+    nullable: true,
+    description: undefined
+  })
+  none?: PostWhereInput | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserOrderByInput {
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  id?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  email?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  name?: keyof typeof OrderByArg | null;
+}
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostOrderByInput {
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  id?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  published?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  title?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  content?: keyof typeof OrderByArg | null;
+}
+
+function createGetUserPostsDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<string, BasePost[] | null>>();
+  return function getUserPostsDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!userPostsDataLoader) {
+      userPostsDataLoader = new DataLoader<string, BasePost[] | null>(async keys => {
+        const fetchedData: any[] = await photon.users.findMany({
+          where: { id: { in: keys } },
+          select: {
+            id: true,
+            posts: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.id === key)!)
+          .map(data => data.posts);
+      });
+      argsToDataLoaderMap.set(argsJSON, userPostsDataLoader);
+    }
+    return userPostsDataLoader;
+  }
+
+}
+
+@ArgsType()
+export class UserPostsArgs {
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+
+  @Field(_type => PostOrderByInput, { nullable: true })
+  orderBy?: PostOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
+@Resolver(_of => BaseUser)
+export class UserRelationsResolver {
+  @FieldResolver(_type => [BasePost], {
+    nullable: true,
+    description: undefined,
+  })
+  async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<BasePost[] | null> {
+    ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
+    return ctx.getUserPostsDataLoader(args).load(user.id);
+  }
+}
+
+function createGetPostAuthorDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<string, BaseUser | null>>();
+  return function getPostAuthorDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!postAuthorDataLoader) {
+      postAuthorDataLoader = new DataLoader<string, BaseUser | null>(async keys => {
+        const fetchedData: any[] = await photon.posts.findMany({
+          where: { id: { in: keys } },
+          select: {
+            id: true,
+            author: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.id === key)!)
+          .map(data => data.author);
+      });
+      argsToDataLoaderMap.set(argsJSON, postAuthorDataLoader);
+    }
+    return postAuthorDataLoader;
+  }
+
+}
+
+@Resolver(_of => BasePost)
+export class PostRelationsResolver {
+  @FieldResolver(_type => BaseUser, {
+    nullable: true,
+    description: undefined,
+  })
+  async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser | null> {
+    ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
+    return ctx.getPostAuthorDataLoader({}).load(post.id);
+  }
+}
+
+@ArgsType()
+export class FindOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class FindManyUserArgs {
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+
+  @Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
+@ArgsType()
+export class CreateOneUserArgs {
+  @Field(_type => UserCreateInput, { nullable: false })
+  data!: UserCreateInput;
+}
+
+@ArgsType()
+export class DeleteOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateOneUserArgs {
+  @Field(_type => UserUpdateInput, { nullable: false })
+  data!: UserUpdateInput;
+
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateManyUserArgs {
+  @Field(_type => UserUpdateManyMutationInput, { nullable: false })
+  data!: UserUpdateManyMutationInput;
+
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+}
+
+@ArgsType()
+export class UpsertOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+
+  @Field(_type => UserCreateInput, { nullable: false })
+  create!: UserCreateInput;
+
+  @Field(_type => UserUpdateInput, { nullable: false })
+  update!: UserUpdateInput;
+}
+
+@Resolver(_of => BaseUser)
+export class BaseUserCrudResolver {
+  @Query(_returns => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<BaseUser | null> {
+    return ctx.photon.users.findOne(args);
+  }
+
+  @Query(_returns => [BaseUser], {
+    nullable: true,
+    description: undefined
+  })
+  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<BaseUser[] | null> {
+    return ctx.photon.users.findMany(args);
+  }
+
+  @Mutation(_returns => BaseUser, {
+    nullable: false,
+    description: undefined
+  })
+  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<BaseUser> {
+    return ctx.photon.users.create(args);
+  }
+
+  @Mutation(_returns => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<BaseUser | null> {
+    return ctx.photon.users.delete(args);
+  }
+
+  @Mutation(_returns => BaseUser, {
+    nullable: true,
+    description: undefined
+  })
+  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<BaseUser | null> {
+    return ctx.photon.users.update(args);
+  }
+
+  @Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyUser(@Ctx() ctx: any, @Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
+    return ctx.photon.users.updateMany(args);
+  }
+
+  @Mutation(_returns => BaseUser, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<BaseUser> {
+    return ctx.photon.users.upsert(args);
+  }
+
+  @Query(_returns => AggregateUser, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateUser(@Ctx() ctx: any): Promise<AggregateUser> {
+    return ctx.photon.users.aggregate();
+  }
+}
+
+@ArgsType()
+export class FindOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class FindManyPostArgs {
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+
+  @Field(_type => PostOrderByInput, { nullable: true })
+  orderBy?: PostOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => String, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => String, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+
+@ArgsType()
+export class CreateOnePostArgs {
+  @Field(_type => PostCreateInput, { nullable: false })
+  data!: PostCreateInput;
+}
+
+@ArgsType()
+export class DeleteOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateOnePostArgs {
+  @Field(_type => PostUpdateInput, { nullable: false })
+  data!: PostUpdateInput;
+
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+}
+
+@ArgsType()
+export class UpdateManyPostArgs {
+  @Field(_type => PostUpdateManyMutationInput, { nullable: false })
+  data!: PostUpdateManyMutationInput;
+
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+}
+
+@ArgsType()
+export class UpsertOnePostArgs {
+  @Field(_type => PostWhereUniqueInput, { nullable: false })
+  where!: PostWhereUniqueInput;
+
+  @Field(_type => PostCreateInput, { nullable: false })
+  create!: PostCreateInput;
+
+  @Field(_type => PostUpdateInput, { nullable: false })
+  update!: PostUpdateInput;
+}
+
+@Resolver(_of => BasePost)
+export class BasePostCrudResolver {
+  @Query(_returns => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<BasePost | null> {
+    return ctx.photon.posts.findOne(args);
+  }
+
+  @Query(_returns => [BasePost], {
+    nullable: true,
+    description: undefined
+  })
+  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<BasePost[] | null> {
+    return ctx.photon.posts.findMany(args);
+  }
+
+  @Mutation(_returns => BasePost, {
+    nullable: false,
+    description: undefined
+  })
+  async createOnePost(@Ctx() ctx: any, @Args() args: CreateOnePostArgs): Promise<BasePost> {
+    return ctx.photon.posts.create(args);
+  }
+
+  @Mutation(_returns => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteOnePost(@Ctx() ctx: any, @Args() args: DeleteOnePostArgs): Promise<BasePost | null> {
+    return ctx.photon.posts.delete(args);
+  }
+
+  @Mutation(_returns => BasePost, {
+    nullable: true,
+    description: undefined
+  })
+  async updateOnePost(@Ctx() ctx: any, @Args() args: UpdateOnePostArgs): Promise<BasePost | null> {
+    return ctx.photon.posts.update(args);
+  }
+
+  @Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyPost(@Ctx() ctx: any, @Args() args: UpdateManyPostArgs): Promise<BatchPayload> {
+    return ctx.photon.posts.updateMany(args);
+  }
+
+  @Mutation(_returns => BasePost, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<BasePost> {
+    return ctx.photon.posts.upsert(args);
+  }
+
+  @Query(_returns => AggregatePost, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregatePost(@Ctx() ctx: any): Promise<AggregatePost> {
+    return ctx.photon.posts.aggregate();
+  }
+}
