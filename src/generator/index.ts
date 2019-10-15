@@ -1,5 +1,6 @@
 import { DMMF } from "@prisma/photon";
 import { Project } from "ts-morph";
+import path from "path";
 
 import { noop } from "./helpers";
 import generateImports from "./imports";
@@ -14,36 +15,47 @@ import generateCrudResolverClassFromRootType from "./crud-resolver-class";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
-  filePath: string,
+  baseDirPath: string,
   log: (msg: string) => void = noop,
 ) {
   const project = new Project();
-  const sourceFile = project.createSourceFile(filePath, undefined, {
-    overwrite: true,
-  });
+  const sourceFile = project.createSourceFile(
+    baseDirPath + "/index.ts",
+    undefined,
+    {
+      overwrite: true,
+    },
+  );
 
   log("Generating imports...");
   await generateImports(sourceFile);
 
   log("Generating enums...");
   const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
+  const enumDirPath = path.resolve(baseDirPath, "./enums");
   await Promise.all(
     dmmf.datamodel.enums.map(enumDef =>
-      generateEnumFromDef(sourceFile, enumDef),
+      generateEnumFromDef(project, enumDirPath, enumDef),
     ),
   );
   await Promise.all(
     dmmf.schema.enums
       // skip enums from datamodel
       .filter(enumDef => !datamodelEnumNames.includes(enumDef.name))
-      .map(enumDef => generateEnumFromDef(sourceFile, enumDef)),
+      .map(enumDef => generateEnumFromDef(project, enumDirPath, enumDef)),
   );
 
   log("Generating models...");
+  const modelsDirPath = path.resolve(baseDirPath, "./models");
   const modelNames = dmmf.datamodel.models.map(model => model.name);
   await Promise.all(
     dmmf.datamodel.models.map(model =>
-      generateObjectTypeClassFromModel(sourceFile, model, modelNames),
+      generateObjectTypeClassFromModel(
+        project,
+        modelsDirPath,
+        model,
+        modelNames,
+      ),
     ),
   );
 

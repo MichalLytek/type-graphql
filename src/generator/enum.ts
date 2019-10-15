@@ -1,10 +1,20 @@
-import { EnumMemberStructure, OptionalKind, SourceFile } from "ts-morph";
+import { EnumMemberStructure, OptionalKind, Project } from "ts-morph";
 import { DMMF } from "@prisma/photon";
+import path from "path";
+
+import { generateTypeGraphQLImports } from "./imports";
 
 export default async function generateEnumFromDef(
-  sourceFile: SourceFile,
+  project: Project,
+  dirPath: string,
   enumDef: DMMF.Enum,
 ) {
+  const filePath = path.resolve(dirPath, `${enumDef.name}.ts`);
+  const sourceFile = project.createSourceFile(filePath, undefined, {
+    overwrite: true,
+  });
+  generateTypeGraphQLImports(sourceFile);
+
   const documentation =
     enumDef.documentation && enumDef.documentation.replace("\r", "");
   sourceFile.addEnum({
@@ -29,4 +39,8 @@ export default async function generateEnumFromDef(
       description: ${documentation ? `"${documentation}"` : "undefined"},
     });`,
   ]);
+
+  // FIXME: use generic save source file utils
+  sourceFile.formatText({ indentSize: 2 });
+  await sourceFile.save();
 }

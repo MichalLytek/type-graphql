@@ -1,20 +1,27 @@
-import {
-  SourceFile,
-  PropertyDeclarationStructure,
-  OptionalKind,
-} from "ts-morph";
+import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
 import { DMMF } from "@prisma/photon";
+import path from "path";
+
 import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
 } from "./helpers";
+import { generateTypeGraphQLImports } from "./imports";
 
 export default async function generateObjectTypeClassFromModel(
-  sourceFile: SourceFile,
+  project: Project,
+  dirPath: string,
   model: DMMF.Model,
   modelNames: string[],
 ) {
+  const filePath = path.resolve(dirPath, `${model.name}.ts`);
+  const sourceFile = project.createSourceFile(filePath, undefined, {
+    overwrite: true,
+  });
+  // FIXME: add imports for other models and enums
+  generateTypeGraphQLImports(sourceFile);
+
   const modelDocs =
     model.documentation && model.documentation.replace("\r", "");
 
@@ -74,4 +81,8 @@ export default async function generateObjectTypeClassFromModel(
       docs: [{ description: modelDocs }],
     }),
   });
+
+  // FIXME: use generic save source file utils
+  sourceFile.formatText({ indentSize: 2 });
+  await sourceFile.save();
 }

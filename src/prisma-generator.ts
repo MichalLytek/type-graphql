@@ -25,6 +25,6 @@ export const generate: GeneratorFunction = async options => {
     JSON.stringify(photonDmmf, null, 2),
   );
 
-  await generateCode(photonDmmf, path.resolve(outputDir, "./index.ts"));
+  await generateCode(photonDmmf, outputDir);
   return "";
 };

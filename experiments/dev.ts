@@ -8,13 +8,13 @@ const dmmfJSONPath = path.resolve(
   __dirname,
   "prisma/generated/type-graphql/photon-dmmf.json",
 );
-const outputTSFilePath = path.resolve(
+const outputTSDirPath = path.resolve(
   __dirname,
-  "prisma/generated/type-graphql/index.ts",
+  "prisma/generated/type-graphql",
 );
 
 (async () => {
   await writeDmmf("./prisma", dmmfJSONPath);
   // await logDmmf("./prisma");
-  await generate(dmmfJSONPath, outputTSFilePath);
+  await generate(dmmfJSONPath, outputTSDirPath);
 })();
