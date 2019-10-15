@@ -79,13 +79,13 @@ mutation AddUserWithPost {
   }
 }
 
-fragment UserData on BaseUser {
+fragment UserData on User {
   id
   email
   name
 }
 
-fragment PostData on BasePost {
+fragment PostData on Post {
   id
   createdAt
   updatedAt

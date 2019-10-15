@@ -38,7 +38,7 @@ registerEnumType(OrderByArg, {
   isAbstract: true,
   description: "User model comment",
 })
-export class BaseUser {
+export class User {
   /**
    * User model field comment
    */
@@ -78,7 +78,7 @@ export class BaseUser {
   })
   amount!: number;
 
-  posts?: BasePost[] | null;
+  posts?: Post[] | null;
 
   @Field(_type => Role, {
     nullable: false,
@@ -91,7 +91,7 @@ export class BaseUser {
   isAbstract: true,
   description: undefined,
 })
-export class BasePost {
+export class Post {
   @Field(_type => String, {
     nullable: false,
     description: undefined,
@@ -128,7 +128,7 @@ export class BasePost {
   })
   content?: string | null;
 
-  author?: BaseUser;
+  author?: User;
 
   @Field(_type => PostKind, {
     nullable: true,
@@ -1616,12 +1616,12 @@ export class PostOrderByInput {
 }
 
 function createGetUserPostsDataLoader(photon: any) {
-  const argsToDataLoaderMap = new Map<string, DataLoader<number, BasePost[] | null>>();
+  const argsToDataLoaderMap = new Map<string, DataLoader<number, Post[] | null>>();
   return function getUserPostsDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!userPostsDataLoader) {
-      userPostsDataLoader = new DataLoader<number, BasePost[] | null>(async keys => {
+      userPostsDataLoader = new DataLoader<number, Post[] | null>(async keys => {
         const fetchedData: any[] = await photon.users.findMany({
           where: { id: { in: keys } },
           select: {
@@ -1664,25 +1664,25 @@ export class UserPostsArgs {
   last?: number | null;
 }
 
-@Resolver(_of => BaseUser)
+@Resolver(_of => User)
 export class UserRelationsResolver {
-  @FieldResolver(_type => [BasePost], {
+  @FieldResolver(_type => [Post], {
     nullable: true,
     description: undefined,
   })
-  async posts(@Root() user: BaseUser, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<BasePost[] | null> {
+  async posts(@Root() user: User, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<Post[] | null> {
     ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
     return ctx.getUserPostsDataLoader(args).load(user.id);
   }
 }
 
 function createGetPostAuthorDataLoader(photon: any) {
-  const argsToDataLoaderMap = new Map<string, DataLoader<string, BaseUser>>();
+  const argsToDataLoaderMap = new Map<string, DataLoader<string, User>>();
   return function getPostAuthorDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!postAuthorDataLoader) {
-      postAuthorDataLoader = new DataLoader<string, BaseUser>(async keys => {
+      postAuthorDataLoader = new DataLoader<string, User>(async keys => {
         const fetchedData: any[] = await photon.posts.findMany({
           where: { uuid: { in: keys } },
           select: {
@@ -1701,13 +1701,13 @@ function createGetPostAuthorDataLoader(photon: any) {
 
 }
 
-@Resolver(_of => BasePost)
+@Resolver(_of => Post)
 export class PostRelationsResolver {
-  @FieldResolver(_type => BaseUser, {
+  @FieldResolver(_type => User, {
     nullable: false,
     description: undefined,
   })
-  async author(@Root() post: BasePost, @Ctx() ctx: any): Promise<BaseUser> {
+  async author(@Root() post: Post, @Ctx() ctx: any): Promise<User> {
     ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
     return ctx.getPostAuthorDataLoader({}).load(post.uuid);
   }
@@ -1785,45 +1785,45 @@ export class UpsertOneUserArgs {
   update!: UserUpdateInput;
 }
 
-@Resolver(_of => BaseUser)
-export class BaseUserCrudResolver {
-  @Query(_returns => BaseUser, {
+@Resolver(_of => User)
+export class UserCrudResolver {
+  @Query(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<BaseUser | null> {
+  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.photon.users.findOne(args);
   }
 
-  @Query(_returns => [BaseUser], {
+  @Query(_returns => [User], {
     nullable: true,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<BaseUser[] | null> {
+  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[] | null> {
     return ctx.photon.users.findMany(args);
   }
 
-  @Mutation(_returns => BaseUser, {
+  @Mutation(_returns => User, {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<BaseUser> {
+  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<User> {
     return ctx.photon.users.create(args);
   }
 
-  @Mutation(_returns => BaseUser, {
+  @Mutation(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<BaseUser | null> {
+  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<User | null> {
     return ctx.photon.users.delete(args);
   }
 
-  @Mutation(_returns => BaseUser, {
+  @Mutation(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<BaseUser | null> {
+  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<User | null> {
     return ctx.photon.users.update(args);
   }
 
@@ -1835,11 +1835,11 @@ export class BaseUserCrudResolver {
     return ctx.photon.users.updateMany(args);
   }
 
-  @Mutation(_returns => BaseUser, {
+  @Mutation(_returns => User, {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<BaseUser> {
+  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
     return ctx.photon.users.upsert(args);
   }
 
@@ -1924,45 +1924,45 @@ export class UpsertOnePostArgs {
   update!: PostUpdateInput;
 }
 
-@Resolver(_of => BasePost)
-export class BasePostCrudResolver {
-  @Query(_returns => BasePost, {
+@Resolver(_of => Post)
+export class PostCrudResolver {
+  @Query(_returns => Post, {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<BasePost | null> {
+  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.photon.posts.findOne(args);
   }
 
-  @Query(_returns => [BasePost], {
+  @Query(_returns => [Post], {
     nullable: true,
     description: undefined
   })
-  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<BasePost[] | null> {
+  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[] | null> {
     return ctx.photon.posts.findMany(args);
   }
 
-  @Mutation(_returns => BasePost, {
+  @Mutation(_returns => Post, {
     nullable: false,
     description: undefined
   })
-  async createOnePost(@Ctx() ctx: any, @Args() args: CreateOnePostArgs): Promise<BasePost> {
+  async createOnePost(@Ctx() ctx: any, @Args() args: CreateOnePostArgs): Promise<Post> {
     return ctx.photon.posts.create(args);
   }
 
-  @Mutation(_returns => BasePost, {
+  @Mutation(_returns => Post, {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(@Ctx() ctx: any, @Args() args: DeleteOnePostArgs): Promise<BasePost | null> {
+  async deleteOnePost(@Ctx() ctx: any, @Args() args: DeleteOnePostArgs): Promise<Post | null> {
     return ctx.photon.posts.delete(args);
   }
 
-  @Mutation(_returns => BasePost, {
+  @Mutation(_returns => Post, {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(@Ctx() ctx: any, @Args() args: UpdateOnePostArgs): Promise<BasePost | null> {
+  async updateOnePost(@Ctx() ctx: any, @Args() args: UpdateOnePostArgs): Promise<Post | null> {
     return ctx.photon.posts.update(args);
   }
 
@@ -1974,11 +1974,11 @@ export class BasePostCrudResolver {
     return ctx.photon.posts.updateMany(args);
   }
 
-  @Mutation(_returns => BasePost, {
+  @Mutation(_returns => Post, {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<BasePost> {
+  async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<Post> {
     return ctx.photon.posts.upsert(args);
   }
 

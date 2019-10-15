@@ -11,14 +11,14 @@ import { ApolloServer } from "apollo-server";
 import path from "path";
 
 import {
-  // BaseUser,
-  // BasePost,
-  BaseUser as User,
-  BasePost as Post,
+  // User as BaseUser,
+  // Post as BasePost,
+  User,
+  Post,
   UserRelationsResolver,
   PostRelationsResolver,
-  BaseUserCrudResolver as UserCrudResolver,
-  BasePostCrudResolver as PostCrudResolver,
+  UserCrudResolver,
+  PostCrudResolver,
 } from "./prisma/generated/type-graphql";
 import { Photon } from "./prisma/generated/photon";
 
@@ -68,7 +68,7 @@ async function main() {
   });
 
   const photon = new Photon({
-    // debug: true, // uncomment to see how dataloader for relations works
+    // debug: true,
   });
 
   const server = new ApolloServer({

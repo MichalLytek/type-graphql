@@ -11,24 +11,6 @@ type AggregateUser {
   count: Int!
 }
 
-type BasePost {
-  id: String!
-  createdAt: String!
-  updatedAt: String!
-  published: Boolean!
-  title: String!
-  content: String
-  author: BaseUser
-}
-
-type BaseUser {
-  id: String!
-  email: String!
-  name: String
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
-  favoritePost: BasePost
-}
-
 type BatchPayload {
   count: Int!
 }
@@ -50,16 +32,16 @@ input DateTimeFilter {
 }
 
 type Mutation {
-  createOneUser(data: UserCreateInput!): BaseUser!
-  deleteOneUser(where: UserWhereUniqueInput!): BaseUser
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): BaseUser
+  createOneUser(data: UserCreateInput!): User!
+  deleteOneUser(where: UserWhereUniqueInput!): User
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): BaseUser!
-  createOnePost(data: PostCreateInput!): BasePost!
-  deleteOnePost(where: PostWhereUniqueInput!): BasePost
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): BasePost
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  createOnePost(data: PostCreateInput!): Post!
+  deleteOnePost(where: PostWhereUniqueInput!): Post
+  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): BasePost!
+  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
 }
 
 input NullableStringFilter {
@@ -79,6 +61,16 @@ input NullableStringFilter {
 enum OrderByArg {
   asc
   desc
+}
+
+type Post {
+  id: String!
+  createdAt: String!
+  updatedAt: String!
+  published: Boolean!
+  title: String!
+  content: String
+  author: User
 }
 
 input PostCreateInput {
@@ -215,13 +207,13 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findOneUser(where: UserWhereUniqueInput!): BaseUser
-  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BaseUser!]
+  findOneUser(where: UserWhereUniqueInput!): User
+  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   aggregateUser: AggregateUser!
-  findOnePost(where: PostWhereUniqueInput!): BasePost
-  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
+  findOnePost(where: PostWhereUniqueInput!): Post
+  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   aggregatePost: AggregatePost!
-  bestUser: BaseUser!
+  bestUser: User!
 }
 
 input StringFilter {
@@ -236,6 +228,14 @@ input StringFilter {
   contains: String
   startsWith: String
   endsWith: String
+}
+
+type User {
+  id: String!
+  email: String!
+  name: String
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  favoritePost: Post
 }
 
 input UserCreateInput {

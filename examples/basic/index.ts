@@ -11,12 +11,12 @@ import { ApolloServer } from "apollo-server";
 import path from "path";
 import { Photon } from "@generated/photon";
 import {
-  BaseUser,
-  BasePost,
+  User,
+  Post,
   UserRelationsResolver,
   PostRelationsResolver,
-  BaseUserCrudResolver,
-  BasePostCrudResolver,
+  UserCrudResolver,
+  PostCrudResolver,
 } from "./prisma/generated/type-graphql";
 
 interface Context {
@@ -24,23 +24,24 @@ interface Context {
 }
 
 // custom resolver for custom business logic using PhotonJS
-@Resolver(of => BaseUser)
-class CustomBaseUserResolver {
-  @Query(returns => BaseUser)
-  async bestUser(@Ctx() { photon }: Context): Promise<BaseUser> {
-    return photon.users.findOne({
+@Resolver(of => User)
+class CustomUserResolver {
+  @Query(returns => User)
+  async bestUser(@Ctx() { photon }: Context): Promise<User> {
+    return await photon.users.findOne({
       where: { email: "bob@prisma.io" },
     });
   }
 
-  @FieldResolver(type => BasePost, { nullable: true })
+  @FieldResolver(type => Post, { nullable: true })
   async favoritePost(
-    @Root() user: BaseUser,
+    @Root() user: User,
     @Ctx() { photon }: Context,
-  ): Promise<BasePost | undefined> {
+  ): Promise<Post | undefined> {
     const [favoritePost] = await photon.users
       .findOne({ where: { id: user.id } })
       .posts({ first: 1 });
+
     return favoritePost;
   }
 }
@@ -48,11 +49,11 @@ class CustomBaseUserResolver {
 async function main() {
   const schema = await buildSchema({
     resolvers: [
-      CustomBaseUserResolver,
+      CustomUserResolver,
       UserRelationsResolver,
-      BaseUserCrudResolver,
+      UserCrudResolver,
       PostRelationsResolver,
-      BasePostCrudResolver,
+      PostCrudResolver,
     ],
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),
     validate: false,

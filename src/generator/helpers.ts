@@ -5,7 +5,9 @@ import { DMMFTypeInfo } from "./types";
 export function noop() {}
 
 export function getBaseModelTypeName(modelName: string) {
-  return `Base${modelName}`;
+  // TODO: add proper support for swapping model types with custom types
+  // return `Base${modelName}`;
+  return modelName;
 }
 
 export function getFieldTSType(typeInfo: DMMFTypeInfo, modelNames: string[]) {

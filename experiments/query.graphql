@@ -48,7 +48,7 @@ query FindUsers {
   }
 }
 
-fragment UserData on BaseUser {
+fragment UserData on User {
   id
   email
   age
@@ -58,7 +58,7 @@ fragment UserData on BaseUser {
   hello
 }
 
-fragment PostData on BasePost {
+fragment PostData on Post {
   uuid
   createdAt
   updatedAt

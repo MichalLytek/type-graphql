@@ -11,31 +11,6 @@ type AggregateUser {
   count: Int!
 }
 
-type BasePost {
-  uuid: String!
-  createdAt: String!
-  updatedAt: String!
-  published: Boolean!
-  title: String!
-  content: String
-  kind: PostKind
-  author: BaseUser!
-}
-
-"""User model comment"""
-type BaseUser {
-  """User model field comment"""
-  id: Int!
-  email: String!
-  name: String
-  age: Int!
-  balance: Float!
-  amount: Float!
-  role: Role!
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
-  hello: String!
-}
-
 type BatchPayload {
   count: Int!
 }
@@ -79,16 +54,16 @@ input IntFilter {
 }
 
 type Mutation {
-  createOneUser(data: UserCreateInput!): BaseUser!
-  deleteOneUser(where: UserWhereUniqueInput!): BaseUser
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): BaseUser
+  createOneUser(data: UserCreateInput!): User!
+  deleteOneUser(where: UserWhereUniqueInput!): User
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): BaseUser!
-  createOnePost(data: PostCreateInput!): BasePost!
-  deleteOnePost(where: PostWhereUniqueInput!): BasePost
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): BasePost
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  createOnePost(data: PostCreateInput!): Post!
+  deleteOnePost(where: PostWhereUniqueInput!): Post
+  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): BasePost!
+  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
 }
 
 input NullableStringFilter {
@@ -108,6 +83,17 @@ input NullableStringFilter {
 enum OrderByArg {
   asc
   desc
+}
+
+type Post {
+  uuid: String!
+  createdAt: String!
+  updatedAt: String!
+  published: Boolean!
+  title: String!
+  content: String
+  kind: PostKind
+  author: User!
 }
 
 input PostCreateInput {
@@ -258,14 +244,14 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findOneUser(where: UserWhereUniqueInput!): BaseUser
-  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BaseUser!]
+  findOneUser(where: UserWhereUniqueInput!): User
+  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   aggregateUser: AggregateUser!
-  findOnePost(where: PostWhereUniqueInput!): BasePost
-  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BasePost!]
+  findOnePost(where: PostWhereUniqueInput!): Post
+  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   aggregatePost: AggregatePost!
-  users: [BaseUser!]!
-  posts: [BasePost!]!
+  users: [User!]!
+  posts: [Post!]!
 }
 
 """Role enum comment"""
@@ -286,6 +272,20 @@ input StringFilter {
   contains: String
   startsWith: String
   endsWith: String
+}
+
+"""User model comment"""
+type User {
+  """User model field comment"""
+  id: Int!
+  email: String!
+  name: String
+  age: Int!
+  balance: Float!
+  amount: Float!
+  role: Role!
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  hello: String!
 }
 
 input UserCreateInput {
