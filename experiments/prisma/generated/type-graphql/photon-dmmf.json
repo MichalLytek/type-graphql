@@ -127,7 +127,8 @@
           }
         ],
         "isGenerated": false,
-        "documentation": "User model comment\r"
+        "documentation": "User model comment\r",
+        "idFields": []
       },
       {
         "name": "Post",
@@ -246,7 +247,8 @@
             "isUpdatedAt": false
           }
         ],
-        "isGenerated": false
+        "isGenerated": false,
+        "idFields": []
       }
     ]
   },
