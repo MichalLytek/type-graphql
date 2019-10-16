@@ -52,6 +52,7 @@ Without this annotation, the generated GQL type would be `String` or `Float` (de
 With all that in place, we can use our enum directly in our code 😉
 
 ```typescript
+@Resolver()
 class Resolver {
   private sprite = getMarioSprite();
 
