@@ -53,7 +53,7 @@ With all that in place, we can use our enum directly in our code 😉
 
 ```typescript
 @Resolver()
-class Resolver {
+class SpriteResolver {
   private sprite = getMarioSprite();
 
   @Mutation()
