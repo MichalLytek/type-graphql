@@ -97,7 +97,8 @@
 </code></pre>
 <p>Without this annotation, the generated GQL type would be <code>String</code> or <code>Float</code> (depending on the enum type), rather than the <code>ENUM</code> we are aiming for.</p>
 <p>With all that in place, we can use our enum directly in our code 😉</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">Resolver</span> <span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">SpriteResolver</span> <span class="token punctuation">{</span>
   <span class="token keyword">private</span> sprite <span class="token operator">=</span> <span class="token function">getMarioSprite</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
