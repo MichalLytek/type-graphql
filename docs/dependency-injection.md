@@ -8,7 +8,9 @@ TypeGraphQL supports this technique by allowing users to provide their IoC conta
 
 ## Basic usage
 
-The usage of this feature is very simple - all you need to do is register a 3rd party container. Example using TypeDI:
+The usage of this feature is very simple - all you need to do is register a 3rd party container.
+
+Example using TypeDI:
 
 ```typescript
 import { buildSchema } from "type-graphql";
@@ -69,6 +71,17 @@ export class RecipeService {
 ### Example
 
 You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container).
+
+### InversifyJS
+
+If you are using InversifyJS you need to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types). Example:
+
+```typescript
+container
+  .bind<SampleResolver>(SampleResolver)
+  .to(SampleResolver)
+  .inSingletonScope();
+```
 
 ## Scoped containers
 
