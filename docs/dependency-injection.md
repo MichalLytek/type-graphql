@@ -68,20 +68,14 @@ export class RecipeService {
 }
 ```
 
-### Example
-
-You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container).
-
-### InversifyJS
-
-If you are using InversifyJS you need to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types). Example:
-
-```typescript
-container
-  .bind<SampleResolver>(SampleResolver)
-  .to(SampleResolver)
-  .inSingletonScope();
-```
+> Be aware than when you use [InversifyJS](https://github.com/inversify/InversifyJS), you have to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types), e.g.:
+>
+> ```typescript
+> container
+>   .bind<SampleResolver>(SampleResolver)
+>   .to(SampleResolver)
+>   .inSingletonScope();
+> ```
 
 ## Scoped containers
 
@@ -154,6 +148,8 @@ The only thing that's left is the container configuration - we need to check out
 
 > Be aware that some libraries (like `TypeDI`) by default create new instances for every scoped container, so you might experience a **significant increase in memory usage** and some slowing down in query resolving speed, so please be careful with using this feature!
 
-### Example
+## Example
+
+You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container).
 
 For a more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container).
