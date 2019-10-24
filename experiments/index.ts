@@ -10,16 +10,14 @@ import {
 import { ApolloServer } from "apollo-server";
 import path from "path";
 
-import {
-  // User as BaseUser,
-  // Post as BasePost,
-  User,
-  Post,
-  UserRelationsResolver,
-  PostRelationsResolver,
-  UserCrudResolver,
-  PostCrudResolver,
-} from "./prisma/generated/type-graphql";
+import { User } from "./prisma/generated/type-graphql/models/User";
+// import { User as BaseUser } from "./prisma/generated/type-graphql/models/User";
+import { Post } from "./prisma/generated/type-graphql/models/Post";
+// import { Post as BasePost } from "./prisma/generated/type-graphql/models/Post";
+import { UserRelationsResolver } from "./prisma/generated/type-graphql/resolvers/UserRelationsResolver";
+import { UserCrudResolver } from "./prisma/generated/type-graphql/resolvers/UserCrudResolver";
+import { PostRelationsResolver } from "./prisma/generated/type-graphql/resolvers/PostRelationsResolver";
+import { PostCrudResolver } from "./prisma/generated/type-graphql/resolvers/PostCrudResolver";
 import { Photon } from "./prisma/generated/photon";
 
 // @ObjectType()
