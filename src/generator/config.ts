@@ -14,6 +14,7 @@ export const supportedQueries: SupportedQueries[] = [
   "findMany",
   "aggregate",
 ];
+
 export type SupportedMutations = keyof Pick<
   DMMF.Mapping,
   "create" | "delete" | "update" | "updateMany" | "upsert"
@@ -25,3 +26,6 @@ export const supportedMutations: SupportedMutations[] = [
   "updateMany",
   "upsert",
 ];
+
+export const modelsFolderName = "models";
+export const enumsFolderName = "enums";

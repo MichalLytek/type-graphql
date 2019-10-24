@@ -32,30 +32,23 @@ export default async function generateCode(
 
   log("Generating enums...");
   const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
-  const enumDirPath = path.resolve(baseDirPath, "./enums");
   await Promise.all(
     dmmf.datamodel.enums.map(enumDef =>
-      generateEnumFromDef(project, enumDirPath, enumDef),
+      generateEnumFromDef(project, baseDirPath, enumDef),
     ),
   );
   await Promise.all(
     dmmf.schema.enums
       // skip enums from datamodel
       .filter(enumDef => !datamodelEnumNames.includes(enumDef.name))
-      .map(enumDef => generateEnumFromDef(project, enumDirPath, enumDef)),
+      .map(enumDef => generateEnumFromDef(project, baseDirPath, enumDef)),
   );
 
   log("Generating models...");
-  const modelsDirPath = path.resolve(baseDirPath, "./models");
   const modelNames = dmmf.datamodel.models.map(model => model.name);
   await Promise.all(
     dmmf.datamodel.models.map(model =>
-      generateObjectTypeClassFromModel(
-        project,
-        modelsDirPath,
-        model,
-        modelNames,
-      ),
+      generateObjectTypeClassFromModel(project, baseDirPath, model, modelNames),
     ),
   );
 

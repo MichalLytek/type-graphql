@@ -7,20 +7,38 @@ import {
   getFieldTSType,
   getTypeGraphQLType,
 } from "./helpers";
-import { generateTypeGraphQLImports } from "./imports";
+import {
+  generateTypeGraphQLImports,
+  generateModelsImports,
+  generateEnumsImports,
+} from "./imports";
+import { modelsFolderName } from "./config";
 
 export default async function generateObjectTypeClassFromModel(
   project: Project,
-  dirPath: string,
+  baseDirPath: string,
   model: DMMF.Model,
   modelNames: string[],
 ) {
+  const dirPath = path.resolve(baseDirPath, modelsFolderName);
   const filePath = path.resolve(dirPath, `${model.name}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
-  // FIXME: add imports for other models and enums
+
   generateTypeGraphQLImports(sourceFile);
+  generateModelsImports(
+    sourceFile,
+    model.fields
+      .filter(field => field.kind === "object")
+      .map(field => field.type),
+  );
+  generateEnumsImports(
+    sourceFile,
+    model.fields
+      .filter(field => field.kind === "enum")
+      .map(field => field.type),
+  );
 
   const modelDocs =
     model.documentation && model.documentation.replace("\r", "");

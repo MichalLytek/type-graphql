@@ -1,4 +1,6 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
+import { Post } from "../models/Post";
+import { Role } from "../enums/Role";
 
 /**
  * User model comment

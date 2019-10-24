@@ -3,12 +3,14 @@ import { DMMF } from "@prisma/photon";
 import path from "path";
 
 import { generateTypeGraphQLImports } from "./imports";
+import { enumsFolderName } from "./config";
 
 export default async function generateEnumFromDef(
   project: Project,
-  dirPath: string,
+  baseDirPath: string,
   enumDef: DMMF.Enum,
 ) {
+  const dirPath = path.resolve(baseDirPath, enumsFolderName);
   const filePath = path.resolve(dirPath, `${enumDef.name}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
@@ -33,6 +35,7 @@ export default async function generateEnumFromDef(
     ),
   });
 
+  // TODO: refactor to AST
   sourceFile.addStatements([
     `registerEnumType(${enumDef.name}, {
       name: "${enumDef.name}",

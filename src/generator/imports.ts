@@ -1,11 +1,14 @@
 import { SourceFile } from "ts-morph";
+import path from "path";
 
-export default async function generateImports(sourceFile: SourceFile) {
+import { modelsFolderName, enumsFolderName } from "./config";
+
+export default function generateImports(sourceFile: SourceFile) {
   generateTypeGraphQLImports(sourceFile);
   generateDataloaderImports(sourceFile);
 }
 
-export async function generateTypeGraphQLImports(sourceFile: SourceFile) {
+export function generateTypeGraphQLImports(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "type-graphql",
     namedImports: [
@@ -29,9 +32,38 @@ export async function generateTypeGraphQLImports(sourceFile: SourceFile) {
   });
 }
 
-export async function generateDataloaderImports(sourceFile: SourceFile) {
+export function generateDataloaderImports(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "dataloader",
     defaultImport: "DataLoader",
   });
+}
+
+export function generateModelsImports(
+  sourceFile: SourceFile,
+  modelsNames: string[],
+) {
+  generateElementsImports(sourceFile, modelsFolderName, modelsNames);
+}
+
+export function generateEnumsImports(
+  sourceFile: SourceFile,
+  enumsNames: string[],
+) {
+  generateElementsImports(sourceFile, enumsFolderName, enumsNames);
+}
+
+function generateElementsImports(
+  sourceFile: SourceFile,
+  elementsDirName: string,
+  elementsNames: string[],
+) {
+  for (const elementName of elementsNames) {
+    sourceFile.addImportDeclaration({
+      moduleSpecifier: path.posix.join("..", elementsDirName, elementName),
+      // TODO: refactor to default exports
+      // defaultImport: elementName,
+      namedImports: [elementName],
+    });
+  }
 }
