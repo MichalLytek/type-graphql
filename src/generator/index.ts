@@ -70,7 +70,7 @@ export default async function generateCode(
   log("Generating input types...");
   await Promise.all(
     dmmf.schema.inputTypes.map(type =>
-      generateInputTypeClassFromType(sourceFile, type, modelNames),
+      generateInputTypeClassFromType(project, baseDirPath, type, modelNames),
     ),
   );
 

@@ -29,3 +29,4 @@ export const supportedMutations: SupportedMutations[] = [
 
 export const modelsFolderName = "models";
 export const enumsFolderName = "enums";
+export const inputsFolderName = "inputs";

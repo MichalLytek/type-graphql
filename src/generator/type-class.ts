@@ -2,8 +2,10 @@ import {
   SourceFile,
   PropertyDeclarationStructure,
   OptionalKind,
+  Project,
 } from "ts-morph";
 import { DMMF } from "@prisma/photon";
+import path from "path";
 
 import {
   getFieldTSType,
@@ -11,6 +13,12 @@ import {
   selectInputTypeFromTypes,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
+import { inputsFolderName } from "./config";
+import {
+  generateTypeGraphQLImports,
+  generateInputsImports,
+  generateEnumsImports,
+} from "./imports";
 
 export async function generateOutputTypeClassFromType(
   sourceFile: SourceFile,
@@ -63,10 +71,34 @@ export async function generateOutputTypeClassFromType(
 }
 
 export async function generateInputTypeClassFromType(
-  sourceFile: SourceFile,
+  project: Project,
+  baseDirPath: string,
   type: DMMF.InputType,
   modelNames: string[],
 ): Promise<void> {
+  const dirPath = path.resolve(baseDirPath, inputsFolderName);
+  const filePath = path.resolve(dirPath, `${type.name}.ts`);
+  const sourceFile = project.createSourceFile(filePath, undefined, {
+    overwrite: true,
+  });
+
+  generateTypeGraphQLImports(sourceFile);
+  generateInputsImports(
+    sourceFile,
+    type.fields
+      .map(field => selectInputTypeFromTypes(field.inputType))
+      .filter(fieldType => fieldType.kind === "object")
+      .map(fieldType => fieldType.type as string)
+      .filter(fieldType => fieldType !== type.name),
+  );
+  generateEnumsImports(
+    sourceFile,
+    type.fields
+      .map(field => selectInputTypeFromTypes(field.inputType))
+      .filter(fieldType => fieldType.kind === "enum")
+      .map(fieldType => fieldType.type as string),
+  );
+
   sourceFile.addClass({
     name: type.name,
     isExported: true,
@@ -109,4 +141,8 @@ export async function generateInputTypeClassFromType(
       },
     ),
   });
+
+  // FIXME: use generic save source file utils
+  sourceFile.formatText({ indentSize: 2 });
+  await sourceFile.save();
 }
