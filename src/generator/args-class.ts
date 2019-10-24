@@ -1,9 +1,6 @@
-import {
-  SourceFile,
-  PropertyDeclarationStructure,
-  OptionalKind,
-} from "ts-morph";
+import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
 import { DMMF } from "@prisma/photon";
+import path from "path";
 
 import {
   getFieldTSType,
@@ -12,14 +9,45 @@ import {
   selectInputTypeFromTypes,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
+import { argsFolderName } from "./config";
+import {
+  generateTypeGraphQLImports,
+  generateInputsImports,
+  generateEnumsImports,
+} from "./imports";
 
-export default function generateArgsTypeClassFromArgs(
-  sourceFile: SourceFile,
+export default async function generateArgsTypeClassFromArgs(
+  project: Project,
+  resolverDirPath: string,
   args: DMMF.SchemaArg[],
   methodName: string,
   modelNames: string[],
 ) {
   const name = `${pascalCase(methodName)}Args`;
+
+  const dirPath = path.resolve(resolverDirPath, argsFolderName);
+  const filePath = path.resolve(dirPath, `${name}.ts`);
+  const sourceFile = project.createSourceFile(filePath, undefined, {
+    overwrite: true,
+  });
+
+  generateTypeGraphQLImports(sourceFile);
+  generateInputsImports(
+    sourceFile,
+    args
+      .map(arg => selectInputTypeFromTypes(arg.inputType))
+      .filter(argType => argType.kind === "object")
+      .map(argType => argType.type as string),
+    2,
+  );
+  generateEnumsImports(
+    sourceFile,
+    args
+      .map(field => selectInputTypeFromTypes(field.inputType))
+      .filter(argType => argType.kind === "enum")
+      .map(argType => argType.type as string),
+  );
+
   sourceFile.addClass({
     name,
     isExported: true,
@@ -54,5 +82,10 @@ export default function generateArgsTypeClassFromArgs(
       };
     }),
   });
+
+  // FIXME: use generic save source file utils
+  sourceFile.formatText({ indentSize: 2 });
+  await sourceFile.save();
+
   return name;
 }

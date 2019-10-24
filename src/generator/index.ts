@@ -19,16 +19,16 @@ export default async function generateCode(
   log: (msg: string) => void = noop,
 ) {
   const project = new Project();
-  const sourceFile = project.createSourceFile(
-    baseDirPath + "/index.ts",
-    undefined,
-    {
-      overwrite: true,
-    },
-  );
+  // const sourceFile = project.createSourceFile(
+  //   baseDirPath + "/index.ts",
+  //   undefined,
+  //   {
+  //     overwrite: true,
+  //   },
+  // );
 
-  log("Generating imports...");
-  await generateImports(sourceFile);
+  // log("Generating imports...");
+  // await generateImports(sourceFile);
 
   log("Generating enums...");
   const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
@@ -82,7 +82,8 @@ export default async function generateCode(
         type => type.name === model.name,
       )!;
       return generateRelationsResolverClassFromModel(
-        sourceFile,
+        project,
+        baseDirPath,
         model,
         outputType,
         modelNames,
@@ -94,7 +95,8 @@ export default async function generateCode(
   await Promise.all(
     dmmf.mappings.map(mapping =>
       generateCrudResolverClassFromRootType(
-        sourceFile,
+        project,
+        baseDirPath,
         mapping,
         rootTypes,
         modelNames,
@@ -102,10 +104,12 @@ export default async function generateCode(
     ),
   );
 
-  log("Formating generated code...");
-  // sourceFile.fixUnusedIdentifiers();
-  sourceFile.formatText({ indentSize: 2 });
+  // TODO: generate barrel export
 
-  log("Saving generated code...");
-  await sourceFile.save();
+  // log("Formating generated code...");
+  // // sourceFile.fixUnusedIdentifiers();
+  // sourceFile.formatText({ indentSize: 2 });
+
+  // log("Saving generated code...");
+  // await sourceFile.save();
 }

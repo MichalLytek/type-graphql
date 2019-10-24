@@ -1,7 +1,13 @@
 import { SourceFile } from "ts-morph";
 import path from "path";
 
-import { modelsFolderName, enumsFolderName, inputsFolderName } from "./config";
+import {
+  modelsFolderName,
+  enumsFolderName,
+  inputsFolderName,
+  argsFolderName,
+  outputsFolderName,
+} from "./config";
 
 export default function generateImports(sourceFile: SourceFile) {
   generateTypeGraphQLImports(sourceFile);
@@ -42,12 +48,20 @@ export function generateDataloaderImports(sourceFile: SourceFile) {
 export const generateModelsImports = createImportGenerator(modelsFolderName);
 export const generateEnumsImports = createImportGenerator(enumsFolderName);
 export const generateInputsImports = createImportGenerator(inputsFolderName);
+export const generateOutputsImports = createImportGenerator(outputsFolderName);
+export const generateArgsImports = createImportGenerator(argsFolderName);
 function createImportGenerator(elementsDirName: string) {
-  return (sourceFile: SourceFile, elementsNames: string[]) => {
+  return (sourceFile: SourceFile, elementsNames: string[], level = 1) => {
     const distinctElementsNames = [...new Set(elementsNames)];
     for (const elementName of distinctElementsNames) {
       sourceFile.addImportDeclaration({
-        moduleSpecifier: path.posix.join("..", elementsDirName, elementName),
+        moduleSpecifier:
+          (level === 0 ? "./" : "") +
+          path.posix.join(
+            ...Array(level).fill(".."),
+            elementsDirName,
+            elementName,
+          ),
         // TODO: refactor to default exports
         // defaultImport: elementName,
         namedImports: [elementName],

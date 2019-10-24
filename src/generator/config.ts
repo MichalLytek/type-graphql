@@ -31,3 +31,5 @@ export const modelsFolderName = "models";
 export const enumsFolderName = "enums";
 export const inputsFolderName = "inputs";
 export const outputsFolderName = "outputs";
+export const resolversFolderName = "resolvers";
+export const argsFolderName = "args";
