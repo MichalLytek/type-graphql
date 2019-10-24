@@ -1,9 +1,4 @@
-import {
-  SourceFile,
-  PropertyDeclarationStructure,
-  OptionalKind,
-  Project,
-} from "ts-morph";
+import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
 import { DMMF } from "@prisma/photon";
 import path from "path";
 
@@ -13,7 +8,7 @@ import {
   selectInputTypeFromTypes,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
-import { inputsFolderName } from "./config";
+import { outputsFolderName, inputsFolderName } from "./config";
 import {
   generateTypeGraphQLImports,
   generateInputsImports,
@@ -21,10 +16,20 @@ import {
 } from "./imports";
 
 export async function generateOutputTypeClassFromType(
-  sourceFile: SourceFile,
+  project: Project,
+  baseDirPath: string,
   type: DMMF.OutputType,
   modelNames: string[],
 ): Promise<void> {
+  const dirPath = path.resolve(baseDirPath, outputsFolderName);
+  const filePath = path.resolve(dirPath, `${type.name}.ts`);
+  const sourceFile = project.createSourceFile(filePath, undefined, {
+    overwrite: true,
+  });
+
+  generateTypeGraphQLImports(sourceFile);
+  // TODO: add more imports when needed
+
   sourceFile.addClass({
     name: type.name,
     isExported: true,
@@ -68,6 +73,10 @@ export async function generateOutputTypeClassFromType(
       },
     ),
   });
+
+  // FIXME: use generic save source file utils
+  sourceFile.formatText({ indentSize: 2 });
+  await sourceFile.save();
 }
 
 export async function generateInputTypeClassFromType(

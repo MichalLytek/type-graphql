@@ -1,42 +1,6 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
 import DataLoader from "dataloader";
 
-@ObjectType({
-  isAbstract: true,
-  description: undefined,
-})
-export class AggregateUser {
-  @Field(_type => Int, {
-    nullable: false,
-    description: undefined
-  })
-  count!: number;
-}
-
-@ObjectType({
-  isAbstract: true,
-  description: undefined,
-})
-export class AggregatePost {
-  @Field(_type => Int, {
-    nullable: false,
-    description: undefined
-  })
-  count!: number;
-}
-
-@ObjectType({
-  isAbstract: true,
-  description: undefined,
-})
-export class BatchPayload {
-  @Field(_type => Int, {
-    nullable: false,
-    description: undefined
-  })
-  count!: number;
-}
-
 function createGetUserPostsDataLoader(photon: any) {
   const argsToDataLoaderMap = new Map<string, DataLoader<number, Post[] | null>>();
   return function getUserPostsDataLoader(args: any) {

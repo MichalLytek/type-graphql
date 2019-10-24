@@ -39,39 +39,19 @@ export function generateDataloaderImports(sourceFile: SourceFile) {
   });
 }
 
-export function generateModelsImports(
-  sourceFile: SourceFile,
-  modelsNames: string[],
-) {
-  generateElementsImports(sourceFile, modelsFolderName, modelsNames);
-}
-
-export function generateEnumsImports(
-  sourceFile: SourceFile,
-  enumsNames: string[],
-) {
-  generateElementsImports(sourceFile, enumsFolderName, enumsNames);
-}
-
-export function generateInputsImports(
-  sourceFile: SourceFile,
-  enumsNames: string[],
-) {
-  generateElementsImports(sourceFile, inputsFolderName, enumsNames);
-}
-
-function generateElementsImports(
-  sourceFile: SourceFile,
-  elementsDirName: string,
-  elementsNames: string[],
-) {
-  const distinctElementsNames = [...new Set(elementsNames)];
-  for (const elementName of distinctElementsNames) {
-    sourceFile.addImportDeclaration({
-      moduleSpecifier: path.posix.join("..", elementsDirName, elementName),
-      // TODO: refactor to default exports
-      // defaultImport: elementName,
-      namedImports: [elementName],
-    });
-  }
+export const generateModelsImports = createImportGenerator(modelsFolderName);
+export const generateEnumsImports = createImportGenerator(enumsFolderName);
+export const generateInputsImports = createImportGenerator(inputsFolderName);
+function createImportGenerator(elementsDirName: string) {
+  return (sourceFile: SourceFile, elementsNames: string[]) => {
+    const distinctElementsNames = [...new Set(elementsNames)];
+    for (const elementName of distinctElementsNames) {
+      sourceFile.addImportDeclaration({
+        moduleSpecifier: path.posix.join("..", elementsDirName, elementName),
+        // TODO: refactor to default exports
+        // defaultImport: elementName,
+        namedImports: [elementName],
+      });
+    }
+  };
 }

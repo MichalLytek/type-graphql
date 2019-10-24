@@ -63,7 +63,7 @@ export default async function generateCode(
         type => !modelNames.includes(type.name) && !rootTypes.includes(type),
       )
       .map(type =>
-        generateOutputTypeClassFromType(sourceFile, type, modelNames),
+        generateOutputTypeClassFromType(project, baseDirPath, type, modelNames),
       ),
   );
 
