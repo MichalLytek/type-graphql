@@ -1,6 +1,5 @@
 import { PubSubEngine } from "graphql-subscriptions";
 import { ValidatorOptions } from "class-validator";
-
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
 import { validateArg } from "./validate-arg";
@@ -8,6 +7,7 @@ import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
 import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middleware";
 import { IOCContainer } from "../utils/container";
 import { AuthMiddleware } from "../helpers/auth-middleware";
+import { convertToArg } from "./convert-arg";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -28,7 +28,7 @@ export async function getParams(
             );
           case "arg":
             return await validateArg(
-              convertToType(paramInfo.getType(), resolverData.args[paramInfo.name]),
+              convertToArg(paramInfo, resolverData.args),
               globalValidate,
               paramInfo.validate,
             );

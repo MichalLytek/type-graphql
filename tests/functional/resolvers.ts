@@ -2053,4 +2053,83 @@ describe("Resolvers", () => {
       expect(thisVar).toBeInstanceOf(childResolver);
     });
   });
+
+  it("nested inputs", async () => {
+    getMetadataStorage().clear();
+
+    @InputType()
+    class NestedBaseInput {
+      @Field()
+      nestedBaseInputField: string;
+    }
+
+    @InputType()
+    class SampleBaseInput {
+      @Field()
+      baseInputField: string;
+
+      @Field()
+      nestedBaseInputField: NestedBaseInput;
+
+      @Field(() => [NestedBaseInput])
+      nestedBaseInputFieldArray: NestedBaseInput[];
+    }
+
+    @InputType()
+    class NestedInput {
+      @Field()
+      inputField: string;
+    }
+
+    @InputType()
+    class SampleInput extends SampleBaseInput {
+      @Field()
+      nested: NestedInput;
+
+      @Field(() => [NestedInput])
+      nestedArray: NestedInput[];
+    }
+
+    let input: SampleInput | undefined;
+
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      sampleQuery(@Arg("input") i: SampleInput): string {
+        input = i;
+
+        return "sampleQuery";
+      }
+    }
+
+    const schema = await buildSchema({ resolvers: [SampleResolver] });
+
+    const query = `query {
+        sampleQuery(input: {
+          baseInputField: "base input field"
+          nestedBaseInputField: { nestedBaseInputField: "nested base input field value" }
+          nestedBaseInputFieldArray: [{ nestedBaseInputField: "nested base input field value" }]
+          nested: { inputField: "value 1" }
+          nestedArray: [{ inputField: "value 2" }]
+        })
+      }`;
+
+    await graphql(schema, query);
+
+    expect(input).toBeInstanceOf(SampleInput);
+    expect((input as SampleInput).nested).toBeInstanceOf(NestedInput);
+    expect((input as SampleInput).baseInputField).toBe("base input field");
+    expect((input as SampleInput).nestedBaseInputField).toBeInstanceOf(NestedBaseInput);
+    expect((input as SampleInput).nestedBaseInputField.nestedBaseInputField).toBe(
+      "nested base input field value",
+    );
+    expect((input as SampleInput).nestedBaseInputFieldArray).toHaveLength(1);
+    expect((input as SampleInput).nestedBaseInputFieldArray[0]).toBeInstanceOf(NestedBaseInput);
+    expect((input as SampleInput).nestedBaseInputFieldArray[0].nestedBaseInputField).toBe(
+      "nested base input field value",
+    );
+    expect((input as SampleInput).nestedArray).toHaveLength(1);
+    expect((input as SampleInput).nestedArray[0]).toBeInstanceOf(NestedInput);
+    expect((input as SampleInput).nestedArray[0].inputField).toBe("value 2");
+  });
 });
