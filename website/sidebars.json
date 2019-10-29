@@ -8,7 +8,7 @@
       "resolvers",
       "bootstrap"
     ],
-    "Advanced guides": ["scalars", "enums", "unions", "interfaces", "subscriptions"],
+    "Advanced guides": ["scalars", "enums", "unions", "interfaces", "subscriptions", "directives"],
     "Features": [
       "dependency-injection",
       "authorization",
