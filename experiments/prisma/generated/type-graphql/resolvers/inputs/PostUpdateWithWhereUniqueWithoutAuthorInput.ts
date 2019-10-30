@@ -1,6 +1,6 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { PostWhereUniqueInput } from "../inputs/PostWhereUniqueInput";
 import { PostUpdateWithoutAuthorDataInput } from "../inputs/PostUpdateWithoutAuthorDataInput";
+import { PostWhereUniqueInput } from "../inputs/PostWhereUniqueInput";
 
 @InputType({
   isAbstract: true,

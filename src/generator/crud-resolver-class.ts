@@ -6,7 +6,6 @@ import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
-  selectInputTypeFromTypes,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 import {
@@ -15,6 +14,7 @@ import {
   supportedMutations as supportedMutationActions,
   supportedQueries as supportedQueryActions,
   resolversFolderName,
+  crudResolversFolderName,
 } from "./config";
 import generateArgsTypeClassFromArgs from "./args-class";
 import {
@@ -34,7 +34,12 @@ export default async function generateCrudResolverClassFromMapping(
   const modelName = getBaseModelTypeName(mapping.model);
   const resolverName = `${modelName}CrudResolver`;
 
-  const resolverDirPath = path.resolve(baseDirPath, resolversFolderName);
+  const resolverDirPath = path.resolve(
+    baseDirPath,
+    resolversFolderName,
+    crudResolversFolderName,
+    modelName,
+  );
   const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
@@ -45,7 +50,51 @@ export default async function generateCrudResolverClassFromMapping(
   const actionNames = Object.keys(mapping).filter(
     key => !baseKeys.includes(key as any),
   ) as ModelKeys[];
-  const importTypesNames: string[] = [];
+
+  const supportedActionNames = actionNames.filter(
+    actionName => getOperationKindName(actionName) !== undefined,
+  );
+
+  const methodsInfo = await Promise.all(
+    supportedActionNames.map(async actionName => {
+      const operationKind = getOperationKindName(actionName)!;
+      const fieldName = mapping[actionName];
+      const type = types.find(type =>
+        type.fields.some(field => field.name === fieldName),
+      );
+      if (!type) {
+        throw new Error(
+          `Cannot find type with field ${fieldName} in root types definitions!`,
+        );
+      }
+      const method = type.fields.find(field => field.name === fieldName);
+      if (!method) {
+        throw new Error(
+          `Cannot find field ${fieldName} in output types definitions!`,
+        );
+      }
+      const outputTypeName = method.outputType.type as string;
+
+      let argsTypeName: string | undefined;
+      if (method.args.length > 0) {
+        argsTypeName = await generateArgsTypeClassFromArgs(
+          project,
+          resolverDirPath,
+          method.args,
+          method.name,
+          modelNames,
+        );
+      }
+
+      return {
+        operationKind,
+        method,
+        actionName,
+        outputTypeName,
+        argsTypeName,
+      };
+    }),
+  );
 
   sourceFile.addClass({
     name: resolverName,
@@ -57,101 +106,85 @@ export default async function generateCrudResolverClassFromMapping(
       },
     ],
     methods: await Promise.all(
-      actionNames
-        .filter(actionName => getOperationKindName(actionName) !== undefined)
-        .map<Promise<OptionalKind<MethodDeclarationStructure>>>(
-          async actionName => {
-            const operationKind = getOperationKindName(actionName)!;
-            const fieldName = mapping[actionName];
-            const type = types.find(type =>
-              type.fields.some(field => field.name === fieldName),
-            );
-            if (!type) {
-              throw new Error(
-                `Cannot find type with field ${fieldName} in root types definitions!`,
-              );
-            }
-            const method = type.fields.find(field => field.name === fieldName);
-            if (!method) {
-              throw new Error(
-                `Cannot find field ${fieldName} in output types definitions!`,
-              );
-            }
-            importTypesNames.push(method.outputType.type as string);
+      methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
+        ({ operationKind, actionName, method, argsTypeName }) => {
+          const returnTSType = getFieldTSType(
+            method.outputType as DMMFTypeInfo,
+            modelNames,
+          );
 
-            const returnTSType = getFieldTSType(
-              method.outputType as DMMFTypeInfo,
-              modelNames,
-            );
-            let argsTypeName: string | undefined;
-            if (method.args.length > 0) {
-              argsTypeName = await generateArgsTypeClassFromArgs(
-                project,
-                resolverDirPath,
-                method.args,
-                method.name,
-                modelNames,
-              );
-              generateArgsImports(sourceFile, [argsTypeName], 0);
-            }
-
-            return {
-              name: method.name,
-              isAsync: true,
-              returnType: `Promise<${returnTSType}>`,
-              decorators: [
-                {
-                  name: operationKind,
-                  arguments: [
-                    `_returns => ${getTypeGraphQLType(
-                      method.outputType as DMMFTypeInfo,
-                      modelNames,
-                    )}`,
-                    `{
+          return {
+            name: method.name,
+            isAsync: true,
+            returnType: `Promise<${returnTSType}>`,
+            decorators: [
+              {
+                name: operationKind,
+                arguments: [
+                  `_returns => ${getTypeGraphQLType(
+                    method.outputType as DMMFTypeInfo,
+                    modelNames,
+                  )}`,
+                  `{
                   nullable: ${!method.outputType.isRequired},
                   description: undefined
                 }`,
-                  ],
-                },
-              ],
-              parameters: [
-                {
-                  name: "ctx",
-                  // TODO: import custom `ContextType`
-                  type: "any",
-                  decorators: [{ name: "Ctx", arguments: [] }],
-                },
-                ...(!argsTypeName
-                  ? []
-                  : [
-                      {
-                        name: "args",
-                        type: argsTypeName,
-                        decorators: [{ name: "Args", arguments: [] }],
-                      },
-                    ]),
-              ],
-              statements: [
-                `return ctx.photon.${mapping.plural}.${actionName}(${
-                  argsTypeName ? "args" : ""
-                });`,
-              ],
-            };
-          },
-        ),
+                ],
+              },
+            ],
+            parameters: [
+              {
+                name: "ctx",
+                // TODO: import custom `ContextType`
+                type: "any",
+                decorators: [{ name: "Ctx", arguments: [] }],
+              },
+              ...(!argsTypeName
+                ? []
+                : [
+                    {
+                      name: "args",
+                      type: argsTypeName,
+                      decorators: [{ name: "Args", arguments: [] }],
+                    },
+                  ]),
+            ],
+            statements: [
+              `return ctx.photon.${mapping.plural}.${actionName}(${
+                argsTypeName ? "args" : ""
+              });`,
+            ],
+          };
+        },
+      ),
     ),
   });
 
-  const distinctImportTypesNames = [...new Set(importTypesNames)];
+  const distinctOutputTypesNames = [
+    ...new Set(methodsInfo.map(it => it.outputTypeName)),
+  ];
 
   generateModelsImports(
     sourceFile,
-    distinctImportTypesNames.filter(typeName => modelNames.includes(typeName)),
+    distinctOutputTypesNames
+      .filter(typeName => modelNames.includes(typeName))
+      .sort(),
+    3,
+  );
+  generateArgsImports(
+    sourceFile,
+    methodsInfo
+      .filter(it => it.argsTypeName !== undefined)
+      .map(it => it.argsTypeName!)
+      .sort(),
+    0,
   );
   generateOutputsImports(
     sourceFile,
-    distinctImportTypesNames.filter(typeName => !modelNames.includes(typeName)),
-    0,
+    distinctOutputTypesNames
+      .filter(typeName => !modelNames.includes(typeName))
+      .sort(),
+    2,
   );
 
   // FIXME: use generic save source file utils

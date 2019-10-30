@@ -37,14 +37,18 @@ export default async function generateArgsTypeClassFromArgs(
     args
       .map(arg => selectInputTypeFromTypes(arg.inputType))
       .filter(argType => argType.kind === "object")
-      .map(argType => argType.type as string),
+      .map(argType => argType.type as string)
+      .sort(),
+    3,
   );
   generateEnumsImports(
     sourceFile,
     args
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(argType => argType.kind === "enum")
-      .map(argType => argType.type as string),
+      .map(argType => argType.type as string)
+      .sort(),
+    3,
   );
 
   sourceFile.addClass({

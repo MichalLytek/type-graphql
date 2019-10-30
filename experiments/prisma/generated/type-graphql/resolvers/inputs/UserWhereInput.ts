@@ -1,9 +1,9 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { IntFilter } from "../inputs/IntFilter";
-import { StringFilter } from "../inputs/StringFilter";
-import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { FloatFilter } from "../inputs/FloatFilter";
+import { IntFilter } from "../inputs/IntFilter";
+import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { PostFilter } from "../inputs/PostFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { Role } from "../../enums/Role";
 
 @InputType({

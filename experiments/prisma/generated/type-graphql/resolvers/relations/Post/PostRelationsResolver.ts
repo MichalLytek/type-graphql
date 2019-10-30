@@ -1,7 +1,7 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
 import DataLoader from "dataloader";
-import { User } from "../models/User";
-import { Post } from "../models/Post";
+import { Post } from "../../../models/Post";
+import { User } from "../../../models/User";
 
 function createGetPostAuthorDataLoader(photon: any) {
   const argsToDataLoaderMap = new Map<string, DataLoader<string, User>>();
@@ -25,7 +25,6 @@ function createGetPostAuthorDataLoader(photon: any) {
     }
     return postAuthorDataLoader;
   }
-
 }
 
 @Resolver(_of => Post)

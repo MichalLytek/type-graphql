@@ -33,3 +33,5 @@ export const inputsFolderName = "inputs";
 export const outputsFolderName = "outputs";
 export const resolversFolderName = "resolvers";
 export const argsFolderName = "args";
+export const relationsResolversFolderName = "relations";
+export const crudResolversFolderName = "crud";

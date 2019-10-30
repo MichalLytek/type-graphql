@@ -3,7 +3,7 @@ import { Project } from "ts-morph";
 import path from "path";
 
 import { noop } from "./helpers";
-import generateImports from "./imports";
+// import generateImports from "./imports";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./object-type-class";
 import generateRelationsResolverClassFromModel from "./relations-resolver-class";
@@ -88,7 +88,6 @@ export default async function generateCode(
   );
 
   log("Generating relation resolvers...");
-
   await Promise.all(
     dmmf.datamodel.models.map(model => {
       const outputType = dmmf.schema.outputTypes.find(

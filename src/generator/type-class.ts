@@ -96,14 +96,16 @@ export async function generateInputTypeClassFromType(
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "object")
       .map(fieldType => fieldType.type as string)
-      .filter(fieldType => fieldType !== type.name),
+      .filter(fieldType => fieldType !== type.name)
+      .sort(),
   );
   generateEnumsImports(
     sourceFile,
     type.fields
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "enum")
-      .map(fieldType => fieldType.type as string),
+      .map(fieldType => fieldType.type as string)
+      .sort(),
     2,
   );
 

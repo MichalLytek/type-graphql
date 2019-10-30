@@ -1,8 +1,8 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
 import { UserCreateWithoutPostsInput } from "../inputs/UserCreateWithoutPostsInput";
-import { UserWhereUniqueInput } from "../inputs/UserWhereUniqueInput";
 import { UserUpdateWithoutPostsDataInput } from "../inputs/UserUpdateWithoutPostsDataInput";
 import { UserUpsertWithoutPostsInput } from "../inputs/UserUpsertWithoutPostsInput";
+import { UserWhereUniqueInput } from "../inputs/UserWhereUniqueInput";
 
 @InputType({
   isAbstract: true,

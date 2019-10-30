@@ -1,6 +1,6 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { PostWhereInput } from "../inputs/PostWhereInput";
-import { PostOrderByInput } from "../inputs/PostOrderByInput";
+import { PostOrderByInput } from "../../../inputs/PostOrderByInput";
+import { PostWhereInput } from "../../../inputs/PostWhereInput";
 
 @ArgsType()
 export class FindManyPostArgs {

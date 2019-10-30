@@ -1,14 +1,14 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { FindOnePostArgs } from "./args/FindOnePostArgs";
-import { FindManyPostArgs } from "./args/FindManyPostArgs";
+import { Post } from "../../../models/Post";
 import { CreateOnePostArgs } from "./args/CreateOnePostArgs";
-import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
 import { DeleteOnePostArgs } from "./args/DeleteOnePostArgs";
+import { FindManyPostArgs } from "./args/FindManyPostArgs";
+import { FindOnePostArgs } from "./args/FindOnePostArgs";
 import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
+import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
 import { UpsertOnePostArgs } from "./args/UpsertOnePostArgs";
-import { Post } from "../models/Post";
-import { BatchPayload } from "./outputs/BatchPayload";
-import { AggregatePost } from "./outputs/AggregatePost";
+import { AggregatePost } from "../../outputs/AggregatePost";
+import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Post)
 export class PostCrudResolver {

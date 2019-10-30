@@ -1,7 +1,7 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
 import DataLoader from "dataloader";
-import { Post } from "../models/Post";
-import { User } from "../models/User";
+import { Post } from "../../../models/Post";
+import { User } from "../../../models/User";
 import { UserPostsArgs } from "./args/UserPostsArgs";
 
 function createGetUserPostsDataLoader(photon: any) {
@@ -26,7 +26,6 @@ function createGetUserPostsDataLoader(photon: any) {
     }
     return userPostsDataLoader;
   }
-
 }
 
 @Resolver(_of => User)

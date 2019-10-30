@@ -1,8 +1,8 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { StringFilter } from "../inputs/StringFilter";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { BooleanFilter } from "../inputs/BooleanFilter";
+import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { PostKind } from "../../enums/PostKind";
 
 @InputType({

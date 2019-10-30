@@ -14,10 +14,9 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
-  selectInputTypeFromTypes,
 } from "./helpers";
 import generateArgsTypeClassFromArgs from "./args-class";
-import { resolversFolderName } from "./config";
+import { resolversFolderName, relationsResolversFolderName } from "./config";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
@@ -37,18 +36,52 @@ export default async function generateRelationsResolverClassesFromModel(
   const idField = model.fields.find(field => field.isId)!;
   const rootArgName = camelCase(model.name);
 
-  const resolverDirPath = path.resolve(baseDirPath, resolversFolderName);
+  const resolverDirPath = path.resolve(
+    baseDirPath,
+    resolversFolderName,
+    relationsResolversFolderName,
+    model.name,
+  );
   const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
 
+  const methodsInfo = await Promise.all(
+    relationFields.map(async field => {
+      const outputTypeField = outputType.fields.find(
+        it => it.name === field.name,
+      )!;
+      const fieldDocs =
+        field.documentation && field.documentation.replace("\r", "");
+      const fieldType = getFieldTSType(field, modelNames);
+
+      let argsTypeName: string | undefined;
+      if (outputTypeField.args.length > 0) {
+        argsTypeName = await generateArgsTypeClassFromArgs(
+          project,
+          resolverDirPath,
+          outputTypeField.args,
+          model.name + pascalCase(field.name),
+          modelNames,
+        );
+      }
+      return { field, fieldDocs, fieldType, argsTypeName };
+    }),
+  );
+
   generateTypeGraphQLImports(sourceFile);
   generateDataloaderImports(sourceFile);
-  generateModelsImports(sourceFile, [
-    ...relationFields.map(field => field.type),
-    model.name,
-  ]);
+  generateModelsImports(
+    sourceFile,
+    [...relationFields.map(field => field.type), model.name].sort(),
+    3,
+  );
+  generateArgsImports(
+    sourceFile,
+    methodsInfo.filter(it => it.argsTypeName).map(it => it.argsTypeName!),
+    0,
+  );
 
   sourceFile.addClass({
     name: resolverName,
@@ -59,86 +92,67 @@ export default async function generateRelationsResolverClassesFromModel(
         arguments: [`_of => ${getBaseModelTypeName(model.name)}`],
       },
     ],
-    methods: await Promise.all(
-      relationFields.map<Promise<OptionalKind<MethodDeclarationStructure>>>(
-        async field => {
-          const outputTypeField = outputType.fields.find(
-            it => it.name === field.name,
-          )!;
-          const fieldDocs =
-            field.documentation && field.documentation.replace("\r", "");
-          const fieldType = getFieldTSType(field, modelNames);
-          const [
-            createDataLoaderGetterFunctionName,
-            dataLoaderGetterInCtxName,
-          ] = createDataLoaderGetterCreationStatement(
-            sourceFile,
-            model.name,
-            field.name,
-            idField.name,
-            getFieldTSType(idField, modelNames),
-            fieldType,
-          );
-          let argsTypeName: string | undefined;
-          if (outputTypeField.args.length > 0) {
-            argsTypeName = await generateArgsTypeClassFromArgs(
-              project,
-              resolverDirPath,
-              outputTypeField.args,
-              model.name + pascalCase(field.name),
-              modelNames,
-            );
-            generateArgsImports(sourceFile, [argsTypeName], 0);
-          }
+    methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
+      ({ field, fieldType, fieldDocs, argsTypeName }) => {
+        const [
+          createDataLoaderGetterFunctionName,
+          dataLoaderGetterInCtxName,
+        ] = createDataLoaderGetterCreationStatement(
+          sourceFile,
+          model.name,
+          field.name,
+          idField.name,
+          getFieldTSType(idField, modelNames),
+          fieldType,
+        );
 
-          return {
-            name: field.name,
-            isAsync: true,
-            returnType: `Promise<${fieldType}>`,
-            decorators: [
-              {
-                name: "FieldResolver",
-                arguments: [
-                  `_type => ${getTypeGraphQLType(field, modelNames)}`,
-                  `{
+        return {
+          name: field.name,
+          isAsync: true,
+          returnType: `Promise<${fieldType}>`,
+          decorators: [
+            {
+              name: "FieldResolver",
+              arguments: [
+                `_type => ${getTypeGraphQLType(field, modelNames)}`,
+                `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
                 }`,
-                ],
-              },
-            ],
-            parameters: [
-              {
-                name: rootArgName,
-                type: `${getBaseModelTypeName(model.name)}`,
-                decorators: [{ name: "Root", arguments: [] }],
-              },
-              {
-                name: "ctx",
-                // TODO: import custom `ContextType`
-                type: "any",
-                decorators: [{ name: "Ctx", arguments: [] }],
-              },
-              ...(!argsTypeName
-                ? []
-                : [
-                    {
-                      name: "args",
-                      type: argsTypeName,
-                      decorators: [{ name: "Args", arguments: [] }],
-                    },
-                  ]),
-            ],
-            // TODO: refactor to AST
-            statements: [
-              `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);`,
-              `return ctx.${dataLoaderGetterInCtxName}(${
-                argsTypeName ? "args" : "{}"
-              }).load(${rootArgName}.${idField.name});`,
-            ],
-          };
-        },
-      ),
+              ],
+            },
+          ],
+          parameters: [
+            {
+              name: rootArgName,
+              type: `${getBaseModelTypeName(model.name)}`,
+              decorators: [{ name: "Root", arguments: [] }],
+            },
+            {
+              name: "ctx",
+              // TODO: import custom `ContextType`
+              type: "any",
+              decorators: [{ name: "Ctx", arguments: [] }],
+            },
+            ...(!argsTypeName
+              ? []
+              : [
+                  {
+                    name: "args",
+                    type: argsTypeName,
+                    decorators: [{ name: "Args", arguments: [] }],
+                  },
+                ]),
+          ],
+          // TODO: refactor to AST
+          statements: [
+            `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);`,
+            `return ctx.${dataLoaderGetterInCtxName}(${
+              argsTypeName ? "args" : "{}"
+            }).load(${rootArgName}.${idField.name});`,
+          ],
+        };
+      },
     ),
   });
 
@@ -191,8 +205,7 @@ function createDataLoaderGetterCreationStatement(
           argsToDataLoaderMap.set(argsJSON, ${dataLoaderName});
         }
         return ${dataLoaderName};
-      }
-      `,
+      }`,
     ],
   });
   return [functionName, dataLoaderGetterInCtxName];

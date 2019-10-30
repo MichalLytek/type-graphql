@@ -31,13 +31,15 @@ export default async function generateObjectTypeClassFromModel(
     sourceFile,
     model.fields
       .filter(field => field.kind === "object")
-      .map(field => field.type),
+      .map(field => field.type)
+      .sort(),
   );
   generateEnumsImports(
     sourceFile,
     model.fields
       .filter(field => field.kind === "enum")
-      .map(field => field.type),
+      .map(field => field.type)
+      .sort(),
   );
 
   const modelDocs =
