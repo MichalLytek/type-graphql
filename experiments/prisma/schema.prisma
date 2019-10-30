@@ -12,7 +12,7 @@ type Numeric = Float
 
 generator photon {
   provider = "photonjs"
-  output   = "./prisma/generated/photon"
+  output   = "../prisma/generated/photon"
 }
 
 /// Role enum comment

@@ -47,9 +47,7 @@ export function mapScalarToTSType(scalar: string) {
       return "boolean";
     }
     case "DateTime": {
-      // TODO: replace when Photon has been fixed
-      // return "Date";
-      return "string";
+      return "Date";
     }
     case "Int":
     case "Float": {
@@ -85,9 +83,7 @@ export function getTypeGraphQLType(
 export function mapScalarToTypeGraphQLType(scalar: string) {
   switch (scalar) {
     case "DateTime": {
-      // TODO: replace when Photon has been fixed
-      // return "Date";
-      return "String";
+      return "Date";
     }
     case "Boolean":
     case "String":

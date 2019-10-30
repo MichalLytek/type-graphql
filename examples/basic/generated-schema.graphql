@@ -20,15 +20,20 @@ input BooleanFilter {
   not: Boolean
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 input DateTimeFilter {
-  equals: String
-  not: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
+  equals: DateTime
+  not: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
 }
 
 type Mutation {
@@ -65,8 +70,8 @@ enum OrderByArg {
 
 type Post {
   id: String!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   published: Boolean!
   title: String!
   content: String
@@ -75,8 +80,8 @@ type Post {
 
 input PostCreateInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean!
   title: String!
   content: String
@@ -90,8 +95,8 @@ input PostCreateManyWithoutPostsInput {
 
 input PostCreateWithoutAuthorInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean!
   title: String!
   content: String
@@ -126,8 +131,8 @@ input PostScalarWhereInput {
 
 input PostUpdateInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean
   title: String
   content: String
@@ -136,8 +141,8 @@ input PostUpdateInput {
 
 input PostUpdateManyDataInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean
   title: String
   content: String
@@ -145,8 +150,8 @@ input PostUpdateManyDataInput {
 
 input PostUpdateManyMutationInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean
   title: String
   content: String
@@ -171,8 +176,8 @@ input PostUpdateManyWithWhereNestedInput {
 
 input PostUpdateWithoutAuthorDataInput {
   id: ID
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   published: Boolean
   title: String
   content: String
@@ -208,12 +213,12 @@ input PostWhereUniqueInput {
 
 type Query {
   findOneUser(where: UserWhereUniqueInput!): User
-  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [User!]
   aggregateUser: AggregateUser!
   findOnePost(where: PostWhereUniqueInput!): Post
-  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [Post!]
   aggregatePost: AggregatePost!
-  bestUser: User!
+  bestUser: User
 }
 
 input StringFilter {
@@ -234,7 +239,7 @@ type User {
   id: String!
   email: String!
   name: String
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [Post!]
   favoritePost: Post
 }
 

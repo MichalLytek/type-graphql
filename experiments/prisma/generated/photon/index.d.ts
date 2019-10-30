@@ -23,7 +23,7 @@ declare class PhotonFetcher {
     private readonly hooks?;
     constructor(photon: Photon, engine: Engine, debug?: boolean, hooks?: Hooks | undefined);
     request<T>(document: any, path?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string): Promise<T>;
-    protected unpack(data: any, path: string[], rootField?: string, isList?: boolean): any;
+    protected unpack(document: any, data: any, path: string[], rootField?: string, isList?: boolean): any;
 }
 /**
  * Client
@@ -121,14 +121,14 @@ declare type UserDefault = {
     role: true;
 };
 declare type UserGetSelectPayload<S extends boolean | UserSelect> = S extends true ? User : S extends UserSelect ? {
-    [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<S[P]>>> : never;
+    [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<S[P]>> | null> : never;
 } : never;
 declare type UserGetIncludePayload<S extends boolean | UserInclude> = S extends true ? User : S extends UserInclude ? {
-    [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>>> : never;
+    [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>> | null> : never;
 } : never;
 export interface UserDelegate {
     <T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;
-    findOne<T extends FindOneUserArgs>(args: Subset<T, FindOneUserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOneUserSelectArgs ? Promise<UserGetSelectPayload<ExtractFindOneUserSelectArgs<T>>> : T extends FindOneUserIncludeArgs ? Promise<UserGetIncludePayload<ExtractFindOneUserIncludeArgs<T>>> : UserClient<User>;
+    findOne<T extends FindOneUserArgs>(args: Subset<T, FindOneUserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOneUserSelectArgs ? Promise<UserGetSelectPayload<ExtractFindOneUserSelectArgs<T>> | null> : T extends FindOneUserIncludeArgs ? Promise<UserGetIncludePayload<ExtractFindOneUserIncludeArgs<T>> | null> : UserClient<User | null>;
     findMany<T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;
     create<T extends UserCreateArgs>(args: Subset<T, UserCreateArgs>): T extends UserCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectCreateArgs ? Promise<UserGetSelectPayload<ExtractUserSelectCreateArgs<T>>> : T extends UserIncludeCreateArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeCreateArgs<T>>> : UserClient<User>;
     delete<T extends UserDeleteArgs>(args: Subset<T, UserDeleteArgs>): T extends UserDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectDeleteArgs ? Promise<UserGetSelectPayload<ExtractUserSelectDeleteArgs<T>>> : T extends UserIncludeDeleteArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeDeleteArgs<T>>> : UserClient<User>;
@@ -214,8 +214,8 @@ export declare type FindManyUserArgs = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -225,8 +225,8 @@ export declare type FindManyUserArgsRequired = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -235,8 +235,8 @@ export declare type FindManyUserSelectArgs = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -245,8 +245,8 @@ export declare type FindManyUserSelectArgsOptional = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -255,8 +255,8 @@ export declare type FindManyUserIncludeArgs = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -265,8 +265,8 @@ export declare type FindManyUserIncludeArgsOptional = {
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
     skip?: number | null;
-    after?: string | null;
-    before?: string | null;
+    after?: number | null;
+    before?: number | null;
     first?: number | null;
     last?: number | null;
 };
@@ -457,8 +457,8 @@ export declare type ExtractUserIncludeArgs<S extends undefined | boolean | UserI
  */
 export declare type Post = {
     uuid: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
     published: boolean;
     title: string;
     content: string | null;
@@ -495,7 +495,7 @@ declare type PostGetIncludePayload<S extends boolean | PostInclude> = S extends 
 } : never;
 export interface PostDelegate {
     <T extends FindManyPostArgs>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
-    findOne<T extends FindOnePostArgs>(args: Subset<T, FindOnePostArgs>): T extends FindOnePostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOnePostSelectArgs ? Promise<PostGetSelectPayload<ExtractFindOnePostSelectArgs<T>>> : T extends FindOnePostIncludeArgs ? Promise<PostGetIncludePayload<ExtractFindOnePostIncludeArgs<T>>> : PostClient<Post>;
+    findOne<T extends FindOnePostArgs>(args: Subset<T, FindOnePostArgs>): T extends FindOnePostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOnePostSelectArgs ? Promise<PostGetSelectPayload<ExtractFindOnePostSelectArgs<T>> | null> : T extends FindOnePostIncludeArgs ? Promise<PostGetIncludePayload<ExtractFindOnePostIncludeArgs<T>> | null> : PostClient<Post | null>;
     findMany<T extends FindManyPostArgs>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
     create<T extends PostCreateArgs>(args: Subset<T, PostCreateArgs>): T extends PostCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectCreateArgs ? Promise<PostGetSelectPayload<ExtractPostSelectCreateArgs<T>>> : T extends PostIncludeCreateArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeCreateArgs<T>>> : PostClient<Post>;
     delete<T extends PostDeleteArgs>(args: Subset<T, PostDeleteArgs>): T extends PostDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectDeleteArgs ? Promise<PostGetSelectPayload<ExtractPostSelectDeleteArgs<T>>> : T extends PostIncludeDeleteArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeDeleteArgs<T>>> : PostClient<Post>;
@@ -518,7 +518,7 @@ export declare class PostClient<T> implements Promise<T> {
     private _requestPromise?;
     constructor(_dmmf: DMMFClass, _fetcher: PhotonFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _path: string[], _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PhotonPromise';
-    author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectArgs ? Promise<UserGetSelectPayload<ExtractUserSelectArgs<T>>> : T extends UserIncludeArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeArgs<T>>> : UserClient<User>;
+    author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectArgs ? Promise<UserGetSelectPayload<ExtractUserSelectArgs<T>> | null> : T extends UserIncludeArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeArgs<T>> | null> : UserClient<User | null>;
     private readonly _document;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -824,15 +824,15 @@ export declare type ExtractPostIncludeArgs<S extends undefined | boolean | PostI
  */
 export declare type PostWhereInput = {
     uuid?: string | StringFilter | null;
-    createdAt?: string | Date | DateTimeFilter | null;
-    updatedAt?: string | Date | DateTimeFilter | null;
+    createdAt?: Date | string | DateTimeFilter | null;
+    updatedAt?: Date | string | DateTimeFilter | null;
     published?: boolean | BooleanFilter | null;
     title?: string | StringFilter | null;
     content?: string | NullableStringFilter | null | null;
     kind?: PostKind | NullablePostKindFilter | null | null;
-    AND?: Enumerable<PostWhereInput>;
-    OR?: Enumerable<PostWhereInput>;
-    NOT?: Enumerable<PostWhereInput>;
+    AND?: Enumerable<PostWhereInput> | null;
+    OR?: Enumerable<PostWhereInput> | null;
+    NOT?: Enumerable<PostWhereInput> | null;
     author?: UserWhereInput | null;
 };
 export declare type UserWhereInput = {
@@ -844,9 +844,9 @@ export declare type UserWhereInput = {
     amount?: number | FloatFilter | null;
     posts?: PostFilter | null;
     role?: Role | RoleFilter | null;
-    AND?: Enumerable<UserWhereInput>;
-    OR?: Enumerable<UserWhereInput>;
-    NOT?: Enumerable<UserWhereInput>;
+    AND?: Enumerable<UserWhereInput> | null;
+    OR?: Enumerable<UserWhereInput> | null;
+    NOT?: Enumerable<UserWhereInput> | null;
 };
 export declare type UserWhereUniqueInput = {
     id?: number | null;
@@ -857,16 +857,16 @@ export declare type PostWhereUniqueInput = {
 };
 export declare type PostCreateWithoutAuthorInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published: boolean;
     title: string;
     content?: string | null;
     kind?: PostKind | null;
 };
 export declare type PostCreateManyWithoutPostsInput = {
-    create?: Enumerable<PostCreateWithoutAuthorInput>;
-    connect?: Enumerable<PostWhereUniqueInput>;
+    create?: Enumerable<PostCreateWithoutAuthorInput> | null;
+    connect?: Enumerable<PostWhereUniqueInput> | null;
 };
 export declare type UserCreateInput = {
     email: string;
@@ -879,8 +879,8 @@ export declare type UserCreateInput = {
 };
 export declare type PostUpdateWithoutAuthorDataInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published?: boolean | null;
     title?: string | null;
     content?: string | null;
@@ -892,20 +892,20 @@ export declare type PostUpdateWithWhereUniqueWithoutAuthorInput = {
 };
 export declare type PostScalarWhereInput = {
     uuid?: string | StringFilter | null;
-    createdAt?: string | Date | DateTimeFilter | null;
-    updatedAt?: string | Date | DateTimeFilter | null;
+    createdAt?: Date | string | DateTimeFilter | null;
+    updatedAt?: Date | string | DateTimeFilter | null;
     published?: boolean | BooleanFilter | null;
     title?: string | StringFilter | null;
     content?: string | NullableStringFilter | null | null;
     kind?: PostKind | NullablePostKindFilter | null | null;
-    AND?: Enumerable<PostScalarWhereInput>;
-    OR?: Enumerable<PostScalarWhereInput>;
-    NOT?: Enumerable<PostScalarWhereInput>;
+    AND?: Enumerable<PostScalarWhereInput> | null;
+    OR?: Enumerable<PostScalarWhereInput> | null;
+    NOT?: Enumerable<PostScalarWhereInput> | null;
 };
 export declare type PostUpdateManyDataInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published?: boolean | null;
     title?: string | null;
     content?: string | null;
@@ -921,15 +921,15 @@ export declare type PostUpsertWithWhereUniqueWithoutAuthorInput = {
     create: PostCreateWithoutAuthorInput;
 };
 export declare type PostUpdateManyWithoutAuthorInput = {
-    create?: Enumerable<PostCreateWithoutAuthorInput>;
-    connect?: Enumerable<PostWhereUniqueInput>;
-    set?: Enumerable<PostWhereUniqueInput>;
-    disconnect?: Enumerable<PostWhereUniqueInput>;
-    delete?: Enumerable<PostWhereUniqueInput>;
-    update?: Enumerable<PostUpdateWithWhereUniqueWithoutAuthorInput>;
-    updateMany?: Enumerable<PostUpdateManyWithWhereNestedInput>;
-    deleteMany?: Enumerable<PostScalarWhereInput>;
-    upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput>;
+    create?: Enumerable<PostCreateWithoutAuthorInput> | null;
+    connect?: Enumerable<PostWhereUniqueInput> | null;
+    set?: Enumerable<PostWhereUniqueInput> | null;
+    disconnect?: Enumerable<PostWhereUniqueInput> | null;
+    delete?: Enumerable<PostWhereUniqueInput> | null;
+    update?: Enumerable<PostUpdateWithWhereUniqueWithoutAuthorInput> | null;
+    updateMany?: Enumerable<PostUpdateManyWithWhereNestedInput> | null;
+    deleteMany?: Enumerable<PostScalarWhereInput> | null;
+    upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput> | null;
 };
 export declare type UserUpdateInput = {
     id?: number | null;
@@ -964,8 +964,8 @@ export declare type UserCreateOneWithoutAuthorInput = {
 };
 export declare type PostCreateInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published: boolean;
     title: string;
     content?: string | null;
@@ -993,8 +993,8 @@ export declare type UserUpdateOneRequiredWithoutPostsInput = {
 };
 export declare type PostUpdateInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published?: boolean | null;
     title?: string | null;
     content?: string | null;
@@ -1003,8 +1003,8 @@ export declare type PostUpdateInput = {
 };
 export declare type PostUpdateManyMutationInput = {
     uuid?: string | null;
-    createdAt?: string | Date | null;
-    updatedAt?: string | Date | null;
+    createdAt?: Date | string | null;
+    updatedAt?: Date | string | null;
     published?: boolean | null;
     title?: string | null;
     content?: string | null;
@@ -1013,8 +1013,8 @@ export declare type PostUpdateManyMutationInput = {
 export declare type StringFilter = {
     equals?: string | null;
     not?: string | StringFilter | null;
-    in?: Enumerable<string>;
-    notIn?: Enumerable<string>;
+    in?: Enumerable<string> | null;
+    notIn?: Enumerable<string> | null;
     lt?: string | null;
     lte?: string | null;
     gt?: string | null;
@@ -1024,14 +1024,14 @@ export declare type StringFilter = {
     endsWith?: string | null;
 };
 export declare type DateTimeFilter = {
-    equals?: string | Date | null;
-    not?: string | Date | DateTimeFilter | null;
-    in?: Enumerable<string | Date>;
-    notIn?: Enumerable<string | Date>;
-    lt?: string | Date | null;
-    lte?: string | Date | null;
-    gt?: string | Date | null;
-    gte?: string | Date | null;
+    equals?: Date | string | null;
+    not?: Date | string | DateTimeFilter | null;
+    in?: Enumerable<Date | string> | null;
+    notIn?: Enumerable<Date | string> | null;
+    lt?: Date | string | null;
+    lte?: Date | string | null;
+    gt?: Date | string | null;
+    gte?: Date | string | null;
 };
 export declare type BooleanFilter = {
     equals?: boolean | null;
@@ -1040,8 +1040,8 @@ export declare type BooleanFilter = {
 export declare type NullableStringFilter = {
     equals?: string | null | null;
     not?: string | null | NullableStringFilter | null;
-    in?: Enumerable<string>;
-    notIn?: Enumerable<string>;
+    in?: Enumerable<string> | null;
+    notIn?: Enumerable<string> | null;
     lt?: string | null;
     lte?: string | null;
     gt?: string | null;
@@ -1054,8 +1054,8 @@ export declare type NullablePostKindFilter = {};
 export declare type IntFilter = {
     equals?: number | null;
     not?: number | IntFilter | null;
-    in?: Enumerable<number>;
-    notIn?: Enumerable<number>;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
     lt?: number | null;
     lte?: number | null;
     gt?: number | null;
@@ -1064,8 +1064,8 @@ export declare type IntFilter = {
 export declare type FloatFilter = {
     equals?: number | null;
     not?: number | FloatFilter | null;
-    in?: Enumerable<number>;
-    notIn?: Enumerable<number>;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
     lt?: number | null;
     lte?: number | null;
     gt?: number | null;

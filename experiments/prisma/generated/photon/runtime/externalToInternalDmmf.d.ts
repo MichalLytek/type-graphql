@@ -1,4 +1,5 @@
-import { DMMF, ExternalDMMF } from './dmmf-types';
+import { DMMF as ExternalDMMF } from '@prisma/generator-helper';
+import { DMMF } from './dmmf-types';
 /**
  * Turns type: string into type: string[] for all args in order to support union input types
  * @param document

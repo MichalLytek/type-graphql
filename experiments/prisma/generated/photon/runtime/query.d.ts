@@ -20,6 +20,7 @@ export declare class Document {
 }
 export interface FieldArgs {
     name: string;
+    schemaField?: DMMF.SchemaField;
     args?: Args;
     children?: Field[];
     error?: InvalidFieldError;
@@ -31,7 +32,8 @@ export declare class Field {
     readonly error?: InvalidFieldError;
     readonly hasInvalidChild: boolean;
     readonly hasInvalidArg: boolean;
-    constructor({ name, args, children, error }: FieldArgs);
+    readonly schemaField?: DMMF.SchemaField;
+    constructor({ name, args, children, error, schemaField }: FieldArgs);
     toString(): string;
     collectErrors(prefix?: string): {
         fieldErrors: FieldError[];
@@ -66,7 +68,7 @@ export declare class Arg {
     toString(): string;
     collectErrors(): ArgError[];
 }
-export declare type ArgValue = string | boolean | number | undefined | Args | string[] | boolean[] | number[] | Args[];
+export declare type ArgValue = string | boolean | number | undefined | Args | string[] | boolean[] | number[] | Args[] | null;
 export interface DocumentInput {
     dmmf: DMMFClass;
     rootTypeName: 'query' | 'mutation';
@@ -77,4 +79,20 @@ export declare function makeDocument({ dmmf, rootTypeName, rootField, select }: 
 export declare function transformDocument(document: Document): Document;
 export declare function selectionToFields(dmmf: DMMFClass, selection: any, schemaField: DMMF.SchemaField, path: string[]): Field[];
 export declare function isInputArgType(argType: DMMF.ArgType): argType is DMMF.InputType;
+export interface UnpackOptions {
+    document: Document;
+    path: string[];
+    data: any;
+}
+/**
+ * Unpacks the result of a data object and maps DateTime fields to instances of `Date` inplace
+ * @param options: UnpackOptions
+ */
+export declare function unpack({ document, path, data }: UnpackOptions): any;
+export interface MapDatesOptions {
+    field: Field;
+    data: any;
+}
+export declare function mapDates({ field, data }: MapDatesOptions): any;
+export declare function getField(document: Document, path: string[]): Field;
 export {};

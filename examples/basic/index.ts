@@ -26,8 +26,8 @@ interface Context {
 // custom resolver for custom business logic using PhotonJS
 @Resolver(of => User)
 class CustomUserResolver {
-  @Query(returns => User)
-  async bestUser(@Ctx() { photon }: Context): Promise<User> {
+  @Query(returns => User, { nullable: true })
+  async bestUser(@Ctx() { photon }: Context): Promise<User | null> {
     return await photon.users.findOne({
       where: { email: "bob@prisma.io" },
     });
@@ -72,4 +72,4 @@ async function main() {
   console.log(`GraphQL is listening on ${port}!`);
 }
 
-main();
+main().catch(console.error);

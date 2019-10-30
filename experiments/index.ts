@@ -80,4 +80,4 @@ async function main() {
   console.log(`GraphQL is listening on ${port}!`);
 }
 
-main();
+main().catch(console.error);

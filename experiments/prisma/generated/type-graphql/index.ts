@@ -98,17 +98,17 @@ export class Post {
   })
   uuid!: string;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: false,
     description: undefined,
   })
-  createdAt!: string;
+  createdAt!: Date;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: false,
     description: undefined,
   })
-  updatedAt!: string;
+  updatedAt!: Date;
 
   @Field(_type => Boolean, {
     nullable: false,
@@ -358,17 +358,17 @@ export class PostCreateWithoutAuthorInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: false,
@@ -472,17 +472,17 @@ export class PostUpdateWithoutAuthorDataInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: true,
@@ -604,17 +604,17 @@ export class PostUpdateManyDataInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: true,
@@ -916,17 +916,17 @@ export class PostCreateInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: false,
@@ -1066,17 +1066,17 @@ export class PostUpdateInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: true,
@@ -1120,17 +1120,17 @@ export class PostUpdateManyMutationInput {
   })
   uuid?: string | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: string | null;
+  createdAt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: string | null;
+  updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
     nullable: true,
@@ -1234,53 +1234,53 @@ export class StringFilter {
   description: undefined,
 })
 export class DateTimeFilter {
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  equals?: string | null;
+  equals?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  not?: string | null;
+  not?: Date | null;
 
-  @Field(_type => [String], {
+  @Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  in?: string[] | null;
+  in?: Date[] | null;
 
-  @Field(_type => [String], {
+  @Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  notIn?: string[] | null;
+  notIn?: Date[] | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lt?: string | null;
+  lt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lte?: string | null;
+  lte?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gt?: string | null;
+  gt?: Date | null;
 
-  @Field(_type => String, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gte?: string | null;
+  gte?: Date | null;
 }
 
 @InputType({
@@ -1651,10 +1651,10 @@ export class UserPostsArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => String, { nullable: true })
+  @Field(_type => ID, { nullable: true })
   after?: string | null;
 
-  @Field(_type => String, { nullable: true })
+  @Field(_type => ID, { nullable: true })
   before?: string | null;
 
   @Field(_type => Int, { nullable: true })
@@ -1730,11 +1730,11 @@ export class FindManyUserArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => String, { nullable: true })
-  after?: string | null;
+  @Field(_type => Int, { nullable: true })
+  after?: number | null;
 
-  @Field(_type => String, { nullable: true })
-  before?: string | null;
+  @Field(_type => Int, { nullable: true })
+  before?: number | null;
 
   @Field(_type => Int, { nullable: true })
   first?: number | null;
@@ -1869,10 +1869,10 @@ export class FindManyPostArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => String, { nullable: true })
+  @Field(_type => ID, { nullable: true })
   after?: string | null;
 
-  @Field(_type => String, { nullable: true })
+  @Field(_type => ID, { nullable: true })
   before?: string | null;
 
   @Field(_type => Int, { nullable: true })
