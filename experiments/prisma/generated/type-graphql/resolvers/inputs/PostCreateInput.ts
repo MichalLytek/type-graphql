@@ -1,11 +1,12 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { PostKind } from "../enums/PostKind";
+import { UserCreateOneWithoutAuthorInput } from "../inputs/UserCreateOneWithoutAuthorInput";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
-export class PostUpdateManyMutationInput {
+export class PostCreateInput {
   @Field(_type => ID, {
     nullable: true,
     description: undefined
@@ -25,16 +26,16 @@ export class PostUpdateManyMutationInput {
   updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
-    nullable: true,
+    nullable: false,
     description: undefined
   })
-  published?: boolean | null;
+  published!: boolean;
 
   @Field(_type => String, {
-    nullable: true,
+    nullable: false,
     description: undefined
   })
-  title?: string | null;
+  title!: string;
 
   @Field(_type => String, {
     nullable: true,
@@ -47,4 +48,10 @@ export class PostUpdateManyMutationInput {
     description: undefined
   })
   kind?: keyof typeof PostKind | null;
+
+  @Field(_type => UserCreateOneWithoutAuthorInput, {
+    nullable: false,
+    description: undefined
+  })
+  author!: UserCreateOneWithoutAuthorInput;
 }

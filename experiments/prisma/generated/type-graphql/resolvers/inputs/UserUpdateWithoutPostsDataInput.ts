@@ -1,50 +1,50 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { PostKind } from "../enums/PostKind";
+import { Role } from "../../enums/Role";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
-export class PostUpdateManyDataInput {
-  @Field(_type => ID, {
+export class UserUpdateWithoutPostsDataInput {
+  @Field(_type => Int, {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null;
-
-  @Field(_type => Date, {
-    nullable: true,
-    description: undefined
-  })
-  createdAt?: Date | null;
-
-  @Field(_type => Date, {
-    nullable: true,
-    description: undefined
-  })
-  updatedAt?: Date | null;
-
-  @Field(_type => Boolean, {
-    nullable: true,
-    description: undefined
-  })
-  published?: boolean | null;
+  id?: number | null;
 
   @Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  title?: string | null;
+  email?: string | null;
 
   @Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  content?: string | null;
+  name?: string | null;
 
-  @Field(_type => PostKind, {
+  @Field(_type => Int, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof PostKind | null;
+  age?: number | null;
+
+  @Field(_type => Float, {
+    nullable: true,
+    description: undefined
+  })
+  balance?: number | null;
+
+  @Field(_type => Float, {
+    nullable: true,
+    description: undefined
+  })
+  amount?: number | null;
+
+  @Field(_type => Role, {
+    nullable: true,
+    description: undefined
+  })
+  role?: keyof typeof Role | null;
 }

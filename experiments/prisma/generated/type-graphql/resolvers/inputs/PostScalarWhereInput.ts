@@ -3,7 +3,7 @@ import { StringFilter } from "../inputs/StringFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
-import { PostKind } from "../enums/PostKind";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,

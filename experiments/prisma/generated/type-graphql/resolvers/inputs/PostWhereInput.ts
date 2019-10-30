@@ -4,7 +4,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { UserWhereInput } from "../inputs/UserWhereInput";
-import { PostKind } from "../enums/PostKind";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,

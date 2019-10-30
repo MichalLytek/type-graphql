@@ -12,6 +12,7 @@ import {
   generateInputTypeClassFromType,
 } from "./type-class";
 import generateCrudResolverClassFromRootType from "./crud-resolver-class";
+import { resolversFolderName } from "./config";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
@@ -30,6 +31,9 @@ export default async function generateCode(
   // log("Generating imports...");
   // await generateImports(sourceFile);
 
+  const resolversDirPath = path.resolve(baseDirPath, resolversFolderName);
+  const modelNames = dmmf.datamodel.models.map(model => model.name);
+
   log("Generating enums...");
   const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
   await Promise.all(
@@ -45,7 +49,6 @@ export default async function generateCode(
   );
 
   log("Generating models...");
-  const modelNames = dmmf.datamodel.models.map(model => model.name);
   await Promise.all(
     dmmf.datamodel.models.map(model =>
       generateObjectTypeClassFromModel(project, baseDirPath, model, modelNames),
@@ -63,14 +66,24 @@ export default async function generateCode(
         type => !modelNames.includes(type.name) && !rootTypes.includes(type),
       )
       .map(type =>
-        generateOutputTypeClassFromType(project, baseDirPath, type, modelNames),
+        generateOutputTypeClassFromType(
+          project,
+          resolversDirPath,
+          type,
+          modelNames,
+        ),
       ),
   );
 
   log("Generating input types...");
   await Promise.all(
     dmmf.schema.inputTypes.map(type =>
-      generateInputTypeClassFromType(project, baseDirPath, type, modelNames),
+      generateInputTypeClassFromType(
+        project,
+        resolversDirPath,
+        type,
+        modelNames,
+      ),
     ),
   );
 

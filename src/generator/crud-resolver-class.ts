@@ -34,8 +34,8 @@ export default async function generateCrudResolverClassFromMapping(
   const modelName = getBaseModelTypeName(mapping.model);
   const resolverName = `${modelName}CrudResolver`;
 
-  const dirPath = path.resolve(baseDirPath, resolversFolderName);
-  const filePath = path.resolve(dirPath, `${resolverName}.ts`);
+  const resolverDirPath = path.resolve(baseDirPath, resolversFolderName);
+  const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -87,7 +87,7 @@ export default async function generateCrudResolverClassFromMapping(
             if (method.args.length > 0) {
               argsTypeName = await generateArgsTypeClassFromArgs(
                 project,
-                dirPath,
+                resolverDirPath,
                 method.args,
                 method.name,
                 modelNames,
@@ -151,6 +151,7 @@ export default async function generateCrudResolverClassFromMapping(
   generateOutputsImports(
     sourceFile,
     distinctImportTypesNames.filter(typeName => !modelNames.includes(typeName)),
+    0,
   );
 
   // FIXME: use generic save source file utils

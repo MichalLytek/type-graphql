@@ -1,5 +1,5 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { Role } from "../enums/Role";
+import { Role } from "../../enums/Role";
 
 @InputType({
   isAbstract: true,

@@ -37,8 +37,8 @@ export default async function generateRelationsResolverClassesFromModel(
   const idField = model.fields.find(field => field.isId)!;
   const rootArgName = camelCase(model.name);
 
-  const dirPath = path.resolve(baseDirPath, resolversFolderName);
-  const filePath = path.resolve(dirPath, `${resolverName}.ts`);
+  const resolverDirPath = path.resolve(baseDirPath, resolversFolderName);
+  const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -83,7 +83,7 @@ export default async function generateRelationsResolverClassesFromModel(
           if (outputTypeField.args.length > 0) {
             argsTypeName = await generateArgsTypeClassFromArgs(
               project,
-              dirPath,
+              resolverDirPath,
               outputTypeField.args,
               model.name + pascalCase(field.name),
               modelNames,

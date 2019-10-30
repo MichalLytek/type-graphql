@@ -1,12 +1,11 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { UserCreateOneWithoutAuthorInput } from "../inputs/UserCreateOneWithoutAuthorInput";
-import { PostKind } from "../enums/PostKind";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
-export class PostCreateInput {
+export class PostUpdateManyDataInput {
   @Field(_type => ID, {
     nullable: true,
     description: undefined
@@ -26,16 +25,16 @@ export class PostCreateInput {
   updatedAt?: Date | null;
 
   @Field(_type => Boolean, {
-    nullable: false,
+    nullable: true,
     description: undefined
   })
-  published!: boolean;
+  published?: boolean | null;
 
   @Field(_type => String, {
-    nullable: false,
+    nullable: true,
     description: undefined
   })
-  title!: string;
+  title?: string | null;
 
   @Field(_type => String, {
     nullable: true,
@@ -48,10 +47,4 @@ export class PostCreateInput {
     description: undefined
   })
   kind?: keyof typeof PostKind | null;
-
-  @Field(_type => UserCreateOneWithoutAuthorInput, {
-    nullable: false,
-    description: undefined
-  })
-  author!: UserCreateOneWithoutAuthorInput;
 }

@@ -1,6 +1,6 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { UserWhereInput } from "../../inputs/UserWhereInput";
-import { UserOrderByInput } from "../../inputs/UserOrderByInput";
+import { UserWhereInput } from "../inputs/UserWhereInput";
+import { UserOrderByInput } from "../inputs/UserOrderByInput";
 
 @ArgsType()
 export class FindManyUserArgs {

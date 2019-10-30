@@ -1,14 +1,14 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { FindOneUserArgs } from "./args/FindOneUserArgs";
 import { DeleteOneUserArgs } from "./args/DeleteOneUserArgs";
-import { FindManyUserArgs } from "./args/FindManyUserArgs";
 import { CreateOneUserArgs } from "./args/CreateOneUserArgs";
-import { UpdateManyUserArgs } from "./args/UpdateManyUserArgs";
+import { FindManyUserArgs } from "./args/FindManyUserArgs";
+import { FindOneUserArgs } from "./args/FindOneUserArgs";
 import { UpdateOneUserArgs } from "./args/UpdateOneUserArgs";
 import { UpsertOneUserArgs } from "./args/UpsertOneUserArgs";
+import { UpdateManyUserArgs } from "./args/UpdateManyUserArgs";
 import { User } from "../models/User";
-import { BatchPayload } from "../outputs/BatchPayload";
-import { AggregateUser } from "../outputs/AggregateUser";
+import { BatchPayload } from "./outputs/BatchPayload";
+import { AggregateUser } from "./outputs/AggregateUser";
 
 @Resolver(_of => User)
 export class UserCrudResolver {

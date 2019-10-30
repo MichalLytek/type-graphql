@@ -1,5 +1,5 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { PostKind } from "../enums/PostKind";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,

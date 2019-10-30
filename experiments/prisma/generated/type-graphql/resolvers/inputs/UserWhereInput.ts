@@ -4,7 +4,7 @@ import { StringFilter } from "../inputs/StringFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { FloatFilter } from "../inputs/FloatFilter";
 import { PostFilter } from "../inputs/PostFilter";
-import { Role } from "../enums/Role";
+import { Role } from "../../enums/Role";
 
 @InputType({
   isAbstract: true,

@@ -17,12 +17,11 @@ import {
 
 export async function generateOutputTypeClassFromType(
   project: Project,
-  baseDirPath: string,
+  dirPath: string,
   type: DMMF.OutputType,
   modelNames: string[],
 ): Promise<void> {
-  const dirPath = path.resolve(baseDirPath, outputsFolderName);
-  const filePath = path.resolve(dirPath, `${type.name}.ts`);
+  const filePath = path.resolve(dirPath, outputsFolderName, `${type.name}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -81,12 +80,11 @@ export async function generateOutputTypeClassFromType(
 
 export async function generateInputTypeClassFromType(
   project: Project,
-  baseDirPath: string,
+  dirPath: string,
   type: DMMF.InputType,
   modelNames: string[],
 ): Promise<void> {
-  const dirPath = path.resolve(baseDirPath, inputsFolderName);
-  const filePath = path.resolve(dirPath, `${type.name}.ts`);
+  const filePath = path.resolve(dirPath, inputsFolderName, `${type.name}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -106,6 +104,7 @@ export async function generateInputTypeClassFromType(
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "enum")
       .map(fieldType => fieldType.type as string),
+    2,
   );
 
   sourceFile.addClass({

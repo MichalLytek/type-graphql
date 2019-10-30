@@ -1,50 +1,50 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { OrderByArg } from "../enums/OrderByArg";
+import { PostKind } from "../../enums/PostKind";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
-export class UserOrderByInput {
-  @Field(_type => OrderByArg, {
+export class PostUpdateManyMutationInput {
+  @Field(_type => ID, {
     nullable: true,
     description: undefined
   })
-  id?: keyof typeof OrderByArg | null;
+  uuid?: string | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  email?: keyof typeof OrderByArg | null;
+  createdAt?: Date | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  name?: keyof typeof OrderByArg | null;
+  updatedAt?: Date | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  age?: keyof typeof OrderByArg | null;
+  published?: boolean | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  balance?: keyof typeof OrderByArg | null;
+  title?: string | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  amount?: keyof typeof OrderByArg | null;
+  content?: string | null;
 
-  @Field(_type => OrderByArg, {
+  @Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
-  role?: keyof typeof OrderByArg | null;
+  kind?: keyof typeof PostKind | null;
 }
