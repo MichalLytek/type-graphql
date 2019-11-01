@@ -9,24 +9,23 @@ export function Directive(
 ): MethodAndPropDecorator & ClassDecorator;
 export function Directive(
   nameOrDefinition: string,
-  args?: Record<string, any>,
+  args: Record<string, any> = {},
 ): MethodDecorator | PropertyDecorator | ClassDecorator {
   return (targetOrPrototype, propertyKey, descriptor) => {
-    const directive = { nameOrDefinition, args: args || {} };
+    const directive = { nameOrDefinition, args };
 
-    if (!propertyKey) {
-      getMetadataStorage().collectDirectiveClassMetadata({
-        target: targetOrPrototype as Function,
+    if (typeof propertyKey === "symbol") {
+      throw new SymbolKeysNotSupportedError();
+    }
+    if (propertyKey) {
+      getMetadataStorage().collectDirectiveFieldMetadata({
+        target: targetOrPrototype.constructor,
+        fieldName: propertyKey,
         directive,
       });
     } else {
-      if (typeof propertyKey === "symbol") {
-        throw new SymbolKeysNotSupportedError();
-      }
-
-      getMetadataStorage().collectDirectiveFieldMetadata({
-        target: targetOrPrototype.constructor,
-        field: propertyKey,
+      getMetadataStorage().collectDirectiveClassMetadata({
+        target: targetOrPrototype as Function,
         directive,
       });
     }

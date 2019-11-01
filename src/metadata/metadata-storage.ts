@@ -163,7 +163,7 @@ export class MetadataStorage {
           ),
         );
         field.directives = this.fieldDirectives
-          .filter(it => it.target === field.target && it.field === field.name)
+          .filter(it => it.target === field.target && it.fieldName === field.name)
           .map(it => it.directive);
       });
       def.fields = fields;
@@ -189,7 +189,7 @@ export class MetadataStorage {
         ),
       );
       def.directives = this.fieldDirectives
-        .filter(it => it.target === def.target && it.field === def.methodName)
+        .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
     });
   }

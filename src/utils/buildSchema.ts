@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLDirective } from "graphql";
+import { GraphQLSchema } from "graphql";
 import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
 
