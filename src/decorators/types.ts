@@ -41,8 +41,6 @@ export interface TypeOptions extends DecoratorTypeOptions {
 export interface DescriptionOptions {
   description?: string;
 }
-/** @deprecated use `DeprecationOptions` instead */
-export type DepreciationOptions = DeprecationOptions;
 export interface DeprecationOptions {
   deprecationReason?: string;
 }
