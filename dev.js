@@ -1,5 +1,6 @@
 require("ts-node/register/transpile-only");
 // require("./examples/apollo-engine/index.ts");
+// require("./examples/apollo-federation/index.ts");
 // require("./examples/authorization/index.ts");
 // require("./examples/automatic-validation/index.ts");
 // require("./examples/enums-and-unions/index.ts");

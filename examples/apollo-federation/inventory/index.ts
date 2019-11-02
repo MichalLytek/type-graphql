@@ -1,0 +1,28 @@
+import { ApolloServer } from "apollo-server";
+
+import InventoryResolver from "./resolver";
+import Product, { resolveProductReference } from "./product";
+import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
+
+export async function listen(port: number): Promise<string> {
+  const schema = await buildFederatedSchema(
+    {
+      resolvers: [InventoryResolver],
+      orphanedTypes: [Product],
+    },
+    {
+      Product: { __resolveReference: resolveProductReference },
+    },
+  );
+
+  const server = new ApolloServer({
+    schema,
+    tracing: false,
+    playground: true,
+  });
+
+  const { url } = await server.listen({ port });
+  console.log(`Inventory service ready at ${url}`);
+
+  return url;
+}
