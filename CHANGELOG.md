@@ -5,7 +5,7 @@
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.8`
-- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
+- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 ### Fixes
