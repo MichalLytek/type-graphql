@@ -2,6 +2,7 @@ import { ParamMetadata } from "./param-metadata";
 import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
+import { DirectiveMetadata } from "./directive-metadata";
 
 export interface FieldMetadata {
   target: Function;
@@ -15,4 +16,5 @@ export interface FieldMetadata {
   params?: ParamMetadata[];
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
+  directives?: DirectiveMetadata[];
 }

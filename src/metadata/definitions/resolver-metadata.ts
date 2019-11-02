@@ -10,6 +10,7 @@ import {
 import { ParamMetadata } from "./param-metadata";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
+import { DirectiveMetadata } from "./directive-metadata";
 
 export interface BaseResolverMetadata {
   methodName: string;
@@ -20,6 +21,7 @@ export interface BaseResolverMetadata {
   params?: ParamMetadata[];
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
+  directives?: DirectiveMetadata[];
 }
 
 export interface ResolverMetadata extends BaseResolverMetadata {

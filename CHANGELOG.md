@@ -7,6 +7,7 @@
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.8`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
+- add basic support for directives with `@Directive()` decorator (#369)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 

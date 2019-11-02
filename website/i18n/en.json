@@ -23,6 +23,9 @@
       "dependency-injection": {
         "title": "Dependency injection"
       },
+      "directives": {
+        "title": "Directives"
+      },
       "emit-schema": {
         "title": "Emitting the schema SDL"
       },

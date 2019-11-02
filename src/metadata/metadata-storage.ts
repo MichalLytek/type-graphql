@@ -23,6 +23,7 @@ import {
 } from "./utils";
 import { ObjectClassMetadata } from "./definitions/object-class-metdata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
+import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
@@ -37,6 +38,8 @@ export class MetadataStorage {
   enums: EnumMetadata[] = [];
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
+  classDirectives: DirectiveClassMetadata[] = [];
+  fieldDirectives: DirectiveFieldMetadata[] = [];
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -98,8 +101,18 @@ export class MetadataStorage {
     this.params.push(definition);
   }
 
+  collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
+    this.classDirectives.push(definition);
+  }
+  collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
+    this.fieldDirectives.push(definition);
+  }
+
   build() {
     // TODO: disable next build attempts
+
+    this.classDirectives.reverse();
+    this.fieldDirectives.reverse();
 
     this.buildClassMetadata(this.objectTypes);
     this.buildClassMetadata(this.inputTypes);
@@ -128,6 +141,8 @@ export class MetadataStorage {
     this.enums = [];
     this.unions = [];
     this.middlewares = [];
+    this.classDirectives = [];
+    this.fieldDirectives = [];
 
     this.resolverClasses = [];
     this.fields = [];
@@ -147,8 +162,14 @@ export class MetadataStorage {
             middleware => middleware.target === field.target && middleware.fieldName === field.name,
           ),
         );
+        field.directives = this.fieldDirectives
+          .filter(it => it.target === field.target && it.fieldName === field.name)
+          .map(it => it.directive);
       });
       def.fields = fields;
+      def.directives = this.classDirectives
+        .filter(it => it.target === def.target)
+        .map(it => it.directive);
     });
   }
 
@@ -167,6 +188,9 @@ export class MetadataStorage {
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
       );
+      def.directives = this.fieldDirectives
+        .filter(it => it.target === def.target && it.fieldName === def.methodName)
+        .map(it => it.directive);
     });
   }
 
