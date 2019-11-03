@@ -1,7 +1,7 @@
 // tslint:disable:member-ordering
 import "reflect-metadata";
 
-import { GraphQLSchema, graphql, GraphQLInputObjectType } from "graphql";
+import { GraphQLSchema, graphql, GraphQLInputObjectType, printSchema } from "graphql";
 import {
   Field,
   InputType,
@@ -12,6 +12,7 @@ import {
   buildSchema,
   ObjectType,
   Mutation,
+  FieldResolver,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { SchemaDirectiveVisitor } from "graphql-tools";
@@ -189,8 +190,17 @@ describe("Directives", () => {
         }
       }
 
+      @Resolver(of => SampleObjectType)
+      class SampleObjectTypeResolver {
+        @FieldResolver()
+        @Directive("@append")
+        fieldResolverWithAppendDefinition(): string {
+          return "hello";
+        }
+      }
+
       schema = await buildSchema({
-        resolvers: [SampleResolver],
+        resolvers: [SampleResolver, SampleObjectTypeResolver],
       });
 
       SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
@@ -377,6 +387,7 @@ describe("Directives", () => {
             withInputUpper(input: { append: ", world!" })
             withInputOnClass(input: { append: ", world!" })
             withInputUpperOnClass(input: { append: ", world!" })
+            fieldResolverWithAppendDefinition(append: ", world!")
           }
       }`;
 
@@ -395,6 +406,7 @@ describe("Directives", () => {
           withInputUpper: "HELLO, WORLD!",
           withInputOnClass: "hello, WORLD!",
           withInputUpperOnClass: "HELLO, WORLD!",
+          fieldResolverWithAppendDefinition: "hello, world!",
         });
       });
     });

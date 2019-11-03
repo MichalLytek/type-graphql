@@ -151,25 +151,30 @@ export class MetadataStorage {
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
-      const fields = this.fields.filter(field => field.target === def.target);
-      fields.forEach(field => {
-        field.roles = this.findFieldRoles(field.target, field.name);
-        field.params = this.params.filter(
-          param => param.target === field.target && field.name === param.methodName,
-        );
-        field.middlewares = mapMiddlewareMetadataToArray(
-          this.middlewares.filter(
-            middleware => middleware.target === field.target && middleware.fieldName === field.name,
-          ),
-        );
-        field.directives = this.fieldDirectives
-          .filter(it => it.target === field.target && it.fieldName === field.name)
+      if (!def.fields) {
+        const fields = this.fields.filter(field => field.target === def.target);
+        fields.forEach(field => {
+          field.roles = this.findFieldRoles(field.target, field.name);
+          field.params = this.params.filter(
+            param => param.target === field.target && field.name === param.methodName,
+          );
+          field.middlewares = mapMiddlewareMetadataToArray(
+            this.middlewares.filter(
+              middleware =>
+                middleware.target === field.target && middleware.fieldName === field.name,
+            ),
+          );
+          field.directives = this.fieldDirectives
+            .filter(it => it.target === field.target && it.fieldName === field.name)
+            .map(it => it.directive);
+        });
+        def.fields = fields;
+      }
+      if (!def.directives) {
+        def.directives = this.classDirectives
+          .filter(it => it.target === def.target)
           .map(it => it.directive);
-      });
-      def.fields = fields;
-      def.directives = this.classDirectives
-        .filter(it => it.target === def.target)
-        .map(it => it.directive);
+      }
     });
   }
 
@@ -198,6 +203,9 @@ export class MetadataStorage {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName);
+      def.directives = this.fieldDirectives
+        .filter(it => it.target === def.target && it.fieldName === def.methodName)
+        .map(it => it.directive);
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
@@ -227,6 +235,7 @@ export class MetadataStorage {
             roles: def.roles!,
             middlewares: def.middlewares!,
             params: def.params!,
+            directives: def.directives,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);

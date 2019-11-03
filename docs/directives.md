@@ -40,9 +40,9 @@ Basically, there are two supported ways of declaring the usage of directives:
 @Directive("deprecated", { reason: "Use newField" }) // syntax without `@` !!!
 ```
 
-Currently, you can use the directives only on object types, input types and their fields, as well as queries and mutations.
+Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries and mutations.
 
-So the `@Directive` decorator can be placed over the class property/method or over the class itself, depending on the needs and the placements supported by the implementation:
+So the `@Directive` decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:
 
 ```typescript
 @Directive("@auth(requires: USER)")
@@ -59,11 +59,17 @@ class Bar {
   field: string;
 }
 
-@Resolver()
+@Resolver(of => Foo)
 class FooBarResolver {
-  @Directive("@auth(requires: USER)")
+  @Directive("@auth(requires: ANY)")
   @Query()
   foobar(@Arg("baz") baz: string): string {
+    return "foobar";
+  }
+
+  @Directive("@auth(requires: ADMIN)")
+  @FieldResolver()
+  bar(): string {
     return "foobar";
   }
 }
