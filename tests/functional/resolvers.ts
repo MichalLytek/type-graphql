@@ -1173,6 +1173,9 @@ describe("Resolvers", () => {
         @Field()
         nestedField: SampleInput;
 
+        @Field({ nullable: true })
+        optionalNestedField?: SampleInput;
+
         @Field(type => [SampleInput])
         nestedArrayField: SampleInput[];
       }
@@ -1322,6 +1325,14 @@ describe("Resolvers", () => {
         mutationWithInputs(@Arg("inputs", type => [SampleInput]) inputs: SampleInput[]): number {
           mutationInputValue = inputs[0];
           return inputs[0].factor;
+        }
+
+        @Mutation()
+        mutationWithOptionalArg(
+          @Arg("input", { nullable: true }) input?: SampleNestedInput,
+        ): number {
+          mutationInputValue = typeof input;
+          return 0;
         }
 
         @FieldResolver()
@@ -1554,7 +1565,7 @@ describe("Resolvers", () => {
       expect(result).toBeLessThanOrEqual(10);
     });
 
-    it("should create instances of nested input fields input objects", async () => {
+    it("should create instances of nested input fields input objects without nulls", async () => {
       const mutation = `mutation {
         mutationWithNestedInputs(input: {
           nestedField: {
@@ -1574,6 +1585,7 @@ describe("Resolvers", () => {
       expect(mutationInputValue).toBeInstanceOf(classes.SampleNestedInput);
       expect(mutationInputValue.nestedField).toBeInstanceOf(classes.SampleInput);
       expect(mutationInputValue.nestedArrayField[0]).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.optionalNestedField).toBeUndefined();
     });
 
     it("should create instance of nested input field of args type object", async () => {
@@ -1602,6 +1614,17 @@ describe("Resolvers", () => {
       expect(mutationInputValue).toBeInstanceOf(classes.SampleInput);
       expect(mutationInputValue.instanceField).toBeGreaterThanOrEqual(0);
       expect(mutationInputValue.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("shouldn't create instance of an argument if the value is null or not provided", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalArg
+      }`;
+
+      const { data, errors } = await graphql(schema, mutation);
+      expect(errors).toBeUndefined();
+      expect(data.mutationWithOptionalArg).toBeDefined();
+      expect(mutationInputValue).toEqual("undefined");
     });
 
     it("should create instance of root object when root type is provided", async () => {
