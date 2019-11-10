@@ -98,6 +98,8 @@ Note that by default, the `skipMissingProperties` setting of the `class-validato
 
 GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the `@IsOptional`, `@Allow`, `@IsString` or the `@IsInt` decorators at all!
 
+However, when using nested input or arrays, we always have to use [`@ValidateNested()` decorator](https://github.com/typestack/class-validator#validating-nested-objects) or [`{ each: true }` option](https://github.com/typestack/class-validator#validating-arrays) to make nested validation work properly.
+
 ## Response to the Client
 
 When a client sends incorrect data to the server:

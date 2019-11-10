@@ -11,6 +11,7 @@
 - add basic support for directives with `@Directive()` decorator (#369)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
+- fix transforming and validating nested inputs and arrays (#462)
 
 ## v0.17.5
 ### Features
