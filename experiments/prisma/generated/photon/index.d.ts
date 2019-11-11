@@ -31,16 +31,25 @@ declare class PhotonFetcher {
 export declare type Datasources = {
     db?: string;
 };
+export declare type LogLevel = 'INFO' | 'WARN' | 'QUERY';
+export declare type LogOption = LogLevel | {
+    level: LogLevel;
+    /**
+     * @default 'stdout'
+     */
+    emit?: 'event' | 'stdout';
+};
 export interface PhotonOptions {
     datasources?: Datasources;
-    debug?: boolean | {
-        engine?: boolean;
-        library?: boolean;
-    };
+    /**
+     * @default false
+     */
+    log?: boolean | LogOption[];
     /**
      * You probably don't want to use this. `__internal` is used by internal tooling.
      */
     __internal?: {
+        debug?: boolean;
         hooks?: Hooks;
         engine?: {
             cwd?: string;
@@ -61,7 +70,6 @@ export declare class Photon {
     private fetcher;
     private readonly dmmf;
     private readonly engine;
-    private readonly datamodel;
     private connectionPromise?;
     constructor(options?: PhotonOptions);
     private connectEngine;
@@ -121,10 +129,10 @@ declare type UserDefault = {
     role: true;
 };
 declare type UserGetSelectPayload<S extends boolean | UserSelect> = S extends true ? User : S extends UserSelect ? {
-    [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<S[P]>> | null> : never;
+    [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<S[P]>>> : never;
 } : never;
 declare type UserGetIncludePayload<S extends boolean | UserInclude> = S extends true ? User : S extends UserInclude ? {
-    [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>> | null> : never;
+    [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>>> : never;
 } : never;
 export interface UserDelegate {
     <T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;

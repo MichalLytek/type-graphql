@@ -83,7 +83,6 @@ class Photon {
         }
         const debugEngine = options.debug === true ? true : typeof options.debug === 'object' ? Boolean(options.debug.engine) : false;
         // datamodel = datamodel without datasources + printed datasources
-        this.datamodel = "datasource db {\r\n  provider = \"sqlite\"\r\n  url      = \"../dev.db\"\r\n}\r\n\r\ntype Numeric = Float\r\n\r\n// generator typegraphql {\r\n//   provider = \"../../../src/bin.ts\"\r\n//   output   = \"./prisma/generated/type-graphql\"\r\n// }\r\n\r\ngenerator photon {\r\n  provider = \"photonjs\"\r\n  output   = \"../prisma/generated/photon\"\r\n}\r\n\r\n/// Role enum comment\r\nenum Role {\r\n  // USER = \"User\"\r\n  USER\r\n  // ADMIN = \"Admin\"\r\n  ADMIN\r\n}\r\n\r\n/// User model comment\r\nmodel User {\r\n  /// User model field comment\r\n  id          Int     @id @unique\r\n  email       String  @unique\r\n  name        String?\r\n  age         Int\r\n  balance     Numeric\r\n  amount      Float\r\n  posts       Post[]\r\n  // maybePosts  Post[]?\r\n  role        Role\r\n  // address     Address\r\n  // address2 embed {\r\n  //   street  String\r\n  //   zipCode String\r\n  // }\r\n}\r\n\r\n// embed Address {\r\n//   street  String\r\n//   zipCode String\r\n// }\r\n\r\nenum PostKind {\r\n  BLOG\r\n  ADVERT\r\n}\r\n\r\nmodel Post {\r\n  uuid      String   @default(cuid()) @id @unique\r\n  createdAt DateTime @default(now())\r\n  updatedAt DateTime @updatedAt\r\n  published Boolean\r\n  title     String\r\n  content   String?\r\n  author    User\r\n  // coAuthor  User?\r\n  kind      PostKind?\r\n}\r\n";
         const predefinedDatasources = [];
         const inputDatasources = Object.entries(options.datasources || {}).map(([name, url]) => ({ name, url: url }));
         const datasources = runtime_1.mergeBy(predefinedDatasources, inputDatasources, (source) => source.name);
@@ -92,7 +91,7 @@ class Photon {
         this.engine = new runtime_1.Engine({
             cwd: engineConfig.cwd || path.resolve(__dirname, "..\\.."),
             debug: debugEngine,
-            datamodel: this.datamodel,
+            datamodelPath: path.resolve(__dirname, 'schema.prisma'),
             prismaPath: engineConfig.binaryPath || undefined,
             datasources,
             generator: { "name": "photon", "provider": "photonjs", "output": "F:\\#Projekty\\#Github\\typegraphql-prisma\\experiments\\prisma\\generated\\photon", "binaryTargets": [], "config": {} },
