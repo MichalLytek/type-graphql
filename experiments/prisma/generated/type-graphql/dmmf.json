@@ -127,7 +127,8 @@
           }
         ],
         "isGenerated": false,
-        "documentation": "User model comment\r"
+        "documentation": "User model comment\r",
+        "idFields": []
       },
       {
         "name": "Post",
@@ -246,7 +247,8 @@
             "isUpdatedAt": false
           }
         ],
-        "isGenerated": false
+        "isGenerated": false,
+        "idFields": []
       }
     ]
   },
@@ -3374,7 +3376,7 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "String",
+                  "type": "ID",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false
@@ -3383,7 +3385,7 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "String",
+                  "type": "ID",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false
@@ -3493,7 +3495,7 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "String",
+                  "type": "Int",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false
@@ -3502,7 +3504,7 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "String",
+                  "type": "Int",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false
@@ -3597,7 +3599,7 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "String",
+                  "type": "ID",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false
@@ -3606,7 +3608,7 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "String",
+                  "type": "ID",
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false

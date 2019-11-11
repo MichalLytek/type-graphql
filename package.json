@@ -5,8 +5,12 @@
     "docker": "docker-compose run linux-node",
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
+  "engines": {
+    "node": ">=10.12"
+  },
   "dependencies": {
     "@prisma/cli": "^0.1.23",
+    "@prisma/generator-helper": "0.0.14",
     "@prisma/lift": "^0.3.82",
     "@prisma/photon": "^0.2.160",
     "@prisma/sdk": "0.0.26",
@@ -14,7 +18,8 @@
     "@types/pluralize": "0.0.29",
     "dataloader": "^1.4.0",
     "pluralize": "^8.0.0",
-    "ts-morph": "^5.0.0"
+    "ts-morph": "^5.0.0",
+    "ts-node": "^8.5.0"
   },
   "devDependencies": {
     "prettier": "^1.19.1",

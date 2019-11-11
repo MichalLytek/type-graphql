@@ -5,14 +5,15 @@ datasource db {
 
 type Numeric = Float
 
-// generator typegraphql {
-//   provider = "../../../src/bin.ts"
-//   output   = "./prisma/generated/type-graphql"
-// }
-
 generator photon {
   provider = "photonjs"
   output   = "../prisma/generated/photon"
+}
+
+generator typegraphql {
+  provider = "../src/bin.ts"
+  output   = "../prisma/generated/type-graphql"
+  emitDMMF = true
 }
 
 /// Role enum comment
