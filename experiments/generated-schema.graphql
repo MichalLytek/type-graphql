@@ -59,16 +59,16 @@ input IntFilter {
 }
 
 type Mutation {
-  createOneUser(data: UserCreateInput!): User!
-  deleteOneUser(where: UserWhereUniqueInput!): User
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   createOnePost(data: PostCreateInput!): Post!
   deleteOnePost(where: PostWhereUniqueInput!): Post
   updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
+  createOneUser(data: UserCreateInput!): User!
+  deleteOneUser(where: UserWhereUniqueInput!): User
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
 }
 
 input NullableStringFilter {
@@ -249,12 +249,12 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findOneUser(where: UserWhereUniqueInput!): User
-  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: Int, before: Int, first: Int, last: Int): [User!]
-  aggregateUser: AggregateUser!
   findOnePost(where: PostWhereUniqueInput!): Post
   findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [Post!]
   aggregatePost: AggregatePost!
+  findOneUser(where: UserWhereUniqueInput!): User
+  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: Int, before: Int, first: Int, last: Int): [User!]
+  aggregateUser: AggregateUser!
   users: [User!]!
   posts: [Post!]!
 }

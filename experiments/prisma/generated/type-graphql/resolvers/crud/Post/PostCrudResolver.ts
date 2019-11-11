@@ -1,5 +1,4 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { Post } from "../../../models/Post";
 import { CreateOnePostArgs } from "./args/CreateOnePostArgs";
 import { DeleteOnePostArgs } from "./args/DeleteOnePostArgs";
 import { FindManyPostArgs } from "./args/FindManyPostArgs";
@@ -7,6 +6,7 @@ import { FindOnePostArgs } from "./args/FindOnePostArgs";
 import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
 import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
 import { UpsertOnePostArgs } from "./args/UpsertOnePostArgs";
+import { Post } from "../../../models/Post";
 import { AggregatePost } from "../../outputs/AggregatePost";
 import { BatchPayload } from "../../outputs/BatchPayload";
 

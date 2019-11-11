@@ -7,7 +7,7 @@ import {
   getFieldTSType,
   getTypeGraphQLType,
 } from "./helpers";
-import { DMMFTypeInfo } from "./types";
+import { DMMFTypeInfo, GeneratedResolverData } from "./types";
 import {
   baseKeys,
   ModelKeys,
@@ -15,6 +15,7 @@ import {
   supportedQueries as supportedQueryActions,
   resolversFolderName,
   crudResolversFolderName,
+  argsFolderName,
 } from "./config";
 import generateArgsTypeClassFromArgs from "./args-class";
 import {
@@ -22,6 +23,7 @@ import {
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
+  generateArgsBarrelFile,
 } from "./imports";
 
 export default async function generateCrudResolverClassFromMapping(
@@ -30,7 +32,7 @@ export default async function generateCrudResolverClassFromMapping(
   mapping: DMMF.Mapping,
   types: DMMF.OutputType[],
   modelNames: string[],
-) {
+): Promise<GeneratedResolverData> {
   const modelName = getBaseModelTypeName(mapping.model);
   const resolverName = `${modelName}CrudResolver`;
 
@@ -94,6 +96,48 @@ export default async function generateCrudResolverClassFromMapping(
         argsTypeName,
       };
     }),
+  );
+  const argTypeNames = methodsInfo
+    .filter(it => it.argsTypeName !== undefined)
+    .map(it => it.argsTypeName!)
+    .sort();
+
+  if (argTypeNames.length) {
+    const barrelExportSourceFile = project.createSourceFile(
+      path.resolve(resolverDirPath, argsFolderName, "index.ts"),
+      undefined,
+      { overwrite: true },
+    );
+    generateArgsBarrelFile(
+      barrelExportSourceFile,
+      methodsInfo
+        .filter(it => it.argsTypeName !== undefined)
+        .map(it => it.argsTypeName!)
+        .sort(),
+    );
+    // FIXME: use generic save source file utils
+    barrelExportSourceFile.formatText({ indentSize: 2 });
+    await barrelExportSourceFile.save();
+  }
+
+  generateArgsImports(sourceFile, argTypeNames, 0);
+
+  const distinctOutputTypesNames = [
+    ...new Set(methodsInfo.map(it => it.outputTypeName)),
+  ];
+  generateModelsImports(
+    sourceFile,
+    distinctOutputTypesNames
+      .filter(typeName => modelNames.includes(typeName))
+      .sort(),
+    3,
+  );
+  generateOutputsImports(
+    sourceFile,
+    distinctOutputTypesNames
+      .filter(typeName => !modelNames.includes(typeName))
+      .sort(),
+    2,
   );
 
   sourceFile.addClass({
@@ -160,36 +204,11 @@ export default async function generateCrudResolverClassFromMapping(
     ),
   });
 
-  const distinctOutputTypesNames = [
-    ...new Set(methodsInfo.map(it => it.outputTypeName)),
-  ];
-
-  generateModelsImports(
-    sourceFile,
-    distinctOutputTypesNames
-      .filter(typeName => modelNames.includes(typeName))
-      .sort(),
-    3,
-  );
-  generateArgsImports(
-    sourceFile,
-    methodsInfo
-      .filter(it => it.argsTypeName !== undefined)
-      .map(it => it.argsTypeName!)
-      .sort(),
-    0,
-  );
-  generateOutputsImports(
-    sourceFile,
-    distinctOutputTypesNames
-      .filter(typeName => !modelNames.includes(typeName))
-      .sort(),
-    2,
-  );
-
   // FIXME: use generic save source file utils
   sourceFile.formatText({ indentSize: 2 });
   await sourceFile.save();
+
+  return { modelName, resolverName, argTypeNames };
 }
 
 function getOperationKindName(actionName: string): string | undefined {

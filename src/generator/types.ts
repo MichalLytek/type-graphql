@@ -7,3 +7,9 @@ export interface DMMFTypeInfo {
   isRequired: boolean;
   kind: DMMF.FieldKind;
 }
+
+export interface GeneratedResolverData {
+  modelName: string;
+  resolverName: string;
+  argTypeNames: string[];
+}

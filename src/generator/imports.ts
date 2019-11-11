@@ -1,4 +1,4 @@
-import { SourceFile } from "ts-morph";
+import { SourceFile, OptionalKind, ExportDeclarationStructure } from "ts-morph";
 import path from "path";
 
 import {
@@ -7,12 +7,11 @@ import {
   inputsFolderName,
   argsFolderName,
   outputsFolderName,
+  resolversFolderName,
+  crudResolversFolderName,
+  relationsResolversFolderName,
 } from "./config";
-
-export default function generateImports(sourceFile: SourceFile) {
-  generateTypeGraphQLImports(sourceFile);
-  generateDataloaderImports(sourceFile);
-}
+import { GeneratedResolverData } from "./types";
 
 export function generateTypeGraphQLImports(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
@@ -38,11 +37,114 @@ export function generateTypeGraphQLImports(sourceFile: SourceFile) {
   });
 }
 
-export function generateDataloaderImports(sourceFile: SourceFile) {
+export function generateDataloaderImport(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "dataloader",
     defaultImport: "DataLoader",
   });
+}
+
+export function generateArgsBarrelFile(
+  sourceFile: SourceFile,
+  argsTypeNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    argsTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
+      argTypeName => ({
+        moduleSpecifier: `./${argTypeName}`,
+        namedExports: [argTypeName],
+      }),
+    ),
+  );
+}
+
+export function generateModelsBarrelFile(
+  sourceFile: SourceFile,
+  modelNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    modelNames.map<OptionalKind<ExportDeclarationStructure>>(modelName => ({
+      moduleSpecifier: `./${modelName}`,
+      namedExports: [modelName],
+    })),
+  );
+}
+
+export function generateEnumsBarrelFile(
+  sourceFile: SourceFile,
+  enumTypeNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    enumTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
+      enumTypeName => ({
+        moduleSpecifier: `./${enumTypeName}`,
+        namedExports: [enumTypeName],
+      }),
+    ),
+  );
+}
+
+export function generateInputsBarrelFile(
+  sourceFile: SourceFile,
+  inputTypeNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    inputTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
+      inputTypeName => ({
+        moduleSpecifier: `./${inputTypeName}`,
+        namedExports: [inputTypeName],
+      }),
+    ),
+  );
+}
+
+export function generateOutputsBarrelFile(
+  sourceFile: SourceFile,
+  outputTypeNames: string[],
+) {
+  sourceFile.addExportDeclarations(
+    outputTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
+      outputTypeName => ({
+        moduleSpecifier: `./${outputTypeName}`,
+        namedExports: [outputTypeName],
+      }),
+    ),
+  );
+}
+
+export function generateIndexFile(sourceFile: SourceFile) {
+  sourceFile.addExportDeclarations([
+    { moduleSpecifier: `./${enumsFolderName}` },
+    { moduleSpecifier: `./${modelsFolderName}` },
+    { moduleSpecifier: `./${resolversFolderName}/${crudResolversFolderName}` },
+    {
+      moduleSpecifier: `./${resolversFolderName}/${relationsResolversFolderName}`,
+    },
+    { moduleSpecifier: `./${resolversFolderName}/${inputsFolderName}` },
+    { moduleSpecifier: `./${resolversFolderName}/${outputsFolderName}` },
+  ]);
+}
+
+export function generateResolversBarrelFile(
+  type: "crud" | "relations",
+  sourceFile: SourceFile,
+  relationResolversData: GeneratedResolverData[],
+) {
+  relationResolversData
+    .sort((a, b) =>
+      a.modelName > b.modelName ? 1 : a.modelName < b.modelName ? -1 : 0,
+    )
+    .forEach(({ modelName, resolverName, argTypeNames }) => {
+      sourceFile.addExportDeclaration({
+        moduleSpecifier: `./${modelName}/${resolverName}`,
+        namedExports: [resolverName],
+      });
+      if (argTypeNames.length) {
+        sourceFile.addExportDeclaration({
+          moduleSpecifier: `./${modelName}/args`,
+        });
+      }
+    });
 }
 
 export const generateModelsImports = createImportGenerator(modelsFolderName);

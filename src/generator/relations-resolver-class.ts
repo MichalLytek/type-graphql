@@ -16,13 +16,19 @@ import {
   pascalCase,
 } from "./helpers";
 import generateArgsTypeClassFromArgs from "./args-class";
-import { resolversFolderName, relationsResolversFolderName } from "./config";
+import {
+  resolversFolderName,
+  relationsResolversFolderName,
+  argsFolderName,
+} from "./config";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
-  generateDataloaderImports,
+  generateDataloaderImport,
   generateModelsImports,
+  generateArgsBarrelFile,
 } from "./imports";
+import { GeneratedResolverData } from "./types";
 
 export default async function generateRelationsResolverClassesFromModel(
   project: Project,
@@ -30,7 +36,7 @@ export default async function generateRelationsResolverClassesFromModel(
   model: DMMF.Model,
   outputType: DMMF.OutputType,
   modelNames: string[],
-) {
+): Promise<GeneratedResolverData> {
   const resolverName = `${model.name}RelationsResolver`;
   const relationFields = model.fields.filter(field => field.relationName);
   const idField = model.fields.find(field => field.isId)!;
@@ -69,19 +75,31 @@ export default async function generateRelationsResolverClassesFromModel(
       return { field, fieldDocs, fieldType, argsTypeName };
     }),
   );
+  const argTypeNames = methodsInfo
+    .filter(it => it.argsTypeName !== undefined)
+    .map(it => it.argsTypeName!)
+    .sort();
+
+  const barrelExportSourceFile = project.createSourceFile(
+    path.resolve(resolverDirPath, argsFolderName, "index.ts"),
+    undefined,
+    { overwrite: true },
+  );
+  if (argTypeNames.length) {
+    generateArgsBarrelFile(barrelExportSourceFile, argTypeNames);
+    // FIXME: use generic save source file utils
+    barrelExportSourceFile.formatText({ indentSize: 2 });
+    await barrelExportSourceFile.save();
+  }
 
   generateTypeGraphQLImports(sourceFile);
-  generateDataloaderImports(sourceFile);
+  generateDataloaderImport(sourceFile);
   generateModelsImports(
     sourceFile,
     [...relationFields.map(field => field.type), model.name].sort(),
     3,
   );
-  generateArgsImports(
-    sourceFile,
-    methodsInfo.filter(it => it.argsTypeName).map(it => it.argsTypeName!),
-    0,
-  );
+  generateArgsImports(sourceFile, argTypeNames, 0);
 
   sourceFile.addClass({
     name: resolverName,
@@ -159,6 +177,8 @@ export default async function generateRelationsResolverClassesFromModel(
   // FIXME: use generic save source file utils
   sourceFile.formatText({ indentSize: 2 });
   await sourceFile.save();
+
+  return { modelName: model.name, resolverName, argTypeNames };
 }
 
 function createDataLoaderGetterCreationStatement(

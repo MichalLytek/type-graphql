@@ -1,5 +1,4 @@
 import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
-import { User } from "../../../models/User";
 import { CreateOneUserArgs } from "./args/CreateOneUserArgs";
 import { DeleteOneUserArgs } from "./args/DeleteOneUserArgs";
 import { FindManyUserArgs } from "./args/FindManyUserArgs";
@@ -7,6 +6,7 @@ import { FindOneUserArgs } from "./args/FindOneUserArgs";
 import { UpdateManyUserArgs } from "./args/UpdateManyUserArgs";
 import { UpdateOneUserArgs } from "./args/UpdateOneUserArgs";
 import { UpsertOneUserArgs } from "./args/UpsertOneUserArgs";
+import { User } from "../../../models/User";
 import { AggregateUser } from "../../outputs/AggregateUser";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
