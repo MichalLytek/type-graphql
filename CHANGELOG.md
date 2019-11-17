@@ -7,6 +7,7 @@
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.8`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface
+- **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 ### Fixes
