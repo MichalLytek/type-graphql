@@ -12,13 +12,13 @@ type Query {
 }
 
 type Recipe {
-  title: String!
   description: String!
   ratings: [Int!]!
+  title: String!
 }
 
 type RecipesResponse {
+  hasMore: Boolean!
   items: [Recipe!]!
   total: Int!
-  hasMore: Boolean!
 }

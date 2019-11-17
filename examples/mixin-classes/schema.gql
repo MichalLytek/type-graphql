@@ -4,19 +4,19 @@
 # -----------------------------------------------
 
 input AmendUserInput {
-  forename: String!
-  surname: String
   dateOfBirth: DateTime!
   email: String!
+  forename: String!
   id: Int!
+  surname: String
 }
 
 input CreateUserInput {
-  forename: String!
-  surname: String
   dateOfBirth: DateTime!
   email: String!
+  forename: String!
   password: String!
+  surname: String
 }
 
 """
@@ -25,8 +25,8 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
   amendUser(input: AmendUserInput!): User!
+  createUser(input: CreateUserInput!): User!
 }
 
 type Query {
@@ -34,9 +34,9 @@ type Query {
 }
 
 type User {
-  forename: String!
-  surname: String
   dateOfBirth: DateTime!
   email: String!
+  forename: String!
   id: Int!
+  surname: String
 }
