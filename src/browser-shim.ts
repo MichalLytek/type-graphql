@@ -12,8 +12,8 @@ plugins: [
 ]
 */
 
-const dummyFn = () => void 0;
-const dummyDecorator = () => dummyFn;
+const dummyFn = (...args: any[]) => void 0;
+const dummyDecorator = (...args: any[]) => dummyFn;
 
 export const Arg = dummyDecorator;
 export const Args = dummyDecorator;
