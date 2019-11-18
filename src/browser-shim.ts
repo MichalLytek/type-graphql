@@ -14,13 +14,16 @@ plugins: [
 
 const dummyFn = () => void 0;
 const dummyDecorator = () => dummyFn;
+const dummyValue = "";
+
+export const registerEnumType = dummyFn;
+export const createUnionType = dummyFn;
 
 export const Arg = dummyDecorator;
 export const Args = dummyDecorator;
 export const ArgsType = dummyDecorator;
 export const Authorized = dummyDecorator;
 export const Ctx = dummyDecorator;
-export const registerEnumType = dummyFn;
 export const Field = dummyDecorator;
 export const FieldResolver = dummyDecorator;
 export const Info = dummyDecorator;
@@ -33,5 +36,10 @@ export const Query = dummyDecorator;
 export const Resolver = dummyDecorator;
 export const Root = dummyDecorator;
 export const Subscription = dummyDecorator;
-export const createUnionType = dummyFn;
 export const UseMiddleware = dummyDecorator;
+
+export const Int = dummyValue;
+export const Float = dummyValue;
+export const ID = dummyValue;
+export const GraphQLISODateTime = dummyValue;
+export const GraphQLTimestamp = dummyValue;
