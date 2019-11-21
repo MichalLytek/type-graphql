@@ -22,9 +22,9 @@ type Query {
 }
 
 type Rate {
-  value: Int!
   date: DateTime!
   user: User!
+  value: Int!
 }
 
 input RateInput {
@@ -34,15 +34,15 @@ input RateInput {
 
 type Recipe {
   _id: ObjectId!
-  title: String!
+  author: User!
   description: String
   ratings: [Rate!]!
-  author: User!
+  title: String!
 }
 
 input RecipeInput {
-  title: String!
   description: String
+  title: String!
 }
 
 type User {

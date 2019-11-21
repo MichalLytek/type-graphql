@@ -1,9 +1,16 @@
-import { GraphQLSchema, printSchema } from "graphql";
-import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
+import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
+import { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 
 import { outputFile, outputFileSync } from "../helpers/filesystem";
 
-export const defaultPrintSchemaOptions: PrintSchemaOptions = { commentDescriptions: false };
+export interface PrintSchemaOptions extends Required<GraphQLPrintSchemaOptions> {
+  sortedSchema: boolean;
+}
+
+export const defaultPrintSchemaOptions: PrintSchemaOptions = {
+  commentDescriptions: false,
+  sortedSchema: true,
+};
 
 const generatedSchemaWarning = /* graphql */ `\
 # -----------------------------------------------
@@ -18,7 +25,7 @@ export function emitSchemaDefinitionFileSync(
   schema: GraphQLSchema,
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
-  const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
+  const schemaFileContent = getSchemaFileContent(schema, options);
   outputFileSync(schemaFilePath, schemaFileContent);
 }
 
@@ -27,6 +34,11 @@ export async function emitSchemaDefinitionFile(
   schema: GraphQLSchema,
   options: PrintSchemaOptions = defaultPrintSchemaOptions,
 ) {
-  const schemaFileContent = generatedSchemaWarning + printSchema(schema, options);
+  const schemaFileContent = getSchemaFileContent(schema, options);
   await outputFile(schemaFilePath, schemaFileContent);
+}
+
+function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
+  const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
+  return generatedSchemaWarning + printSchema(schemaToEmit, options);
 }

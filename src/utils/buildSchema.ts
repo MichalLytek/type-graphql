@@ -1,5 +1,4 @@
 import { GraphQLSchema } from "graphql";
-import { Options as PrintSchemaOptions } from "graphql/utilities/schemaPrinter";
 import * as path from "path";
 
 import { SchemaGenerator, SchemaGeneratorOptions } from "../schema/schema-generator";
@@ -8,10 +7,11 @@ import {
   emitSchemaDefinitionFileSync,
   emitSchemaDefinitionFile,
   defaultPrintSchemaOptions,
+  PrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
 import { NonEmptyArray } from "./types";
 
-interface EmitSchemaFileOptions extends PrintSchemaOptions {
+interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
   path?: string;
 }
 
@@ -25,6 +25,7 @@ export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolv
    */
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
 }
+
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   const resolvers = loadResolvers(options);
   const schema = await SchemaGenerator.generateFromMetadata({ ...options, resolvers });
@@ -77,7 +78,7 @@ function getEmitSchemaDefinitionFileOptions(
         : defaultSchemaFilePath,
     printSchemaOptions:
       typeof buildSchemaOptions.emitSchemaFile === "object"
-        ? buildSchemaOptions.emitSchemaFile
+        ? { ...defaultPrintSchemaOptions, ...buildSchemaOptions.emitSchemaFile }
         : defaultPrintSchemaOptions,
   };
 }
