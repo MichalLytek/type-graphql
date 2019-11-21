@@ -16,8 +16,11 @@ tsconfig.json:
   }
 }
 
-Note: Exporting dummyFn and dummyDecorator and providing a .ts file
-      instead of a .d.ts file is required by Angular's AoT compiler.
+Note:
+Angular's AoT compiler requires that a full .ts file is provided instead of just
+a .d.ts file so that the full TypeScript function definitions are available.
+It also requires that dummyFn and dummyDecorator are not function expressions
+(i.e. are not lambda functions) and that they are exported.
 */
 
 export function dummyFn(...args: any[]) {
