@@ -65,6 +65,7 @@
     "./tests"
   ],
   "exclude": [
+    "./src/browser-shim.ts",
     "./examples/apollo-client"
   ]
 }
