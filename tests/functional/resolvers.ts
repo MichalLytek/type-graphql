@@ -824,7 +824,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Query(returns => String)
             sampleQuery(@Arg("arg") arg: any): string {
               return "sampleQuery";
@@ -845,7 +845,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Query()
             sampleQuery() {
               return "sampleQuery";
@@ -864,7 +864,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Query()
             sampleQuery(): any {
               return "sampleQuery";
@@ -883,7 +883,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Mutation()
             sampleMutation() {
               return "sampleMutation";
@@ -902,7 +902,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Mutation()
             sampleMutation(): any {
               return "sampleMutation";
@@ -920,14 +920,14 @@ describe("Resolvers", () => {
         expect.assertions(3);
 
         @ObjectType()
-        class SampleObject {
+        class SampleObjectWithError {
           @Field()
           sampleField: string;
         }
 
         try {
           @Resolver()
-          class SampleResolver {
+          class SampleResolverWithError {
             @Query()
             sampleQuery(): string {
               return "sampleQuery";
@@ -938,13 +938,13 @@ describe("Resolvers", () => {
             }
           }
           await buildSchema({
-            resolvers: [SampleResolver],
+            resolvers: [SampleResolverWithError],
           });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           const error = err as Error;
           expect(error.message).toContain("@Resolver");
-          expect(error.message).toContain("SampleResolver");
+          expect(error.message).toContain("SampleResolverWithError");
         }
       });
 
@@ -952,14 +952,14 @@ describe("Resolvers", () => {
         expect.assertions(4);
 
         @ObjectType()
-        class SampleObject {
+        class SampleObjectWithError {
           @Field()
           sampleField: string;
         }
 
         try {
-          @Resolver(of => SampleObject)
-          class SampleResolver {
+          @Resolver(of => SampleObjectWithError)
+          class SampleResolverWithError {
             @Query()
             sampleQuery(): string {
               return "sampleQuery";
@@ -970,13 +970,13 @@ describe("Resolvers", () => {
             }
           }
           await buildSchema({
-            resolvers: [SampleResolver],
+            resolvers: [SampleResolverWithError],
           });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           const error = err as Error;
           expect(error.message).toContain("explicit type");
-          expect(error.message).toContain("SampleResolver");
+          expect(error.message).toContain("SampleResolverWithError");
           expect(error.message).toContain("independentField");
         }
       });
@@ -1079,7 +1079,9 @@ describe("Resolvers", () => {
   });
 
   describe("Functional", () => {
+    const classes: any = {};
     let schema: GraphQLSchema;
+
     let queryRoot: any;
     let queryContext: any;
     let queryInfo: any;
@@ -1118,6 +1120,7 @@ describe("Resolvers", () => {
       return context;
     }
 
+    let mutationInputValue: any;
     beforeEach(() => {
       queryRoot = undefined;
       queryContext = undefined;
@@ -1126,6 +1129,7 @@ describe("Resolvers", () => {
       querySecondCustom = undefined;
       descriptorEvaluated = false;
       sampleObjectConstructorCallCount = 0;
+      mutationInputValue = undefined;
     });
 
     beforeAll(async () => {
@@ -1146,6 +1150,7 @@ describe("Resolvers", () => {
           return this.TRUE;
         }
       }
+      classes.SampleArgs = SampleArgs;
 
       @InputType()
       class SampleInput {
@@ -1159,6 +1164,32 @@ describe("Resolvers", () => {
           return this.TRUE;
         }
       }
+      classes.SampleInput = SampleInput;
+
+      @InputType()
+      class SampleNestedInput {
+        instanceField = Math.random();
+
+        @Field()
+        nestedField: SampleInput;
+
+        @Field({ nullable: true })
+        optionalNestedField?: SampleInput;
+
+        @Field(type => [SampleInput])
+        nestedArrayField: SampleInput[];
+      }
+      classes.SampleNestedInput = SampleNestedInput;
+
+      @ArgsType()
+      class SampleNestedArgs {
+        @Field()
+        factor: number;
+
+        @Field()
+        input: SampleInput;
+      }
+      classes.SampleNestedArgs = SampleNestedArgs;
 
       @ObjectType()
       class SampleObject {
@@ -1213,7 +1244,8 @@ describe("Resolvers", () => {
 
         @Query()
         sampleQuery(): SampleObject {
-          return plainToClass(SampleObject, {});
+          const obj = new SampleObject();
+          return obj;
         }
 
         @Query()
@@ -1275,6 +1307,32 @@ describe("Resolvers", () => {
           } else {
             return -1.0;
           }
+        }
+
+        @Mutation()
+        mutationWithNestedInputs(@Arg("input") input: SampleNestedInput): number {
+          mutationInputValue = input;
+          return input.instanceField;
+        }
+
+        @Mutation()
+        mutationWithNestedArgsInput(@Args() { factor, input }: SampleNestedArgs): number {
+          mutationInputValue = input;
+          return factor;
+        }
+
+        @Mutation()
+        mutationWithInputs(@Arg("inputs", type => [SampleInput]) inputs: SampleInput[]): number {
+          mutationInputValue = inputs[0];
+          return inputs[0].factor;
+        }
+
+        @Mutation()
+        mutationWithOptionalArg(
+          @Arg("input", { nullable: true }) input?: SampleNestedInput,
+        ): number {
+          mutationInputValue = typeof input;
+          return 0;
         }
 
         @FieldResolver()
@@ -1505,6 +1563,68 @@ describe("Resolvers", () => {
 
       expect(result).toBeGreaterThanOrEqual(0);
       expect(result).toBeLessThanOrEqual(10);
+    });
+
+    it("should create instances of nested input fields input objects without nulls", async () => {
+      const mutation = `mutation {
+        mutationWithNestedInputs(input: {
+          nestedField: {
+            factor: 20
+          }
+          nestedArrayField: [{
+            factor: 30
+          }]
+        })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithNestedInputs;
+
+      expect(result).toBeGreaterThanOrEqual(0);
+      expect(result).toBeLessThanOrEqual(1);
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleNestedInput);
+      expect(mutationInputValue.nestedField).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.nestedArrayField[0]).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.optionalNestedField).toBeUndefined();
+    });
+
+    it("should create instance of nested input field of args type object", async () => {
+      const mutation = `mutation {
+        mutationWithNestedArgsInput(factor: 20, input: { factor: 30 })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithNestedArgsInput;
+
+      expect(result).toEqual(20);
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.instanceField).toBeGreaterThanOrEqual(0);
+      expect(mutationInputValue.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("should create instance of inputs array from arg", async () => {
+      const mutation = `mutation {
+        mutationWithInputs(inputs: [{ factor: 30 }])
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithInputs;
+
+      expect(result).toEqual(30);
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.instanceField).toBeGreaterThanOrEqual(0);
+      expect(mutationInputValue.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("shouldn't create instance of an argument if the value is null or not provided", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalArg
+      }`;
+
+      const { data, errors } = await graphql(schema, mutation);
+      expect(errors).toBeUndefined();
+      expect(data.mutationWithOptionalArg).toBeDefined();
+      expect(mutationInputValue).toEqual("undefined");
     });
 
     it("should create instance of root object when root type is provided", async () => {

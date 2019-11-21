@@ -23,7 +23,11 @@ export async function validateArg<T extends Object>(
 
   const { validateOrReject } = await import("class-validator");
   try {
-    await validateOrReject(arg, validatorOptions);
+    if (Array.isArray(arg)) {
+      await Promise.all(arg.map(argItem => validateOrReject(argItem, validatorOptions)));
+    } else {
+      await validateOrReject(arg, validatorOptions);
+    }
     return arg;
   } catch (err) {
     throw new ArgumentValidationError(err);

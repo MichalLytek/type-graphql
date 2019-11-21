@@ -554,7 +554,7 @@ export abstract class SchemaGenerator {
         while (superClass.prototype !== undefined) {
           const superArgumentType = getMetadataStorage().argumentTypes.find(
             it => it.target === superClass,
-          )!;
+          );
           if (superArgumentType) {
             this.mapArgFields(superArgumentType, args);
           }

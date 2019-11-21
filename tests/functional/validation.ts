@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { MaxLength, Max, Min } from "class-validator";
+import { MaxLength, Max, Min, ValidateNested } from "class-validator";
 import { GraphQLSchema, graphql } from "graphql";
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
@@ -51,6 +51,14 @@ describe("Validation", () => {
         @Field({ nullable: true })
         @Min(5)
         optionalField?: number;
+
+        @Field(type => SampleInput, { nullable: true })
+        @ValidateNested()
+        nestedField?: SampleInput;
+
+        @Field(type => [SampleInput], { nullable: true })
+        @ValidateNested({ each: true })
+        arrayField?: SampleInput[];
       }
 
       @ArgsType()
@@ -81,6 +89,14 @@ describe("Validation", () => {
           argInput = input;
           return {};
         }
+
+        @Mutation()
+        mutationWithInputsArray(
+          @Arg("inputs", type => [SampleInput]) inputs: SampleInput[],
+        ): SampleObject {
+          argInput = inputs;
+          return {};
+        }
       }
       sampleResolver = SampleResolver;
 
@@ -92,13 +108,13 @@ describe("Validation", () => {
 
     it("should pass input validation when data without optional field is correct", async () => {
       const mutation = `mutation {
-      sampleMutation(input: {
-        stringField: "12345",
-        numberField: 5,
-      }) {
-        field
-      }
-    }`;
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 5,
+        }) {
+          field
+        }
+      }`;
       await graphql(schema, mutation);
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5 });
@@ -106,14 +122,14 @@ describe("Validation", () => {
 
     it("should pass input validation when data with optional field is correct", async () => {
       const mutation = `mutation {
-      sampleMutation(input: {
-        stringField: "12345",
-        numberField: 5,
-        optionalField: 5,
-      }) {
-        field
-      }
-    }`;
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 5,
+          optionalField: 5,
+        }) {
+          field
+        }
+      }`;
       await graphql(schema, mutation);
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5, optionalField: 5 });
@@ -121,13 +137,87 @@ describe("Validation", () => {
 
     it("should throw validation error when input is incorrect", async () => {
       const mutation = `mutation {
-      sampleMutation(input: {
-        stringField: "12345",
-        numberField: 15,
-      }) {
-        field
-      }
-    }`;
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 15,
+        }) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+
+      const validationError = result.errors![0].originalError! as ArgumentValidationError;
+      expect(validationError).toBeInstanceOf(ArgumentValidationError);
+      expect(validationError.validationErrors).toHaveLength(1);
+      expect(validationError.validationErrors[0].property).toEqual("numberField");
+    });
+
+    it("should throw validation error when nested input field is incorrect", async () => {
+      const mutation = `mutation {
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 5,
+          nestedField: {
+            stringField: "12345",
+            numberField: 15,
+          }
+        }) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+
+      const validationError = result.errors![0].originalError! as ArgumentValidationError;
+      expect(validationError).toBeInstanceOf(ArgumentValidationError);
+      expect(validationError.validationErrors).toHaveLength(1);
+      expect(validationError.validationErrors[0].property).toEqual("nestedField");
+    });
+
+    it("should throw validation error when nested array input field is incorrect", async () => {
+      const mutation = `mutation {
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 5,
+          arrayField: [{
+            stringField: "12345",
+            numberField: 15,
+          }]
+        }) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+
+      const validationError = result.errors![0].originalError! as ArgumentValidationError;
+      expect(validationError).toBeInstanceOf(ArgumentValidationError);
+      expect(validationError.validationErrors).toHaveLength(1);
+      expect(validationError.validationErrors[0].property).toEqual("arrayField");
+    });
+
+    it("should throw validation error when one of input array is incorrect", async () => {
+      const mutation = `mutation {
+        mutationWithInputsArray(inputs: [
+          {
+            stringField: "12345",
+            numberField: 5,
+          },
+          {
+            stringField: "12345",
+            numberField: 15,
+          },
+        ]) {
+          field
+        }
+      }`;
 
       const result = await graphql(schema, mutation);
       expect(result.data).toBeNull();
@@ -141,14 +231,14 @@ describe("Validation", () => {
 
     it("should throw validation error when optional input field is incorrect", async () => {
       const mutation = `mutation {
-      sampleMutation(input: {
-        stringField: "12345",
-        numberField: 5,
-        optionalField: -5,
-      }) {
-        field
-      }
-    }`;
+        sampleMutation(input: {
+          stringField: "12345",
+          numberField: 5,
+          optionalField: -5,
+        }) {
+          field
+        }
+      }`;
 
       const result = await graphql(schema, mutation);
       expect(result.data).toBeNull();
@@ -191,13 +281,13 @@ describe("Validation", () => {
 
     it("should throw validation error when one of arguments is incorrect", async () => {
       const query = `query {
-      sampleQuery(
-        stringField: "12345",
-        numberField: 15,
-      ) {
-        field
-      }
-    }`;
+        sampleQuery(
+          stringField: "12345",
+          numberField: 15,
+        ) {
+          field
+        }
+      }`;
 
       const result = await graphql(schema, query);
       expect(result.data).toBeNull();
@@ -211,14 +301,14 @@ describe("Validation", () => {
 
     it("should throw validation error when optional argument is incorrect", async () => {
       const query = `query {
-      sampleQuery(
-        stringField: "12345",
-        numberField: 5,
-        optionalField: -5,
-      ) {
-        field
-      }
-    }`;
+        sampleQuery(
+          stringField: "12345",
+          numberField: 5,
+          optionalField: -5,
+        ) {
+          field
+        }
+      }`;
 
       const result = await graphql(schema, query);
       expect(result.data).toBeNull();

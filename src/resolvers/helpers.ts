@@ -8,6 +8,7 @@ import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
 import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middleware";
 import { IOCContainer } from "../utils/container";
 import { AuthMiddleware } from "../helpers/auth-middleware";
+import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
 
 export async function getParams(
   params: ParamMetadata[],
@@ -22,13 +23,13 @@ export async function getParams(
         switch (paramInfo.kind) {
           case "args":
             return await validateArg(
-              convertToType(paramInfo.getType(), resolverData.args),
+              convertArgsToInstance(paramInfo, resolverData.args),
               globalValidate,
               paramInfo.validate,
             );
           case "arg":
             return await validateArg(
-              convertToType(paramInfo.getType(), resolverData.args[paramInfo.name]),
+              convertArgToInstance(paramInfo, resolverData.args),
               globalValidate,
               paramInfo.validate,
             );

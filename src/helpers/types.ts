@@ -100,6 +100,10 @@ export function convertToType(Target: any, data?: object): object | undefined {
   if (data instanceof Target) {
     return data;
   }
+  // convert array to instances
+  if (Array.isArray(data)) {
+    return data.map(item => convertToType(Target, item));
+  }
 
   return Object.assign(new Target(), data);
 }
