@@ -8,7 +8,7 @@ generator photon {
 }
 
 generator typegraphql {
-  provider = "../../src/bin.ts"
+  provider = "../../src/cli/dev.ts"
   output   = "../prisma/generated/type-graphql"
 }
 
