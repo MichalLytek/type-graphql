@@ -21,6 +21,7 @@
     "@prisma/sdk": "0.0.55",
     "@types/node": "^12.12.11",
     "@types/pluralize": "0.0.29",
+    "js-levenshtein": "^1.1.6",
     "pluralize": "^8.0.0",
     "ts-morph": "^5.0.0",
     "ts-node": "^8.5.2",
