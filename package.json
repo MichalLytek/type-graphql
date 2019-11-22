@@ -9,17 +9,17 @@
     "node": ">=10.12"
   },
   "dependencies": {
-    "@prisma/cli": "^0.1.23",
-    "@prisma/generator-helper": "0.0.14",
-    "@prisma/lift": "^0.3.82",
-    "@prisma/photon": "^0.2.160",
-    "@prisma/sdk": "0.0.26",
-    "@types/node": "^12.12.7",
+    "@prisma/cli": "^0.1.29",
+    "@prisma/generator-helper": "0.0.24",
+    "@prisma/lift": "^0.3.114",
+    "@prisma/photon": "^0.2.177",
+    "@prisma/sdk": "0.0.55",
+    "@types/node": "^12.12.11",
     "@types/pluralize": "0.0.29",
-    "dataloader": "^1.4.0",
+    "dataloader": "^2.0.0",
     "pluralize": "^8.0.0",
     "ts-morph": "^5.0.0",
-    "ts-node": "^8.5.0"
+    "ts-node": "^8.5.2"
   },
   "devDependencies": {
     "prettier": "^1.19.1",

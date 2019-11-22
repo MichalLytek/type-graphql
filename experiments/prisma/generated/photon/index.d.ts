@@ -45,6 +45,7 @@ export interface PhotonOptions {
      * @default false
      */
     log?: boolean | LogOption[];
+    debug?: any;
     /**
      * You probably don't want to use this. `__internal` is used by internal tooling.
      */

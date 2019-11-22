@@ -13069,6 +13069,7 @@ ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}
                     PORT: String(this.port),
                     RUST_BACKTRACE: '1',
                     RUST_LOG: 'info',
+                    LOG_QUERIES: 'true'
                 };
                 if (this.datasources) {
                     env.OVERWRITE_DATASOURCES = this.printDatasources();
@@ -13091,8 +13092,8 @@ ${chalk_1.default.dim("In case we're mistaken, please report this to us 🙏.")}
                 byline_1.default(this.child.stdout).on('data', msg => {
                     const data = String(msg);
                     try {
-                        // debug('stdout line', data)
                         const json = JSON.parse(data);
+                        // debug(json)
                         const log = log_1.convertLog(json);
                         this.logEmitter.emit('log', log);
                     }

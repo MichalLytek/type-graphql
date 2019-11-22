@@ -68,7 +68,7 @@ async function main() {
   });
 
   const photon = new Photon({
-    // debug: true,
+    debug: true,
   });
 
   const server = new ApolloServer({

@@ -42,6 +42,9 @@ class PhotonFetcher {
                 if (e.message.includes('Record does not exist') && rootField && rootField.startsWith('findOne')) {
                     return null;
                 }
+                if (e.message.includes('RecordDoesNotExist') && rootField && rootField.startsWith('findOne')) {
+                    return null;
+                }
                 if (callsite) {
                     const { stack } = runtime_1.printStack({
                         callsite,
