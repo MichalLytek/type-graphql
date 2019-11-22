@@ -29,6 +29,7 @@ import {
   generateArgsBarrelFile,
 } from "./imports";
 import { GeneratedResolverData } from "./types";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateRelationsResolverClassesFromModel(
   project: Project,
@@ -77,8 +78,7 @@ export default async function generateRelationsResolverClassesFromModel(
   );
   const argTypeNames = methodsInfo
     .filter(it => it.argsTypeName !== undefined)
-    .map(it => it.argsTypeName!)
-    .sort();
+    .map(it => it.argsTypeName!);
 
   const barrelExportSourceFile = project.createSourceFile(
     path.resolve(resolverDirPath, argsFolderName, "index.ts"),
@@ -87,16 +87,14 @@ export default async function generateRelationsResolverClassesFromModel(
   );
   if (argTypeNames.length) {
     generateArgsBarrelFile(barrelExportSourceFile, argTypeNames);
-    // FIXME: use generic save source file utils
-    barrelExportSourceFile.formatText({ indentSize: 2 });
-    await barrelExportSourceFile.save();
+    await saveSourceFile(barrelExportSourceFile);
   }
 
   generateTypeGraphQLImports(sourceFile);
   generateDataloaderImport(sourceFile);
   generateModelsImports(
     sourceFile,
-    [...relationFields.map(field => field.type), model.name].sort(),
+    [...relationFields.map(field => field.type), model.name],
     3,
   );
   generateArgsImports(sourceFile, argTypeNames, 0);
@@ -174,10 +172,7 @@ export default async function generateRelationsResolverClassesFromModel(
     ),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
-
+  await saveSourceFile(sourceFile);
   return { modelName: model.name, resolverName, argTypeNames };
 }
 

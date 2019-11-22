@@ -17,23 +17,23 @@ export function generateTypeGraphQLImports(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "type-graphql",
     namedImports: [
-      { name: "registerEnumType" },
-      { name: "ObjectType" },
-      { name: "Field" },
-      { name: "Int" },
-      { name: "Float" },
-      { name: "ID" },
-      { name: "Resolver" },
-      { name: "FieldResolver" },
-      { name: "Root" },
-      { name: "Ctx" },
-      { name: "InputType" },
-      { name: "Query" },
-      { name: "Mutation" },
-      { name: "Arg" },
-      { name: "ArgsType" },
-      { name: "Args" },
-    ],
+      "registerEnumType",
+      "ObjectType",
+      "Field",
+      "Int",
+      "Float",
+      "ID",
+      "Resolver",
+      "FieldResolver",
+      "Root",
+      "Ctx",
+      "InputType",
+      "Query",
+      "Mutation",
+      "Arg",
+      "ArgsType",
+      "Args",
+    ].sort(),
   });
 }
 
@@ -49,12 +49,12 @@ export function generateArgsBarrelFile(
   argsTypeNames: string[],
 ) {
   sourceFile.addExportDeclarations(
-    argsTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
-      argTypeName => ({
+    argsTypeNames
+      .sort()
+      .map<OptionalKind<ExportDeclarationStructure>>(argTypeName => ({
         moduleSpecifier: `./${argTypeName}`,
         namedExports: [argTypeName],
-      }),
-    ),
+      })),
   );
 }
 
@@ -63,10 +63,12 @@ export function generateModelsBarrelFile(
   modelNames: string[],
 ) {
   sourceFile.addExportDeclarations(
-    modelNames.map<OptionalKind<ExportDeclarationStructure>>(modelName => ({
-      moduleSpecifier: `./${modelName}`,
-      namedExports: [modelName],
-    })),
+    modelNames
+      .sort()
+      .map<OptionalKind<ExportDeclarationStructure>>(modelName => ({
+        moduleSpecifier: `./${modelName}`,
+        namedExports: [modelName],
+      })),
   );
 }
 
@@ -75,12 +77,12 @@ export function generateEnumsBarrelFile(
   enumTypeNames: string[],
 ) {
   sourceFile.addExportDeclarations(
-    enumTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
-      enumTypeName => ({
+    enumTypeNames
+      .sort()
+      .map<OptionalKind<ExportDeclarationStructure>>(enumTypeName => ({
         moduleSpecifier: `./${enumTypeName}`,
         namedExports: [enumTypeName],
-      }),
-    ),
+      })),
   );
 }
 
@@ -89,12 +91,12 @@ export function generateInputsBarrelFile(
   inputTypeNames: string[],
 ) {
   sourceFile.addExportDeclarations(
-    inputTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
-      inputTypeName => ({
+    inputTypeNames
+      .sort()
+      .map<OptionalKind<ExportDeclarationStructure>>(inputTypeName => ({
         moduleSpecifier: `./${inputTypeName}`,
         namedExports: [inputTypeName],
-      }),
-    ),
+      })),
   );
 }
 
@@ -103,12 +105,12 @@ export function generateOutputsBarrelFile(
   outputTypeNames: string[],
 ) {
   sourceFile.addExportDeclarations(
-    outputTypeNames.map<OptionalKind<ExportDeclarationStructure>>(
-      outputTypeName => ({
+    outputTypeNames
+      .sort()
+      .map<OptionalKind<ExportDeclarationStructure>>(outputTypeName => ({
         moduleSpecifier: `./${outputTypeName}`,
         namedExports: [outputTypeName],
-      }),
-    ),
+      })),
   );
 }
 
@@ -154,7 +156,7 @@ export const generateOutputsImports = createImportGenerator(outputsFolderName);
 export const generateArgsImports = createImportGenerator(argsFolderName);
 function createImportGenerator(elementsDirName: string) {
   return (sourceFile: SourceFile, elementsNames: string[], level = 1) => {
-    const distinctElementsNames = [...new Set(elementsNames)];
+    const distinctElementsNames = [...new Set(elementsNames)].sort();
     for (const elementName of distinctElementsNames) {
       sourceFile.addImportDeclaration({
         moduleSpecifier:

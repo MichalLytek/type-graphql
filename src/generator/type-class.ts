@@ -14,6 +14,7 @@ import {
   generateInputsImports,
   generateEnumsImports,
 } from "./imports";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export async function generateOutputTypeClassFromType(
   project: Project,
@@ -73,9 +74,7 @@ export async function generateOutputTypeClassFromType(
     ),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
+  await saveSourceFile(sourceFile);
 }
 
 export async function generateInputTypeClassFromType(
@@ -96,16 +95,14 @@ export async function generateInputTypeClassFromType(
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "object")
       .map(fieldType => fieldType.type as string)
-      .filter(fieldType => fieldType !== type.name)
-      .sort(),
+      .filter(fieldType => fieldType !== type.name),
   );
   generateEnumsImports(
     sourceFile,
     type.fields
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "enum")
-      .map(fieldType => fieldType.type as string)
-      .sort(),
+      .map(fieldType => fieldType.type as string),
     2,
   );
 
@@ -152,7 +149,5 @@ export async function generateInputTypeClassFromType(
     ),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
+  await saveSourceFile(sourceFile);
 }

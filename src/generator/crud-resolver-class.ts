@@ -25,6 +25,7 @@ import {
   generateOutputsImports,
   generateArgsBarrelFile,
 } from "./imports";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateCrudResolverClassFromMapping(
   project: Project,
@@ -99,8 +100,7 @@ export default async function generateCrudResolverClassFromMapping(
   );
   const argTypeNames = methodsInfo
     .filter(it => it.argsTypeName !== undefined)
-    .map(it => it.argsTypeName!)
-    .sort();
+    .map(it => it.argsTypeName!);
 
   if (argTypeNames.length) {
     const barrelExportSourceFile = project.createSourceFile(
@@ -112,12 +112,9 @@ export default async function generateCrudResolverClassFromMapping(
       barrelExportSourceFile,
       methodsInfo
         .filter(it => it.argsTypeName !== undefined)
-        .map(it => it.argsTypeName!)
-        .sort(),
+        .map(it => it.argsTypeName!),
     );
-    // FIXME: use generic save source file utils
-    barrelExportSourceFile.formatText({ indentSize: 2 });
-    await barrelExportSourceFile.save();
+    await saveSourceFile(barrelExportSourceFile);
   }
 
   generateArgsImports(sourceFile, argTypeNames, 0);
@@ -127,16 +124,12 @@ export default async function generateCrudResolverClassFromMapping(
   ];
   generateModelsImports(
     sourceFile,
-    distinctOutputTypesNames
-      .filter(typeName => modelNames.includes(typeName))
-      .sort(),
+    distinctOutputTypesNames.filter(typeName => modelNames.includes(typeName)),
     3,
   );
   generateOutputsImports(
     sourceFile,
-    distinctOutputTypesNames
-      .filter(typeName => !modelNames.includes(typeName))
-      .sort(),
+    distinctOutputTypesNames.filter(typeName => !modelNames.includes(typeName)),
     2,
   );
 
@@ -204,10 +197,7 @@ export default async function generateCrudResolverClassFromMapping(
     ),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
-
+  await saveSourceFile(sourceFile);
   return { modelName, resolverName, argTypeNames };
 }
 

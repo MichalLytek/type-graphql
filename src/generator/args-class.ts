@@ -15,6 +15,7 @@ import {
   generateInputsImports,
   generateEnumsImports,
 } from "./imports";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateArgsTypeClassFromArgs(
   project: Project,
@@ -37,8 +38,7 @@ export default async function generateArgsTypeClassFromArgs(
     args
       .map(arg => selectInputTypeFromTypes(arg.inputType))
       .filter(argType => argType.kind === "object")
-      .map(argType => argType.type as string)
-      .sort(),
+      .map(argType => argType.type as string),
     3,
   );
   generateEnumsImports(
@@ -46,8 +46,7 @@ export default async function generateArgsTypeClassFromArgs(
     args
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(argType => argType.kind === "enum")
-      .map(argType => argType.type as string)
-      .sort(),
+      .map(argType => argType.type as string),
     3,
   );
 
@@ -86,9 +85,6 @@ export default async function generateArgsTypeClassFromArgs(
     }),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
-
+  await saveSourceFile(sourceFile);
   return name;
 }

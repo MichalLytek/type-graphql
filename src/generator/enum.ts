@@ -4,6 +4,7 @@ import path from "path";
 
 import { generateTypeGraphQLImports } from "./imports";
 import { enumsFolderName } from "./config";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateEnumFromDef(
   project: Project,
@@ -43,7 +44,5 @@ export default async function generateEnumFromDef(
     });`,
   ]);
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
+  await saveSourceFile(sourceFile);
 }

@@ -13,6 +13,7 @@ import {
   generateEnumsImports,
 } from "./imports";
 import { modelsFolderName } from "./config";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateObjectTypeClassFromModel(
   project: Project,
@@ -31,15 +32,13 @@ export default async function generateObjectTypeClassFromModel(
     sourceFile,
     model.fields
       .filter(field => field.kind === "object")
-      .map(field => field.type)
-      .sort(),
+      .map(field => field.type),
   );
   generateEnumsImports(
     sourceFile,
     model.fields
       .filter(field => field.kind === "enum")
-      .map(field => field.type)
-      .sort(),
+      .map(field => field.type),
   );
 
   const modelDocs =
@@ -102,7 +101,5 @@ export default async function generateObjectTypeClassFromModel(
     }),
   });
 
-  // FIXME: use generic save source file utils
-  sourceFile.formatText({ indentSize: 2 });
-  await sourceFile.save();
+  await saveSourceFile(sourceFile);
 }

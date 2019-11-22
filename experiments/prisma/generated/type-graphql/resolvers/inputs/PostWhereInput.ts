@@ -1,4 +1,4 @@
-import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
+import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";

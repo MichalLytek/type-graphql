@@ -28,6 +28,7 @@ import {
   generateEnumsImports,
   generateModelsBarrelFile,
 } from "./imports";
+import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
@@ -63,9 +64,7 @@ export default async function generateCode(
     { overwrite: true },
   );
   generateEnumsImports(enumsBarrelExportSourceFile, emittedEnumNames);
-  // FIXME: use generic save source file utils
-  enumsBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await enumsBarrelExportSourceFile.save();
+  await saveSourceFile(enumsBarrelExportSourceFile);
 
   log("Generating models...");
   await Promise.all(
@@ -82,9 +81,7 @@ export default async function generateCode(
     modelsBarrelExportSourceFile,
     dmmf.datamodel.models.map(it => it.name),
   );
-  // FIXME: use generic save source file utils
-  modelsBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await modelsBarrelExportSourceFile.save();
+  await saveSourceFile(modelsBarrelExportSourceFile);
 
   log("Generating output types...");
   const rootTypes = dmmf.schema.outputTypes.filter(type =>
@@ -116,11 +113,9 @@ export default async function generateCode(
   );
   generateOutputsBarrelFile(
     outputsBarrelExportSourceFile,
-    outputTypesToGenerate.map(it => it.name).sort(),
+    outputTypesToGenerate.map(it => it.name),
   );
-  // FIXME: use generic save source file utils
-  outputsBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await outputsBarrelExportSourceFile.save();
+  await saveSourceFile(outputsBarrelExportSourceFile);
 
   log("Generating input types...");
   await Promise.all(
@@ -145,11 +140,9 @@ export default async function generateCode(
   );
   generateInputsBarrelFile(
     inputsBarrelExportSourceFile,
-    dmmf.schema.inputTypes.map(it => it.name).sort(),
+    dmmf.schema.inputTypes.map(it => it.name),
   );
-  // FIXME: use generic save source file utils
-  inputsBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await inputsBarrelExportSourceFile.save();
+  await saveSourceFile(inputsBarrelExportSourceFile);
 
   log("Generating relation resolvers...");
   const relationResolversData = await Promise.all(
@@ -181,9 +174,7 @@ export default async function generateCode(
     relationResolversBarrelExportSourceFile,
     relationResolversData,
   );
-  // FIXME: use generic save source file utils
-  relationResolversBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await relationResolversBarrelExportSourceFile.save();
+  await saveSourceFile(relationResolversBarrelExportSourceFile);
 
   log("Generating crud resolvers...");
   const crudResolversData = await Promise.all(
@@ -212,9 +203,7 @@ export default async function generateCode(
     crudResolversBarrelExportSourceFile,
     crudResolversData,
   );
-  // FIXME: use generic save source file utils
-  crudResolversBarrelExportSourceFile.formatText({ indentSize: 2 });
-  await crudResolversBarrelExportSourceFile.save();
+  await saveSourceFile(crudResolversBarrelExportSourceFile);
 
   log("Generating index file");
   const indexSourceFile = project.createSourceFile(
@@ -223,8 +212,5 @@ export default async function generateCode(
     { overwrite: true },
   );
   generateIndexFile(indexSourceFile);
-  // FIXME: use generic save source file utils
-  // indexSourceFile.fixUnusedIdentifiers();
-  indexSourceFile.formatText({ indentSize: 2 });
-  await indexSourceFile.save();
+  await saveSourceFile(indexSourceFile);
 }
