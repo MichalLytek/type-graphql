@@ -2,6 +2,8 @@
   "name": "typegraphql-prisma",
   "version": "1.0.0-alpha.0",
   "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
     "docker": "docker-compose run linux-node",
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
@@ -21,7 +23,8 @@
     "@types/pluralize": "0.0.29",
     "pluralize": "^8.0.0",
     "ts-morph": "^5.0.0",
-    "ts-node": "^8.5.2"
+    "ts-node": "^8.5.2",
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "dataloader": "^2.0.0",

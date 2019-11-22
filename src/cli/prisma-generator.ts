@@ -3,7 +3,7 @@ import { DMMF } from "@prisma/photon/dist";
 import { promises as asyncFs } from "fs";
 import path from "path";
 
-import generateCode from "../generator";
+import generateCode from "../generator/generate-code";
 import removeDir from "../utils/removeDir";
 
 export async function generate(options: GeneratorOptions) {
