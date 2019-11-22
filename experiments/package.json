@@ -2,7 +2,6 @@
   "private": true,
   "scripts": {
     "start": "ts-node --transpile-only ./index.ts",
-    "dev": "ts-node --transpile-only ./dev.ts",
     "generate": "prisma2 generate",
     "seed": "ts-node --transpile-only ./seed.ts"
   },

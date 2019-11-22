@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon/dist";
+import { DMMF } from "@prisma/photon/runtime";
 import { Project } from "ts-morph";
 import path from "path";
 

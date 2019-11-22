@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon/dist";
+import { DMMF } from "@prisma/photon/runtime";
 
 export type BaseKeys = keyof Pick<DMMF.Mapping, "model" | "plural">;
 export const baseKeys: BaseKeys[] = ["model", "plural"];

@@ -4,7 +4,7 @@ import {
   Project,
   SourceFile,
 } from "ts-morph";
-import { DMMF } from "@prisma/photon/dist";
+import { DMMF } from "@prisma/photon/runtime";
 import pluralize from "pluralize";
 import path from "path";
 
