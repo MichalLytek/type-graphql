@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@prisma/generator-helper";
-import { DMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist";
 import { promises as asyncFs } from "fs";
 import path from "path";
 

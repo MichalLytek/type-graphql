@@ -1,5 +1,5 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
-import { DMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist";
 import path from "path";
 
 import {

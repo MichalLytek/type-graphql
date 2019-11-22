@@ -1,5 +1,5 @@
 import { getDatamodel } from "./getDatamodel";
-import { getDMMF } from "@prisma/photon";
+import { getDMMF } from "@prisma/photon/dist";
 
 export async function logDmmf(cwd: string) {
   const datamodel = await getDatamodel(cwd);

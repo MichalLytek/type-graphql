@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist";
 
 import generateCode from "../generator";
 

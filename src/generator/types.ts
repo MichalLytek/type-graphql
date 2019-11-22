@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist";
 
 export interface DMMFTypeInfo {
   // type: string | OutputType | Enum;

@@ -1,4 +1,4 @@
-import { getDMMF } from "@prisma/photon";
+import { getDMMF } from "@prisma/photon/dist";
 import fs from "fs";
 
 import { getDatamodel } from "./getDatamodel";

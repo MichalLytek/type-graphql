@@ -1,5 +1,5 @@
 import { EnumMemberStructure, OptionalKind, Project } from "ts-morph";
-import { DMMF } from "@prisma/photon";
+import { DMMF } from "@prisma/photon/dist";
 import path from "path";
 
 import { generateTypeGraphQLImports } from "./imports";
