@@ -27,40 +27,40 @@ scalar DateTime
 
 input DateTimeFilter {
   equals: DateTime
-  not: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
   gt: DateTime
   gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTime
+  notIn: [DateTime!]
 }
 
 type Mutation {
-  createOneUser(data: UserCreateInput!): User!
-  deleteOneUser(where: UserWhereUniqueInput!): User
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   createOnePost(data: PostCreateInput!): Post!
+  createOneUser(data: UserCreateInput!): User!
   deleteOnePost(where: PostWhereUniqueInput!): Post
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  deleteOneUser(where: UserWhereUniqueInput!): User
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertOnePost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertOnePost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
+  upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 input NullableStringFilter {
+  contains: String
+  endsWith: String
   equals: String
-  not: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
   gt: String
   gte: String
-  contains: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
   startsWith: String
-  endsWith: String
 }
 
 enum OrderByArg {
@@ -69,142 +69,142 @@ enum OrderByArg {
 }
 
 type Post {
-  id: String!
+  author: User
+  content: String
   createdAt: DateTime!
-  updatedAt: DateTime!
+  id: String!
   published: Boolean!
   title: String!
-  content: String
-  author: User
+  updatedAt: DateTime!
 }
 
 input PostCreateInput {
-  id: ID
+  author: UserCreateOneWithoutAuthorInput
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean!
   title: String!
-  content: String
-  author: UserCreateOneWithoutAuthorInput
+  updatedAt: DateTime
 }
 
 input PostCreateManyWithoutPostsInput {
-  create: [PostCreateWithoutAuthorInput!]
   connect: [PostWhereUniqueInput!]
+  create: [PostCreateWithoutAuthorInput!]
 }
 
 input PostCreateWithoutAuthorInput {
-  id: ID
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean!
   title: String!
-  content: String
+  updatedAt: DateTime
 }
 
 input PostFilter {
   every: PostWhereInput
-  some: PostWhereInput
   none: PostWhereInput
+  some: PostWhereInput
 }
 
 input PostOrderByInput {
-  id: OrderByArg
+  content: OrderByArg
   createdAt: OrderByArg
-  updatedAt: OrderByArg
+  id: OrderByArg
   published: OrderByArg
   title: OrderByArg
-  content: OrderByArg
+  updatedAt: OrderByArg
 }
 
 input PostScalarWhereInput {
-  id: StringFilter
+  AND: [PostScalarWhereInput!]
+  content: NullableStringFilter
   createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
+  id: StringFilter
+  NOT: [PostScalarWhereInput!]
+  OR: [PostScalarWhereInput!]
   published: BooleanFilter
   title: StringFilter
-  content: NullableStringFilter
-  AND: [PostScalarWhereInput!]
-  OR: [PostScalarWhereInput!]
-  NOT: [PostScalarWhereInput!]
+  updatedAt: DateTimeFilter
 }
 
 input PostUpdateInput {
-  id: ID
+  author: UserUpdateOneWithoutPostsInput
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean
   title: String
-  content: String
-  author: UserUpdateOneWithoutPostsInput
+  updatedAt: DateTime
 }
 
 input PostUpdateManyDataInput {
-  id: ID
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean
   title: String
-  content: String
+  updatedAt: DateTime
 }
 
 input PostUpdateManyMutationInput {
-  id: ID
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean
   title: String
-  content: String
+  updatedAt: DateTime
 }
 
 input PostUpdateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
   connect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  disconnect: [PostWhereUniqueInput!]
+  create: [PostCreateWithoutAuthorInput!]
   delete: [PostWhereUniqueInput!]
+  deleteMany: [PostScalarWhereInput!]
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
   update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
   updateMany: [PostUpdateManyWithWhereNestedInput!]
-  deleteMany: [PostScalarWhereInput!]
   upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
 input PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput!
   data: PostUpdateManyDataInput!
+  where: PostScalarWhereInput!
 }
 
 input PostUpdateWithoutAuthorDataInput {
-  id: ID
+  content: String
   createdAt: DateTime
-  updatedAt: DateTime
+  id: ID
   published: Boolean
   title: String
-  content: String
+  updatedAt: DateTime
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
   data: PostUpdateWithoutAuthorDataInput!
+  where: PostWhereUniqueInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
-  update: PostUpdateWithoutAuthorDataInput!
   create: PostCreateWithoutAuthorInput!
+  update: PostUpdateWithoutAuthorDataInput!
+  where: PostWhereUniqueInput!
 }
 
 input PostWhereInput {
-  id: StringFilter
+  AND: [PostWhereInput!]
+  author: UserWhereInput
+  content: NullableStringFilter
   createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
+  id: StringFilter
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
   published: BooleanFilter
   title: StringFilter
-  content: NullableStringFilter
-  AND: [PostWhereInput!]
-  OR: [PostWhereInput!]
-  NOT: [PostWhereInput!]
-  author: UserWhereInput
+  updatedAt: DateTimeFilter
 }
 
 input PostWhereUniqueInput {
@@ -212,105 +212,105 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findOneUser(where: UserWhereUniqueInput!): User
-  findManyUser(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [User!]
-  aggregateUser: AggregateUser!
-  findOnePost(where: PostWhereUniqueInput!): Post
-  findManyPost(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [Post!]
   aggregatePost: AggregatePost!
+  aggregateUser: AggregateUser!
   bestUser: User
+  findManyPost(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  findManyUser(after: ID, before: ID, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]
+  findOnePost(where: PostWhereUniqueInput!): Post
+  findOneUser(where: UserWhereUniqueInput!): User
 }
 
 input StringFilter {
+  contains: String
+  endsWith: String
   equals: String
-  not: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
   gt: String
   gte: String
-  contains: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
   startsWith: String
-  endsWith: String
 }
 
 type User {
-  id: String!
   email: String!
-  name: String
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: ID, before: ID, first: Int, last: Int): [Post!]
   favoritePost: Post
+  id: String!
+  name: String
+  posts(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
 }
 
 input UserCreateInput {
-  id: ID
   email: String!
+  id: ID
   name: String
   posts: PostCreateManyWithoutPostsInput
 }
 
 input UserCreateOneWithoutAuthorInput {
-  create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
+  create: UserCreateWithoutPostsInput
 }
 
 input UserCreateWithoutPostsInput {
-  id: ID
   email: String!
+  id: ID
   name: String
 }
 
 input UserOrderByInput {
-  id: OrderByArg
   email: OrderByArg
+  id: OrderByArg
   name: OrderByArg
 }
 
 input UserUpdateInput {
-  id: ID
   email: String
+  id: ID
   name: String
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
-  id: ID
   email: String
+  id: ID
   name: String
 }
 
 input UserUpdateOneWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
-  disconnect: Boolean
+  create: UserCreateWithoutPostsInput
   delete: Boolean
+  disconnect: Boolean
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput
 }
 
 input UserUpdateWithoutPostsDataInput {
-  id: ID
   email: String
+  id: ID
   name: String
 }
 
 input UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput!
   create: UserCreateWithoutPostsInput!
+  update: UserUpdateWithoutPostsDataInput!
 }
 
 input UserWhereInput {
-  id: StringFilter
-  email: StringFilter
-  name: NullableStringFilter
-  posts: PostFilter
   AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
+  email: StringFilter
+  id: StringFilter
+  name: NullableStringFilter
   NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  posts: PostFilter
 }
 
 input UserWhereUniqueInput {
-  id: ID
   email: String
+  id: ID
 }

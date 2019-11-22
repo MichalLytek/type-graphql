@@ -1,0 +1,50 @@
+import { registerEnumType, ObjectType, Field, Int, Float, ID, Resolver, FieldResolver, Root, Ctx, InputType, Query, Mutation, Arg, ArgsType, Args } from "type-graphql";
+import { UserCreateOneWithoutAuthorInput } from "../inputs/UserCreateOneWithoutAuthorInput";
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class PostCreateInput {
+  @Field(_type => ID, {
+    nullable: true,
+    description: undefined
+  })
+  id?: string | null;
+
+  @Field(_type => Date, {
+    nullable: true,
+    description: undefined
+  })
+  createdAt?: Date | null;
+
+  @Field(_type => Date, {
+    nullable: true,
+    description: undefined
+  })
+  updatedAt?: Date | null;
+
+  @Field(_type => Boolean, {
+    nullable: false,
+    description: undefined
+  })
+  published!: boolean;
+
+  @Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  title!: string;
+
+  @Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  content?: string | null;
+
+  @Field(_type => UserCreateOneWithoutAuthorInput, {
+    nullable: true,
+    description: undefined
+  })
+  author?: UserCreateOneWithoutAuthorInput | null;
+}
