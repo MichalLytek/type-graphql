@@ -8,6 +8,9 @@
   "engines": {
     "node": ">=10.12"
   },
+  "peerDependencies": {
+    "dataloader": "^2.0.0"
+  },
   "dependencies": {
     "@prisma/cli": "^0.1.29",
     "@prisma/generator-helper": "0.0.24",
@@ -16,12 +19,12 @@
     "@prisma/sdk": "0.0.55",
     "@types/node": "^12.12.11",
     "@types/pluralize": "0.0.29",
-    "dataloader": "^2.0.0",
     "pluralize": "^8.0.0",
     "ts-morph": "^5.0.0",
     "ts-node": "^8.5.2"
   },
   "devDependencies": {
+    "dataloader": "^2.0.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   },
