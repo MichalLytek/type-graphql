@@ -7,9 +7,6 @@
     "docker": "docker-compose run linux-node",
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
-  "engines": {
-    "node": ">=10.12"
-  },
   "peerDependencies": {
     "dataloader": "^2.0.0"
   },
@@ -31,8 +28,18 @@
     "typescript": "^3.7.2"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=10.12"
+  },
+  "author": {
+    "name": "Michał Lytek",
+    "url": "https://github.com/MichalLytek"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/19majkel94/typegraphql-prisma.git"
+    "url": "https://github.com/MichalLytek/type-graphql.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MichalLytek/type-graphql/issues"
   }
 }
