@@ -157,18 +157,23 @@ First we need to provide a container resolver function. It takes the resolver da
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>We also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.</p>
-<p>Unfortunately, Apollo Server doesn't have a &quot;document middleware&quot; feature yet, so some dirty tricks are needed to do the cleanup.
-Example using <code>TypeDI</code> and <code>apollo-server</code> with the <code>formatResponse</code> method:</p>
+<p>Apollo Server since version 2.2.0 has a <a href="https://www.apollographql.com/docs/apollo-server/integrations/plugins/">plugins</a> feature that supports <a href="https://www.apollographql.com/docs/apollo-server/integrations/plugins/#willsendresponse"><code>willSendResponse</code></a> lifecycle event. We can leverage it to clean up the container after handling the request.</p>
+<p>Example using <code>TypeDI</code> and <code>apollo-server</code> with plugins approach:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-server"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Container <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"typedi"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// ... schema and context here</span>
-  <span class="token function-variable function">formatResponse</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token parameter">response<span class="token punctuation">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> context <span class="token punctuation">}</span><span class="token punctuation">:</span> ResolverData<span class="token operator">&lt;</span>Context<span class="token operator">></span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-    <span class="token comment">// remember to dispose the scoped container to prevent memory leaks</span>
-    Container<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span>requestId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> response<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token function-variable function">requestDidStart</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token function">willSendResponse</span><span class="token punctuation">(</span><span class="token parameter">requestContext</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// remember to dispose the scoped container to prevent memory leaks</span>
+          Container<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span>requestContext<span class="token punctuation">.</span>context<span class="token punctuation">.</span>requestId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>And basically that's it! The configuration of the container is done and TypeGraphQL will be able to use different instances of resolvers for each request.</p>
