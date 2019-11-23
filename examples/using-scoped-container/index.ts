@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import Container, { ContainerInstance } from "typedi";
+import { GraphQLRequestContext, ApolloServerPlugin } from "apollo-server-plugin-base";
 import { buildSchema, ResolverData } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
@@ -17,7 +18,7 @@ async function bootstrap() {
     container: ({ context }: ResolverData<Context>) => context.container,
   });
 
-  // Create GraphQL server
+  // create GraphQL server
   const server = new ApolloServer({
     schema,
     // we need to provide unique context with `requestId` for each request
@@ -28,22 +29,27 @@ async function bootstrap() {
       container.set("context", context); // place context or other data in container
       return context;
     },
-    formatResponse: (response: any, { context }: ResolverData<Context>) => {
-      // remember to dispose the scoped container to prevent memory leaks
-      Container.reset(context.requestId);
+    // create a plugin that will allow for disposing the scoped container created for every request
+    plugins: [
+      {
+        requestDidStart: () => ({
+          willSendResponse(requestContext: GraphQLRequestContext<Context>) {
+            // remember to dispose the scoped container to prevent memory leaks
+            Container.reset(requestContext.context.requestId);
 
-      // for developers curiosity purpose, here is the logging of current scoped container instances
-      // you can make multiple parallel requests to see in console how this works
-      const instancesIds = ((Container as any).instances as ContainerInstance[]).map(
-        instance => instance.id,
-      );
-      console.log("instances left in memory:", instancesIds);
-
-      return response;
-    },
+            // for developers curiosity purpose, here is the logging of current scoped container instances
+            // we can make multiple parallel requests to see in console how this works
+            const instancesIds = ((Container as any).instances as ContainerInstance[]).map(
+              instance => instance.id,
+            );
+            console.log("instances left in memory:", instancesIds);
+          },
+        }),
+      },
+    ] as ApolloServerPlugin[], // TODO: remove when fixed: https://github.com/apollographql/apollo-server/pull/3525
   });
 
-  // Start the server
+  // start the server
   const { url } = await server.listen(4000);
   console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
