@@ -125,8 +125,9 @@ const server = new ApolloServer({
 
 We also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
 
-Unfortunately, Apollo Server doesn't have a "document middleware" feature yet, so some dirty tricks are needed to do the cleanup.
-Example using `TypeDI` and `apollo-server` with the `formatResponse` method:
+Apollo Server since version 2.2.0 has a [plugins](https://www.apollographql.com/docs/apollo-server/integrations/plugins/) feature that supports [`willSendResponse`](https://www.apollographql.com/docs/apollo-server/integrations/plugins/#willsendresponse) lifecycle event. We can leverage it to clean up the container after handling the request.
+
+Example using `TypeDI` and `apollo-server` with plugins approach:
 
 ```typescript
 import { ApolloServer } from "apollo-server";
@@ -134,11 +135,16 @@ import { Container } from "typedi";
 
 const server = new ApolloServer({
   // ... schema and context here
-  formatResponse: (response: any, { context }: ResolverData<Context>) => {
-    // remember to dispose the scoped container to prevent memory leaks
-    Container.reset(context.requestId);
-    return response;
-  },
+  plugins: [
+    {
+      requestDidStart: () => ({
+        willSendResponse(requestContext) {
+          // remember to dispose the scoped container to prevent memory leaks
+          Container.reset(requestContext.context.requestId);
+        },
+      }),
+    },
+  ],
 });
 ```
 
