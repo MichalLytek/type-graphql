@@ -1,5 +1,4 @@
-<img alt="TypeGraphQL" src="https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/typegraphql.png" width="300" />
-<img alt="Prisma 2" src="https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/prisma.png" width="450" />
+![integration logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/integration.png)
 
 # TypeGraphQL & Prisma 2 integration
 
@@ -65,13 +64,12 @@ It will generate a `User` class in the output folder, with TypeGraphQL decorator
 ```ts
 export enum PostKind {
   BLOG = "BLOG",
-  ADVERT = "ADVERT"
+  ADVERT = "ADVERT",
 }
 registerEnumType(PostKind, {
   name: "PostKind",
   description: undefined,
 });
-
 
 @ObjectType({
   isAbstract: true,
