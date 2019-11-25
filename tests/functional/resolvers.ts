@@ -1565,7 +1565,7 @@ describe("Resolvers", () => {
       expect(result).toBeLessThanOrEqual(10);
     });
 
-    it("should create instances of nested input fields input objects without nulls", async () => {
+    it("should create instances of nested input fields input objects without undefined", async () => {
       const mutation = `mutation {
         mutationWithNestedInputs(input: {
           nestedField: {
@@ -1585,7 +1585,31 @@ describe("Resolvers", () => {
       expect(mutationInputValue).toBeInstanceOf(classes.SampleNestedInput);
       expect(mutationInputValue.nestedField).toBeInstanceOf(classes.SampleInput);
       expect(mutationInputValue.nestedArrayField[0]).toBeInstanceOf(classes.SampleInput);
-      expect(mutationInputValue.optionalNestedField).toBeUndefined();
+      expect(mutationInputValue).not.toHaveProperty("optionalNestedField");
+    });
+
+    it("shouldn't create instances of nested input fields nullable input objects when null provided", async () => {
+      const mutation = `mutation {
+        mutationWithNestedInputs(input: {
+          nestedField: {
+            factor: 20
+          }
+          nestedArrayField: [{
+            factor: 30
+          }]
+          optionalNestedField: null
+        })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithNestedInputs;
+
+      expect(result).toBeGreaterThanOrEqual(0);
+      expect(result).toBeLessThanOrEqual(1);
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleNestedInput);
+      expect(mutationInputValue.nestedField).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.nestedArrayField[0]).toBeInstanceOf(classes.SampleInput);
+      expect(mutationInputValue.optionalNestedField).toBeNull();
     });
 
     it("should create instance of nested input field of args type object", async () => {

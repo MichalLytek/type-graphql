@@ -76,12 +76,15 @@ function convertToInput(tree: TransformationTree, data: any) {
   const inputFields = tree.getFields().reduce<Record<string, any>>((fields, field) => {
     const siblings = field.fields;
     const value = data[field.name];
-    if (!siblings || !value) {
-      fields[field.name] = convertToType(field.target, value);
-    } else if (Array.isArray(value)) {
-      fields[field.name] = value.map(itemValue => convertToInput(siblings, itemValue));
-    } else {
-      fields[field.name] = convertToInput(siblings, value);
+    // don't create property for nullable field
+    if (value !== undefined) {
+      if (value === null || !siblings) {
+        fields[field.name] = convertToType(field.target, value);
+      } else if (Array.isArray(value)) {
+        fields[field.name] = value.map(itemValue => convertToInput(siblings, itemValue));
+      } else {
+        fields[field.name] = convertToInput(siblings, value);
+      }
     }
     return fields;
   }, {});

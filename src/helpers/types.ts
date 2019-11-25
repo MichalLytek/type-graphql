@@ -86,7 +86,7 @@ const simpleTypes: Function[] = [String, Boolean, Number, Date, Array, Promise];
 export function convertToType(Target: any, data?: object): object | undefined {
   // skip converting undefined and null
   if (data == null) {
-    return;
+    return data;
   }
   // skip converting scalars (object scalar mostly)
   if (Target instanceof GraphQLScalarType) {
