@@ -67,6 +67,19 @@ export class Gulpfile {
   }
 
   /**
+   * Copy over the browser-shim files instead of compiling them.
+   * The .js file supports ES5 and newer browsers.
+   * The .ts file supports Angular and other TypeScript projects.
+   */
+  @MergedTask()
+  packageBrowserShim() {
+    return [
+      gulp.src("./src/browser-shim.ts").pipe(gulp.dest("./build/package/dist")),
+      del(["./build/package/dist/browser-shim.d.ts"]),
+    ];
+  }
+
+  /**
    * Moves all compiled files to the final package directory.
    */
   // @Task()
@@ -117,6 +130,7 @@ export class Gulpfile {
     return [
       "clean",
       "packageCompile",
+      "packageBrowserShim",
       // "packageMoveCompiledFiles",
       // "packageClearCompileDirectory",
       ["packagePreparePackageFile", "packageReadmeFile"],
