@@ -42,5 +42,14 @@
   },
   "bugs": {
     "url": "https://github.com/MichalLytek/type-graphql/issues"
-  }
+  },
+  "keywords": [
+    "type-graphql",
+    "prisma",
+    "typegraphql",
+    "prisma2",
+    "prisma-framework",
+    "graphql",
+    "generator"
+  ]
 }
