@@ -1,8 +1,8 @@
 ![integration logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/integration.png)
 
-# TypeGraphQL & Prisma 2 integration
+# TypeGraphQL & Prisma Framework integration
 
-Prisma 2 generator to emit TypeGraphQL type classes and resolvers
+Prisma Framework (formerly called Prisma 2) generator to emit TypeGraphQL type classes and resolvers
 
 ## Installation
 
@@ -32,7 +32,7 @@ generator typegraphql {
 }
 ```
 
-This will emit the generated TypeGraphQL classes to `@generated/typegraphql-prisma` in `node_modules` folder. You can also configure the default output folder, e.g.:
+Then after running `npx prisma2 generate`, this will emit the generated TypeGraphQL classes to `@generated/typegraphql-prisma` in `node_modules` folder. You can also configure the default output folder, e.g.:
 
 ```prisma
 generator typegraphql {
@@ -130,7 +130,7 @@ const schema = await buildSchema({
 When using the generated resolvers, you have to first provide the `Photon` instance into the context, to make it available for the crud and relations resolvers:
 
 ```ts
-import { Photon } from "@generated/photon";
+import { Photon } from "@prisma/photon";
 
 const photon = new Photon();
 const server = new ApolloServer({
@@ -183,4 +183,6 @@ https://github.com/MichalLytek/type-graphql/tree/prisma/examples/basic
 
 Currently released version `0.1.x` is just a preview of the upcoming integration. For now it lacks customization option - picking/omitting fields of object types to expose in the schema, as well as picking CRUD methods and exposed args.
 
-However, the base functionality is working well, so I strongly encourage you to give it a try and play with it. Any feedback about the developers experience, bug reports or ideas about new features or enhancements are very welcome - please feel free to open an issue about that.
+However, the base functionality is working well, so I strongly encourage you to give it a try and play with it. Any feedback about the developers experience, bug reports or ideas about new features or enhancements are very welcome - please feel free to put your two cents into [discussion in the issue](https://github.com/MichalLytek/type-graphql/issues/476).
+
+In near feature, when Prisma SDK will be ready, the `typegraphql-prisma` integration will also allow to use a code-first approach to build a `schema.prisma` and GraphQL schema at once, using classes with decorators as a single source of truth. Stay tuned! :muscle:
