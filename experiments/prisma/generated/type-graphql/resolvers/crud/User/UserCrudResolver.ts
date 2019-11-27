@@ -21,10 +21,10 @@ export class UserCrudResolver {
   }
 
   @Query(_returns => [User], {
-    nullable: true,
+    nullable: false,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[] | null> {
+  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
     return ctx.photon.users.findMany(args);
   }
 

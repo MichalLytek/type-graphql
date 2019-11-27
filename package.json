@@ -8,19 +8,21 @@
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
   "peerDependencies": {
-    "dataloader": "^2.0.0"
+    "@types/node": "*",
+    "dataloader": "^2.0.0",
+    "prisma2": "2.0.0-preview017.1"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^0.0.24",
-    "@prisma/photon": "^2.0.0-alpha.351",
-    "@prisma/sdk": "^0.0.60",
-    "@types/node": "^12.12.11",
+    "@prisma/generator-helper": "^0.0.26",
+    "@prisma/photon": "2.0.0-preview017.1",
+    "@prisma/sdk": "^0.0.64",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
     "ts-morph": "^5.0.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@types/node": "^12.12.14",
     "dataloader": "^2.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.2",

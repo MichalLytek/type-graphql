@@ -50,3 +50,6 @@ export declare type mergeBy = any
 
 export declare var unpack: any
 export declare type unpack = any
+
+export declare var getDMMF: any
+export declare type getDMMF = any

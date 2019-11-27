@@ -670,7 +670,7 @@
             "outputType": {
               "type": "User",
               "kind": "object",
-              "isRequired": false,
+              "isRequired": true,
               "isList": true
             }
           },
@@ -790,7 +790,7 @@
             "outputType": {
               "type": "Post",
               "kind": "object",
-              "isRequired": false,
+              "isRequired": true,
               "isList": true
             }
           },

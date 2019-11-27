@@ -76,8 +76,8 @@ export declare class Photon {
     private connectEngine;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    readonly users: UserDelegate;
-    readonly posts: PostDelegate;
+    get users(): UserDelegate;
+    get posts(): PostDelegate;
 }
 export declare const OrderByArg: {
     asc: "asc";
@@ -161,7 +161,7 @@ export declare class UserClient<T> implements Promise<T> {
     constructor(_dmmf: DMMFClass, _fetcher: PhotonFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _path: string[], _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PhotonPromise';
     posts<T extends FindManyPostArgs = {}>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
-    private readonly _document;
+    private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -528,7 +528,7 @@ export declare class PostClient<T> implements Promise<T> {
     constructor(_dmmf: DMMFClass, _fetcher: PhotonFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _path: string[], _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PhotonPromise';
     author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectArgs ? Promise<UserGetSelectPayload<ExtractUserSelectArgs<T>> | null> : T extends UserIncludeArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeArgs<T>> | null> : UserClient<User | null>;
-    private readonly _document;
+    private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.

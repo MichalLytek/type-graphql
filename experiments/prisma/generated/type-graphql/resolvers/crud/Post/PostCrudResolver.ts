@@ -21,10 +21,10 @@ export class PostCrudResolver {
   }
 
   @Query(_returns => [Post], {
-    nullable: true,
+    nullable: false,
     description: undefined
   })
-  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[] | null> {
+  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[]> {
     return ctx.photon.posts.findMany(args);
   }
 
