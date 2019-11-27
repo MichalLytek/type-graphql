@@ -9,7 +9,8 @@ import {
 } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 import path from "path";
-import { Photon } from "@generated/photon";
+import { Photon } from "@prisma/photon";
+
 import {
   User,
   Post,
