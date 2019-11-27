@@ -7,6 +7,7 @@ type Numeric = Float
 
 generator photon {
   provider = "photonjs"
+  binaryTargets = ["windows", "debian-openssl-1.1.x"]
   output   = "../prisma/generated/photon"
 }
 

@@ -8,19 +8,19 @@ services:
     volumes:
       - ./:/usr/app/
       - root_node_modules/:/usr/app/node_modules/
-      - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
+      - experiments_node_modules/:/usr/app/experiments/node_modules/
 
-  basic-example:
+  experiments:
     image: node:12.6.0
     command: npm start
-    working_dir: /usr/app/examples/basic
+    working_dir: /usr/app/experiments
     ports:
       - "4000:4000"
     volumes:
       - ./:/usr/app/
       - root_node_modules/:/usr/app/node_modules/
-      - examples_basic_node_modules/:/usr/app/examples/basic/node_modules/
+      - experiments_node_modules/:/usr/app/experiments/node_modules/
 
 volumes:
   root_node_modules:
-  examples_basic_node_modules:
+  experiments_node_modules:
