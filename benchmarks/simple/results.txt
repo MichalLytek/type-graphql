@@ -1,0 +1,19 @@
+Core i7 2700K @ 3.5GHz
+Node.js v10.17, Windows 10 x64
+100 000 iterations
+
+-----
+
+ES2016 build
+-  singleObject: 4831.113ms
+-  nestedObject: 17067.581ms
+
+ES2018 build
+- singleObject: 2196.958ms
+- nestedObject: 7311.419ms
+
+-----
+
+graphql-js
+- singleObject: 871.424ms
+- nestedObject: 2206.372ms
