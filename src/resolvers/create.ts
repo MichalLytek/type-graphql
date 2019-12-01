@@ -79,7 +79,7 @@ export function createAdvancedFieldResolver(
   };
 }
 
-export function createSimpleFieldResolver(
+export function createBasicFieldResolver(
   fieldMetadata: FieldMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const { authChecker, authMode, globalMiddlewares, container } = BuildContext;

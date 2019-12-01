@@ -24,6 +24,10 @@ export async function runBenchmark(schema: GraphQLSchema) {
     const result = await execute({ schema, document: multipleNestedObjectsQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(
+      result.data!.multipleNestedObjects.length === ARRAY_ITEMS,
+      "result data is not a proper array",
+    );
+    console.assert(
       result.data!.multipleNestedObjects[0].nestedField.booleanField === true,
       "data nestedField are incorrect",
     );

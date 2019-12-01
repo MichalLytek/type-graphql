@@ -31,7 +31,7 @@ import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../h
 import {
   createHandlerResolver,
   createAdvancedFieldResolver,
-  createSimpleFieldResolver,
+  createBasicFieldResolver,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import {
@@ -312,12 +312,20 @@ export abstract class SchemaGenerator {
                   field.getType(),
                   field.typeOptions,
                 );
+                const isSimpleResolver =
+                  field.simple !== undefined
+                    ? field.simple === true
+                    : objectType.simpleResolvers !== undefined
+                    ? objectType.simpleResolvers === true
+                    : false;
                 fieldsMap[field.schemaName] = {
                   type,
                   args: this.generateHandlerArgs(field.params!),
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
-                    : createSimpleFieldResolver(field),
+                    : isSimpleResolver
+                    ? undefined
+                    : createBasicFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
                   astNode: getFieldDefinitionNode(field.name, type, field.directives),

@@ -3,7 +3,7 @@ import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../buil
 
 import { runBenchmark, ARRAY_ITEMS } from "./run";
 
-@ObjectType()
+@ObjectType({ simpleResolvers: true })
 class SampleObject {
   @Field()
   stringField!: string;

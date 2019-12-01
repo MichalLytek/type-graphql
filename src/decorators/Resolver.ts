@@ -1,23 +1,23 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ClassTypeResolver, ResolverClassOptions } from "./types";
+import { ClassTypeResolver, AbstractClassOptions } from "./types";
 import { ClassType } from "../interfaces";
 
 export function Resolver(): ClassDecorator;
-export function Resolver(options: ResolverClassOptions): ClassDecorator;
+export function Resolver(options: AbstractClassOptions): ClassDecorator;
 export function Resolver(
   typeFunc: ClassTypeResolver,
-  options?: ResolverClassOptions,
+  options?: AbstractClassOptions,
 ): ClassDecorator;
-export function Resolver(objectType: ClassType, options?: ResolverClassOptions): ClassDecorator;
+export function Resolver(objectType: ClassType, options?: AbstractClassOptions): ClassDecorator;
 export function Resolver(
-  objectTypeOrTypeFuncOrMaybeOptions?: Function | ResolverClassOptions,
-  maybeOptions?: ResolverClassOptions,
+  objectTypeOrTypeFuncOrMaybeOptions?: Function | AbstractClassOptions,
+  maybeOptions?: AbstractClassOptions,
 ): ClassDecorator {
   const objectTypeOrTypeFunc: Function | undefined =
     typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
       ? objectTypeOrTypeFuncOrMaybeOptions
       : undefined;
-  const options: ResolverClassOptions =
+  const options: AbstractClassOptions =
     (typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
       ? maybeOptions
       : objectTypeOrTypeFuncOrMaybeOptions) || {};

@@ -8,4 +8,5 @@ export interface ClassMetadata {
   description?: string;
   isAbstract?: boolean;
   directives?: DirectiveMetadata[];
+  simpleResolvers?: boolean;
 }
