@@ -42,13 +42,8 @@
     "@types/mongoose": "^5.5.28",
     "@types/node": "^12.12.5",
     "@types/rimraf": "^2.0.3",
-    "@types/ws": "^6.0.3",
     "apollo-cache-control": "^0.8.5",
-    "apollo-cache-inmemory": "^1.6.3",
-    "apollo-client": "^2.6.4",
     "apollo-engine": "^1.1.2",
-    "apollo-link": "^1.2.13",
-    "apollo-link-ws": "^1.0.19",
     "apollo-server": "^2.9.7",
     "apollo-server-express": "^2.9.7",
     "class-transformer": "^0.2.3",
@@ -71,7 +66,6 @@
     "prettier": "^1.18.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "subscriptions-transport-ws": "^0.9.16",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
@@ -81,8 +75,7 @@
     "typegoose": "^5.9.1",
     "typeorm": "^0.2.20",
     "typeorm-typedi-extensions": "^0.2.3",
-    "typescript": "^3.6.4",
-    "ws": "^7.2.0"
+    "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {
