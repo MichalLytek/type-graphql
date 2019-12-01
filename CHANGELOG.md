@@ -6,13 +6,15 @@
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.5.8`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
-- **Breaking Change**: remove deprecated `DepreciationOptions` interface
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 - fix transforming and validating nested inputs and arrays (#462)
+### Others
+- **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
+- **Breaking Change**: remove deprecated `DepreciationOptions` interface
 
 ## v0.17.5
 ### Features

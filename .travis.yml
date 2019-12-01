@@ -3,10 +3,10 @@ jobs:
     - stage: test
       language: node_js
       node_js:
+        - 13
         - 12
-        - 11
         - 10
-        - 8
+        - 10.3
       before_install:
         - npm i -g codecov
       script:
@@ -23,7 +23,7 @@ jobs:
         only:
           - master
       language: node_js
-      node_js: 12
+      node_js: 13
       install: true
       before_script:
         - chmod +x publish-website.sh
