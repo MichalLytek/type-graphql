@@ -1,0 +1,15 @@
+Core i7 2700K @ 3.5GHz
+Windows 10 x64
+10 000 array items | 100 iterations
+
+-----
+Node.js v13.2
+
+ES2018 build
+- 42.551s
+
+without field resolvers (`graphql-js` implicit ones)
+- 11.902s
+
+`graphql-js`
+- 9.963s
