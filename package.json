@@ -10,11 +10,11 @@
   "peerDependencies": {
     "@types/node": "*",
     "dataloader": "^2.0.0",
-    "prisma2": "2.0.0-preview017.1"
+    "prisma2": "2.0.0-preview017.2"
   },
   "dependencies": {
     "@prisma/generator-helper": "^0.0.26",
-    "@prisma/photon": "2.0.0-preview017.1",
+    "@prisma/photon": "2.0.0-preview017.2",
     "@prisma/sdk": "^0.0.64",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
