@@ -10,11 +10,12 @@
   "peerDependencies": {
     "@types/node": "*",
     "dataloader": "^2.0.0",
-    "prisma2": "2.0.0-preview017.1"
+    "prisma2": "2.0.0-preview017.2",
+    "type-graphql": "0.18.0-beta.6"
   },
   "dependencies": {
     "@prisma/generator-helper": "^0.0.26",
-    "@prisma/photon": "2.0.0-preview017.1",
+    "@prisma/photon": "2.0.0-preview017.2",
     "@prisma/sdk": "^0.0.64",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
@@ -25,8 +26,8 @@
     "@types/node": "^12.12.14",
     "dataloader": "^2.0.0",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.2",
-    "typescript": "^3.7.2"
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   },
   "license": "MIT",
   "engines": {
