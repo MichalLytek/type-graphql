@@ -5,7 +5,7 @@ import path from "path";
 import { noop } from "./helpers";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./object-type-class";
-import generateRelationsResolverClassFromModel from "./relations-resolver-class";
+import generateRelationsResolverClassesFromModel from "./relations-resolver-class";
 import {
   generateOutputTypeClassFromType,
   generateInputTypeClassFromType,
@@ -150,10 +150,12 @@ export default async function generateCode(
       const outputType = dmmf.schema.outputTypes.find(
         type => type.name === model.name,
       )!;
-      return generateRelationsResolverClassFromModel(
+      const mapping = dmmf.mappings.find(it => it.model === model.name)!;
+      return generateRelationsResolverClassesFromModel(
         project,
         baseDirPath,
         model,
+        mapping,
         outputType,
         modelNames,
       );

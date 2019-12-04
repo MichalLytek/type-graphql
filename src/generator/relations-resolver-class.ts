@@ -5,7 +5,6 @@ import {
   SourceFile,
 } from "ts-morph";
 import { DMMF } from "@prisma/photon/runtime";
-import pluralize from "pluralize";
 import path from "path";
 
 import {
@@ -35,6 +34,7 @@ export default async function generateRelationsResolverClassesFromModel(
   project: Project,
   baseDirPath: string,
   model: DMMF.Model,
+  mapping: DMMF.Mapping,
   outputType: DMMF.OutputType,
   modelNames: string[],
 ): Promise<GeneratedResolverData> {
@@ -116,6 +116,7 @@ export default async function generateRelationsResolverClassesFromModel(
         ] = createDataLoaderGetterCreationStatement(
           sourceFile,
           model.name,
+          mapping.plural,
           field.name,
           idField.name,
           getFieldTSType(idField, modelNames),
@@ -179,6 +180,7 @@ export default async function generateRelationsResolverClassesFromModel(
 function createDataLoaderGetterCreationStatement(
   sourceFile: SourceFile,
   modelName: string,
+  collectionName: string,
   relationFieldName: string,
   idFieldName: string,
   rootKeyType: string,
@@ -190,7 +192,6 @@ function createDataLoaderGetterCreationStatement(
   )}DataLoader`;
   const dataLoaderGetterInCtxName = `get${pascalCase(dataLoaderName)}`;
   const functionName = `create${pascalCase(dataLoaderGetterInCtxName)}`;
-  const collectionName = pluralize(camelCase(modelName));
 
   sourceFile.addFunction({
     name: functionName,

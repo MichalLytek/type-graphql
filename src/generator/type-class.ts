@@ -28,7 +28,6 @@ export async function generateOutputTypeClassFromType(
   });
 
   generateTypeGraphQLImports(sourceFile);
-  // TODO: add more imports when needed
 
   sourceFile.addClass({
     name: type.name,
