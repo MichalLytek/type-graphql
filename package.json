@@ -3,7 +3,9 @@
   "version": "0.1.1",
   "scripts": {
     "build": "tsc",
-    "check": "tsc --noEmit",
+    "check:type": "tsc --noEmit",
+    "check:format": "prettier --check ./**/*.{js,json,ts,tsx}",
+    "format": "prettier --write ./**/*.{js,json,ts,tsx}",
     "docker": "docker-compose run linux-node",
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
@@ -25,6 +27,8 @@
   "devDependencies": {
     "@types/node": "^12.12.14",
     "dataloader": "^2.0.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
@@ -52,5 +56,20 @@
     "prisma-framework",
     "graphql",
     "generator"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{js,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }

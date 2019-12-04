@@ -1,0 +1,5 @@
+tsconfig*.json
+lib/**/*
+package/**/*
+**/prisma/generated/**/*
+**/prisma/migrations/**/*
