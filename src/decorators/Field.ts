@@ -4,15 +4,20 @@ import { findType } from "../helpers/findType";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 import { SymbolKeysNotSupportedError } from "../errors";
 
+export type FieldOptions = AdvancedOptions & {
+  /** Set to `true` to disable auth and all middlewares stack for this field resolver */
+  simple?: boolean;
+};
+
 export function Field(): MethodAndPropDecorator;
-export function Field(options: AdvancedOptions): MethodAndPropDecorator;
+export function Field(options: FieldOptions): MethodAndPropDecorator;
 export function Field(
   returnTypeFunction?: ReturnTypeFunc,
-  options?: AdvancedOptions,
+  options?: FieldOptions,
 ): MethodAndPropDecorator;
 export function Field(
-  returnTypeFuncOrOptions?: ReturnTypeFunc | AdvancedOptions,
-  maybeOptions?: AdvancedOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | FieldOptions,
+  maybeOptions?: FieldOptions,
 ): MethodDecorator | PropertyDecorator {
   return (prototype, propertyKey, descriptor) => {
     if (typeof propertyKey === "symbol") {
@@ -43,6 +48,7 @@ export function Field(
       target: prototype.constructor,
       description: options.description,
       deprecationReason: options.deprecationReason,
+      simple: options.simple,
     });
 
     if (isResolver) {

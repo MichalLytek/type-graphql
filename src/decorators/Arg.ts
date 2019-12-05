@@ -3,18 +3,18 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
 
-export type Options = DecoratorTypeOptions & DescriptionOptions & ValidateOptions;
+export type ArgOptions = DecoratorTypeOptions & DescriptionOptions & ValidateOptions;
 
-export function Arg(name: string, options?: Options): ParameterDecorator;
+export function Arg(name: string, options?: ArgOptions): ParameterDecorator;
 export function Arg(
   name: string,
   returnTypeFunc: ReturnTypeFunc,
-  options?: Options,
+  options?: ArgOptions,
 ): ParameterDecorator;
 export function Arg(
   name: string,
-  returnTypeFuncOrOptions?: ReturnTypeFunc | Options,
-  maybeOptions?: Options,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | ArgOptions,
+  maybeOptions?: ArgOptions,
 ): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
     const { options, returnTypeFunc } = getTypeDecoratorParams(

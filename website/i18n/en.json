@@ -61,6 +61,9 @@
       "middlewares": {
         "title": "Middleware and guards"
       },
+      "performance": {
+        "title": "Performance"
+      },
       "README": {
         "title": "README"
       },

@@ -17,4 +17,5 @@ export interface FieldMetadata {
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
+  simple?: boolean;
 }

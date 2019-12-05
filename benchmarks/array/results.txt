@@ -1,0 +1,15 @@
+Core i7 2700K @ 3.5GHz
+Windows 10 x64
+10 000 array items | 100 iterations
+
+-----
+Node.js v13.2
+
+standard
+- 42.551s
+
+with `simpleResolvers: true`
+- 11.841s
+
+graphql-js
+- 9.963s

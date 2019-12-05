@@ -19,7 +19,7 @@
       "custom-decorators",
       "complexity"
     ],
-    "Others": ["emit-schema", "browser-usage"]
+    "Others": ["emit-schema", "performance", "browser-usage"]
   },
   "examples": {
     "Examples": ["examples"]
