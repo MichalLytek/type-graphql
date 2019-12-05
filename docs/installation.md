@@ -10,7 +10,7 @@ Before getting started with TypeGraphQL we need to install some additional depen
 
 ## Packages installation
 
-First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) (and it's typings) which is a peer dependency of TypeGraphQL:
+First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) which is a peer dependency of TypeGraphQL:
 
 ```sh
 npm i graphql type-graphql
