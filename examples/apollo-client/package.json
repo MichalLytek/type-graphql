@@ -4,15 +4,16 @@
     "start": "parcel ./src/index.html"
   },
   "dependencies": {
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
+    "@types/react": "^16.9.15",
+    "@types/react-dom": "^16.9.4",
     "apollo-boost": "^0.4.4",
-    "react": "^16.9.0",
-    "react-apollo": "^3.1.0",
-    "react-dom": "^16.9.0"
+    "graphql": "^14.5.8",
+    "react": "^16.12.0",
+    "react-apollo": "^3.1.3",
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "alias": {
     "util": "./mocks/utils.js",
