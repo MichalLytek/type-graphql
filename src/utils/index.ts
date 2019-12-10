@@ -7,3 +7,4 @@ export {
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
 export { ContainerType, ContainerGetter } from "./container";
+export { isPromise } from "./isPromise";
