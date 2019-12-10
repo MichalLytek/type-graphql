@@ -71,12 +71,15 @@ export function applyAuthChecker(
   }
 }
 
-export async function applyMiddlewares(
+export function applyMiddlewares(
   container: IOCContainer,
   resolverData: ResolverData<any>,
   middlewares: Array<Middleware<any>>,
   resolverHandlerFunction: () => any,
 ): Promise<any> {
+  if (middlewares.length === 0) {
+    return resolverHandlerFunction();
+  }
   let middlewaresIndex = -1;
   async function dispatchHandler(currentIndex: number): Promise<void> {
     if (currentIndex <= middlewaresIndex) {
