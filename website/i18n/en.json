@@ -332,6 +332,9 @@
       "version-0.17.5/version-0.17.5-dependency-injection": {
         "title": "Dependency injection"
       },
+      "version-0.17.5/version-0.17.5-enums": {
+        "title": "Enums"
+      },
       "version-0.17.5/version-0.17.5-examples": {
         "title": "Examples",
         "sidebar_label": "List of examples"
