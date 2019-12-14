@@ -9,7 +9,7 @@ import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middlew
 import { IOCContainer } from "../utils/container";
 import { AuthMiddleware } from "../helpers/auth-middleware";
 import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
-import { isPromise } from "../utils/isPromise";
+import isPromiseLike from "../utils/isPromiseLike";
 
 export function getParams(
   params: ParamMetadata[],
@@ -57,7 +57,7 @@ export function getParams(
           return paramInfo.resolver(resolverData);
       }
     });
-  if (paramValues.some(isPromise)) {
+  if (paramValues.some(isPromiseLike)) {
     return Promise.all(paramValues);
   } else {
     return paramValues;

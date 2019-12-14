@@ -9,7 +9,7 @@ import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ResolverData } from "../interfaces";
-import { isPromise } from "../utils";
+import isPromiseLike from "../utils/isPromiseLike";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
@@ -35,7 +35,7 @@ export function createHandlerResolver(
         globalValidate,
         pubSub,
       );
-      if (isPromise(params)) {
+      if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
         );
