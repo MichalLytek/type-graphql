@@ -3,7 +3,7 @@
 # TypeGraphQL
 
 [![npm version](https://badge.fury.io/js/type-graphql.svg)](https://badge.fury.io/js/type-graphql)
-[![Build Status](https://travis-ci.org/MichalLytek/type-graphql.svg?branch=master)](https://travis-ci.org/MichalLytek/type-graphql)
+[![Build Status](https://travis-ci.com/MichalLytek/type-graphql.svg?branch=master)](https://travis-ci.com/MichalLytek/type-graphql)
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
 [![dependencies](https://david-dm.org/MichalLytek/type-graphql/status.svg)](https://david-dm.org/MichalLytek/type-graphql)
 [![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
