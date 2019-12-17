@@ -15,6 +15,20 @@ const runtime_1 = require("./runtime");
  */
 const path = require("path");
 const debug = runtime_1.debugLib('photon');
+/**
+ * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Photon.js.
+ */
+class PhotonRequestError extends Error {
+    constructor(message, code, meta) {
+        super(message);
+        this.message = message;
+        this.code = code;
+        this.meta = meta;
+        this.code = code;
+        this.meta = meta;
+    }
+}
+exports.PhotonRequestError = PhotonRequestError;
 class PhotonFetcher {
     constructor(photon, engine, debug = false, hooks) {
         this.photon = photon;
@@ -38,20 +52,17 @@ class PhotonFetcher {
                 return this.unpack(document, result, path, rootField, isList);
             }
             catch (e) {
-                // HACK: This will be removed as soon as the query engine doesn't throw anymore
-                if (e.message.includes('Record does not exist') && rootField && rootField.startsWith('findOne')) {
-                    return null;
-                }
-                if (e.message.includes('RecordDoesNotExist') && rootField && rootField.startsWith('findOne')) {
-                    return null;
-                }
                 if (callsite) {
                     const { stack } = runtime_1.printStack({
                         callsite,
                         originalMethod: path.join('.'),
                         onUs: e.isPanic
                     });
-                    throw new Error(stack + '\n\n' + e.message);
+                    const message = stack + '\n\n' + e.message;
+                    if (e.code) {
+                        throw new PhotonRequestError(message, e.code, e.meta);
+                    }
+                    throw new Error(message);
                 }
                 else {
                     if (e.isPanic) {

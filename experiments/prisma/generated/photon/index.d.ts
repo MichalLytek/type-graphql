@@ -16,6 +16,15 @@ export declare type CleanupNever<T> = {
 export declare type Subset<T, U> = {
     [key in keyof T]: key extends keyof U ? T[key] : never;
 };
+/**
+ * A PhotonRequestError is an error that is thrown in conjunction to a concrete query that has been performed with Photon.js.
+ */
+export declare class PhotonRequestError extends Error {
+    message: string;
+    code?: string | undefined;
+    meta?: any;
+    constructor(message: string, code?: string | undefined, meta?: any);
+}
 declare class PhotonFetcher {
     private readonly photon;
     private readonly engine;

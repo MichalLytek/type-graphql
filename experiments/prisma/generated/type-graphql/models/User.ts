@@ -2,17 +2,13 @@ import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, I
 import { Post } from "../models/Post";
 import { Role } from "../enums/Role";
 
-/**
- * User model comment
- */
+/** User model comment */
 @ObjectType({
   isAbstract: true,
   description: "User model comment",
 })
 export class User {
-  /**
-   * User model field comment
-   */
+  /** User model field comment */
   @Field(_type => Int, {
     nullable: false,
     description: "User model field comment",
