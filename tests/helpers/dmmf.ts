@@ -1,4 +1,4 @@
-import PhotonRuntime from "@prisma/photon/runtime";
+import * as PhotonRuntime from "@prisma/photon/runtime";
 import getDMMFTypings from "@prisma/photon/runtime/getDMMF";
 import { DMMF } from "@prisma/photon/runtime/dmmf-types";
 

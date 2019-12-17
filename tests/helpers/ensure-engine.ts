@@ -7,15 +7,15 @@ const photonRuntimeDir = path.join(
   "../../node_modules/@prisma/photon",
 );
 
-export default async function ensureQueryEngineExists() {
-  if (!fs.existsSync(photonRuntimeDir)) {
-    throw new Error("Missing Photon directory: " + photonRuntimeDir);
-  }
-
-  await download({
-    binaries: {
-      "query-engine": photonRuntimeDir,
-    },
-    showProgress: true,
-  });
+if (!fs.existsSync(photonRuntimeDir)) {
+  throw new Error("Missing Photon directory: " + photonRuntimeDir);
 }
+
+download({
+  binaries: {
+    "query-engine": photonRuntimeDir,
+  },
+  showProgress: true,
+})
+  .then(() => process.exit(0))
+  .catch(() => process.exit(1));
