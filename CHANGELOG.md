@@ -17,6 +17,10 @@
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface
 
+## v0.17.6
+### Fixes
+- fix leaking resolver source code in `MissingSubscriptionTopicsError` error message (#489)
+
 ## v0.17.5
 ### Features
 - rename `DepreciationOptions` interface to `DeprecationOptions` and deprecate the old one
