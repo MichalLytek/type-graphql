@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- fix leaking resolver source code in `MissingSubscriptionTopicsError` error message (#489)
 
 ## v0.17.5
 ### Features
