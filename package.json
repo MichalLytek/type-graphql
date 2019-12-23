@@ -28,6 +28,7 @@
     "@types/jest": "^24.0.24",
     "@types/node": "^12.12.21",
     "dataloader": "^2.0.0",
+    "directory-tree": "^2.2.4",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
