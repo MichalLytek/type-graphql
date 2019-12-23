@@ -14,19 +14,19 @@
   "peerDependencies": {
     "@types/node": "*",
     "dataloader": "^2.0.0",
-    "prisma2": "2.0.0-preview018.2",
-    "type-graphql": "0.18.0-beta.7"
+    "prisma2": "2.0.0-preview019",
+    "type-graphql": "0.18.0-beta.8"
   },
   "dependencies": {
     "@prisma/generator-helper": "^0.0.29",
-    "@prisma/photon": "2.0.0-preview018.2",
-    "@prisma/sdk": "^0.0.99",
+    "@prisma/photon": "2.0.0-preview019",
+    "@prisma/sdk": "^0.0.105",
     "ts-morph": "^6.0.2",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "@types/node": "^12.12.17",
+    "@types/jest": "^24.0.24",
+    "@types/node": "^12.12.21",
     "dataloader": "^2.0.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
@@ -34,7 +34,7 @@
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   },
   "license": "MIT",
   "engines": {

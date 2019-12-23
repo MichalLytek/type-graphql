@@ -31,9 +31,14 @@
             "dbName": null,
             "isList": false,
             "isRequired": true,
-            "isUnique": true,
+            "isUnique": false,
             "isId": true,
             "type": "Int",
+            "default": {
+              "name": "autoincrement",
+              "returnType": "Int",
+              "args": []
+            },
             "isGenerated": false,
             "isUpdatedAt": false,
             "documentation": "User model field comment\r"
@@ -141,7 +146,7 @@
             "dbName": null,
             "isList": false,
             "isRequired": true,
-            "isUnique": true,
+            "isUnique": false,
             "isId": true,
             "type": "String",
             "default": {

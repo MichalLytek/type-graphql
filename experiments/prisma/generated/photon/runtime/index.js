@@ -704,7 +704,19 @@ module.exports.silent = (fromDirectory, moduleId) => resolveFrom(fromDirectory, 
 
 
 /***/ }),
-/* 6 */,
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var async = __webpack_require__(971);
+async.core = __webpack_require__(386);
+async.isCore = __webpack_require__(901);
+async.sync = __webpack_require__(97);
+
+exports = async;
+module.exports = async;
+
+
+/***/ }),
 /* 7 */
 /***/ (function(__unusedmodule, exports) {
 
@@ -3345,7 +3357,7 @@ You may have to run ${chalk_1.default.greenBright('prisma2 generate')} for your 
             const alternativePath = await this.resolveAlternativeBinaryPath(platform);
             if (!alternativePath) {
                 throw new Error(`Photon binary for current platform ${chalk_1.default.bold.greenBright(platform)} could not be found.${pinnedStr}
-Photon looked in ${chalk_1.default.underline(alternativePath)} but couldn't find it.
+Photon looked in ${chalk_1.default.underline(prismaPath)} but couldn't find it.
 Make sure to adjust the generator configuration in the ${chalk_1.default.bold('schema.prisma')} file${info}
 Please run ${chalk_1.default.greenBright('prisma2 generate')} for your changes to take effect.
 ${chalk_1.default.gray(`Note, that by providing \`native\`, Photon automatically resolves \`${platform}\`.
@@ -3626,186 +3638,7 @@ exports.NodeEngine = NodeEngine;
 
 /***/ }),
 /* 80 */,
-/* 81 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-var isCore = __webpack_require__(611);
-var fs = __webpack_require__(747);
-var path = __webpack_require__(622);
-var caller = __webpack_require__(126);
-var nodeModulesPaths = __webpack_require__(856);
-var normalizeOptions = __webpack_require__(256);
-
-var defaultIsFile = function isFile(file) {
-    try {
-        var stat = fs.statSync(file);
-    } catch (e) {
-        if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false;
-        throw e;
-    }
-    return stat.isFile() || stat.isFIFO();
-};
-
-var defaultIsDir = function isDirectory(dir) {
-    try {
-        var stat = fs.statSync(dir);
-    } catch (e) {
-        if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false;
-        throw e;
-    }
-    return stat.isDirectory();
-};
-
-var maybeUnwrapSymlink = function maybeUnwrapSymlink(x, opts) {
-    if (opts && opts.preserveSymlinks === false) {
-        try {
-            return fs.realpathSync(x);
-        } catch (realPathErr) {
-            if (realPathErr.code !== 'ENOENT') {
-                throw realPathErr;
-            }
-        }
-    }
-    return x;
-};
-
-module.exports = function (x, options) {
-    if (typeof x !== 'string') {
-        throw new TypeError('Path must be a string.');
-    }
-    var opts = normalizeOptions(x, options);
-
-    var isFile = opts.isFile || defaultIsFile;
-    var readFileSync = opts.readFileSync || fs.readFileSync;
-    var isDirectory = opts.isDirectory || defaultIsDir;
-
-    var extensions = opts.extensions || ['.js'];
-    var basedir = opts.basedir || path.dirname(caller());
-    var parent = opts.filename || basedir;
-
-    opts.paths = opts.paths || [];
-
-    // ensure that `basedir` is an absolute path at this point, resolving against the process' current working directory
-    var absoluteStart = maybeUnwrapSymlink(path.resolve(basedir), opts);
-
-    if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(x)) {
-        var res = path.resolve(absoluteStart, x);
-        if (x === '..' || x.slice(-1) === '/') res += '/';
-        var m = loadAsFileSync(res) || loadAsDirectorySync(res);
-        if (m) return maybeUnwrapSymlink(m, opts);
-    } else if (isCore(x)) {
-        return x;
-    } else {
-        var n = loadNodeModulesSync(x, absoluteStart);
-        if (n) return maybeUnwrapSymlink(n, opts);
-    }
-
-    if (isCore(x)) return x;
-
-    var err = new Error("Cannot find module '" + x + "' from '" + parent + "'");
-    err.code = 'MODULE_NOT_FOUND';
-    throw err;
-
-    function loadAsFileSync(x) {
-        var pkg = loadpkg(path.dirname(x));
-
-        if (pkg && pkg.dir && pkg.pkg && opts.pathFilter) {
-            var rfile = path.relative(pkg.dir, x);
-            var r = opts.pathFilter(pkg.pkg, x, rfile);
-            if (r) {
-                x = path.resolve(pkg.dir, r); // eslint-disable-line no-param-reassign
-            }
-        }
-
-        if (isFile(x)) {
-            return x;
-        }
-
-        for (var i = 0; i < extensions.length; i++) {
-            var file = x + extensions[i];
-            if (isFile(file)) {
-                return file;
-            }
-        }
-    }
-
-    function loadpkg(dir) {
-        if (dir === '' || dir === '/') return;
-        if (process.platform === 'win32' && (/^\w:[/\\]*$/).test(dir)) {
-            return;
-        }
-        if ((/[/\\]node_modules[/\\]*$/).test(dir)) return;
-
-        var pkgfile = path.join(maybeUnwrapSymlink(dir, opts), 'package.json');
-
-        if (!isFile(pkgfile)) {
-            return loadpkg(path.dirname(dir));
-        }
-
-        var body = readFileSync(pkgfile);
-
-        try {
-            var pkg = JSON.parse(body);
-        } catch (jsonErr) {}
-
-        if (pkg && opts.packageFilter) {
-            // v2 will pass pkgfile
-            pkg = opts.packageFilter(pkg, /*pkgfile,*/ dir); // eslint-disable-line spaced-comment
-        }
-
-        return { pkg: pkg, dir: dir };
-    }
-
-    function loadAsDirectorySync(x) {
-        var pkgfile = path.join(maybeUnwrapSymlink(x, opts), '/package.json');
-        if (isFile(pkgfile)) {
-            try {
-                var body = readFileSync(pkgfile, 'UTF8');
-                var pkg = JSON.parse(body);
-            } catch (e) {}
-
-            if (pkg && opts.packageFilter) {
-                // v2 will pass pkgfile
-                pkg = opts.packageFilter(pkg, /*pkgfile,*/ x); // eslint-disable-line spaced-comment
-            }
-
-            if (pkg && pkg.main) {
-                if (typeof pkg.main !== 'string') {
-                    var mainError = new TypeError('package “' + pkg.name + '” `main` must be a string');
-                    mainError.code = 'INVALID_PACKAGE_MAIN';
-                    throw mainError;
-                }
-                if (pkg.main === '.' || pkg.main === './') {
-                    pkg.main = 'index';
-                }
-                try {
-                    var m = loadAsFileSync(path.resolve(x, pkg.main));
-                    if (m) return m;
-                    var n = loadAsDirectorySync(path.resolve(x, pkg.main));
-                    if (n) return n;
-                } catch (e) {}
-            }
-        }
-
-        return loadAsFileSync(path.join(x, '/index'));
-    }
-
-    function loadNodeModulesSync(x, start) {
-        var dirs = nodeModulesPaths(start, opts, x);
-        for (var i = 0; i < dirs.length; i++) {
-            var dir = dirs[i];
-            if (isDirectory(dir)) {
-                var m = loadAsFileSync(path.join(dir, '/', x));
-                if (m) return m;
-                var n = loadAsDirectorySync(path.join(dir, '/', x));
-                if (n) return n;
-            }
-        }
-    }
-};
-
-
-/***/ }),
+/* 81 */,
 /* 82 */,
 /* 83 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
@@ -4190,7 +4023,186 @@ module.exports = str => {
 
 /***/ }),
 /* 96 */,
-/* 97 */,
+/* 97 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var isCore = __webpack_require__(901);
+var fs = __webpack_require__(747);
+var path = __webpack_require__(622);
+var caller = __webpack_require__(433);
+var nodeModulesPaths = __webpack_require__(778);
+var normalizeOptions = __webpack_require__(746);
+
+var defaultIsFile = function isFile(file) {
+    try {
+        var stat = fs.statSync(file);
+    } catch (e) {
+        if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false;
+        throw e;
+    }
+    return stat.isFile() || stat.isFIFO();
+};
+
+var defaultIsDir = function isDirectory(dir) {
+    try {
+        var stat = fs.statSync(dir);
+    } catch (e) {
+        if (e && (e.code === 'ENOENT' || e.code === 'ENOTDIR')) return false;
+        throw e;
+    }
+    return stat.isDirectory();
+};
+
+var maybeUnwrapSymlink = function maybeUnwrapSymlink(x, opts) {
+    if (opts && opts.preserveSymlinks === false) {
+        try {
+            return fs.realpathSync(x);
+        } catch (realPathErr) {
+            if (realPathErr.code !== 'ENOENT') {
+                throw realPathErr;
+            }
+        }
+    }
+    return x;
+};
+
+module.exports = function (x, options) {
+    if (typeof x !== 'string') {
+        throw new TypeError('Path must be a string.');
+    }
+    var opts = normalizeOptions(x, options);
+
+    var isFile = opts.isFile || defaultIsFile;
+    var readFileSync = opts.readFileSync || fs.readFileSync;
+    var isDirectory = opts.isDirectory || defaultIsDir;
+
+    var extensions = opts.extensions || ['.js'];
+    var basedir = opts.basedir || path.dirname(caller());
+    var parent = opts.filename || basedir;
+
+    opts.paths = opts.paths || [];
+
+    // ensure that `basedir` is an absolute path at this point, resolving against the process' current working directory
+    var absoluteStart = maybeUnwrapSymlink(path.resolve(basedir), opts);
+
+    if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(x)) {
+        var res = path.resolve(absoluteStart, x);
+        if (x === '..' || x.slice(-1) === '/') res += '/';
+        var m = loadAsFileSync(res) || loadAsDirectorySync(res);
+        if (m) return maybeUnwrapSymlink(m, opts);
+    } else if (isCore(x)) {
+        return x;
+    } else {
+        var n = loadNodeModulesSync(x, absoluteStart);
+        if (n) return maybeUnwrapSymlink(n, opts);
+    }
+
+    if (isCore(x)) return x;
+
+    var err = new Error("Cannot find module '" + x + "' from '" + parent + "'");
+    err.code = 'MODULE_NOT_FOUND';
+    throw err;
+
+    function loadAsFileSync(x) {
+        var pkg = loadpkg(path.dirname(x));
+
+        if (pkg && pkg.dir && pkg.pkg && opts.pathFilter) {
+            var rfile = path.relative(pkg.dir, x);
+            var r = opts.pathFilter(pkg.pkg, x, rfile);
+            if (r) {
+                x = path.resolve(pkg.dir, r); // eslint-disable-line no-param-reassign
+            }
+        }
+
+        if (isFile(x)) {
+            return x;
+        }
+
+        for (var i = 0; i < extensions.length; i++) {
+            var file = x + extensions[i];
+            if (isFile(file)) {
+                return file;
+            }
+        }
+    }
+
+    function loadpkg(dir) {
+        if (dir === '' || dir === '/') return;
+        if (process.platform === 'win32' && (/^\w:[/\\]*$/).test(dir)) {
+            return;
+        }
+        if ((/[/\\]node_modules[/\\]*$/).test(dir)) return;
+
+        var pkgfile = path.join(maybeUnwrapSymlink(dir, opts), 'package.json');
+
+        if (!isFile(pkgfile)) {
+            return loadpkg(path.dirname(dir));
+        }
+
+        var body = readFileSync(pkgfile);
+
+        try {
+            var pkg = JSON.parse(body);
+        } catch (jsonErr) {}
+
+        if (pkg && opts.packageFilter) {
+            // v2 will pass pkgfile
+            pkg = opts.packageFilter(pkg, /*pkgfile,*/ dir); // eslint-disable-line spaced-comment
+        }
+
+        return { pkg: pkg, dir: dir };
+    }
+
+    function loadAsDirectorySync(x) {
+        var pkgfile = path.join(maybeUnwrapSymlink(x, opts), '/package.json');
+        if (isFile(pkgfile)) {
+            try {
+                var body = readFileSync(pkgfile, 'UTF8');
+                var pkg = JSON.parse(body);
+            } catch (e) {}
+
+            if (pkg && opts.packageFilter) {
+                // v2 will pass pkgfile
+                pkg = opts.packageFilter(pkg, /*pkgfile,*/ x); // eslint-disable-line spaced-comment
+            }
+
+            if (pkg && pkg.main) {
+                if (typeof pkg.main !== 'string') {
+                    var mainError = new TypeError('package “' + pkg.name + '” `main` must be a string');
+                    mainError.code = 'INVALID_PACKAGE_MAIN';
+                    throw mainError;
+                }
+                if (pkg.main === '.' || pkg.main === './') {
+                    pkg.main = 'index';
+                }
+                try {
+                    var m = loadAsFileSync(path.resolve(x, pkg.main));
+                    if (m) return m;
+                    var n = loadAsDirectorySync(path.resolve(x, pkg.main));
+                    if (n) return n;
+                } catch (e) {}
+            }
+        }
+
+        return loadAsFileSync(path.join(x, '/index'));
+    }
+
+    function loadNodeModulesSync(x, start) {
+        var dirs = nodeModulesPaths(start, opts, x);
+        for (var i = 0; i < dirs.length; i++) {
+            var dir = dirs[i];
+            if (isDirectory(dir)) {
+                var m = loadAsFileSync(path.join(dir, '/', x));
+                if (m) return m;
+                var n = loadAsDirectorySync(path.join(dir, '/', x));
+                if (n) return n;
+            }
+        }
+    }
+};
+
+
+/***/ }),
 /* 98 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -6061,20 +6073,7 @@ module.exports = function (tokens) {
 
 
 /***/ }),
-/* 126 */
-/***/ (function(module) {
-
-module.exports = function () {
-    // see https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
-    var origPrepareStackTrace = Error.prepareStackTrace;
-    Error.prepareStackTrace = function (_, stack) { return stack; };
-    var stack = (new Error()).stack;
-    Error.prepareStackTrace = origPrepareStackTrace;
-    return stack[2].getFileName();
-};
-
-
-/***/ }),
+/* 126 */,
 /* 127 */
 /***/ (function(module) {
 
@@ -6840,12 +6839,7 @@ module.exports = input => (
 /***/ }),
 /* 149 */,
 /* 150 */,
-/* 151 */
-/***/ (function(module) {
-
-module.exports = {"assert":true,"async_hooks":">= 8","buffer_ieee754":"< 0.9.7","buffer":true,"child_process":true,"cluster":true,"console":true,"constants":true,"crypto":true,"_debug_agent":">= 1 && < 8","_debugger":"< 8","dgram":true,"dns":true,"domain":true,"events":true,"freelist":"< 6","fs":true,"fs/promises":">= 10 && < 10.1","_http_agent":">= 0.11.1","_http_client":">= 0.11.1","_http_common":">= 0.11.1","_http_incoming":">= 0.11.1","_http_outgoing":">= 0.11.1","_http_server":">= 0.11.1","http":true,"http2":">= 8.8","https":true,"inspector":">= 8.0.0","_linklist":"< 8","module":true,"net":true,"node-inspect/lib/_inspect":">= 7.6.0 && < 12","node-inspect/lib/internal/inspect_client":">= 7.6.0 && < 12","node-inspect/lib/internal/inspect_repl":">= 7.6.0 && < 12","os":true,"path":true,"perf_hooks":">= 8.5","process":">= 1","punycode":true,"querystring":true,"readline":true,"repl":true,"smalloc":">= 0.11.5 && < 3","_stream_duplex":">= 0.9.4","_stream_transform":">= 0.9.4","_stream_wrap":">= 1.4.1","_stream_passthrough":">= 0.9.4","_stream_readable":">= 0.9.4","_stream_writable":">= 0.9.4","stream":true,"string_decoder":true,"sys":true,"timers":true,"_tls_common":">= 0.11.13","_tls_legacy":">= 0.11.3 && < 10","_tls_wrap":">= 0.11.3","tls":true,"trace_events":">= 10","tty":true,"url":true,"util":true,"v8/tools/arguments":">= 10 && < 12","v8/tools/codemap":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/consarray":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/csvparser":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/logreader":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/profile_view":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/splaytree":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8":">= 1","vm":true,"worker_threads":">= 11.7","zlib":true};
-
-/***/ }),
+/* 151 */,
 /* 152 */,
 /* 153 */,
 /* 154 */
@@ -7476,289 +7470,7 @@ module.exports = (options, input) => {
 
 /***/ }),
 /* 159 */,
-/* 160 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-var fs = __webpack_require__(747);
-var path = __webpack_require__(622);
-var caller = __webpack_require__(126);
-var nodeModulesPaths = __webpack_require__(856);
-var normalizeOptions = __webpack_require__(256);
-var isCore = __webpack_require__(611);
-
-var defaultIsFile = function isFile(file, cb) {
-    fs.stat(file, function (err, stat) {
-        if (!err) {
-            return cb(null, stat.isFile() || stat.isFIFO());
-        }
-        if (err.code === 'ENOENT' || err.code === 'ENOTDIR') return cb(null, false);
-        return cb(err);
-    });
-};
-
-var defaultIsDir = function isDirectory(dir, cb) {
-    fs.stat(dir, function (err, stat) {
-        if (!err) {
-            return cb(null, stat.isDirectory());
-        }
-        if (err.code === 'ENOENT' || err.code === 'ENOTDIR') return cb(null, false);
-        return cb(err);
-    });
-};
-
-var maybeUnwrapSymlink = function maybeUnwrapSymlink(x, opts, cb) {
-    if (opts && opts.preserveSymlinks === false) {
-        fs.realpath(x, function (realPathErr, realPath) {
-            if (realPathErr && realPathErr.code !== 'ENOENT') cb(realPathErr);
-            else cb(null, realPathErr ? x : realPath);
-        });
-    } else {
-        cb(null, x);
-    }
-};
-
-module.exports = function resolve(x, options, callback) {
-    var cb = callback;
-    var opts = options;
-    if (typeof options === 'function') {
-        cb = opts;
-        opts = {};
-    }
-    if (typeof x !== 'string') {
-        var err = new TypeError('Path must be a string.');
-        return process.nextTick(function () {
-            cb(err);
-        });
-    }
-
-    opts = normalizeOptions(x, opts);
-
-    var isFile = opts.isFile || defaultIsFile;
-    var isDirectory = opts.isDirectory || defaultIsDir;
-    var readFile = opts.readFile || fs.readFile;
-
-    var extensions = opts.extensions || ['.js'];
-    var basedir = opts.basedir || path.dirname(caller());
-    var parent = opts.filename || basedir;
-
-    opts.paths = opts.paths || [];
-
-    // ensure that `basedir` is an absolute path at this point, resolving against the process' current working directory
-    var absoluteStart = path.resolve(basedir);
-
-    maybeUnwrapSymlink(
-        absoluteStart,
-        opts,
-        function (err, realStart) {
-            if (err) cb(err);
-            else init(realStart);
-        }
-    );
-
-    var res;
-    function init(basedir) {
-        if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(x)) {
-            res = path.resolve(basedir, x);
-            if (x === '..' || x.slice(-1) === '/') res += '/';
-            if ((/\/$/).test(x) && res === basedir) {
-                loadAsDirectory(res, opts.package, onfile);
-            } else loadAsFile(res, opts.package, onfile);
-        } else loadNodeModules(x, basedir, function (err, n, pkg) {
-            if (err) cb(err);
-            else if (isCore(x)) return cb(null, x);
-            else if (n) {
-                return maybeUnwrapSymlink(n, opts, function (err, realN) {
-                    if (err) {
-                        cb(err);
-                    } else {
-                        cb(null, realN, pkg);
-                    }
-                });
-            } else {
-                var moduleError = new Error("Cannot find module '" + x + "' from '" + parent + "'");
-                moduleError.code = 'MODULE_NOT_FOUND';
-                cb(moduleError);
-            }
-        });
-    }
-
-    function onfile(err, m, pkg) {
-        if (err) cb(err);
-        else if (m) cb(null, m, pkg);
-        else loadAsDirectory(res, function (err, d, pkg) {
-            if (err) cb(err);
-            else if (d) {
-                maybeUnwrapSymlink(d, opts, function (err, realD) {
-                    if (err) {
-                        cb(err);
-                    } else {
-                        cb(null, realD, pkg);
-                    }
-                });
-            } else {
-                var moduleError = new Error("Cannot find module '" + x + "' from '" + parent + "'");
-                moduleError.code = 'MODULE_NOT_FOUND';
-                cb(moduleError);
-            }
-        });
-    }
-
-    function loadAsFile(x, thePackage, callback) {
-        var loadAsFilePackage = thePackage;
-        var cb = callback;
-        if (typeof loadAsFilePackage === 'function') {
-            cb = loadAsFilePackage;
-            loadAsFilePackage = undefined;
-        }
-
-        var exts = [''].concat(extensions);
-        load(exts, x, loadAsFilePackage);
-
-        function load(exts, x, loadPackage) {
-            if (exts.length === 0) return cb(null, undefined, loadPackage);
-            var file = x + exts[0];
-
-            var pkg = loadPackage;
-            if (pkg) onpkg(null, pkg);
-            else loadpkg(path.dirname(file), onpkg);
-
-            function onpkg(err, pkg_, dir) {
-                pkg = pkg_;
-                if (err) return cb(err);
-                if (dir && pkg && opts.pathFilter) {
-                    var rfile = path.relative(dir, file);
-                    var rel = rfile.slice(0, rfile.length - exts[0].length);
-                    var r = opts.pathFilter(pkg, x, rel);
-                    if (r) return load(
-                        [''].concat(extensions.slice()),
-                        path.resolve(dir, r),
-                        pkg
-                    );
-                }
-                isFile(file, onex);
-            }
-            function onex(err, ex) {
-                if (err) return cb(err);
-                if (ex) return cb(null, file, pkg);
-                load(exts.slice(1), x, pkg);
-            }
-        }
-    }
-
-    function loadpkg(dir, cb) {
-        if (dir === '' || dir === '/') return cb(null);
-        if (process.platform === 'win32' && (/^\w:[/\\]*$/).test(dir)) {
-            return cb(null);
-        }
-        if ((/[/\\]node_modules[/\\]*$/).test(dir)) return cb(null);
-
-        maybeUnwrapSymlink(dir, opts, function (unwrapErr, pkgdir) {
-            if (unwrapErr) return loadpkg(path.dirname(dir), cb);
-            var pkgfile = path.join(pkgdir, 'package.json');
-            isFile(pkgfile, function (err, ex) {
-                // on err, ex is false
-                if (!ex) return loadpkg(path.dirname(dir), cb);
-
-                readFile(pkgfile, function (err, body) {
-                    if (err) cb(err);
-                    try { var pkg = JSON.parse(body); } catch (jsonErr) {}
-
-                    if (pkg && opts.packageFilter) {
-                        pkg = opts.packageFilter(pkg, pkgfile);
-                    }
-                    cb(null, pkg, dir);
-                });
-            });
-        });
-    }
-
-    function loadAsDirectory(x, loadAsDirectoryPackage, callback) {
-        var cb = callback;
-        var fpkg = loadAsDirectoryPackage;
-        if (typeof fpkg === 'function') {
-            cb = fpkg;
-            fpkg = opts.package;
-        }
-
-        maybeUnwrapSymlink(x, opts, function (unwrapErr, pkgdir) {
-            if (unwrapErr) return cb(unwrapErr);
-            var pkgfile = path.join(pkgdir, 'package.json');
-            isFile(pkgfile, function (err, ex) {
-                if (err) return cb(err);
-                if (!ex) return loadAsFile(path.join(x, 'index'), fpkg, cb);
-
-                readFile(pkgfile, function (err, body) {
-                    if (err) return cb(err);
-                    try {
-                        var pkg = JSON.parse(body);
-                    } catch (jsonErr) {}
-
-                    if (pkg && opts.packageFilter) {
-                        pkg = opts.packageFilter(pkg, pkgfile);
-                    }
-
-                    if (pkg && pkg.main) {
-                        if (typeof pkg.main !== 'string') {
-                            var mainError = new TypeError('package “' + pkg.name + '” `main` must be a string');
-                            mainError.code = 'INVALID_PACKAGE_MAIN';
-                            return cb(mainError);
-                        }
-                        if (pkg.main === '.' || pkg.main === './') {
-                            pkg.main = 'index';
-                        }
-                        loadAsFile(path.resolve(x, pkg.main), pkg, function (err, m, pkg) {
-                            if (err) return cb(err);
-                            if (m) return cb(null, m, pkg);
-                            if (!pkg) return loadAsFile(path.join(x, 'index'), pkg, cb);
-
-                            var dir = path.resolve(x, pkg.main);
-                            loadAsDirectory(dir, pkg, function (err, n, pkg) {
-                                if (err) return cb(err);
-                                if (n) return cb(null, n, pkg);
-                                loadAsFile(path.join(x, 'index'), pkg, cb);
-                            });
-                        });
-                        return;
-                    }
-
-                    loadAsFile(path.join(x, '/index'), pkg, cb);
-                });
-            });
-        });
-    }
-
-    function processDirs(cb, dirs) {
-        if (dirs.length === 0) return cb(null, undefined);
-        var dir = dirs[0];
-
-        isDirectory(dir, isdir);
-
-        function isdir(err, isdir) {
-            if (err) return cb(err);
-            if (!isdir) return processDirs(cb, dirs.slice(1));
-            var file = path.join(dir, x);
-            loadAsFile(file, opts.package, onfile);
-        }
-
-        function onfile(err, m, pkg) {
-            if (err) return cb(err);
-            if (m) return cb(null, m, pkg);
-            loadAsDirectory(path.join(dir, x), opts.package, ondir);
-        }
-
-        function ondir(err, n, pkg) {
-            if (err) return cb(err);
-            if (n) return cb(null, n, pkg);
-            processDirs(cb, dirs.slice(1));
-        }
-    }
-    function loadNodeModules(x, start, cb) {
-        processDirs(cb, nodeModulesPaths(start, opts, x));
-    }
-};
-
-
-/***/ }),
+/* 160 */,
 /* 161 */,
 /* 162 */,
 /* 163 */
@@ -8993,17 +8705,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const generator_helper_1 = __webpack_require__(88);
+const debug_1 = __importDefault(__webpack_require__(426));
 class Generator {
     constructor(executablePath) {
         this.executablePath = executablePath;
         this.manifest = null;
         this.generatorProcess = new generator_helper_1.GeneratorProcess(this.executablePath);
+        this.debug = debug_1.default(`Generator:${executablePath}`);
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.generatorProcess.init();
+            this.debug(`Sending "getManifest" rpc to generator`);
             this.manifest = yield this.generatorProcess.getManifest();
         });
     }
@@ -9014,6 +8732,7 @@ class Generator {
         if (!this.options) {
             throw new Error(`Please first run .setOptions() on the Generator to initialize the options`);
         }
+        this.debug(`Sending "generate" rpc to generator`);
         return this.generatorProcess.generate(this.options);
     }
     setOptions(options) {
@@ -13041,22 +12760,7 @@ module.exports = {
 /* 253 */,
 /* 254 */,
 /* 255 */,
-/* 256 */
-/***/ (function(module) {
-
-module.exports = function (x, opts) {
-    /**
-     * This file is purposefully a passthrough. It's expected that third-party
-     * environments will override it at runtime in order to inject special logic
-     * into `resolve` (by manipulating the options). One such example is the PnP
-     * code path in Yarn.
-     */
-
-    return opts || {};
-};
-
-
-/***/ }),
+/* 256 */,
 /* 257 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -23381,7 +23085,65 @@ module.exports = create;
 
 /***/ }),
 /* 385 */,
-/* 386 */,
+/* 386 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var current = (process.versions && process.versions.node && process.versions.node.split('.')) || [];
+
+function specifierIncluded(specifier) {
+    var parts = specifier.split(' ');
+    var op = parts.length > 1 ? parts[0] : '=';
+    var versionParts = (parts.length > 1 ? parts[1] : parts[0]).split('.');
+
+    for (var i = 0; i < 3; ++i) {
+        var cur = Number(current[i] || 0);
+        var ver = Number(versionParts[i] || 0);
+        if (cur === ver) {
+            continue; // eslint-disable-line no-restricted-syntax, no-continue
+        }
+        if (op === '<') {
+            return cur < ver;
+        } else if (op === '>=') {
+            return cur >= ver;
+        } else {
+            return false;
+        }
+    }
+    return op === '>=';
+}
+
+function matchesRange(range) {
+    var specifiers = range.split(/ ?&& ?/);
+    if (specifiers.length === 0) { return false; }
+    for (var i = 0; i < specifiers.length; ++i) {
+        if (!specifierIncluded(specifiers[i])) { return false; }
+    }
+    return true;
+}
+
+function versionIncluded(specifierValue) {
+    if (typeof specifierValue === 'boolean') { return specifierValue; }
+    if (specifierValue && typeof specifierValue === 'object') {
+        for (var i = 0; i < specifierValue.length; ++i) {
+            if (matchesRange(specifierValue[i])) { return true; }
+        }
+        return false;
+    }
+    return matchesRange(specifierValue);
+}
+
+var data = __webpack_require__(739);
+
+var core = {};
+for (var mod in data) { // eslint-disable-line no-restricted-syntax
+    if (Object.prototype.hasOwnProperty.call(data, mod)) {
+        core[mod] = versionIncluded(data[mod]);
+    }
+}
+module.exports = core;
+
+
+/***/ }),
 /* 387 */,
 /* 388 */,
 /* 389 */
@@ -26769,7 +26531,20 @@ function coerce (version, options) {
 
 
 /***/ }),
-/* 433 */,
+/* 433 */
+/***/ (function(module) {
+
+module.exports = function () {
+    // see https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+    var origPrepareStackTrace = Error.prepareStackTrace;
+    Error.prepareStackTrace = function (_, stack) { return stack; };
+    var stack = (new Error()).stack;
+    Error.prepareStackTrace = origPrepareStackTrace;
+    return stack[2].getFileName();
+};
+
+
+/***/ }),
 /* 434 */
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -32862,65 +32637,7 @@ exports.WritableStream = WritableStream;
 
 /***/ }),
 /* 569 */,
-/* 570 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-var current = (process.versions && process.versions.node && process.versions.node.split('.')) || [];
-
-function specifierIncluded(specifier) {
-    var parts = specifier.split(' ');
-    var op = parts.length > 1 ? parts[0] : '=';
-    var versionParts = (parts.length > 1 ? parts[1] : parts[0]).split('.');
-
-    for (var i = 0; i < 3; ++i) {
-        var cur = Number(current[i] || 0);
-        var ver = Number(versionParts[i] || 0);
-        if (cur === ver) {
-            continue; // eslint-disable-line no-restricted-syntax, no-continue
-        }
-        if (op === '<') {
-            return cur < ver;
-        } else if (op === '>=') {
-            return cur >= ver;
-        } else {
-            return false;
-        }
-    }
-    return op === '>=';
-}
-
-function matchesRange(range) {
-    var specifiers = range.split(/ ?&& ?/);
-    if (specifiers.length === 0) { return false; }
-    for (var i = 0; i < specifiers.length; ++i) {
-        if (!specifierIncluded(specifiers[i])) { return false; }
-    }
-    return true;
-}
-
-function versionIncluded(specifierValue) {
-    if (typeof specifierValue === 'boolean') { return specifierValue; }
-    if (specifierValue && typeof specifierValue === 'object') {
-        for (var i = 0; i < specifierValue.length; ++i) {
-            if (matchesRange(specifierValue[i])) { return true; }
-        }
-        return false;
-    }
-    return matchesRange(specifierValue);
-}
-
-var data = __webpack_require__(151);
-
-var core = {};
-for (var mod in data) { // eslint-disable-line no-restricted-syntax
-    if (Object.prototype.hasOwnProperty.call(data, mod)) {
-        core[mod] = versionIncluded(data[mod]);
-    }
-}
-module.exports = core;
-
-
-/***/ }),
+/* 570 */,
 /* 571 */
 /***/ (function(module) {
 
@@ -34448,7 +34165,7 @@ module.exports = /^#!(.*)/;
 var semver = __webpack_require__(205)
 var validateLicense = __webpack_require__(700);
 var hostedGitInfo = __webpack_require__(86)
-var isBuiltinModule = __webpack_require__(620).isCore
+var isBuiltinModule = __webpack_require__(6).isCore
 var depTypes = ["dependencies","devDependencies","optionalDependencies"]
 var extractDescription = __webpack_require__(127)
 var url = __webpack_require__(835)
@@ -35200,17 +34917,7 @@ module.exports = {
 
 
 /***/ }),
-/* 611 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-var core = __webpack_require__(570);
-
-module.exports = function isCore(x) {
-    return Object.prototype.hasOwnProperty.call(core, x);
-};
-
-
-/***/ }),
+/* 611 */,
 /* 612 */,
 /* 613 */
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
@@ -35898,19 +35605,7 @@ function findIdx(table, val) {
 module.exports = require("constants");
 
 /***/ }),
-/* 620 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var async = __webpack_require__(160);
-async.core = __webpack_require__(570);
-async.isCore = __webpack_require__(611);
-async.sync = __webpack_require__(81);
-
-exports = async;
-module.exports = async;
-
-
-/***/ }),
+/* 620 */,
 /* 621 */,
 /* 622 */
 /***/ (function(module) {
@@ -40681,7 +40376,12 @@ exports.RssHandler = FeedHandler_1.FeedHandler;
 module.exports = {"uChars":[128,165,169,178,184,216,226,235,238,244,248,251,253,258,276,284,300,325,329,334,364,463,465,467,469,471,473,475,477,506,594,610,712,716,730,930,938,962,970,1026,1104,1106,8209,8215,8218,8222,8231,8241,8244,8246,8252,8365,8452,8454,8458,8471,8482,8556,8570,8596,8602,8713,8720,8722,8726,8731,8737,8740,8742,8748,8751,8760,8766,8777,8781,8787,8802,8808,8816,8854,8858,8870,8896,8979,9322,9372,9548,9588,9616,9622,9634,9652,9662,9672,9676,9680,9702,9735,9738,9793,9795,11906,11909,11913,11917,11928,11944,11947,11951,11956,11960,11964,11979,12284,12292,12312,12319,12330,12351,12436,12447,12535,12543,12586,12842,12850,12964,13200,13215,13218,13253,13263,13267,13270,13384,13428,13727,13839,13851,14617,14703,14801,14816,14964,15183,15471,15585,16471,16736,17208,17325,17330,17374,17623,17997,18018,18212,18218,18301,18318,18760,18811,18814,18820,18823,18844,18848,18872,19576,19620,19738,19887,40870,59244,59336,59367,59413,59417,59423,59431,59437,59443,59452,59460,59478,59493,63789,63866,63894,63976,63986,64016,64018,64021,64025,64034,64037,64042,65074,65093,65107,65112,65127,65132,65375,65510,65536],"gbChars":[0,36,38,45,50,81,89,95,96,100,103,104,105,109,126,133,148,172,175,179,208,306,307,308,309,310,311,312,313,341,428,443,544,545,558,741,742,749,750,805,819,820,7922,7924,7925,7927,7934,7943,7944,7945,7950,8062,8148,8149,8152,8164,8174,8236,8240,8262,8264,8374,8380,8381,8384,8388,8390,8392,8393,8394,8396,8401,8406,8416,8419,8424,8437,8439,8445,8482,8485,8496,8521,8603,8936,8946,9046,9050,9063,9066,9076,9092,9100,9108,9111,9113,9131,9162,9164,9218,9219,11329,11331,11334,11336,11346,11361,11363,11366,11370,11372,11375,11389,11682,11686,11687,11692,11694,11714,11716,11723,11725,11730,11736,11982,11989,12102,12336,12348,12350,12384,12393,12395,12397,12510,12553,12851,12962,12973,13738,13823,13919,13933,14080,14298,14585,14698,15583,15847,16318,16434,16438,16481,16729,17102,17122,17315,17320,17402,17418,17859,17909,17911,17915,17916,17936,17939,17961,18664,18703,18814,18962,19043,33469,33470,33471,33484,33485,33490,33497,33501,33505,33513,33520,33536,33550,37845,37921,37948,38029,38038,38064,38065,38066,38069,38075,38076,38078,39108,39109,39113,39114,39115,39116,39265,39394,189000]};
 
 /***/ }),
-/* 739 */,
+/* 739 */
+/***/ (function(module) {
+
+module.exports = {"assert":true,"async_hooks":">= 8","buffer_ieee754":"< 0.9.7","buffer":true,"child_process":true,"cluster":true,"console":true,"constants":true,"crypto":true,"_debug_agent":">= 1 && < 8","_debugger":"< 8","dgram":true,"dns":true,"domain":true,"events":true,"freelist":"< 6","fs":true,"fs/promises":">= 10 && < 10.1","_http_agent":">= 0.11.1","_http_client":">= 0.11.1","_http_common":">= 0.11.1","_http_incoming":">= 0.11.1","_http_outgoing":">= 0.11.1","_http_server":">= 0.11.1","http":true,"http2":">= 8.8","https":true,"inspector":">= 8.0.0","_linklist":"< 8","module":true,"net":true,"node-inspect/lib/_inspect":">= 7.6.0 && < 12","node-inspect/lib/internal/inspect_client":">= 7.6.0 && < 12","node-inspect/lib/internal/inspect_repl":">= 7.6.0 && < 12","os":true,"path":true,"perf_hooks":">= 8.5","process":">= 1","punycode":true,"querystring":true,"readline":true,"repl":true,"smalloc":">= 0.11.5 && < 3","_stream_duplex":">= 0.9.4","_stream_transform":">= 0.9.4","_stream_wrap":">= 1.4.1","_stream_passthrough":">= 0.9.4","_stream_readable":">= 0.9.4","_stream_writable":">= 0.9.4","stream":true,"string_decoder":true,"sys":true,"timers":true,"_tls_common":">= 0.11.13","_tls_legacy":">= 0.11.3 && < 10","_tls_wrap":">= 0.11.3","tls":true,"trace_events":">= 10","tty":true,"url":true,"util":true,"v8/tools/arguments":">= 10 && < 12","v8/tools/codemap":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/consarray":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/csvparser":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/logreader":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/profile_view":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8/tools/splaytree":[">= 4.4.0 && < 5",">= 5.2.0 && < 12"],"v8":">= 1","vm":true,"wasi":">= 13.4 && < 13.5","worker_threads":">= 11.7","zlib":true};
+
+/***/ }),
 /* 740 */,
 /* 741 */,
 /* 742 */
@@ -41891,7 +41591,22 @@ const signalsByNumber=getSignalsByNumber();exports.signalsByNumber=signalsByNumb
 
 /***/ }),
 /* 745 */,
-/* 746 */,
+/* 746 */
+/***/ (function(module) {
+
+module.exports = function (x, opts) {
+    /**
+     * This file is purposefully a passthrough. It's expected that third-party
+     * environments will override it at runtime in order to inject special logic
+     * into `resolve` (by manipulating the options). One such example is the PnP
+     * code path in Yarn.
+     */
+
+    return opts || {};
+};
+
+
+/***/ }),
 /* 747 */
 /***/ (function(module) {
 
@@ -43032,7 +42747,54 @@ module.exports = function required(port, protocol) {
 
 
 /***/ }),
-/* 778 */,
+/* 778 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var path = __webpack_require__(622);
+var parse = path.parse || __webpack_require__(574);
+
+var getNodeModulesDirs = function getNodeModulesDirs(absoluteStart, modules) {
+    var prefix = '/';
+    if ((/^([A-Za-z]:)/).test(absoluteStart)) {
+        prefix = '';
+    } else if ((/^\\\\/).test(absoluteStart)) {
+        prefix = '\\\\';
+    }
+
+    var paths = [absoluteStart];
+    var parsed = parse(absoluteStart);
+    while (parsed.dir !== paths[paths.length - 1]) {
+        paths.push(parsed.dir);
+        parsed = parse(parsed.dir);
+    }
+
+    return paths.reduce(function (dirs, aPath) {
+        return dirs.concat(modules.map(function (moduleDir) {
+            return path.resolve(prefix, aPath, moduleDir);
+        }));
+    }, []);
+};
+
+module.exports = function nodeModulesPaths(start, opts, request) {
+    var modules = opts && opts.moduleDirectory
+        ? [].concat(opts.moduleDirectory)
+        : ['node_modules'];
+
+    if (opts && typeof opts.paths === 'function') {
+        return opts.paths(
+            request,
+            start,
+            function () { return getNodeModulesDirs(start, modules); },
+            opts
+        );
+    }
+
+    var dirs = getNodeModulesDirs(start, modules);
+    return opts && opts.paths ? dirs.concat(opts.paths) : dirs;
+};
+
+
+/***/ }),
 /* 779 */,
 /* 780 */,
 /* 781 */,
@@ -43747,10 +43509,18 @@ const binaryToEnvVar = {
     'introspection-engine': 'PRISMA_INTROSPECTION_ENGINE_BINARY',
 };
 async function download(options) {
+    if (options.binaries['introspection-engine'] &&
+        options.binaries['migration-engine'] &&
+        options.binaries['query-engine']) {
+        const downloadDoneFile = path_1.default.join(options.binaries['query-engine'], 'download-done');
+        if (fs_1.default.existsSync(downloadDoneFile)) {
+            debug(`Skipping download as ${downloadDoneFile} exists`);
+            return;
+        }
+    }
     await cleanupCache_1.cleanupCache();
     const platform = await get_platform_1.getPlatform();
     const mergedOptions = Object.assign(Object.assign({ binaryTargets: [platform], version: 'latest' }, options), { binaries: mapKeys(options.binaries, key => engineTypeToBinaryType(key, platform)) });
-    const plural = mergedOptions.binaryTargets.length > 1 ? 'ies' : 'y';
     const bar = options.showProgress
         ? log_1.getBar(`Downloading Prisma engines for ${mergedOptions.binaryTargets.map(p => chalk_1.default.bold(p)).join(' and ')}`)
         : undefined;
@@ -43800,6 +43570,7 @@ async function download(options) {
                     version: mergedOptions.version,
                     targetPath,
                     progressCb: collectiveCallback ? collectiveCallback(sourcePath) : undefined,
+                    failSilent: options.failSilent,
                 });
             }
         }));
@@ -43807,6 +43578,11 @@ async function download(options) {
     if (bar) {
         bar.update(1);
         bar.terminate();
+    }
+    if (options.binaries['introspection-engine'] &&
+        options.binaries['migration-engine'] &&
+        options.binaries['query-engine']) {
+        fs_1.default.writeFileSync(path_1.default.join(options.binaries['query-engine'], 'download-done'), 'done');
     }
     return binaryPaths;
 }
@@ -43819,7 +43595,7 @@ function getBinaryName(binaryName, platform) {
     }
     return `${binaryName}-${platform}${extension}`;
 }
-async function downloadBinary({ sourcePath, targetPath, version, platform, progressCb, binaryName, }) {
+async function downloadBinary({ sourcePath, targetPath, version, platform, progressCb, binaryName, failSilent, }) {
     await make_dir_1.default(path_1.default.dirname(targetPath));
     debug(`Downloading ${sourcePath} to ${targetPath}`);
     try {
@@ -43827,9 +43603,15 @@ async function downloadBinary({ sourcePath, targetPath, version, platform, progr
     }
     catch (err) {
         if (err.code === 'EACCES') {
-            log_1.warn('Please try installing Prisma 2 CLI again with the `--unsafe-perm` option.');
-            log_1.info('Example: `npm i -g --unsafe-perm prisma2`');
-            process.exit();
+            if (!failSilent) {
+                log_1.warn('Please try installing Prisma 2 CLI again with the `--unsafe-perm` option.');
+                log_1.info('Example: `npm i -g --unsafe-perm prisma2`');
+                process.exit(1);
+            }
+            else {
+                debug(`Download failed due to EACCES error, but that's fine`);
+                process.exit(0);
+            }
         }
         throw err;
     }
@@ -44646,22 +44428,23 @@ exports.getDownloadUrl = getDownloadUrl;
 
 "use strict";
 
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __importStar(__webpack_require__(747));
+const fs_1 = __importDefault(__webpack_require__(747));
+const debug_1 = __importDefault(__webpack_require__(426));
+const debug = debug_1.default('plusX');
 function plusX(file) {
-    const s = fs.statSync(file);
+    const s = fs_1.default.statSync(file);
     const newMode = s.mode | 64 | 8 | 1;
-    if (s.mode === newMode)
+    if (s.mode === newMode) {
+        debug(`Execution permissions of ${file} are fine`);
         return;
+    }
     const base8 = newMode.toString(8).slice(-3);
-    fs.chmodSync(file, base8);
+    debug(`Have to call plusX on ${file}`);
+    fs_1.default.chmodSync(file, base8);
 }
 exports.plusX = plusX;
 function fixPlatforms(platforms, platform) {
@@ -46871,6 +46654,7 @@ function getPrismaPath() {
 }
 function getDMMF({ datamodel, cwd = process.cwd(), prismaPath, datamodelPath, retry = 4, }) {
     return __awaiter(this, void 0, void 0, function* () {
+        debug(`getDMMF, override prismaPath = ${prismaPath}`);
         prismaPath = prismaPath || (yield getPrismaPath());
         let result;
         try {
@@ -46933,6 +46717,7 @@ function getDMMF({ datamodel, cwd = process.cwd(), prismaPath, datamodelPath, re
 exports.getDMMF = getDMMF;
 function getConfig({ datamodel, cwd = process.cwd(), prismaPath, datamodelPath, }) {
     return __awaiter(this, void 0, void 0, function* () {
+        debug(`getConfig, override prismaPath = ${prismaPath}`);
         prismaPath = prismaPath || (yield getPrismaPath());
         let tempDatamodelPath = datamodelPath;
         if (!tempDatamodelPath) {
@@ -48186,54 +47971,7 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 856 */
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-var path = __webpack_require__(622);
-var parse = path.parse || __webpack_require__(574);
-
-var getNodeModulesDirs = function getNodeModulesDirs(absoluteStart, modules) {
-    var prefix = '/';
-    if ((/^([A-Za-z]:)/).test(absoluteStart)) {
-        prefix = '';
-    } else if ((/^\\\\/).test(absoluteStart)) {
-        prefix = '\\\\';
-    }
-
-    var paths = [absoluteStart];
-    var parsed = parse(absoluteStart);
-    while (parsed.dir !== paths[paths.length - 1]) {
-        paths.push(parsed.dir);
-        parsed = parse(parsed.dir);
-    }
-
-    return paths.reduce(function (dirs, aPath) {
-        return dirs.concat(modules.map(function (moduleDir) {
-            return path.resolve(prefix, aPath, moduleDir);
-        }));
-    }, []);
-};
-
-module.exports = function nodeModulesPaths(start, opts, request) {
-    var modules = opts && opts.moduleDirectory
-        ? [].concat(opts.moduleDirectory)
-        : ['node_modules'];
-
-    if (opts && typeof opts.paths === 'function') {
-        return opts.paths(
-            request,
-            start,
-            function () { return getNodeModulesDirs(start, modules); },
-            opts
-        );
-    }
-
-    var dirs = getNodeModulesDirs(start, modules);
-    return opts && opts.paths ? dirs.concat(opts.paths) : dirs;
-};
-
-
-/***/ }),
+/* 856 */,
 /* 857 */
 /***/ (function(module) {
 
@@ -48697,11 +48435,32 @@ version, cliVersion, printDownloadProgress, baseDir = path_1.default.dirname(sch
         if (!fs_1.default.existsSync(schemaPath)) {
             throw new Error(`${schemaPath} does not exist`);
         }
-        const schema = fs_1.default.readFileSync(schemaPath, 'utf-8');
-        const dmmf = yield engineCommands_1.getDMMF({ datamodel: schema, datamodelPath: schemaPath });
-        const config = yield engineCommands_1.getConfig({
-            datamodel: schema,
+        const platform = yield get_platform_1.getPlatform();
+        let prismaPath = undefined;
+        if (version) {
+            const downloadParams = {
+                binaries: {
+                    'query-engine': eval(`require('path').join(__dirname, '..')`),
+                },
+                binaryTargets: [platform],
+                showProgress: false,
+                version: version || 'latest',
+                skipDownload,
+            };
+            const binaryPathsWithEngineType = yield fetch_engine_1.download(downloadParams);
+            debug({ binaryPathsWithEngineType });
+            prismaPath = binaryPathsWithEngineType['query-engine'][platform];
+        }
+        const datamodel = fs_1.default.readFileSync(schemaPath, 'utf-8');
+        const dmmf = yield engineCommands_1.getDMMF({
+            datamodel,
             datamodelPath: schemaPath,
+            prismaPath,
+        });
+        const config = yield engineCommands_1.getConfig({
+            datamodel,
+            datamodelPath: schemaPath,
+            prismaPath,
         });
         const generatorConfigs = overrideGenerators || config.generators;
         yield validateGenerators(generatorConfigs);
@@ -48739,7 +48498,7 @@ version, cliVersion, printDownloadProgress, baseDir = path_1.default.dirname(sch
                     if (!generatorInstance.manifest ||
                         !generatorInstance.manifest.defaultOutput) {
                         throw new Error(`Can't resolve output dir for generator ${chalk_1.default.bold(generator.name)} with provider ${chalk_1.default.bold(generator.provider)}.
-The generator needs to either define the \`defaultOutput\` path in the manifest or you need to define \`output\` in the schema.prisma file.`);
+The generator needs to either define the \`defaultOutput\` path in the manifest or you need to define \`output\` in the datamodel.prisma file.`);
                     }
                     generator.output = yield resolveOutput_1.resolveOutput({
                         defaultOutput: generatorInstance.manifest.defaultOutput,
@@ -48748,7 +48507,7 @@ The generator needs to either define the \`defaultOutput\` path in the manifest 
                     debug(`Resolving else to ${generator.output}`, { baseDir });
                 }
                 const options = {
-                    datamodel: schema,
+                    datamodel,
                     datasources: config.datasources,
                     generator,
                     dmmf,
@@ -48766,7 +48525,6 @@ The generator needs to either define the \`defaultOutput\` path in the manifest 
             });
             // 2. Download all binaries and binary targets needed
             const binaries = generators.flatMap(g => g.manifest ? g.manifest.requiresEngines || [] : []);
-            const platform = yield get_platform_1.getPlatform();
             let binaryTargets = unique_1.unique(generatorConfigs.flatMap(g => g.binaryTargets || [])).map(t => (t === 'native' ? platform : t));
             if (binaryTargets.length === 0) {
                 binaryTargets = [platform];
@@ -50554,7 +50312,17 @@ exports.uriToCredentials = convertCredentials_1.uriToCredentials;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 901 */,
+/* 901 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var core = __webpack_require__(386);
+
+module.exports = function isCore(x) {
+    return Object.prototype.hasOwnProperty.call(core, x);
+};
+
+
+/***/ }),
 /* 902 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -55512,7 +55280,289 @@ module.exports = Header
 
 
 /***/ }),
-/* 971 */,
+/* 971 */
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+var fs = __webpack_require__(747);
+var path = __webpack_require__(622);
+var caller = __webpack_require__(433);
+var nodeModulesPaths = __webpack_require__(778);
+var normalizeOptions = __webpack_require__(746);
+var isCore = __webpack_require__(901);
+
+var defaultIsFile = function isFile(file, cb) {
+    fs.stat(file, function (err, stat) {
+        if (!err) {
+            return cb(null, stat.isFile() || stat.isFIFO());
+        }
+        if (err.code === 'ENOENT' || err.code === 'ENOTDIR') return cb(null, false);
+        return cb(err);
+    });
+};
+
+var defaultIsDir = function isDirectory(dir, cb) {
+    fs.stat(dir, function (err, stat) {
+        if (!err) {
+            return cb(null, stat.isDirectory());
+        }
+        if (err.code === 'ENOENT' || err.code === 'ENOTDIR') return cb(null, false);
+        return cb(err);
+    });
+};
+
+var maybeUnwrapSymlink = function maybeUnwrapSymlink(x, opts, cb) {
+    if (opts && opts.preserveSymlinks === false) {
+        fs.realpath(x, function (realPathErr, realPath) {
+            if (realPathErr && realPathErr.code !== 'ENOENT') cb(realPathErr);
+            else cb(null, realPathErr ? x : realPath);
+        });
+    } else {
+        cb(null, x);
+    }
+};
+
+module.exports = function resolve(x, options, callback) {
+    var cb = callback;
+    var opts = options;
+    if (typeof options === 'function') {
+        cb = opts;
+        opts = {};
+    }
+    if (typeof x !== 'string') {
+        var err = new TypeError('Path must be a string.');
+        return process.nextTick(function () {
+            cb(err);
+        });
+    }
+
+    opts = normalizeOptions(x, opts);
+
+    var isFile = opts.isFile || defaultIsFile;
+    var isDirectory = opts.isDirectory || defaultIsDir;
+    var readFile = opts.readFile || fs.readFile;
+
+    var extensions = opts.extensions || ['.js'];
+    var basedir = opts.basedir || path.dirname(caller());
+    var parent = opts.filename || basedir;
+
+    opts.paths = opts.paths || [];
+
+    // ensure that `basedir` is an absolute path at this point, resolving against the process' current working directory
+    var absoluteStart = path.resolve(basedir);
+
+    maybeUnwrapSymlink(
+        absoluteStart,
+        opts,
+        function (err, realStart) {
+            if (err) cb(err);
+            else init(realStart);
+        }
+    );
+
+    var res;
+    function init(basedir) {
+        if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(x)) {
+            res = path.resolve(basedir, x);
+            if (x === '..' || x.slice(-1) === '/') res += '/';
+            if ((/\/$/).test(x) && res === basedir) {
+                loadAsDirectory(res, opts.package, onfile);
+            } else loadAsFile(res, opts.package, onfile);
+        } else loadNodeModules(x, basedir, function (err, n, pkg) {
+            if (err) cb(err);
+            else if (isCore(x)) return cb(null, x);
+            else if (n) {
+                return maybeUnwrapSymlink(n, opts, function (err, realN) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(null, realN, pkg);
+                    }
+                });
+            } else {
+                var moduleError = new Error("Cannot find module '" + x + "' from '" + parent + "'");
+                moduleError.code = 'MODULE_NOT_FOUND';
+                cb(moduleError);
+            }
+        });
+    }
+
+    function onfile(err, m, pkg) {
+        if (err) cb(err);
+        else if (m) cb(null, m, pkg);
+        else loadAsDirectory(res, function (err, d, pkg) {
+            if (err) cb(err);
+            else if (d) {
+                maybeUnwrapSymlink(d, opts, function (err, realD) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(null, realD, pkg);
+                    }
+                });
+            } else {
+                var moduleError = new Error("Cannot find module '" + x + "' from '" + parent + "'");
+                moduleError.code = 'MODULE_NOT_FOUND';
+                cb(moduleError);
+            }
+        });
+    }
+
+    function loadAsFile(x, thePackage, callback) {
+        var loadAsFilePackage = thePackage;
+        var cb = callback;
+        if (typeof loadAsFilePackage === 'function') {
+            cb = loadAsFilePackage;
+            loadAsFilePackage = undefined;
+        }
+
+        var exts = [''].concat(extensions);
+        load(exts, x, loadAsFilePackage);
+
+        function load(exts, x, loadPackage) {
+            if (exts.length === 0) return cb(null, undefined, loadPackage);
+            var file = x + exts[0];
+
+            var pkg = loadPackage;
+            if (pkg) onpkg(null, pkg);
+            else loadpkg(path.dirname(file), onpkg);
+
+            function onpkg(err, pkg_, dir) {
+                pkg = pkg_;
+                if (err) return cb(err);
+                if (dir && pkg && opts.pathFilter) {
+                    var rfile = path.relative(dir, file);
+                    var rel = rfile.slice(0, rfile.length - exts[0].length);
+                    var r = opts.pathFilter(pkg, x, rel);
+                    if (r) return load(
+                        [''].concat(extensions.slice()),
+                        path.resolve(dir, r),
+                        pkg
+                    );
+                }
+                isFile(file, onex);
+            }
+            function onex(err, ex) {
+                if (err) return cb(err);
+                if (ex) return cb(null, file, pkg);
+                load(exts.slice(1), x, pkg);
+            }
+        }
+    }
+
+    function loadpkg(dir, cb) {
+        if (dir === '' || dir === '/') return cb(null);
+        if (process.platform === 'win32' && (/^\w:[/\\]*$/).test(dir)) {
+            return cb(null);
+        }
+        if ((/[/\\]node_modules[/\\]*$/).test(dir)) return cb(null);
+
+        maybeUnwrapSymlink(dir, opts, function (unwrapErr, pkgdir) {
+            if (unwrapErr) return loadpkg(path.dirname(dir), cb);
+            var pkgfile = path.join(pkgdir, 'package.json');
+            isFile(pkgfile, function (err, ex) {
+                // on err, ex is false
+                if (!ex) return loadpkg(path.dirname(dir), cb);
+
+                readFile(pkgfile, function (err, body) {
+                    if (err) cb(err);
+                    try { var pkg = JSON.parse(body); } catch (jsonErr) {}
+
+                    if (pkg && opts.packageFilter) {
+                        pkg = opts.packageFilter(pkg, pkgfile);
+                    }
+                    cb(null, pkg, dir);
+                });
+            });
+        });
+    }
+
+    function loadAsDirectory(x, loadAsDirectoryPackage, callback) {
+        var cb = callback;
+        var fpkg = loadAsDirectoryPackage;
+        if (typeof fpkg === 'function') {
+            cb = fpkg;
+            fpkg = opts.package;
+        }
+
+        maybeUnwrapSymlink(x, opts, function (unwrapErr, pkgdir) {
+            if (unwrapErr) return cb(unwrapErr);
+            var pkgfile = path.join(pkgdir, 'package.json');
+            isFile(pkgfile, function (err, ex) {
+                if (err) return cb(err);
+                if (!ex) return loadAsFile(path.join(x, 'index'), fpkg, cb);
+
+                readFile(pkgfile, function (err, body) {
+                    if (err) return cb(err);
+                    try {
+                        var pkg = JSON.parse(body);
+                    } catch (jsonErr) {}
+
+                    if (pkg && opts.packageFilter) {
+                        pkg = opts.packageFilter(pkg, pkgfile);
+                    }
+
+                    if (pkg && pkg.main) {
+                        if (typeof pkg.main !== 'string') {
+                            var mainError = new TypeError('package “' + pkg.name + '” `main` must be a string');
+                            mainError.code = 'INVALID_PACKAGE_MAIN';
+                            return cb(mainError);
+                        }
+                        if (pkg.main === '.' || pkg.main === './') {
+                            pkg.main = 'index';
+                        }
+                        loadAsFile(path.resolve(x, pkg.main), pkg, function (err, m, pkg) {
+                            if (err) return cb(err);
+                            if (m) return cb(null, m, pkg);
+                            if (!pkg) return loadAsFile(path.join(x, 'index'), pkg, cb);
+
+                            var dir = path.resolve(x, pkg.main);
+                            loadAsDirectory(dir, pkg, function (err, n, pkg) {
+                                if (err) return cb(err);
+                                if (n) return cb(null, n, pkg);
+                                loadAsFile(path.join(x, 'index'), pkg, cb);
+                            });
+                        });
+                        return;
+                    }
+
+                    loadAsFile(path.join(x, '/index'), pkg, cb);
+                });
+            });
+        });
+    }
+
+    function processDirs(cb, dirs) {
+        if (dirs.length === 0) return cb(null, undefined);
+        var dir = dirs[0];
+
+        isDirectory(dir, isdir);
+
+        function isdir(err, isdir) {
+            if (err) return cb(err);
+            if (!isdir) return processDirs(cb, dirs.slice(1));
+            var file = path.join(dir, x);
+            loadAsFile(file, opts.package, onfile);
+        }
+
+        function onfile(err, m, pkg) {
+            if (err) return cb(err);
+            if (m) return cb(null, m, pkg);
+            loadAsDirectory(path.join(dir, x), opts.package, ondir);
+        }
+
+        function ondir(err, n, pkg) {
+            if (err) return cb(err);
+            if (n) return cb(null, n, pkg);
+            processDirs(cb, dirs.slice(1));
+        }
+    }
+    function loadNodeModules(x, start, cb) {
+        processDirs(cb, nodeModulesPaths(start, opts, x));
+    }
+};
+
+
+/***/ }),
 /* 972 */,
 /* 973 */,
 /* 974 */
