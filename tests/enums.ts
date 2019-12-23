@@ -18,9 +18,9 @@ describe("enums", () => {
   it("should properly generate code for normal enum", async () => {
     const schema = /* prisma */ `
       enum Color {
-        Red
-        Green
-        Blue
+        RED
+        GREEN
+        BLUE
       }
     `;
 
@@ -39,7 +39,7 @@ describe("enums", () => {
     const schema = /* prisma */ `
       /// Role enum doc
       enum Role {
-        // User member doc
+        // User member comment
         USER
         ADMIN
       }
