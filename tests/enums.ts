@@ -13,6 +13,7 @@ describe("enums", () => {
 
   afterEach(async () => {
     await fs.rmdir(baseDirPath, { recursive: true });
+    await new Promise(r => setTimeout(r, 100));
   });
 
   it("should properly generate code for normal enum", async () => {
