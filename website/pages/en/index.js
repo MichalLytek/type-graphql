@@ -261,10 +261,6 @@ const CollectiveSection = props => (
             />
             <span>Demid Nikitin</span>
           </a>
-          <a href="https://redo.qa/">
-            <img src={imgUrl("redo.png")} width="150" />
-            <span>Redo</span>
-          </a>
         </div>
         <h3>Backers ☕ and Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
