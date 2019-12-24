@@ -57,7 +57,7 @@ function Fields(level = 1): ParameterDecorator {
     // calculate an object with info about requested fields
     // based on GraphQL `info` parameter of the resolver and the level parameter
     return fieldsMap;
-  }
+  });
 }
 ```
 
