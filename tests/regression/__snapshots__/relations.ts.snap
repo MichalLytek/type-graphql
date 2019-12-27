@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`relations should properly generate args class for array relation resolvers: UserPostsArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { PostOrderByInput } from \\"../../../inputs/PostOrderByInput\\";
+import { PostWhereInput } from \\"../../../inputs/PostWhereInput\\";
+
+@ArgsType()
+export class UserPostsArgs {
+  @Field(_type => PostWhereInput, { nullable: true })
+  where?: PostWhereInput | null;
+
+  @Field(_type => PostOrderByInput, { nullable: true })
+  orderBy?: PostOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => ID, { nullable: true })
+  after?: string | null;
+
+  @Field(_type => ID, { nullable: true })
+  before?: string | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+"
+`;
+
+exports[`relations should properly generate resolvers classes for prisma models with cyclic relations: Post 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import DataLoader from \\"dataloader\\";
+import { Post } from \\"../../../models/Post\\";
+import { User } from \\"../../../models/User\\";
+
+function createGetPostAuthorDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<string, User | null>>();
+  return function getPostAuthorDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!postAuthorDataLoader) {
+      postAuthorDataLoader = new DataLoader<string, User | null>(async keys => {
+        const fetchedData: any[] = await photon.posts.findMany({
+          where: { uuid: { in: keys } },
+          select: {
+            uuid: true,
+            author: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.uuid === key)!)
+          .map(data => data.author);
+      });
+      argsToDataLoaderMap.set(argsJSON, postAuthorDataLoader);
+    }
+    return postAuthorDataLoader;
+  }
+}
+
+@Resolver(_of => Post)
+export class PostRelationsResolver {
+  @FieldResolver(_type => User, {
+    nullable: true,
+    description: undefined,
+  })
+  async author(@Root() post: Post, @Ctx() ctx: any): Promise<User | null> {
+    ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
+    return ctx.getPostAuthorDataLoader({}).load(post.uuid);
+  }
+}
+"
+`;
+
+exports[`relations should properly generate resolvers classes for prisma models with cyclic relations: User 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import DataLoader from \\"dataloader\\";
+import { Post } from \\"../../../models/Post\\";
+import { User } from \\"../../../models/User\\";
+import { UserPostsArgs } from \\"./args/UserPostsArgs\\";
+
+function createGetUserPostsDataLoader(photon: any) {
+  const argsToDataLoaderMap = new Map<string, DataLoader<number, Post[] | null>>();
+  return function getUserPostsDataLoader(args: any) {
+    const argsJSON = JSON.stringify(args);
+    let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
+    if (!userPostsDataLoader) {
+      userPostsDataLoader = new DataLoader<number, Post[] | null>(async keys => {
+        const fetchedData: any[] = await photon.users.findMany({
+          where: { id: { in: keys } },
+          select: {
+            id: true,
+            posts: args,
+          },
+        });
+        return keys
+          .map(key => fetchedData.find(data => data.id === key)!)
+          .map(data => data.posts);
+      });
+      argsToDataLoaderMap.set(argsJSON, userPostsDataLoader);
+    }
+    return userPostsDataLoader;
+  }
+}
+
+@Resolver(_of => User)
+export class UserRelationsResolver {
+  @FieldResolver(_type => [Post], {
+    nullable: true,
+    description: undefined,
+  })
+  async posts(@Root() user: User, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<Post[] | null> {
+    ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
+    return ctx.getUserPostsDataLoader(args).load(user.id);
+  }
+}
+"
+`;
