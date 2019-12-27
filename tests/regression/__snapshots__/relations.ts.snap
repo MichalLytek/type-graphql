@@ -65,7 +65,7 @@ function createGetPostAuthorDataLoader(photon: any) {
 export class PostRelationsResolver {
   @FieldResolver(_type => User, {
     nullable: true,
-    description: undefined,
+    description: \\"author field doc\\",
   })
   async author(@Root() post: Post, @Ctx() ctx: any): Promise<User | null> {
     ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);

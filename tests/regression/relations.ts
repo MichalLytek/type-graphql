@@ -25,6 +25,7 @@ describe("relations", () => {
       }
       model Post {
         uuid   String  @id @default(cuid())
+        /// author field doc
         author User?
       }
     `;

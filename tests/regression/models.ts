@@ -103,6 +103,12 @@ describe("models", () => {
         stringField  String
         // field comment
         intField     Int
+        /// relation doc
+        posts        Post[]
+      }
+
+      model Post {
+        id  Int  @id @default(autoincrement())
       }
     `;
 
