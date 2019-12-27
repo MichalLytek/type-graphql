@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 
-import generateCode from "../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "./helpers/dmmf";
-import getBaseDirPath from "./helpers/base-dir";
+import generateCode from "../../src/generator/generate-code";
+import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
+import getBaseDirPath from "../helpers/base-dir";
 
 describe("enums", () => {
   let baseDirPath: string;

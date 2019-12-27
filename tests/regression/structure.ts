@@ -1,9 +1,9 @@
 import { promises as fs } from "fs";
 import directoryTree, { DirectoryTree } from "directory-tree";
 
-import generateCode from "../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "./helpers/dmmf";
-import getBaseDirPath from "./helpers/base-dir";
+import generateCode from "../../src/generator/generate-code";
+import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
+import getBaseDirPath from "../helpers/base-dir";
 
 function stringifyDirectoryTrees(
   directoryStructure: DirectoryTree[] | undefined,
