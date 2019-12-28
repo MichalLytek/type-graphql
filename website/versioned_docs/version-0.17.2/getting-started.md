@@ -114,7 +114,7 @@ Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
 
 ```typescript
 @InputType()
-class NewRecipeDataInput {
+class NewRecipeInput {
   @Field()
   @MaxLength(30)
   title: string;
@@ -124,7 +124,7 @@ class NewRecipeDataInput {
   description?: string;
 
   @Field(type => [String])
-  @MaxArraySize(30)
+  @ArrayMaxSize(30)
   ingredients: string[];
 }
 
@@ -141,7 +141,7 @@ class RecipesArgs {
 }
 ```
 
-`@Length`, `@Min` and `@MaxArraySize` are decorators from [`class-validator`](https://github.com/typestack/class-validator) that automatically perform field validation in TypeGraphQL.
+`@Length`, `@Min` and `@ArrayMaxSize` are decorators from [`class-validator`](https://github.com/typestack/class-validator) that automatically perform field validation in TypeGraphQL.
 
 ## Building schema
 
