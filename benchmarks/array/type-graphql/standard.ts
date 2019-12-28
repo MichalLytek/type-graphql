@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../build/package";
+import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../../build/package/dist";
 
-import { runBenchmark, ARRAY_ITEMS } from "./run";
+import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType()
 class SampleObject {

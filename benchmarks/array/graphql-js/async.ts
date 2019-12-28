@@ -8,34 +8,34 @@ import {
   GraphQLList,
 } from "graphql";
 
-import { runBenchmark, ARRAY_ITEMS } from "./run";
+import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 const SampleObjectType: GraphQLObjectType = new GraphQLObjectType({
   name: "SampleObject",
   fields: () => ({
-    sampleField: {
+    stringField: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (source) => {
-        return source.sampleField;
-      }
+      resolve: async source => {
+        return source.stringField;
+      },
     },
     numberField: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: (source) => {
+      resolve: async source => {
         return source.numberField;
-      }
+      },
     },
     booleanField: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: (source) => {
+      resolve: async source => {
         return source.booleanField;
-      }
+      },
     },
     nestedField: {
       type: SampleObjectType,
-      resolve: (source) => {
+      resolve: async source => {
         return source.nestedField;
-      }
+      },
     },
   }),
 });

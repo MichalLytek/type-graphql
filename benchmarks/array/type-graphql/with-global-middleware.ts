@@ -1,7 +1,15 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int, FieldResolver, Root } from "../../build/package";
+import {
+  buildSchema,
+  Field,
+  ObjectType,
+  Resolver,
+  Query,
+  Int,
+  MiddlewareFn,
+} from "../../../build/package/dist";
 
-import { runBenchmark, ARRAY_ITEMS } from "./run";
+import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType()
 class SampleObject {
@@ -18,7 +26,7 @@ class SampleObject {
   nestedField?: SampleObject;
 }
 
-@Resolver(SampleObject)
+@Resolver()
 class SampleResolver {
   @Query(returns => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
@@ -36,31 +44,19 @@ class SampleResolver {
       }),
     );
   }
-
-  @FieldResolver()
-  async stringField(@Root() source: SampleObject) {
-    return source.stringField;
-  }
-
-  @FieldResolver()
-  async numberField(@Root() source: SampleObject) {
-    return source.numberField;
-  }
-
-  @FieldResolver()
-  async booleanField(@Root() source: SampleObject) {
-    return source.booleanField;
-  }
-
-  @FieldResolver()
-  async nestedField(@Root() source: SampleObject) {
-    return source.nestedField;
-  }
 }
+
+const log = (...args: any[]) => void 0; // noop
+
+const loggingMiddleware: MiddlewareFn = ({ info }, next) => {
+  log(`${info.parentType.name}.${info.fieldName} accessed`);
+  return next();
+};
 
 async function main() {
   const schema = await buildSchema({
     resolvers: [SampleResolver],
+    globalMiddlewares: [loggingMiddleware],
   });
 
   await runBenchmark(schema);

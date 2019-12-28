@@ -1,9 +1,18 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../build/package";
+import {
+  buildSchema,
+  Field,
+  ObjectType,
+  Resolver,
+  Query,
+  Int,
+  FieldResolver,
+  Root,
+} from "../../../build/package/dist";
 
-import { runBenchmark, ARRAY_ITEMS } from "./run";
+import { runBenchmark, ARRAY_ITEMS } from "../run";
 
-@ObjectType({ simpleResolvers: true })
+@ObjectType()
 class SampleObject {
   @Field()
   stringField!: string;
@@ -18,7 +27,7 @@ class SampleObject {
   nestedField?: SampleObject;
 }
 
-@Resolver()
+@Resolver(SampleObject)
 class SampleResolver {
   @Query(returns => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
@@ -35,6 +44,26 @@ class SampleResolver {
         },
       }),
     );
+  }
+
+  @FieldResolver()
+  async stringField(@Root() source: SampleObject) {
+    return source.stringField;
+  }
+
+  @FieldResolver()
+  async numberField(@Root() source: SampleObject) {
+    return source.numberField;
+  }
+
+  @FieldResolver()
+  async booleanField(@Root() source: SampleObject) {
+    return source.booleanField;
+  }
+
+  @FieldResolver()
+  async nestedField(@Root() source: SampleObject) {
+    return source.nestedField;
   }
 }
 
