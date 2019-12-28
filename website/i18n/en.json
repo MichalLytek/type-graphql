@@ -359,6 +359,9 @@
       },
       "version-0.17.5/version-0.17.5-unions": {
         "title": "Unions"
+      },
+      "version-0.17.6/version-0.17.6-custom-decorators": {
+        "title": "Custom decorators"
       }
     },
     "links": {
