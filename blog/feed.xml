@@ -6,7 +6,7 @@
         <description>The best place to stay up-to-date with the latest TypeGraphQL news and events.</description>
         <lastBuildDate>Sun, 25 Mar 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-        <generator>Feed for Node.js</generator>
+        <generator>https://github.com/jpmonette/feed</generator>
         <image>
             <title>TypeGraphQL Blog</title>
             <url>http://typegraphql.ml/img/logo.png</url>
