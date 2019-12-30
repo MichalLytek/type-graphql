@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`crud should properly generate args classes for every method of crud resolver: CreateOneUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserCreateInput } from \\"../../../inputs/UserCreateInput\\";
+
+@ArgsType()
+export class CreateOneUserArgs {
+  @Field(_type => UserCreateInput, { nullable: false })
+  data!: UserCreateInput;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: DeleteOneUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+
+@ArgsType()
+export class DeleteOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: FindManyUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
+import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
+
+@ArgsType()
+export class FindManyUserArgs {
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+
+  @Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | null;
+
+  @Field(_type => Int, { nullable: true })
+  skip?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  after?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  before?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  first?: number | null;
+
+  @Field(_type => Int, { nullable: true })
+  last?: number | null;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: FindOneUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+
+@ArgsType()
+export class FindOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: Index 1`] = `
+"export { CreateOneUserArgs } from \\"./CreateOneUserArgs\\";
+export { DeleteOneUserArgs } from \\"./DeleteOneUserArgs\\";
+export { FindManyUserArgs } from \\"./FindManyUserArgs\\";
+export { FindOneUserArgs } from \\"./FindOneUserArgs\\";
+export { UpdateManyUserArgs } from \\"./UpdateManyUserArgs\\";
+export { UpdateOneUserArgs } from \\"./UpdateOneUserArgs\\";
+export { UpsertOneUserArgs } from \\"./UpsertOneUserArgs\\";
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: UpdateManyUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserUpdateManyMutationInput } from \\"../../../inputs/UserUpdateManyMutationInput\\";
+import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
+
+@ArgsType()
+export class UpdateManyUserArgs {
+  @Field(_type => UserUpdateManyMutationInput, { nullable: false })
+  data!: UserUpdateManyMutationInput;
+
+  @Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | null;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: UpdateOneUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserUpdateInput } from \\"../../../inputs/UserUpdateInput\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+
+@ArgsType()
+export class UpdateOneUserArgs {
+  @Field(_type => UserUpdateInput, { nullable: false })
+  data!: UserUpdateInput;
+
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+}
+"
+`;
+
+exports[`crud should properly generate args classes for every method of crud resolver: UpsertOneUserArgs 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { UserCreateInput } from \\"../../../inputs/UserCreateInput\\";
+import { UserUpdateInput } from \\"../../../inputs/UserUpdateInput\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+
+@ArgsType()
+export class UpsertOneUserArgs {
+  @Field(_type => UserWhereUniqueInput, { nullable: false })
+  where!: UserWhereUniqueInput;
+
+  @Field(_type => UserCreateInput, { nullable: false })
+  create!: UserCreateInput;
+
+  @Field(_type => UserUpdateInput, { nullable: false })
+  update!: UserUpdateInput;
+}
+"
+`;
+
+exports[`crud should properly generate resolver class for single prisma model: UserCrudResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { CreateOneUserArgs } from \\"./args/CreateOneUserArgs\\";
+import { DeleteOneUserArgs } from \\"./args/DeleteOneUserArgs\\";
+import { FindManyUserArgs } from \\"./args/FindManyUserArgs\\";
+import { FindOneUserArgs } from \\"./args/FindOneUserArgs\\";
+import { UpdateManyUserArgs } from \\"./args/UpdateManyUserArgs\\";
+import { UpdateOneUserArgs } from \\"./args/UpdateOneUserArgs\\";
+import { UpsertOneUserArgs } from \\"./args/UpsertOneUserArgs\\";
+import { User } from \\"../../../models/User\\";
+import { AggregateUser } from \\"../../outputs/AggregateUser\\";
+import { BatchPayload } from \\"../../outputs/BatchPayload\\";
+
+@Resolver(_of => User)
+export class UserCrudResolver {
+  @Query(_returns => User, {
+    nullable: true,
+    description: undefined
+  })
+  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+    return ctx.photon.users.findOne(args);
+  }
+
+  @Query(_returns => [User], {
+    nullable: false,
+    description: undefined
+  })
+  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
+    return ctx.photon.users.findMany(args);
+  }
+
+  @Mutation(_returns => User, {
+    nullable: false,
+    description: undefined
+  })
+  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<User> {
+    return ctx.photon.users.create(args);
+  }
+
+  @Mutation(_returns => User, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<User | null> {
+    return ctx.photon.users.delete(args);
+  }
+
+  @Mutation(_returns => User, {
+    nullable: true,
+    description: undefined
+  })
+  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<User | null> {
+    return ctx.photon.users.update(args);
+  }
+
+  @Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyUser(@Ctx() ctx: any, @Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
+    return ctx.photon.users.updateMany(args);
+  }
+
+  @Mutation(_returns => User, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
+    return ctx.photon.users.upsert(args);
+  }
+
+  @Query(_returns => AggregateUser, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateUser(@Ctx() ctx: any): Promise<AggregateUser> {
+    return ctx.photon.users.aggregate();
+  }
+}
+"
+`;
