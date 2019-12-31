@@ -1,19 +1,18 @@
 import { promises as fs } from "fs";
 
-import generateCode from "../../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
+import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("relations", () => {
-  let baseDirPath: string;
+  let outputDirPath: string;
 
   beforeEach(async () => {
-    baseDirPath = getBaseDirPath("relations");
-    await fs.mkdir(baseDirPath);
+    outputDirPath = generateArtifactsDirPath("relations");
+    await fs.mkdir(outputDirPath);
   });
 
   afterEach(async () => {
-    await fs.rmdir(baseDirPath, { recursive: true });
+    await fs.rmdir(outputDirPath, { recursive: true });
     await new Promise(r => setTimeout(r, 100));
   });
 
@@ -30,17 +29,14 @@ describe("relations", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const userResolverTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/relations/User/UserRelationsResolver.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/relations/User/UserRelationsResolver.ts",
+      { encoding: "utf8" },
     );
     const postResolverTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/relations/Post/PostRelationsResolver.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/relations/Post/PostRelationsResolver.ts",
+      { encoding: "utf8" },
     );
 
     expect(userResolverTSFile).toMatchSnapshot("User");
@@ -59,13 +55,10 @@ describe("relations", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const userPostsArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/relations/User/args/UserPostsArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/relations/User/args/UserPostsArgs.ts",
+      { encoding: "utf8" },
     );
 
     expect(userPostsArgsTSFile).toMatchSnapshot("UserPostsArgs");

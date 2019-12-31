@@ -1,20 +1,19 @@
 import { promises as fs } from "fs";
-import directoryTree, { DirectoryTree } from "directory-tree";
+import directoryTree from "directory-tree";
 
-import generateCode from "../../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { stringifyDirectoryTrees } from "../helpers/structure";
+import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("structure", () => {
-  let baseDirPath: string;
+  let outputDirPath: string;
 
   beforeEach(() => {
-    baseDirPath = getBaseDirPath("structure");
+    outputDirPath = generateArtifactsDirPath("structure");
   });
 
   afterEach(async () => {
-    await fs.rmdir(baseDirPath, { recursive: true });
+    await fs.rmdir(outputDirPath, { recursive: true });
     await new Promise(r => setTimeout(r, 100));
   });
 
@@ -40,11 +39,8 @@ describe("structure", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
-    const directoryStructure = directoryTree(baseDirPath);
+    await generateCodeFromSchema(schema, outputDirPath);
+    const directoryStructure = directoryTree(outputDirPath);
     const directoryStructureString =
       "\n[type-graphql]\n" +
       stringifyDirectoryTrees(directoryStructure.children, 2);

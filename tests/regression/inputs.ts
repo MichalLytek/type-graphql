@@ -1,19 +1,18 @@
 import { promises as fs } from "fs";
 
-import generateCode from "../../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
+import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("inputs", () => {
-  let baseDirPath: string;
+  let outputDirPath: string;
 
   beforeEach(async () => {
-    baseDirPath = getBaseDirPath("inputs");
-    await fs.mkdir(baseDirPath);
+    outputDirPath = generateArtifactsDirPath("inputs");
+    await fs.mkdir(outputDirPath);
   });
 
   afterEach(async () => {
-    await fs.rmdir(baseDirPath, { recursive: true });
+    await fs.rmdir(outputDirPath, { recursive: true });
     await new Promise(r => setTimeout(r, 100));
   });
 
@@ -28,29 +27,26 @@ describe("inputs", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const intFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/IntFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/IntFilter.ts",
+      { encoding: "utf8" },
     );
     const stringFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/StringFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/StringFilter.ts",
+      { encoding: "utf8" },
     );
     const floatFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/FloatFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/FloatFilter.ts",
+      { encoding: "utf8" },
     );
     const booleanFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/BooleanFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/BooleanFilter.ts",
+      { encoding: "utf8" },
     );
     const dateTimeFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/DateTimeFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/DateTimeFilter.ts",
+      { encoding: "utf8" },
     );
 
     expect(intFilterTSFile).toMatchSnapshot("IntFilter");
@@ -71,17 +67,14 @@ describe("inputs", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const sampleModelWhereInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/SampleModelWhereInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/SampleModelWhereInput.ts",
+      { encoding: "utf8" },
     );
     const sampleModelWhereUniqueInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/SampleModelWhereUniqueInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/SampleModelWhereUniqueInput.ts",
+      { encoding: "utf8" },
     );
 
     expect(sampleModelWhereInputTSFile).toMatchSnapshot(
@@ -108,25 +101,22 @@ describe("inputs", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const firstModelWhereInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/FirstModelWhereInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/FirstModelWhereInput.ts",
+      { encoding: "utf8" },
     );
     const firstModelWhereUniqueInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/FirstModelWhereUniqueInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/FirstModelWhereUniqueInput.ts",
+      { encoding: "utf8" },
     );
     const firstModelScalarWhereInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/FirstModelScalarWhereInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/FirstModelScalarWhereInput.ts",
+      { encoding: "utf8" },
     );
     const firstModelOrderByInputTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/FirstModelOrderByInput.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/FirstModelOrderByInput.ts",
+      { encoding: "utf8" },
     );
 
     expect(firstModelWhereInputTSFile).toMatchSnapshot("FirstModelWhereInput");
@@ -155,13 +145,10 @@ describe("inputs", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const colorEnumFilterTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/inputs/ColorFilter.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/inputs/ColorFilter.ts",
+      { encoding: "utf8" },
     );
 
     expect(colorEnumFilterTSFile).toMatchSnapshot("ColorFilter");

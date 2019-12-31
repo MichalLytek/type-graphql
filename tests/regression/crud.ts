@@ -1,19 +1,18 @@
 import { promises as fs } from "fs";
 
-import generateCode from "../../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
+import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("crud", () => {
-  let baseDirPath: string;
+  let outputDirPath: string;
 
   beforeEach(async () => {
-    baseDirPath = getBaseDirPath("crud");
-    await fs.mkdir(baseDirPath);
+    outputDirPath = generateArtifactsDirPath("crud");
+    await fs.mkdir(outputDirPath);
   });
 
   afterEach(async () => {
-    await fs.rmdir(baseDirPath, { recursive: true });
+    await fs.rmdir(outputDirPath, { recursive: true });
     await new Promise(r => setTimeout(r, 100));
   });
 
@@ -27,13 +26,10 @@ describe("crud", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const userCrudResolverTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/UserCrudResolver.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/UserCrudResolver.ts",
+      { encoding: "utf8" },
     );
 
     expect(userCrudResolverTSFile).toMatchSnapshot("UserCrudResolver");
@@ -49,41 +45,38 @@ describe("crud", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
-    );
+    await generateCodeFromSchema(schema, outputDirPath);
     const createOneUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/CreateOneUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/CreateOneUserArgs.ts",
+      { encoding: "utf8" },
     );
     const deleteOneUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/DeleteOneUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/DeleteOneUserArgs.ts",
+      { encoding: "utf8" },
     );
     const findManyUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/FindManyUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/FindManyUserArgs.ts",
+      { encoding: "utf8" },
     );
     const findOneUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/FindOneUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/FindOneUserArgs.ts",
+      { encoding: "utf8" },
     );
     const updateManyUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/UpdateManyUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/UpdateManyUserArgs.ts",
+      { encoding: "utf8" },
     );
     const updateOneUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/UpdateOneUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/UpdateOneUserArgs.ts",
+      { encoding: "utf8" },
     );
     const upsertOneUserArgsTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/UpsertOneUserArgs.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/UpsertOneUserArgs.ts",
+      { encoding: "utf8" },
     );
     const indexTSFile = await fs.readFile(
-      baseDirPath + "/resolvers/crud/User/args/index.ts",
-      { encoding: "utf-8" },
+      outputDirPath + "/resolvers/crud/User/args/index.ts",
+      { encoding: "utf8" },
     );
 
     expect(createOneUserArgsTSFile).toMatchSnapshot("CreateOneUserArgs");

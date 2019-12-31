@@ -1,19 +1,18 @@
 import { promises as fs } from "fs";
 
-import generateCode from "../../src/generator/generate-code";
-import getPhotonDmmfFromPrismaSchema from "../helpers/dmmf";
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
+import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("models", () => {
-  let baseDirPath: string;
+  let outputDirPath: string;
 
   beforeEach(async () => {
-    baseDirPath = getBaseDirPath("models");
-    await fs.mkdir(baseDirPath);
+    outputDirPath = generateArtifactsDirPath("models");
+    await fs.mkdir(outputDirPath);
   });
 
   afterEach(async () => {
-    await fs.rmdir(baseDirPath, { recursive: true });
+    await fs.rmdir(outputDirPath, { recursive: true });
     await new Promise(r => setTimeout(r, 100));
   });
 
@@ -30,13 +29,11 @@ describe("models", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
+    await generateCodeFromSchema(schema, outputDirPath);
+    const userModelTSFile = await fs.readFile(
+      outputDirPath + "/models/User.ts",
+      { encoding: "utf8" },
     );
-    const userModelTSFile = await fs.readFile(baseDirPath + "/models/User.ts", {
-      encoding: "utf-8",
-    });
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });
@@ -56,13 +53,11 @@ describe("models", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
+    await generateCodeFromSchema(schema, outputDirPath);
+    const userModelTSFile = await fs.readFile(
+      outputDirPath + "/models/User.ts",
+      { encoding: "utf8" },
     );
-    const userModelTSFile = await fs.readFile(baseDirPath + "/models/User.ts", {
-      encoding: "utf-8",
-    });
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });
@@ -79,16 +74,15 @@ describe("models", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
+    await generateCodeFromSchema(schema, outputDirPath);
+    const userModelTSFile = await fs.readFile(
+      outputDirPath + "/models/User.ts",
+      { encoding: "utf8" },
     );
-    const userModelTSFile = await fs.readFile(baseDirPath + "/models/User.ts", {
-      encoding: "utf-8",
-    });
-    const postModelTSFile = await fs.readFile(baseDirPath + "/models/Post.ts", {
-      encoding: "utf-8",
-    });
+    const postModelTSFile = await fs.readFile(
+      outputDirPath + "/models/Post.ts",
+      { encoding: "utf8" },
+    );
 
     expect(userModelTSFile).toMatchSnapshot("User");
     expect(postModelTSFile).toMatchSnapshot("Post");
@@ -112,13 +106,11 @@ describe("models", () => {
       }
     `;
 
-    await generateCode(
-      await getPhotonDmmfFromPrismaSchema(schema),
-      baseDirPath,
+    await generateCodeFromSchema(schema, outputDirPath);
+    const userModelTSFile = await fs.readFile(
+      outputDirPath + "/models/User.ts",
+      { encoding: "utf8" },
     );
-    const userModelTSFile = await fs.readFile(baseDirPath + "/models/User.ts", {
-      encoding: "utf-8",
-    });
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });

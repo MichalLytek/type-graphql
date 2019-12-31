@@ -4,7 +4,7 @@ import path from "path";
 import util from "util";
 import childProcess from "child_process";
 
-import getBaseDirPath from "../helpers/base-dir";
+import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { stringifyDirectoryTrees } from "../helpers/structure";
 
 const exec = util.promisify(childProcess.exec);
@@ -13,7 +13,7 @@ describe("generator integration", () => {
   let cwdDirPath: string;
 
   beforeEach(async () => {
-    cwdDirPath = getBaseDirPath("integration");
+    cwdDirPath = generateArtifactsDirPath("integration");
     await fs.mkdir(cwdDirPath);
   });
 
