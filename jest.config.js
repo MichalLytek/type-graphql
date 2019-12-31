@@ -2,14 +2,11 @@ module.exports = {
   verbose: false,
   testEnvironment: "node",
   preset: "ts-jest",
-  testMatch: [
-    "<rootDir>/tests/**/*.ts",
-    "!<rootDir>/tests/helpers/**/*.ts",
-    "!<rootDir>/tests/artifacts/**/*.ts",
-  ],
+  testMatch: ["<rootDir>/tests/**/*.ts"],
   testPathIgnorePatterns: [
     "<rootDir>/tests/helpers",
     "<rootDir>/tests/artifacts",
+    "<rootDir>/tests/.*integration.*",
   ],
   rootDir: "./",
   globals: {
