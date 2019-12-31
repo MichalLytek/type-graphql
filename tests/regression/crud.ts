@@ -50,6 +50,10 @@ describe("crud", () => {
       outputDirPath + "/resolvers/crud/User/args/CreateOneUserArgs.ts",
       { encoding: "utf8" },
     );
+    const deleteManyUserArgsTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/args/DeleteManyUserArgs.ts",
+      { encoding: "utf8" },
+    );
     const deleteOneUserArgsTSFile = await fs.readFile(
       outputDirPath + "/resolvers/crud/User/args/DeleteOneUserArgs.ts",
       { encoding: "utf8" },
@@ -80,6 +84,7 @@ describe("crud", () => {
     );
 
     expect(createOneUserArgsTSFile).toMatchSnapshot("CreateOneUserArgs");
+    expect(deleteManyUserArgsTSFile).toMatchSnapshot("DeleteManyUserArgs");
     expect(deleteOneUserArgsTSFile).toMatchSnapshot("DeleteOneUserArgs");
     expect(findManyUserArgsTSFile).toMatchSnapshot("FindManyUserArgs");
     expect(findOneUserArgsTSFile).toMatchSnapshot("FindOneUserArgs");

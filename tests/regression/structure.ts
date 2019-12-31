@@ -63,6 +63,7 @@ describe("structure", () => {
             [Post]
               [args]
                 CreateOnePostArgs.ts
+                DeleteManyPostArgs.ts
                 DeleteOnePostArgs.ts
                 FindManyPostArgs.ts
                 FindOnePostArgs.ts
@@ -74,6 +75,7 @@ describe("structure", () => {
             [User]
               [args]
                 CreateOneUserArgs.ts
+                DeleteManyUserArgs.ts
                 DeleteOneUserArgs.ts
                 FindManyUserArgs.ts
                 FindOneUserArgs.ts

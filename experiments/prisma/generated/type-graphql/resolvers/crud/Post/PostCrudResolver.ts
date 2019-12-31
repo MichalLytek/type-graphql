@@ -1,5 +1,6 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
 import { CreateOnePostArgs } from "./args/CreateOnePostArgs";
+import { DeleteManyPostArgs } from "./args/DeleteManyPostArgs";
 import { DeleteOnePostArgs } from "./args/DeleteOnePostArgs";
 import { FindManyPostArgs } from "./args/FindManyPostArgs";
 import { FindOnePostArgs } from "./args/FindOnePostArgs";
@@ -7,7 +8,6 @@ import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
 import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
 import { UpsertOnePostArgs } from "./args/UpsertOnePostArgs";
 import { Post } from "../../../models/Post";
-import { AggregatePost } from "../../outputs/AggregatePost";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Post)
@@ -56,6 +56,14 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
+  async deleteManyPost(@Ctx() ctx: any, @Args() args: DeleteManyPostArgs): Promise<BatchPayload> {
+    return ctx.photon.posts.deleteMany(args);
+  }
+
+  @Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
   async updateManyPost(@Ctx() ctx: any, @Args() args: UpdateManyPostArgs): Promise<BatchPayload> {
     return ctx.photon.posts.updateMany(args);
   }
@@ -66,13 +74,5 @@ export class PostCrudResolver {
   })
   async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<Post> {
     return ctx.photon.posts.upsert(args);
-  }
-
-  @Query(_returns => AggregatePost, {
-    nullable: false,
-    description: undefined
-  })
-  async aggregatePost(@Ctx() ctx: any): Promise<AggregatePost> {
-    return ctx.photon.posts.aggregate();
   }
 }
