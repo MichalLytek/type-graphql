@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`crud resolvers execution should properly call Photon on \`create\` action: createOneUser call args 1`] = `
+Array [
+  Array [
+    CreateOneUserArgs {
+      "data": UserCreateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+        "optionalStringField": "optional",
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`create\` action: createOneUser mocked response 1`] = `
+Object {
+  "createOneUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`delete\` action: deleteOneUser call args 1`] = `
+Array [
+  Array [
+    DeleteOneUserArgs {
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`delete\` action: deleteOneUser mocked response 1`] = `
+Object {
+  "deleteOneUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`deleteMany\` action: deleteManyUser call args 1`] = `
+Array [
+  Array [
+    DeleteManyUserArgs {
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`deleteMany\` action: deleteManyUser mocked response 1`] = `
+Object {
+  "deleteManyUser": Object {
+    "count": 3,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`findMany\` action: findManyUser call args 1`] = `
+Array [
+  Array [
+    FindManyUserArgs {
+      "after": undefined,
+      "before": undefined,
+      "first": 0,
+      "last": undefined,
+      "orderBy": UserOrderByInput {
+        "intIdField": "desc",
+      },
+      "skip": 0,
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`findMany\` action: findManyUser mocked response 1`] = `
+Object {
+  "findManyUser": Array [
+    Object {
+      "dateField": "2019-12-31T14:16:02.572Z",
+      "intIdField": 1,
+    },
+  ],
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`findOne\` action: findOneUser call args 1`] = `
+Array [
+  Array [
+    FindOneUserArgs {
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "uniqueValue",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`findOne\` action: findOneUser mocked response 1`] = `
+Object {
+  "findOneUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`update\` action: updateOneUser call args 1`] = `
+Array [
+  Array [
+    UpdateOneUserArgs {
+      "data": UserUpdateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+      },
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`update\` action: updateOneUser mocked response 1`] = `
+Object {
+  "updateOneUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`updateMany\` action: updateManyUser call args 1`] = `
+Array [
+  Array [
+    UpdateManyUserArgs {
+      "data": UserUpdateManyMutationInput {
+        "optionalStringField": null,
+      },
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`updateMany\` action: updateManyUser mocked response 1`] = `
+Object {
+  "updateManyUser": Object {
+    "count": 3,
+  },
+}
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`upsert\` action: upsertOneUser call args 1`] = `
+Array [
+  Array [
+    UpsertOneUserArgs {
+      "create": UserCreateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+        "optionalStringField": "optional",
+        "uniqueStringField": "unique",
+      },
+      "update": UserUpdateInput {
+        "optionalStringField": null,
+      },
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call Photon on \`upsert\` action: upsertOneUser mocked response 1`] = `
+Object {
+  "upsertOneUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+    "optionalStringField": "optional",
+    "uniqueStringField": "unique",
+  },
+}
+`;
