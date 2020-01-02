@@ -13,14 +13,17 @@ export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata,
 ): T[] {
-  const superMetadata = definitions.filter(subscription => subscription.target === superResolver);
-
-  // modify objects by reference so as not to create duplicates
-  superMetadata.forEach(metadata => {
-    metadata.target = resolverMetadata.target;
-    metadata.resolverClassMetadata = resolverMetadata;
+  return definitions.map(metadata => {
+    return metadata.target === superResolver
+      ? {
+          ...metadata,
+          target: resolverMetadata.target,
+          resolverClassMetadata: resolverMetadata,
+        }
+      : {
+          ...metadata,
+        };
   });
-  return superMetadata;
 }
 
 export function mapSuperFieldResolverHandlers(
@@ -30,10 +33,15 @@ export function mapSuperFieldResolverHandlers(
 ) {
   const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata);
 
-  superMetadata.forEach(metadata => {
-    metadata.getObjectType = isThrowing(metadata.getObjectType!)
-      ? resolverMetadata.getObjectType
-      : metadata.getObjectType;
+  return superMetadata.map(metadata => {
+    return metadata.target === superResolver
+      ? {
+          ...metadata,
+          getObjectType: isThrowing(metadata.getObjectType!)
+            ? resolverMetadata.getObjectType
+            : metadata.getObjectType,
+        }
+      : { ...metadata };
   });
 }
 
