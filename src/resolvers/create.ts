@@ -9,6 +9,7 @@ import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
 import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ResolverData } from "../interfaces";
+import isPromiseLike from "../utils/isPromiseLike";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
@@ -24,17 +25,23 @@ export function createHandlerResolver(
   const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
   applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
 
-  return async (root, args, context, info) => {
+  return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
     const targetInstance = container.getInstance(resolverMetadata.target, resolverData);
-    return applyMiddlewares(container, resolverData, middlewares, async () => {
-      const params: any[] = await getParams(
+    return applyMiddlewares(container, resolverData, middlewares, () => {
+      const params: Promise<any[]> | any[] = getParams(
         resolverMetadata.params!,
         resolverData,
         globalValidate,
         pubSub,
       );
-      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
+      if (isPromiseLike(params)) {
+        return params.then(resolvedParams =>
+          targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
+        );
+      } else {
+        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
+      }
     });
   };
 }
@@ -86,13 +93,8 @@ export function createBasicFieldResolver(
   const middlewares = globalMiddlewares.concat(fieldMetadata.middlewares!);
   applyAuthChecker(middlewares, authMode, authChecker, fieldMetadata.roles);
 
-  return async (root, args, context, info) => {
+  return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
-    return await applyMiddlewares(
-      container,
-      resolverData,
-      middlewares,
-      () => root[fieldMetadata.name],
-    );
+    return applyMiddlewares(container, resolverData, middlewares, () => root[fieldMetadata.name]);
   };
 }

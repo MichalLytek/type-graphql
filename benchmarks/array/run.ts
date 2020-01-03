@@ -1,8 +1,8 @@
 import { GraphQLSchema, execute } from "graphql";
 import { gql } from "apollo-server";
 
-const BENCHMARK_ITERATIONS = 100;
-export const ARRAY_ITEMS = 10000;
+const BENCHMARK_ITERATIONS = 50;
+export const ARRAY_ITEMS = 25000;
 
 export async function runBenchmark(schema: GraphQLSchema) {
   const multipleNestedObjectsQuery = gql`
