@@ -261,6 +261,10 @@ const CollectiveSection = props => (
             />
             <span>Demid Nikitin</span>
           </a>
+          <a href="https://alka.app/">
+            <img src={imgUrl("alka.png")} width="150" />
+            <span>Alka Finance</span>
+          </a>
         </div>
         <h3>Backers ☕ and Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
