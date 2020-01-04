@@ -88,7 +88,9 @@
 <ul>
 <li>object based - using a JS object to pass the named arguments</li>
 </ul>
-<pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"deprecated"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> reason<span class="token punctuation">:</span> <span class="token string">"Use newField"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">// syntax without `@` !!!</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"deprecated"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token comment">// syntax without `@`</span>
+  reason<span class="token punctuation">:</span> <span class="token string">'"Use newField"'</span><span class="token punctuation">,</span>  <span class="token comment">// double quotes for strings</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <p>Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries and mutations.</p>
 <p>So the <code>@Directive</code> decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:</p>
