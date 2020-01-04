@@ -37,7 +37,9 @@ Basically, there are two supported ways of declaring the usage of directives:
 - object based - using a JS object to pass the named arguments
 
 ```typescript
-@Directive("deprecated", { reason: "Use newField" }) // syntax without `@` !!!
+@Directive("deprecated", { // syntax without `@`
+  reason: '"Use newField"',  // double quotes for strings
+})
 ```
 
 Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries and mutations.
