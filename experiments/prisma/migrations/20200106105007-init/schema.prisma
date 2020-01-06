@@ -6,9 +6,9 @@ datasource db {
 type Numeric = Float
 
 generator photon {
-  provider = "photonjs"
+  provider      = "photonjs"
   binaryTargets = ["windows", "debian-openssl-1.1.x"]
-  output   = "../prisma/generated/photon"
+  output        = "../prisma/generated/photon"
 }
 
 generator typegraphql {
@@ -28,15 +28,15 @@ enum Role {
 /// User model comment
 model User {
   /// User model field comment
-  id          Int     @id @unique
-  email       String  @unique
-  name        String?
-  age         Int
-  balance     Numeric
-  amount      Float
-  posts       Post[]
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String?
+  age     Int
+  balance Numeric
+  amount  Float
+  posts   Post[]
   // maybePosts  Post[]?
-  role        Role
+  role    Role
   // address     Address
   // address2 embed {
   //   street  String
@@ -55,9 +55,9 @@ enum PostKind {
 }
 
 model Post {
-  uuid      String   @default(cuid()) @id @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  uuid      String    @default(cuid()) @id
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   published Boolean
   title     String
   content   String?
