@@ -1152,6 +1152,16 @@ describe("Resolvers", () => {
       }
       classes.SampleArgs = SampleArgs;
 
+      @ArgsType()
+      class SampleOptionalArgs {
+        @Field()
+        stringField: string;
+
+        @Field({ nullable: true })
+        optionalField?: string;
+      }
+      classes.SampleOptionalArgs = SampleOptionalArgs;
+
       @InputType()
       class SampleInput {
         private readonly TRUE = true;
@@ -1298,6 +1308,12 @@ describe("Resolvers", () => {
           } else {
             return -1.0;
           }
+        }
+
+        @Mutation()
+        mutationWithOptionalArgs(@Args() args: SampleOptionalArgs): boolean {
+          mutationInputValue = args;
+          return true;
         }
 
         @Mutation()
@@ -1551,6 +1567,18 @@ describe("Resolvers", () => {
 
       expect(result).toBeGreaterThanOrEqual(0);
       expect(result).toBeLessThanOrEqual(10);
+    });
+
+    it("shouldn't create properties of nullable args", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalArgs(stringField: "stringField")
+      }`;
+
+      const { errors } = await graphql(schema, mutation);
+
+      expect(errors).toBeUndefined();
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleOptionalArgs);
+      expect(mutationInputValue).not.toHaveProperty("optionalField");
     });
 
     it("should create instance of input object", async () => {

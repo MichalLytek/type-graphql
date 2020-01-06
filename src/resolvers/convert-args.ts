@@ -126,8 +126,11 @@ export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: Arg
 
   const transformedFields = argsFields.reduce<Record<string, any>>((fields, field) => {
     const fieldValue = args[field.name];
-    const fieldTarget = field.getType();
-    fields[field.name] = convertValuesToInstances(fieldTarget, fieldValue);
+    // don't create property for nullable field
+    if (fieldValue !== undefined) {
+      const fieldTarget = field.getType();
+      fields[field.name] = convertValuesToInstances(fieldTarget, fieldValue);
+    }
     return fields;
   }, {});
 
