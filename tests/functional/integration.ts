@@ -107,6 +107,43 @@ describe("generator integration", () => {
     expect(graphQLSchemaSDL).toMatchSnapshot("graphQLSchemaSDL");
   }, 60000);
 
+  it("should be able to generate TypeGraphQL classes files without any type errors", async () => {
+    const tsconfigContent = /* json */ `
+      {
+        "compilerOptions": {
+          "target": "es2018",
+          "module": "commonjs",
+          "strict": true,
+          "skipLibCheck": true,
+          "esModuleInterop": true,
+          "experimentalDecorators": true,
+          "emitDecoratorMetadata": true,
+          "forceConsistentCasingInFileNames": true
+        }
+      }
+    `;
+    const typegraphqlfolderPath = path.join(
+      cwdDirPath,
+      "generated",
+      "type-graphql",
+    );
+
+    const prisma2GenerateResult = await exec("npx prisma2 generate", {
+      cwd: cwdDirPath,
+    });
+    await fs.writeFile(
+      path.join(typegraphqlfolderPath, "tsconfig.json"),
+      tsconfigContent,
+    );
+    const tscResult = await exec("npx tsc --noEmit", {
+      cwd: typegraphqlfolderPath,
+    });
+
+    expect(prisma2GenerateResult.stderr).toHaveLength(0);
+    expect(tscResult.stdout).toHaveLength(0);
+    expect(tscResult.stderr).toHaveLength(0);
+  }, 60000);
+
   it("should properly fetch the data from DB using Photon while queried by GraphQL schema", async () => {
     const prisma2GenerateResult = await exec("npx prisma2 generate", {
       cwd: cwdDirPath,
