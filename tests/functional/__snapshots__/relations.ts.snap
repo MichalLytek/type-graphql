@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`relations resolvers execution should properly call Photon on fetching array relations with args: findManyUser relations call args 1`] = `
+Array [
+  Array [
+    Object {
+      "select": Object {
+        "id": true,
+        "posts": UserPostsArgs {
+          "after": undefined,
+          "before": undefined,
+          "first": 1,
+          "last": undefined,
+          "orderBy": undefined,
+          "skip": 1,
+          "where": PostWhereInput {
+            "content": StringFilter {
+              "startsWith": "test",
+            },
+          },
+        },
+      },
+      "where": Object {
+        "id": Object {
+          "in": Array [
+            1,
+            2,
+          ],
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`relations resolvers execution should properly call Photon on fetching array relations with args: users with posts mocked response 1`] = `
+Object {
+  "users": Array [
+    Object {
+      "name": "Test 1",
+      "posts": null,
+    },
+    Object {
+      "name": "Test 2",
+      "posts": Array [
+        Object {
+          "color": "RED",
+          "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+        },
+        Object {
+          "color": "BLUE",
+          "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`relations resolvers execution should properly call Photon on fetching array relations: findManyUser relations call args 1`] = `
+Array [
+  Array [
+    Object {
+      "select": Object {
+        "id": true,
+        "posts": UserPostsArgs {
+          "after": undefined,
+          "before": undefined,
+          "first": undefined,
+          "last": undefined,
+          "orderBy": undefined,
+          "skip": undefined,
+          "where": undefined,
+        },
+      },
+      "where": Object {
+        "id": Object {
+          "in": Array [
+            1,
+            2,
+          ],
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`relations resolvers execution should properly call Photon on fetching array relations: users with posts mocked response 1`] = `
+Object {
+  "users": Array [
+    Object {
+      "name": "Test 1",
+      "posts": null,
+    },
+    Object {
+      "name": "Test 2",
+      "posts": Array [
+        Object {
+          "color": "RED",
+          "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+        },
+        Object {
+          "color": "BLUE",
+          "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`relations resolvers execution should properly call Photon on fetching single relation: findManyPost relations call args 1`] = `
+Array [
+  Array [
+    Object {
+      "select": Object {
+        "author": Object {},
+        "uuid": true,
+      },
+      "where": Object {
+        "uuid": Object {
+          "in": Array [
+            "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+            "72c8a188-3d46-45b3-b23f-7d420aa282f1",
+          ],
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`relations resolvers execution should properly call Photon on fetching single relation: posts with authors mocked response 1`] = `
+Object {
+  "posts": Array [
+    Object {
+      "author": Object {
+        "id": 1,
+        "name": "Test 1",
+      },
+      "color": "RED",
+      "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+    },
+    Object {
+      "author": Object {
+        "id": 1,
+        "name": "Test 1",
+      },
+      "color": "BLUE",
+      "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
+    },
+  ],
+}
+`;
