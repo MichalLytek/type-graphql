@@ -20,9 +20,7 @@ export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
           target: resolverMetadata.target,
           resolverClassMetadata: resolverMetadata,
         }
-      : {
-          ...metadata,
-        };
+      : metadata;
   });
 }
 
@@ -41,7 +39,7 @@ export function mapSuperFieldResolverHandlers(
             ? resolverMetadata.getObjectType
             : metadata.getObjectType,
         }
-      : { ...metadata };
+      : metadata;
   });
 }
 
