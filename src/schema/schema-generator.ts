@@ -41,7 +41,13 @@ import {
   ConflictingDefaultValuesError,
   InterfaceResolveTypeError,
 } from "../errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
+import {
+  ResolverFilterData,
+  ResolverTopicData,
+  TypeResolver,
+  Maybe,
+  ClassType as ClassTypeType,
+} from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 import {
@@ -50,6 +56,7 @@ import {
   getInputValueDefinitionNode,
   getObjectTypeDefinitionNode,
 } from "./definition-node";
+import isPromiseLike from "../utils/isPromiseLike";
 
 interface AbstractInfo {
   isAbstract: boolean;
@@ -663,12 +670,26 @@ export abstract class SchemaGenerator {
   private static getResolveTypeFunction<TSource = any, TContext = any>(
     resolveType: TypeResolver<TSource, TContext>,
   ): GraphQLTypeResolver<TSource, TContext> {
-    return async (...args) => {
-      const resolvedType = await resolveType(...args);
-      if (typeof resolvedType === "string") {
-        return resolvedType;
+    return (...args) => {
+      const resolvedTypeOrPromise = resolveType(...args);
+
+      if (isPromiseLike(resolveType)) {
+        return (resolvedTypeOrPromise as Promise<Maybe<string | ClassTypeType<any>>>).then(
+          resolvedType => {
+            if (typeof resolvedType === "string") {
+              return resolvedType;
+            }
+            return this.objectTypesInfo.find(objectType => objectType.target === resolvedType)!
+              .type;
+          },
+        );
       }
-      return this.objectTypesInfo.find(objectType => objectType.target === resolvedType)!.type;
+
+      if (typeof resolvedTypeOrPromise === "string") {
+        return resolvedTypeOrPromise;
+      }
+      return this.objectTypesInfo.find(objectType => objectType.target === resolvedTypeOrPromise)!
+        .type;
     };
   }
 
