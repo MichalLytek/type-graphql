@@ -11,6 +11,7 @@ import {
 } from "graphql";
 
 import { ResolversMap, EnumResolver, ResolverObject } from "../interfaces";
+import isPromiseLike from "./isPromiseLike";
 
 export function createResolversMap(schema: GraphQLSchema): ResolversMap {
   const typeMap = schema.getTypeMap();
@@ -56,8 +57,18 @@ function generateTypeResolver(
   schema: GraphQLSchema,
 ): GraphQLTypeResolver<any, any> {
   if (abstractType.resolveType) {
-    return async (...args) => {
-      const detectedType = await abstractType.resolveType!(...args);
+    return (...args) => {
+      const detectedType = abstractType.resolveType!(...args);
+
+      if (isPromiseLike(detectedType)) {
+        return detectedType.then(runtimeType => {
+          if (runtimeType instanceof GraphQLObjectType) {
+            return runtimeType.name;
+          }
+          return runtimeType;
+        });
+      }
+
       if (detectedType instanceof GraphQLObjectType) {
         return detectedType.name;
       }
