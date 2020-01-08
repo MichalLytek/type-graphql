@@ -330,6 +330,7 @@ export abstract class SchemaGenerator {
                   deprecationReason: field.deprecationReason,
                   astNode: getFieldDefinitionNode(field.name, type, field.directives),
                   extensions: {
+                    ...field.extensions,
                     complexity: field.complexity,
                   },
                 };
@@ -399,6 +400,7 @@ export abstract class SchemaGenerator {
                   type,
                   defaultValue: field.typeOptions.defaultValue,
                   astNode: getInputValueDefinitionNode(field.name, type, field.directives),
+                  extensions: field.extensions,
                 };
                 return fieldsMap;
               },
@@ -497,6 +499,7 @@ export abstract class SchemaGenerator {
         deprecationReason: handler.deprecationReason,
         astNode: getFieldDefinitionNode(handler.schemaName, type, handler.directives),
         extensions: {
+          ...handler.extensions,
           complexity: handler.complexity,
         },
       };

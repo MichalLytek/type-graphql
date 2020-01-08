@@ -1,6 +1,7 @@
 import {
   ResolverMetadata,
   ClassMetadata,
+  ExtensionsMetadata,
   FieldMetadata,
   ParamMetadata,
   FieldResolverMetadata,
@@ -40,6 +41,7 @@ export class MetadataStorage {
   middlewares: MiddlewareMetadata[] = [];
   classDirectives: DirectiveClassMetadata[] = [];
   fieldDirectives: DirectiveFieldMetadata[] = [];
+  extensions: ExtensionsMetadata[] = [];
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -108,6 +110,10 @@ export class MetadataStorage {
     this.fieldDirectives.push(definition);
   }
 
+  collectExtensionsMetadata(definition: ExtensionsMetadata) {
+    this.extensions.push(definition);
+  }
+
   build() {
     // TODO: disable next build attempts
 
@@ -143,6 +149,7 @@ export class MetadataStorage {
     this.middlewares = [];
     this.classDirectives = [];
     this.fieldDirectives = [];
+    this.extensions = [];
 
     this.resolverClasses = [];
     this.fields = [];
@@ -196,6 +203,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
+      def.extensions = this.findExtensions(def.target, def.methodName);
     });
   }
 
@@ -206,6 +214,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
+      def.extensions = this.findExtensions(def.target, def.methodName);
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
@@ -285,5 +294,11 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private findExtensions(target: Function, fieldName: string): Record<string, any> {
+    return this.extensions
+      .filter(entry => entry.target === target && entry.fieldName === fieldName)
+      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }
 }
