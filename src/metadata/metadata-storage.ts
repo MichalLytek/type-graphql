@@ -1,6 +1,8 @@
 import {
   ResolverMetadata,
   ClassMetadata,
+  ExtensionsClassMetadata,
+  ExtensionsFieldMetadata,
   FieldMetadata,
   ParamMetadata,
   FieldResolverMetadata,
@@ -20,6 +22,7 @@ import {
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
+  flattenExtensions,
 } from "./utils";
 import { ObjectClassMetadata } from "./definitions/object-class-metdata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
@@ -40,6 +43,8 @@ export class MetadataStorage {
   middlewares: MiddlewareMetadata[] = [];
   classDirectives: DirectiveClassMetadata[] = [];
   fieldDirectives: DirectiveFieldMetadata[] = [];
+  classExtensions: ExtensionsClassMetadata[] = [];
+  fieldExtensions: ExtensionsFieldMetadata[] = [];
 
   private resolverClasses: ResolverClassMetadata[] = [];
   private fields: FieldMetadata[] = [];
@@ -108,11 +113,20 @@ export class MetadataStorage {
     this.fieldDirectives.push(definition);
   }
 
+  collectExtensionsClassMetadata(definition: ExtensionsClassMetadata) {
+    this.classExtensions.push(definition);
+  }
+  collectExtensionsFieldMetadata(definition: ExtensionsFieldMetadata) {
+    this.fieldExtensions.push(definition);
+  }
+
   build() {
     // TODO: disable next build attempts
 
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
+    this.classExtensions.reverse();
+    this.fieldExtensions.reverse();
 
     this.buildClassMetadata(this.objectTypes);
     this.buildClassMetadata(this.inputTypes);
@@ -143,6 +157,8 @@ export class MetadataStorage {
     this.middlewares = [];
     this.classDirectives = [];
     this.fieldDirectives = [];
+    this.classExtensions = [];
+    this.fieldExtensions = [];
 
     this.resolverClasses = [];
     this.fields = [];
@@ -167,6 +183,7 @@ export class MetadataStorage {
           field.directives = this.fieldDirectives
             .filter(it => it.target === field.target && it.fieldName === field.name)
             .map(it => it.directive);
+          field.extensions = this.findFieldExtensions(field.target, field.name);
         });
         def.fields = fields;
       }
@@ -174,6 +191,9 @@ export class MetadataStorage {
         def.directives = this.classDirectives
           .filter(it => it.target === def.target)
           .map(it => it.directive);
+      }
+      if (!def.extensions) {
+        def.extensions = this.findClassExtensions(def.target);
       }
     });
   }
@@ -196,6 +216,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
+      def.extensions = this.findFieldExtensions(def.target, def.methodName);
     });
   }
 
@@ -206,6 +227,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
+      def.extensions = this.findFieldExtensions(def.target, def.methodName);
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
@@ -236,6 +258,7 @@ export class MetadataStorage {
             middlewares: def.middlewares!,
             params: def.params!,
             directives: def.directives,
+            extensions: def.extensions,
           };
           this.collectClassFieldMetadata(fieldMetadata);
           objectType.fields!.push(fieldMetadata);
@@ -285,5 +308,17 @@ export class MetadataStorage {
       return;
     }
     return authorizedField.roles;
+  }
+
+  private findClassExtensions(target: Function): Record<string, any> {
+    return this.classExtensions
+      .filter(entry => entry.target === target)
+      .reduce(flattenExtensions, {});
+  }
+
+  private findFieldExtensions(target: Function, fieldName: string): Record<string, any> {
+    return this.fieldExtensions
+      .filter(entry => entry.target === target && entry.fieldName === fieldName)
+      .reduce(flattenExtensions, {});
   }
 }

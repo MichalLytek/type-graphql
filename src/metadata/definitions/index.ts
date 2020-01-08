@@ -2,6 +2,7 @@ export * from "./authorized-metadata";
 export * from "./class-metadata";
 export * from "./directive-metadata";
 export * from "./enum-metadata";
+export * from "./extensions-metadata";
 export * from "./field-metadata";
 export * from "./middleware-metadata";
 export * from "./param-metadata";

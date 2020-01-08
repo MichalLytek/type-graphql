@@ -17,5 +17,6 @@ export interface FieldMetadata {
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
+  extensions?: Record<string, any>;
   simple?: boolean;
 }

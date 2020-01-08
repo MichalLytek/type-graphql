@@ -22,6 +22,7 @@ export interface BaseResolverMetadata {
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
+  extensions?: Record<string, any>;
 }
 
 export interface ResolverMetadata extends BaseResolverMetadata {

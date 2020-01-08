@@ -3,6 +3,8 @@ import {
   BaseResolverMetadata,
   MiddlewareMetadata,
   FieldResolverMetadata,
+  ExtensionsClassMetadata,
+  ExtensionsFieldMetadata,
 } from "./definitions";
 import { Middleware } from "../interfaces/Middleware";
 import { isThrowing } from "../helpers/isThrowing";
@@ -56,4 +58,11 @@ export function ensureReflectMetadataExists() {
   ) {
     throw new ReflectMetadataMissingError();
   }
+}
+
+export function flattenExtensions(
+  extensions: Record<string, any>,
+  entry: ExtensionsClassMetadata | ExtensionsFieldMetadata,
+): Record<string, any> {
+  return { ...extensions, ...entry.extensions };
 }

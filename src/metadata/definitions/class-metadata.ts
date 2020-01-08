@@ -8,5 +8,6 @@ export interface ClassMetadata {
   description?: string;
   isAbstract?: boolean;
   directives?: DirectiveMetadata[];
+  extensions?: Record<string, any>;
   simpleResolvers?: boolean;
 }
