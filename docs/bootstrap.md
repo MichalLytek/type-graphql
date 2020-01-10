@@ -63,6 +63,8 @@ async function bootstrap() {
 bootstrap(); // actually run the async function
 ```
 
+NOTE: once the resolvers are compiled, the resolver path(s) will no longer be valid for `*.ts` files and instead will need to reference the compiled `*.js` files.
+
 ## Create an HTTP GraphQL endpoint
 
 In most cases, the GraphQL app is served by an HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server). Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
