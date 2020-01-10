@@ -1,5 +1,6 @@
 import { FieldMetadata } from "./field-metadata";
 import { DirectiveMetadata } from "./directive-metadata";
+import { ExtensionsMetadata } from "./extensions-metadata";
 
 export interface ClassMetadata {
   name: string;
@@ -8,6 +9,6 @@ export interface ClassMetadata {
   description?: string;
   isAbstract?: boolean;
   directives?: DirectiveMetadata[];
-  extensions?: Record<string, any>;
+  extensions?: ExtensionsMetadata;
   simpleResolvers?: boolean;
 }

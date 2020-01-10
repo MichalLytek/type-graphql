@@ -14,6 +14,7 @@ import {
   ResolverClassMetadata,
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
+  ExtensionsMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -310,13 +311,13 @@ export class MetadataStorage {
     return authorizedField.roles;
   }
 
-  private findClassExtensions(target: Function): Record<string, any> {
+  private findClassExtensions(target: Function): ExtensionsMetadata {
     return this.classExtensions
       .filter(entry => entry.target === target)
       .reduce(flattenExtensions, {});
   }
 
-  private findFieldExtensions(target: Function, fieldName: string): Record<string, any> {
+  private findFieldExtensions(target: Function, fieldName: string): ExtensionsMetadata {
     return this.fieldExtensions
       .filter(entry => entry.target === target && entry.fieldName === fieldName)
       .reduce(flattenExtensions, {});
