@@ -31,6 +31,15 @@ And you can also decorate an entity several times, this will attach the exact sa
 @Extensions({ logLevel: 1 })
 ```
 
+If you decorate the same entity several times with the same extensions key, the one defined at the bottom will take precedence:
+
+```typescript
+@Extensions({ logMessage: "Restricted access" })
+@Extensions({ logMessage: "Another message" })
+```
+
+The above will result in your entity having `logmessage: "Another message"` in its extensions.
+
 The following entities can be decorated with extensions:
 
 - @Field
