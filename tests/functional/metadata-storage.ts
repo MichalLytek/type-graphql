@@ -12,146 +12,110 @@ import {
   ClassType,
   Field,
 } from "../../src";
-import { MetadataStorage } from "../../src/metadata/metadata-storage";
 
 describe("MetadataStorage", () => {
-  let metadataStorage: MetadataStorage;
-  const INHERITED_QUERY_NAME = "inheritedQueryName";
-  const INHERITED_MUTATION_NAME = "inheritedMutationName";
-  const INHERITED_SUBSCRIPTION_NAME = "inheritedSubscriptionName";
-  const INHERITED_FIELD_RESOLVER_NAME = "inheritedFieldResolverName";
+  describe("resolvers inheritance", () => {
+    const INHERITED_QUERY_NAME = "inheritedQueryName";
+    const INHERITED_MUTATION_NAME = "inheritedMutationName";
+    const INHERITED_SUBSCRIPTION_NAME = "inheritedSubscriptionName";
+    const INHERITED_FIELD_RESOLVER_NAME = "inheritedFieldResolverName";
 
-  beforeAll(async () => {
-    metadataStorage = getMetadataStorage();
-    metadataStorage.clear();
+    beforeAll(async () => {
+      getMetadataStorage().clear();
 
-    function createAbstractResolver(classType: ClassType) {
-      @Resolver(() => classType, { isAbstract: true })
-      abstract class AbstractResolver {
-        @Query({ name: INHERITED_QUERY_NAME })
-        abstractQuery(): boolean {
+      function createAbstractResolver(classType: ClassType) {
+        @Resolver(() => classType, { isAbstract: true })
+        abstract class AbstractResolver {
+          @Query({ name: INHERITED_QUERY_NAME })
+          abstractQuery(): boolean {
+            return true;
+          }
+
+          @Mutation({ name: INHERITED_MUTATION_NAME })
+          abstractMutation(): boolean {
+            return true;
+          }
+
+          @Subscription({ name: INHERITED_SUBSCRIPTION_NAME, topics: "sampleTopic" })
+          abstractSubscription(): boolean {
+            return true;
+          }
+
+          @FieldResolver({ name: INHERITED_FIELD_RESOLVER_NAME })
+          abstractFieldResolver(): boolean {
+            return true;
+          }
+        }
+        return AbstractResolver;
+      }
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField: boolean;
+
+        @Field({ name: INHERITED_FIELD_RESOLVER_NAME })
+        abstractSampleField: boolean;
+      }
+
+      @Resolver(() => SampleObject)
+      class SubClassResolver extends createAbstractResolver(SampleObject) {
+        @Query()
+        subClassQuery(): boolean {
           return true;
         }
 
-        @Mutation({ name: INHERITED_MUTATION_NAME })
-        abstractMutation(): boolean {
+        @Mutation()
+        subClassMutation(): boolean {
           return true;
         }
 
-        @Subscription({ name: INHERITED_SUBSCRIPTION_NAME, topics: "sampleTopic" })
-        abstractSubscription(): boolean {
+        @Subscription({ topics: "sampleTopic" })
+        subClassSubscription(): boolean {
           return true;
         }
 
-        @FieldResolver({ name: INHERITED_FIELD_RESOLVER_NAME })
-        abstractFieldResolver(): boolean {
+        @FieldResolver()
+        sampleField(): boolean {
           return true;
         }
       }
-      return AbstractResolver;
-    }
 
-    @ObjectType()
-    class SampleObject {
-      @Field()
-      sampleField: boolean;
+      await buildSchema({ resolvers: [SubClassResolver] });
+    });
 
-      @Field({ name: INHERITED_FIELD_RESOLVER_NAME })
-      abstractSampleField: boolean;
-    }
+    it("should not have duplicated query metadata for inherited resolvers", async () => {
+      expect(
+        getMetadataStorage().queries.filter(query => query.schemaName === INHERITED_QUERY_NAME),
+      ).toHaveLength(1);
+      expect(getMetadataStorage().queries).toHaveLength(2);
+    });
 
-    @Resolver(() => SampleObject)
-    class SubClassResolver extends createAbstractResolver(SampleObject) {
-      @Query()
-      subClassQuery(): boolean {
-        return true;
-      }
+    it("should not have duplicated mutation metadata for inherited resolvers", async () => {
+      expect(
+        getMetadataStorage().mutations.filter(
+          mutation => mutation.schemaName === INHERITED_MUTATION_NAME,
+        ),
+      ).toHaveLength(1);
+      expect(getMetadataStorage().mutations).toHaveLength(2);
+    });
 
-      @Mutation()
-      subClassMutation(): boolean {
-        return true;
-      }
+    it("should not have duplicated subscription metadata for inherited resolvers", async () => {
+      expect(
+        getMetadataStorage().subscriptions.filter(
+          subscription => subscription.schemaName === INHERITED_SUBSCRIPTION_NAME,
+        ),
+      ).toHaveLength(1);
+      expect(getMetadataStorage().subscriptions).toHaveLength(2);
+    });
 
-      @Subscription({ topics: "sampleTopic" })
-      subClassSubscription(): boolean {
-        return true;
-      }
-
-      @FieldResolver()
-      sampleField(): boolean {
-        return true;
-      }
-    }
-
-    await buildSchema({ resolvers: [SubClassResolver] });
-  });
-
-  it("should not have duplicate fieldResolver metadata", async () => {
-    function countItems() {
-      const qNameCount: { [key: string]: number } = {};
-      metadataStorage.fieldResolvers.forEach((q: any) => {
-        qNameCount[q.schemaName] === undefined
-          ? (qNameCount[q.schemaName] = 1)
-          : qNameCount[q.schemaName]++;
-      });
-      console.log("Field Resolver Count By Name", qNameCount);
-    }
-    countItems();
-    expect(
-      metadataStorage.fieldResolvers.filter(
-        fieldResolver => fieldResolver.schemaName === INHERITED_FIELD_RESOLVER_NAME,
-      ).length,
-    ).toBe(1);
-  });
-
-  it("should not have duplicate subscription metadata for resolvers", async () => {
-    function countItems() {
-      const qNameCount: { [key: string]: number } = {};
-      metadataStorage.subscriptions.forEach((q: any) => {
-        qNameCount[q.schemaName] === undefined
-          ? (qNameCount[q.schemaName] = 1)
-          : qNameCount[q.schemaName]++;
-      });
-      console.log("Subscription Count By Name", qNameCount);
-    }
-    countItems();
-    expect(
-      metadataStorage.subscriptions.filter(
-        subscription => subscription.schemaName === INHERITED_SUBSCRIPTION_NAME,
-      ).length,
-    ).toBe(1);
-  });
-
-  it("should not have duplicate mutation metadata for resolvers", async () => {
-    function countItems() {
-      const qNameCount: { [key: string]: number } = {};
-      metadataStorage.mutations.forEach((q: any) => {
-        qNameCount[q.schemaName] === undefined
-          ? (qNameCount[q.schemaName] = 1)
-          : qNameCount[q.schemaName]++;
-      });
-      console.log("Mutation Count By Name", qNameCount);
-    }
-    countItems();
-    expect(
-      metadataStorage.mutations.filter(mutation => mutation.schemaName === INHERITED_MUTATION_NAME)
-        .length,
-    ).toBe(1);
-  });
-
-  it("should not have duplicate query metadata for resolvers", async () => {
-    function countItems() {
-      const qNameCount: { [key: string]: number } = {};
-      metadataStorage.queries.forEach((q: any) => {
-        qNameCount[q.schemaName] === undefined
-          ? (qNameCount[q.schemaName] = 1)
-          : qNameCount[q.schemaName]++;
-      });
-      console.log("Query Count By Name", qNameCount);
-    }
-    countItems();
-    expect(
-      metadataStorage.queries.filter(query => query.schemaName === INHERITED_QUERY_NAME).length,
-    ).toBe(1);
+    it("should not have duplicated fieldResolver metadata for inherited resolvers", async () => {
+      expect(
+        getMetadataStorage().fieldResolvers.filter(
+          fieldResolver => fieldResolver.schemaName === INHERITED_FIELD_RESOLVER_NAME,
+        ),
+      ).toHaveLength(1);
+      expect(getMetadataStorage().fieldResolvers).toHaveLength(2);
+    });
   });
 });
