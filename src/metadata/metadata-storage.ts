@@ -263,13 +263,13 @@ export class MetadataStorage {
       while (superResolver.prototype) {
         const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
         if (superResolverMetadata) {
-          this.queries.unshift(...mapSuperResolverHandlers(this.queries, superResolver, def));
-          this.mutations.unshift(...mapSuperResolverHandlers(this.mutations, superResolver, def));
-          this.subscriptions.unshift(
-            ...mapSuperResolverHandlers(this.subscriptions, superResolver, def),
-          );
-          this.fieldResolvers.unshift(
-            ...mapSuperFieldResolverHandlers(this.fieldResolvers, superResolver, def),
+          this.queries = mapSuperResolverHandlers(this.queries, superResolver, def);
+          this.mutations = mapSuperResolverHandlers(this.mutations, superResolver, def);
+          this.subscriptions = mapSuperResolverHandlers(this.subscriptions, superResolver, def);
+          this.fieldResolvers = mapSuperFieldResolverHandlers(
+            this.fieldResolvers,
+            superResolver,
+            def,
           );
         }
         superResolver = Object.getPrototypeOf(superResolver);

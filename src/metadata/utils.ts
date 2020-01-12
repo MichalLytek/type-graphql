@@ -13,28 +13,34 @@ export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata,
 ): T[] {
-  const superMetadata = definitions.filter(subscription => subscription.target === superResolver);
-
-  return superMetadata.map<T>(metadata => ({
-    ...(metadata as any),
-    target: resolverMetadata.target,
-    resolverClassMetadata: resolverMetadata,
-  }));
+  return definitions.map(metadata => {
+    return metadata.target === superResolver
+      ? {
+          ...metadata,
+          target: resolverMetadata.target,
+          resolverClassMetadata: resolverMetadata,
+        }
+      : metadata;
+  });
 }
 
 export function mapSuperFieldResolverHandlers(
   definitions: FieldResolverMetadata[],
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata,
-): FieldResolverMetadata[] {
+) {
   const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata);
 
-  return superMetadata.map<FieldResolverMetadata>(metadata => ({
-    ...metadata,
-    getObjectType: isThrowing(metadata.getObjectType!)
-      ? resolverMetadata.getObjectType!
-      : metadata.getObjectType!,
-  }));
+  return superMetadata.map(metadata => {
+    return metadata.target === superResolver
+      ? {
+          ...metadata,
+          getObjectType: isThrowing(metadata.getObjectType!)
+            ? resolverMetadata.getObjectType
+            : metadata.getObjectType,
+        }
+      : metadata;
+  });
 }
 
 export function mapMiddlewareMetadataToArray(
