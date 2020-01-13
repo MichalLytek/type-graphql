@@ -39,7 +39,7 @@ So we can also provide an array of paths to resolver module files instead, which
 
 ```typescript
 const schema = await buildSchema({
-  resolvers: [__dirname + "/modules/**/*.resolver.ts", __dirname + "/resolvers/**/*.ts"],
+  resolvers: [__dirname + "/modules/**/*.resolver.{ts,js}", __dirname + "/resolvers/**/*.{ts,js}"],
 });
 ```
 
@@ -54,7 +54,7 @@ import { buildSchema } from "type-graphql";
 
 async function bootstrap() {
   const schema = await buildSchema({
-    resolvers: [__dirname + "/**/*.resolver.ts"],
+    resolvers: [__dirname + "/**/*.resolver.{ts,js}"],
   });
 
   // other initialization code, like creating http server
@@ -62,8 +62,6 @@ async function bootstrap() {
 
 bootstrap(); // actually run the async function
 ```
-
-NOTE: once the resolvers are compiled, the resolver path(s) will no longer be valid for `*.ts` files and instead will need to reference the compiled `*.js` files.
 
 ## Create an HTTP GraphQL endpoint
 
