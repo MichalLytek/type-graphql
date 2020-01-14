@@ -183,7 +183,7 @@ export class MetadataStorage {
           field.directives = this.fieldDirectives
             .filter(it => it.target === field.target && it.fieldName === field.name)
             .map(it => it.directive);
-          field.extensions = this.findFieldExtensions(field.target, field.name);
+          field.extensions = this.findExtensions(field.target, field.name);
         });
         def.fields = fields;
       }
@@ -193,7 +193,7 @@ export class MetadataStorage {
           .map(it => it.directive);
       }
       if (!def.extensions) {
-        def.extensions = this.findClassExtensions(def.target);
+        def.extensions = this.findExtensions(def.target);
       }
     });
   }
@@ -216,7 +216,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
-      def.extensions = this.findFieldExtensions(def.target, def.methodName);
+      def.extensions = this.findExtensions(def.target, def.methodName);
     });
   }
 
@@ -227,7 +227,7 @@ export class MetadataStorage {
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
-      def.extensions = this.findFieldExtensions(def.target, def.methodName);
+      def.extensions = this.findExtensions(def.target, def.methodName);
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
@@ -310,15 +310,13 @@ export class MetadataStorage {
     return authorizedField.roles;
   }
 
-  private findClassExtensions(target: Function): ExtensionsMetadata {
-    return this.classExtensions
-      .filter(entry => entry.target === target)
-      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
-  }
-
-  private findFieldExtensions(target: Function, fieldName: string): ExtensionsMetadata {
-    return this.fieldExtensions
-      .filter(entry => entry.target === target && entry.fieldName === fieldName)
+  private findExtensions(target: Function, fieldName?: string): ExtensionsMetadata {
+    const storedExtensions = fieldName ? this.fieldExtensions : this.classExtensions;
+    return storedExtensions
+      .filter(
+        (entry: any) =>
+          entry.target === target && (!entry.fieldName || entry.fieldName === fieldName),
+      )
       .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }
 }
