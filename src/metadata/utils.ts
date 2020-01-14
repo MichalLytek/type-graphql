@@ -60,10 +60,3 @@ export function ensureReflectMetadataExists() {
     throw new ReflectMetadataMissingError();
   }
 }
-
-export function flattenExtensions(
-  extensions: ExtensionsMetadata,
-  entry: ExtensionsClassMetadata | ExtensionsFieldMetadata,
-): ExtensionsMetadata {
-  return { ...extensions, ...entry.extensions };
-}

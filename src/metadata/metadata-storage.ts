@@ -23,7 +23,6 @@ import {
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
-  flattenExtensions,
 } from "./utils";
 import { ObjectClassMetadata } from "./definitions/object-class-metdata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
@@ -314,12 +313,12 @@ export class MetadataStorage {
   private findClassExtensions(target: Function): ExtensionsMetadata {
     return this.classExtensions
       .filter(entry => entry.target === target)
-      .reduce(flattenExtensions, {});
+      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }
 
   private findFieldExtensions(target: Function, fieldName: string): ExtensionsMetadata {
     return this.fieldExtensions
       .filter(entry => entry.target === target && entry.fieldName === fieldName)
-      .reduce(flattenExtensions, {});
+      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }
 }
