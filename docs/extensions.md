@@ -2,54 +2,53 @@
 title: Extensions
 ---
 
-It is sometimes desired to be able to annotate schema entities (fields, object types, or even queries and mutations...) with custom metadata that can be used at runtime by middlewares or resolvers.
+The `graphql-js` library allows for putting arbitrary data into GraphQL types config inside the `extensions` property.
+Annotating schema types or fields with a custom metadata, that can be then used at runtime by middlewares or resolvers, is a really powerful and useful feature.
 
-For such use cases, **TypeGraphQL** provides the `@Extensions` decorator, which will add the data you defined to the `extensions` field of your executable schema for the decorated entity.
+For such use cases, **TypeGraphQL** provides the `@Extensions` decorator, which adds the data we defined to the `extensions` property of the executable schema for the decorated classes, methods or properties.
 
-_Note:_ This is a low-level decorator and you will generally have to provide your own logic to make use of the `extensions` data.
+> Be aware that this is a low-level decorator and you generally have to provide your own logic to make use of the `extensions` metadata.
 
-## How to use
+## Using the `@Extensions` decorator
 
-### Using the @Extensions decorator
-
-Adding extensions to your schema entity is as simple as using the `@Extensions` decorator and passing it an object of the custom data you want:
+Adding extensions to the schema type is as simple as using the `@Extensions` decorator and passing it an object of the custom data we want:
 
 ```typescript
 @Extensions({ complexity: 2 })
 ```
 
-You can pass several fields to the decorator:
+We can pass several fields to the decorator:
 
 ```typescript
 @Extensions({ logMessage: "Restricted access", logLevel: 1 })
 ```
 
-And you can also decorate an entity several times, this will attach the exact same extensions data to your schema entity than the example above:
+And we can also decorate a type several times. The snippet below shows that this attaches the exact same extensions data to the schema type as the snippet above:
 
 ```typescript
 @Extensions({ logMessage: "Restricted access" })
 @Extensions({ logLevel: 1 })
 ```
 
-If you decorate the same entity several times with the same extensions key, the one defined at the bottom will take precedence:
+If we decorate the same type several times with the same extensions key, the one defined at the bottom takes precedence:
 
 ```typescript
 @Extensions({ logMessage: "Restricted access" })
 @Extensions({ logMessage: "Another message" })
 ```
 
-The above will result in your entity having `logmessage: "Another message"` in its extensions.
+The above usage results in your GraphQL type having a `logMessage: "Another message"` property in its extensions.
 
-The following entities can be decorated with extensions:
+TypeGraphQL classes with the following decorators can be annotated with `@Extensions` decorator:
 
-- @Field
-- @ObjectType
-- @InputType
-- @Query
-- @Mutation
-- @FieldResolver
+- `@ObjectType`
+- `@InputType`
+- `@Field`
+- `@Query`
+- `@Mutation`
+- `@FieldResolver`
 
-So the `@Extensions` decorator can be placed over the class property/method or over the type class itself, and multiple times if necessary, depending on what you want to do with the extensions data:
+So the `@Extensions` decorator can be placed over the class property/method or over the type class itself, and multiple times if necessary, depending on what we want to do with the extensions data:
 
 ```typescript
 @Extensions({ roles: ["USER"] })
@@ -90,19 +89,18 @@ class FooBarResolver {
 }
 ```
 
-### Using the extensions data
+## Using the extensions data in runtime
 
-Once you have decorated the necessary entities with extensions, your executable schema will contain the extensions data, and you can make use of it in any way you choose.
+Once we have decorated the necessary types with extensions, the executable schema will contain the extensions data, and we can make use of it in any way we choose. The most common use will be to read it at runtime in resolvers or middlewares and perform some custom logic there.
 
-The most common use will be to read it at runtime in resolvers or middlewares and perform some custom logic there.
-
-Here is a simple example of a global middleware logging a message whenever a field is decorated appropriately:
+Here is a simple example of a global middleware that will be logging a message on field resolver execution whenever the field is decorated appropriately with `@Extensions`:
 
 ```typescript
 export class LoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
   async use({ info }, next: NextFn) {
+    // extract `extensions` object from GraphQLResolveInfo object to get the `logMessage` value
     const { logMessage } = info.parentType.getFields()[info.fieldName].extensions || {};
 
     if (logMessage) {
@@ -111,20 +109,6 @@ export class LoggerMiddleware implements MiddlewareInterface<Context> {
 
     return next();
   }
-}
-
-// build the schema and register the global middleware
-const schema = buildSchemaSync({
-  resolvers: [SampleResolver],
-  globalMiddlewares: [LoggerMiddleware],
-});
-
-// declare your type and decorate the appropriate field with "logMessage" extensions
-@ObjectType()
-class Bar {
-  @Extensions({ logMessage: "Restricted field was accessed" })
-  @Field()
-  field: string;
 }
 ```
 
