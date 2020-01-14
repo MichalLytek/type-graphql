@@ -311,11 +311,13 @@ export class MetadataStorage {
   }
 
   private findExtensions(target: Function, fieldName?: string): ExtensionsMetadata {
-    const storedExtensions = fieldName ? this.fieldExtensions : this.classExtensions;
+    const storedExtensions: Array<ExtensionsClassMetadata | ExtensionsFieldMetadata> = fieldName
+      ? this.fieldExtensions
+      : this.classExtensions;
     return storedExtensions
       .filter(
-        (entry: any) =>
-          entry.target === target && (!entry.fieldName || entry.fieldName === fieldName),
+        entry =>
+          entry.target === target && (!("fieldName" in entry) || entry.fieldName === fieldName),
       )
       .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }
