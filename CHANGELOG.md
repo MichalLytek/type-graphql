@@ -11,6 +11,7 @@
 - add basic support for directives with `@Directive()` decorator (#369)
 - add possibility to tune up the performance and disable auth & middlewares stack for simple field resolvers (#479)
 - optimize resolvers execution paths to speed up a lot basic scenarios (#488)
+- add `@Extensions` decorator for putting metadata into GraphQL types config (#521)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 - fix transforming and validating nested inputs and arrays (#462)
