@@ -1,21 +1,38 @@
-import { GraphQLResolveInfo, GraphQLObjectType } from "graphql";
+import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from "graphql";
 
 import { MiddlewareFn } from "../../src";
 import { Context } from "./context.interface";
 import { UnauthorizedError } from "../../src/errors";
 
-const extractAuthorizationExtensions = (info: GraphQLResolveInfo) => {
-  const parentAuthorizationExtensions =
-    (info.parentType.extensions && info.parentType.extensions.authorization) || {};
-  const returnType = info.returnType as GraphQLObjectType;
-  const returnTypeAuthorizationExtensions =
-    (returnType.extensions && returnType.extensions.authorization) || {};
-  const field = info.parentType.getFields()[info.fieldName];
-  const fieldAuthorizationExtensions = (field.extensions && field.extensions.authorization) || {};
+const extractFieldConfig = (info: GraphQLResolveInfo): GraphQLFieldConfig<any, any> => {
+  const { type, extensions, description, deprecationReason } = info.parentType.getFields()[
+    info.fieldName
+  ];
+
+  return {
+    type,
+    description,
+    extensions,
+    deprecationReason,
+  };
+};
+
+const extractParentConfig = (info: GraphQLResolveInfo): GraphQLObjectTypeConfig<any, any> =>
+  info.parentType.toConfig();
+
+const extractAuthorizationExtensionsFromConfig = (
+  config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>,
+) => (config.extensions && config.extensions.authorization) || {};
+
+const getAuthorizationExtensions = (info: GraphQLResolveInfo) => {
+  const fieldConfig = extractFieldConfig(info);
+  const fieldAuthorizationExtensions = extractAuthorizationExtensionsFromConfig(fieldConfig);
+
+  const parentConfig = extractParentConfig(info);
+  const parentAuthorizationExtensions = extractAuthorizationExtensionsFromConfig(parentConfig);
 
   return {
     ...parentAuthorizationExtensions,
-    ...returnTypeAuthorizationExtensions,
     ...fieldAuthorizationExtensions,
   };
 };
@@ -24,7 +41,7 @@ export const AuthorizerMiddleware: MiddlewareFn<Context> = async (
   { context: { user }, info },
   next,
 ) => {
-  const { restricted = false, roles = [] } = extractAuthorizationExtensions(info);
+  const { restricted = false, roles = [] } = getAuthorizationExtensions(info);
 
   if (restricted) {
     if (!user) {
