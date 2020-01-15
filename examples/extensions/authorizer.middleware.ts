@@ -20,8 +20,8 @@ const extractAuthorizationExtensions = (info: GraphQLResolveInfo) => {
   };
 };
 
-export const AuthorizerMiddleware: MiddlewareFn = async (
-  { context: { user }, info }: { context: Context; info: GraphQLResolveInfo },
+export const AuthorizerMiddleware: MiddlewareFn<Context> = async (
+  { context: { user }, info },
   next,
 ) => {
   const { restricted = false, roles = [] } = extractAuthorizationExtensions(info);
