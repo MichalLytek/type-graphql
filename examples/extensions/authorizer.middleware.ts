@@ -39,5 +39,5 @@ export const AuthorizerMiddleware: MiddlewareFn = async (
   }
 
   // grant access in other cases
-  await next();
+  return next();
 };
