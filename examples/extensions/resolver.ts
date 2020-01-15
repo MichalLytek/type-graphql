@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Arg, Extensions } from "../../src";
-import { CustomAuthorized } from "./custom.authorized";
+import { Logger } from "./logger.decorator";
 
 import { Recipe } from "./recipe.type";
 import { createRecipe, sampleRecipes } from "./recipe.helpers";
@@ -14,7 +14,6 @@ export class ExampleResolver {
     return await this.recipesData;
   }
 
-  @CustomAuthorized() // only logged users can add new recipe
   @Mutation()
   addRecipe(
     @Arg("title") title: string,
@@ -29,7 +28,8 @@ export class ExampleResolver {
     return newRecipe;
   }
 
-  @CustomAuthorized("ADMIN") // only admin can remove the published recipe
+  @Logger("This message will not be logged")
+  @Logger("It will be overridden by this one")
   @Mutation()
   deleteRecipe(@Arg("title") title: string): boolean {
     const foundRecipeIndex = this.recipesData.findIndex(it => it.title === title);

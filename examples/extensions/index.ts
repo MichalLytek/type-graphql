@@ -4,14 +4,13 @@ import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
 import { Context } from "./context.interface";
-import { AuthorizerMiddleware } from "./authorizer.middleware";
 import { LoggerMiddleware } from "./logger.middleware";
 
 void (async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [ExampleResolver],
-    globalMiddlewares: [AuthorizerMiddleware, LoggerMiddleware],
+    globalMiddlewares: [LoggerMiddleware],
   });
 
   // Create GraphQL server
@@ -19,12 +18,10 @@ void (async function bootstrap() {
     schema,
     context: () => {
       const ctx: Context = {
-        // create mocked user in context
-        // in real app you would be mapping user from `req.user` or sth
+        // example user
         user: {
-          id: 1,
+          id: 123,
           name: "Sample user",
-          roles: ["REGULAR"],
         },
       };
       return ctx;

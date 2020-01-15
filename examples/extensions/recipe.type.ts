@@ -1,8 +1,8 @@
 import { ObjectType, Extensions, Field, Int, Float } from "../../src";
-import { CustomAuthorized } from "./custom.authorized";
+import { Logger } from "./logger.decorator";
 
 @ObjectType()
-@CustomAuthorized() // restrict access to all receipe fields only for logged users
+@Logger("Recipe accessed") // Log a message when any Recipe field is accessed
 export class Recipe {
   @Field()
   title: string;
@@ -11,11 +11,10 @@ export class Recipe {
   description?: string;
 
   @Field(type => [String])
-  @Extensions({ logMessage: "ingredients accessed" })
-  @Extensions({ logLevel: 4 })
+  @Extensions({ log: { message: "ingredients accessed", level: 0 } }) // We can use raw Extensions decorator if we want
   ingredients: string[];
 
-  @CustomAuthorized("ADMIN") // restrict access to rates details for admin only, this will override the object type custom authorization
+  @Logger("Ratings accessed") // This will override the object type log message
   @Field(type => [Int])
   ratings: number[];
 
