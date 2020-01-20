@@ -28,14 +28,14 @@ const extractLoggerExtensionsFromConfig = (
 
 const getLoggerExtensions = (info: GraphQLResolveInfo) => {
   const fieldConfig = extractFieldConfig(info);
-  const fieldLoggernExtensions = extractLoggerExtensionsFromConfig(fieldConfig);
+  const fieldLoggerExtensions = extractLoggerExtensionsFromConfig(fieldConfig);
 
   const parentConfig = extractParentConfig(info);
-  const parentLoggernExtensions = extractLoggerExtensionsFromConfig(parentConfig);
+  const parentLoggerExtensions = extractLoggerExtensionsFromConfig(parentConfig);
 
   return {
-    ...parentLoggernExtensions,
-    ...fieldLoggernExtensions,
+    ...parentLoggerExtensions,
+    ...fieldLoggerExtensions,
   };
 };
 
