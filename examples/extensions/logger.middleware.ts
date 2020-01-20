@@ -2,25 +2,10 @@ import { Service } from "typedi";
 import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from "graphql";
 
 import { MiddlewareInterface, NextFn, ResolverData } from "../../src";
+import { extractFieldConfig, extractParentTypeConfig } from "../../src/helpers/resolveInfo";
 
 import { Context } from "./context.interface";
 import { Logger } from "./logger.service";
-
-const extractFieldConfig = (info: GraphQLResolveInfo): GraphQLFieldConfig<any, any> => {
-  const { type, extensions, description, deprecationReason } = info.parentType.getFields()[
-    info.fieldName
-  ];
-
-  return {
-    type,
-    description,
-    extensions,
-    deprecationReason,
-  };
-};
-
-const extractParentConfig = (info: GraphQLResolveInfo): GraphQLObjectTypeConfig<any, any> =>
-  info.parentType.toConfig();
 
 const extractLoggerExtensionsFromConfig = (
   config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>,
@@ -30,7 +15,7 @@ const getLoggerExtensions = (info: GraphQLResolveInfo) => {
   const fieldConfig = extractFieldConfig(info);
   const fieldLoggerExtensions = extractLoggerExtensionsFromConfig(fieldConfig);
 
-  const parentConfig = extractParentConfig(info);
+  const parentConfig = extractParentTypeConfig(info);
   const parentLoggerExtensions = extractLoggerExtensionsFromConfig(parentConfig);
 
   return {
