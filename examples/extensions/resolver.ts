@@ -28,8 +28,7 @@ export class ExampleResolver {
     return newRecipe;
   }
 
-  @Logger("This message will not be logged")
-  @Logger("It will be overridden by this one")
+  @Logger("Recipe deletion requested")
   @Mutation()
   deleteRecipe(@Arg("title") title: string): boolean {
     const foundRecipeIndex = this.recipesData.findIndex(it => it.title === title);
