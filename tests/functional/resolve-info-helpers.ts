@@ -73,7 +73,7 @@ describe("resolveInfo helpers", () => {
   });
 
   beforeEach(async () => {
-    // Reset "infoRecord" after each test to prevent false positives
+    // Reset "infoRecord" before each test to prevent false positives
     infoRecord = {};
   });
 
