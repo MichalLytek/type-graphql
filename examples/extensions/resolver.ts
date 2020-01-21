@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Arg, Extensions } from "../../src";
 import { Logger } from "./logger.decorator";
 
 import { Recipe } from "./recipe.type";
-import { createRecipe, sampleRecipes } from "./recipe.helpers";
+import { createRecipe, sampleRecipes } from "./helpers/recipe";
 
 @Resolver()
 export class ExampleResolver {
