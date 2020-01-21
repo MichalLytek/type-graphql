@@ -1,6 +1,6 @@
 import { plainToClass } from "class-transformer";
 
-import { Recipe } from "./recipe.type";
+import { Recipe } from "../recipe.type";
 
 export function createRecipe(recipeData: Partial<Recipe>): Recipe {
   return plainToClass(Recipe, recipeData);
