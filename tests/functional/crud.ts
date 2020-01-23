@@ -36,7 +36,7 @@ describe("crud resolvers execution", () => {
     await new Promise(r => setTimeout(r, 100));
   });
 
-  it("should properly call Photon on `findOne` action", async () => {
+  it("should properly call PrismaClient on `findOne` action", async () => {
     const document = /* graphql */ `
       query {
         findOneUser(where: { uniqueStringField: "uniqueValue" }) {
@@ -45,8 +45,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         findOne: jest.fn().mockResolvedValue({
           intIdField: 1,
           dateField: new Date("2019-12-31T14:16:02.572Z"),
@@ -55,17 +55,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("findOneUser mocked response");
-    expect(photonMock.users.findOne.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.findOne.mock.calls).toMatchSnapshot(
       "findOneUser call args",
     );
   });
 
-  it("should properly call Photon on `findMany` action", async () => {
+  it("should properly call PrismaClient on `findMany` action", async () => {
     const document = /* graphql */ `
       query {
         findManyUser(
@@ -79,8 +79,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         findMany: jest.fn().mockResolvedValue([
           {
             intIdField: 1,
@@ -91,17 +91,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("findManyUser mocked response");
-    expect(photonMock.users.findMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.findMany.mock.calls).toMatchSnapshot(
       "findManyUser call args",
     );
   });
 
-  it("should properly call Photon on `create` action", async () => {
+  it("should properly call PrismaClient on `create` action", async () => {
     const document = /* graphql */ `
       mutation {
         createOneUser(
@@ -116,8 +116,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         create: jest.fn().mockResolvedValue({
           intIdField: 1,
           dateField: new Date("2019-12-31T14:16:02.572Z"),
@@ -126,17 +126,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("createOneUser mocked response");
-    expect(photonMock.users.create.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.create.mock.calls).toMatchSnapshot(
       "createOneUser call args",
     );
   });
 
-  it("should properly call Photon on `delete` action", async () => {
+  it("should properly call PrismaClient on `delete` action", async () => {
     const document = /* graphql */ `
       mutation {
         deleteOneUser(
@@ -149,8 +149,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         delete: jest.fn().mockResolvedValue({
           intIdField: 1,
           dateField: new Date("2019-12-31T14:16:02.572Z"),
@@ -159,17 +159,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("deleteOneUser mocked response");
-    expect(photonMock.users.delete.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.delete.mock.calls).toMatchSnapshot(
       "deleteOneUser call args",
     );
   });
 
-  it("should properly call Photon on `update` action", async () => {
+  it("should properly call PrismaClient on `update` action", async () => {
     const document = /* graphql */ `
       mutation {
         updateOneUser(
@@ -185,8 +185,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         update: jest.fn().mockResolvedValue({
           intIdField: 1,
           dateField: new Date("2019-12-31T14:16:02.572Z"),
@@ -195,17 +195,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("updateOneUser mocked response");
-    expect(photonMock.users.update.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.update.mock.calls).toMatchSnapshot(
       "updateOneUser call args",
     );
   });
 
-  it("should properly call Photon on `updateMany` action", async () => {
+  it("should properly call PrismaClient on `updateMany` action", async () => {
     const document = /* graphql */ `
       mutation {
         updateManyUser(
@@ -220,8 +220,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         updateMany: jest.fn().mockResolvedValue({
           count: 3,
         }),
@@ -229,17 +229,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("updateManyUser mocked response");
-    expect(photonMock.users.updateMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.updateMany.mock.calls).toMatchSnapshot(
       "updateManyUser call args",
     );
   });
 
-  it("should properly call Photon on `deleteMany` action", async () => {
+  it("should properly call PrismaClient on `deleteMany` action", async () => {
     const document = /* graphql */ `
       mutation {
         deleteManyUser(
@@ -251,8 +251,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         deleteMany: jest.fn().mockResolvedValue({
           count: 3,
         }),
@@ -260,17 +260,17 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("deleteManyUser mocked response");
-    expect(photonMock.users.deleteMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.deleteMany.mock.calls).toMatchSnapshot(
       "deleteManyUser call args",
     );
   });
 
-  it("should properly call Photon on `upsert` action", async () => {
+  it("should properly call PrismaClient on `upsert` action", async () => {
     const document = /* graphql */ `
       mutation {
         upsertOneUser(
@@ -293,8 +293,8 @@ describe("crud resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         upsert: jest.fn().mockResolvedValue({
           intIdField: 1,
           uniqueStringField: "unique",
@@ -305,16 +305,16 @@ describe("crud resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("upsertOneUser mocked response");
-    expect(photonMock.users.upsert.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.upsert.mock.calls).toMatchSnapshot(
       "upsertOneUser call args",
     );
   });
 
   // implement test when dmmf update aggregate details
-  it.todo("should properly call Photon on `aggregate` action");
+  it.todo("should properly call PrismaClient on `aggregate` action");
 });

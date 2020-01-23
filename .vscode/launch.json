@@ -7,9 +7,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run index.ts",
+      "name": "Run experiments debug",
       "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceFolder}/src/index.ts"],
+      "args": ["${workspaceFolder}/experiments/debug.ts"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"
     }

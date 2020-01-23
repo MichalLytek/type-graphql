@@ -1,12 +1,12 @@
-import { Photon } from "./prisma/generated/photon";
+import { PrismaClient } from "./prisma/generated/client";
 
-const photon = new Photon();
+const prisma = new PrismaClient();
 
 async function main() {
-  await photon.posts.deleteMany({});
-  await photon.users.deleteMany({});
+  await prisma.post.deleteMany({});
+  await prisma.user.deleteMany({});
 
-  await photon.users.create({
+  await prisma.user.create({
     data: {
       age: 50,
       amount: 123,
@@ -35,7 +35,7 @@ async function main() {
       },
     },
   });
-  await photon.users.create({
+  await prisma.user.create({
     data: {
       age: 1,
       amount: 123,
@@ -78,5 +78,5 @@ async function main() {
 main()
   .catch(e => console.error(e))
   .finally(async () => {
-    await photon.disconnect();
+    await prisma.disconnect();
   });

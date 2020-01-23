@@ -1,5 +1,5 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
-import { UserCreateOneWithoutAuthorInput } from "../inputs/UserCreateOneWithoutAuthorInput";
+import { UserCreateOneWithoutPostsInput } from "../inputs/UserCreateOneWithoutPostsInput";
 import { PostKind } from "../../enums/PostKind";
 
 @InputType({
@@ -7,7 +7,7 @@ import { PostKind } from "../../enums/PostKind";
   description: undefined,
 })
 export class PostCreateInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })
@@ -49,9 +49,9 @@ export class PostCreateInput {
   })
   kind?: keyof typeof PostKind | null;
 
-  @Field(_type => UserCreateOneWithoutAuthorInput, {
+  @Field(_type => UserCreateOneWithoutPostsInput, {
     nullable: false,
     description: undefined
   })
-  author!: UserCreateOneWithoutAuthorInput;
+  author!: UserCreateOneWithoutPostsInput;
 }

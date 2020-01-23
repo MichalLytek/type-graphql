@@ -17,7 +17,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
-    return ctx.photon.users.findOne(args);
+    return ctx.prisma.user.findOne(args);
   }
 
   @Query(_returns => [User], {
@@ -25,7 +25,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
-    return ctx.photon.users.findMany(args);
+    return ctx.prisma.user.findMany(args);
   }
 
   @Mutation(_returns => User, {
@@ -33,7 +33,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<User> {
-    return ctx.photon.users.create(args);
+    return ctx.prisma.user.create(args);
   }
 
   @Mutation(_returns => User, {
@@ -41,7 +41,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<User | null> {
-    return ctx.photon.users.delete(args);
+    return ctx.prisma.user.delete(args);
   }
 
   @Mutation(_returns => User, {
@@ -49,7 +49,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<User | null> {
-    return ctx.photon.users.update(args);
+    return ctx.prisma.user.update(args);
   }
 
   @Mutation(_returns => BatchPayload, {
@@ -57,7 +57,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async deleteManyUser(@Ctx() ctx: any, @Args() args: DeleteManyUserArgs): Promise<BatchPayload> {
-    return ctx.photon.users.deleteMany(args);
+    return ctx.prisma.user.deleteMany(args);
   }
 
   @Mutation(_returns => BatchPayload, {
@@ -65,7 +65,7 @@ export class UserCrudResolver {
     description: undefined
   })
   async updateManyUser(@Ctx() ctx: any, @Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
-    return ctx.photon.users.updateMany(args);
+    return ctx.prisma.user.updateMany(args);
   }
 
   @Mutation(_returns => User, {
@@ -73,6 +73,6 @@ export class UserCrudResolver {
     description: undefined
   })
   async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
-    return ctx.photon.users.upsert(args);
+    return ctx.prisma.user.upsert(args);
   }
 }

@@ -90,7 +90,7 @@ describe("structure", () => {
             IntFilter.ts
             NullableStringFilter.ts
             PostCreateInput.ts
-            PostCreateManyWithoutPostsInput.ts
+            PostCreateManyWithoutAuthorInput.ts
             PostCreateWithoutAuthorInput.ts
             PostFilter.ts
             PostOrderByInput.ts
@@ -107,7 +107,7 @@ describe("structure", () => {
             PostWhereUniqueInput.ts
             StringFilter.ts
             UserCreateInput.ts
-            UserCreateOneWithoutAuthorInput.ts
+            UserCreateOneWithoutPostsInput.ts
             UserCreateWithoutPostsInput.ts
             UserOrderByInput.ts
             UserUpdateInput.ts

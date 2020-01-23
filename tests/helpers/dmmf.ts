@@ -1,10 +1,10 @@
-import * as PhotonRuntime from "@prisma/photon/runtime";
-import getDMMFTypings from "@prisma/photon/runtime/getDMMF";
-import { DMMF } from "@prisma/photon/runtime/dmmf-types";
+import * as PrismaClientRuntime from "@prisma/client/runtime";
+import getDMMFTypings from "@prisma/client/runtime/getDMMF";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 
-const getDMMF: typeof getDMMFTypings.getDMMF = PhotonRuntime.getDMMF;
+const getDMMF: typeof getDMMFTypings.getDMMF = PrismaClientRuntime.getDMMF;
 
-export default async function getPhotonDmmfFromPrismaSchema(
+export default async function getPrismaClientDmmfFromPrismaSchema(
   prismaSchema: string,
 ): Promise<DMMF.Document> {
   return await getDMMF({ datamodel: prismaSchema });

@@ -6,11 +6,11 @@ import { graphql } from "graphql";
 import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { generateCodeFromSchema } from "../helpers/generate-code";
 
-describe("relations resolvers execution", () => {
+describe("custom resolvers execution", () => {
   let outputDirPath: string;
 
   beforeAll(async () => {
-    outputDirPath = generateArtifactsDirPath("relations");
+    outputDirPath = generateArtifactsDirPath("functional-custom-resolvers");
     await fs.mkdir(outputDirPath);
     const prismaSchema = /* prisma */ `
       enum Color {
@@ -40,9 +40,9 @@ describe("relations resolvers execution", () => {
       @Query(_returns => [Post])
       async customFindManyPost(
         @Args(_type => FindManyPostArgs) args: any,
-        @Ctx() { photon }: any,
+        @Ctx() { prisma }: any,
       ) {
-        return await photon.posts.findMany(args);
+        return await prisma.post.findMany(args);
       }
     }
     const document = /* graphql */ `
@@ -62,8 +62,8 @@ describe("relations resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      posts: {
+    const prismaMock = {
+      post: {
         findMany: jest.fn().mockResolvedValue([
           {
             uuid: "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
@@ -88,12 +88,12 @@ describe("relations resolvers execution", () => {
     );
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("custom posts resolver mocked response");
-    expect(photonMock.posts.findMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.post.findMany.mock.calls).toMatchSnapshot(
       "findManyPost call args",
     );
     expect(graphQLSchemaSDL).toMatchSnapshot("graphQLSchemaSDL");

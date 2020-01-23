@@ -13,10 +13,10 @@ export class FindManyPostArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => ID, { nullable: true })
+  @Field(_type => String, { nullable: true })
   after?: string | null;
 
-  @Field(_type => ID, { nullable: true })
+  @Field(_type => String, { nullable: true })
   before?: string | null;
 
   @Field(_type => Int, { nullable: true })

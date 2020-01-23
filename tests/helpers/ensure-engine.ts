@@ -2,18 +2,18 @@ import { download } from "@prisma/fetch-engine";
 import path from "path";
 import fs from "fs";
 
-const photonRuntimeDir = path.join(
+const prismaClientRuntimeDir = path.join(
   __dirname,
-  "../../node_modules/@prisma/photon",
+  "../../node_modules/@prisma/client",
 );
 
-if (!fs.existsSync(photonRuntimeDir)) {
-  throw new Error("Missing Photon directory: " + photonRuntimeDir);
+if (!fs.existsSync(prismaClientRuntimeDir)) {
+  throw new Error("Missing PrismaClient directory: " + prismaClientRuntimeDir);
 }
 
 download({
   binaries: {
-    "query-engine": photonRuntimeDir,
+    "query-engine": prismaClientRuntimeDir,
   },
   showProgress: true,
 })

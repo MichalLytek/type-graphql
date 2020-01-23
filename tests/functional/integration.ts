@@ -17,7 +17,7 @@ describe("generator integration", () => {
   let schema: string;
 
   beforeEach(async () => {
-    cwdDirPath = generateArtifactsDirPath("integration");
+    cwdDirPath = generateArtifactsDirPath("functional-integration");
     await fs.mkdir(cwdDirPath);
 
     schema = /* prisma */ `
@@ -26,9 +26,9 @@ describe("generator integration", () => {
         url      = "file:./dev.db"
       }
 
-      generator photon {
-        provider = "photonjs"
-        output   = "./generated/photon"
+      generator client {
+        provider = "prisma-client-js"
+        output   = "./generated/client"
       }
 
       generator typegraphql {
@@ -144,31 +144,32 @@ describe("generator integration", () => {
     expect(tscResult.stderr).toHaveLength(0);
   }, 60000);
 
-  it("should properly fetch the data from DB using Photon while queried by GraphQL schema", async () => {
+  it("should properly fetch the data from DB using PrismaClient while queried by GraphQL schema", async () => {
     const prisma2GenerateResult = await exec("npx prisma2 generate", {
       cwd: cwdDirPath,
     });
     // console.log(prisma2GenerateResult);
     expect(prisma2GenerateResult.stderr).toHaveLength(0);
 
-    const liftSaveResult = await exec(
-      "npx prisma2 lift save --name='init' --create-db",
+    const migrateSaveResult = await exec(
+      "npx prisma2 migrate save --experimental --name='init' --create-db",
       { cwd: cwdDirPath },
     );
-    // console.log(liftSaveResult);
-    expect(liftSaveResult.stderr).toHaveLength(0);
+    // console.log(migrateSaveResult);
+    expect(migrateSaveResult.stderr).toHaveLength(0);
 
-    const liftUpResult = await exec("npx prisma2 lift up", {
-      cwd: cwdDirPath,
-    });
-    // console.log(liftUpResult);
-    expect(liftUpResult.stderr).toHaveLength(0);
+    const migrateUpResult = await exec(
+      "npx prisma2 migrate up --experimental",
+      { cwd: cwdDirPath },
+    );
+    // console.log(migrateUpResult);
+    expect(migrateUpResult.stderr).toHaveLength(0);
 
-    const { Photon } = require(cwdDirPath + "/generated/photon");
-    const photon = new Photon();
+    const { PrismaClient } = require(cwdDirPath + "/generated/client");
+    const prisma = new PrismaClient();
 
-    await photon.users.create({ data: { name: "test1" } });
-    await photon.users.create({
+    await prisma.user.create({ data: { name: "test1" } });
+    await prisma.user.create({
       data: {
         name: "test2",
         posts: {
@@ -181,7 +182,7 @@ describe("generator integration", () => {
         },
       },
     });
-    await photon.users.create({ data: { name: "not test" } });
+    await prisma.user.create({ data: { name: "not test" } });
 
     const {
       UserCrudResolver,
@@ -219,9 +220,9 @@ describe("generator integration", () => {
       }
     `;
     const { data, errors } = await graphql(graphQLSchema, query, null, {
-      photon,
+      prisma,
     });
-    await photon.disconnect();
+    await prisma.disconnect();
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("graphql data");

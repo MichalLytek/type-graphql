@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon/runtime";
+import { DMMF } from "@prisma/client/runtime";
 
 import { DMMFTypeInfo } from "./types";
 
@@ -92,8 +92,9 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
     case "Float": {
       return scalar;
     }
-    default:
+    default: {
       throw new Error(`Unrecognized scalar type: ${scalar}`);
+    }
   }
 }
 

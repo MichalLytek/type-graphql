@@ -15,31 +15,32 @@
   "peerDependencies": {
     "@types/node": "*",
     "dataloader": "^2.0.0",
-    "prisma2": "2.0.0-preview019",
+    "prisma2": "2.0.0-alpha.625",
     "type-graphql": "0.18.0-beta.9"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^0.0.29",
-    "@prisma/photon": "2.0.0-preview019",
-    "@prisma/sdk": "^0.0.109",
+    "@prisma/client": "^2.0.0-alpha.625",
+    "@prisma/generator-helper": "^0.0.34",
+    "@prisma/sdk": "^0.0.162",
     "ts-morph": "^6.0.2",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
-    "@types/node": "^13.1.4",
+    "@types/jest": "^24.9.0",
+    "@types/node": "^13.1.8",
     "dataloader": "^2.0.0",
     "directory-tree": "^2.2.4",
     "graphql": "^14.5.8",
-    "husky": "^3.1.0",
-    "jest": "^24.9.0",
-    "lint-staged": "^9.5.0",
+    "husky": "^4.2.0",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.2",
     "prettier": "^1.19.1",
+    "prisma2": "^2.0.0-alpha.625",
     "reflect-metadata": "^0.1.13",
-    "ts-jest": "^24.2.0",
-    "ts-node": "^8.5.4",
+    "ts-jest": "^25.0.0",
+    "ts-node": "^8.6.2",
     "type-graphql": "0.18.0-beta.9",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "license": "MIT",
   "engines": {

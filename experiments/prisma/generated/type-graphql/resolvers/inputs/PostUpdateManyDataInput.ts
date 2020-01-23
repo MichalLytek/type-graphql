@@ -6,7 +6,7 @@ import { PostKind } from "../../enums/PostKind";
   description: undefined,
 })
 export class PostUpdateManyDataInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })

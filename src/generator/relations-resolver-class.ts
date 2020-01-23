@@ -4,7 +4,7 @@ import {
   Project,
   SourceFile,
 } from "ts-morph";
-import { DMMF } from "@prisma/photon/runtime";
+import { DMMF } from "@prisma/client/runtime";
 import path from "path";
 
 import {
@@ -116,7 +116,7 @@ export default async function generateRelationsResolverClassesFromModel(
         ] = createDataLoaderGetterCreationStatement(
           sourceFile,
           model.name,
-          mapping.plural,
+          camelCase(model.name),
           field.name,
           idField.name,
           getFieldTSType(idField, modelNames),
@@ -163,7 +163,7 @@ export default async function generateRelationsResolverClassesFromModel(
           ],
           // TODO: refactor to AST
           statements: [
-            `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.photon);`,
+            `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.prisma);`,
             `return ctx.${dataLoaderGetterInCtxName}(${
               argsTypeName ? "args" : "{}"
             }).load(${rootArgName}.${idField.name});`,
@@ -196,8 +196,8 @@ function createDataLoaderGetterCreationStatement(
   sourceFile.addFunction({
     name: functionName,
     parameters: [
-      // TODO: import Photon type
-      { name: "photon", type: "any" },
+      // TODO: import PrismaClient type
+      { name: "prisma", type: "any" },
     ],
     statements: [
       // TODO: refactor to AST
@@ -207,7 +207,7 @@ function createDataLoaderGetterCreationStatement(
         let ${dataLoaderName} = argsToDataLoaderMap.get(argsJSON);
         if (!${dataLoaderName}) {
           ${dataLoaderName} = new DataLoader<${rootKeyType}, ${fieldType}>(async keys => {
-            const fetchedData: any[] = await photon.${collectionName}.findMany({
+            const fetchedData: any[] = await prisma.${collectionName}.findMany({
               where: { ${idFieldName}: { in: keys } },
               select: {
                 ${idFieldName}: true,

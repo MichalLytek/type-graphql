@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`relations resolvers execution should properly call Photon on fetching array relations with args: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching array relations with args: findManyUser relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -33,7 +33,7 @@ Array [
 ]
 `;
 
-exports[`relations resolvers execution should properly call Photon on fetching array relations with args: users with posts mocked response 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching array relations with args: users with posts mocked response 1`] = `
 Object {
   "users": Array [
     Object {
@@ -57,7 +57,7 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution should properly call Photon on fetching array relations: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching array relations: findManyUser relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -86,7 +86,7 @@ Array [
 ]
 `;
 
-exports[`relations resolvers execution should properly call Photon on fetching array relations: users with posts mocked response 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching array relations: users with posts mocked response 1`] = `
 Object {
   "users": Array [
     Object {
@@ -110,7 +110,7 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution should properly call Photon on fetching single relation: findManyPost relations call args 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching single relation: findManyPost relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -131,7 +131,7 @@ Array [
 ]
 `;
 
-exports[`relations resolvers execution should properly call Photon on fetching single relation: posts with authors mocked response 1`] = `
+exports[`relations resolvers execution should properly call PrismaClient on fetching single relation: posts with authors mocked response 1`] = `
 Object {
   "posts": Array [
     Object {

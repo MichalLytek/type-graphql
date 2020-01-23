@@ -1,4 +1,4 @@
-import { getDMMF, DMMF } from "@prisma/photon/runtime";
+import { getDMMF, DMMF } from "@prisma/client/runtime";
 import fs from "fs";
 
 import { getDatamodel } from "./getDatamodel";

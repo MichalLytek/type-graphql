@@ -1,5 +1,5 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
-import { PostCreateManyWithoutPostsInput } from "../inputs/PostCreateManyWithoutPostsInput";
+import { PostCreateManyWithoutAuthorInput } from "../inputs/PostCreateManyWithoutAuthorInput";
 import { Role } from "../../enums/Role";
 
 @InputType({
@@ -43,9 +43,9 @@ export class UserCreateInput {
   })
   role!: keyof typeof Role;
 
-  @Field(_type => PostCreateManyWithoutPostsInput, {
+  @Field(_type => PostCreateManyWithoutAuthorInput, {
     nullable: true,
     description: undefined
   })
-  posts?: PostCreateManyWithoutPostsInput | null;
+  posts?: PostCreateManyWithoutAuthorInput | null;
 }

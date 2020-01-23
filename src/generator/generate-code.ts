@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/photon/runtime";
+import { DMMF } from "@prisma/client/runtime";
 import { Project } from "ts-morph";
 import path from "path";
 
@@ -25,8 +25,8 @@ import {
   generateInputsBarrelFile,
   generateOutputsBarrelFile,
   generateIndexFile,
-  generateEnumsImports,
   generateModelsBarrelFile,
+  generateEnumsBarrelFile,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 
@@ -63,7 +63,7 @@ export default async function generateCode(
     undefined,
     { overwrite: true },
   );
-  generateEnumsImports(enumsBarrelExportSourceFile, emittedEnumNames);
+  generateEnumsBarrelFile(enumsBarrelExportSourceFile, emittedEnumNames);
   await saveSourceFile(enumsBarrelExportSourceFile);
 
   log("Generating models...");

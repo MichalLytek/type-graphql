@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@prisma/generator-helper";
-import { DMMF } from "@prisma/photon/runtime";
+import { DMMF } from "@prisma/client/runtime";
 import { promises as asyncFs } from "fs";
 import path from "path";
 
@@ -11,8 +11,8 @@ export async function generate(options: GeneratorOptions) {
   await asyncFs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);
 
-  const photonDmmf = require(options.otherGenerators.find(
-    it => it.provider === "photonjs",
+  const prismaClientDmmf = require(options.otherGenerators.find(
+    it => it.provider === "prisma-client-js",
   )!.output!).dmmf as DMMF.Document;
 
   if (options.generator.config.emitDMMF) {
@@ -22,13 +22,13 @@ export async function generate(options: GeneratorOptions) {
         JSON.stringify(options.dmmf, null, 2),
       ),
       asyncFs.writeFile(
-        path.resolve(outputDir, "./photon-dmmf.json"),
-        JSON.stringify(photonDmmf, null, 2),
+        path.resolve(outputDir, "./prisma-client-dmmf.json"),
+        JSON.stringify(prismaClientDmmf, null, 2),
       ),
     ]);
   }
 
-  // TODO: replace with `options.dmmf` when the spec match photon output
-  await generateCode(photonDmmf, outputDir);
+  // TODO: replace with `options.dmmf` when the spec match prisma client output
+  await generateCode(prismaClientDmmf, outputDir);
   return "";
 }

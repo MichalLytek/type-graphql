@@ -11,7 +11,7 @@ describe("relations resolvers execution", () => {
   let graphQLSchema: GraphQLSchema;
 
   beforeAll(async () => {
-    outputDirPath = generateArtifactsDirPath("relations");
+    outputDirPath = generateArtifactsDirPath("functional-relations");
     await fs.mkdir(outputDirPath);
     const prismaSchema = /* prisma */ `
       enum Color {
@@ -81,7 +81,7 @@ describe("relations resolvers execution", () => {
     await new Promise(r => setTimeout(r, 100));
   });
 
-  it("should properly call Photon on fetching array relations", async () => {
+  it("should properly call PrismaClient on fetching array relations", async () => {
     const document = /* graphql */ `
       query {
         users {
@@ -93,8 +93,8 @@ describe("relations resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         findMany: jest.fn().mockResolvedValue([
           {
             id: 1,
@@ -117,17 +117,17 @@ describe("relations resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("users with posts mocked response");
-    expect(photonMock.users.findMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.findMany.mock.calls).toMatchSnapshot(
       "findManyUser relations call args",
     );
   });
 
-  it("should properly call Photon on fetching array relations with args", async () => {
+  it("should properly call PrismaClient on fetching array relations with args", async () => {
     const document = /* graphql */ `
       query {
         users {
@@ -143,8 +143,8 @@ describe("relations resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      users: {
+    const prismaMock = {
+      user: {
         findMany: jest.fn().mockResolvedValue([
           {
             id: 1,
@@ -167,17 +167,17 @@ describe("relations resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("users with posts mocked response");
-    expect(photonMock.users.findMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.user.findMany.mock.calls).toMatchSnapshot(
       "findManyUser relations call args",
     );
   });
 
-  it("should properly call Photon on fetching single relation", async () => {
+  it("should properly call PrismaClient on fetching single relation", async () => {
     const document = /* graphql */ `
       query {
         posts {
@@ -190,8 +190,8 @@ describe("relations resolvers execution", () => {
         }
       }
     `;
-    const photonMock = {
-      posts: {
+    const prismaMock = {
+      post: {
         findMany: jest.fn().mockResolvedValue([
           {
             uuid: "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
@@ -212,12 +212,12 @@ describe("relations resolvers execution", () => {
     };
 
     const { data, errors } = await graphql(graphQLSchema, document, null, {
-      photon: photonMock,
+      prisma: prismaMock,
     });
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("posts with authors mocked response");
-    expect(photonMock.posts.findMany.mock.calls).toMatchSnapshot(
+    expect(prismaMock.post.findMany.mock.calls).toMatchSnapshot(
       "findManyPost relations call args",
     );
   });

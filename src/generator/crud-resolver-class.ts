@@ -1,11 +1,12 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
-import { DMMF } from "@prisma/photon/runtime";
+import { DMMF } from "@prisma/client/runtime";
 import path from "path";
 
 import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
+  camelCase,
 } from "./helpers";
 import { DMMFTypeInfo, GeneratedResolverData } from "./types";
 import {
@@ -36,6 +37,7 @@ export default async function generateCrudResolverClassFromMapping(
 ): Promise<GeneratedResolverData> {
   const modelName = getBaseModelTypeName(mapping.model);
   const resolverName = `${modelName}CrudResolver`;
+  const collectionName = camelCase(mapping.model);
 
   const resolverDirPath = path.resolve(
     baseDirPath,
@@ -187,7 +189,7 @@ export default async function generateCrudResolverClassFromMapping(
                   ]),
             ],
             statements: [
-              `return ctx.photon.${mapping.plural}.${actionName}(${
+              `return ctx.prisma.${collectionName}.${actionName}(${
                 argsTypeName ? "args" : ""
               });`,
             ],

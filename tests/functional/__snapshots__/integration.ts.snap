@@ -69,13 +69,13 @@ type Post {
 }
 
 input PostCreateInput {
-  author: UserCreateOneWithoutAuthorInput!
+  author: UserCreateOneWithoutPostsInput!
   color: Color!
   content: String!
-  uuid: ID
+  uuid: String
 }
 
-input PostCreateManyWithoutPostsInput {
+input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
   create: [PostCreateWithoutAuthorInput!]
 }
@@ -83,7 +83,7 @@ input PostCreateManyWithoutPostsInput {
 input PostCreateWithoutAuthorInput {
   color: Color!
   content: String!
-  uuid: ID
+  uuid: String
 }
 
 input PostFilter {
@@ -111,19 +111,19 @@ input PostUpdateInput {
   author: UserUpdateOneRequiredWithoutPostsInput
   color: Color
   content: String
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateManyDataInput {
   color: Color
   content: String
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateManyMutationInput {
   color: Color
   content: String
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -146,7 +146,7 @@ input PostUpdateManyWithWhereNestedInput {
 input PostUpdateWithoutAuthorDataInput {
   color: Color
   content: String
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -171,11 +171,11 @@ input PostWhereInput {
 }
 
 input PostWhereUniqueInput {
-  uuid: ID
+  uuid: String
 }
 
 type Query {
-  findManyPost(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  findManyPost(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
   findManyUser(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
   findOnePost(where: PostWhereUniqueInput!): Post
   findOneUser(where: UserWhereUniqueInput!): User
@@ -198,15 +198,15 @@ input StringFilter {
 type User {
   id: Int!
   name: String
-  posts(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
 }
 
 input UserCreateInput {
   name: String
-  posts: PostCreateManyWithoutPostsInput
+  posts: PostCreateManyWithoutAuthorInput
 }
 
-input UserCreateOneWithoutAuthorInput {
+input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
   create: UserCreateWithoutPostsInput
 }
@@ -308,7 +308,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       IntFilter.ts
       NullableStringFilter.ts
       PostCreateInput.ts
-      PostCreateManyWithoutPostsInput.ts
+      PostCreateManyWithoutAuthorInput.ts
       PostCreateWithoutAuthorInput.ts
       PostFilter.ts
       PostOrderByInput.ts
@@ -325,7 +325,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       PostWhereUniqueInput.ts
       StringFilter.ts
       UserCreateInput.ts
-      UserCreateOneWithoutAuthorInput.ts
+      UserCreateOneWithoutPostsInput.ts
       UserCreateWithoutPostsInput.ts
       UserOrderByInput.ts
       UserUpdateInput.ts
@@ -352,7 +352,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
 "
 `;
 
-exports[`generator integration should properly fetch the data from DB using Photon while queried by GraphQL schema: graphql data 1`] = `
+exports[`generator integration should properly fetch the data from DB using PrismaClient while queried by GraphQL schema: graphql data 1`] = `
 Object {
   "findManyUser": Array [
     Object {
