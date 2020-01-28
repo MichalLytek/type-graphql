@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg, Extensions } from "../../src";
-import { Logger } from "./logger.decorator";
 
+import { LogMessage } from "./log-message.decorator";
 import { Recipe } from "./recipe.type";
 import { createRecipe, sampleRecipes } from "./helpers/recipe";
 
@@ -8,7 +8,6 @@ import { createRecipe, sampleRecipes } from "./helpers/recipe";
 export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
-  @Extensions({ some: "data" })
   @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return await this.recipesData;
@@ -28,7 +27,7 @@ export class ExampleResolver {
     return newRecipe;
   }
 
-  @Logger("Recipe deletion requested")
+  @LogMessage("Recipe deletion requested")
   @Mutation()
   deleteRecipe(@Arg("title") title: string): boolean {
     const foundRecipeIndex = this.recipesData.findIndex(it => it.title === title);

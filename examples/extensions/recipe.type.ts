@@ -1,8 +1,10 @@
 import { ObjectType, Extensions, Field, Int, Float } from "../../src";
-import { Logger } from "./logger.decorator";
+
+import { LogMessage } from "./log-message.decorator";
 
 @ObjectType()
-@Logger("Recipe accessed") // Log a message when any Recipe field is accessed
+// log a message when any Recipe field is accessed
+@LogMessage("Recipe field accessed")
 export class Recipe {
   @Field()
   title: string;
@@ -11,10 +13,12 @@ export class Recipe {
   description?: string;
 
   @Field(type => [String])
-  @Extensions({ log: { message: "ingredients accessed", level: 0 } }) // We can use raw Extensions decorator if we want
+  // We can use raw Extensions decorator if we want
+  @Extensions({ log: { message: "ingredients field accessed", level: 0 } })
   ingredients: string[];
 
-  @Logger("Ratings accessed") // This will override the object type log message
+  // this will override the object type log message
+  @LogMessage("Ratings accessed")
   @Field(type => [Int])
   ratings: number[];
 

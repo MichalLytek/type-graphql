@@ -4,6 +4,7 @@ require("ts-node/register/transpile-only");
 // require("./examples/authorization/index.ts");
 // require("./examples/automatic-validation/index.ts");
 // require("./examples/enums-and-unions/index.ts");
+// require("./examples/extensions/index.ts");
 // require("./examples/generic-types/index.ts");
 // require("./examples/interfaces-inheritance/index.ts");
 // require("./examples/middlewares-custom-decorators/index.ts");

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
+import Container from "typedi";
 import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
@@ -9,6 +10,7 @@ import { LoggerMiddleware } from "./logger.middleware";
 void (async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
+    container: Container,
     resolvers: [ExampleResolver],
     globalMiddlewares: [LoggerMiddleware],
   });

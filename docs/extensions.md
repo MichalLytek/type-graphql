@@ -99,7 +99,7 @@ Here is a simple example of a global middleware that will be logging a message o
 export class LoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ info }, next: NextFn) {
+  use({ info }: ResolverData, next: NextFn) {
     // extract `extensions` object from GraphQLResolveInfo object to get the `logMessage` value
     const { logMessage } = info.parentType.getFields()[info.fieldName].extensions || {};
 

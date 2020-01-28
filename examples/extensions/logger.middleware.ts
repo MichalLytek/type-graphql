@@ -1,9 +1,8 @@
 import { Service } from "typedi";
 import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from "graphql";
-
 import { MiddlewareInterface, NextFn, ResolverData } from "../../src";
-import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.extractors";
 
+import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.extractors";
 import { Context } from "./context.interface";
 import { Logger } from "./logger.service";
 
@@ -28,11 +27,11 @@ const getLoggerExtensions = (info: GraphQLResolveInfo) => {
 export class LoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context: { user }, info }: ResolverData<Context>, next: NextFn) {
+  use({ context: { user }, info }: ResolverData<Context>, next: NextFn) {
     const { message, level = 0 } = getLoggerExtensions(info);
 
     if (message) {
-      this.logger.log(`${level}${user ? ` (user: ${user.id})` : ""}`, level);
+      this.logger.log(level, `${user ? ` (user: ${user.id})` : ""}`, message);
     }
 
     return next();
