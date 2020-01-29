@@ -3,6 +3,7 @@ import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { Middleware } from "../../interfaces/Middleware";
 import { Complexity } from "../../interfaces";
 import { DirectiveMetadata } from "./directive-metadata";
+import { ExtensionsMetadata } from "./extensions-metadata";
 
 export interface FieldMetadata {
   target: Function;
@@ -17,5 +18,6 @@ export interface FieldMetadata {
   roles?: any[];
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
+  extensions?: ExtensionsMetadata;
   simple?: boolean;
 }

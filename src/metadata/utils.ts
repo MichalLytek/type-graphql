@@ -3,6 +3,9 @@ import {
   BaseResolverMetadata,
   MiddlewareMetadata,
   FieldResolverMetadata,
+  ExtensionsClassMetadata,
+  ExtensionsFieldMetadata,
+  ExtensionsMetadata,
 } from "./definitions";
 import { Middleware } from "../interfaces/Middleware";
 import { isThrowing } from "../helpers/isThrowing";

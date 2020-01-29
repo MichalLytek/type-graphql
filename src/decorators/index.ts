@@ -6,6 +6,7 @@ export { createParamDecorator } from "./createParamDecorator";
 export { createMethodDecorator } from "./createMethodDecorator";
 export { Ctx } from "./Ctx";
 export { Directive } from "./Directive";
+export { Extensions } from "./Extensions";
 export { registerEnumType } from "./enums";
 export { Field, FieldOptions } from "./Field";
 export { FieldResolver } from "./FieldResolver";

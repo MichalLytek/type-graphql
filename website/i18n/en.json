@@ -36,6 +36,9 @@
         "title": "Examples",
         "sidebar_label": "List of examples"
       },
+      "extensions": {
+        "title": "Extensions"
+      },
       "faq": {
         "title": "Frequently Asked Questions"
       },

@@ -282,6 +282,7 @@ export abstract class SchemaGenerator {
           name: objectType.name,
           description: objectType.description,
           astNode: getObjectTypeDefinitionNode(objectType.name, objectType.directives),
+          extensions: objectType.extensions,
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
               interfaceClass =>
@@ -331,6 +332,7 @@ export abstract class SchemaGenerator {
                   astNode: getFieldDefinitionNode(field.name, type, field.directives),
                   extensions: {
                     complexity: field.complexity,
+                    ...field.extensions,
                   },
                 };
                 return fieldsMap;
@@ -379,6 +381,7 @@ export abstract class SchemaGenerator {
         type: new GraphQLInputObjectType({
           name: inputType.name,
           description: inputType.description,
+          extensions: inputType.extensions,
           fields: () => {
             let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
               (fieldsMap, field) => {
@@ -399,6 +402,7 @@ export abstract class SchemaGenerator {
                   type,
                   defaultValue: field.typeOptions.defaultValue,
                   astNode: getInputValueDefinitionNode(field.name, type, field.directives),
+                  extensions: field.extensions,
                 };
                 return fieldsMap;
               },
@@ -498,6 +502,7 @@ export abstract class SchemaGenerator {
         astNode: getFieldDefinitionNode(handler.schemaName, type, handler.directives),
         extensions: {
           complexity: handler.complexity,
+          ...handler.extensions,
         },
       };
       return fields;
