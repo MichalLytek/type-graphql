@@ -7,15 +7,17 @@ export function stringifyDirectoryTrees(
   if (!directoryStructure) {
     return "";
   }
-  return directoryStructure.reduce(
-    (directoryStructureString, child) =>
-      directoryStructureString +
-      " ".repeat(indent) +
-      getDirNodeNameString(child) +
-      "\n" +
-      stringifyDirectoryTrees(child.children, indent + 2),
-    "",
-  );
+  return directoryStructure
+    .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
+    .reduce(
+      (directoryStructureString, child) =>
+        directoryStructureString +
+        " ".repeat(indent) +
+        getDirNodeNameString(child) +
+        "\n" +
+        stringifyDirectoryTrees(child.children, indent + 2),
+      "",
+    );
 }
 
 const getDirNodeNameString = (node: DirectoryTree) =>

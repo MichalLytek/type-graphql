@@ -12,7 +12,7 @@ describe("relations resolvers execution", () => {
 
   beforeAll(async () => {
     outputDirPath = generateArtifactsDirPath("functional-relations");
-    await fs.mkdir(outputDirPath);
+    await fs.mkdir(outputDirPath, { recursive: true });
     const prismaSchema = /* prisma */ `
       enum Color {
         RED

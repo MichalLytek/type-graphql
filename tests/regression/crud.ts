@@ -7,8 +7,8 @@ describe("crud", () => {
   let outputDirPath: string;
 
   beforeEach(async () => {
-    outputDirPath = generateArtifactsDirPath("crud");
-    await fs.mkdir(outputDirPath);
+    outputDirPath = generateArtifactsDirPath("regression-crud");
+    await fs.mkdir(outputDirPath, { recursive: true });
   });
 
   afterEach(async () => {

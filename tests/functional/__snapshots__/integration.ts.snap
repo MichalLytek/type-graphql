@@ -16,6 +16,13 @@ enum Color {
   RED
 }
 
+input ColorFilter {
+  equals: Color
+  in: [Color!]
+  not: Color
+  notIn: [Color!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -100,7 +107,7 @@ input PostOrderByInput {
 
 input PostScalarWhereInput {
   AND: [PostScalarWhereInput!]
-  color: Color
+  color: ColorFilter
   content: StringFilter
   NOT: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
@@ -163,7 +170,7 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 input PostWhereInput {
   AND: [PostWhereInput!]
   author: UserWhereInput
-  color: Color
+  color: ColorFilter
   content: StringFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -268,43 +275,58 @@ exports[`generator integration should generates TypeGraphQL classes files to out
 [type-graphql]
   [enums]
     Color.ts
-    index.ts
     OrderByArg.ts
+    index.ts
   index.ts
   [models]
-    index.ts
     Post.ts
     User.ts
+    index.ts
   [resolvers]
     [crud]
-      index.ts
       [Post]
+        CreateOnePostResolver.ts
+        DeleteManyPostResolver.ts
+        DeleteOnePostResolver.ts
+        FindManyPostResolver.ts
+        FindOnePostResolver.ts
+        PostCrudResolver.ts
+        UpdateManyPostResolver.ts
+        UpdateOnePostResolver.ts
+        UpsertOnePostResolver.ts
         [args]
           CreateOnePostArgs.ts
           DeleteManyPostArgs.ts
           DeleteOnePostArgs.ts
           FindManyPostArgs.ts
           FindOnePostArgs.ts
-          index.ts
           UpdateManyPostArgs.ts
           UpdateOnePostArgs.ts
           UpsertOnePostArgs.ts
-        PostCrudResolver.ts
+          index.ts
       [User]
+        CreateOneUserResolver.ts
+        DeleteManyUserResolver.ts
+        DeleteOneUserResolver.ts
+        FindManyUserResolver.ts
+        FindOneUserResolver.ts
+        UpdateManyUserResolver.ts
+        UpdateOneUserResolver.ts
+        UpsertOneUserResolver.ts
+        UserCrudResolver.ts
         [args]
           CreateOneUserArgs.ts
           DeleteManyUserArgs.ts
           DeleteOneUserArgs.ts
           FindManyUserArgs.ts
           FindOneUserArgs.ts
-          index.ts
           UpdateManyUserArgs.ts
           UpdateOneUserArgs.ts
           UpsertOneUserArgs.ts
-        UserCrudResolver.ts
+          index.ts
+      index.ts
     [inputs]
       ColorFilter.ts
-      index.ts
       IntFilter.ts
       NullableStringFilter.ts
       PostCreateInput.ts
@@ -316,10 +338,10 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       PostUpdateInput.ts
       PostUpdateManyDataInput.ts
       PostUpdateManyMutationInput.ts
-      PostUpdateManyWithoutAuthorInput.ts
       PostUpdateManyWithWhereNestedInput.ts
-      PostUpdateWithoutAuthorDataInput.ts
+      PostUpdateManyWithoutAuthorInput.ts
       PostUpdateWithWhereUniqueWithoutAuthorInput.ts
+      PostUpdateWithoutAuthorDataInput.ts
       PostUpsertWithWhereUniqueWithoutAuthorInput.ts
       PostWhereInput.ts
       PostWhereUniqueInput.ts
@@ -335,20 +357,21 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       UserUpsertWithoutPostsInput.ts
       UserWhereInput.ts
       UserWhereUniqueInput.ts
+      index.ts
     [outputs]
       AggregatePost.ts
       AggregateUser.ts
       BatchPayload.ts
       index.ts
     [relations]
-      index.ts
       [Post]
         PostRelationsResolver.ts
       [User]
-        [args]
-          index.ts
-          UserPostsArgs.ts
         UserRelationsResolver.ts
+        [args]
+          UserPostsArgs.ts
+          index.ts
+      index.ts
 "
 `;
 

@@ -6,8 +6,9 @@ import { generateCodeFromSchema } from "../helpers/generate-code";
 describe("enums", () => {
   let outputDirPath: string;
 
-  beforeEach(() => {
-    outputDirPath = generateArtifactsDirPath("enums");
+  beforeEach(async () => {
+    outputDirPath = generateArtifactsDirPath("regression-enums");
+    await fs.mkdir(outputDirPath, { recursive: true });
   });
 
   afterEach(async () => {
@@ -26,7 +27,7 @@ describe("enums", () => {
 
     await generateCodeFromSchema(schema, outputDirPath);
     const colorEnumTSFile = await fs.readFile(
-      outputDirPath + "/enums/color.ts",
+      outputDirPath + "/enums/Color.ts",
       { encoding: "utf8" },
     );
 
@@ -44,7 +45,7 @@ describe("enums", () => {
     `;
 
     await generateCodeFromSchema(schema, outputDirPath);
-    const roleEnumTSFile = await fs.readFile(outputDirPath + "/enums/role.ts", {
+    const roleEnumTSFile = await fs.readFile(outputDirPath + "/enums/Role.ts", {
       encoding: "utf8",
     });
 

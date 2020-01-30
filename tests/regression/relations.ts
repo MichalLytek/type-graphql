@@ -8,7 +8,7 @@ describe("relations resolvers generation", () => {
 
   beforeEach(async () => {
     outputDirPath = generateArtifactsDirPath("regression-relations");
-    await fs.mkdir(outputDirPath);
+    await fs.mkdir(outputDirPath, { recursive: true });
   });
 
   afterEach(async () => {

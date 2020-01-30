@@ -8,8 +8,9 @@ import { generateCodeFromSchema } from "../helpers/generate-code";
 describe("structure", () => {
   let outputDirPath: string;
 
-  beforeEach(() => {
-    outputDirPath = generateArtifactsDirPath("structure");
+  beforeEach(async () => {
+    outputDirPath = generateArtifactsDirPath("regression-structure");
+    await fs.mkdir(outputDirPath, { recursive: true });
   });
 
   afterEach(async () => {
@@ -50,27 +51,16 @@ describe("structure", () => {
       [type-graphql]
         [enums]
           Color.ts
-          index.ts
           OrderByArg.ts
+          index.ts
         index.ts
         [models]
-          index.ts
           Post.ts
           User.ts
+          index.ts
         [resolvers]
           [crud]
-            index.ts
             [Post]
-              [args]
-                CreateOnePostArgs.ts
-                DeleteManyPostArgs.ts
-                DeleteOnePostArgs.ts
-                FindManyPostArgs.ts
-                FindOnePostArgs.ts
-                index.ts
-                UpdateManyPostArgs.ts
-                UpdateOnePostArgs.ts
-                UpsertOnePostArgs.ts
               CreateOnePostResolver.ts
               DeleteManyPostResolver.ts
               DeleteOnePostResolver.ts
@@ -80,17 +70,17 @@ describe("structure", () => {
               UpdateManyPostResolver.ts
               UpdateOnePostResolver.ts
               UpsertOnePostResolver.ts
-            [User]
               [args]
-                CreateOneUserArgs.ts
-                DeleteManyUserArgs.ts
-                DeleteOneUserArgs.ts
-                FindManyUserArgs.ts
-                FindOneUserArgs.ts
+                CreateOnePostArgs.ts
+                DeleteManyPostArgs.ts
+                DeleteOnePostArgs.ts
+                FindManyPostArgs.ts
+                FindOnePostArgs.ts
+                UpdateManyPostArgs.ts
+                UpdateOnePostArgs.ts
+                UpsertOnePostArgs.ts
                 index.ts
-                UpdateManyUserArgs.ts
-                UpdateOneUserArgs.ts
-                UpsertOneUserArgs.ts
+            [User]
               CreateOneUserResolver.ts
               DeleteManyUserResolver.ts
               DeleteOneUserResolver.ts
@@ -100,9 +90,19 @@ describe("structure", () => {
               UpdateOneUserResolver.ts
               UpsertOneUserResolver.ts
               UserCrudResolver.ts
+              [args]
+                CreateOneUserArgs.ts
+                DeleteManyUserArgs.ts
+                DeleteOneUserArgs.ts
+                FindManyUserArgs.ts
+                FindOneUserArgs.ts
+                UpdateManyUserArgs.ts
+                UpdateOneUserArgs.ts
+                UpsertOneUserArgs.ts
+                index.ts
+            index.ts
           [inputs]
             ColorFilter.ts
-            index.ts
             IntFilter.ts
             NullableStringFilter.ts
             PostCreateInput.ts
@@ -114,10 +114,10 @@ describe("structure", () => {
             PostUpdateInput.ts
             PostUpdateManyDataInput.ts
             PostUpdateManyMutationInput.ts
-            PostUpdateManyWithoutAuthorInput.ts
             PostUpdateManyWithWhereNestedInput.ts
-            PostUpdateWithoutAuthorDataInput.ts
+            PostUpdateManyWithoutAuthorInput.ts
             PostUpdateWithWhereUniqueWithoutAuthorInput.ts
+            PostUpdateWithoutAuthorDataInput.ts
             PostUpsertWithWhereUniqueWithoutAuthorInput.ts
             PostWhereInput.ts
             PostWhereUniqueInput.ts
@@ -133,20 +133,21 @@ describe("structure", () => {
             UserUpsertWithoutPostsInput.ts
             UserWhereInput.ts
             UserWhereUniqueInput.ts
+            index.ts
           [outputs]
             AggregatePost.ts
             AggregateUser.ts
             BatchPayload.ts
             index.ts
           [relations]
-            index.ts
             [Post]
               PostRelationsResolver.ts
             [User]
-              [args]
-                index.ts
-                UserPostsArgs.ts
               UserRelationsResolver.ts
+              [args]
+                UserPostsArgs.ts
+                index.ts
+            index.ts
       "
     `);
   });

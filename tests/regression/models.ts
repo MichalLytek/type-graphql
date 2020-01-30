@@ -7,8 +7,8 @@ describe("models", () => {
   let outputDirPath: string;
 
   beforeEach(async () => {
-    outputDirPath = generateArtifactsDirPath("models");
-    await fs.mkdir(outputDirPath);
+    outputDirPath = generateArtifactsDirPath("regression-models");
+    await fs.mkdir(outputDirPath, { recursive: true });
   });
 
   afterEach(async () => {

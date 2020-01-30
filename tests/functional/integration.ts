@@ -18,7 +18,7 @@ describe("generator integration", () => {
 
   beforeEach(async () => {
     cwdDirPath = generateArtifactsDirPath("functional-integration");
-    await fs.mkdir(cwdDirPath);
+    await fs.mkdir(cwdDirPath, { recursive: true });
 
     schema = /* prisma */ `
       datasource db {

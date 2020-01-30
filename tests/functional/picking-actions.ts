@@ -10,7 +10,7 @@ describe("picking prisma actions", () => {
 
   beforeEach(async () => {
     outputDirPath = generateArtifactsDirPath("functional-picking-actions");
-    await fs.mkdir(outputDirPath);
+    await fs.mkdir(outputDirPath, { recursive: true });
     const prismaSchema = /* prisma */ `
       model User {
         intIdField          Int     @id @default(autoincrement())

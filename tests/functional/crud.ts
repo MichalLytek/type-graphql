@@ -11,8 +11,8 @@ describe("crud resolvers execution", () => {
   let graphQLSchema: GraphQLSchema;
 
   beforeAll(async () => {
-    outputDirPath = generateArtifactsDirPath("crud");
-    await fs.mkdir(outputDirPath);
+    outputDirPath = generateArtifactsDirPath("functional-crud");
+    await fs.mkdir(outputDirPath, { recursive: true });
     const prismaSchema = /* prisma */ `
       model User {
         intIdField          Int     @id @default(autoincrement())
