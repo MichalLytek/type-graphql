@@ -9,7 +9,7 @@ import {
 } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 import path from "path";
-import { Photon } from "@prisma/photon";
+import { PrismaClient } from "@prisma/client";
 
 import {
   User,
@@ -21,15 +21,15 @@ import {
 } from "./prisma/generated/type-graphql";
 
 interface Context {
-  photon: Photon;
+  prisma: PrismaClient;
 }
 
-// custom resolver for custom business logic using PhotonJS
+// custom resolver for custom business logic using Prisma Client
 @Resolver(of => User)
 class CustomUserResolver {
   @Query(returns => User, { nullable: true })
-  async bestUser(@Ctx() { photon }: Context): Promise<User | null> {
-    return await photon.users.findOne({
+  async bestUser(@Ctx() { prisma }: Context): Promise<User | null> {
+    return await prisma.user.findOne({
       where: { email: "bob@prisma.io" },
     });
   }
@@ -37,9 +37,9 @@ class CustomUserResolver {
   @FieldResolver(type => Post, { nullable: true })
   async favoritePost(
     @Root() user: User,
-    @Ctx() { photon }: Context,
+    @Ctx() { prisma }: Context,
   ): Promise<Post | undefined> {
-    const [favoritePost] = await photon.users
+    const [favoritePost] = await prisma.user
       .findOne({ where: { id: user.id } })
       .posts({ first: 1 });
 
@@ -60,14 +60,14 @@ async function main() {
     validate: false,
   });
 
-  const photon = new Photon({
+  const prisma = new PrismaClient({
     // debug: true, // uncomment to see how dataloader for relations works
   });
 
   const server = new ApolloServer({
     schema,
     playground: true,
-    context: (): Context => ({ photon }),
+    context: (): Context => ({ prisma }),
   });
   const { port } = await server.listen(4000);
   console.log(`GraphQL is listening on ${port}!`);

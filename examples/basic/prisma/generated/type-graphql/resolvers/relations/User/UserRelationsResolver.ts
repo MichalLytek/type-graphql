@@ -4,14 +4,14 @@ import { Post } from "../../../models/Post";
 import { User } from "../../../models/User";
 import { UserPostsArgs } from "./args/UserPostsArgs";
 
-function createGetUserPostsDataLoader(photon: any) {
+function createGetUserPostsDataLoader(prisma: any) {
   const argsToDataLoaderMap = new Map<string, DataLoader<string, Post[] | null>>();
   return function getUserPostsDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!userPostsDataLoader) {
       userPostsDataLoader = new DataLoader<string, Post[] | null>(async keys => {
-        const fetchedData: any[] = await photon.users.findMany({
+        const fetchedData: any[] = await prisma.user.findMany({
           where: { id: { in: keys } },
           select: {
             id: true,
@@ -35,7 +35,7 @@ export class UserRelationsResolver {
     description: undefined,
   })
   async posts(@Root() user: User, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<Post[] | null> {
-    ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.photon);
+    ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.prisma);
     return ctx.getUserPostsDataLoader(args).load(user.id);
   }
 }

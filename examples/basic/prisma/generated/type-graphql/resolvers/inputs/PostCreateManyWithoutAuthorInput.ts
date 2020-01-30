@@ -6,7 +6,7 @@ import { PostWhereUniqueInput } from "../inputs/PostWhereUniqueInput";
   isAbstract: true,
   description: undefined,
 })
-export class PostCreateManyWithoutPostsInput {
+export class PostCreateManyWithoutAuthorInput {
   @Field(_type => [PostCreateWithoutAuthorInput], {
     nullable: true,
     description: undefined

@@ -14,7 +14,7 @@ query GetAllUsersAndPosts {
 }
 
 query GetSelectedPost {
-  findOnePost(where: { id: "ck1koch6p0002vcdac5lrhwsw" }) {
+  findOnePost(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
     ...PostData
     author {
       ...UserData
@@ -45,7 +45,7 @@ query CustomResolversQuery {
 
 mutation UpdatePost {
   updateOnePost(
-    where: { id: "ck1koch6p0002vcdac5lrhwsw" }
+    where: { id: "ck60jnqnc0002fsdarkjqtyrd" }
     data: { published: true }
   ) {
     ...PostData

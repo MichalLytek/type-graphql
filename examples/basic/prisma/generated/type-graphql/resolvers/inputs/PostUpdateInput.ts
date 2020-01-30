@@ -6,7 +6,7 @@ import { UserUpdateOneWithoutPostsInput } from "../inputs/UserUpdateOneWithoutPo
   description: undefined,
 })
 export class PostUpdateInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })

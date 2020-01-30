@@ -3,14 +3,14 @@ import DataLoader from "dataloader";
 import { Post } from "../../../models/Post";
 import { User } from "../../../models/User";
 
-function createGetPostAuthorDataLoader(photon: any) {
+function createGetPostAuthorDataLoader(prisma: any) {
   const argsToDataLoaderMap = new Map<string, DataLoader<string, User | null>>();
   return function getPostAuthorDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!postAuthorDataLoader) {
       postAuthorDataLoader = new DataLoader<string, User | null>(async keys => {
-        const fetchedData: any[] = await photon.posts.findMany({
+        const fetchedData: any[] = await prisma.post.findMany({
           where: { id: { in: keys } },
           select: {
             id: true,
@@ -34,7 +34,7 @@ export class PostRelationsResolver {
     description: undefined,
   })
   async author(@Root() post: Post, @Ctx() ctx: any): Promise<User | null> {
-    ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.photon);
+    ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.prisma);
     return ctx.getPostAuthorDataLoader({}).load(post.id);
   }
 }

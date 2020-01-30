@@ -6,7 +6,7 @@ import { PostUpdateManyWithoutAuthorInput } from "../inputs/PostUpdateManyWithou
   description: undefined,
 })
 export class UserUpdateInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })

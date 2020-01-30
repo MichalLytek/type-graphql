@@ -6,7 +6,7 @@ import { UserWhereUniqueInput } from "../inputs/UserWhereUniqueInput";
   isAbstract: true,
   description: undefined,
 })
-export class UserCreateOneWithoutAuthorInput {
+export class UserCreateOneWithoutPostsInput {
   @Field(_type => UserCreateWithoutPostsInput, {
     nullable: true,
     description: undefined

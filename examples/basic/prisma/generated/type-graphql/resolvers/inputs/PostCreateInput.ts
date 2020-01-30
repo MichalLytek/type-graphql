@@ -1,12 +1,12 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
-import { UserCreateOneWithoutAuthorInput } from "../inputs/UserCreateOneWithoutAuthorInput";
+import { UserCreateOneWithoutPostsInput } from "../inputs/UserCreateOneWithoutPostsInput";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
 export class PostCreateInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })
@@ -42,9 +42,9 @@ export class PostCreateInput {
   })
   content?: string | null;
 
-  @Field(_type => UserCreateOneWithoutAuthorInput, {
+  @Field(_type => UserCreateOneWithoutPostsInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserCreateOneWithoutAuthorInput | null;
+  author?: UserCreateOneWithoutPostsInput | null;
 }

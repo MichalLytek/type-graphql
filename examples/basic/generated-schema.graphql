@@ -3,14 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type AggregatePost {
-  count: Int!
-}
-
-type AggregateUser {
-  count: Int!
-}
-
 type BatchPayload {
   count: Int!
 }
@@ -39,6 +31,8 @@ input DateTimeFilter {
 type Mutation {
   createOnePost(data: PostCreateInput!): Post!
   createOneUser(data: UserCreateInput!): User!
+  deleteManyPost(where: PostWhereInput): BatchPayload!
+  deleteManyUser(where: UserWhereInput): BatchPayload!
   deleteOnePost(where: PostWhereUniqueInput!): Post
   deleteOneUser(where: UserWhereUniqueInput!): User
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -79,16 +73,16 @@ type Post {
 }
 
 input PostCreateInput {
-  author: UserCreateOneWithoutAuthorInput
+  author: UserCreateOneWithoutPostsInput
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean!
   title: String!
   updatedAt: DateTime
 }
 
-input PostCreateManyWithoutPostsInput {
+input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
   create: [PostCreateWithoutAuthorInput!]
 }
@@ -96,7 +90,7 @@ input PostCreateManyWithoutPostsInput {
 input PostCreateWithoutAuthorInput {
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean!
   title: String!
   updatedAt: DateTime
@@ -133,7 +127,7 @@ input PostUpdateInput {
   author: UserUpdateOneWithoutPostsInput
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -142,7 +136,7 @@ input PostUpdateInput {
 input PostUpdateManyDataInput {
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -151,7 +145,7 @@ input PostUpdateManyDataInput {
 input PostUpdateManyMutationInput {
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -177,7 +171,7 @@ input PostUpdateManyWithWhereNestedInput {
 input PostUpdateWithoutAuthorDataInput {
   content: String
   createdAt: DateTime
-  id: ID
+  id: String
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -208,15 +202,13 @@ input PostWhereInput {
 }
 
 input PostWhereUniqueInput {
-  id: ID
+  id: String
 }
 
 type Query {
-  aggregatePost: AggregatePost!
-  aggregateUser: AggregateUser!
   bestUser: User
-  findManyPost(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
-  findManyUser(after: ID, before: ID, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  findManyPost(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  findManyUser(after: String, before: String, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
   findOnePost(where: PostWhereUniqueInput!): Post
   findOneUser(where: UserWhereUniqueInput!): User
 }
@@ -240,24 +232,24 @@ type User {
   favoritePost: Post
   id: String!
   name: String
-  posts(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
 }
 
 input UserCreateInput {
   email: String!
-  id: ID
+  id: String
   name: String
-  posts: PostCreateManyWithoutPostsInput
+  posts: PostCreateManyWithoutAuthorInput
 }
 
-input UserCreateOneWithoutAuthorInput {
+input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
   create: UserCreateWithoutPostsInput
 }
 
 input UserCreateWithoutPostsInput {
   email: String!
-  id: ID
+  id: String
   name: String
 }
 
@@ -269,14 +261,14 @@ input UserOrderByInput {
 
 input UserUpdateInput {
   email: String
-  id: ID
+  id: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
   email: String
-  id: ID
+  id: String
   name: String
 }
 
@@ -291,7 +283,7 @@ input UserUpdateOneWithoutPostsInput {
 
 input UserUpdateWithoutPostsDataInput {
   email: String
-  id: ID
+  id: String
   name: String
 }
 
@@ -312,5 +304,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   email: String
-  id: ID
+  id: String
 }

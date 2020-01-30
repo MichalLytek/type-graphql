@@ -5,7 +5,7 @@ import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, I
   description: undefined,
 })
 export class UserUpdateWithoutPostsDataInput {
-  @Field(_type => ID, {
+  @Field(_type => String, {
     nullable: true,
     description: undefined
   })

@@ -1,1 +1,1 @@
-import { OrderByArg } from "../enums/OrderByArg";
+export { OrderByArg } from "./OrderByArg";
