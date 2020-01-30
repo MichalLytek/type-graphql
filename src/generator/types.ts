@@ -11,5 +11,6 @@ export interface DMMFTypeInfo {
 export interface GeneratedResolverData {
   modelName: string;
   resolverName: string;
+  actionResolverNames?: string[];
   argTypeNames: string[];
 }

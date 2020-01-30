@@ -12,8 +12,8 @@ import { DMMFTypeInfo, GeneratedResolverData } from "./types";
 import {
   baseKeys,
   ModelKeys,
-  supportedMutations as supportedMutationActions,
-  supportedQueries as supportedQueryActions,
+  supportedMutationActions,
+  supportedQueryActions,
   resolversFolderName,
   crudResolversFolderName,
   argsFolderName,
@@ -27,6 +27,7 @@ import {
   generateArgsBarrelFile,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
+import generateActionResolverClass from "./action-resolver-class";
 
 export default async function generateCrudResolverClassFromMapping(
   project: Project,
@@ -199,8 +200,26 @@ export default async function generateCrudResolverClassFromMapping(
     ),
   });
 
+  const actionResolverNames = await Promise.all(
+    methodsInfo.map(
+      ({ operationKind, actionName, method, outputTypeName, argsTypeName }) =>
+        generateActionResolverClass(
+          project,
+          baseDirPath,
+          modelName,
+          operationKind,
+          actionName,
+          method,
+          outputTypeName,
+          argsTypeName,
+          collectionName,
+          modelNames,
+        ),
+    ),
+  );
+
   await saveSourceFile(sourceFile);
-  return { modelName, resolverName, argTypeNames };
+  return { modelName, resolverName, actionResolverNames, argTypeNames };
 }
 
 function getOperationKindName(actionName: string): string | undefined {

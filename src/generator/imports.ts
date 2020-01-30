@@ -136,17 +136,27 @@ export function generateResolversBarrelFile(
     .sort((a, b) =>
       a.modelName > b.modelName ? 1 : a.modelName < b.modelName ? -1 : 0,
     )
-    .forEach(({ modelName, resolverName, argTypeNames }) => {
-      sourceFile.addExportDeclaration({
-        moduleSpecifier: `./${modelName}/${resolverName}`,
-        namedExports: [resolverName],
-      });
-      if (argTypeNames.length) {
+    .forEach(
+      ({ modelName, resolverName, actionResolverNames, argTypeNames }) => {
         sourceFile.addExportDeclaration({
-          moduleSpecifier: `./${modelName}/args`,
+          moduleSpecifier: `./${modelName}/${resolverName}`,
+          namedExports: [resolverName],
         });
-      }
-    });
+        if (actionResolverNames) {
+          actionResolverNames.forEach(actionResolverName => {
+            sourceFile.addExportDeclaration({
+              moduleSpecifier: `./${modelName}/${actionResolverName}`,
+              namedExports: [actionResolverName],
+            });
+          });
+        }
+        if (argTypeNames.length) {
+          sourceFile.addExportDeclaration({
+            moduleSpecifier: `./${modelName}/args`,
+          });
+        }
+      },
+    );
 }
 
 export const generateModelsImports = createImportGenerator(modelsFolderName);
