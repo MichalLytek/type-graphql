@@ -71,7 +71,15 @@ describe("structure", () => {
                 UpdateManyPostArgs.ts
                 UpdateOnePostArgs.ts
                 UpsertOnePostArgs.ts
+              CreateOnePostResolver.ts
+              DeleteManyPostResolver.ts
+              DeleteOnePostResolver.ts
+              FindManyPostResolver.ts
+              FindOnePostResolver.ts
               PostCrudResolver.ts
+              UpdateManyPostResolver.ts
+              UpdateOnePostResolver.ts
+              UpsertOnePostResolver.ts
             [User]
               [args]
                 CreateOneUserArgs.ts
@@ -83,6 +91,14 @@ describe("structure", () => {
                 UpdateManyUserArgs.ts
                 UpdateOneUserArgs.ts
                 UpsertOneUserArgs.ts
+              CreateOneUserResolver.ts
+              DeleteManyUserResolver.ts
+              DeleteOneUserResolver.ts
+              FindManyUserResolver.ts
+              FindOneUserResolver.ts
+              UpdateManyUserResolver.ts
+              UpdateOneUserResolver.ts
+              UpsertOneUserResolver.ts
               UserCrudResolver.ts
           [inputs]
             ColorFilter.ts

@@ -93,4 +93,73 @@ describe("crud", () => {
     expect(upsertOneUserArgsTSFile).toMatchSnapshot("UpsertOneUserArgs");
     expect(indexTSFile).toMatchSnapshot("Index");
   });
+
+  it("should properly generate actions resolver classes for prisma model", async () => {
+    const schema = /* prisma */ `
+      model User {
+        intIdField          Int     @id @default(autoincrement())
+        uniqueStringField   String  @unique
+        optionalStringField String?
+        dateField           DateTime
+      }
+    `;
+
+    await generateCodeFromSchema(schema, outputDirPath);
+    const createOneUserArgsTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/CreateOneUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const deleteManyUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/DeleteManyUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const deleteOneUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/DeleteOneUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const findManyUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/FindManyUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const findOneUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/FindOneUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const updateManyUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/UpdateManyUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const updateOneUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/UpdateOneUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const upsertOneUserResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/UpsertOneUserResolver.ts",
+      { encoding: "utf8" },
+    );
+    const indexTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/index.ts",
+      { encoding: "utf8" },
+    );
+
+    expect(createOneUserArgsTSFile).toMatchSnapshot("CreateOneUserResolver");
+    expect(deleteManyUserResolverTSFile).toMatchSnapshot(
+      "DeleteManyUserResolver",
+    );
+    expect(deleteOneUserResolverTSFile).toMatchSnapshot(
+      "DeleteOneUserResolver",
+    );
+    expect(findManyUserResolverTSFile).toMatchSnapshot("FindManyUserResolver");
+    expect(findOneUserResolverTSFile).toMatchSnapshot("FindOneUserResolver");
+    expect(updateManyUserResolverTSFile).toMatchSnapshot(
+      "UpdateManyUserResolver",
+    );
+    expect(updateOneUserResolverTSFile).toMatchSnapshot(
+      "UpdateOneUserResolver",
+    );
+    expect(upsertOneUserResolverTSFile).toMatchSnapshot(
+      "UpsertOneUserResolver",
+    );
+    expect(indexTSFile).toMatchSnapshot("Index");
+  });
 });
