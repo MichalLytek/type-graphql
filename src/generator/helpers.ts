@@ -101,10 +101,9 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
 export function selectInputTypeFromTypes(
   inputTypes: DMMF.SchemaArgInputType[],
 ): DMMF.SchemaArgInputType {
-  // FIXME: *Enum*Filter are currently empty
   return (
-    inputTypes.find(it => it.kind === "enum") ||
     inputTypes.find(it => it.kind === "object") ||
+    inputTypes.find(it => it.kind === "enum") ||
     inputTypes[0]
   );
 }

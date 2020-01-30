@@ -3,8 +3,8 @@ import { FloatFilter } from "../inputs/FloatFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { PostFilter } from "../inputs/PostFilter";
+import { RoleFilter } from "../inputs/RoleFilter";
 import { StringFilter } from "../inputs/StringFilter";
-import { Role } from "../../enums/Role";
 
 @InputType({
   isAbstract: true,
@@ -53,11 +53,11 @@ export class UserWhereInput {
   })
   posts?: PostFilter | null;
 
-  @Field(_type => Role, {
+  @Field(_type => RoleFilter, {
     nullable: true,
     description: undefined
   })
-  role?: keyof typeof Role | null;
+  role?: RoleFilter | null;
 
   @Field(_type => [UserWhereInput], {
     nullable: true,

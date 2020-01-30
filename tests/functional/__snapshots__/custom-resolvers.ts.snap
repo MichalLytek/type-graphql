@@ -49,6 +49,13 @@ enum Color {
   RED
 }
 
+input ColorFilter {
+  equals: Color
+  in: [Color!]
+  not: Color
+  notIn: [Color!]
+}
+
 enum OrderByArg {
   asc
   desc
@@ -68,7 +75,7 @@ input PostOrderByInput {
 
 input PostWhereInput {
   AND: [PostWhereInput!]
-  color: Color
+  color: ColorFilter
   content: StringFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
