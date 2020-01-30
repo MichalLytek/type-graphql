@@ -1,0 +1,37 @@
+name: TypeGraphQL Prisma 2 integration
+
+on:
+  push:
+    branches:
+      - prisma
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 13.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup project
+        run: |
+          npm install
+
+      - name: Check codebase
+        run: |
+          npm run check:format
+          npm run check:type
+
+      - name: Run tests
+        run: |
+          npm run test:ci
+        env:
+          CI: true
