@@ -199,9 +199,9 @@ const schema = await buildSchema({
 
 ## Examples
 
-You can check out the basic integration example on this repo:
+You can check out some integration examples on this repo:
 
-https://github.com/MichalLytek/type-graphql/tree/prisma/examples/basic
+https://github.com/MichalLytek/type-graphql/tree/prisma/examples/Readme.md
 
 ## Feedback
 
