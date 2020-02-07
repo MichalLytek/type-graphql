@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "ts-node --transpile-only ./index.ts",
+    "generate": "prisma2 generate",
+    "seed": "ts-node --transpile-only ./prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "2.0.0-preview021",
+    "apollo-server": "^2.10.0",
+    "dataloader": "^2.0.0",
+    "graphql": "^14.6.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "0.18.0-beta.10"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.0",
+    "prisma2": "2.0.0-preview021",
+    "ts-node": "^8.6.2",
+    "typegraphql-prisma": "^0.1.4",
+    "typescript": "^3.7.5"
+  }
+}

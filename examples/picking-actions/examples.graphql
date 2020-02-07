@@ -1,0 +1,50 @@
+query GetAllUsersAndPosts {
+  users: findManyUser {
+    ...UserData
+    posts {
+      ...PostData
+    }
+  }
+  posts: findManyPost {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSelectedPost {
+  findOnePost(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSomeUsers {
+  findManyUser(
+    where: { email: { contains: "prisma" } }
+    orderBy: { name: desc }
+  ) {
+    ...UserData
+    posts(last: 1) {
+      ...PostData
+    }
+  }
+}
+
+fragment UserData on User {
+  id
+  email
+  name
+}
+
+fragment PostData on Post {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  content
+}
