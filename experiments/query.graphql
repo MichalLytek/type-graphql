@@ -1,13 +1,13 @@
 query GetUsersAndPosts {
   users {
     ...UserData
-    advertPosts: posts(where: { kind: ADVERT }) {
+    advertPosts: posts(where: { kind: { equals: ADVERT } }) {
       ...PostData
     }
-    blogPosts: posts(where: { kind: BLOG }) {
+    blogPosts: posts(where: { kind: { equals: BLOG } }) {
       ...PostData
       author {
-        posts(where: { kind: ADVERT }) {
+        posts(where: { kind: { equals: ADVERT } }) {
           ...PostData
         }
       }
@@ -42,7 +42,9 @@ mutation AddUser {
 query FindUsers {
   findManyUser(
     orderBy: { id: desc }
-    where: { OR: [{ email: { contains: "test3" } }, { role: ADMIN }] }
+    where: {
+      OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]
+    }
   ) {
     ...UserData
   }

@@ -18,7 +18,9 @@ import {
   Post,
   // Post as BasePost,
   PostRelationsResolver,
-  PostCrudResolver,
+  FindOnePostResolver,
+  CreateOnePostResolver,
+  UpdateManyPostResolver,
 } from "./prisma/generated/type-graphql";
 import { PrismaClient } from "./prisma/generated/client";
 
@@ -61,7 +63,9 @@ async function main() {
       UserCrudResolver,
       PostResolver,
       PostRelationsResolver,
-      PostCrudResolver,
+      FindOnePostResolver,
+      CreateOnePostResolver,
+      UpdateManyPostResolver,
     ],
     validate: false,
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),

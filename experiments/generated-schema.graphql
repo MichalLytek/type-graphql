@@ -53,16 +53,19 @@ input IntFilter {
 type Mutation {
   createOnePost(data: PostCreateInput!): Post!
   createOneUser(data: UserCreateInput!): User!
-  deleteManyPost(where: PostWhereInput): BatchPayload!
   deleteManyUser(where: UserWhereInput): BatchPayload!
-  deleteOnePost(where: PostWhereUniqueInput!): Post
   deleteOneUser(where: UserWhereUniqueInput!): User
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertOnePost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+input NullablePostKindFilter {
+  equals: PostKind
+  in: [PostKind!]
+  not: PostKind
+  notIn: [PostKind!]
 }
 
 input NullableStringFilter {
@@ -96,17 +99,17 @@ type Post {
 }
 
 input PostCreateInput {
-  author: UserCreateOneWithoutAuthorInput!
+  author: UserCreateOneWithoutPostsInput!
   content: String
   createdAt: DateTime
   kind: PostKind
   published: Boolean!
   title: String!
   updatedAt: DateTime
-  uuid: ID
+  uuid: String
 }
 
-input PostCreateManyWithoutPostsInput {
+input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
   create: [PostCreateWithoutAuthorInput!]
 }
@@ -118,7 +121,7 @@ input PostCreateWithoutAuthorInput {
   published: Boolean!
   title: String!
   updatedAt: DateTime
-  uuid: ID
+  uuid: String
 }
 
 input PostFilter {
@@ -146,24 +149,13 @@ input PostScalarWhereInput {
   AND: [PostScalarWhereInput!]
   content: NullableStringFilter
   createdAt: DateTimeFilter
-  kind: PostKind
+  kind: NullablePostKindFilter
   NOT: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   published: BooleanFilter
   title: StringFilter
   updatedAt: DateTimeFilter
   uuid: StringFilter
-}
-
-input PostUpdateInput {
-  author: UserUpdateOneRequiredWithoutPostsInput
-  content: String
-  createdAt: DateTime
-  kind: PostKind
-  published: Boolean
-  title: String
-  updatedAt: DateTime
-  uuid: ID
 }
 
 input PostUpdateManyDataInput {
@@ -173,7 +165,7 @@ input PostUpdateManyDataInput {
   published: Boolean
   title: String
   updatedAt: DateTime
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateManyMutationInput {
@@ -183,7 +175,7 @@ input PostUpdateManyMutationInput {
   published: Boolean
   title: String
   updatedAt: DateTime
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -210,7 +202,7 @@ input PostUpdateWithoutAuthorDataInput {
   published: Boolean
   title: String
   updatedAt: DateTime
-  uuid: ID
+  uuid: String
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -229,7 +221,7 @@ input PostWhereInput {
   author: UserWhereInput
   content: NullableStringFilter
   createdAt: DateTimeFilter
-  kind: PostKind
+  kind: NullablePostKindFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
   published: BooleanFilter
@@ -239,11 +231,10 @@ input PostWhereInput {
 }
 
 input PostWhereUniqueInput {
-  uuid: ID
+  uuid: String
 }
 
 type Query {
-  findManyPost(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
   findManyUser(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
   findOnePost(where: PostWhereUniqueInput!): Post
   findOneUser(where: UserWhereUniqueInput!): User
@@ -255,6 +246,13 @@ type Query {
 enum Role {
   ADMIN
   USER
+}
+
+input RoleFilter {
+  equals: Role
+  in: [Role!]
+  not: Role
+  notIn: [Role!]
 }
 
 input StringFilter {
@@ -282,7 +280,7 @@ type User {
   """User model field comment"""
   id: Int!
   name: String
-  posts(after: ID, before: ID, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   role: Role!
 }
 
@@ -292,11 +290,11 @@ input UserCreateInput {
   balance: Float!
   email: String!
   name: String
-  posts: PostCreateManyWithoutPostsInput
+  posts: PostCreateManyWithoutAuthorInput
   role: Role!
 }
 
-input UserCreateOneWithoutAuthorInput {
+input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
   create: UserCreateWithoutPostsInput
 }
@@ -341,28 +339,6 @@ input UserUpdateManyMutationInput {
   role: Role
 }
 
-input UserUpdateOneRequiredWithoutPostsInput {
-  connect: UserWhereUniqueInput
-  create: UserCreateWithoutPostsInput
-  update: UserUpdateWithoutPostsDataInput
-  upsert: UserUpsertWithoutPostsInput
-}
-
-input UserUpdateWithoutPostsDataInput {
-  age: Int
-  amount: Float
-  balance: Float
-  email: String
-  id: Int
-  name: String
-  role: Role
-}
-
-input UserUpsertWithoutPostsInput {
-  create: UserCreateWithoutPostsInput!
-  update: UserUpdateWithoutPostsDataInput!
-}
-
 input UserWhereInput {
   age: IntFilter
   amount: FloatFilter
@@ -374,7 +350,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   posts: PostFilter
-  role: Role
+  role: RoleFilter
 }
 
 input UserWhereUniqueInput {
