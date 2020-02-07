@@ -74,6 +74,8 @@ export declare namespace DMMF {
         name: string;
         inputType: SchemaArgInputType[];
         isRelationFilter?: boolean;
+        nullEqualsUndefined?: boolean;
+        comment?: string;
     }
     interface OutputType {
         name: string;

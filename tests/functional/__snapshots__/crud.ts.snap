@@ -70,10 +70,7 @@ exports[`crud resolvers execution should properly call PrismaClient on \`findMan
 Array [
   Array [
     FindManyUserArgs {
-      "after": undefined,
-      "before": undefined,
       "first": 0,
-      "last": undefined,
       "orderBy": UserOrderByInput {
         "intIdField": "desc",
       },

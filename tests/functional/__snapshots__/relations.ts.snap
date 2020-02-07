@@ -7,11 +7,7 @@ Array [
       "select": Object {
         "id": true,
         "posts": UserPostsArgs {
-          "after": undefined,
-          "before": undefined,
           "first": 1,
-          "last": undefined,
-          "orderBy": undefined,
           "skip": 1,
           "where": PostWhereInput {
             "content": StringFilter {
@@ -63,15 +59,7 @@ Array [
     Object {
       "select": Object {
         "id": true,
-        "posts": UserPostsArgs {
-          "after": undefined,
-          "before": undefined,
-          "first": undefined,
-          "last": undefined,
-          "orderBy": undefined,
-          "skip": undefined,
-          "where": undefined,
-        },
+        "posts": UserPostsArgs {},
       },
       "where": Object {
         "id": Object {

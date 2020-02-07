@@ -19,10 +19,7 @@ exports[`custom resolvers execution should be possible to use generated inputs, 
 Array [
   Array [
     FindManyPostArgs {
-      "after": undefined,
-      "before": undefined,
       "first": 1,
-      "last": undefined,
       "orderBy": PostOrderByInput {
         "color": "desc",
       },

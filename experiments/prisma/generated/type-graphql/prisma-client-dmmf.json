@@ -1527,7 +1527,8 @@
                 "kind": "object"
               }
             ],
-            "isRelationFilter": false
+            "isRelationFilter": false,
+            "nullEqualsUndefined": true
           },
           {
             "name": "role",

@@ -91,24 +91,101 @@ export declare type LogEvent = {
     target: string;
 };
 export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+/**
+ * ##  Prisma Client ʲˢ
+ *
+ * Type-safe database client for TypeScript & Node.js (ORM replacement)
+ * @example
+ * ```
+ * const prisma = new Prisma()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
+ * ```
+ *
+ *
+ * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+ */
 export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
+    /**
+     * @private
+     */
     private fetcher;
+    /**
+     * @private
+     */
     private readonly dmmf;
+    /**
+     * @private
+     */
     private connectionPromise?;
+    /**
+     * @private
+     */
     private disconnectionPromise?;
+    /**
+     * @private
+     */
     private readonly engineConfig;
+    /**
+     * @private
+     */
     private readonly measurePerformance;
+    /**
+     * @private
+     */
     engine: Engine;
+    /**
+     * @private
+     */
     errorFormat: ErrorFormat;
+    /**
+     * ##  Prisma Client ʲˢ
+     *
+     * Type-safe database client for TypeScript & Node.js (ORM replacement)
+     * @example
+     * ```
+     * const prisma = new Prisma()
+     * // Fetch zero or more Users
+     * const users = await prisma.user.findMany()
+     * ```
+     *
+     *
+     * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+     */
     constructor(optionsArg?: T);
     on<V extends U>(eventType: V, callback: V extends never ? never : (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
+    /**
+     * Connect with the database
+     */
     connect(): Promise<void>;
+    /**
+     * @private
+     */
     private runDisconnect;
+    /**
+     * Disconnect from the database
+     */
     disconnect(): Promise<any>;
-    get users(): '"prisma.users" has been renamed to "prisma.user"';
+    /**
+     * `prisma.user`: Exposes CRUD operations for the **User** model.
+     * Example usage:
+     * ```ts
+     * // Fetch zero or more Users
+     * const users = await prisma.user.findMany()
+     * ```
+     */
     get user(): UserDelegate;
-    get posts(): '"prisma.posts" has been renamed to "prisma.post"';
+    get users(): '"prisma.users" has been renamed to "prisma.user"';
+    /**
+     * `prisma.post`: Exposes CRUD operations for the **Post** model.
+     * Example usage:
+     * ```ts
+     * // Fetch zero or more Posts
+     * const posts = await prisma.post.findMany()
+     * ```
+     */
     get post(): PostDelegate;
+    get posts(): '"prisma.posts" has been renamed to "prisma.post"';
 }
 export declare const OrderByArg: {
     asc: "asc";
@@ -167,14 +244,125 @@ export declare type UserGetIncludePayload<S extends boolean | UserInclude> = S e
     [P in CleanupNever<MergeTruthyValues<UserDefault, S>>]: P extends UserScalars ? User[P] : P extends 'posts' ? Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<S[P]>>> : never;
 } : never;
 export interface UserDelegate {
+    /**
+     * Find zero or one User.
+     * @param {FindOneUserArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findOne({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
     findOne<T extends FindOneUserArgs>(args: Subset<T, FindOneUserArgs>): T extends FindOneUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOneUserSelectArgs ? Promise<UserGetSelectPayload<ExtractFindOneUserSelectArgs<T>> | null> : T extends FindOneUserIncludeArgs ? Promise<UserGetIncludePayload<ExtractFindOneUserIncludeArgs<T>> | null> : UserClient<User | null>;
+    /**
+     * Find zero or more Users.
+     * @param {FindManyUserArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     *
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ first: 10 })
+     *
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     *
+    **/
     findMany<T extends FindManyUserArgs>(args?: Subset<T, FindManyUserArgs>): T extends FindManyUserArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyUserSelectArgs ? Promise<Array<UserGetSelectPayload<ExtractFindManyUserSelectArgs<T>>>> : T extends FindManyUserIncludeArgs ? Promise<Array<UserGetIncludePayload<ExtractFindManyUserIncludeArgs<T>>>> : Promise<Array<User>>;
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const user = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     *
+    **/
     create<T extends UserCreateArgs>(args: Subset<T, UserCreateArgs>): T extends UserCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectCreateArgs ? Promise<UserGetSelectPayload<ExtractUserSelectCreateArgs<T>>> : T extends UserIncludeCreateArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeCreateArgs<T>>> : UserClient<User>;
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const user = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     *
+    **/
     delete<T extends UserDeleteArgs>(args: Subset<T, UserDeleteArgs>): T extends UserDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectDeleteArgs ? Promise<UserGetSelectPayload<ExtractUserSelectDeleteArgs<T>>> : T extends UserIncludeDeleteArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeDeleteArgs<T>>> : UserClient<User>;
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provider data here
+     *   }
+     * })
+     *
+    **/
     update<T extends UserUpdateArgs>(args: Subset<T, UserUpdateArgs>): T extends UserUpdateArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectUpdateArgs ? Promise<UserGetSelectPayload<ExtractUserSelectUpdateArgs<T>>> : T extends UserIncludeUpdateArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeUpdateArgs<T>>> : UserClient<User>;
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+    **/
     deleteMany<T extends UserDeleteManyArgs>(args: Subset<T, UserDeleteManyArgs>): Promise<BatchPayload>;
+    /**
+     * Update zero or more Users.
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provider data here
+     *   }
+     * })
+     *
+    **/
     updateMany<T extends UserUpdateManyArgs>(args: Subset<T, UserUpdateManyArgs>): Promise<BatchPayload>;
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+    **/
     upsert<T extends UserUpsertArgs>(args: Subset<T, UserUpsertArgs>): T extends UserUpsertArgsRequired ? 'Please either choose `select` or `include`' : T extends UserSelectUpsertArgs ? Promise<UserGetSelectPayload<ExtractUserSelectUpsertArgs<T>>> : T extends UserIncludeUpsertArgs ? Promise<UserGetIncludePayload<ExtractUserIncludeUpsertArgs<T>>> : UserClient<User>;
+    /**
+     *
+     */
     count(): Promise<number>;
 }
 export declare class UserClient<T> implements Promise<T> {
@@ -220,7 +408,13 @@ export declare class UserClient<T> implements Promise<T> {
  * User findOne
  */
 export declare type FindOneUserArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     where: UserWhereUniqueInput;
 };
@@ -251,7 +445,13 @@ export declare type ExtractFindOneUserIncludeArgs<S extends undefined | boolean 
  * User findMany
  */
 export declare type FindManyUserArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     where?: UserWhereInput | null;
     orderBy?: UserOrderByInput | null;
@@ -318,7 +518,13 @@ export declare type ExtractFindManyUserIncludeArgs<S extends undefined | boolean
  * User create
  */
 export declare type UserCreateArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     data: UserCreateInput;
 };
@@ -349,7 +555,13 @@ export declare type ExtractUserIncludeCreateArgs<S extends undefined | boolean |
  * User update
  */
 export declare type UserUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     data: UserUpdateInput;
     where: UserWhereUniqueInput;
@@ -393,7 +605,13 @@ export declare type UserUpdateManyArgs = {
  * User upsert
  */
 export declare type UserUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     where: UserWhereUniqueInput;
     create: UserCreateInput;
@@ -436,7 +654,13 @@ export declare type ExtractUserIncludeUpsertArgs<S extends undefined | boolean |
  * User delete
  */
 export declare type UserDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
     where: UserWhereUniqueInput;
 };
@@ -473,7 +697,13 @@ export declare type UserDeleteManyArgs = {
  * User without action
  */
 export declare type UserArgs = {
+    /**
+     * Select specific fields to fetch from the User
+    **/
     select?: UserSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: UserInclude | null;
 };
 export declare type UserArgsRequired = {
@@ -536,14 +766,125 @@ export declare type PostGetIncludePayload<S extends boolean | PostInclude> = S e
     [P in CleanupNever<MergeTruthyValues<PostDefault, S>>]: P extends PostScalars ? Post[P] : P extends 'author' ? UserGetIncludePayload<ExtractUserIncludeArgs<S[P]>> : never;
 } : never;
 export interface PostDelegate {
+    /**
+     * Find zero or one Post.
+     * @param {FindOnePostArgs} args - Arguments to find a Post
+     * @example
+     * // Get one Post
+     * const post = await prisma.post.findOne({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
     findOne<T extends FindOnePostArgs>(args: Subset<T, FindOnePostArgs>): T extends FindOnePostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOnePostSelectArgs ? Promise<PostGetSelectPayload<ExtractFindOnePostSelectArgs<T>> | null> : T extends FindOnePostIncludeArgs ? Promise<PostGetIncludePayload<ExtractFindOnePostIncludeArgs<T>> | null> : PostClient<Post | null>;
+    /**
+     * Find zero or more Posts.
+     * @param {FindManyPostArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Posts
+     * const posts = await prisma.post.findMany()
+     *
+     * // Get first 10 Posts
+     * const posts = await prisma.post.findMany({ first: 10 })
+     *
+     * // Only select the `uuid`
+     * const postWithUuidOnly = await prisma.post.findMany({ select: { uuid: true } })
+     *
+    **/
     findMany<T extends FindManyPostArgs>(args?: Subset<T, FindManyPostArgs>): T extends FindManyPostArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPostSelectArgs ? Promise<Array<PostGetSelectPayload<ExtractFindManyPostSelectArgs<T>>>> : T extends FindManyPostIncludeArgs ? Promise<Array<PostGetIncludePayload<ExtractFindManyPostIncludeArgs<T>>>> : Promise<Array<Post>>;
+    /**
+     * Create a Post.
+     * @param {PostCreateArgs} args - Arguments to create a Post.
+     * @example
+     * // Create one Post
+     * const user = await prisma.post.create({
+     *   data: {
+     *     // ... data to create a Post
+     *   }
+     * })
+     *
+    **/
     create<T extends PostCreateArgs>(args: Subset<T, PostCreateArgs>): T extends PostCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectCreateArgs ? Promise<PostGetSelectPayload<ExtractPostSelectCreateArgs<T>>> : T extends PostIncludeCreateArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeCreateArgs<T>>> : PostClient<Post>;
+    /**
+     * Delete a Post.
+     * @param {PostDeleteArgs} args - Arguments to delete one Post.
+     * @example
+     * // Delete one Post
+     * const user = await prisma.post.delete({
+     *   where: {
+     *     // ... filter to delete one Post
+     *   }
+     * })
+     *
+    **/
     delete<T extends PostDeleteArgs>(args: Subset<T, PostDeleteArgs>): T extends PostDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectDeleteArgs ? Promise<PostGetSelectPayload<ExtractPostSelectDeleteArgs<T>>> : T extends PostIncludeDeleteArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeDeleteArgs<T>>> : PostClient<Post>;
+    /**
+     * Update one Post.
+     * @param {PostUpdateArgs} args - Arguments to update one Post.
+     * @example
+     * // Update one Post
+     * const post = await prisma.post.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provider data here
+     *   }
+     * })
+     *
+    **/
     update<T extends PostUpdateArgs>(args: Subset<T, PostUpdateArgs>): T extends PostUpdateArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectUpdateArgs ? Promise<PostGetSelectPayload<ExtractPostSelectUpdateArgs<T>>> : T extends PostIncludeUpdateArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeUpdateArgs<T>>> : PostClient<Post>;
+    /**
+     * Delete zero or more Posts.
+     * @param {PostDeleteManyArgs} args - Arguments to filter Posts to delete.
+     * @example
+     * // Delete a few Posts
+     * const { count } = await prisma.post.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+    **/
     deleteMany<T extends PostDeleteManyArgs>(args: Subset<T, PostDeleteManyArgs>): Promise<BatchPayload>;
+    /**
+     * Update zero or more Posts.
+     * @param {PostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Posts
+     * const post = await prisma.post.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provider data here
+     *   }
+     * })
+     *
+    **/
     updateMany<T extends PostUpdateManyArgs>(args: Subset<T, PostUpdateManyArgs>): Promise<BatchPayload>;
+    /**
+     * Create or update one Post.
+     * @param {PostUpsertArgs} args - Arguments to update or create a Post.
+     * @example
+     * // Update or create a Post
+     * const post = await prisma.post.upsert({
+     *   create: {
+     *     // ... data to create a Post
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Post we want to update
+     *   }
+     * })
+    **/
     upsert<T extends PostUpsertArgs>(args: Subset<T, PostUpsertArgs>): T extends PostUpsertArgsRequired ? 'Please either choose `select` or `include`' : T extends PostSelectUpsertArgs ? Promise<PostGetSelectPayload<ExtractPostSelectUpsertArgs<T>>> : T extends PostIncludeUpsertArgs ? Promise<PostGetIncludePayload<ExtractPostIncludeUpsertArgs<T>>> : PostClient<Post>;
+    /**
+     *
+     */
     count(): Promise<number>;
 }
 export declare class PostClient<T> implements Promise<T> {
@@ -589,7 +930,13 @@ export declare class PostClient<T> implements Promise<T> {
  * Post findOne
  */
 export declare type FindOnePostArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     where: PostWhereUniqueInput;
 };
@@ -620,7 +967,13 @@ export declare type ExtractFindOnePostIncludeArgs<S extends undefined | boolean 
  * Post findMany
  */
 export declare type FindManyPostArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     where?: PostWhereInput | null;
     orderBy?: PostOrderByInput | null;
@@ -687,7 +1040,13 @@ export declare type ExtractFindManyPostIncludeArgs<S extends undefined | boolean
  * Post create
  */
 export declare type PostCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     data: PostCreateInput;
 };
@@ -718,7 +1077,13 @@ export declare type ExtractPostIncludeCreateArgs<S extends undefined | boolean |
  * Post update
  */
 export declare type PostUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     data: PostUpdateInput;
     where: PostWhereUniqueInput;
@@ -762,7 +1127,13 @@ export declare type PostUpdateManyArgs = {
  * Post upsert
  */
 export declare type PostUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     where: PostWhereUniqueInput;
     create: PostCreateInput;
@@ -805,7 +1176,13 @@ export declare type ExtractPostIncludeUpsertArgs<S extends undefined | boolean |
  * Post delete
  */
 export declare type PostDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
     where: PostWhereUniqueInput;
 };
@@ -842,7 +1219,13 @@ export declare type PostDeleteManyArgs = {
  * Post without action
  */
 export declare type PostArgs = {
+    /**
+     * Select specific fields to fetch from the Post
+    **/
     select?: PostSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+    **/
     include?: PostInclude | null;
 };
 export declare type PostArgsRequired = {
