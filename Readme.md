@@ -140,6 +140,8 @@ const server = new ApolloServer({
 });
 ```
 
+### Customization
+
 You can also add custom queries and mutations to the schema as always, using the generated `PrismaClient` client:
 
 ```ts
@@ -171,6 +173,28 @@ export class CustomUserResolver {
     return favoritePost;
   }
 }
+```
+
+If you want to expose only certain Prisma actions, like `findManyUser` or `createOneUser`, you can import resolver classes only for them, instead of the whole model `CrudResolver`.
+Then you just have to put them into the `buildSchema`:
+
+```ts
+import {
+  User,
+  UserRelationsResolver,
+  FindManyUserResolver,
+  CreateOneUserResolver,
+} from "@generated/type-graphql";
+
+const schema = await buildSchema({
+  resolvers: [
+    CustomUserResolver,
+    UserRelationsResolver,
+    FindManyUserResolver,
+    CreateOneUserResolver,
+  ],
+  validate: false,
+});
 ```
 
 ## Examples
