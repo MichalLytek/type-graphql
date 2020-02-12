@@ -66,6 +66,7 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
     const isNullableArray =
       typeOptions.nullable === "items" ||
       typeOptions.nullable === "itemsAndList" ||
+      typeOptions.nullable === true ||
       (typeOptions.nullable === undefined && nullableByDefault === true);
     gqlType = wrapTypeInNestedList(gqlType, typeOptions.arrayDepth!, isNullableArray);
   }
@@ -74,7 +75,9 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
     typeOptions.defaultValue === undefined &&
     (typeOptions.nullable === false ||
       (typeOptions.nullable === undefined && nullableByDefault === false) ||
-      typeOptions.nullable === "items")
+      typeOptions.nullable === "items" ||
+    (typeOptions.array && typeOptions.nullable === true)
+    )
   ) {
     gqlType = new GraphQLNonNull(gqlType);
   }
