@@ -65,23 +65,29 @@ export function createAdvancedFieldResolver(
   const middlewares = globalMiddlewares.concat(fieldResolverMetadata.middlewares!);
   applyAuthChecker(middlewares, authMode, authChecker, fieldResolverMetadata.roles);
 
-  return async (root, args, context, info) => {
+  return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
     const targetInstance: any = convertToType(targetType, root);
-    return applyMiddlewares(container, resolverData, middlewares, async () => {
+    return applyMiddlewares(container, resolverData, middlewares, () => {
       const handlerOrGetterValue = targetInstance[fieldResolverMetadata.methodName];
+      if (typeof handlerOrGetterValue !== "function") {
+        // getter
+        return handlerOrGetterValue;
+      }
       // method
-      if (typeof handlerOrGetterValue === "function") {
-        const params: any[] = await getParams(
-          fieldResolverMetadata.params!,
-          resolverData,
-          globalValidate,
-          pubSub,
+      const params: Promise<any[]> | any[] = getParams(
+        fieldResolverMetadata.params!,
+        resolverData,
+        globalValidate,
+        pubSub,
+      );
+      if (isPromiseLike(params)) {
+        return params.then(resolvedParams =>
+          handlerOrGetterValue.apply(targetInstance, resolvedParams),
         );
+      } else {
         return handlerOrGetterValue.apply(targetInstance, params);
       }
-      // getter
-      return handlerOrGetterValue;
     });
   };
 }

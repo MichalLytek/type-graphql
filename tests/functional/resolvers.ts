@@ -1235,6 +1235,11 @@ describe("Resolvers", () => {
           return this.instanceValue;
         }
 
+        @Field(type => String)
+        async asyncMethodField() {
+          return "asyncMethodField";
+        }
+
         @Field()
         methodFieldWithArg(@Arg("factor") factor: number): number {
           return this.instanceValue * factor;
@@ -1416,6 +1421,19 @@ describe("Resolvers", () => {
       const methodFieldResult = result.data!.sampleQuery.methodField;
       expect(methodFieldResult).toBeGreaterThanOrEqual(0);
       expect(methodFieldResult).toBeLessThanOrEqual(1);
+    });
+
+    it("should return value from object async method resolver", async () => {
+      const query = `query {
+        sampleQuery {
+          asyncMethodField
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const asyncMethodFieldResult = result.data!.sampleQuery.asyncMethodField;
+      expect(asyncMethodFieldResult).toEqual("asyncMethodField");
     });
 
     it("should return value from object method resolver with arg", async () => {
