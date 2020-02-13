@@ -18,7 +18,9 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
     return type;
   }
-  const scalarMap = BuildContext.scalarsMaps.find(it => it.type === type);
+  const scalarMap = BuildContext.scalarsMaps.find(
+    it => it.type === type || it.scalar.toString() === type.toString(),
+  );
   if (scalarMap) {
     return scalarMap.scalar;
   }
