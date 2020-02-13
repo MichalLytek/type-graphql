@@ -658,7 +658,9 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      throw new Error(`Cannot determine GraphQL input type for ${typeOwnerName}`!);
+      throw new Error(
+        `Cannot determine GraphQL input type for ${typeOwnerName}. Make sure you have used the correct directive.`!,
+      );
     }
 
     const { nullableByDefault } = BuildContext;
