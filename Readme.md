@@ -110,7 +110,7 @@ CRUD resolvers supports this following methods with args that are 1:1 matching w
 - deleteMany
 - updateMany
 - upsert
-- aggregate
+- count
 
 Also, if you want to have relations like `User -> posts` emitted in schema, you need to import the relations resolvers and register them in your `buildSchema` call:
 
