@@ -103,14 +103,13 @@ It will also generates a whole bunch of stuffs based on your `schema.prisma` fil
 CRUD resolvers supports this following methods with args that are 1:1 matching with the `PrismaClient` API:
 
 - findOne
-- findMany
 - create
-- delete
 - update
-- deleteMany
+- delete
+- findMany
 - updateMany
+- deleteMany
 - upsert
-- aggregate
 
 Also, if you want to have relations like `User -> posts` emitted in schema, you need to import the relations resolvers and register them in your `buildSchema` call:
 
