@@ -2,13 +2,18 @@ import { promises as fs } from "fs";
 
 import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { generateCodeFromSchema } from "../helpers/generate-code";
+import createReadGeneratedFile, {
+  ReadGeneratedFile,
+} from "../helpers/read-file";
 
 describe("models", () => {
   let outputDirPath: string;
+  let readGeneratedFile: ReadGeneratedFile;
 
   beforeEach(async () => {
     outputDirPath = generateArtifactsDirPath("regression-models");
     await fs.mkdir(outputDirPath, { recursive: true });
+    readGeneratedFile = createReadGeneratedFile(outputDirPath);
   });
 
   afterEach(async () => {
@@ -30,10 +35,7 @@ describe("models", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const userModelTSFile = await fs.readFile(
-      outputDirPath + "/models/User.ts",
-      { encoding: "utf8" },
-    );
+    const userModelTSFile = await readGeneratedFile("/models/User.ts");
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });
@@ -54,10 +56,7 @@ describe("models", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const userModelTSFile = await fs.readFile(
-      outputDirPath + "/models/User.ts",
-      { encoding: "utf8" },
-    );
+    const userModelTSFile = await readGeneratedFile("/models/User.ts");
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });
@@ -75,17 +74,27 @@ describe("models", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const userModelTSFile = await fs.readFile(
-      outputDirPath + "/models/User.ts",
-      { encoding: "utf8" },
-    );
-    const postModelTSFile = await fs.readFile(
-      outputDirPath + "/models/Post.ts",
-      { encoding: "utf8" },
-    );
+    const userModelTSFile = await readGeneratedFile("/models/User.ts");
+    const postModelTSFile = await readGeneratedFile("/models/Post.ts");
 
     expect(userModelTSFile).toMatchSnapshot("User");
     expect(postModelTSFile).toMatchSnapshot("Post");
+  });
+
+  it("should properly generate object type classes for prisma models with self relations", async () => {
+    const schema = /* prisma */ `
+      model Service {
+        id            Int       @id @default(autoincrement())
+        name          String
+        sourceService Service?  @relation("serviceToService")
+        services      Service[] @relation("serviceToService")
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const serviceModelTSFile = await readGeneratedFile("/models/Service.ts");
+
+    expect(serviceModelTSFile).toMatchSnapshot("Service");
   });
 
   it("should properly generate object type class for prisma model with descriptions", async () => {
@@ -107,10 +116,7 @@ describe("models", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const userModelTSFile = await fs.readFile(
-      outputDirPath + "/models/User.ts",
-      { encoding: "utf8" },
-    );
+    const userModelTSFile = await readGeneratedFile("/models/User.ts");
 
     expect(userModelTSFile).toMatchSnapshot("User");
   });

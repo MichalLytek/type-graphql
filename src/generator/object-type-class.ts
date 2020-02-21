@@ -32,6 +32,7 @@ export default async function generateObjectTypeClassFromModel(
     sourceFile,
     model.fields
       .filter(field => field.kind === "object")
+      .filter(field => field.type !== model.name)
       .map(field => field.type),
   );
   generateEnumsImports(
