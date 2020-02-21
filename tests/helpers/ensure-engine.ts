@@ -16,6 +16,10 @@ download({
     "query-engine": prismaClientRuntimeDir,
   },
   showProgress: true,
+  version: require("prisma2/package.json").prisma.version,
 })
   .then(() => process.exit(0))
-  .catch(() => process.exit(1));
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
