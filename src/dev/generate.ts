@@ -9,5 +9,5 @@ export default async function generate(
   console.log("Loading datamodel...");
   const dmmf = require(dmmfJSONPath) as DMMF.Document;
 
-  await generateCode(dmmf, outputTSFilePath, console.log);
+  await generateCode(dmmf, { outputDirPath: outputTSFilePath }, console.log);
 }

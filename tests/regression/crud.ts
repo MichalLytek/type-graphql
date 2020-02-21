@@ -26,7 +26,29 @@ describe("crud", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const userCrudResolverTSFile = await fs.readFile(
+      outputDirPath + "/resolvers/crud/User/UserCrudResolver.ts",
+      { encoding: "utf8" },
+    );
+
+    expect(userCrudResolverTSFile).toMatchSnapshot("UserCrudResolver");
+  });
+
+  it("should properly generate resolver class when useOriginalMapping is used", async () => {
+    const schema = /* prisma */ `
+      model User {
+        intIdField          Int     @id @default(autoincrement())
+        uniqueStringField   String  @unique
+        optionalStringField String?
+        dateField           DateTime
+      }
+    `;
+
+    await generateCodeFromSchema(schema, {
+      outputDirPath,
+      useOriginalMapping: true,
+    });
     const userCrudResolverTSFile = await fs.readFile(
       outputDirPath + "/resolvers/crud/User/UserCrudResolver.ts",
       { encoding: "utf8" },
@@ -45,7 +67,7 @@ describe("crud", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const createOneUserArgsTSFile = await fs.readFile(
       outputDirPath + "/resolvers/crud/User/args/CreateOneUserArgs.ts",
       { encoding: "utf8" },
@@ -104,7 +126,7 @@ describe("crud", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const createOneUserArgsTSFile = await fs.readFile(
       outputDirPath + "/resolvers/crud/User/CreateOneUserResolver.ts",
       { encoding: "utf8" },

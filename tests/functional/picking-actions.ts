@@ -19,7 +19,7 @@ describe("picking prisma actions", () => {
         dateField           DateTime
       }
     `;
-    await generateCodeFromSchema(prismaSchema, outputDirPath);
+    await generateCodeFromSchema(prismaSchema, { outputDirPath });
   });
 
   afterEach(async () => {

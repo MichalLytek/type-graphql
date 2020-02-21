@@ -29,7 +29,7 @@ describe("relations resolvers generation", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userResolverTSFile = await fs.readFile(
       outputDirPath + "/resolvers/relations/User/UserRelationsResolver.ts",
       { encoding: "utf8" },
@@ -55,7 +55,7 @@ describe("relations resolvers generation", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userPostsArgsTSFile = await fs.readFile(
       outputDirPath + "/resolvers/relations/User/args/UserPostsArgs.ts",
       { encoding: "utf8" },

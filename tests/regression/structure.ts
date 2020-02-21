@@ -40,7 +40,7 @@ describe("structure", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const directoryStructure = directoryTree(outputDirPath);
     const directoryStructureString =
       "\n[type-graphql]\n" +

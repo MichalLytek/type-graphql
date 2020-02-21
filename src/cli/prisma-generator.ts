@@ -5,6 +5,7 @@ import path from "path";
 
 import generateCode from "../generator/generate-code";
 import removeDir from "../utils/removeDir";
+import { GenerateCodeOptions } from "../generator/options";
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = options.generator.output!;
@@ -15,7 +16,12 @@ export async function generate(options: GeneratorOptions) {
     it => it.provider === "prisma-client-js",
   )!.output!).dmmf as DMMF.Document;
 
-  if (options.generator.config.emitDMMF) {
+  const config: GenerateCodeOptions = {
+    ...options.generator.config,
+    outputDirPath: outputDir,
+  };
+
+  if (config.emitDMMF) {
     await Promise.all([
       asyncFs.writeFile(
         path.resolve(outputDir, "./dmmf.json"),
@@ -29,6 +35,6 @@ export async function generate(options: GeneratorOptions) {
   }
 
   // TODO: replace with `options.dmmf` when the spec match prisma client output
-  await generateCode(prismaClientDmmf, outputDir);
+  await generateCode(prismaClientDmmf, config);
   return "";
 }

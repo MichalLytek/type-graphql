@@ -33,7 +33,7 @@ describe("relations resolvers execution", () => {
         color    Color
       }
     `;
-    await generateCodeFromSchema(prismaSchema, outputDirPath);
+    await generateCodeFromSchema(prismaSchema, { outputDirPath });
     const {
       UserRelationsResolver,
       PostRelationsResolver,

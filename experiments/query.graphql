@@ -16,7 +16,7 @@ query GetUsersAndPosts {
       ...PostData
     }
   }
-  posts {
+  allPosts {
     ...PostData
     author {
       ...UserData
@@ -40,7 +40,7 @@ mutation AddUser {
 }
 
 query FindUsers {
-  findManyUser(
+  users(
     orderBy: { id: desc }
     where: {
       OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]

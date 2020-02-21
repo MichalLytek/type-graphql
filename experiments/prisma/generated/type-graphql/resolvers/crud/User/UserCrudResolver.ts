@@ -16,7 +16,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -24,7 +24,7 @@ export class UserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
+  async users(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
     return ctx.prisma.user.findMany(args);
   }
 

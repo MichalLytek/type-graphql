@@ -29,7 +29,7 @@ describe("models", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userModelTSFile = await fs.readFile(
       outputDirPath + "/models/User.ts",
       { encoding: "utf8" },
@@ -53,7 +53,7 @@ describe("models", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userModelTSFile = await fs.readFile(
       outputDirPath + "/models/User.ts",
       { encoding: "utf8" },
@@ -74,7 +74,7 @@ describe("models", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userModelTSFile = await fs.readFile(
       outputDirPath + "/models/User.ts",
       { encoding: "utf8" },
@@ -106,7 +106,7 @@ describe("models", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const userModelTSFile = await fs.readFile(
       outputDirPath + "/models/User.ts",
       { encoding: "utf8" },

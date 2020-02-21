@@ -28,6 +28,7 @@ import {
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import generateActionResolverClass from "./action-resolver-class";
+import { GenerateCodeOptions } from "./options";
 
 export default async function generateCrudResolverClassFromMapping(
   project: Project,
@@ -35,6 +36,7 @@ export default async function generateCrudResolverClassFromMapping(
   mapping: DMMF.Mapping,
   types: DMMF.OutputType[],
   modelNames: string[],
+  options: GenerateCodeOptions,
 ): Promise<GeneratedResolverData> {
   const modelName = getBaseModelTypeName(mapping.model);
   const resolverName = `${modelName}CrudResolver`;
@@ -154,7 +156,9 @@ export default async function generateCrudResolverClassFromMapping(
           );
 
           return {
-            name: method.name,
+            name: options.useOriginalMapping
+              ? method.name
+              : getMappedActionName(actionName, method.name, mapping),
             isAsync: true,
             returnType: `Promise<${returnTSType}>`,
             decorators: [
@@ -225,4 +229,22 @@ export default async function generateCrudResolverClassFromMapping(
 function getOperationKindName(actionName: string): string | undefined {
   if (supportedQueryActions.includes(actionName as any)) return "Query";
   if (supportedMutationActions.includes(actionName as any)) return "Mutation";
+}
+
+function getMappedActionName(
+  actionName: ModelKeys,
+  methodName: string,
+  mapping: DMMF.Mapping,
+): string {
+  switch (actionName) {
+    case "findOne": {
+      return camelCase(mapping.model);
+    }
+    case "findMany": {
+      return camelCase(mapping.plural);
+    }
+    default: {
+      return methodName;
+    }
+  }
 }

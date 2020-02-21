@@ -29,12 +29,14 @@ import {
   generateEnumsBarrelFile,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
+import { GenerateCodeOptions } from "./options";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
-  baseDirPath: string,
+  options: GenerateCodeOptions,
   log: (msg: string) => void = noop,
 ) {
+  const baseDirPath = options.outputDirPath;
   const project = new Project();
   const resolversDirPath = path.resolve(baseDirPath, resolversFolderName);
   const modelNames = dmmf.datamodel.models.map(model => model.name);
@@ -187,6 +189,7 @@ export default async function generateCode(
         mapping,
         rootTypes,
         modelNames,
+        options,
       ),
     ),
   );

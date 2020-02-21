@@ -37,7 +37,7 @@ interface Context {
 @Resolver(of => User)
 class UserResolver {
   @Query(returns => [User])
-  async users(@Ctx() { prisma }: Context): Promise<User[]> {
+  async allUsers(@Ctx() { prisma }: Context): Promise<User[]> {
     return prisma.user.findMany();
   }
 
@@ -50,7 +50,7 @@ class UserResolver {
 @Resolver(of => Post)
 class PostResolver {
   @Query(returns => [Post])
-  async posts(@Ctx() { prisma }: Context): Promise<Post[]> {
+  async allPosts(@Ctx() { prisma }: Context): Promise<Post[]> {
     return prisma.post.findMany();
   }
 }

@@ -235,11 +235,11 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findManyUser(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  allPosts: [Post!]!
+  allUsers: [User!]!
   findOnePost(where: PostWhereUniqueInput!): Post
-  findOneUser(where: UserWhereUniqueInput!): User
-  posts: [Post!]!
-  users: [User!]!
+  user(where: UserWhereUniqueInput!): User
+  users(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
 """Role enum comment"""

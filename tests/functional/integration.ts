@@ -202,7 +202,7 @@ describe("generator integration", () => {
 
     const query = /* graphql */ `
       query {
-        findManyUser(where: {
+        users(where: {
           name: {
             startsWith: "test"
           }

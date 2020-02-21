@@ -85,9 +85,9 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findMany\` action: findManyUser mocked response 1`] = `
+exports[`crud resolvers execution should properly call PrismaClient on \`findMany\` action: users mocked response 1`] = `
 Object {
-  "findManyUser": Array [
+  "users": Array [
     Object {
       "dateField": "2019-12-31T14:16:02.572Z",
       "intIdField": 1,
@@ -108,9 +108,9 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findOne\` action: findOneUser mocked response 1`] = `
+exports[`crud resolvers execution should properly call PrismaClient on \`findOne\` action: user mocked response 1`] = `
 Object {
-  "findOneUser": Object {
+  "user": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
     "intIdField": 1,
   },

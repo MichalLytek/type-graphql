@@ -182,10 +182,10 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  findManyPost(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
-  findManyUser(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
-  findOnePost(where: PostWhereUniqueInput!): Post
-  findOneUser(where: UserWhereUniqueInput!): User
+  post(where: PostWhereUniqueInput!): Post
+  posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  user(where: UserWhereUniqueInput!): User
+  users(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
 input StringFilter {
@@ -377,7 +377,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
 
 exports[`generator integration should properly fetch the data from DB using PrismaClient while queried by GraphQL schema: graphql data 1`] = `
 Object {
-  "findManyUser": Array [
+  "users": Array [
     Object {
       "id": 1,
       "name": "test1",

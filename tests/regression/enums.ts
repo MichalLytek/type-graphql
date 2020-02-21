@@ -25,7 +25,7 @@ describe("enums", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const colorEnumTSFile = await fs.readFile(
       outputDirPath + "/enums/Color.ts",
       { encoding: "utf8" },
@@ -44,7 +44,7 @@ describe("enums", () => {
       }
     `;
 
-    await generateCodeFromSchema(schema, outputDirPath);
+    await generateCodeFromSchema(schema, { outputDirPath });
     const roleEnumTSFile = await fs.readFile(outputDirPath + "/enums/Role.ts", {
       encoding: "utf8",
     });

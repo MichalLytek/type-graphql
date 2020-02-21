@@ -21,7 +21,7 @@ describe("crud resolvers execution", () => {
         dateField           DateTime
       }
     `;
-    await generateCodeFromSchema(prismaSchema, outputDirPath);
+    await generateCodeFromSchema(prismaSchema, { outputDirPath });
     const { UserCrudResolver } = require(outputDirPath +
       "/resolvers/crud/User/UserCrudResolver.ts");
 
@@ -39,7 +39,7 @@ describe("crud resolvers execution", () => {
   it("should properly call PrismaClient on `findOne` action", async () => {
     const document = /* graphql */ `
       query {
-        findOneUser(where: { uniqueStringField: "uniqueValue" }) {
+        user(where: { uniqueStringField: "uniqueValue" }) {
           intIdField
           dateField
         }
@@ -59,7 +59,7 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("findOneUser mocked response");
+    expect(data).toMatchSnapshot("user mocked response");
     expect(prismaMock.user.findOne.mock.calls).toMatchSnapshot(
       "findOneUser call args",
     );
@@ -68,7 +68,7 @@ describe("crud resolvers execution", () => {
   it("should properly call PrismaClient on `findMany` action", async () => {
     const document = /* graphql */ `
       query {
-        findManyUser(
+        users(
           first: 0
           skip: 0
           orderBy: { intIdField: desc }
@@ -95,7 +95,7 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("findManyUser mocked response");
+    expect(data).toMatchSnapshot("users mocked response");
     expect(prismaMock.user.findMany.mock.calls).toMatchSnapshot(
       "findManyUser call args",
     );

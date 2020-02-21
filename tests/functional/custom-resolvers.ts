@@ -25,7 +25,7 @@ describe("custom resolvers execution", () => {
         color    Color
       }
     `;
-    await generateCodeFromSchema(prismaSchema, outputDirPath);
+    await generateCodeFromSchema(prismaSchema, { outputDirPath });
   });
 
   afterAll(async () => {

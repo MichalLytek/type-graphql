@@ -111,6 +111,9 @@ CRUD resolvers supports this following methods with args that are 1:1 matching w
 - deleteMany
 - upsert
 
+By default, the method names will be mapped to a GraphQL idiomatic ones (like `findManyUser` -> `users`).
+You can opt-in to use original names by providing `useOriginalMapping = true` generator option.
+
 Also, if you want to have relations like `User -> posts` emitted in schema, you need to import the relations resolvers and register them in your `buildSchema` call:
 
 ```ts
