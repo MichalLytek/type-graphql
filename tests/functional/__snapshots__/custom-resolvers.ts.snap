@@ -79,8 +79,12 @@ input PostWhereInput {
   uuid: StringFilter
 }
 
+input PostWhereUniqueInput {
+  uuid: String
+}
+
 type Query {
-  customFindManyPost(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  customFindManyPost(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
 }
 
 input StringFilter {

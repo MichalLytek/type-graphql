@@ -56,3 +56,28 @@ export declare type getDMMF = any
 
 export declare var stripAnsi: any
 export declare type stripAnsi = any
+
+export declare var parseDotenv: any
+export declare type parseDotenv = any
+
+export declare class PrismaClientKnownRequestError extends Error {
+  code: string;
+  meta?: Object;
+  constructor(message: string, code: string, meta?: any);
+}
+
+export declare class PrismaClientUnknownRequestError extends Error {
+  constructor(message: string);
+}
+
+export declare class PrismaClientRustPanicError extends Error {
+    constructor(message: string);
+}
+
+export declare class PrismaClientInitializationError extends Error {
+    constructor(message: string);
+}
+
+export declare class PrismaClientValidationError extends Error {
+    constructor(message: string);
+}

@@ -17,6 +17,8 @@ export declare class Document {
      */
     private normalizePath;
 }
+export declare class PrismaClientValidationError extends Error {
+}
 export interface FieldArgs {
     name: string;
     schemaField?: DMMF.SchemaField;

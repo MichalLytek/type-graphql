@@ -4,8 +4,14 @@
       {
         "name": "Role",
         "values": [
-          "USER",
-          "ADMIN"
+          {
+            "name": "USER",
+            "dbName": null
+          },
+          {
+            "name": "ADMIN",
+            "dbName": null
+          }
         ],
         "dbName": null,
         "documentation": "Role enum comment\r"
@@ -13,8 +19,14 @@
       {
         "name": "PostKind",
         "values": [
-          "BLOG",
-          "ADVERT"
+          {
+            "name": "BLOG",
+            "dbName": null
+          },
+          {
+            "name": "ADVERT",
+            "dbName": null
+          }
         ],
         "dbName": null
       }
@@ -3381,8 +3393,8 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "String",
-                  "kind": "scalar",
+                  "type": "PostWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -3390,8 +3402,8 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "String",
-                  "kind": "scalar",
+                  "type": "PostWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -3500,8 +3512,8 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "Int",
-                  "kind": "scalar",
+                  "type": "UserWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -3509,8 +3521,8 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "Int",
-                  "kind": "scalar",
+                  "type": "UserWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -3604,8 +3616,8 @@
               {
                 "name": "after",
                 "inputType": {
-                  "type": "String",
-                  "kind": "scalar",
+                  "type": "PostWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -3613,8 +3625,8 @@
               {
                 "name": "before",
                 "inputType": {
-                  "type": "String",
-                  "kind": "scalar",
+                  "type": "PostWhereUniqueInput",
+                  "kind": "object",
                   "isRequired": false,
                   "isList": false
                 }
@@ -4003,6 +4015,35 @@
             "outputType": {
               "type": "BatchPayload",
               "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "executeRaw",
+            "args": [
+              {
+                "name": "query",
+                "inputType": {
+                  "type": "String",
+                  "kind": "scalar",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "parameters",
+                "inputType": {
+                  "type": "Json",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Json",
+              "kind": "scalar",
               "isRequired": true,
               "isList": false
             }

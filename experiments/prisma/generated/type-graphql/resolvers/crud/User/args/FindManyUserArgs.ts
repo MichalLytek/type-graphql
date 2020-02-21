@@ -1,6 +1,7 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
 import { UserOrderByInput } from "../../../inputs/UserOrderByInput";
 import { UserWhereInput } from "../../../inputs/UserWhereInput";
+import { UserWhereUniqueInput } from "../../../inputs/UserWhereUniqueInput";
 
 @ArgsType()
 export class FindManyUserArgs {
@@ -13,11 +14,11 @@ export class FindManyUserArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => Int, { nullable: true })
-  after?: number | null;
+  @Field(_type => UserWhereUniqueInput, { nullable: true })
+  after?: UserWhereUniqueInput | null;
 
-  @Field(_type => Int, { nullable: true })
-  before?: number | null;
+  @Field(_type => UserWhereUniqueInput, { nullable: true })
+  before?: UserWhereUniqueInput | null;
 
   @Field(_type => Int, { nullable: true })
   first?: number | null;

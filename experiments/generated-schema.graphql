@@ -239,7 +239,7 @@ type Query {
   allUsers: [User!]!
   findOnePost(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
-  users(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
 """Role enum comment"""
@@ -280,7 +280,7 @@ type User {
   """User model field comment"""
   id: Int!
   name: String
-  posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   role: Role!
 }
 

@@ -57,7 +57,7 @@ enum OrderByArg {
 }
 
 type Query {
-  findManyUser(after: Int, before: Int, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  findManyUser(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
 input StringFilter {
@@ -102,6 +102,11 @@ input UserWhereInput {
   optionalStringField: NullableStringFilter
   OR: [UserWhereInput!]
   uniqueStringField: StringFilter
+}
+
+input UserWhereUniqueInput {
+  intIdField: Int
+  uniqueStringField: String
 }
 "
 `;
