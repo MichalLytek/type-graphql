@@ -269,6 +269,11 @@ describe("Scalars", () => {
           return new Date();
         }
 
+        @Query(returns => Date)
+        returnStringAsDate(): any {
+          return new Date().toISOString();
+        }
+
         @Query()
         argDate(@Arg("date", type => Date) date: any): boolean {
           localArgDate = date;
@@ -310,6 +315,18 @@ describe("Scalars", () => {
 
         expect(returnDate).toBeLessThanOrEqual(afterQuery);
         expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
+      });
+
+      it("should throw error when unable to serialize value as date", async () => {
+        const query = `query {
+          returnStringAsDate
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toContain(`Unable to serialize value`);
+        expect(errors![0].message).toContain(`it's not instance of 'Date'`);
       });
 
       it("should properly parse date from arg", async () => {
@@ -370,6 +387,18 @@ describe("Scalars", () => {
 
         expect(returnDate).toBeLessThanOrEqual(afterQuery);
         expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
+      });
+
+      it("should throw error when unable to serialize value as date", async () => {
+        const query = `query {
+          returnStringAsDate
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toContain(`Unable to serialize value`);
+        expect(errors![0].message).toContain(`it's not instance of 'Date'`);
       });
 
       it("should properly parse date from arg", async () => {

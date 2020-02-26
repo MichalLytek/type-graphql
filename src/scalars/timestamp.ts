@@ -17,10 +17,10 @@ export const GraphQLTimestamp = new GraphQLScalarType({
     "The javascript `Date` as integer. " +
     "Type represents date and time as number of milliseconds from start of UNIX epoch.",
   serialize(value: Date) {
-    if (value instanceof Date) {
-      return value.getTime();
+    if (!(value instanceof Date)) {
+      throw new Error(`Unable to serialize value '${value}' as it's not instance of 'Date'`);
     }
-    return null;
+    return value.getTime();
   },
   parseValue,
   parseLiteral(ast) {

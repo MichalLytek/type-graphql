@@ -8,10 +8,10 @@ export const GraphQLISODateTime = new GraphQLScalarType({
     return new Date(value);
   },
   serialize(value: Date) {
-    if (value instanceof Date) {
-      return value.toISOString();
+    if (!(value instanceof Date)) {
+      throw new Error(`Unable to serialize value '${value}' as it's not instance of 'Date'`);
     }
-    return null;
+    return value.toISOString();
   },
   parseLiteral(ast) {
     if (ast.kind === Kind.STRING) {
