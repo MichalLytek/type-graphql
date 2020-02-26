@@ -1,12 +1,17 @@
+os: linux
+language: node_js
+node_js:
+  - 13
+  - 12
+  - 10
+  - 10.3
+stages:
+  - test
+  - name: deploy
+    if: branch = master
 jobs:
   include:
     - stage: test
-      language: node_js
-      node_js:
-        - 13
-        - 12
-        - 10
-        - 10.3
       before_install:
         - npm i -g codecov
       script:
@@ -14,22 +19,14 @@ jobs:
         - npm run test:ci
       after_success:
         - codecov
-      notifications:
-        email:
-          on_success: never
-          on_failure: always
     - stage: deploy
-      branches:
-        only:
-          - master
-      language: node_js
       node_js: 13
       install: true
       before_script:
         - chmod +x publish-website.sh
       script:
         - ./publish-website.sh
-      notifications:
-        email:
-          on_success: never
-          on_failure: always
+notifications:
+  email:
+    on_success: never
+    on_failure: always
