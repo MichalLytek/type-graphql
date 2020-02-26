@@ -2,14 +2,8 @@ import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
 import { DMMF } from "@prisma/client/runtime";
 import path from "path";
 
-import {
-  getBaseModelTypeName,
-  getFieldTSType,
-  getTypeGraphQLType,
-  camelCase,
-  getMappedActionName,
-} from "./helpers";
-import { DMMFTypeInfo, GeneratedResolverData } from "./types";
+import { getBaseModelTypeName, camelCase } from "../helpers";
+import { GeneratedResolverData } from "../types";
 import {
   baseKeys,
   ModelKeys,
@@ -18,18 +12,19 @@ import {
   resolversFolderName,
   crudResolversFolderName,
   argsFolderName,
-} from "./config";
-import generateArgsTypeClassFromArgs from "./args-class";
+} from "../config";
+import generateArgsTypeClassFromArgs from "../args-class";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
   generateArgsBarrelFile,
-} from "./imports";
-import saveSourceFile from "../utils/saveSourceFile";
-import generateActionResolverClass from "./action-resolver-class";
-import { GenerateCodeOptions } from "./options";
+} from "../imports";
+import saveSourceFile from "../../utils/saveSourceFile";
+import generateActionResolverClass from "./separate-action";
+import { GenerateCodeOptions } from "../options";
+import { generateCrudResolverClassMethodDeclaration } from "./helpers";
 
 export default async function generateCrudResolverClassFromMapping(
   project: Project,
@@ -150,57 +145,17 @@ export default async function generateCrudResolverClassFromMapping(
     ],
     methods: await Promise.all(
       methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
-        ({ operationKind, actionName, method, argsTypeName }) => {
-          const returnTSType = getFieldTSType(
-            method.outputType as DMMFTypeInfo,
+        ({ operationKind, actionName, method, argsTypeName }) =>
+          generateCrudResolverClassMethodDeclaration(
+            operationKind,
+            actionName,
+            method,
+            argsTypeName,
+            collectionName,
             modelNames,
-          );
-
-          return {
-            name: options.useOriginalMapping
-              ? method.name
-              : getMappedActionName(actionName, method.name, mapping),
-            isAsync: true,
-            returnType: `Promise<${returnTSType}>`,
-            decorators: [
-              {
-                name: operationKind,
-                arguments: [
-                  `_returns => ${getTypeGraphQLType(
-                    method.outputType as DMMFTypeInfo,
-                    modelNames,
-                  )}`,
-                  `{
-                  nullable: ${!method.outputType.isRequired},
-                  description: undefined
-                }`,
-                ],
-              },
-            ],
-            parameters: [
-              {
-                name: "ctx",
-                // TODO: import custom `ContextType`
-                type: "any",
-                decorators: [{ name: "Ctx", arguments: [] }],
-              },
-              ...(!argsTypeName
-                ? []
-                : [
-                    {
-                      name: "args",
-                      type: argsTypeName,
-                      decorators: [{ name: "Args", arguments: [] }],
-                    },
-                  ]),
-            ],
-            statements: [
-              `return ctx.prisma.${collectionName}.${actionName}(${
-                argsTypeName ? "args" : ""
-              });`,
-            ],
-          };
-        },
+            mapping,
+            options,
+          ),
       ),
     ),
   });

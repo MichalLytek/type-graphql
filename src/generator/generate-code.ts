@@ -5,12 +5,12 @@ import path from "path";
 import { noop } from "./helpers";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./object-type-class";
-import generateRelationsResolverClassesFromModel from "./relations-resolver-class";
+import generateRelationsResolverClassesFromModel from "./resolvers/relations";
 import {
   generateOutputTypeClassFromType,
   generateInputTypeClassFromType,
 } from "./type-class";
-import generateCrudResolverClassFromRootType from "./crud-resolver-class";
+import generateCrudResolverClassFromMapping from "./resolvers/full-crud";
 import {
   resolversFolderName,
   relationsResolversFolderName,
@@ -183,7 +183,7 @@ export default async function generateCode(
   log("Generating crud resolvers...");
   const crudResolversData = await Promise.all(
     dmmf.mappings.map(mapping =>
-      generateCrudResolverClassFromRootType(
+      generateCrudResolverClassFromMapping(
         project,
         baseDirPath,
         mapping,

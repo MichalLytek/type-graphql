@@ -13,22 +13,22 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
-} from "./helpers";
-import generateArgsTypeClassFromArgs from "./args-class";
+} from "../helpers";
+import generateArgsTypeClassFromArgs from "../args-class";
 import {
   resolversFolderName,
   relationsResolversFolderName,
   argsFolderName,
-} from "./config";
+} from "../config";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
   generateDataloaderImport,
   generateModelsImports,
   generateArgsBarrelFile,
-} from "./imports";
-import { GeneratedResolverData } from "./types";
-import saveSourceFile from "../utils/saveSourceFile";
+} from "../imports";
+import { GeneratedResolverData } from "../types";
+import saveSourceFile from "../../utils/saveSourceFile";
 
 export default async function generateRelationsResolverClassesFromModel(
   project: Project,

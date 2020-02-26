@@ -2,26 +2,21 @@ import { Project } from "ts-morph";
 import { DMMF } from "@prisma/client/runtime";
 import path from "path";
 
-import {
-  getFieldTSType,
-  getTypeGraphQLType,
-  pascalCase,
-  getMappedActionName,
-} from "./helpers";
-import { DMMFTypeInfo } from "./types";
+import { pascalCase } from "../helpers";
 import {
   resolversFolderName,
   crudResolversFolderName,
   ModelKeys,
-} from "./config";
+} from "../config";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
-} from "./imports";
-import saveSourceFile from "../utils/saveSourceFile";
-import { GenerateCodeOptions } from "./options";
+} from "../imports";
+import saveSourceFile from "../../utils/saveSourceFile";
+import { GenerateCodeOptions } from "../options";
+import { generateCrudResolverClassMethodDeclaration } from "./helpers";
 
 export default async function generateActionResolverClass(
   project: Project,
@@ -64,11 +59,6 @@ export default async function generateActionResolverClass(
     2,
   );
 
-  const returnTSType = getFieldTSType(
-    method.outputType as DMMFTypeInfo,
-    modelNames,
-  );
-
   sourceFile.addClass({
     name: actionResolverName,
     isExported: true,
@@ -78,52 +68,17 @@ export default async function generateActionResolverClass(
         arguments: [`_of => ${modelName}`],
       },
     ],
-    // TODO: refactor to a generic helper with crud resolvers
     methods: [
-      {
-        name: options.useOriginalMapping
-          ? method.name
-          : getMappedActionName(actionName, method.name, mapping),
-        isAsync: true,
-        returnType: `Promise<${returnTSType}>`,
-        decorators: [
-          {
-            name: operationKind,
-            arguments: [
-              `_returns => ${getTypeGraphQLType(
-                method.outputType as DMMFTypeInfo,
-                modelNames,
-              )}`,
-              `{
-                nullable: ${!method.outputType.isRequired},
-                description: undefined
-              }`,
-            ],
-          },
-        ],
-        parameters: [
-          {
-            name: "ctx",
-            // TODO: import custom `ContextType`
-            type: "any",
-            decorators: [{ name: "Ctx", arguments: [] }],
-          },
-          ...(!argsTypeName
-            ? []
-            : [
-                {
-                  name: "args",
-                  type: argsTypeName,
-                  decorators: [{ name: "Args", arguments: [] }],
-                },
-              ]),
-        ],
-        statements: [
-          `return ctx.prisma.${collectionName}.${actionName}(${
-            argsTypeName ? "args" : ""
-          });`,
-        ],
-      },
+      generateCrudResolverClassMethodDeclaration(
+        operationKind,
+        actionName,
+        method,
+        argsTypeName,
+        collectionName,
+        modelNames,
+        mapping,
+        options,
+      ),
     ],
   });
 
