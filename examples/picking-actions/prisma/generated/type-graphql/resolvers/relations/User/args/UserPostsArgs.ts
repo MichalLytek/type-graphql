@@ -1,6 +1,7 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
 import { PostOrderByInput } from "../../../inputs/PostOrderByInput";
 import { PostWhereInput } from "../../../inputs/PostWhereInput";
+import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
 
 @ArgsType()
 export class UserPostsArgs {
@@ -13,11 +14,11 @@ export class UserPostsArgs {
   @Field(_type => Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => String, { nullable: true })
-  after?: string | null;
+  @Field(_type => PostWhereUniqueInput, { nullable: true })
+  after?: PostWhereUniqueInput | null;
 
-  @Field(_type => String, { nullable: true })
-  before?: string | null;
+  @Field(_type => PostWhereUniqueInput, { nullable: true })
+  before?: PostWhereUniqueInput | null;
 
   @Field(_type => Int, { nullable: true })
   first?: number | null;

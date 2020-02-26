@@ -16,7 +16,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<Post | null> {
+  async post(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.prisma.post.findOne(args);
   }
 
@@ -24,7 +24,7 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[]> {
+  async posts(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[]> {
     return ctx.prisma.post.findMany(args);
   }
 

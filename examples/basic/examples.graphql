@@ -1,11 +1,11 @@
 query GetAllUsersAndPosts {
-  users: findManyUser {
+  users {
     ...UserData
     posts {
       ...PostData
     }
   }
-  posts: findManyPost {
+  posts {
     ...PostData
     author {
       ...UserData
@@ -14,7 +14,7 @@ query GetAllUsersAndPosts {
 }
 
 query GetSelectedPost {
-  findOnePost(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
+  post(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
     ...PostData
     author {
       ...UserData
@@ -23,10 +23,7 @@ query GetSelectedPost {
 }
 
 query GetSomeUsers {
-  findManyUser(
-    where: { email: { contains: "prisma" } }
-    orderBy: { name: desc }
-  ) {
+  users(where: { email: { contains: "prisma" } }, orderBy: { name: desc }) {
     ...UserData
     posts(last: 1) {
       ...PostData
