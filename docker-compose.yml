@@ -4,10 +4,12 @@ services:
   linux-node:
     image: node:12.6.0
     entrypoint: bash
+    tty: true
     working_dir: /usr/app
     volumes:
       - ./:/usr/app/
       - root_node_modules/:/usr/app/node_modules/
+      - test_artifacts/:/usr/app/tests/artifacts
       - experiments_node_modules/:/usr/app/experiments/node_modules/
 
   experiments:
@@ -24,3 +26,4 @@ services:
 volumes:
   root_node_modules:
   experiments_node_modules:
+  test_artifacts:

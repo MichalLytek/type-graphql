@@ -28,11 +28,6 @@ describe("custom resolvers execution", () => {
     await generateCodeFromSchema(prismaSchema, { outputDirPath });
   });
 
-  afterAll(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should be possible to use generated inputs, args and types to build own resolvers", async () => {
     const { Post, FindManyPostArgs } = require(outputDirPath);
     @Resolver()

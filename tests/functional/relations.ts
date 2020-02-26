@@ -76,11 +76,6 @@ describe("relations resolvers execution", () => {
     });
   });
 
-  afterAll(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should properly call PrismaClient on fetching array relations", async () => {
     const document = /* graphql */ `
       query {

@@ -11,11 +11,6 @@ describe("relations resolvers generation", () => {
     await fs.mkdir(outputDirPath, { recursive: true });
   });
 
-  afterEach(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should properly generate resolvers classes for prisma models with cyclic relations", async () => {
     const schema = /* prisma */ `
       model User {

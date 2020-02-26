@@ -31,11 +31,6 @@ describe("crud resolvers execution", () => {
     });
   });
 
-  afterAll(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should properly call PrismaClient on `findOne` action", async () => {
     const document = /* graphql */ `
       query {

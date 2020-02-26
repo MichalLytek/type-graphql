@@ -16,11 +16,6 @@ describe("models", () => {
     readGeneratedFile = createReadGeneratedFile(outputDirPath);
   });
 
-  afterEach(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should properly generate object type class for prisma model with different scalar fields types", async () => {
     const schema = /* prisma */ `
       model User {

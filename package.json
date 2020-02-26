@@ -5,9 +5,9 @@
     "build": "tsc",
     "check:type": "tsc --noEmit",
     "check:format": "prettier --check ./**/*.{js,json,ts,tsx}",
-    "test": "ts-node ./tests/helpers/ensure-engine.ts && jest --watch --verbose",
-    "test:integration": "ts-node ./tests/helpers/ensure-engine.ts && jest --watch --verbose --config ./jest.config.integration.js",
-    "test:ci": "ts-node ./tests/helpers/ensure-engine.ts && jest --coverage --verbose --runInBand && jest --coverage --verbose --runInBand --config ./jest.config.integration.js",
+    "test": "ts-node ./tests/helpers/setup-tests.ts && jest --watch --verbose",
+    "test:integration": "ts-node ./tests/helpers/setup-tests.ts && jest --watch --verbose --config ./jest.config.integration.js",
+    "test:ci": "ts-node ./tests/helpers/setup-tests.ts && jest --coverage --verbose --runInBand && jest --coverage --verbose --runInBand --config ./jest.config.integration.js",
     "format": "prettier --write ./**/*.{js,json,ts,tsx}",
     "docker": "docker-compose run linux-node",
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"

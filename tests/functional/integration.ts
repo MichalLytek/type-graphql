@@ -58,11 +58,6 @@ describe("generator integration", () => {
     await fs.writeFile(path.join(cwdDirPath, "schema.prisma"), schema);
   });
 
-  afterEach(async () => {
-    await fs.rmdir(cwdDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should generates TypeGraphQL classes files to output folder by running `prisma2 generate`", async () => {
     const { stderr } = await exec("npx prisma2 generate", {
       cwd: cwdDirPath,

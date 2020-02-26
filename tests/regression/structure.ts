@@ -13,11 +13,6 @@ describe("structure", () => {
     await fs.mkdir(outputDirPath, { recursive: true });
   });
 
-  afterEach(async () => {
-    await fs.rmdir(outputDirPath, { recursive: true });
-    await new Promise(r => setTimeout(r, 100));
-  });
-
   it("should generate proper folders structure and file names for complex datamodel", async () => {
     const schema = /* prisma */ `
       enum Color {
