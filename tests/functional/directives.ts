@@ -13,6 +13,7 @@ import {
   ObjectType,
   Mutation,
   FieldResolver,
+  Subscription,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { SchemaDirectiveVisitor } from "graphql-tools";
@@ -188,6 +189,12 @@ describe("Directives", () => {
         mutationWithUpperAndAppend(): string {
           return "hello";
         }
+
+        @Subscription({ topics: "TEST" })
+        @Directive("@foo")
+        subscriptionWithDirective(): string {
+          return "subscriptionWithDirective";
+        }
       }
 
       @Resolver(of => SampleObjectType)
@@ -350,6 +357,15 @@ describe("Directives", () => {
 
         expect(data).toHaveProperty("mutationWithUpperAndAppend");
         expect(data.mutationWithUpperAndAppend).toBe("HELLO, WORLD!");
+      });
+    });
+
+    describe("Subscription", () => {
+      it("should add directives to subscription types", async () => {
+        const subscriptionWithDirective = schema.getSubscriptionType()!.getFields()
+          .subscriptionWithDirective;
+
+        assertValidDirective(subscriptionWithDirective.astNode, "foo");
       });
     });
 
