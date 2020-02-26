@@ -79,18 +79,8 @@
 <p><strong>TypeGraphQL</strong> of course provides some basic support for using the schema directives via the <code>@Directive</code> decorator.</p>
 <h2><a class="anchor" aria-hidden="true" id="usage"></a><a href="#usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
 <h3><a class="anchor" aria-hidden="true" id="declaring-in-schema"></a><a href="#declaring-in-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declaring in schema</h3>
-<p>Basically, there are two supported ways of declaring the usage of directives:</p>
-<ul>
-<li>string based - just like in SDL, with the <code>@</code> syntax:</li>
-</ul>
+<p>Basically, we declare the usage of directives just like in SDL, with the <code>@</code> syntax:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Use newField")'</span><span class="token punctuation">)</span>
-</code></pre>
-<ul>
-<li>object based - using a JS object to pass the named arguments</li>
-</ul>
-<pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"deprecated"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token comment">// syntax without `@`</span>
-  reason<span class="token punctuation">:</span> <span class="token string">'"Use newField"'</span><span class="token punctuation">,</span>  <span class="token comment">// double quotes for strings</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <p>Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries and mutations.</p>
 <p>So the <code>@Directive</code> decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:</p>
@@ -103,7 +93,7 @@
 
 @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Bar</span> <span class="token punctuation">{</span>
-  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"auth"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> requires<span class="token punctuation">:</span> <span class="token string">"USER"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@auth(requires: USER)"</span><span class="token punctuation">)</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   field<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -129,9 +119,9 @@
 <p>Also please note that <code>@Directive</code> can only contain a single GraphQL directive name or declaration. If you need to have multiple directives declared, just place multiple decorators:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Foo</span> <span class="token punctuation">{</span>
-  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"lowercase"</span><span class="token punctuation">)</span>
+  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@lowercase"</span><span class="token punctuation">)</span>
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Use `newField`")'</span><span class="token punctuation">)</span>
-  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"hasRole"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> role<span class="token punctuation">:</span> Role<span class="token punctuation">.</span>Manager <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@hasRole(role: Manager)"</span><span class="token punctuation">)</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   bar<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
