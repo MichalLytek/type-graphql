@@ -4,15 +4,10 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 
 export function Directive(sdl: string): MethodAndPropDecorator & ClassDecorator;
 export function Directive(
-  name: string,
-  args?: Record<string, any>,
-): MethodAndPropDecorator & ClassDecorator;
-export function Directive(
   nameOrDefinition: string,
-  args: Record<string, any> = {},
 ): MethodDecorator | PropertyDecorator | ClassDecorator {
-  return (targetOrPrototype, propertyKey, descriptor) => {
-    const directive = { nameOrDefinition, args };
+  return (targetOrPrototype, propertyKey, _descriptor) => {
+    const directive = { nameOrDefinition, args: {} };
 
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();

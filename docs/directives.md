@@ -26,20 +26,10 @@ That metadata can be read in runtime to modify the structure and behavior of a G
 
 ### Declaring in schema
 
-Basically, there are two supported ways of declaring the usage of directives:
-
-- string based - just like in SDL, with the `@` syntax:
+Basically, we declare the usage of directives just like in SDL, with the `@` syntax:
 
 ```typescript
 @Directive('@deprecated(reason: "Use newField")')
-```
-
-- object based - using a JS object to pass the named arguments
-
-```typescript
-@Directive("deprecated", { // syntax without `@`
-  reason: '"Use newField"',  // double quotes for strings
-})
 ```
 
 Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries and mutations.
@@ -56,7 +46,7 @@ class Foo {
 
 @ObjectType()
 class Bar {
-  @Directive("auth", { requires: "USER" })
+  @Directive("@auth(requires: USER)")
   @Field()
   field: string;
 }
@@ -84,9 +74,9 @@ Also please note that `@Directive` can only contain a single GraphQL directive n
 ```typescript
 @ObjectType()
 class Foo {
-  @Directive("lowercase")
+  @Directive("@lowercase")
   @Directive('@deprecated(reason: "Use `newField`")')
-  @Directive("hasRole", { role: Role.Manager })
+  @Directive("@hasRole(role: Manager)")
   @Field()
   bar: string;
 }
