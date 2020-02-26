@@ -66,7 +66,7 @@ export class FindManyUserResolver {
     nullable: false,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
+  async users(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
     return ctx.prisma.user.findMany(args);
   }
 }
@@ -84,7 +84,7 @@ export class FindOneUserResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.findOne(args);
   }
 }
@@ -381,6 +381,24 @@ export class UserCrudResolver {
   })
   async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
     return ctx.prisma.user.upsert(args);
+  }
+}
+"
+`;
+
+exports[`crud should properly generate resolver class when useOriginalMapping is used: FindOneUserResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { FindOneUserArgs } from \\"./args/FindOneUserArgs\\";
+import { User } from \\"../../../models/User\\";
+
+@Resolver(_of => User)
+export class FindOneUserResolver {
+  @Query(_returns => User, {
+    nullable: true,
+    description: undefined
+  })
+  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+    return ctx.prisma.user.findOne(args);
   }
 }
 "

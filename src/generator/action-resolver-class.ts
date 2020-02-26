@@ -2,9 +2,18 @@ import { Project } from "ts-morph";
 import { DMMF } from "@prisma/client/runtime";
 import path from "path";
 
-import { getFieldTSType, getTypeGraphQLType, pascalCase } from "./helpers";
+import {
+  getFieldTSType,
+  getTypeGraphQLType,
+  pascalCase,
+  getMappedActionName,
+} from "./helpers";
 import { DMMFTypeInfo } from "./types";
-import { resolversFolderName, crudResolversFolderName } from "./config";
+import {
+  resolversFolderName,
+  crudResolversFolderName,
+  ModelKeys,
+} from "./config";
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
@@ -12,18 +21,21 @@ import {
   generateOutputsImports,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
+import { GenerateCodeOptions } from "./options";
 
 export default async function generateActionResolverClass(
   project: Project,
   baseDirPath: string,
   modelName: string,
   operationKind: string,
-  actionName: string,
+  actionName: ModelKeys,
   method: DMMF.SchemaField,
   outputTypeName: string,
   argsTypeName: string | undefined,
   collectionName: string,
   modelNames: string[],
+  mapping: DMMF.Mapping,
+  options: GenerateCodeOptions,
 ): Promise<string> {
   const actionResolverName = `${pascalCase(method.name)}Resolver`;
   const resolverDirPath = path.resolve(
@@ -69,7 +81,9 @@ export default async function generateActionResolverClass(
     // TODO: refactor to a generic helper with crud resolvers
     methods: [
       {
-        name: method.name,
+        name: options.useOriginalMapping
+          ? method.name
+          : getMappedActionName(actionName, method.name, mapping),
         isAsync: true,
         returnType: `Promise<${returnTSType}>`,
         decorators: [

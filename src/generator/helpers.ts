@@ -1,6 +1,7 @@
 import { DMMF } from "@prisma/client/runtime";
 
 import { DMMFTypeInfo } from "./types";
+import { ModelKeys } from "./config";
 
 export function noop() {}
 
@@ -114,4 +115,22 @@ export function camelCase(str: string) {
 
 export function pascalCase(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
+}
+
+export function getMappedActionName(
+  actionName: ModelKeys,
+  methodName: string,
+  mapping: DMMF.Mapping,
+): string {
+  switch (actionName) {
+    case "findOne": {
+      return camelCase(mapping.model);
+    }
+    case "findMany": {
+      return camelCase(mapping.plural);
+    }
+    default: {
+      return methodName;
+    }
+  }
 }

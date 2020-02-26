@@ -7,6 +7,7 @@ import {
   getFieldTSType,
   getTypeGraphQLType,
   camelCase,
+  getMappedActionName,
 } from "./helpers";
 import { DMMFTypeInfo, GeneratedResolverData } from "./types";
 import {
@@ -218,6 +219,8 @@ export default async function generateCrudResolverClassFromMapping(
           argsTypeName,
           collectionName,
           modelNames,
+          mapping,
+          options,
         ),
     ),
   );
@@ -229,22 +232,4 @@ export default async function generateCrudResolverClassFromMapping(
 function getOperationKindName(actionName: string): string | undefined {
   if (supportedQueryActions.includes(actionName as any)) return "Query";
   if (supportedMutationActions.includes(actionName as any)) return "Mutation";
-}
-
-function getMappedActionName(
-  actionName: ModelKeys,
-  methodName: string,
-  mapping: DMMF.Mapping,
-): string {
-  switch (actionName) {
-    case "findOne": {
-      return camelCase(mapping.model);
-    }
-    case "findMany": {
-      return camelCase(mapping.plural);
-    }
-    default: {
-      return methodName;
-    }
-  }
 }
