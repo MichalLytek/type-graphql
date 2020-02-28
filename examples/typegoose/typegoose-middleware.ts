@@ -1,6 +1,6 @@
-import { MiddlewareFn } from "../../src";
 import { Model, Document } from "mongoose";
-import { getClassForDocument } from "typegoose";
+import { getClassForDocument } from "@typegoose/typegoose";
+import { MiddlewareFn } from "../../src";
 
 export const TypegooseMiddleware: MiddlewareFn = async (_, next) => {
   const result = await next();
@@ -18,7 +18,7 @@ export const TypegooseMiddleware: MiddlewareFn = async (_, next) => {
 
 function convertDocument(doc: Document) {
   const convertedDocument = doc.toObject();
-  const DocumentClass: Function = getClassForDocument(doc);
+  const DocumentClass = getClassForDocument(doc)!;
   Object.setPrototypeOf(convertedDocument, DocumentClass.prototype);
   return convertedDocument;
 }

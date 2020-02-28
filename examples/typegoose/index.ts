@@ -16,10 +16,13 @@ export interface Context {
   user: User;
 }
 
+// replace with your value if needed
+const MONGO_HOST = "192.168.99.100";
+
 async function bootstrap() {
   try {
     // create mongoose connection
-    const mongoose = await connect("mongodb://localhost:27017/type-graphql");
+    const mongoose = await connect(`mongodb://${MONGO_HOST}:27017/type-graphql`);
 
     // clean and seed database with some data
     await mongoose.connection.db.dropDatabase();
@@ -33,6 +36,7 @@ async function bootstrap() {
       globalMiddlewares: [TypegooseMiddleware],
       // use ObjectId scalar mapping
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+      validate: false,
     });
 
     // create mocked context

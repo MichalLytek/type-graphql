@@ -50,7 +50,7 @@ export class RecipeResolver {
     };
 
     // update the recipe
-    (recipe.ratings as Rate[]).push(newRate);
+    recipe.ratings.push(newRate);
     await recipe.save();
     return recipe;
   }
