@@ -145,7 +145,8 @@
         ],
         "isGenerated": false,
         "documentation": "User model comment\r",
-        "idFields": []
+        "idFields": [],
+        "uniqueFields": []
       },
       {
         "name": "Post",
@@ -265,7 +266,8 @@
           }
         ],
         "isGenerated": false,
-        "idFields": []
+        "idFields": [],
+        "uniqueFields": []
       }
     ]
   },
@@ -1526,6 +1528,20 @@
         ]
       },
       {
+        "name": "IdCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "id",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
         "name": "UserWhereUniqueInput",
         "fields": [
           {
@@ -1545,6 +1561,29 @@
               "isRequired": false,
               "isList": false
             }
+          },
+          {
+            "name": "id",
+            "inputType": {
+              "type": "IdCompoundUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UuidCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "uuid",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
           }
         ]
       },
@@ -1556,6 +1595,15 @@
             "inputType": {
               "type": "String",
               "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "uuid",
+            "inputType": {
+              "type": "UuidCompoundUniqueInput",
+              "kind": "object",
               "isRequired": false,
               "isList": false
             }

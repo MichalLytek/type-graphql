@@ -8,7 +8,7 @@ export class FindOnePostResolver {
     nullable: true,
     description: undefined
   })
-  async findOnePost(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<Post | null> {
+  async post(@Ctx() ctx: any, @Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.prisma.post.findOne(args);
   }
 }

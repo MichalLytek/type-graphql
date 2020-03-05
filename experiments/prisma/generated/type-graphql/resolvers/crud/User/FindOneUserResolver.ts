@@ -8,7 +8,7 @@ export class FindOneUserResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.findOne(args);
   }
 }

@@ -133,7 +133,8 @@
         ],
         "isGenerated": false,
         "documentation": "User model comment\r",
-        "idFields": []
+        "idFields": [],
+        "uniqueFields": []
       },
       {
         "name": "Post",
@@ -253,7 +254,8 @@
           }
         ],
         "isGenerated": false,
-        "idFields": []
+        "idFields": [],
+        "uniqueFields": []
       }
     ]
   },
@@ -1622,6 +1624,22 @@
         "atLeastOne": false
       },
       {
+        "name": "IdCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "UserWhereUniqueInput",
         "fields": [
           {
@@ -1648,6 +1666,22 @@
           }
         ],
         "atLeastOne": true
+      },
+      {
+        "name": "UuidCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "uuid",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "PostWhereUniqueInput",

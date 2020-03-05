@@ -21,8 +21,8 @@ npm i dataloader
 `typegraphql-prisma` is designed to work only with selected version of `prisma2`, so please install this version if you don't have it already installed:
 
 ```sh
-npm i -D prisma2@2.0.0-alpha.819
-npm i @prisma/client@2.0.0-alpha.819
+npm i -D prisma2@2.0.0-preview023
+npm i @prisma/client@2.0.0-preview023
 ```
 
 ## Configuration

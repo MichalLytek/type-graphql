@@ -60,9 +60,12 @@ export declare type stripAnsi = any
 export declare var parseDotenv: any
 export declare type parseDotenv = any
 
+export declare var sqlTemplateTag: any
+export declare type sqlTemplateTag = any
+
 export declare class PrismaClientKnownRequestError extends Error {
   code: string;
-  meta?: Object;
+  meta?: object;
   constructor(message: string, code: string, meta?: any);
 }
 

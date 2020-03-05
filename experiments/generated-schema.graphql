@@ -237,7 +237,7 @@ input PostWhereUniqueInput {
 type Query {
   allPosts: [Post!]!
   allUsers: [User!]!
-  findOnePost(where: PostWhereUniqueInput!): Post
+  post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }

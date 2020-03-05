@@ -8,7 +8,7 @@ export class FindManyPostResolver {
     nullable: false,
     description: undefined
   })
-  async findManyPost(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[]> {
+  async posts(@Ctx() ctx: any, @Args() args: FindManyPostArgs): Promise<Post[]> {
     return ctx.prisma.post.findMany(args);
   }
 }

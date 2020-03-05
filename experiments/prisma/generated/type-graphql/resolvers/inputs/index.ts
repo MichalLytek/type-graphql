@@ -1,6 +1,7 @@
 export { BooleanFilter } from "./BooleanFilter";
 export { DateTimeFilter } from "./DateTimeFilter";
 export { FloatFilter } from "./FloatFilter";
+export { IdCompoundUniqueInput } from "./IdCompoundUniqueInput";
 export { IntFilter } from "./IntFilter";
 export { NullablePostKindFilter } from "./NullablePostKindFilter";
 export { NullableStringFilter } from "./NullableStringFilter";
@@ -33,3 +34,4 @@ export { UserUpdateWithoutPostsDataInput } from "./UserUpdateWithoutPostsDataInp
 export { UserUpsertWithoutPostsInput } from "./UserUpsertWithoutPostsInput";
 export { UserWhereInput } from "./UserWhereInput";
 export { UserWhereUniqueInput } from "./UserWhereUniqueInput";
+export { UuidCompoundUniqueInput } from "./UuidCompoundUniqueInput";

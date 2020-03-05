@@ -8,7 +8,7 @@ export class FindManyUserResolver {
     nullable: false,
     description: undefined
   })
-  async findManyUser(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
+  async users(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
     return ctx.prisma.user.findMany(args);
   }
 }

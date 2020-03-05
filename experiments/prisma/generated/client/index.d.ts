@@ -215,11 +215,15 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * const result = await prisma.raw`SELECT * FROM User;`
    * // Or
    * const result = await prisma.raw('SELECT * FROM User;')
+   * 
+   * // With parameters use prisma.raw``, values will be escaped automatically
+   * const userId = '1'
+   * const result = await prisma.raw`SELECT * FROM User WHERE id = ${userId};`
   * ```
   * 
   * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
-  raw<T = any>(query: string | TemplateStringsArray): Promise<T>;
+  raw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -2576,9 +2580,17 @@ export type UserWhereInput = {
   NOT?: Enumerable<UserWhereInput> | null
 }
 
+export type IdCompoundUniqueInput = {
+  id: number
+}
+
 export type UserWhereUniqueInput = {
   id?: number | null
   email?: string | null
+}
+
+export type UuidCompoundUniqueInput = {
+  uuid: string
 }
 
 export type PostWhereUniqueInput = {

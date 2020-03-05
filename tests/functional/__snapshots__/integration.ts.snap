@@ -327,6 +327,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       index.ts
     [inputs]
       ColorFilter.ts
+      IdCompoundUniqueInput.ts
       IntFilter.ts
       NullableStringFilter.ts
       PostCreateInput.ts
@@ -357,6 +358,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       UserUpsertWithoutPostsInput.ts
       UserWhereInput.ts
       UserWhereUniqueInput.ts
+      UuidCompoundUniqueInput.ts
       index.ts
     [outputs]
       AggregatePost.ts
