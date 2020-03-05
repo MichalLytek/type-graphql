@@ -12,6 +12,49 @@ input BooleanFilter {
   not: Boolean
 }
 
+type Category {
+  name: String!
+  number: Int!
+  slug: String!
+}
+
+input CategoryCreateInput {
+  name: String!
+  number: Int!
+  slug: String!
+}
+
+input CategoryOrderByInput {
+  name: OrderByArg
+  number: OrderByArg
+  slug: OrderByArg
+}
+
+input CategoryUpdateInput {
+  name: String
+  number: Int
+  slug: String
+}
+
+input CategoryUpdateManyMutationInput {
+  name: String
+  number: Int
+  slug: String
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  name: StringFilter
+  NOT: [CategoryWhereInput!]
+  number: IntFilter
+  OR: [CategoryWhereInput!]
+  slug: StringFilter
+}
+
+input CategoryWhereUniqueInput {
+  slug_number: SlugNumberCompoundUniqueInput
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -26,6 +69,11 @@ input DateTimeFilter {
   lte: DateTime
   not: DateTime
   notIn: [DateTime!]
+}
+
+input FirstNameLastNameCompoundUniqueInput {
+  firstName: String!
+  lastName: String!
 }
 
 input FloatFilter {
@@ -51,13 +99,25 @@ input IntFilter {
 }
 
 type Mutation {
+  createOneCategory(data: CategoryCreateInput!): Category!
+  createOnePatient(data: PatientCreateInput!): Patient!
   createOnePost(data: PostCreateInput!): Post!
   createOneUser(data: UserCreateInput!): User!
+  deleteManyCategory(where: CategoryWhereInput): BatchPayload!
+  deleteManyPatient(where: PatientWhereInput): BatchPayload!
   deleteManyUser(where: UserWhereInput): BatchPayload!
+  deleteOneCategory(where: CategoryWhereUniqueInput!): Category
+  deleteOnePatient(where: PatientWhereUniqueInput!): Patient
   deleteOneUser(where: UserWhereUniqueInput!): User
+  updateManyCategory(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  updateManyPatient(data: PatientUpdateManyMutationInput!, where: PatientWhereInput): BatchPayload!
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateOnePatient(data: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertOneCategory(create: CategoryCreateInput!, update: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
+  upsertOnePatient(create: PatientCreateInput!, update: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient!
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
@@ -85,6 +145,49 @@ input NullableStringFilter {
 enum OrderByArg {
   asc
   desc
+}
+
+type Patient {
+  email: String!
+  firstName: String!
+  lastName: String!
+}
+
+input PatientCreateInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+}
+
+input PatientOrderByInput {
+  email: OrderByArg
+  firstName: OrderByArg
+  lastName: OrderByArg
+}
+
+input PatientUpdateInput {
+  email: String
+  firstName: String
+  lastName: String
+}
+
+input PatientUpdateManyMutationInput {
+  email: String
+  firstName: String
+  lastName: String
+}
+
+input PatientWhereInput {
+  AND: [PatientWhereInput!]
+  email: StringFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  NOT: [PatientWhereInput!]
+  OR: [PatientWhereInput!]
+}
+
+input PatientWhereUniqueInput {
+  firstName_lastName: FirstNameLastNameCompoundUniqueInput
 }
 
 type Post {
@@ -237,6 +340,10 @@ input PostWhereUniqueInput {
 type Query {
   allPosts: [Post!]!
   allUsers: [User!]!
+  categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): [Category!]!
+  category(where: CategoryWhereUniqueInput!): Category
+  patient(where: PatientWhereUniqueInput!): Patient
+  patients(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
@@ -253,6 +360,11 @@ input RoleFilter {
   in: [Role!]
   not: Role
   notIn: [Role!]
+}
+
+input SlugNumberCompoundUniqueInput {
+  number: Int!
+  slug: String!
 }
 
 input StringFilter {

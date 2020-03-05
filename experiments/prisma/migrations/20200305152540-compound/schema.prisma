@@ -1,14 +1,13 @@
 datasource db {
   provider = "sqlite"
-  url      = "file:../dev.db"
+  url = "***"
 }
 
 type Numeric = Float
 
 generator client {
   provider      = "prisma-client-js"
-  // binaryTargets = ["windows", "debian-openssl-1.1.x"]
-  binaryTargets = ["windows"]
+  binaryTargets = ["windows", "debian-openssl-1.1.x"]
   output        = "../prisma/generated/client"
 }
 

@@ -21,6 +21,10 @@ import {
   FindOnePostResolver,
   CreateOnePostResolver,
   UpdateManyPostResolver,
+  // Category,
+  CategoryCrudResolver,
+  // Patient,
+  PatientCrudResolver,
 } from "./prisma/generated/type-graphql";
 import { PrismaClient } from "./prisma/generated/client";
 
@@ -66,13 +70,16 @@ async function main() {
       FindOnePostResolver,
       CreateOnePostResolver,
       UpdateManyPostResolver,
+      CategoryCrudResolver,
+      PatientCrudResolver,
     ],
     validate: false,
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),
   });
 
   const prisma = new PrismaClient({
-    debug: true,
+    // see dataloader for relations in action
+    log: ["query"],
   });
 
   const server = new ApolloServer({

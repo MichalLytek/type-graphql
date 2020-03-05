@@ -66,3 +66,19 @@ model Post {
   // coAuthor  User?
   kind      PostKind?
 }
+
+model Category {
+  name   String
+  slug   String
+  number Int
+
+  @@unique([slug, number])
+}
+
+model Patient {
+  firstName String
+  lastName  String
+  email     String
+
+  @@id([firstName, lastName])
+}

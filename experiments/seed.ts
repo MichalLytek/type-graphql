@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.post.deleteMany({});
   await prisma.user.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.patient.deleteMany({});
 
   await prisma.user.create({
     data: {
@@ -72,6 +74,37 @@ async function main() {
       },
     },
   });
+
+  await prisma.category.create({
+    data: {
+      name: "Famous stars",
+      slug: "famous-stars",
+      number: 1,
+    },
+  });
+  await prisma.category.create({
+    data: {
+      name: "Famous stars",
+      slug: "famous-stars-2",
+      number: 2,
+    },
+  });
+
+  await prisma.patient.create({
+    data: {
+      email: "test@test.test",
+      firstName: "John",
+      lastName: "Doe",
+    },
+  });
+  await prisma.patient.create({
+    data: {
+      email: "test2@test.test",
+      firstName: "John",
+      lastName: "Bravo",
+    },
+  });
+
   console.log("All data inserted!");
 }
 

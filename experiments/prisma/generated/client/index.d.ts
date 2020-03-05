@@ -244,6 +244,26 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
     * ```
     */
   get post(): PostDelegate;
+
+  /**
+   * `prisma.category`: Exposes CRUD operations for the **Category** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Categories
+    * const categories = await prisma.category.findMany()
+    * ```
+    */
+  get category(): CategoryDelegate;
+
+  /**
+   * `prisma.patient`: Exposes CRUD operations for the **Patient** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Patients
+    * const patients = await prisma.patient.findMany()
+    * ```
+    */
+  get patient(): PatientDelegate;
 }
 
 
@@ -2548,6 +2568,2234 @@ export type ExtractPostIncludeArgs<S extends undefined | boolean | PostIncludeAr
 
 
 /**
+ * Model Category
+ */
+
+export type Category = {
+  name: string
+  slug: string
+  number: number
+}
+
+export type CategoryScalars = 'name' | 'slug' | 'number'
+  
+
+export type CategorySelect = {
+  name?: boolean
+  slug?: boolean
+  number?: boolean
+}
+
+export type CategoryInclude = {
+
+}
+
+type CategoryDefault = {
+  name: true
+  slug: true
+  number: true
+}
+
+
+export type CategoryGetSelectPayload<S extends boolean | CategorySelect> = S extends true
+  ? Category
+  : S extends CategorySelect
+  ? {
+      [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends CategoryScalars
+        ? Category[P]
+        : never
+    }
+   : never
+
+export type CategoryGetIncludePayload<S extends boolean | CategoryInclude> = S extends true
+  ? Category
+  : S extends CategoryInclude
+  ? {
+      [P in CleanupNever<MergeTruthyValues<CategoryDefault, S>>]: P extends CategoryScalars
+        ? Category[P]
+        : never
+    }
+   : never
+
+export interface CategoryDelegate {
+  /**
+   * Find zero or one Category.
+   * @param {FindOneCategoryArgs} args - Arguments to find a Category
+   * @example
+   * // Get one Category
+   * const category = await prisma.category.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneCategoryArgs>(
+    args: Subset<T, FindOneCategoryArgs>
+  ): T extends FindOneCategoryArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOneCategorySelectArgs ? Promise<CategoryGetSelectPayload<ExtractFindOneCategorySelectArgs<T>> | null>
+  : T extends FindOneCategoryIncludeArgs ? Promise<CategoryGetIncludePayload<ExtractFindOneCategoryIncludeArgs<T>> | null> : CategoryClient<Category | null>
+  /**
+   * Find zero or more Categories.
+   * @param {FindManyCategoryArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Categories
+   * const categories = await prisma.category.findMany()
+   * 
+   * // Get first 10 Categories
+   * const categories = await prisma.category.findMany({ first: 10 })
+   * 
+   * // Only select the `name`
+   * const categoryWithNameOnly = await prisma.category.findMany({ select: { name: true } })
+   * 
+  **/
+  findMany<T extends FindManyCategoryArgs>(
+    args?: Subset<T, FindManyCategoryArgs>
+  ): T extends FindManyCategoryArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyCategorySelectArgs
+  ? Promise<Array<CategoryGetSelectPayload<ExtractFindManyCategorySelectArgs<T>>>> : T extends FindManyCategoryIncludeArgs
+  ? Promise<Array<CategoryGetIncludePayload<ExtractFindManyCategoryIncludeArgs<T>>>> : Promise<Array<Category>>
+  /**
+   * Create a Category.
+   * @param {CategoryCreateArgs} args - Arguments to create a Category.
+   * @example
+   * // Create one Category
+   * const user = await prisma.category.create({
+   *   data: {
+   *     // ... data to create a Category
+   *   }
+   * })
+   * 
+  **/
+  create<T extends CategoryCreateArgs>(
+    args: Subset<T, CategoryCreateArgs>
+  ): T extends CategoryCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends CategorySelectCreateArgs ? Promise<CategoryGetSelectPayload<ExtractCategorySelectCreateArgs<T>>>
+  : T extends CategoryIncludeCreateArgs ? Promise<CategoryGetIncludePayload<ExtractCategoryIncludeCreateArgs<T>>> : CategoryClient<Category>
+  /**
+   * Delete a Category.
+   * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
+   * @example
+   * // Delete one Category
+   * const user = await prisma.category.delete({
+   *   where: {
+   *     // ... filter to delete one Category
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends CategoryDeleteArgs>(
+    args: Subset<T, CategoryDeleteArgs>
+  ): T extends CategoryDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends CategorySelectDeleteArgs ? Promise<CategoryGetSelectPayload<ExtractCategorySelectDeleteArgs<T>>>
+  : T extends CategoryIncludeDeleteArgs ? Promise<CategoryGetIncludePayload<ExtractCategoryIncludeDeleteArgs<T>>> : CategoryClient<Category>
+  /**
+   * Update one Category.
+   * @param {CategoryUpdateArgs} args - Arguments to update one Category.
+   * @example
+   * // Update one Category
+   * const category = await prisma.category.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends CategoryUpdateArgs>(
+    args: Subset<T, CategoryUpdateArgs>
+  ): T extends CategoryUpdateArgsRequired ? 'Please either choose `select` or `include`' : T extends CategorySelectUpdateArgs ? Promise<CategoryGetSelectPayload<ExtractCategorySelectUpdateArgs<T>>>
+  : T extends CategoryIncludeUpdateArgs ? Promise<CategoryGetIncludePayload<ExtractCategoryIncludeUpdateArgs<T>>> : CategoryClient<Category>
+  /**
+   * Delete zero or more Categories.
+   * @param {CategoryDeleteManyArgs} args - Arguments to filter Categories to delete.
+   * @example
+   * // Delete a few Categories
+   * const { count } = await prisma.category.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends CategoryDeleteManyArgs>(
+    args: Subset<T, CategoryDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Categories.
+   * @param {CategoryUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Categories
+   * const category = await prisma.category.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends CategoryUpdateManyArgs>(
+    args: Subset<T, CategoryUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Category.
+   * @param {CategoryUpsertArgs} args - Arguments to update or create a Category.
+   * @example
+   * // Update or create a Category
+   * const category = await prisma.category.upsert({
+   *   create: {
+   *     // ... data to create a Category
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Category we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends CategoryUpsertArgs>(
+    args: Subset<T, CategoryUpsertArgs>
+  ): T extends CategoryUpsertArgsRequired ? 'Please either choose `select` or `include`' : T extends CategorySelectUpsertArgs ? Promise<CategoryGetSelectPayload<ExtractCategorySelectUpsertArgs<T>>>
+  : T extends CategoryIncludeUpsertArgs ? Promise<CategoryGetIncludePayload<ExtractCategoryIncludeUpsertArgs<T>>> : CategoryClient<Category>
+  /**
+   * 
+   */
+  count(): Promise<number>
+}
+
+export declare class CategoryClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  private _collectTimestamps?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Category findOne
+ */
+export type FindOneCategoryArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type FindOneCategoryArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type FindOneCategorySelectArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type FindOneCategorySelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type FindOneCategoryIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type FindOneCategoryIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type ExtractFindOneCategorySelectArgs<S extends undefined | boolean | FindOneCategorySelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindOneCategorySelectArgs
+  ? S['select']
+  : true
+
+export type ExtractFindOneCategoryIncludeArgs<S extends undefined | boolean | FindOneCategoryIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindOneCategoryIncludeArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category findMany
+ */
+export type FindManyCategoryArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type FindManyCategoryArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type FindManyCategorySelectArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type FindManyCategorySelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type FindManyCategoryIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type FindManyCategoryIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter, which Categories to fetch.
+  **/
+  where?: CategoryWhereInput | null
+  /**
+   * Determine the order of the Categories to fetch.
+  **/
+  orderBy?: CategoryOrderByInput | null
+  /**
+   * Skip the first `n` Categories.
+  **/
+  skip?: number | null
+  /**
+   * Get all Categories that come after the Category you provide with the current order.
+  **/
+  after?: CategoryWhereUniqueInput | null
+  /**
+   * Get all Categories that come before the Category you provide with the current order.
+  **/
+  before?: CategoryWhereUniqueInput | null
+  /**
+   * Get the first `n` Categories.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Categories.
+  **/
+  last?: number | null
+}
+
+export type ExtractFindManyCategorySelectArgs<S extends undefined | boolean | FindManyCategorySelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindManyCategorySelectArgs
+  ? S['select']
+  : true
+
+export type ExtractFindManyCategoryIncludeArgs<S extends undefined | boolean | FindManyCategoryIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindManyCategoryIncludeArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category create
+ */
+export type CategoryCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type CategoryCreateArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type CategorySelectCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type CategorySelectCreateArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type CategoryIncludeCreateArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type CategoryIncludeCreateArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The data needed to create a Category.
+  **/
+  data: CategoryCreateInput
+}
+
+export type ExtractCategorySelectCreateArgs<S extends undefined | boolean | CategorySelectCreateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategorySelectCreateArgs
+  ? S['select']
+  : true
+
+export type ExtractCategoryIncludeCreateArgs<S extends undefined | boolean | CategoryIncludeCreateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategoryIncludeCreateArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category update
+ */
+export type CategoryUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategorySelectUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategorySelectUpdateArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryIncludeUpdateArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryIncludeUpdateArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The data needed to update a Category.
+  **/
+  data: CategoryUpdateInput
+  /**
+   * Choose, which Category to update.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type ExtractCategorySelectUpdateArgs<S extends undefined | boolean | CategorySelectUpdateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategorySelectUpdateArgs
+  ? S['select']
+  : true
+
+export type ExtractCategoryIncludeUpdateArgs<S extends undefined | boolean | CategoryIncludeUpdateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategoryIncludeUpdateArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category updateMany
+ */
+export type CategoryUpdateManyArgs = {
+  data: CategoryUpdateManyMutationInput
+  where?: CategoryWhereInput | null
+}
+
+
+/**
+ * Category upsert
+ */
+export type CategoryUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type CategoryUpsertArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type CategorySelectUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type CategorySelectUpsertArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type CategoryIncludeUpsertArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type CategoryIncludeUpsertArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * The filter to search for the Category to update in case it exists.
+  **/
+  where: CategoryWhereUniqueInput
+  /**
+   * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+  **/
+  create: CategoryCreateInput
+  /**
+   * In case the Category was found with the provided `where` argument, update it with this data.
+  **/
+  update: CategoryUpdateInput
+}
+
+export type ExtractCategorySelectUpsertArgs<S extends undefined | boolean | CategorySelectUpsertArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategorySelectUpsertArgs
+  ? S['select']
+  : true
+
+export type ExtractCategoryIncludeUpsertArgs<S extends undefined | boolean | CategoryIncludeUpsertArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategoryIncludeUpsertArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category delete
+ */
+export type CategoryDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryDeleteArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategorySelectDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategorySelectDeleteArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryIncludeDeleteArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type CategoryIncludeDeleteArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+  /**
+   * Filter which Category to delete.
+  **/
+  where: CategoryWhereUniqueInput
+}
+
+export type ExtractCategorySelectDeleteArgs<S extends undefined | boolean | CategorySelectDeleteArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategorySelectDeleteArgs
+  ? S['select']
+  : true
+
+export type ExtractCategoryIncludeDeleteArgs<S extends undefined | boolean | CategoryIncludeDeleteArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategoryIncludeDeleteArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Category deleteMany
+ */
+export type CategoryDeleteManyArgs = {
+  where?: CategoryWhereInput | null
+}
+
+
+/**
+ * Category without action
+ */
+export type CategoryArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+}
+
+export type CategoryArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+}
+
+export type CategorySelectArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select: CategorySelect
+}
+
+export type CategorySelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+}
+
+export type CategoryIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: CategoryInclude
+}
+
+export type CategoryIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CategoryInclude | null
+}
+
+export type ExtractCategorySelectArgs<S extends undefined | boolean | CategorySelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategorySelectArgs
+  ? S['select']
+  : true
+
+export type ExtractCategoryIncludeArgs<S extends undefined | boolean | CategoryIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends CategoryIncludeArgs
+  ? S['include']
+  : true
+
+
+
+
+/**
+ * Model Patient
+ */
+
+export type Patient = {
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export type PatientScalars = 'firstName' | 'lastName' | 'email'
+  
+
+export type PatientSelect = {
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+}
+
+export type PatientInclude = {
+
+}
+
+type PatientDefault = {
+  firstName: true
+  lastName: true
+  email: true
+}
+
+
+export type PatientGetSelectPayload<S extends boolean | PatientSelect> = S extends true
+  ? Patient
+  : S extends PatientSelect
+  ? {
+      [P in CleanupNever<MergeTruthyValues<{}, S>>]: P extends PatientScalars
+        ? Patient[P]
+        : never
+    }
+   : never
+
+export type PatientGetIncludePayload<S extends boolean | PatientInclude> = S extends true
+  ? Patient
+  : S extends PatientInclude
+  ? {
+      [P in CleanupNever<MergeTruthyValues<PatientDefault, S>>]: P extends PatientScalars
+        ? Patient[P]
+        : never
+    }
+   : never
+
+export interface PatientDelegate {
+  /**
+   * Find zero or one Patient.
+   * @param {FindOnePatientArgs} args - Arguments to find a Patient
+   * @example
+   * // Get one Patient
+   * const patient = await prisma.patient.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOnePatientArgs>(
+    args: Subset<T, FindOnePatientArgs>
+  ): T extends FindOnePatientArgsRequired ? 'Please either choose `select` or `include`' : T extends FindOnePatientSelectArgs ? Promise<PatientGetSelectPayload<ExtractFindOnePatientSelectArgs<T>> | null>
+  : T extends FindOnePatientIncludeArgs ? Promise<PatientGetIncludePayload<ExtractFindOnePatientIncludeArgs<T>> | null> : PatientClient<Patient | null>
+  /**
+   * Find zero or more Patients.
+   * @param {FindManyPatientArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Patients
+   * const patients = await prisma.patient.findMany()
+   * 
+   * // Get first 10 Patients
+   * const patients = await prisma.patient.findMany({ first: 10 })
+   * 
+   * // Only select the `firstName`
+   * const patientWithFirstNameOnly = await prisma.patient.findMany({ select: { firstName: true } })
+   * 
+  **/
+  findMany<T extends FindManyPatientArgs>(
+    args?: Subset<T, FindManyPatientArgs>
+  ): T extends FindManyPatientArgsRequired ? 'Please either choose `select` or `include`' : T extends FindManyPatientSelectArgs
+  ? Promise<Array<PatientGetSelectPayload<ExtractFindManyPatientSelectArgs<T>>>> : T extends FindManyPatientIncludeArgs
+  ? Promise<Array<PatientGetIncludePayload<ExtractFindManyPatientIncludeArgs<T>>>> : Promise<Array<Patient>>
+  /**
+   * Create a Patient.
+   * @param {PatientCreateArgs} args - Arguments to create a Patient.
+   * @example
+   * // Create one Patient
+   * const user = await prisma.patient.create({
+   *   data: {
+   *     // ... data to create a Patient
+   *   }
+   * })
+   * 
+  **/
+  create<T extends PatientCreateArgs>(
+    args: Subset<T, PatientCreateArgs>
+  ): T extends PatientCreateArgsRequired ? 'Please either choose `select` or `include`' : T extends PatientSelectCreateArgs ? Promise<PatientGetSelectPayload<ExtractPatientSelectCreateArgs<T>>>
+  : T extends PatientIncludeCreateArgs ? Promise<PatientGetIncludePayload<ExtractPatientIncludeCreateArgs<T>>> : PatientClient<Patient>
+  /**
+   * Delete a Patient.
+   * @param {PatientDeleteArgs} args - Arguments to delete one Patient.
+   * @example
+   * // Delete one Patient
+   * const user = await prisma.patient.delete({
+   *   where: {
+   *     // ... filter to delete one Patient
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends PatientDeleteArgs>(
+    args: Subset<T, PatientDeleteArgs>
+  ): T extends PatientDeleteArgsRequired ? 'Please either choose `select` or `include`' : T extends PatientSelectDeleteArgs ? Promise<PatientGetSelectPayload<ExtractPatientSelectDeleteArgs<T>>>
+  : T extends PatientIncludeDeleteArgs ? Promise<PatientGetIncludePayload<ExtractPatientIncludeDeleteArgs<T>>> : PatientClient<Patient>
+  /**
+   * Update one Patient.
+   * @param {PatientUpdateArgs} args - Arguments to update one Patient.
+   * @example
+   * // Update one Patient
+   * const patient = await prisma.patient.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends PatientUpdateArgs>(
+    args: Subset<T, PatientUpdateArgs>
+  ): T extends PatientUpdateArgsRequired ? 'Please either choose `select` or `include`' : T extends PatientSelectUpdateArgs ? Promise<PatientGetSelectPayload<ExtractPatientSelectUpdateArgs<T>>>
+  : T extends PatientIncludeUpdateArgs ? Promise<PatientGetIncludePayload<ExtractPatientIncludeUpdateArgs<T>>> : PatientClient<Patient>
+  /**
+   * Delete zero or more Patients.
+   * @param {PatientDeleteManyArgs} args - Arguments to filter Patients to delete.
+   * @example
+   * // Delete a few Patients
+   * const { count } = await prisma.patient.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends PatientDeleteManyArgs>(
+    args: Subset<T, PatientDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Patients.
+   * @param {PatientUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Patients
+   * const patient = await prisma.patient.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends PatientUpdateManyArgs>(
+    args: Subset<T, PatientUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Patient.
+   * @param {PatientUpsertArgs} args - Arguments to update or create a Patient.
+   * @example
+   * // Update or create a Patient
+   * const patient = await prisma.patient.upsert({
+   *   create: {
+   *     // ... data to create a Patient
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Patient we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends PatientUpsertArgs>(
+    args: Subset<T, PatientUpsertArgs>
+  ): T extends PatientUpsertArgsRequired ? 'Please either choose `select` or `include`' : T extends PatientSelectUpsertArgs ? Promise<PatientGetSelectPayload<ExtractPatientSelectUpsertArgs<T>>>
+  : T extends PatientIncludeUpsertArgs ? Promise<PatientGetIncludePayload<ExtractPatientIncludeUpsertArgs<T>>> : PatientClient<Patient>
+  /**
+   * 
+   */
+  count(): Promise<number>
+}
+
+export declare class PatientClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  private _collectTimestamps?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Patient findOne
+ */
+export type FindOnePatientArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type FindOnePatientArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type FindOnePatientSelectArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type FindOnePatientSelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type FindOnePatientIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type FindOnePatientIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type ExtractFindOnePatientSelectArgs<S extends undefined | boolean | FindOnePatientSelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindOnePatientSelectArgs
+  ? S['select']
+  : true
+
+export type ExtractFindOnePatientIncludeArgs<S extends undefined | boolean | FindOnePatientIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindOnePatientIncludeArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient findMany
+ */
+export type FindManyPatientArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type FindManyPatientArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type FindManyPatientSelectArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type FindManyPatientSelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type FindManyPatientIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type FindManyPatientIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter, which Patients to fetch.
+  **/
+  where?: PatientWhereInput | null
+  /**
+   * Determine the order of the Patients to fetch.
+  **/
+  orderBy?: PatientOrderByInput | null
+  /**
+   * Skip the first `n` Patients.
+  **/
+  skip?: number | null
+  /**
+   * Get all Patients that come after the Patient you provide with the current order.
+  **/
+  after?: PatientWhereUniqueInput | null
+  /**
+   * Get all Patients that come before the Patient you provide with the current order.
+  **/
+  before?: PatientWhereUniqueInput | null
+  /**
+   * Get the first `n` Patients.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Patients.
+  **/
+  last?: number | null
+}
+
+export type ExtractFindManyPatientSelectArgs<S extends undefined | boolean | FindManyPatientSelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindManyPatientSelectArgs
+  ? S['select']
+  : true
+
+export type ExtractFindManyPatientIncludeArgs<S extends undefined | boolean | FindManyPatientIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends FindManyPatientIncludeArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient create
+ */
+export type PatientCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type PatientCreateArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type PatientSelectCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type PatientSelectCreateArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type PatientIncludeCreateArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type PatientIncludeCreateArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The data needed to create a Patient.
+  **/
+  data: PatientCreateInput
+}
+
+export type ExtractPatientSelectCreateArgs<S extends undefined | boolean | PatientSelectCreateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientSelectCreateArgs
+  ? S['select']
+  : true
+
+export type ExtractPatientIncludeCreateArgs<S extends undefined | boolean | PatientIncludeCreateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientIncludeCreateArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient update
+ */
+export type PatientUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientUpdateArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientSelectUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientSelectUpdateArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientIncludeUpdateArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientIncludeUpdateArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The data needed to update a Patient.
+  **/
+  data: PatientUpdateInput
+  /**
+   * Choose, which Patient to update.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type ExtractPatientSelectUpdateArgs<S extends undefined | boolean | PatientSelectUpdateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientSelectUpdateArgs
+  ? S['select']
+  : true
+
+export type ExtractPatientIncludeUpdateArgs<S extends undefined | boolean | PatientIncludeUpdateArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientIncludeUpdateArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient updateMany
+ */
+export type PatientUpdateManyArgs = {
+  data: PatientUpdateManyMutationInput
+  where?: PatientWhereInput | null
+}
+
+
+/**
+ * Patient upsert
+ */
+export type PatientUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type PatientUpsertArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type PatientSelectUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type PatientSelectUpsertArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type PatientIncludeUpsertArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type PatientIncludeUpsertArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * The filter to search for the Patient to update in case it exists.
+  **/
+  where: PatientWhereUniqueInput
+  /**
+   * In case the Patient found by the `where` argument doesn't exist, create a new Patient with this data.
+  **/
+  create: PatientCreateInput
+  /**
+   * In case the Patient was found with the provided `where` argument, update it with this data.
+  **/
+  update: PatientUpdateInput
+}
+
+export type ExtractPatientSelectUpsertArgs<S extends undefined | boolean | PatientSelectUpsertArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientSelectUpsertArgs
+  ? S['select']
+  : true
+
+export type ExtractPatientIncludeUpsertArgs<S extends undefined | boolean | PatientIncludeUpsertArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientIncludeUpsertArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient delete
+ */
+export type PatientDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientDeleteArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientSelectDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientSelectDeleteArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientIncludeDeleteArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type PatientIncludeDeleteArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+  /**
+   * Filter which Patient to delete.
+  **/
+  where: PatientWhereUniqueInput
+}
+
+export type ExtractPatientSelectDeleteArgs<S extends undefined | boolean | PatientSelectDeleteArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientSelectDeleteArgs
+  ? S['select']
+  : true
+
+export type ExtractPatientIncludeDeleteArgs<S extends undefined | boolean | PatientIncludeDeleteArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientIncludeDeleteArgs
+  ? S['include']
+  : true
+
+
+
+/**
+ * Patient deleteMany
+ */
+export type PatientDeleteManyArgs = {
+  where?: PatientWhereInput | null
+}
+
+
+/**
+ * Patient without action
+ */
+export type PatientArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+}
+
+export type PatientArgsRequired = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+}
+
+export type PatientSelectArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select: PatientSelect
+}
+
+export type PatientSelectArgsOptional = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+}
+
+export type PatientIncludeArgs = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include: PatientInclude
+}
+
+export type PatientIncludeArgsOptional = {
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: PatientInclude | null
+}
+
+export type ExtractPatientSelectArgs<S extends undefined | boolean | PatientSelectArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientSelectArgs
+  ? S['select']
+  : true
+
+export type ExtractPatientIncludeArgs<S extends undefined | boolean | PatientIncludeArgsOptional> = S extends undefined
+  ? false
+  : S extends boolean
+  ? S
+  : S extends PatientIncludeArgs
+  ? S['include']
+  : true
+
+
+
+
+/**
  * Deep Input Types
  */
 
@@ -2595,6 +4843,42 @@ export type UuidCompoundUniqueInput = {
 
 export type PostWhereUniqueInput = {
   uuid?: string | null
+}
+
+export type CategoryWhereInput = {
+  name?: string | StringFilter | null
+  slug?: string | StringFilter | null
+  number?: number | IntFilter | null
+  AND?: Enumerable<CategoryWhereInput> | null
+  OR?: Enumerable<CategoryWhereInput> | null
+  NOT?: Enumerable<CategoryWhereInput> | null
+}
+
+export type SlugNumberCompoundUniqueInput = {
+  slug: string
+  number: number
+}
+
+export type CategoryWhereUniqueInput = {
+  slug_number?: SlugNumberCompoundUniqueInput | null
+}
+
+export type PatientWhereInput = {
+  firstName?: string | StringFilter | null
+  lastName?: string | StringFilter | null
+  email?: string | StringFilter | null
+  AND?: Enumerable<PatientWhereInput> | null
+  OR?: Enumerable<PatientWhereInput> | null
+  NOT?: Enumerable<PatientWhereInput> | null
+}
+
+export type FirstNameLastNameCompoundUniqueInput = {
+  firstName: string
+  lastName: string
+}
+
+export type PatientWhereUniqueInput = {
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null
 }
 
 export type PostCreateWithoutAuthorInput = {
@@ -2772,6 +5056,42 @@ export type PostUpdateManyMutationInput = {
   kind?: PostKind | null
 }
 
+export type CategoryCreateInput = {
+  name: string
+  slug: string
+  number: number
+}
+
+export type CategoryUpdateInput = {
+  name?: string | null
+  slug?: string | null
+  number?: number | null
+}
+
+export type CategoryUpdateManyMutationInput = {
+  name?: string | null
+  slug?: string | null
+  number?: number | null
+}
+
+export type PatientCreateInput = {
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export type PatientUpdateInput = {
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+}
+
+export type PatientUpdateManyMutationInput = {
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+}
+
 export type StringFilter = {
   equals?: string | null
   not?: string | StringFilter | null
@@ -2876,6 +5196,18 @@ export type PostOrderByInput = {
   title?: OrderByArg | null
   content?: OrderByArg | null
   kind?: OrderByArg | null
+}
+
+export type CategoryOrderByInput = {
+  name?: OrderByArg | null
+  slug?: OrderByArg | null
+  number?: OrderByArg | null
+}
+
+export type PatientOrderByInput = {
+  firstName?: OrderByArg | null
+  lastName?: OrderByArg | null
+  email?: OrderByArg | null
 }
 
 /**

@@ -268,6 +268,106 @@
         "isGenerated": false,
         "idFields": [],
         "uniqueFields": []
+      },
+      {
+        "name": "Category",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "name",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "slug",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "number",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "Int",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [],
+        "uniqueFields": [
+          [
+            "slug",
+            "number"
+          ]
+        ]
+      },
+      {
+        "name": "Patient",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "firstName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "lastName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "email",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [
+          "firstName",
+          "lastName"
+        ],
+        "uniqueFields": []
       }
     ]
   },
@@ -1603,6 +1703,846 @@
             "name": "uuid",
             "inputType": {
               "type": "UuidCompoundUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryWhereInput",
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": {
+              "type": "CategoryWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "OR",
+            "inputType": {
+              "type": "CategoryWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "NOT",
+            "inputType": {
+              "type": "CategoryWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "name",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_not",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "name_not_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "name_lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_not_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_not_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "name_not_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_not",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "slug_not_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "slug_lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_not_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_not_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug_not_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number_not",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number_in",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "number_not_in",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "number_lt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number_lte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number_gt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number_gte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "SlugNumberCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "slug",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryWhereUniqueInput",
+        "fields": [
+          {
+            "name": "slug_number",
+            "inputType": {
+              "type": "SlugNumberCompoundUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PatientWhereInput",
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": {
+              "type": "PatientWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "OR",
+            "inputType": {
+              "type": "PatientWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "NOT",
+            "inputType": {
+              "type": "PatientWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "firstName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_not",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "firstName_not_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "firstName_lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_not_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_not_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "firstName_not_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_not",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "lastName_not_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "lastName_lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_not_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_not_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName_not_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_not",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "email_not_in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true
+            }
+          },
+          {
+            "name": "email_lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_not_contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_not_starts_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email_not_ends_with",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "FirstNameLastNameCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PatientWhereUniqueInput",
+        "fields": [
+          {
+            "name": "firstName_lastName",
+            "inputType": {
+              "type": "FirstNameLastNameCompoundUniqueInput",
               "kind": "object",
               "isRequired": false,
               "isList": false
@@ -3257,6 +4197,198 @@
             }
           }
         ]
+      },
+      {
+        "name": "CategoryCreateInput",
+        "fields": [
+          {
+            "name": "name",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryUpdateInput",
+        "fields": [
+          {
+            "name": "name",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryUpdateManyMutationInput",
+        "fields": [
+          {
+            "name": "name",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PatientCreateInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "email",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PatientUpdateInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PatientUpdateManyMutationInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "email",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
+          }
+        ]
       }
     ],
     "outputTypes": [
@@ -3525,6 +4657,106 @@
         ]
       },
       {
+        "name": "Category",
+        "fields": [
+          {
+            "name": "name",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "slug",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "number",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateCategory",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "Patient",
+        "fields": [
+          {
+            "name": "firstName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "email",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregatePatient",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
         "name": "Query",
         "fields": [
           {
@@ -3730,6 +4962,214 @@
             ],
             "outputType": {
               "type": "Post",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "findManyCategory",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "orderBy",
+                "inputType": {
+                  "type": "CategoryOrderByInput",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "skip",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "after",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "before",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "first",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "last",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true
+            }
+          },
+          {
+            "name": "aggregateCategory",
+            "args": [],
+            "outputType": {
+              "type": "AggregateCategory",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "findOneCategory",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "findManyPatient",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "orderBy",
+                "inputType": {
+                  "type": "PatientOrderByInput",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "skip",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "after",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "before",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "first",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              },
+              {
+                "name": "last",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true
+            }
+          },
+          {
+            "name": "aggregatePatient",
+            "args": [],
+            "outputType": {
+              "type": "AggregatePatient",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "findOnePatient",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
               "kind": "object",
               "isRequired": false,
               "isList": false
@@ -4068,6 +5508,318 @@
             }
           },
           {
+            "name": "createOneCategory",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "CategoryCreateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteOneCategory",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateOneCategory",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "CategoryUpdateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "upsertOneCategory",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "create",
+                "inputType": {
+                  "type": "CategoryCreateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "update",
+                "inputType": {
+                  "type": "CategoryUpdateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Category",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateManyCategory",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "CategoryUpdateManyMutationInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteManyCategory",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "CategoryWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "createOnePatient",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "PatientCreateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteOnePatient",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateOnePatient",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "PatientUpdateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "upsertOnePatient",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "create",
+                "inputType": {
+                  "type": "PatientCreateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "update",
+                "inputType": {
+                  "type": "PatientUpdateInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "Patient",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateManyPatient",
+            "args": [
+              {
+                "name": "data",
+                "inputType": {
+                  "type": "PatientUpdateManyMutationInput",
+                  "kind": "object",
+                  "isRequired": true,
+                  "isList": false
+                }
+              },
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteManyPatient",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "PatientWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
             "name": "executeRaw",
             "args": [
               {
@@ -4151,6 +5903,28 @@
           "kind_ASC",
           "kind_DESC"
         ]
+      },
+      {
+        "name": "CategoryOrderByInput",
+        "values": [
+          "name_ASC",
+          "name_DESC",
+          "slug_ASC",
+          "slug_DESC",
+          "number_ASC",
+          "number_DESC"
+        ]
+      },
+      {
+        "name": "PatientOrderByInput",
+        "values": [
+          "firstName_ASC",
+          "firstName_DESC",
+          "lastName_ASC",
+          "lastName_DESC",
+          "email_ASC",
+          "email_DESC"
+        ]
       }
     ]
   },
@@ -4178,6 +5952,30 @@
       "updateMany": "updateManyPost",
       "updateOne": "updateOnePost",
       "upsertOne": "upsertOnePost"
+    },
+    {
+      "model": "Category",
+      "aggregate": "aggregateCategory",
+      "createOne": "createOneCategory",
+      "deleteMany": "deleteManyCategory",
+      "deleteOne": "deleteOneCategory",
+      "findMany": "findManyCategory",
+      "findOne": "findOneCategory",
+      "updateMany": "updateManyCategory",
+      "updateOne": "updateOneCategory",
+      "upsertOne": "upsertOneCategory"
+    },
+    {
+      "model": "Patient",
+      "aggregate": "aggregatePatient",
+      "createOne": "createOnePatient",
+      "deleteMany": "deleteManyPatient",
+      "deleteOne": "deleteOnePatient",
+      "findMany": "findManyPatient",
+      "findOne": "findOnePatient",
+      "updateMany": "updateManyPatient",
+      "updateOne": "updateOnePatient",
+      "upsertOne": "upsertOnePatient"
     }
   ]
 }

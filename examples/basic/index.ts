@@ -60,9 +60,7 @@ async function main() {
     validate: false,
   });
 
-  const prisma = new PrismaClient({
-    // debug: true, // uncomment to see how dataloader for relations works
-  });
+  const prisma = new PrismaClient();
 
   const server = new ApolloServer({
     schema,
