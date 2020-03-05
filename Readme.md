@@ -25,6 +25,8 @@ npm i -D prisma2@2.0.0-preview023
 npm i @prisma/client@2.0.0-preview023
 ```
 
+Also, be aware that due to usage of some newer Node.js features, you also have to use **Node.js v10.12 or newer**.
+
 ## Configuration
 
 After installation, you need to update your `schema.prisma` file and add a new generator section below the `client` one:
@@ -154,7 +156,7 @@ const server = new ApolloServer({
 Due to difference between TypeGraphQL and NestJS decorators, `typegraphql-prisma` doesn't work well with Nest JS. In order to use generated resolvers, you need to use this fork:
 https://github.com/EndyKaufman/typegraphql-prisma-nestjs
 
-This will likely to change in the future, either by merging the fork back to this repository or by providing [more TypeGraphQL-ish integration for NestJS](https://github.com/MichalLytek/type-graphql/issues/135#issuecomment-474568922) that will work with standard TypeGraphQL constructs.
+This is likely to change in the future - either by merging the fork back to this repository or by providing [more TypeGraphQL-ish integration for NestJS](https://github.com/MichalLytek/type-graphql/issues/135#issuecomment-474568922) that gonna work with standard TypeGraphQL constructs.
 
 ### Customization
 
