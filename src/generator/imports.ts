@@ -114,14 +114,21 @@ export function generateOutputsBarrelFile(
   );
 }
 
-export function generateIndexFile(sourceFile: SourceFile) {
+export function generateIndexFile(
+  sourceFile: SourceFile,
+  hasSomeRelations: boolean,
+) {
   sourceFile.addExportDeclarations([
     { moduleSpecifier: `./${enumsFolderName}` },
     { moduleSpecifier: `./${modelsFolderName}` },
     { moduleSpecifier: `./${resolversFolderName}/${crudResolversFolderName}` },
-    {
-      moduleSpecifier: `./${resolversFolderName}/${relationsResolversFolderName}`,
-    },
+    ...(hasSomeRelations
+      ? [
+          {
+            moduleSpecifier: `./${resolversFolderName}/${relationsResolversFolderName}`,
+          },
+        ]
+      : []),
     { moduleSpecifier: `./${resolversFolderName}/${inputsFolderName}` },
     { moduleSpecifier: `./${resolversFolderName}/${outputsFolderName}` },
   ]);

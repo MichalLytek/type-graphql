@@ -148,37 +148,41 @@ export default async function generateCode(
 
   log("Generating relation resolvers...");
   const relationResolversData = await Promise.all(
-    dmmf.datamodel.models.map(model => {
-      const outputType = dmmf.schema.outputTypes.find(
-        type => type.name === model.name,
-      )!;
-      const mapping = dmmf.mappings.find(it => it.model === model.name)!;
-      return generateRelationsResolverClassesFromModel(
-        project,
+    dmmf.datamodel.models
+      .filter(model => model.fields.some(field => field.relationName))
+      .map(model => {
+        const outputType = dmmf.schema.outputTypes.find(
+          type => type.name === model.name,
+        )!;
+        const mapping = dmmf.mappings.find(it => it.model === model.name)!;
+        return generateRelationsResolverClassesFromModel(
+          project,
+          baseDirPath,
+          model,
+          mapping,
+          outputType,
+          modelNames,
+        );
+      }),
+  );
+  if (relationResolversData.length > 0) {
+    const relationResolversBarrelExportSourceFile = project.createSourceFile(
+      path.resolve(
         baseDirPath,
-        model,
-        mapping,
-        outputType,
-        modelNames,
-      );
-    }),
-  );
-  const relationResolversBarrelExportSourceFile = project.createSourceFile(
-    path.resolve(
-      baseDirPath,
-      resolversFolderName,
-      relationsResolversFolderName,
-      "index.ts",
-    ),
-    undefined,
-    { overwrite: true },
-  );
-  generateResolversBarrelFile(
-    "relations",
-    relationResolversBarrelExportSourceFile,
-    relationResolversData,
-  );
-  await saveSourceFile(relationResolversBarrelExportSourceFile);
+        resolversFolderName,
+        relationsResolversFolderName,
+        "index.ts",
+      ),
+      undefined,
+      { overwrite: true },
+    );
+    generateResolversBarrelFile(
+      "relations",
+      relationResolversBarrelExportSourceFile,
+      relationResolversData,
+    );
+    await saveSourceFile(relationResolversBarrelExportSourceFile);
+  }
 
   log("Generating crud resolvers...");
   const crudResolversData = await Promise.all(
@@ -216,6 +220,6 @@ export default async function generateCode(
     undefined,
     { overwrite: true },
   );
-  generateIndexFile(indexSourceFile);
+  generateIndexFile(indexSourceFile, relationResolversData.length > 0);
   await saveSourceFile(indexSourceFile);
 }
