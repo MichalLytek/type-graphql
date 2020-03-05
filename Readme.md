@@ -18,6 +18,13 @@ You also need to install its peer deependency - `dataloader` - which is used for
 npm i dataloader
 ```
 
+`typegraphql-prisma` is designed to work only with selected version of `prisma2`, so please install this version if you don't have it already installed:
+
+```sh
+npm i -D prisma2@2.0.0-alpha.819
+npm i @prisma/client@2.0.0-alpha.819
+```
+
 ## Configuration
 
 After installation, you need to update your `schema.prisma` file and add a new generator section below the `client` one:
