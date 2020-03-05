@@ -149,6 +149,13 @@ const server = new ApolloServer({
 });
 ```
 
+### Nest JS
+
+Due to difference between TypeGraphQL and NestJS decorators, `typegraphql-prisma` doesn't work well with Nest JS. In order to use generated resolvers, you need to use this fork:
+https://github.com/EndyKaufman/typegraphql-prisma-nestjs
+
+This will likely to change in the future, either by merging the fork back to this repository or by providing [more TypeGraphQL-ish integration for NestJS](https://github.com/MichalLytek/type-graphql/issues/135#issuecomment-474568922) that will work with standard TypeGraphQL constructs.
+
 ### Customization
 
 You can also add custom queries and mutations to the schema as always, using the generated `PrismaClient` client:
