@@ -269,6 +269,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("mr-yum.png")} width="100" />
             <span>Mr Yum</span>
           </a>
+          <a href="https://www.joinlifex.com/">
+            <img src={imgUrl("lifex.svg")} width="100" />
+            <span>Mr Yum</span>
+          </a>
         </div>
         <h3>Backers ☕ and Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
