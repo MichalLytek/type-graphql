@@ -16,7 +16,6 @@ import {
   GraphQLUnionType,
   GraphQLTypeResolver,
   GraphQLDirective,
-  defaultFieldResolver,
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
