@@ -235,15 +235,7 @@ export abstract class SchemaGenerator {
                   fieldsMap[field.schemaName] = {
                     description: field.description,
                     type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-                    resolve: (source, args, contextValue, info) => {
-                      if (field.name !== field.schemaName) {
-                        return defaultFieldResolver(source, args, contextValue, {
-                          ...info,
-                          fieldName: field.name,
-                        });
-                      }
-                      return defaultFieldResolver(source, args, contextValue, info);
-                    },
+                    resolve: createBasicFieldResolver(field),
                   };
                   return fieldsMap;
                 },
