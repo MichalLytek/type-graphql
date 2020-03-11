@@ -1,6 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching array relations with args: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution composite unique key should properly call PrismaClient on fetching array relations: findManyPost relations call args 1`] = `
+Array [
+  Array [
+    Object {
+      "select": Object {
+        "author": Object {},
+        "color": true,
+        "title": true,
+      },
+      "where": Object {
+        "OR": Array [
+          Object {
+            "color": "BLUE",
+            "title": "Post 1",
+          },
+        ],
+      },
+    },
+  ],
+]
+`;
+
+exports[`relations resolvers execution composite unique key should properly call PrismaClient on fetching array relations: post with author mocked response 1`] = `
+Object {
+  "post": Object {
+    "author": Object {
+      "id": 1,
+      "name": "User 1",
+    },
+    "color": "BLUE",
+    "text": "Post text",
+    "title": "Post 1",
+  },
+}
+`;
+
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations with args: findManyUser relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -17,19 +53,21 @@ Array [
         },
       },
       "where": Object {
-        "id": Object {
-          "in": Array [
-            1,
-            2,
-          ],
-        },
+        "OR": Array [
+          Object {
+            "id": 1,
+          },
+          Object {
+            "id": 2,
+          },
+        ],
       },
     },
   ],
 ]
 `;
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching array relations with args: users with posts mocked response 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations with args: users with posts mocked response 1`] = `
 Object {
   "users": Array [
     Object {
@@ -53,7 +91,7 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching array relations: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations: findManyUser relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -62,19 +100,21 @@ Array [
         "posts": UserPostsArgs {},
       },
       "where": Object {
-        "id": Object {
-          "in": Array [
-            1,
-            2,
-          ],
-        },
+        "OR": Array [
+          Object {
+            "id": 1,
+          },
+          Object {
+            "id": 2,
+          },
+        ],
       },
     },
   ],
 ]
 `;
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching array relations: users with posts mocked response 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations: users with posts mocked response 1`] = `
 Object {
   "users": Array [
     Object {
@@ -98,7 +138,7 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching single relation: findManyPost relations call args 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching single relation: findManyPost relations call args 1`] = `
 Array [
   Array [
     Object {
@@ -107,19 +147,21 @@ Array [
         "uuid": true,
       },
       "where": Object {
-        "uuid": Object {
-          "in": Array [
-            "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
-            "72c8a188-3d46-45b3-b23f-7d420aa282f1",
-          ],
-        },
+        "OR": Array [
+          Object {
+            "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+          },
+          Object {
+            "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
+          },
+        ],
       },
     },
   ],
 ]
 `;
 
-exports[`relations resolvers execution should properly call PrismaClient on fetching single relation: posts with authors mocked response 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching single relation: posts with authors mocked response 1`] = `
 Object {
   "posts": Array [
     Object {
@@ -127,7 +169,6 @@ Object {
         "id": 1,
         "name": "Test 1",
       },
-      "color": "RED",
       "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
     },
     Object {
@@ -135,7 +176,6 @@ Object {
         "id": 1,
         "name": "Test 1",
       },
-      "color": "BLUE",
       "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
     },
   ],

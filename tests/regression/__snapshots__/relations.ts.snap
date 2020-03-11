@@ -39,21 +39,27 @@ import { Post } from \\"../../../models/Post\\";
 import { User } from \\"../../../models/User\\";
 
 function createGetPostAuthorDataLoader(prisma: any) {
-  const argsToDataLoaderMap = new Map<string, DataLoader<string, User | null>>();
+  const argsToDataLoaderMap = new Map<string, DataLoader<object, User | null>>();
   return function getPostAuthorDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let postAuthorDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!postAuthorDataLoader) {
-      postAuthorDataLoader = new DataLoader<string, User | null>(async keys => {
+      postAuthorDataLoader = new DataLoader<object, User | null>(async uniqueFieldsValues => {
         const fetchedData: any[] = await prisma.post.findMany({
-          where: { uuid: { in: keys } },
+          where: {
+            OR: uniqueFieldsValues.map((value: any) => ({
+              uuid: value.uuid,
+            })),
+          },
           select: {
-            uuid: true,
             author: args,
+            uuid: true,
           },
         });
-        return keys
-          .map(key => fetchedData.find(data => data.uuid === key)!)
+        return uniqueFieldsValues
+          .map((uniqueValue: any) => fetchedData.find(data =>
+            data.uuid === uniqueValue.uuid
+          )!)
           .map(data => data.author);
       });
       argsToDataLoaderMap.set(argsJSON, postAuthorDataLoader);
@@ -70,7 +76,9 @@ export class PostRelationsResolver {
   })
   async author(@Root() post: Post, @Ctx() ctx: any): Promise<User | null> {
     ctx.getPostAuthorDataLoader = ctx.getPostAuthorDataLoader || createGetPostAuthorDataLoader(ctx.prisma);
-    return ctx.getPostAuthorDataLoader({}).load(post.uuid);
+    return ctx.getPostAuthorDataLoader({}).load({
+      uuid: post.uuid,
+    });
   }
 }
 "
@@ -84,21 +92,27 @@ import { User } from \\"../../../models/User\\";
 import { UserPostsArgs } from \\"./args/UserPostsArgs\\";
 
 function createGetUserPostsDataLoader(prisma: any) {
-  const argsToDataLoaderMap = new Map<string, DataLoader<number, Post[] | null>>();
+  const argsToDataLoaderMap = new Map<string, DataLoader<object, Post[] | null>>();
   return function getUserPostsDataLoader(args: any) {
     const argsJSON = JSON.stringify(args);
     let userPostsDataLoader = argsToDataLoaderMap.get(argsJSON);
     if (!userPostsDataLoader) {
-      userPostsDataLoader = new DataLoader<number, Post[] | null>(async keys => {
+      userPostsDataLoader = new DataLoader<object, Post[] | null>(async uniqueFieldsValues => {
         const fetchedData: any[] = await prisma.user.findMany({
-          where: { id: { in: keys } },
+          where: {
+            OR: uniqueFieldsValues.map((value: any) => ({
+              id: value.id,
+            })),
+          },
           select: {
-            id: true,
             posts: args,
+            id: true,
           },
         });
-        return keys
-          .map(key => fetchedData.find(data => data.id === key)!)
+        return uniqueFieldsValues
+          .map((uniqueValue: any) => fetchedData.find(data =>
+            data.id === uniqueValue.id
+          )!)
           .map(data => data.posts);
       });
       argsToDataLoaderMap.set(argsJSON, userPostsDataLoader);
@@ -115,7 +129,9 @@ export class UserRelationsResolver {
   })
   async posts(@Root() user: User, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<Post[] | null> {
     ctx.getUserPostsDataLoader = ctx.getUserPostsDataLoader || createGetUserPostsDataLoader(ctx.prisma);
-    return ctx.getUserPostsDataLoader(args).load(user.id);
+    return ctx.getUserPostsDataLoader(args).load({
+      id: user.id,
+    });
   }
 }
 "
