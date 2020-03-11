@@ -4,17 +4,18 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { NullablePostKindFilter } from "../inputs/NullablePostKindFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { UUIDFilter } from "../inputs/UUIDFilter";
 
 @InputType({
   isAbstract: true,
   description: undefined,
 })
 export class PostScalarWhereInput {
-  @Field(_type => StringFilter, {
+  @Field(_type => UUIDFilter, {
     nullable: true,
     description: undefined
   })
-  uuid?: StringFilter | null;
+  uuid?: UUIDFilter | null;
 
   @Field(_type => DateTimeFilter, {
     nullable: true,

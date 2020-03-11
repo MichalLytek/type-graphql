@@ -163,7 +163,7 @@
             "isId": true,
             "type": "String",
             "default": {
-              "name": "cuid",
+              "name": "uuid",
               "returnType": "String",
               "args": []
             },

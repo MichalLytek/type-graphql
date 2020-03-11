@@ -4801,7 +4801,7 @@ export type ExtractPatientIncludeArgs<S extends undefined | boolean | PatientInc
 
 
 export type PostWhereInput = {
-  uuid?: string | StringFilter | null
+  uuid?: string | UUIDFilter | null
   createdAt?: Date | string | DateTimeFilter | null
   updatedAt?: Date | string | DateTimeFilter | null
   published?: boolean | BooleanFilter | null
@@ -4922,7 +4922,7 @@ export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
 }
 
 export type PostScalarWhereInput = {
-  uuid?: string | StringFilter | null
+  uuid?: string | UUIDFilter | null
   createdAt?: Date | string | DateTimeFilter | null
   updatedAt?: Date | string | DateTimeFilter | null
   published?: boolean | BooleanFilter | null
@@ -5092,9 +5092,9 @@ export type PatientUpdateManyMutationInput = {
   email?: string | null
 }
 
-export type StringFilter = {
+export type UUIDFilter = {
   equals?: string | null
-  not?: string | StringFilter | null
+  not?: string | UUIDFilter | null
   in?: Enumerable<string> | null
   notIn?: Enumerable<string> | null
   lt?: string | null
@@ -5120,6 +5120,20 @@ export type DateTimeFilter = {
 export type BooleanFilter = {
   equals?: boolean | null
   not?: boolean | BooleanFilter | null
+}
+
+export type StringFilter = {
+  equals?: string | null
+  not?: string | StringFilter | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string | null
+  lte?: string | null
+  gt?: string | null
+  gte?: string | null
+  contains?: string | null
+  startsWith?: string | null
+  endsWith?: string | null
 }
 
 export type NullableStringFilter = {

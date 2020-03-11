@@ -37,6 +37,7 @@ export { PostWhereUniqueInput } from "./PostWhereUniqueInput";
 export { RoleFilter } from "./RoleFilter";
 export { SlugNumberCompoundUniqueInput } from "./SlugNumberCompoundUniqueInput";
 export { StringFilter } from "./StringFilter";
+export { UUIDFilter } from "./UUIDFilter";
 export { UserCreateInput } from "./UserCreateInput";
 export { UserCreateOneWithoutPostsInput } from "./UserCreateOneWithoutPostsInput";
 export { UserCreateWithoutPostsInput } from "./UserCreateWithoutPostsInput";

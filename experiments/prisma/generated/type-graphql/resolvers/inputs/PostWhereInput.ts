@@ -4,6 +4,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { NullablePostKindFilter } from "../inputs/NullablePostKindFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { UUIDFilter } from "../inputs/UUIDFilter";
 import { UserWhereInput } from "../inputs/UserWhereInput";
 
 @InputType({
@@ -11,11 +12,11 @@ import { UserWhereInput } from "../inputs/UserWhereInput";
   description: undefined,
 })
 export class PostWhereInput {
-  @Field(_type => StringFilter, {
+  @Field(_type => UUIDFilter, {
     nullable: true,
     description: undefined
   })
-  uuid?: StringFilter | null;
+  uuid?: UUIDFilter | null;
 
   @Field(_type => DateTimeFilter, {
     nullable: true,

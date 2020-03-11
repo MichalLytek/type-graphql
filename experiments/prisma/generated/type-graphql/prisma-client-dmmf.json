@@ -151,7 +151,7 @@
             "isId": true,
             "type": "String",
             "default": {
-              "name": "cuid",
+              "name": "uuid",
               "returnType": "String",
               "args": []
             },
@@ -2070,10 +2070,10 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               },
               {
-                "type": "StringFilter",
+                "type": "UUIDFilter",
                 "isList": false,
                 "isRequired": false,
                 "kind": "object"
@@ -3110,10 +3110,10 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               },
               {
-                "type": "StringFilter",
+                "type": "UUIDFilter",
                 "isList": false,
                 "isRequired": false,
                 "kind": "object"
@@ -4460,7 +4460,7 @@
         ]
       },
       {
-        "name": "StringFilter",
+        "name": "UUIDFilter",
         "fields": [
           {
             "name": "equals",
@@ -4470,7 +4470,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4482,13 +4482,13 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               },
               {
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "StringFilter"
+                "type": "UUIDFilter"
               }
             ]
           },
@@ -4500,7 +4500,7 @@
                 "isList": true,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4512,7 +4512,7 @@
                 "isList": true,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4524,7 +4524,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4536,7 +4536,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4548,7 +4548,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4560,7 +4560,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4572,7 +4572,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4584,7 +4584,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           },
@@ -4596,7 +4596,7 @@
                 "isList": false,
                 "isRequired": false,
                 "kind": "scalar",
-                "type": "String"
+                "type": "UUID"
               }
             ]
           }
@@ -4741,6 +4741,150 @@
                 "isRequired": false,
                 "kind": "scalar",
                 "type": "BooleanFilter"
+              }
+            ]
+          }
+        ],
+        "atLeastOne": false
+      },
+      {
+        "name": "StringFilter",
+        "fields": [
+          {
+            "name": "equals",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "not",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "StringFilter"
+              }
+            ]
+          },
+          {
+            "name": "in",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": true,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "notIn",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": true,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "lt",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "lte",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "gt",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "gte",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "contains",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "startsWith",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "endsWith",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
               }
             ]
           }
