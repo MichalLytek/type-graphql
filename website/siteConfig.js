@@ -18,10 +18,9 @@ const users = [
 const siteConfig = {
   title: "TypeGraphQL" /* title for your website */,
   tagline: "Modern framework for GraphQL API in Node.js",
-  url: "http://michallytek.github.io/type-graphql" /* your website url */,
-  // baseUrl: "/" /* base url for your project */,
-  baseUrl: "/type-graphql/" /* base url for your project */,
-  // cname: "typegraphql.ml" /* the CNAME for your website */,
+  url: "https://typegraphql.com" /* your website url */,
+  baseUrl: "/" /* base url for your project */,
+  cname: "typegraphql.com" /* the CNAME for your website */,
   projectName: "type-graphql",
   headerLinks: [
     { doc: "introduction", label: "Docs" },

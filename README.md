@@ -11,7 +11,7 @@
 
 Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
-[**https://michallytek.github.io/type-graphql/**](https://michallytek.github.io/type-graphql/)
+[**https://typegraphql.com/**](https://typegraphql.com/)
 <br>
 <br>
 [![](https://opencollective.com/typegraphql/donate/button.png?color=white)](https://opencollective.com/typegraphql)
@@ -121,7 +121,7 @@ type Mutation {
 
 ## Getting started
 
-A full getting started guide with a simple walkthrough (tutorial) can be found at [getting started docs](https://michallytek.github.io/type-graphql/docs/getting-started.html).
+A full getting started guide with a simple walkthrough (tutorial) can be found at [getting started docs](https://typegraphql.com/docs/getting-started.html).
 
 ## Video tutorial
 
@@ -129,7 +129,7 @@ If you prefer video tutorials, you can watch [Ben Awad](https://github.com/benaw
 
 ## Documentation
 
-The documentation, installation guide, detailed description of the API and all of its features is [available on the website](https://michallytek.github.io/type-graphql/).
+The documentation, installation guide, detailed description of the API and all of its features is [available on the website](https://typegraphql.com/).
 
 ## Examples
 
