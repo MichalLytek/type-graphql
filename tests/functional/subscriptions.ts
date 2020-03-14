@@ -29,6 +29,8 @@ import {
   Float,
   buildSchema,
   MissingSubscriptionTopicsError,
+  Authorized,
+  Int,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -667,6 +669,41 @@ describe("Subscriptions", () => {
         expect(err.message).toContain("sampleSubscription");
         expect(err.message).not.toContain("class SampleResolver");
       }
+    });
+
+    it("should throw authorization error just on subscribe", async () => {
+      getMetadataStorage().clear();
+      expect.assertions(3);
+
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): number {
+          return 2137;
+        }
+
+        @Authorized("prevent")
+        @Subscription(_returns => Int, { topics: "SAMPLE_TOPIC" })
+        authedSubscription(): number {
+          return 0;
+        }
+      }
+      schema = await buildSchema({
+        resolvers: [SampleResolver],
+        authChecker: () => false,
+      });
+      const document = gql`
+        subscription {
+          authedSubscription
+        }
+      `;
+
+      const subscribeResult = await subscribe(schema, document);
+
+      expect(subscribeResult).toHaveProperty("errors");
+      const { errors } = subscribeResult as ExecutionResult;
+      expect(errors).toHaveLength(1);
+      expect(errors![0].message).toContain("Access denied!");
     });
   });
 });

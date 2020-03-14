@@ -16,6 +16,7 @@ import {
   GraphQLUnionType,
   GraphQLTypeResolver,
   GraphQLDirective,
+  GraphQLFieldResolver,
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
@@ -32,6 +33,7 @@ import {
   createHandlerResolver,
   createAdvancedFieldResolver,
   createBasicFieldResolver,
+  wrapResolverWithAuthChecker,
 } from "../resolvers/create";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import {
@@ -521,33 +523,38 @@ export abstract class SchemaGenerator {
         return fields;
       }
 
+      let subscribeFn: GraphQLFieldResolver<T, U>;
       if (handler.subscribe) {
-        fields[handler.schemaName].subscribe = handler.subscribe;
-        return fields;
-      }
-
-      let pubSubIterator: ResolverFn;
-      if (typeof handler.topics === "function") {
-        const getTopics = handler.topics;
-        pubSubIterator = (payload, args, context, info) => {
-          const resolverTopicData: ResolverTopicData = { payload, args, context, info };
-          const topics = getTopics(resolverTopicData);
-          if (Array.isArray(topics) && topics.length === 0) {
-            throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
-          }
-          return pubSub.asyncIterator(topics);
-        };
+        subscribeFn = handler.subscribe;
       } else {
-        const topics = handler.topics!;
-        pubSubIterator = () => pubSub.asyncIterator(topics);
+        let pubSubIterator: ResolverFn;
+        if (typeof handler.topics === "function") {
+          const getTopics = handler.topics;
+          pubSubIterator = (payload, args, context, info) => {
+            const resolverTopicData: ResolverTopicData = { payload, args, context, info };
+            const topics = getTopics(resolverTopicData);
+            if (Array.isArray(topics) && topics.length === 0) {
+              throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+            }
+            return pubSub.asyncIterator(topics);
+          };
+        } else {
+          const topics = handler.topics!;
+          pubSubIterator = () => pubSub.asyncIterator(topics);
+        }
+
+        subscribeFn = handler.filter
+          ? withFilter(pubSubIterator, (payload, args, context, info) => {
+              const resolverFilterData: ResolverFilterData = { payload, args, context, info };
+              return handler.filter!(resolverFilterData);
+            })
+          : pubSubIterator;
       }
 
-      fields[handler.schemaName].subscribe = handler.filter
-        ? withFilter(pubSubIterator, (payload, args, context, info) => {
-            const resolverFilterData: ResolverFilterData = { payload, args, context, info };
-            return handler.filter!(resolverFilterData);
-          })
-        : pubSubIterator;
+      fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
+        subscribeFn,
+        handler.roles,
+      );
       return fields;
     }, basicFields);
   }
