@@ -10,6 +10,7 @@ import { convertToType } from "../helpers/types";
 import { BuildContext } from "../schema/build-context";
 import { ResolverData } from "../interfaces";
 import isPromiseLike from "../utils/isPromiseLike";
+import { AuthMiddleware } from "../helpers/auth-middleware";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
@@ -102,5 +103,24 @@ export function createBasicFieldResolver(
   return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
     return applyMiddlewares(container, resolverData, middlewares, () => root[fieldMetadata.name]);
+  };
+}
+
+export function wrapResolverWithAuthChecker(
+  resolver: GraphQLFieldResolver<any, any>,
+  roles: any[] | undefined,
+): GraphQLFieldResolver<any, any> {
+  const { authChecker, authMode } = BuildContext;
+  if (!authChecker || !roles) {
+    return resolver;
+  }
+
+  return (root, args, context, info) => {
+    const resolverData: ResolverData<any> = { root, args, context, info };
+    return AuthMiddleware(
+      authChecker,
+      authMode,
+      roles,
+    )(resolverData, async () => resolver(root, args, context, info));
   };
 }
