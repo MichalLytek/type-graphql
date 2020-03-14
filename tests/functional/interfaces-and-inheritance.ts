@@ -473,10 +473,14 @@ describe("Interfaces and inheritance", () => {
       abstract class BaseInterface {
         @Field()
         baseInterfaceField: string;
+
+        @Field({ name: "renamedInterfaceField", nullable: true })
+        interfaceFieldToBeRenamed?: string;
       }
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
         baseInterfaceField: string;
+        interfaceFieldToBeRenamed?: string;
         @Field()
         firstField: string;
       }
@@ -624,6 +628,15 @@ describe("Interfaces and inheritance", () => {
             secondField: "secondField",
           };
         }
+
+        @Query()
+        renamedFieldInterfaceQuery(): BaseInterface {
+          const obj = new FirstImplementation();
+          obj.baseInterfaceField = "baseInterfaceField";
+          obj.firstField = "firstField";
+          obj.interfaceFieldToBeRenamed = "interfaceFieldToBeRenamed";
+          return obj;
+        }
       }
 
       schema = await buildSchema({
@@ -743,6 +756,21 @@ describe("Interfaces and inheritance", () => {
       const data = result.data!.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toEqual("firstField");
+    });
+
+    it("should allow interfaces to specify custom schema names", async () => {
+      const query = `query {
+        renamedFieldInterfaceQuery {
+          renamedInterfaceField
+        }
+      }`;
+
+      const { data, errors } = await graphql(schema, query);
+
+      expect(errors).toBeUndefined();
+      expect(data!.renamedFieldInterfaceQuery.renamedInterfaceField).toEqual(
+        "interfaceFieldToBeRenamed",
+      );
     });
 
     it("should pass args data of extended args class", async () => {
