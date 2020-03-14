@@ -17,6 +17,7 @@
 - fix transforming and validating nested inputs and arrays (#462)
 - remove duplicated entries for resolver classes that use inheritance (#499)
 - **Breaking Change**: stop returning null for `GraphQLTimestamp` and `GraphQLISODateTime` scalars when returned value is not a `Date` instance - now it throws explicit error instead
+- fix using `name` option on interface fields (#567)
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface
