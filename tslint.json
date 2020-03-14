@@ -46,6 +46,7 @@
       "check-format",
       "allow-leading-underscore",
       "allow-pascal-case"
-    ]
+    ],
+    "array-type": [true, "array-simple"]
   }
 }

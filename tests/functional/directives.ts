@@ -241,8 +241,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithUpper");
-        expect(data.queryWithUpper).toBe("QUERYWITHUPPER");
+        expect(data).toHaveProperty("queryWithUpper", "QUERYWITHUPPER");
       });
 
       it("calls directive 'upper' using Definition", async () => {
@@ -252,8 +251,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithUpperDefinition");
-        expect(data.queryWithUpperDefinition).toBe("QUERYWITHUPPER");
+        expect(data).toHaveProperty("queryWithUpperDefinition", "QUERYWITHUPPER");
       });
 
       it("calls directive 'append'", async () => {
@@ -263,8 +261,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithAppend");
-        expect(data.queryWithAppend).toBe("hello, world!");
+        expect(data).toHaveProperty("queryWithAppend", "hello, world!");
       });
 
       it("calls directive 'append' using Definition", async () => {
@@ -274,8 +271,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithAppendDefinition");
-        expect(data.queryWithAppendDefinition).toBe("hello, world!");
+        expect(data).toHaveProperty("queryWithAppendDefinition", "hello, world!");
       });
 
       it("calls directive 'upper' and 'append'", async () => {
@@ -285,8 +281,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, query);
 
-        expect(data).toHaveProperty("queryWithUpperAndAppend");
-        expect(data.queryWithUpperAndAppend).toBe("HELLO, WORLD!");
+        expect(data).toHaveProperty("queryWithUpperAndAppend", "HELLO, WORLD!");
       });
     });
 
@@ -311,8 +306,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithUpper");
-        expect(data.mutationWithUpper).toBe("MUTATIONWITHUPPER");
+        expect(data).toHaveProperty("mutationWithUpper", "MUTATIONWITHUPPER");
       });
 
       it("calls directive 'upper' using Definition", async () => {
@@ -322,8 +316,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithUpperDefinition");
-        expect(data.mutationWithUpperDefinition).toBe("MUTATIONWITHUPPER");
+        expect(data).toHaveProperty("mutationWithUpperDefinition", "MUTATIONWITHUPPER");
       });
 
       it("calls directive 'append'", async () => {
@@ -333,8 +326,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithAppend");
-        expect(data.mutationWithAppend).toBe("hello, world!");
+        expect(data).toHaveProperty("mutationWithAppend", "hello, world!");
       });
 
       it("calls directive 'append' using Definition", async () => {
@@ -344,8 +336,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithAppendDefinition");
-        expect(data.mutationWithAppendDefinition).toBe("hello, world!");
+        expect(data).toHaveProperty("mutationWithAppendDefinition", "hello, world!");
       });
 
       it("calls directive 'upper' and 'append'", async () => {
@@ -355,8 +346,7 @@ describe("Directives", () => {
 
         const { data } = await graphql(schema, mutation);
 
-        expect(data).toHaveProperty("mutationWithUpperAndAppend");
-        expect(data.mutationWithUpperAndAppend).toBe("HELLO, WORLD!");
+        expect(data).toHaveProperty("mutationWithUpperAndAppend", "HELLO, WORLD!");
       });
     });
 
@@ -410,7 +400,7 @@ describe("Directives", () => {
         const { data } = await graphql(schema, query);
 
         expect(data).toHaveProperty("objectType");
-        expect(data.objectType).toEqual({
+        expect(data!.objectType).toEqual({
           withDirective: "withDirective",
           // withDirectiveWithArgs: "withDirectiveWithArgs",
           withUpper: "WITHUPPER",

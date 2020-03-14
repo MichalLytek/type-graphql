@@ -1693,7 +1693,7 @@ describe("Resolvers", () => {
 
       const { data, errors } = await graphql(schema, mutation);
       expect(errors).toBeUndefined();
-      expect(data.mutationWithOptionalArg).toBeDefined();
+      expect(data!.mutationWithOptionalArg).toBeDefined();
       expect(mutationInputValue).toEqual("undefined");
     });
 
@@ -1786,7 +1786,7 @@ describe("Resolvers", () => {
       const { data } = await graphql(schema, query);
 
       expect(descriptorEvaluated).toBe(true);
-      expect(data.queryWithCustomDescriptorDecorator).toBe(true);
+      expect(data!.queryWithCustomDescriptorDecorator).toBe(true);
     });
   });
 
