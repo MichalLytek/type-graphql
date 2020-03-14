@@ -387,9 +387,9 @@ describe("buildTypeDefsAndResolvers", () => {
       `;
 
       const { data } = await execute(schema, document);
-      const parsedDate = new Date(data.sampleDateQuery);
+      const parsedDate = new Date(data!.sampleDateQuery);
 
-      expect(typeof data.sampleDateQuery).toBe("string");
+      expect(typeof data!.sampleDateQuery).toBe("string");
       expect(parsedDate.getTime()).toEqual(timestamp);
     });
 
@@ -402,7 +402,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleServiceQuery).toEqual("SampleString");
+      expect(data!.sampleServiceQuery).toEqual("SampleString");
     });
 
     it("should run resolver method middleware", async () => {
@@ -414,7 +414,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleMiddlewareBooleanQuery).toEqual(true);
+      expect(data!.sampleMiddlewareBooleanQuery).toEqual(true);
       expect(middlewareLogs).toHaveLength(1);
       expect(middlewareLogs[0]).toEqual("sampleMiddlewareBooleanQuery");
     });
@@ -428,7 +428,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleBooleanMutation).toBe(true);
+      expect(data!.sampleBooleanMutation).toBe(true);
     });
 
     it("should properly transform input argument", async () => {
@@ -440,7 +440,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleMutationWithInput).toBe(true);
+      expect(data!.sampleMutationWithInput).toBe(true);
       expect(inputValue.constructor.name).toBe("SampleInput");
       expect(inputValue.sampleInputStringField).toBe("sampleInputStringField");
       expect(inputValue.sampleInputDefaultStringField).toBe("sampleInputDefaultStringField");
@@ -486,7 +486,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleInterfaceQuery).toEqual({
+      expect(data!.sampleInterfaceQuery).toEqual({
         sampleInterfaceStringField: "sampleInterfaceStringField",
         sampleType1StringField: "sampleType1StringField",
       });
@@ -506,7 +506,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleUnionQuery).toEqual({
+      expect(data!.sampleUnionQuery).toEqual({
         sampleInterfaceStringField: "sampleInterfaceStringField",
         sampleType3StringField: "sampleType3StringField",
       });
@@ -526,7 +526,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleResolveUnionQuery).toEqual({
+      expect(data!.sampleResolveUnionQuery).toEqual({
         sampleInterfaceStringField: "sampleInterfaceStringField",
         sampleType3StringField: "sampleType3StringField",
       });
@@ -541,7 +541,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleNumberEnumQuery).toBe("OptionOne");
+      expect(data!.sampleNumberEnumQuery).toBe("OptionOne");
       expect(enumValue).toBe(0);
     });
 
@@ -554,7 +554,7 @@ describe("buildTypeDefsAndResolvers", () => {
 
       const { data } = await execute(schema, document);
 
-      expect(data.sampleStringEnumQuery).toBe("OptionTwo");
+      expect(data!.sampleStringEnumQuery).toBe("OptionTwo");
       expect(enumValue).toBe("OptionTwoString");
     });
 
