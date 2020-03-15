@@ -71,11 +71,11 @@
 <pre><code class="hljs css language-typescript">
 @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">MyObject</span> <span class="token punctuation">{</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  publicField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  publicField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>args<span class="token punctuation">,</span> childComplexity<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  complexField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>args<span class="token punctuation">,</span> childComplexity<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  complexField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>You can omit the <code>complexity</code> option if the complexity value is 1.
@@ -85,30 +85,30 @@ You can pass complexity as option to any of <code>@Field</code>, <code>@FieldRes
   <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GraphQLServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> schema <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   <span class="token comment">// Configure server options</span>
-  <span class="token keyword">const</span> serverOptions<span class="token punctuation">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
-    port<span class="token punctuation">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
-    endpoint<span class="token punctuation">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
-    playground<span class="token punctuation">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
-    <span class="token function-variable function">validationRules</span><span class="token punctuation">:</span> <span class="token parameter">req</span> <span class="token operator">=></span> <span class="token punctuation">[</span>
+  <span class="token keyword">const</span> serverOptions<span class="token operator">:</span> Options <span class="token operator">=</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
+    endpoint<span class="token operator">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
+    playground<span class="token operator">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">validationRules</span><span class="token operator">:</span> <span class="token parameter">req</span> <span class="token operator">=></span> <span class="token punctuation">[</span>
       <span class="token function">queryComplexity</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
         <span class="token comment">// The maximum allowed query complexity, queries above this threshold will be rejected</span>
-        maximumComplexity<span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+        maximumComplexity<span class="token operator">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
         <span class="token comment">// The query variables. This is needed because the variables are not available</span>
         <span class="token comment">// in the visitor of the graphql-js library</span>
-        variables<span class="token punctuation">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
+        variables<span class="token operator">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
         <span class="token comment">// Optional callback function to retrieve the determined query complexity</span>
         <span class="token comment">// Will be invoked weather the query is rejected or not</span>
         <span class="token comment">// This can be used for logging or to implement rate limiting</span>
-        <span class="token function-variable function">onComplete</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token parameter">complexity<span class="token punctuation">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function-variable function">onComplete</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">complexity<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
           <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Query Complexity:"</span><span class="token punctuation">,</span> complexity<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        estimators<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        estimators<span class="token operator">:</span> <span class="token punctuation">[</span>
           <span class="token comment">// Using fieldConfigEstimator is mandatory to make it work with type-graphql</span>
           <span class="token function">fieldConfigEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
           <span class="token comment">// This will assign each field a complexity of 1 if no other estimator</span>
           <span class="token comment">// returned a value. We can define the default value for field not explicitly annotated</span>
           <span class="token function">simpleEstimator</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            defaultComplexity<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            defaultComplexity<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
           <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
         <span class="token punctuation">]</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>

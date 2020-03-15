@@ -84,15 +84,15 @@
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> registerEnumType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
 <span class="token function">registerEnumType</span><span class="token punctuation">(</span>Direction<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> <span class="token string">"Direction"</span><span class="token punctuation">,</span> <span class="token comment">// this one is mandatory</span>
-  description<span class="token punctuation">:</span> <span class="token string">"The basic directions"</span><span class="token punctuation">,</span> <span class="token comment">// this one is optional</span>
+  name<span class="token operator">:</span> <span class="token string">"Direction"</span><span class="token punctuation">,</span> <span class="token comment">// this one is mandatory</span>
+  description<span class="token operator">:</span> <span class="token string">"The basic directions"</span><span class="token punctuation">,</span> <span class="token comment">// this one is optional</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">InputType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">JourneyInput</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Direction<span class="token punctuation">)</span> <span class="token comment">// it's very important</span>
-  direction<span class="token punctuation">:</span> Direction<span class="token punctuation">;</span>
+  direction<span class="token operator">:</span> Direction<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Without this annotation, the generated GQL type would be <code>String</code> or <code>Float</code> (depending on the enum type), rather than the <code>ENUM</code> we are aiming for.</p>
@@ -101,21 +101,21 @@
   <span class="token keyword">private</span> sprite <span class="token operator">=</span> <span class="token function">getMarioSprite</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">move</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"direction"</span><span class="token punctuation">,</span> <span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Direction<span class="token punctuation">)</span> direction<span class="token punctuation">:</span> Direction<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">{</span>
+  <span class="token function">move</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"direction"</span><span class="token punctuation">,</span> <span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Direction<span class="token punctuation">)</span> direction<span class="token operator">:</span> Direction<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">boolean</span> <span class="token punctuation">{</span>
     <span class="token keyword">switch</span> <span class="token punctuation">(</span>direction<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">:</span>
+      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Up<span class="token operator">:</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token operator">++</span><span class="token punctuation">;</span>
         <span class="token keyword">break</span><span class="token punctuation">;</span>
-      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Down<span class="token punctuation">:</span>
+      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Down<span class="token operator">:</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token operator">--</span><span class="token punctuation">;</span>
         <span class="token keyword">break</span><span class="token punctuation">;</span>
-      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Left<span class="token punctuation">:</span>
+      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Left<span class="token operator">:</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x<span class="token operator">--</span><span class="token punctuation">;</span>
         <span class="token keyword">break</span><span class="token punctuation">;</span>
-      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Right<span class="token punctuation">:</span>
+      <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Right<span class="token operator">:</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x<span class="token operator">++</span><span class="token punctuation">;</span>
         <span class="token keyword">break</span><span class="token punctuation">;</span>
-      <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">default</span><span class="token operator">:</span>
         <span class="token comment">// it will never be hitten ;)</span>
         <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>

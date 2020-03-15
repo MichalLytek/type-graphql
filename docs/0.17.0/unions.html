@@ -69,27 +69,27 @@
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Movie</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  rating<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  rating<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Actor</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  name<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
-  age<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  age<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Then we have to create the union type from the object types above:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> createUnionType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> SearchResultUnion <span class="token operator">=</span> <span class="token function">createUnionType</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> <span class="token string">"SearchResult"</span><span class="token punctuation">,</span> <span class="token comment">// the name of the GraphQL union</span>
-  types<span class="token punctuation">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// array of object types classes</span>
+  name<span class="token operator">:</span> <span class="token string">"SearchResult"</span><span class="token punctuation">,</span> <span class="token comment">// the name of the GraphQL union</span>
+  types<span class="token operator">:</span> <span class="token punctuation">[</span>Movie<span class="token punctuation">,</span> Actor<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// array of object types classes</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>All that's left to do is to use the union type in the query.
@@ -98,7 +98,7 @@ For TS compile-time type safety you can also use <code>typeof SearchResultUnion<
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">SearchResolver</span> <span class="token punctuation">{</span>
   @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token parameter">returns</span> <span class="token operator">=></span> <span class="token punctuation">[</span>SearchResultUnion<span class="token punctuation">]</span><span class="token punctuation">)</span>
-  <span class="token keyword">async</span> <span class="token function">search</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"phrase"</span><span class="token punctuation">)</span> phrase<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token keyword">typeof</span> SearchResultUnion<span class="token operator">>></span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">search</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"phrase"</span><span class="token punctuation">)</span> phrase<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token keyword">typeof</span> SearchResultUnion<span class="token operator">>></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> movies <span class="token operator">=</span> <span class="token keyword">await</span> Movies<span class="token punctuation">.</span><span class="token function">findAll</span><span class="token punctuation">(</span>phrase<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">const</span> actors <span class="token operator">=</span> <span class="token keyword">await</span> Actors<span class="token punctuation">.</span><span class="token function">findAll</span><span class="token punctuation">(</span>phrase<span class="token punctuation">)</span><span class="token punctuation">;</span>
 

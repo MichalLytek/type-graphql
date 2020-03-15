@@ -70,11 +70,11 @@
 <p>Example of complexity</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">MyObject</span> <span class="token punctuation">{</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  publicField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  publicField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  complexField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  complexField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>The <code>complexity</code> option may be omitted if the complexity value is 1.
@@ -88,9 +88,9 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
   <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     schema<span class="token punctuation">,</span>
     <span class="token comment">// Create a plugin that will allow for query complexity calculation for every request</span>
-    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
       <span class="token punctuation">{</span>
-        <span class="token function-variable function">requestDidStart</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token function-variable function">requestDidStart</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
           <span class="token function">didResolveOperation</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> request<span class="token punctuation">,</span> document <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token comment">/**
              * This provides GraphQL query analysis to be able to react on complex queries to your GraphQL server.
@@ -103,21 +103,21 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
               <span class="token comment">// To calculate query complexity properly,</span>
               <span class="token comment">// we have to check if the document contains multiple operations</span>
               <span class="token comment">// and eventually extract it operation from the whole query document.</span>
-              query<span class="token punctuation">:</span> request<span class="token punctuation">.</span>operationName
+              query<span class="token operator">:</span> request<span class="token punctuation">.</span>operationName
                 <span class="token operator">?</span> <span class="token function">separateOperations</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">[</span>request<span class="token punctuation">.</span>operationName<span class="token punctuation">]</span>
-                <span class="token punctuation">:</span> document<span class="token punctuation">,</span>
+                <span class="token operator">:</span> document<span class="token punctuation">,</span>
               <span class="token comment">// The variables for our GraphQL query</span>
-              variables<span class="token punctuation">:</span> request<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
+              variables<span class="token operator">:</span> request<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
               <span class="token comment">// Add any number of estimators. The estimators are invoked in order, the first</span>
               <span class="token comment">// numeric value that is being returned by an estimator is used as the field complexity.</span>
               <span class="token comment">// If no estimator returns a value, an exception is raised.</span>
-              estimators<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+              estimators<span class="token operator">:</span> <span class="token punctuation">[</span>
                 <span class="token comment">// Using fieldConfigEstimator is mandatory to make it work with type-graphql.</span>
                 <span class="token function">fieldConfigEstimator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
                 <span class="token comment">// Add more estimators here...</span>
                 <span class="token comment">// This will assign each field a complexity of 1</span>
                 <span class="token comment">// if no other estimator returned a value.</span>
-                <span class="token function">simpleEstimator</span><span class="token punctuation">(</span><span class="token punctuation">{</span> defaultComplexity<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token function">simpleEstimator</span><span class="token punctuation">(</span><span class="token punctuation">{</span> defaultComplexity<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
               <span class="token punctuation">]</span><span class="token punctuation">,</span>
             <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment">// Here we can react to the calculated complexity,</span>

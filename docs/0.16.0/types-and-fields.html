@@ -65,19 +65,19 @@
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/types-and-fields.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Types and fields</h1></header><article><div><span><p>The main idea of TypeGraphQL is to automatically create GraphQL schema definition from TypeScript's classes. To avoid the need of schema definition files and interfaces describing the schema, we use a bit of reflection magic and decorators.</p>
 <p>Let's start with defining the example TypeScript class. It will represent our <code>Recipe</code> model with fields storing recipe's data:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
-  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
-  title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
-  ratings<span class="token punctuation">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  averageRating<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  ratings<span class="token operator">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  averageRating<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>First what we have to do is to decorate the class with e.g. <code>@ObjectType</code> decorator. It marks the class as the <code>type</code> known from GraphQL SDL or <code>GraphQLObjectType</code> from <code>graphql-js</code>:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
-  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
-  title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
-  ratings<span class="token punctuation">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  averageRating<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  ratings<span class="token operator">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  averageRating<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Then we need to declare which class properties should be mapped to GraphQL fields.
@@ -85,16 +85,16 @@ To do this, we use <code>@Field</code> decorator, which is also used to collect 
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  ratings<span class="token punctuation">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  ratings<span class="token operator">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  averageRating<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  averageRating<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>For simple types (like <code>string</code> or <code>boolean</code>) it's enough but unfortunately, due to TypeScript's reflection limitation, we need to provide info about generic types (like <code>Array</code> or <code>Promise</code>). So to declare <code>Rate[]</code> type, there are two options available:</p>
@@ -107,19 +107,19 @@ To do this, we use <code>@Field</code> decorator, which is also used to collect 
 <p>In case of lists, you may also need to define the nullability in a more detailed fashion. The basic <code>{ nullable: true | false }</code> settings apply only to the a whole list (<code>[Item!]</code> or <code>[Item!]!</code>), so if you need a sparse array, you can control the list items nullability via <code>nullable: items</code> (for <code>[Item]!</code>) or <code>nullable: itemsAndList</code> (for <code>[Item]</code>) option.</p>
 <p>In the config object we can also provide <code>description</code> and <code>deprecationReason</code> for GraphQL schema purposes.</p>
 <p>So after this changes our example class would look like this:</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> description<span class="token punctuation">:</span> <span class="token string">"The recipe model"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> description<span class="token operator">:</span> <span class="token string">"The recipe model"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> <span class="token constant">ID</span><span class="token punctuation">)</span>
-  id<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> description<span class="token punctuation">:</span> <span class="token string">"The title of the recipe"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> description<span class="token operator">:</span> <span class="token string">"The title of the recipe"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> <span class="token punctuation">[</span>Rate<span class="token punctuation">]</span><span class="token punctuation">)</span>
-  ratings<span class="token punctuation">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  ratings<span class="token operator">:</span> Rate<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  averageRating<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  averageRating<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Which in result will generate following part of GraphQL schema in SDL:</p>
@@ -134,12 +134,12 @@ To do this, we use <code>@Field</code> decorator, which is also used to collect 
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Rate</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
-  value<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  value<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  date<span class="token punctuation">:</span> Date<span class="token punctuation">;</span>
+  date<span class="token operator">:</span> Date<span class="token punctuation">;</span>
 
-  user<span class="token punctuation">:</span> User<span class="token punctuation">;</span>
+  user<span class="token operator">:</span> User<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>which results in this equivalent of GraphQL's SDL:</p>

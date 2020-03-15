@@ -88,27 +88,27 @@
 @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Foo</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  field<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  field<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Bar</span> <span class="token punctuation">{</span>
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@auth(requires: USER)"</span><span class="token punctuation">)</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  field<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  field<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 @<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">of</span></span> <span class="token operator">=></span> Foo<span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">FooBarResolver</span> <span class="token punctuation">{</span>
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@auth(requires: ANY)"</span><span class="token punctuation">)</span>
   @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">foobar</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"baz"</span><span class="token punctuation">)</span> baz<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+  <span class="token function">foobar</span><span class="token punctuation">(</span>@<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"baz"</span><span class="token punctuation">)</span> baz<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"foobar"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@auth(requires: ADMIN)"</span><span class="token punctuation">)</span>
   @<span class="token function">FieldResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+  <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"foobar"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -123,7 +123,7 @@
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Use `newField`")'</span><span class="token punctuation">)</span>
   @<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@hasRole(role: Manager)"</span><span class="token punctuation">)</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  bar<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  bar<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="providing-the-implementation"></a><a href="#providing-the-implementation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Providing the implementation</h3>
@@ -136,12 +136,12 @@
 
 <span class="token comment">// build the schema as always</span>
 <span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token function">buildSchemaSync</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  resolvers<span class="token punctuation">:</span> <span class="token punctuation">[</span>SampleResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>SampleResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// register the used directives implementations</span>
 SchemaDirectiveVisitor<span class="token punctuation">.</span><span class="token function">visitSchemaDirectives</span><span class="token punctuation">(</span>schema<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  sample<span class="token punctuation">:</span> SampleDirective<span class="token punctuation">,</span>
+  sample<span class="token operator">:</span> SampleDirective<span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/next/subscriptions.html"><span class="arrow-prev">← </span><span>Subscriptions</span></a><a class="docs-next button" href="/docs/next/extensions.html"><span>Extensions</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#usage">Usage</a><ul class="toc-headings"><li><a href="#declaring-in-schema">Declaring in schema</a></li><li><a href="#providing-the-implementation">Providing the implementation</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://gitter.im/type-graphql/Lobby" target="_blank">Project Chat</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>

@@ -86,7 +86,7 @@
 </code></pre>
 <p><code>TypeGraphQL</code> is designed to work with Node.js 6, 8 and latest stable. It uses features from ES7 (ES2016) so you should set your <code>tsconfig.json</code> appropriately:</p>
 <pre><code class="hljs css language-js"><span class="token punctuation">{</span>
-  <span class="token string">"target"</span><span class="token punctuation">:</span> <span class="token string">"es2016"</span> <span class="token comment">// or newer if your node.js version supports this</span>
+  <span class="token string">"target"</span><span class="token operator">:</span> <span class="token string">"es2016"</span> <span class="token comment">// or newer if your node.js version supports this</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Due to using <code>graphql-subscription</code> dependency that rely on an <code>AsyncIterator</code>, you may also have to provide the <code>esnext.asynciterable</code> to the <code>lib</code> option:</p>

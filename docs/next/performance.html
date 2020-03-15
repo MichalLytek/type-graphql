@@ -96,23 +96,23 @@
 <pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">SampleObject</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  sampleField<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  sampleField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> simple<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  publicFrequentlyQueriedField<span class="token punctuation">:</span> SomeType<span class="token punctuation">;</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> simple<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  publicFrequentlyQueriedField<span class="token operator">:</span> SomeType<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Moreover, we can also apply this behavior for all the fields of the object type by using a <code>{ simpleResolvers: true }</code> decorator option, e.g.:</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> simpleResolvers<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> simpleResolvers<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">Post</span> <span class="token punctuation">{</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  title<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  createdAt<span class="token punctuation">:</span> Date<span class="token punctuation">;</span>
+  createdAt<span class="token operator">:</span> Date<span class="token punctuation">;</span>
 
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  isPublished<span class="token punctuation">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  isPublished<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>This simple trick can speed up the execution up to 76%! The benchmarks show that using simple resolvers allows for as fast execution as with bare <code>graphql-js</code> - the measured overhead is only about ~13%, which is a much more reasonable value than 500%. Below you can see <a href="https://github.com/MichalLytek/type-graphql/tree/master/benchmarks">the benchmarks results</a>:</p>

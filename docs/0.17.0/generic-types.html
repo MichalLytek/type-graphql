@@ -75,7 +75,7 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>To achieve a generic-like behavior, the function has to be generic and take some runtime argument related to the type parameter:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token punctuation">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token operator">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">PaginatedResponseClass</span> <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
   <span class="token punctuation">}</span>
@@ -84,8 +84,8 @@
 </code></pre>
 <p>Then, we need to add proper decorators to the class - it might be <code>@ObjectType</code>, <code>@InterfaceType</code> or <code>@InputType</code>.
 It also should have set <code>isAbstract: true</code> to prevent registering in schema:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token punctuation">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token operator">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">PaginatedResponseClass</span> <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
   <span class="token punctuation">}</span>
@@ -93,20 +93,20 @@ It also should have set <code>isAbstract: true</code> to prevent registering in 
 <span class="token punctuation">}</span>
 </code></pre>
 <p>After that, we can add fields like in a normal class but using the generic type and parameters:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token punctuation">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token operator">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// `isAbstract` decorator option is mandatory to prevent registering in schema</span>
-  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isAbstract<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">PaginatedResponseClass</span> <span class="token punctuation">{</span>
     <span class="token comment">// here we use the runtime argument</span>
     @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> <span class="token punctuation">[</span>TItemClass<span class="token punctuation">]</span><span class="token punctuation">)</span>
     <span class="token comment">// and here the generic type</span>
-    items<span class="token punctuation">:</span> TItem<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    items<span class="token operator">:</span> TItem<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
     @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
-    total<span class="token punctuation">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+    total<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 
     @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    hasMore<span class="token punctuation">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+    hasMore<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
   <span class="token keyword">return</span> PaginatedResponseClass<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -116,14 +116,14 @@ It also should have set <code>isAbstract: true</code> to prevent registering in 
 <span class="token keyword">class</span> <span class="token class-name">PaginatedUserResponse</span> <span class="token keyword">extends</span> <span class="token class-name">PaginatedResponse</span><span class="token punctuation">(</span>User<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// we can freely add more fields or overwrite the existing one's types</span>
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> <span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span>
-  otherInfo<span class="token punctuation">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  otherInfo<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>And then use it in our resolvers:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">UserResolver</span> <span class="token punctuation">{</span>
   @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> PaginatedUserResponse <span class="token punctuation">{</span>
+  <span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> PaginatedUserResponse <span class="token punctuation">{</span>
     <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PaginatedUserResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment">// here is your custom business logic,</span>
     <span class="token comment">// depending on underlying data source and libraries</span>
@@ -134,9 +134,9 @@ It also should have set <code>isAbstract: true</code> to prevent registering in 
 <p>You can also create a generic class without using <code>isAbstract</code> option or <code>abstract</code> keyword.
 But types created with this kind of factory will be registered in schema, so it's not recommended to use this way to extend the types for adding some more fields.</p>
 <p>To avoid generating schema errors about duplicated <code>PaginatedResponseClass</code> type names, you need to provide your own, unique, generated type name:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token punctuation">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> PaginatedResponse<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">(</span>TItemClass<span class="token operator">:</span> ClassType<span class="token operator">&lt;</span>TItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// instead of `isAbstract`, you have to provide a unique type name used in schema</span>
-  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Paginated</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>TItemClass<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">Response</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Paginated</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>TItemClass<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">Response</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token keyword">class</span> <span class="token class-name">PaginatedResponseClass</span> <span class="token punctuation">{</span>
     <span class="token comment">// the same fields as in the earlier code snippet</span>
   <span class="token punctuation">}</span>
@@ -151,7 +151,7 @@ But types created with this kind of factory will be registered in schema, so it'
 <span class="token keyword">class</span> <span class="token class-name">UserResolver</span> <span class="token punctuation">{</span>
   <span class="token comment">// remember to provide a runtime type argument to the decorator</span>
   @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token parameter">returns</span> <span class="token operator">=></span> PaginatedUserResponse<span class="token punctuation">)</span>
-  <span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> PaginatedUserResponse <span class="token punctuation">{</span>
+  <span class="token function">users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> PaginatedUserResponse <span class="token punctuation">{</span>
     <span class="token comment">// the same implementation as in the earlier code snippet</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
