@@ -23,7 +23,6 @@ import {
 import {
   generateTypeGraphQLImports,
   generateArgsImports,
-  generateDataloaderImport,
   generateModelsImports,
   generateArgsBarrelFile,
 } from "../imports";
@@ -105,7 +104,6 @@ export default async function generateRelationsResolverClassesFromModel(
   }
 
   generateTypeGraphQLImports(sourceFile);
-  generateDataloaderImport(sourceFile);
   generateModelsImports(
     sourceFile,
     [...relationFields.map(field => field.type), model.name],
@@ -124,18 +122,6 @@ export default async function generateRelationsResolverClassesFromModel(
     ],
     methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
       ({ field, fieldType, fieldDocs, argsTypeName }) => {
-        const [
-          createDataLoaderGetterFunctionName,
-          dataLoaderGetterInCtxName,
-        ] = createDataLoaderGetterCreationStatement(
-          sourceFile,
-          model.name,
-          camelCase(model.name),
-          field.name,
-          uniqueFields,
-          fieldType,
-        );
-
         return {
           name: field.name,
           isAsync: true,
@@ -176,14 +162,13 @@ export default async function generateRelationsResolverClassesFromModel(
           ],
           // TODO: refactor to AST
           statements: [
-            `ctx.${dataLoaderGetterInCtxName} = ctx.${dataLoaderGetterInCtxName} || ${createDataLoaderGetterFunctionName}(ctx.prisma);`,
-            `return ctx.${dataLoaderGetterInCtxName}(${
-              argsTypeName ? "args" : "{}"
-            }).load({
-              ${uniqueFields
-                .map(field => `${field.name}: ${rootArgName}.${field.name},`)
-                .join("\n")}
-            });`,
+            `return ctx.prisma.${camelCase(model.name)}.findOne({
+              where: {
+                ${uniqueFields
+                  .map(field => `${field.name}: ${rootArgName}.${field.name},`)
+                  .join("\n")}
+              },
+            }).${field.name}(${argsTypeName ? "args" : "{}"});`,
           ],
         };
       },
@@ -192,65 +177,4 @@ export default async function generateRelationsResolverClassesFromModel(
 
   await saveSourceFile(sourceFile);
   return { modelName: model.name, resolverName, argTypeNames };
-}
-
-function createDataLoaderGetterCreationStatement(
-  sourceFile: SourceFile,
-  modelName: string,
-  collectionName: string,
-  relationFieldName: string,
-  uniqueFields: DMMF.Field[],
-  fieldType: string,
-) {
-  // TODO: use `mappings`
-  const dataLoaderName = `${camelCase(modelName)}${pascalCase(
-    relationFieldName,
-  )}DataLoader`;
-  const dataLoaderGetterInCtxName = `get${pascalCase(dataLoaderName)}`;
-  const functionName = `create${pascalCase(dataLoaderGetterInCtxName)}`;
-
-  sourceFile.addFunction({
-    name: functionName,
-    parameters: [
-      // TODO: import PrismaClient type
-      { name: "prisma", type: "any" },
-    ],
-    statements: [
-      // TODO: refactor to AST
-      `const argsToDataLoaderMap = new Map<string, DataLoader<object, ${fieldType}>>();
-      return function ${dataLoaderGetterInCtxName}(args: any) {
-        const argsJSON = JSON.stringify(args);
-        let ${dataLoaderName} = argsToDataLoaderMap.get(argsJSON);
-        if (!${dataLoaderName}) {
-          ${dataLoaderName} = new DataLoader<object, ${fieldType}>(async uniqueFieldsValues => {
-            const fetchedData: any[] = await prisma.${collectionName}.findMany({
-              where: {
-                OR: uniqueFieldsValues.map((value: any) => ({
-                  ${uniqueFields
-                    .map(field => `${field.name}: value.${field.name},`)
-                    .join("\n")}
-                })),
-              },
-              select: {
-                ${relationFieldName}: args,
-                ${uniqueFields.map(field => `${field.name}: true,`).join("\n")}
-              },
-            });
-            return uniqueFieldsValues
-              .map((uniqueValue: any) => fetchedData.find(data =>
-                ${uniqueFields
-                  .map(
-                    field => `data.${field.name} === uniqueValue.${field.name}`,
-                  )
-                  .join(" && ")}
-              )!)
-              .map(data => data.${relationFieldName});
-          });
-          argsToDataLoaderMap.set(argsJSON, ${dataLoaderName});
-        }
-        return ${dataLoaderName};
-      }`,
-    ],
-  });
-  return [functionName, dataLoaderGetterInCtxName];
 }

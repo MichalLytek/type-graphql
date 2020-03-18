@@ -1,21 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`relations resolvers execution composite unique key should properly call PrismaClient on fetching array relations: findManyPost relations call args 1`] = `
+exports[`relations resolvers execution composite unique key should properly call PrismaClient on fetching array relations: findOnePost relations call args 1`] = `
 Array [
   Array [
     Object {
-      "select": Object {
-        "author": Object {},
-        "color": true,
-        "title": true,
-      },
       "where": Object {
-        "OR": Array [
-          Object {
-            "color": "BLUE",
-            "title": "Post 1",
-          },
-        ],
+        "color": "BLUE",
+        "title": "Post 1",
       },
     },
   ],
@@ -36,31 +27,35 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations with args: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations with args: findOneUser relations call args 1`] = `
 Array [
   Array [
     Object {
-      "select": Object {
-        "id": true,
-        "posts": UserPostsArgs {
-          "first": 1,
-          "skip": 1,
-          "where": PostWhereInput {
-            "content": StringFilter {
-              "startsWith": "test",
-            },
-          },
-        },
-      },
       "where": Object {
-        "OR": Array [
-          Object {
-            "id": 1,
-          },
-          Object {
-            "id": 2,
-          },
-        ],
+        "id": 1,
+      },
+    },
+  ],
+  Array [
+    Object {
+      "where": Object {
+        "id": 2,
+      },
+    },
+  ],
+]
+`;
+
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations with args: posts() relations call args 1`] = `
+Array [
+  Array [
+    UserPostsArgs {
+      "first": 1,
+      "skip": 1,
+      "where": PostWhereInput {
+        "content": StringFilter {
+          "startsWith": "test",
+        },
       },
     },
   ],
@@ -91,23 +86,19 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations: findManyUser relations call args 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching array relations: findOneUser relations call args 1`] = `
 Array [
   Array [
     Object {
-      "select": Object {
-        "id": true,
-        "posts": UserPostsArgs {},
-      },
       "where": Object {
-        "OR": Array [
-          Object {
-            "id": 1,
-          },
-          Object {
-            "id": 2,
-          },
-        ],
+        "id": 1,
+      },
+    },
+  ],
+  Array [
+    Object {
+      "where": Object {
+        "id": 2,
       },
     },
   ],
@@ -138,23 +129,19 @@ Object {
 }
 `;
 
-exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching single relation: findManyPost relations call args 1`] = `
+exports[`relations resolvers execution single primary key should properly call PrismaClient on fetching single relation: findOnePost relations call args 1`] = `
 Array [
   Array [
     Object {
-      "select": Object {
-        "author": Object {},
-        "uuid": true,
-      },
       "where": Object {
-        "OR": Array [
-          Object {
-            "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
-          },
-          Object {
-            "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
-          },
-        ],
+        "uuid": "b0c0d78e-4dff-4cdd-ba23-9b417dc684e2",
+      },
+    },
+  ],
+  Array [
+    Object {
+      "where": Object {
+        "uuid": "72c8a188-3d46-45b3-b23f-7d420aa282f1",
       },
     },
   ],

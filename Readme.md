@@ -12,12 +12,6 @@ Fist of all, you have to install the generator, as a dev dependency:
 npm i -D typegraphql-prisma
 ```
 
-You also need to install its peer deependency - `dataloader` - which is used for batching and caching the calls to `Prisma Client` in the relations resolvers:
-
-```sh
-npm i dataloader
-```
-
 `typegraphql-prisma` is designed to work only with selected version of `prisma2`, so please install this version if you don't have it already installed:
 
 ```sh

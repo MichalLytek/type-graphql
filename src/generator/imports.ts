@@ -37,13 +37,6 @@ export function generateTypeGraphQLImports(sourceFile: SourceFile) {
   });
 }
 
-export function generateDataloaderImport(sourceFile: SourceFile) {
-  sourceFile.addImportDeclaration({
-    moduleSpecifier: "dataloader",
-    defaultImport: "DataLoader",
-  });
-}
-
 export function generateArgsBarrelFile(
   sourceFile: SourceFile,
   argsTypeNames: string[],

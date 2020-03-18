@@ -15,7 +15,6 @@
   "peerDependencies": {
     "@prisma/client": "2.0.0-preview024",
     "@types/node": "*",
-    "dataloader": "^2.0.0",
     "prisma2": "2.0.0-preview024",
     "type-graphql": "0.18.0-beta.11"
   },
@@ -29,7 +28,6 @@
     "@prisma/client": "2.0.0-preview024",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
-    "dataloader": "^2.0.0",
     "directory-tree": "^2.2.4",
     "graphql": "^14.6.0",
     "husky": "^4.2.3",
