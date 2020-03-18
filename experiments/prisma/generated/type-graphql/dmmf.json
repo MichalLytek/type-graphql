@@ -989,6 +989,15 @@
               "isRequired": false,
               "isList": false
             }
+          },
+          {
+            "name": "author_inlined",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false
+            }
           }
         ]
       },
@@ -1628,20 +1637,6 @@
         ]
       },
       {
-        "name": "IdCompoundUniqueInput",
-        "fields": [
-          {
-            "name": "id",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": true,
-              "isList": false
-            }
-          }
-        ]
-      },
-      {
         "name": "UserWhereUniqueInput",
         "fields": [
           {
@@ -1661,29 +1656,6 @@
               "isRequired": false,
               "isList": false
             }
-          },
-          {
-            "name": "id",
-            "inputType": {
-              "type": "IdCompoundUniqueInput",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false
-            }
-          }
-        ]
-      },
-      {
-        "name": "UuidCompoundUniqueInput",
-        "fields": [
-          {
-            "name": "uuid",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": true,
-              "isList": false
-            }
           }
         ]
       },
@@ -1695,15 +1667,6 @@
             "inputType": {
               "type": "String",
               "kind": "scalar",
-              "isRequired": false,
-              "isList": false
-            }
-          },
-          {
-            "name": "uuid",
-            "inputType": {
-              "type": "UuidCompoundUniqueInput",
-              "kind": "object",
               "isRequired": false,
               "isList": false
             }
@@ -5900,6 +5863,8 @@
           "title_DESC",
           "content_ASC",
           "content_DESC",
+          "author_ASC",
+          "author_DESC",
           "kind_ASC",
           "kind_DESC"
         ]

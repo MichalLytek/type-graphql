@@ -57,7 +57,6 @@ exports[`structure should generate proper folders structure and file names for c
       index.ts
     [inputs]
       ColorFilter.ts
-      IdCompoundUniqueInput.ts
       IntFilter.ts
       NullableStringFilter.ts
       PostCreateInput.ts
@@ -88,7 +87,6 @@ exports[`structure should generate proper folders structure and file names for c
       UserUpsertWithoutPostsInput.ts
       UserWhereInput.ts
       UserWhereUniqueInput.ts
-      UuidCompoundUniqueInput.ts
       index.ts
     [outputs]
       AggregatePost.ts

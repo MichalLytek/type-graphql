@@ -2442,22 +2442,6 @@
         "atLeastOne": false
       },
       {
-        "name": "IdCompoundUniqueInput",
-        "fields": [
-          {
-            "name": "id",
-            "inputType": [
-              {
-                "type": "Int",
-                "kind": "scalar",
-                "isRequired": true,
-                "isList": false
-              }
-            ]
-          }
-        ]
-      },
-      {
         "name": "UserWhereUniqueInput",
         "fields": [
           {
@@ -2484,22 +2468,6 @@
           }
         ],
         "atLeastOne": true
-      },
-      {
-        "name": "UuidCompoundUniqueInput",
-        "fields": [
-          {
-            "name": "uuid",
-            "inputType": [
-              {
-                "type": "String",
-                "kind": "scalar",
-                "isRequired": true,
-                "isList": false
-              }
-            ]
-          }
-        ]
       },
       {
         "name": "PostWhereUniqueInput",
@@ -5597,6 +5565,18 @@
           },
           {
             "name": "content",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "author",
             "inputType": [
               {
                 "type": "OrderByArg",

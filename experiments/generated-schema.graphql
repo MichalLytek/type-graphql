@@ -239,6 +239,7 @@ enum PostKind {
 }
 
 input PostOrderByInput {
+  author: OrderByArg
   content: OrderByArg
   createdAt: OrderByArg
   kind: OrderByArg
@@ -258,7 +259,7 @@ input PostScalarWhereInput {
   published: BooleanFilter
   title: StringFilter
   updatedAt: DateTimeFilter
-  uuid: StringFilter
+  uuid: UUIDFilter
 }
 
 input PostUpdateManyDataInput {
@@ -330,7 +331,7 @@ input PostWhereInput {
   published: BooleanFilter
   title: StringFilter
   updatedAt: DateTimeFilter
-  uuid: StringFilter
+  uuid: UUIDFilter
 }
 
 input PostWhereUniqueInput {
@@ -345,6 +346,7 @@ type Query {
   patient(where: PatientWhereUniqueInput!): Patient
   patients(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
+  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
@@ -468,4 +470,18 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   email: String
   id: Int
+}
+
+input UUIDFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
+  startsWith: String
 }

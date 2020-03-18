@@ -1,9 +1,10 @@
-import getDMMFTypings from "@prisma/client/dist/generation/getDMMF";
 import { DMMF } from "@prisma/client/runtime/dmmf-types";
+import { GetDMMFOptions } from "@prisma/sdk";
 const PrismaClientGeneratorBuild = require("@prisma/client/generator-build");
 
-const getDMMF: typeof getDMMFTypings.getDMMF =
-  PrismaClientGeneratorBuild.getDMMF;
+function getDMMF(options: GetDMMFOptions): Promise<DMMF.Document> {
+  return PrismaClientGeneratorBuild.getDMMF(options);
+}
 
 export default async function getPrismaClientDmmfFromPrismaSchema(
   prismaSchema: string,
