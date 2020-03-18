@@ -25,13 +25,13 @@ export class ColorFilter {
     nullable: true,
     description: undefined
   })
-  in?: keyof typeof Color[] | null;
+  in?: Array<keyof typeof Color> | null;
 
   @Field(_type => [Color], {
     nullable: true,
     description: undefined
   })
-  notIn?: keyof typeof Color[] | null;
+  notIn?: Array<keyof typeof Color> | null;
 }
 "
 `;

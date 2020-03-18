@@ -27,7 +27,11 @@ export function getFieldTSType(typeInfo: DMMFTypeInfo, modelNames: string[]) {
     throw new Error(`Unsupported field type kind: ${typeInfo.kind}`);
   }
   if (typeInfo.isList) {
-    TSType += "[]";
+    if (TSType.includes(" ")) {
+      TSType = `Array<${TSType}>`;
+    } else {
+      TSType += "[]";
+    }
   }
   if (!typeInfo.isRequired) {
     TSType += " | null";

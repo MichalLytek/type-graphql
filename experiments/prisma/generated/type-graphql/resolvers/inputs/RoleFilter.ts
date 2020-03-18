@@ -22,11 +22,11 @@ export class RoleFilter {
     nullable: true,
     description: undefined
   })
-  in?: keyof typeof Role[] | null;
+  in?: Array<keyof typeof Role> | null;
 
   @Field(_type => [Role], {
     nullable: true,
     description: undefined
   })
-  notIn?: keyof typeof Role[] | null;
+  notIn?: Array<keyof typeof Role> | null;
 }

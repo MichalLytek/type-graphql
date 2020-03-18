@@ -22,11 +22,11 @@ export class NullablePostKindFilter {
     nullable: true,
     description: undefined
   })
-  in?: keyof typeof PostKind[] | null;
+  in?: Array<keyof typeof PostKind> | null;
 
   @Field(_type => [PostKind], {
     nullable: true,
     description: undefined
   })
-  notIn?: keyof typeof PostKind[] | null;
+  notIn?: Array<keyof typeof PostKind> | null;
 }
