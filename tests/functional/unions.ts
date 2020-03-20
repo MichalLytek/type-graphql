@@ -11,7 +11,7 @@ import {
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { Field, ObjectType, Query, createUnionType } from "../../src";
+import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "../../src";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -308,6 +308,69 @@ describe("Unions", () => {
       expect(errorMessage).toContain("OneTwoThreeUnion");
       expect(errorMessage).toContain("instance");
       expect(errorMessage).toContain("plain");
+    });
+  });
+
+  describe("Mutliple schemas", () => {
+    it("should correctly return data from union query for schemas that uses the same union", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class One {
+        @Field()
+        one: string;
+      }
+      @ObjectType()
+      class Two {
+        @Field()
+        two: string;
+      }
+      const OneTwo = createUnionType({
+        name: "OneTwo",
+        types: () => [One, Two],
+      });
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => OneTwo)
+        oneTwo(): typeof OneTwo {
+          const one = new One();
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          oneTwo {
+            __typename
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
     });
   });
 });
