@@ -196,12 +196,13 @@ export abstract class SchemaGenerator {
                 // use closure captured `unionObjectTypesInfo`
                 const objectTypeInfo = unionObjectTypesInfo.find(
                   type => type.target === instanceTarget,
-                );
-                return objectTypeInfo!.type;
+                )!;
+                return objectTypeInfo.type;
               },
         }),
       };
     });
+
     this.enumTypesInfo = getMetadataStorage().enums.map<EnumTypeInfo>(enumMetadata => {
       const enumMap = getEnumValuesMap(enumMetadata.enumObj);
       return {
@@ -218,66 +219,6 @@ export abstract class SchemaGenerator {
         }),
       };
     });
-    this.interfaceTypesInfo = getMetadataStorage().interfaceTypes.map<InterfaceTypeInfo>(
-      interfaceType => {
-        const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
-        const hasExtended = interfaceSuperClass.prototype !== undefined;
-        const getSuperClassType = () => {
-          const superClassTypeInfo = this.interfaceTypesInfo.find(
-            type => type.target === interfaceSuperClass,
-          );
-          return superClassTypeInfo ? superClassTypeInfo.type : undefined;
-        };
-        const implementingObjectTypesTargets = getMetadataStorage()
-          .objectTypes.filter(
-            objectType =>
-              objectType.interfaceClasses &&
-              objectType.interfaceClasses.includes(interfaceType.target),
-          )
-          .map(objectType => objectType.target);
-        return {
-          target: interfaceType.target,
-          isAbstract: interfaceType.isAbstract || false,
-          type: new GraphQLInterfaceType({
-            name: interfaceType.name,
-            description: interfaceType.description,
-            fields: () => {
-              let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
-                (fieldsMap, field) => {
-                  fieldsMap[field.schemaName] = {
-                    description: field.description,
-                    type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-                    resolve: createBasicFieldResolver(field),
-                  };
-                  return fieldsMap;
-                },
-                {},
-              );
-              // support for extending interface classes - get field info from prototype
-              if (hasExtended) {
-                const superClass = getSuperClassType();
-                if (superClass) {
-                  const superClassFields = getFieldMetadataFromObjectType(superClass);
-                  fields = Object.assign({}, superClassFields, fields);
-                }
-              }
-              return fields;
-            },
-            resolveType: interfaceType.resolveType
-              ? this.getResolveTypeFunction(interfaceType.resolveType)
-              : instance => {
-                  const typeTarget = implementingObjectTypesTargets.find(
-                    typeCls => instance instanceof typeCls,
-                  );
-                  if (!typeTarget) {
-                    throw new InterfaceResolveTypeError(interfaceType);
-                  }
-                  return this.objectTypesInfo.find(type => type.target === typeTarget)!.type;
-                },
-          }),
-        };
-      },
-    );
 
     this.objectTypesInfo = getMetadataStorage().objectTypes.map<ObjectTypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
@@ -379,6 +320,74 @@ export abstract class SchemaGenerator {
         }),
       };
     });
+
+    this.interfaceTypesInfo = getMetadataStorage().interfaceTypes.map<InterfaceTypeInfo>(
+      interfaceType => {
+        const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
+        const hasExtended = interfaceSuperClass.prototype !== undefined;
+        const getSuperClassType = () => {
+          const superClassTypeInfo = this.interfaceTypesInfo.find(
+            type => type.target === interfaceSuperClass,
+          );
+          return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+        };
+        // fetch ahead the subset of object types that implements this interface
+        const implementingObjectTypesTargets = getMetadataStorage()
+          .objectTypes.filter(
+            objectType =>
+              objectType.interfaceClasses &&
+              objectType.interfaceClasses.includes(interfaceType.target),
+          )
+          .map(objectType => objectType.target);
+        const implementingObjectTypesInfo = this.objectTypesInfo.filter(objectTypesInfo =>
+          implementingObjectTypesTargets.includes(objectTypesInfo.target),
+        );
+        return {
+          target: interfaceType.target,
+          isAbstract: interfaceType.isAbstract || false,
+          type: new GraphQLInterfaceType({
+            name: interfaceType.name,
+            description: interfaceType.description,
+            fields: () => {
+              let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+                (fieldsMap, field) => {
+                  fieldsMap[field.schemaName] = {
+                    description: field.description,
+                    type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
+                    resolve: createBasicFieldResolver(field),
+                  };
+                  return fieldsMap;
+                },
+                {},
+              );
+              // support for extending interface classes - get field info from prototype
+              if (hasExtended) {
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superClassFields = getFieldMetadataFromObjectType(superClass);
+                  fields = Object.assign({}, superClassFields, fields);
+                }
+              }
+              return fields;
+            },
+            resolveType: interfaceType.resolveType
+              ? this.getResolveTypeFunction(interfaceType.resolveType)
+              : instance => {
+                  const typeTarget = implementingObjectTypesTargets.find(
+                    typeCls => instance instanceof typeCls,
+                  );
+                  if (!typeTarget) {
+                    throw new InterfaceResolveTypeError(interfaceType);
+                  }
+                  const objectTypeInfo = implementingObjectTypesInfo.find(
+                    type => type.target === typeTarget,
+                  )!;
+                  return objectTypeInfo.type;
+                },
+          }),
+        };
+      },
+    );
 
     this.inputTypesInfo = getMetadataStorage().inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target);

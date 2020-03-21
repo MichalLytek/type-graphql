@@ -312,7 +312,7 @@ describe("Unions", () => {
   });
 
   describe("Mutliple schemas", () => {
-    it("should correctly return data from union query for schemas that uses the same union", async () => {
+    it("should correctly return data from union query for all schemas that uses the same union", async () => {
       getMetadataStorage().clear();
 
       @ObjectType()

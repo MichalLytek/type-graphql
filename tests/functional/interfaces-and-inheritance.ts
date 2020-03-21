@@ -833,4 +833,74 @@ describe("Interfaces and inheritance", () => {
       expect(data!.secondImplementationPlainQuery.secondField).toEqual("secondField");
     });
   });
+
+  describe("Mutliple schemas", () => {
+    it("should correctly return data from interface query for all schemas that uses the same interface", async () => {
+      getMetadataStorage().clear();
+
+      @InterfaceType()
+      class BaseInterface {
+        @Field()
+        baseField: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class One extends BaseInterface {
+        @Field()
+        one: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class Two extends BaseInterface {
+        @Field()
+        two: string;
+      }
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => BaseInterface)
+        base(): BaseInterface {
+          const one = new One();
+          one.baseField = "baseField";
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          base {
+            __typename
+            baseField
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+    });
+  });
 });
