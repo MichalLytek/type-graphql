@@ -399,7 +399,10 @@ export abstract class SchemaGenerator {
                   if (!typeTarget) {
                     throw new InterfaceResolveTypeError(interfaceType);
                   }
-                  return this.objectTypesInfo.find(type => type.target === typeTarget)!.type;
+                  const objectTypeInfo = implementingObjectTypesInfo.find(
+                    type => type.target === typeTarget,
+                  )!;
+                  return objectTypeInfo.type;
                 },
           }),
         };
