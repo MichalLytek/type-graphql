@@ -119,7 +119,7 @@ export abstract class SchemaGenerator {
     this.checkForErrors(options);
     BuildContext.create(options);
     getMetadataStorage().build();
-    this.buildTypesInfo();
+    this.buildTypesInfo(options.resolvers);
 
     const orphanedTypes = options.orphanedTypes || (options.resolvers ? [] : undefined);
     const schema = new GraphQLSchema({
@@ -167,7 +167,7 @@ export abstract class SchemaGenerator {
       : defaultValueFromInitializer;
   }
 
-  private static buildTypesInfo() {
+  private static buildTypesInfo(resolvers?: Function[]) {
     this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
       // use closure to capture values from this selected schema build
       let unionObjectTypesInfo: ObjectTypeInfo[] = [];
@@ -256,7 +256,12 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+                const filteredFieldResolversMetadata = !resolvers
+                  ? getMetadataStorage().fieldResolvers
+                  : getMetadataStorage().fieldResolvers.filter(
+                      it => it.kind === "internal" || resolvers.includes(it.target),
+                    );
+                const fieldResolverMetadata = filteredFieldResolversMetadata.find(
                   resolver =>
                     resolver.getObjectType!() === objectType.target &&
                     resolver.methodName === field.name &&

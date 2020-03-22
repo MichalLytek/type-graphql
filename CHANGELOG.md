@@ -21,6 +21,7 @@
 - fix not calling `authChecker` during subscribe phase for subscriptions (#578)
 - fix using shared union type in multiple schemas
 - fix using shared interface type in multiple schemas
+- fix calling field resolver without providing resolver class to `buildSchema`
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface

@@ -1914,6 +1914,51 @@ describe("Resolvers", () => {
     });
   });
 
+  describe("Schemas leaks", () => {
+    it("should not call field resolver if resolver class is not provided to `buildSchema`", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField: string;
+        @Field()
+        resolvedField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleObject {
+          return { sampleField: "sampleField", resolvedField: "resolvedField" };
+        }
+      }
+      @Resolver(of => SampleObject)
+      class SampleObjectResolver {
+        @FieldResolver()
+        resolvedField(): string {
+          return "SampleObjectResolver resolvedField";
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          sampleQuery {
+            sampleField
+            resolvedField
+          }
+        }
+      `;
+      const schema = await buildSchema({ resolvers: [SampleResolver] });
+
+      const result = await graphql(schema, query);
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data!.sampleQuery).toEqual({
+        sampleField: "sampleField",
+        resolvedField: "resolvedField",
+      });
+    });
+  });
+
   describe("Inheritance", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
