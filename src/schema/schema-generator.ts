@@ -26,6 +26,7 @@ import {
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
+  FieldMetadata,
 } from "../metadata/definitions";
 import { TypeOptions, TypeValue } from "../decorators/types";
 import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
@@ -254,7 +255,21 @@ export abstract class SchemaGenerator {
             return interfaces;
           },
           fields: () => {
-            let fields = objectType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+            const fieldsMetadata: FieldMetadata[] = [];
+            // support for implicitly implementing interfaces
+            // get fields from interfaces definitions
+            if (objectType.interfaceClasses) {
+              const implementedInterfaces = getMetadataStorage().interfaceTypes.filter(it =>
+                objectType.interfaceClasses!.includes(it.target),
+              );
+              implementedInterfaces.forEach(it => {
+                fieldsMetadata.push(...(it.fields || []));
+              });
+            }
+            // push own fields at the end to overwrite the one inherited from interface
+            fieldsMetadata.push(...objectType.fields!);
+
+            let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
                 const filteredFieldResolversMetadata = !resolvers
                   ? getMetadataStorage().fieldResolvers
@@ -263,7 +278,7 @@ export abstract class SchemaGenerator {
                     );
                 const fieldResolverMetadata = filteredFieldResolversMetadata.find(
                   resolver =>
-                    resolver.getObjectType!() === objectType.target &&
+                    resolver.getObjectType!() === field.target &&
                     resolver.methodName === field.name &&
                     (resolver.resolverClassMetadata === undefined ||
                       resolver.resolverClassMetadata.isAbstract === false),
@@ -307,19 +322,6 @@ export abstract class SchemaGenerator {
                 fields = Object.assign({}, superClassFields, fields);
               }
             }
-            // support for implicitly implementing interfaces
-            // get fields from interfaces definitions
-            if (objectType.interfaceClasses) {
-              const interfacesFields = objectType.interfaceClasses.reduce<
-                GraphQLFieldConfigMap<any, any>
-              >((fieldsMap, interfaceClass) => {
-                const interfaceType = this.interfaceTypesInfo.find(
-                  type => type.target === interfaceClass,
-                )!.type;
-                return Object.assign(fieldsMap, getFieldMetadataFromObjectType(interfaceType));
-              }, {});
-              fields = Object.assign({}, interfacesFields, fields);
-            }
             return fields;
           },
         }),
@@ -356,10 +358,25 @@ export abstract class SchemaGenerator {
             fields: () => {
               let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
+                  const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+                    resolver =>
+                      resolver.getObjectType!() === field.target &&
+                      resolver.methodName === field.name &&
+                      (resolver.resolverClassMetadata === undefined ||
+                        resolver.resolverClassMetadata.isAbstract === false),
+                  );
                   fieldsMap[field.schemaName] = {
-                    description: field.description,
                     type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-                    resolve: createBasicFieldResolver(field),
+                    args: this.generateHandlerArgs(field.params!),
+                    resolve: fieldResolverMetadata
+                      ? createAdvancedFieldResolver(fieldResolverMetadata)
+                      : createBasicFieldResolver(field),
+                    description: field.description,
+                    deprecationReason: field.deprecationReason,
+                    extensions: {
+                      complexity: field.complexity,
+                      ...field.extensions,
+                    },
                   };
                   return fieldsMap;
                 },

@@ -15,7 +15,7 @@ export type TypeValue = ClassType | GraphQLScalarType | Function | object | symb
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;
 
 export type TypeValueThunk = (type?: void) => TypeValue;
-export type ClassTypeResolver = (of?: void) => ClassType;
+export type ClassTypeResolver = (of?: void) => ClassType | Function;
 
 export type ReturnTypeFunc = (returns?: void) => ReturnTypeFuncValue;
 

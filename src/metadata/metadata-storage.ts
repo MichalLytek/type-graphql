@@ -233,15 +233,19 @@ export class MetadataStorage {
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
           : () => def.target as ClassType;
       if (def.kind === "external") {
-        const objectTypeCls = this.resolverClasses.find(resolver => resolver.target === def.target)!
+        const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!
           .getObjectType!();
-        const objectType = this.objectTypes.find(
-          objTypeDef => objTypeDef.target === objectTypeCls,
-        )!;
-        const objectTypeField = objectType.fields!.find(
-          fieldDef => fieldDef.name === def.methodName,
-        )!;
-        if (!objectTypeField) {
+        const typeMetadata =
+          this.objectTypes.find(objTypeDef => objTypeDef.target === typeClass) ||
+          this.interfaceTypes.find(interfaceTypeDef => interfaceTypeDef.target === typeClass);
+        if (!typeMetadata) {
+          throw new Error(
+            `Unable to find type metadata for input type or object type named '${typeClass.name}'`,
+          );
+        }
+
+        const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!;
+        if (!typeField) {
           if (!def.getType || !def.typeOptions) {
             throw new NoExplicitTypeError(def.target.name, def.methodName);
           }
@@ -249,7 +253,7 @@ export class MetadataStorage {
             name: def.methodName,
             schemaName: def.schemaName,
             getType: def.getType!,
-            target: objectTypeCls,
+            target: typeClass,
             typeOptions: def.typeOptions!,
             deprecationReason: def.deprecationReason,
             description: def.description,
@@ -261,16 +265,16 @@ export class MetadataStorage {
             extensions: def.extensions,
           };
           this.collectClassFieldMetadata(fieldMetadata);
-          objectType.fields!.push(fieldMetadata);
+          typeMetadata.fields!.push(fieldMetadata);
         } else {
-          objectTypeField.complexity = def.complexity;
-          if (objectTypeField.params!.length === 0) {
-            objectTypeField.params = def.params!;
+          typeField.complexity = def.complexity;
+          if (typeField.params!.length === 0) {
+            typeField.params = def.params!;
           }
           if (def.roles) {
-            objectTypeField.roles = def.roles;
-          } else if (objectTypeField.roles) {
-            def.roles = objectTypeField.roles;
+            typeField.roles = def.roles;
+          } else if (typeField.roles) {
+            def.roles = typeField.roles;
           }
         }
       }
