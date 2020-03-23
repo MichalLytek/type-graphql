@@ -47,7 +47,7 @@ The only difference is that we have to let TypeGraphQL know that this `ObjectTyp
 
 It is also allowed to omit the decorators since the GraphQL types will be copied from the interface definition - this way we won't have to maintain two definitions and solely rely on TypeScript type checking for correct interface implementation.
 
-You can also extend the base interface type abstract class as all the fields are inherited and emitted in schema:
+We can extend the base interface type abstract class as well because all the fields are inherited and emitted in schema:
 
 ```typescript
 @ObjectType({ implements: IPerson })
@@ -59,7 +59,7 @@ class Person extends IPerson {
 
 ### Resolvers and arguments
 
-We can also define resolvers for the interface fields, using the same syntax we would use when defining one for our object type:
+What's more, we can define resolvers for the interface fields, using the same syntax we would use when defining one for our object type:
 
 ```typescript
 @InterfaceType()
@@ -77,7 +77,7 @@ abstract class IPerson {
 }
 ```
 
-They are inherited by all the object types that implements this interface type but does not provide their own resolver implementation for those fields.
+They're inherited by all the object types that implements this interface type but does not provide their own resolver implementation for those fields.
 
 Additionally, if we want to declare that the interface accepts some arguments, e.g.:
 
@@ -100,7 +100,7 @@ abstract class IPerson {
 ```
 
 Unfortunately, TypeScript doesn't allow using decorators on abstract methods.
-So if we don't want to provide implementation for that field resolver, only to enforce some signature (args and return type), we just need to throw an error inside the body:
+So if we don't want to provide implementation for that field resolver, only to enforce some signature (args and return type), we have to throw an error inside the body:
 
 ```typescript
 @InterfaceType()
@@ -112,7 +112,7 @@ abstract class IPerson {
 }
 ```
 
-And then we have to extends the interface class and and override the method by providing body, for all object types that implements that interface type:
+And then we need to extend the interface class and override the method by providing its body - it is required for all object types that implements that interface type:
 
 ```typescript
 @ObjectType({ implements: IPerson })
