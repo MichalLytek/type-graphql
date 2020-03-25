@@ -1,7 +1,6 @@
 ---
 name: Documentation issue or request
 about: There's something wrong in docs or something is missing
-
 ---
 
 **Describe the issue**

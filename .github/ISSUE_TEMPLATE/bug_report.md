@@ -1,7 +1,6 @@
 ---
 name: Bug report
 about: Something works incorrectly or doesn't work at all
-
 ---
 
 **Describe the bug**
@@ -19,10 +18,11 @@ If applicable, add some console logs to help explain your problem.
 You can paste the errors with stack trace that were printed when the error occured.
 
 **Enviorment (please complete the following information):**
- - OS: [e.g. Windows]
- - Node (e.g. 10.5.0)
- - Package version [e.g. 0.12.2] (please check if the bug still exist in newest release)
- - TypeScript version (e.g. 2.8.2)
+
+- OS: [e.g. Windows]
+- Node (e.g. 10.5.0)
+- Package version [e.g. 0.12.2] (please check if the bug still exist in newest release)
+- TypeScript version (e.g. 2.8.2)
 
 **Additional context**
 Add any other context about the problem here.
