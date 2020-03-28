@@ -13,19 +13,20 @@
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
   "peerDependencies": {
-    "@prisma/client": "2.0.0-preview024",
+    "@prisma/cli": "2.0.0-alpha.980",
+    "@prisma/client": "2.0.0-alpha.980",
     "@types/node": "*",
-    "prisma2": "2.0.0-preview024",
     "type-graphql": "0.18.0-beta.11"
   },
   "dependencies": {
-    "@prisma/generator-helper": "2.0.0-preview024",
-    "@prisma/sdk": "2.0.0-preview024",
+    "@prisma/generator-helper": "2.0.0-alpha.980",
+    "@prisma/sdk": "2.0.0-alpha.980",
     "ts-morph": "^7.0.0",
     "tslib": "^1.11.1"
   },
   "devDependencies": {
-    "@prisma/client": "2.0.0-preview024",
+    "@prisma/cli": "2.0.0-alpha.980",
+    "@prisma/client": "2.0.0-alpha.980",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "directory-tree": "^2.2.4",
@@ -34,7 +35,6 @@
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
-    "prisma2": "2.0.0-preview024",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",

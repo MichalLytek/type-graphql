@@ -1,6 +1,7 @@
 import { DMMF } from './dmmf-types';
 import { DatasourceOverwrite } from '@prisma/engine-core/dist/NodeEngine';
 import { GeneratorConfig } from '@prisma/generator-helper/dist/types';
+import { InternalDatasource } from './utils/printDatasources';
 export declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
 export declare type Datasources = any;
 export interface PrismaClientOptions {
@@ -57,11 +58,11 @@ export declare type LogEvent = {
 };
 export interface GetPrismaClientOptions {
     document: DMMF.Document;
-    version?: string;
     generator?: GeneratorConfig;
     sqliteDatasourceOverrides?: DatasourceOverwrite[];
     relativePath: string;
     dirname: string;
+    internalDatasources: InternalDatasource[];
 }
 export declare function getPrismaClient(config: GetPrismaClientOptions): any;
 export declare function getOperation(action: DMMF.ModelAction): 'query' | 'mutation';

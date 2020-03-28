@@ -6,7 +6,7 @@
     "seed": "ts-node --transpile-only ./seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "2.0.0-preview024",
+    "@prisma/client": "2.0.0-alpha.980",
     "apollo-server": "^2.11.0",
     "dataloader": "^2.0.0",
     "graphql": "^14.6.0",
@@ -14,8 +14,8 @@
     "type-graphql": "0.18.0-beta.11"
   },
   "devDependencies": {
+    "@prisma/cli": "2.0.0-alpha.980",
     "@types/node": "^13.9.1",
-    "prisma2": "2.0.0-preview024",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }

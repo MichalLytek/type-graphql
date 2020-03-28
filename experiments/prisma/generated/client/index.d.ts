@@ -16,8 +16,14 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: latest
+ * Query Engine version: a5496bff511ac9d1efe467700d3b8955e6030765
+ * Prisma Client JS version: 2.0.0-alpha.980
  */
+export declare type PrismaVersion = {
+  client: string
+}
+
+export declare const prismaVersion: PrismaVersion 
 
 /**
  * Utility Types
@@ -130,12 +136,6 @@ export type LogDefinition = {
   level: LogLevel
   emit: 'stdout' | 'event'
 }
-
-export declare type Version = {
-  client: string
-}
-
-export declare const version: Version 
 
 export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
 export type GetEvents<T extends Array<LogLevel | LogDefinition>> = GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]>
