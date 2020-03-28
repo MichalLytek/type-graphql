@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 
 export type BaseKeys = keyof Pick<DMMF.Mapping, "model" | "plural">;
 export const baseKeys: BaseKeys[] = ["model", "plural"];

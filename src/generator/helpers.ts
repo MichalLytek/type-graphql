@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 
 import { DMMFTypeInfo } from "./types";
 import { ModelKeys } from "./config";

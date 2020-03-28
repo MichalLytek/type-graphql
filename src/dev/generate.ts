@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 
 import generateCode from "../generator/generate-code";
 

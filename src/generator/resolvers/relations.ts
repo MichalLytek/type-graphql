@@ -1,10 +1,5 @@
-import {
-  OptionalKind,
-  MethodDeclarationStructure,
-  Project,
-  SourceFile,
-} from "ts-morph";
-import { DMMF } from "@prisma/client/runtime";
+import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import {
@@ -40,21 +35,18 @@ export default async function generateRelationsResolverClassesFromModel(
   const resolverName = `${model.name}RelationsResolver`;
   const rootArgName = camelCase(model.name);
   const relationFields = model.fields.filter(field => field.relationName);
-  const uniqueFields =
-    model.idFields.length > 0
-      ? model.fields.filter(field => model.idFields.includes(field.name))
-      : (model.uniqueFields as string[][]).length > 0
-      ? model.fields.filter(field =>
-          // taking first unique group is enough to fetch entity
-          (model.uniqueFields as string[][])[0].includes(field.name),
-        )
-      : [
-          model.fields.find(field => field.isId)! ??
-            model.fields.find(field => field.isUnique)!,
-        ].filter(Boolean);
-  if (uniqueFields.length === 0) {
-    throw new Error(`Unable to find unique fields for ${model.name}!`);
-  }
+  const singleIdField = model.fields.find(field => field.isId);
+  const singleUniqueField = model.fields.find(field => field.isUnique);
+  const singleFilterField = singleIdField ?? singleUniqueField;
+  const compositeIdFields = model.fields.filter(field =>
+    model.idFields.includes(field.name),
+  );
+  const compositeUniqueFields = model.fields.filter(field =>
+    // taking first unique group is enough to fetch entity
+    model.uniqueFields[0]?.includes(field.name),
+  );
+  const compositeFilterFields =
+    compositeIdFields.length > 0 ? compositeIdFields : compositeUniqueFields;
 
   const resolverDirPath = path.resolve(
     baseDirPath,
@@ -122,6 +114,27 @@ export default async function generateRelationsResolverClassesFromModel(
     ],
     methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
       ({ field, fieldType, fieldDocs, argsTypeName }) => {
+        let whereConditionString: string = "";
+        // TODO: refactor to AST
+        if (singleFilterField) {
+          whereConditionString = `
+            ${singleFilterField.name}: ${rootArgName}.${singleFilterField.name},
+          `;
+        } else if (compositeFilterFields.length > 0) {
+          whereConditionString = `
+            ${compositeFilterFields.map(it => it.name).join("_")}: {
+              ${compositeFilterFields
+                .map(
+                  idField => `${idField.name}: ${rootArgName}.${idField.name},`,
+                )
+                .join("\n")}
+            },
+          `;
+        } else {
+          throw new Error(
+            `Unexpected error happened on generating 'whereConditionString' for ${model.name} relation resolver`,
+          );
+        }
         return {
           name: field.name,
           isAsync: true,
@@ -163,11 +176,7 @@ export default async function generateRelationsResolverClassesFromModel(
           // TODO: refactor to AST
           statements: [
             `return ctx.prisma.${camelCase(model.name)}.findOne({
-              where: {
-                ${uniqueFields
-                  .map(field => `${field.name}: ${rootArgName}.${field.name},`)
-                  .join("\n")}
-              },
+              where: {${whereConditionString}},
             }).${field.name}(${argsTypeName ? "args" : "{}"});`,
           ],
         };

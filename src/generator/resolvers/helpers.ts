@@ -1,3 +1,5 @@
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
+
 import {
   getFieldTSType,
   getMappedActionName,
@@ -5,7 +7,6 @@ import {
 } from "../helpers";
 import { DMMFTypeInfo } from "../types";
 import { GenerateCodeOptions } from "../options";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import { ModelKeys } from "../config";
 
 export function generateCrudResolverClassMethodDeclaration(

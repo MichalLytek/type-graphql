@@ -1,5 +1,5 @@
 import { Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import { pascalCase } from "../helpers";
@@ -21,7 +21,7 @@ import { generateCrudResolverClassMethodDeclaration } from "./helpers";
 export default async function generateActionResolverClass(
   project: Project,
   baseDirPath: string,
-  modelName: string,
+  model: DMMF.Model,
   operationKind: string,
   actionName: ModelKeys,
   method: DMMF.SchemaField,
@@ -37,7 +37,7 @@ export default async function generateActionResolverClass(
     baseDirPath,
     resolversFolderName,
     crudResolversFolderName,
-    modelName,
+    model.name,
   );
   const filePath = path.resolve(resolverDirPath, `${actionResolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
@@ -50,7 +50,7 @@ export default async function generateActionResolverClass(
   }
   generateModelsImports(
     sourceFile,
-    [modelName, outputTypeName].filter(name => modelNames.includes(name)),
+    [model.name, outputTypeName].filter(name => modelNames.includes(name)),
     3,
   );
   generateOutputsImports(
@@ -65,7 +65,7 @@ export default async function generateActionResolverClass(
     decorators: [
       {
         name: "Resolver",
-        arguments: [`_of => ${modelName}`],
+        arguments: [`_of => ${model.name}`],
       },
     ],
     methods: [

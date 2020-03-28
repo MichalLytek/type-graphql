@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import { Project } from "ts-morph";
 import path from "path";
 
@@ -186,16 +186,20 @@ export default async function generateCode(
 
   log("Generating crud resolvers...");
   const crudResolversData = await Promise.all(
-    dmmf.mappings.map(mapping =>
-      generateCrudResolverClassFromMapping(
+    dmmf.mappings.map(mapping => {
+      const model = dmmf.datamodel.models.find(
+        model => model.name === mapping.model,
+      )!;
+      return generateCrudResolverClassFromMapping(
         project,
         baseDirPath,
         mapping,
+        model,
         rootTypes,
         modelNames,
         options,
-      ),
-    ),
+      );
+    }),
   );
   const crudResolversBarrelExportSourceFile = project.createSourceFile(
     path.resolve(

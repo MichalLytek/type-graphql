@@ -1,5 +1,5 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import {

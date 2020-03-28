@@ -1,5 +1,5 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import { getBaseModelTypeName, camelCase } from "../helpers";
@@ -30,19 +30,19 @@ export default async function generateCrudResolverClassFromMapping(
   project: Project,
   baseDirPath: string,
   mapping: DMMF.Mapping,
+  model: DMMF.Model,
   types: DMMF.OutputType[],
   modelNames: string[],
   options: GenerateCodeOptions,
 ): Promise<GeneratedResolverData> {
-  const modelName = getBaseModelTypeName(mapping.model);
-  const resolverName = `${modelName}CrudResolver`;
+  const resolverName = `${model.name}CrudResolver`;
   const collectionName = camelCase(mapping.model);
 
   const resolverDirPath = path.resolve(
     baseDirPath,
     resolversFolderName,
     crudResolversFolderName,
-    modelName,
+    model.name,
   );
   const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
@@ -140,7 +140,7 @@ export default async function generateCrudResolverClassFromMapping(
     decorators: [
       {
         name: "Resolver",
-        arguments: [`_of => ${modelName}`],
+        arguments: [`_of => ${model.name}`],
       },
     ],
     methods: await Promise.all(
@@ -166,7 +166,7 @@ export default async function generateCrudResolverClassFromMapping(
         generateActionResolverClass(
           project,
           baseDirPath,
-          modelName,
+          model,
           operationKind,
           actionName,
           method,
@@ -181,7 +181,12 @@ export default async function generateCrudResolverClassFromMapping(
   );
 
   await saveSourceFile(sourceFile);
-  return { modelName, resolverName, actionResolverNames, argTypeNames };
+  return {
+    modelName: model.name,
+    resolverName,
+    actionResolverNames,
+    argTypeNames,
+  };
 }
 
 function getOperationKindName(actionName: string): string | undefined {

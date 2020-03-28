@@ -1,4 +1,4 @@
-import { DMMF } from "@prisma/client/runtime";
+import { DMMF } from "@prisma/client/runtime/dmmf-types";
 
 export interface DMMFTypeInfo {
   // type: string | OutputType | Enum;
