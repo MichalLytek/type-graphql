@@ -40,9 +40,9 @@
     "@types/gulp-replace": "0.0.31",
     "@types/ioredis": "^4.14.9",
     "@types/jest": "^25.1.4",
-    "@types/mongoose": "^5.7.6",
-    "@types/node": "^13.9.1",
-    "@types/rimraf": "^2.0.3",
+    "@types/mongoose": "^5.7.8",
+    "@types/node": "^13.9.5",
+    "@types/rimraf": "^3.0.0",
     "apollo-cache-control": "^0.9.0",
     "apollo-engine": "^1.1.2",
     "apollo-server": "^2.11.0",
@@ -59,16 +59,16 @@
     "gulp-typescript": "^5.0.1",
     "gulpclass": "^0.2.0",
     "husky": "^4.2.3",
-    "ioredis": "^4.16.0",
-    "jest": "^25.1.0",
-    "lint-staged": "^10.0.8",
-    "mongoose": "^5.9.4",
+    "ioredis": "^4.16.1",
+    "jest": "^25.2.3",
+    "lint-staged": "^10.0.9",
+    "mongoose": "^5.9.6",
     "mysql": "^2.18.1",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
+    "ts-node": "^8.8.1",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
@@ -85,16 +85,13 @@
   "lint-staged": {
     "{src,tests,examples}/**/*.ts": [
       "tslint --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "{src,tests,examples}/**/*.js": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "docs/**/*.md": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "main": "./dist/index.js",
