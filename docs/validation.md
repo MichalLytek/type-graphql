@@ -46,9 +46,9 @@ And that's it! 😉
 TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
 
 ```typescript
-@Resolver(of => Recipe)
+@Resolver((of) => Recipe)
 export class RecipeResolver {
-  @Mutation(returns => Recipe)
+  @Mutation((returns) => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
     // you can be 100% sure that the input is correct
     console.assert(recipeInput.title.length <= 30);
@@ -73,7 +73,7 @@ And we can still enable it per resolver's argument if we need to:
 
 ```typescript
 class RecipeResolver {
-  @Mutation(returns => Recipe)
+  @Mutation((returns) => Recipe)
   async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
     // ...
   }
@@ -84,7 +84,7 @@ The `ValidatorOptions` object used for setting features like [validation groups]
 
 ```typescript
 class RecipeResolver {
-  @Mutation(returns => Recipe)
+  @Mutation((returns) => Recipe)
   async addRecipe(
     @Arg("input", { validate: { groups: ["admin"] } })
     recipeInput: RecipeInput,
@@ -166,6 +166,12 @@ By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md)
 ```
 
 Of course we can also create our own custom implementation of the `formatError` function provided in the `ApolloServer` config options which will transform the `GraphQLError` with a `ValidationError` array in the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
+
+## Caveats
+
+Even if we don't use the validation feature (and we have provided `{ validate: false }` option to `buildSchema`), we still need to have `class-validator` installed as a dev dependency in order to compile our app without errors using `tsc`.
+
+An alternative solution that allows to completely get rid off big `class-validator` from our project's `node_modules` folder is to suppress the `error TS2307: Cannot find module 'class-validator'` TS error by providing `"skipLibCheck": true` setting in `tsconfig.json`.
 
 ## Example
 

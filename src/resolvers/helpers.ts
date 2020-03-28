@@ -1,5 +1,5 @@
 import { PubSubEngine } from "graphql-subscriptions";
-import { ValidatorOptions } from "class-validator";
+import type { ValidatorOptions } from "class-validator";
 
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
@@ -19,7 +19,7 @@ export function getParams(
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
-    .map(paramInfo => {
+    .map((paramInfo) => {
       switch (paramInfo.kind) {
         case "args":
           return validateArg(

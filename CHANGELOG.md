@@ -7,6 +7,7 @@
 - **Breaking Change**: update `graphql-js` peer dependency to `^14.6.0`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
+- **Breaking Change**: make `class-validator` an optional, peer dependency (#366)
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 - add possibility to tune up the performance and disable auth & middlewares stack for simple field resolvers (#479)
