@@ -82,3 +82,19 @@ model Patient {
 
   @@id([firstName, lastName])
 }
+
+model Movie {
+  directorFirstName String
+  directorLastName  String
+  director          Director @relation(fields: [directorFirstName, directorLastName], references: [firstName, lastName])
+  title             String
+
+  @@id([directorFirstName, directorLastName, title])
+}
+
+model Director {
+  firstName String
+  lastName  String
+
+  @@id([firstName, lastName])
+}

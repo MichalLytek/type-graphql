@@ -105,6 +105,28 @@ async function main() {
     },
   });
 
+  await prisma.director.create({
+    data: {
+      firstName: "Bob",
+      lastName: "Nolan",
+      movies: {
+        create: [{ title: "Hello World" }, { title: "Hello World 2" }],
+      },
+    },
+  });
+
+  await prisma.movie.create({
+    data: {
+      title: "Hello World 3",
+      director: {
+        create: {
+          firstName: "Alice",
+          lastName: "Allen",
+        },
+      },
+    },
+  });
+
   console.log("All data inserted!");
 }
 

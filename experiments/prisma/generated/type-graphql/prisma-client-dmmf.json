@@ -8,7 +8,7 @@
           "ADMIN"
         ],
         "dbName": null,
-        "documentation": "Role enum comment\r"
+        "documentation": "/ Role enum comment\\r\\nUSER = \"User\"\\r\\nADMIN = \"Admin\"\\r"
       },
       {
         "name": "PostKind",
@@ -36,12 +36,11 @@
             "type": "Int",
             "default": {
               "name": "autoincrement",
-              "returnType": "Int",
               "args": []
             },
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "User model field comment\r"
+            "documentation": "/ User model field comment\\r"
           },
           {
             "name": "email",
@@ -128,11 +127,12 @@
             "isId": false,
             "type": "Role",
             "isGenerated": false,
-            "isUpdatedAt": false
+            "isUpdatedAt": false,
+            "documentation": "maybePosts  Post[]?\\r"
           }
         ],
         "isGenerated": false,
-        "documentation": "User model comment\r",
+        "documentation": "/ User model comment\\r\\naddress     Address\\r\\naddress2 embed {\\r\\nstreet  String\\r\\nzipCode String\\r\\n}\\r",
         "idFields": [],
         "uniqueFields": []
       },
@@ -152,7 +152,6 @@
             "type": "String",
             "default": {
               "name": "uuid",
-              "returnType": "String",
               "args": []
             },
             "isGenerated": false,
@@ -169,7 +168,6 @@
             "type": "DateTime",
             "default": {
               "name": "now",
-              "returnType": "DateTime",
               "args": []
             },
             "isGenerated": false,
@@ -250,7 +248,8 @@
             "isId": false,
             "type": "PostKind",
             "isGenerated": false,
-            "isUpdatedAt": false
+            "isUpdatedAt": false,
+            "documentation": "coAuthor  User?\\r"
           }
         ],
         "isGenerated": false,
@@ -356,6 +355,126 @@
           "lastName"
         ],
         "uniqueFields": []
+      },
+      {
+        "name": "Movie",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "directorLastName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "director",
+            "kind": "object",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "Director",
+            "relationName": "DirectorToMovie",
+            "relationToFields": [
+              "firstName",
+              "lastName"
+            ],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "title",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [
+          "directorFirstName",
+          "directorLastName",
+          "title"
+        ],
+        "uniqueFields": []
+      },
+      {
+        "name": "Director",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "firstName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "lastName",
+            "kind": "scalar",
+            "dbNames": [],
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "type": "String",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "movies",
+            "kind": "object",
+            "dbNames": [],
+            "isList": true,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "type": "Movie",
+            "relationName": "DirectorToMovie",
+            "relationToFields": [],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [
+          "firstName",
+          "lastName"
+        ],
+        "uniqueFields": []
       }
     ]
   },
@@ -411,6 +530,32 @@
       "updateMany": "updateManyPatient",
       "upsert": "upsertOnePatient",
       "aggregate": "aggregatePatient"
+    },
+    {
+      "model": "Movie",
+      "plural": "movies",
+      "findOne": "findOneMovie",
+      "findMany": "findManyMovie",
+      "create": "createOneMovie",
+      "delete": "deleteOneMovie",
+      "update": "updateOneMovie",
+      "deleteMany": "deleteManyMovie",
+      "updateMany": "updateManyMovie",
+      "upsert": "upsertOneMovie",
+      "aggregate": "aggregateMovie"
+    },
+    {
+      "model": "Director",
+      "plural": "directors",
+      "findOne": "findOneDirector",
+      "findMany": "findManyDirector",
+      "create": "createOneDirector",
+      "delete": "deleteOneDirector",
+      "update": "updateOneDirector",
+      "deleteMany": "deleteManyDirector",
+      "updateMany": "updateManyDirector",
+      "upsert": "upsertOneDirector",
+      "aggregate": "aggregateDirector"
     }
   ],
   "schema": {
@@ -803,6 +948,194 @@
       },
       {
         "name": "AggregatePatient",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "Director",
+        "fields": [
+          {
+            "name": "firstName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "lastName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "movies",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "type": "MovieOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "after",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "before",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "first",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "last",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "Movie",
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "directorLastName",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "director",
+            "args": [],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "title",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateMovie",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateDirector",
         "fields": [
           {
             "name": "count",
@@ -1294,6 +1627,246 @@
             ],
             "outputType": {
               "type": "Patient",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "findManyMovie",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "type": "MovieOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "after",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "before",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "first",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "last",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true
+            }
+          },
+          {
+            "name": "aggregateMovie",
+            "args": [],
+            "outputType": {
+              "type": "AggregateMovie",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "findOneMovie",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "findManyDirector",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "type": "DirectorOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "after",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "before",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "first",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "last",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true
+            }
+          },
+          {
+            "name": "aggregateDirector",
+            "args": [],
+            "outputType": {
+              "type": "AggregateDirector",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "findOneDirector",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
               "kind": "object",
               "isRequired": false,
               "isList": false
@@ -2024,6 +2597,358 @@
             }
           },
           {
+            "name": "createOneMovie",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "MovieCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteOneMovie",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateOneMovie",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "MovieUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "upsertOneMovie",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "create",
+                "inputType": [
+                  {
+                    "type": "MovieCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "update",
+                "inputType": [
+                  {
+                    "type": "MovieUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Movie",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateManyMovie",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "MovieUpdateManyMutationInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteManyMovie",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "createOneDirector",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "DirectorCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteOneDirector",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateOneDirector",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "DirectorUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false
+            }
+          },
+          {
+            "name": "upsertOneDirector",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "create",
+                "inputType": [
+                  {
+                    "type": "DirectorCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "update",
+                "inputType": [
+                  {
+                    "type": "DirectorUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Director",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "updateManyDirector",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "DirectorUpdateManyMutationInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
+            "name": "deleteManyDirector",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false
+            }
+          },
+          {
             "name": "executeRaw",
             "args": [
               {
@@ -2060,6 +2985,10 @@
       }
     ],
     "inputTypes": [
+      {
+        "name": "authorCompoundInlineFilterInput",
+        "fields": []
+      },
       {
         "name": "PostWhereInput",
         "fields": [
@@ -2753,6 +3682,306 @@
       },
       {
         "name": "PatientWhereUniqueInput",
+        "fields": [
+          {
+            "name": "firstName_lastName",
+            "inputType": [
+              {
+                "type": "FirstNameLastNameCompoundUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ],
+        "atLeastOne": true
+      },
+      {
+        "name": "DirectorWhereInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "movies",
+            "inputType": [
+              {
+                "type": "MovieFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false,
+            "nullEqualsUndefined": true
+          },
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "DirectorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "DirectorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "DirectorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          }
+        ],
+        "isWhereType": true,
+        "atLeastOne": false
+      },
+      {
+        "name": "directorCompoundInlineFilterInput",
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieWhereInput",
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "MovieWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "MovieWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "MovieWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "director",
+            "inputType": [
+              {
+                "type": "DirectorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ],
+            "isRelationFilter": true
+          }
+        ],
+        "isWhereType": true,
+        "atLeastOne": false
+      },
+      {
+        "name": "DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput",
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieWhereUniqueInput",
+        "fields": [
+          {
+            "name": "directorFirstName_directorLastName_title",
+            "inputType": [
+              {
+                "type": "DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ],
+        "atLeastOne": true
+      },
+      {
+        "name": "DirectorWhereUniqueInput",
         "fields": [
           {
             "name": "firstName_lastName",
@@ -4428,6 +5657,704 @@
         ]
       },
       {
+        "name": "DirectorCreateWithoutMoviesInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorCreateOneWithoutMoviesInput",
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "DirectorCreateWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "DirectorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieCreateInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "director",
+            "inputType": [
+              {
+                "type": "DirectorCreateOneWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorUpdateWithoutMoviesDataInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorUpsertWithoutMoviesInput",
+        "fields": [
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "DirectorUpdateWithoutMoviesDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "DirectorCreateWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorUpdateOneRequiredWithoutMoviesInput",
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "DirectorCreateWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "DirectorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "DirectorUpdateWithoutMoviesDataInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "DirectorUpsertWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "director",
+            "inputType": [
+              {
+                "type": "DirectorUpdateOneRequiredWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateManyMutationInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieCreateWithoutDirectorInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieCreateManyWithoutDirectorInput",
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "MovieCreateWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorCreateInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "movies",
+            "inputType": [
+              {
+                "type": "MovieCreateManyWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateWithoutDirectorDataInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateWithWhereUniqueWithoutDirectorInput",
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "MovieUpdateWithoutDirectorDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieScalarWhereInput",
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "String"
+              },
+              {
+                "type": "StringFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "MovieScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "MovieScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "MovieScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ],
+            "isRelationFilter": true
+          }
+        ],
+        "isWhereType": true,
+        "atLeastOne": false
+      },
+      {
+        "name": "MovieUpdateManyDataInput",
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateManyWithWhereNestedInput",
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "MovieScalarWhereInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "MovieUpdateManyDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpsertWithWhereUniqueWithoutDirectorInput",
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "MovieUpdateWithoutDirectorDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "MovieCreateWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MovieUpdateManyWithoutDirectorInput",
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "MovieCreateWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "set",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "disconnect",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "delete",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "MovieUpdateWithWhereUniqueWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "updateMany",
+            "inputType": [
+              {
+                "type": "MovieUpdateManyWithWhereNestedInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "deleteMany",
+            "inputType": [
+              {
+                "type": "MovieScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "MovieUpsertWithWhereUniqueWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorUpdateInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "movies",
+            "inputType": [
+              {
+                "type": "MovieUpdateManyWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DirectorUpdateManyMutationInput",
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "UUIDFilter",
         "fields": [
           {
@@ -5406,6 +7333,48 @@
         "atLeastOne": false
       },
       {
+        "name": "MovieFilter",
+        "fields": [
+          {
+            "name": "every",
+            "isRelationFilter": true,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "object",
+                "type": "MovieWhereInput"
+              }
+            ]
+          },
+          {
+            "name": "some",
+            "isRelationFilter": true,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "object",
+                "type": "MovieWhereInput"
+              }
+            ]
+          },
+          {
+            "name": "none",
+            "isRelationFilter": true,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "object",
+                "type": "MovieWhereInput"
+              }
+            ]
+          }
+        ],
+        "atLeastOne": false
+      },
+      {
         "name": "UserOrderByInput",
         "atLeastOne": true,
         "atMostOne": true,
@@ -5576,18 +7545,6 @@
             "isRelationFilter": false
           },
           {
-            "name": "author",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
             "name": "kind",
             "inputType": [
               {
@@ -5677,6 +7634,82 @@
           },
           {
             "name": "email",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          }
+        ]
+      },
+      {
+        "name": "MovieOrderByInput",
+        "atLeastOne": true,
+        "atMostOne": true,
+        "isOrderType": true,
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          }
+        ]
+      },
+      {
+        "name": "DirectorOrderByInput",
+        "atLeastOne": true,
+        "atMostOne": true,
+        "isOrderType": true,
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "lastName",
             "inputType": [
               {
                 "type": "OrderByArg",

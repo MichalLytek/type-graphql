@@ -291,6 +291,26 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
     * ```
     */
   get patient(): PatientDelegate;
+
+  /**
+   * `prisma.movie`: Exposes CRUD operations for the **Movie** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Movies
+    * const movies = await prisma.movie.findMany()
+    * ```
+    */
+  get movie(): MovieDelegate;
+
+  /**
+   * `prisma.director`: Exposes CRUD operations for the **Director** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Directors
+    * const directors = await prisma.director.findMany()
+    * ```
+    */
+  get director(): DirectorDelegate;
 }
 
 
@@ -1978,9 +1998,835 @@ export type PatientArgs = {
 
 
 /**
+ * Model Movie
+ */
+
+export type Movie = {
+  directorFirstName: string
+  directorLastName: string
+  title: string
+}
+
+export type MovieSelect = {
+  directorFirstName?: boolean
+  directorLastName?: boolean
+  director?: boolean | DirectorArgs
+  title?: boolean
+}
+
+export type MovieInclude = {
+  director?: boolean | DirectorArgs
+}
+
+export type MovieGetPayload<
+  S extends boolean | null | undefined | MovieArgs,
+  U = keyof S
+> = S extends true
+  ? Movie
+  : S extends undefined
+  ? never
+  : S extends MovieArgs
+  ? 'include' extends U
+    ? Movie  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'director'
+      ? DirectorGetPayload<S['include'][P]> : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof Movie ? Movie[P]
+: 
+      P extends 'director'
+      ? DirectorGetPayload<S['select'][P]> : never
+    }
+  : Movie
+: Movie
+
+
+export interface MovieDelegate {
+  /**
+   * Find zero or one Movie.
+   * @param {FindOneMovieArgs} args - Arguments to find a Movie
+   * @example
+   * // Get one Movie
+   * const movie = await prisma.movie.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneMovieArgs>(
+    args: Subset<T, FindOneMovieArgs>
+  ): CheckSelect<T, MovieClient<Movie | null>, MovieClient<MovieGetPayload<T> | null>>
+  /**
+   * Find zero or more Movies.
+   * @param {FindManyMovieArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Movies
+   * const movies = await prisma.movie.findMany()
+   * 
+   * // Get first 10 Movies
+   * const movies = await prisma.movie.findMany({ first: 10 })
+   * 
+   * // Only select the `directorFirstName`
+   * const movieWithDirectorFirstNameOnly = await prisma.movie.findMany({ select: { directorFirstName: true } })
+   * 
+  **/
+  findMany<T extends FindManyMovieArgs>(
+    args?: Subset<T, FindManyMovieArgs>
+  ): CheckSelect<T, Promise<Array<Movie>>, Promise<Array<MovieGetPayload<T>>>>
+  /**
+   * Create a Movie.
+   * @param {MovieCreateArgs} args - Arguments to create a Movie.
+   * @example
+   * // Create one Movie
+   * const user = await prisma.movie.create({
+   *   data: {
+   *     // ... data to create a Movie
+   *   }
+   * })
+   * 
+  **/
+  create<T extends MovieCreateArgs>(
+    args: Subset<T, MovieCreateArgs>
+  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  /**
+   * Delete a Movie.
+   * @param {MovieDeleteArgs} args - Arguments to delete one Movie.
+   * @example
+   * // Delete one Movie
+   * const user = await prisma.movie.delete({
+   *   where: {
+   *     // ... filter to delete one Movie
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends MovieDeleteArgs>(
+    args: Subset<T, MovieDeleteArgs>
+  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  /**
+   * Update one Movie.
+   * @param {MovieUpdateArgs} args - Arguments to update one Movie.
+   * @example
+   * // Update one Movie
+   * const movie = await prisma.movie.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends MovieUpdateArgs>(
+    args: Subset<T, MovieUpdateArgs>
+  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  /**
+   * Delete zero or more Movies.
+   * @param {MovieDeleteManyArgs} args - Arguments to filter Movies to delete.
+   * @example
+   * // Delete a few Movies
+   * const { count } = await prisma.movie.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends MovieDeleteManyArgs>(
+    args: Subset<T, MovieDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Movies.
+   * @param {MovieUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Movies
+   * const movie = await prisma.movie.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends MovieUpdateManyArgs>(
+    args: Subset<T, MovieUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Movie.
+   * @param {MovieUpsertArgs} args - Arguments to update or create a Movie.
+   * @example
+   * // Update or create a Movie
+   * const movie = await prisma.movie.upsert({
+   *   create: {
+   *     // ... data to create a Movie
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Movie we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends MovieUpsertArgs>(
+    args: Subset<T, MovieUpsertArgs>
+  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  /**
+   * 
+   */
+  count(): Promise<number>
+}
+
+export declare class MovieClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  private _collectTimestamps?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  director<T extends DirectorArgs = {}>(args?: Subset<T, DirectorArgs>): CheckSelect<T, DirectorClient<Director | null>, DirectorClient<DirectorGetPayload<T> | null>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Movie findOne
+ */
+export type FindOneMovieArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * Filter, which Movie to fetch.
+  **/
+  where: MovieWhereUniqueInput
+}
+
+
+/**
+ * Movie findMany
+ */
+export type FindManyMovieArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * Filter, which Movies to fetch.
+  **/
+  where?: MovieWhereInput | null
+  /**
+   * Determine the order of the Movies to fetch.
+  **/
+  orderBy?: MovieOrderByInput | null
+  /**
+   * Skip the first `n` Movies.
+  **/
+  skip?: number | null
+  /**
+   * Get all Movies that come after the Movie you provide with the current order.
+  **/
+  after?: MovieWhereUniqueInput | null
+  /**
+   * Get all Movies that come before the Movie you provide with the current order.
+  **/
+  before?: MovieWhereUniqueInput | null
+  /**
+   * Get the first `n` Movies.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Movies.
+  **/
+  last?: number | null
+}
+
+
+/**
+ * Movie create
+ */
+export type MovieCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * The data needed to create a Movie.
+  **/
+  data: MovieCreateInput
+}
+
+
+/**
+ * Movie update
+ */
+export type MovieUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * The data needed to update a Movie.
+  **/
+  data: MovieUpdateInput
+  /**
+   * Choose, which Movie to update.
+  **/
+  where: MovieWhereUniqueInput
+}
+
+
+/**
+ * Movie updateMany
+ */
+export type MovieUpdateManyArgs = {
+  data: MovieUpdateManyMutationInput
+  where?: MovieWhereInput | null
+}
+
+
+/**
+ * Movie upsert
+ */
+export type MovieUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * The filter to search for the Movie to update in case it exists.
+  **/
+  where: MovieWhereUniqueInput
+  /**
+   * In case the Movie found by the `where` argument doesn't exist, create a new Movie with this data.
+  **/
+  create: MovieCreateInput
+  /**
+   * In case the Movie was found with the provided `where` argument, update it with this data.
+  **/
+  update: MovieUpdateInput
+}
+
+
+/**
+ * Movie delete
+ */
+export type MovieDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * Filter which Movie to delete.
+  **/
+  where: MovieWhereUniqueInput
+}
+
+
+/**
+ * Movie deleteMany
+ */
+export type MovieDeleteManyArgs = {
+  where?: MovieWhereInput | null
+}
+
+
+/**
+ * Movie without action
+ */
+export type MovieArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+}
+
+
+
+/**
+ * Model Director
+ */
+
+export type Director = {
+  firstName: string
+  lastName: string
+}
+
+export type DirectorSelect = {
+  firstName?: boolean
+  lastName?: boolean
+  movies?: boolean | FindManyMovieArgs
+}
+
+export type DirectorInclude = {
+  movies?: boolean | FindManyMovieArgs
+}
+
+export type DirectorGetPayload<
+  S extends boolean | null | undefined | DirectorArgs,
+  U = keyof S
+> = S extends true
+  ? Director
+  : S extends undefined
+  ? never
+  : S extends DirectorArgs
+  ? 'include' extends U
+    ? Director  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'movies'
+      ? Array<MovieGetPayload<S['include'][P]>> : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof Director ? Director[P]
+: 
+      P extends 'movies'
+      ? Array<MovieGetPayload<S['select'][P]>> : never
+    }
+  : Director
+: Director
+
+
+export interface DirectorDelegate {
+  /**
+   * Find zero or one Director.
+   * @param {FindOneDirectorArgs} args - Arguments to find a Director
+   * @example
+   * // Get one Director
+   * const director = await prisma.director.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneDirectorArgs>(
+    args: Subset<T, FindOneDirectorArgs>
+  ): CheckSelect<T, DirectorClient<Director | null>, DirectorClient<DirectorGetPayload<T> | null>>
+  /**
+   * Find zero or more Directors.
+   * @param {FindManyDirectorArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Directors
+   * const directors = await prisma.director.findMany()
+   * 
+   * // Get first 10 Directors
+   * const directors = await prisma.director.findMany({ first: 10 })
+   * 
+   * // Only select the `firstName`
+   * const directorWithFirstNameOnly = await prisma.director.findMany({ select: { firstName: true } })
+   * 
+  **/
+  findMany<T extends FindManyDirectorArgs>(
+    args?: Subset<T, FindManyDirectorArgs>
+  ): CheckSelect<T, Promise<Array<Director>>, Promise<Array<DirectorGetPayload<T>>>>
+  /**
+   * Create a Director.
+   * @param {DirectorCreateArgs} args - Arguments to create a Director.
+   * @example
+   * // Create one Director
+   * const user = await prisma.director.create({
+   *   data: {
+   *     // ... data to create a Director
+   *   }
+   * })
+   * 
+  **/
+  create<T extends DirectorCreateArgs>(
+    args: Subset<T, DirectorCreateArgs>
+  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  /**
+   * Delete a Director.
+   * @param {DirectorDeleteArgs} args - Arguments to delete one Director.
+   * @example
+   * // Delete one Director
+   * const user = await prisma.director.delete({
+   *   where: {
+   *     // ... filter to delete one Director
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends DirectorDeleteArgs>(
+    args: Subset<T, DirectorDeleteArgs>
+  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  /**
+   * Update one Director.
+   * @param {DirectorUpdateArgs} args - Arguments to update one Director.
+   * @example
+   * // Update one Director
+   * const director = await prisma.director.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends DirectorUpdateArgs>(
+    args: Subset<T, DirectorUpdateArgs>
+  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  /**
+   * Delete zero or more Directors.
+   * @param {DirectorDeleteManyArgs} args - Arguments to filter Directors to delete.
+   * @example
+   * // Delete a few Directors
+   * const { count } = await prisma.director.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends DirectorDeleteManyArgs>(
+    args: Subset<T, DirectorDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Directors.
+   * @param {DirectorUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Directors
+   * const director = await prisma.director.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provider data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends DirectorUpdateManyArgs>(
+    args: Subset<T, DirectorUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Director.
+   * @param {DirectorUpsertArgs} args - Arguments to update or create a Director.
+   * @example
+   * // Update or create a Director
+   * const director = await prisma.director.upsert({
+   *   create: {
+   *     // ... data to create a Director
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Director we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends DirectorUpsertArgs>(
+    args: Subset<T, DirectorUpsertArgs>
+  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  /**
+   * 
+   */
+  count(): Promise<number>
+}
+
+export declare class DirectorClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  private _collectTimestamps?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  movies<T extends FindManyMovieArgs = {}>(args?: Subset<T, FindManyMovieArgs>): CheckSelect<T, Promise<Array<Movie>>, Promise<Array<MovieGetPayload<T>>>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Director findOne
+ */
+export type FindOneDirectorArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * Filter, which Director to fetch.
+  **/
+  where: DirectorWhereUniqueInput
+}
+
+
+/**
+ * Director findMany
+ */
+export type FindManyDirectorArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * Filter, which Directors to fetch.
+  **/
+  where?: DirectorWhereInput | null
+  /**
+   * Determine the order of the Directors to fetch.
+  **/
+  orderBy?: DirectorOrderByInput | null
+  /**
+   * Skip the first `n` Directors.
+  **/
+  skip?: number | null
+  /**
+   * Get all Directors that come after the Director you provide with the current order.
+  **/
+  after?: DirectorWhereUniqueInput | null
+  /**
+   * Get all Directors that come before the Director you provide with the current order.
+  **/
+  before?: DirectorWhereUniqueInput | null
+  /**
+   * Get the first `n` Directors.
+  **/
+  first?: number | null
+  /**
+   * Get the last `n` Directors.
+  **/
+  last?: number | null
+}
+
+
+/**
+ * Director create
+ */
+export type DirectorCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * The data needed to create a Director.
+  **/
+  data: DirectorCreateInput
+}
+
+
+/**
+ * Director update
+ */
+export type DirectorUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * The data needed to update a Director.
+  **/
+  data: DirectorUpdateInput
+  /**
+   * Choose, which Director to update.
+  **/
+  where: DirectorWhereUniqueInput
+}
+
+
+/**
+ * Director updateMany
+ */
+export type DirectorUpdateManyArgs = {
+  data: DirectorUpdateManyMutationInput
+  where?: DirectorWhereInput | null
+}
+
+
+/**
+ * Director upsert
+ */
+export type DirectorUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * The filter to search for the Director to update in case it exists.
+  **/
+  where: DirectorWhereUniqueInput
+  /**
+   * In case the Director found by the `where` argument doesn't exist, create a new Director with this data.
+  **/
+  create: DirectorCreateInput
+  /**
+   * In case the Director was found with the provided `where` argument, update it with this data.
+  **/
+  update: DirectorUpdateInput
+}
+
+
+/**
+ * Director delete
+ */
+export type DirectorDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * Filter which Director to delete.
+  **/
+  where: DirectorWhereUniqueInput
+}
+
+
+/**
+ * Director deleteMany
+ */
+export type DirectorDeleteManyArgs = {
+  where?: DirectorWhereInput | null
+}
+
+
+/**
+ * Director without action
+ */
+export type DirectorArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+}
+
+
+
+/**
  * Deep Input Types
  */
 
+
+export type authorCompoundInlineFilterInput = {
+
+}
 
 export type PostWhereInput = {
   uuid?: string | UUIDFilter | null
@@ -2052,6 +2898,44 @@ export type FirstNameLastNameCompoundUniqueInput = {
 }
 
 export type PatientWhereUniqueInput = {
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null
+}
+
+export type DirectorWhereInput = {
+  firstName?: string | StringFilter | null
+  lastName?: string | StringFilter | null
+  movies?: MovieFilter | null
+  AND?: Enumerable<DirectorWhereInput> | null
+  OR?: Enumerable<DirectorWhereInput> | null
+  NOT?: Enumerable<DirectorWhereInput> | null
+}
+
+export type directorCompoundInlineFilterInput = {
+  directorFirstName: string
+  directorLastName: string
+}
+
+export type MovieWhereInput = {
+  directorFirstName?: string | StringFilter | null
+  directorLastName?: string | StringFilter | null
+  title?: string | StringFilter | null
+  AND?: Enumerable<MovieWhereInput> | null
+  OR?: Enumerable<MovieWhereInput> | null
+  NOT?: Enumerable<MovieWhereInput> | null
+  director?: DirectorWhereInput | null
+}
+
+export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
+  directorFirstName: string
+  directorLastName: string
+  title: string
+}
+
+export type MovieWhereUniqueInput = {
+  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | null
+}
+
+export type DirectorWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null
 }
 
@@ -2266,6 +3150,118 @@ export type PatientUpdateManyMutationInput = {
   email?: string | null
 }
 
+export type DirectorCreateWithoutMoviesInput = {
+  firstName: string
+  lastName: string
+}
+
+export type DirectorCreateOneWithoutMoviesInput = {
+  create?: DirectorCreateWithoutMoviesInput | null
+  connect?: DirectorWhereUniqueInput | null
+}
+
+export type MovieCreateInput = {
+  title: string
+  director: DirectorCreateOneWithoutMoviesInput
+}
+
+export type DirectorUpdateWithoutMoviesDataInput = {
+  firstName?: string | null
+  lastName?: string | null
+}
+
+export type DirectorUpsertWithoutMoviesInput = {
+  update: DirectorUpdateWithoutMoviesDataInput
+  create: DirectorCreateWithoutMoviesInput
+}
+
+export type DirectorUpdateOneRequiredWithoutMoviesInput = {
+  create?: DirectorCreateWithoutMoviesInput | null
+  connect?: DirectorWhereUniqueInput | null
+  update?: DirectorUpdateWithoutMoviesDataInput | null
+  upsert?: DirectorUpsertWithoutMoviesInput | null
+}
+
+export type MovieUpdateInput = {
+  title?: string | null
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput | null
+}
+
+export type MovieUpdateManyMutationInput = {
+  title?: string | null
+}
+
+export type MovieCreateWithoutDirectorInput = {
+  title: string
+}
+
+export type MovieCreateManyWithoutDirectorInput = {
+  create?: Enumerable<MovieCreateWithoutDirectorInput> | null
+  connect?: Enumerable<MovieWhereUniqueInput> | null
+}
+
+export type DirectorCreateInput = {
+  firstName: string
+  lastName: string
+  movies?: MovieCreateManyWithoutDirectorInput | null
+}
+
+export type MovieUpdateWithoutDirectorDataInput = {
+  title?: string | null
+}
+
+export type MovieUpdateWithWhereUniqueWithoutDirectorInput = {
+  where: MovieWhereUniqueInput
+  data: MovieUpdateWithoutDirectorDataInput
+}
+
+export type MovieScalarWhereInput = {
+  directorFirstName?: string | StringFilter | null
+  directorLastName?: string | StringFilter | null
+  title?: string | StringFilter | null
+  AND?: Enumerable<MovieScalarWhereInput> | null
+  OR?: Enumerable<MovieScalarWhereInput> | null
+  NOT?: Enumerable<MovieScalarWhereInput> | null
+}
+
+export type MovieUpdateManyDataInput = {
+  title?: string | null
+}
+
+export type MovieUpdateManyWithWhereNestedInput = {
+  where: MovieScalarWhereInput
+  data: MovieUpdateManyDataInput
+}
+
+export type MovieUpsertWithWhereUniqueWithoutDirectorInput = {
+  where: MovieWhereUniqueInput
+  update: MovieUpdateWithoutDirectorDataInput
+  create: MovieCreateWithoutDirectorInput
+}
+
+export type MovieUpdateManyWithoutDirectorInput = {
+  create?: Enumerable<MovieCreateWithoutDirectorInput> | null
+  connect?: Enumerable<MovieWhereUniqueInput> | null
+  set?: Enumerable<MovieWhereUniqueInput> | null
+  disconnect?: Enumerable<MovieWhereUniqueInput> | null
+  delete?: Enumerable<MovieWhereUniqueInput> | null
+  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput> | null
+  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<MovieScalarWhereInput> | null
+  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput> | null
+}
+
+export type DirectorUpdateInput = {
+  firstName?: string | null
+  lastName?: string | null
+  movies?: MovieUpdateManyWithoutDirectorInput | null
+}
+
+export type DirectorUpdateManyMutationInput = {
+  firstName?: string | null
+  lastName?: string | null
+}
+
 export type UUIDFilter = {
   equals?: string | null
   not?: string | UUIDFilter | null
@@ -2366,6 +3362,12 @@ export type RoleFilter = {
   notIn?: Enumerable<Role> | null
 }
 
+export type MovieFilter = {
+  every?: MovieWhereInput | null
+  some?: MovieWhereInput | null
+  none?: MovieWhereInput | null
+}
+
 export type UserOrderByInput = {
   id?: OrderByArg | null
   email?: OrderByArg | null
@@ -2383,7 +3385,6 @@ export type PostOrderByInput = {
   published?: OrderByArg | null
   title?: OrderByArg | null
   content?: OrderByArg | null
-  author?: OrderByArg | null
   kind?: OrderByArg | null
 }
 
@@ -2397,6 +3398,17 @@ export type PatientOrderByInput = {
   firstName?: OrderByArg | null
   lastName?: OrderByArg | null
   email?: OrderByArg | null
+}
+
+export type MovieOrderByInput = {
+  directorFirstName?: OrderByArg | null
+  directorLastName?: OrderByArg | null
+  title?: OrderByArg | null
+}
+
+export type DirectorOrderByInput = {
+  firstName?: OrderByArg | null
+  lastName?: OrderByArg | null
 }
 
 /**
