@@ -8,5 +8,3 @@ export type Without<FirstType, SecondType> = {
 export type MergeExclusive<FirstType, SecondType> = FirstType | SecondType extends object
   ? (Without<FirstType, SecondType> & SecondType) | (Without<SecondType, FirstType> & FirstType)
   : FirstType | SecondType;
-
-export type NonEmptyArray<TItem> = [TItem, ...TItem[]];

@@ -9,7 +9,7 @@ import {
   defaultPrintSchemaOptions,
   PrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
-import { NonEmptyArray } from "./types";
+import { NonEmptyArray } from "../interfaces/NonEmptyArray";
 
 interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
   path?: string;
