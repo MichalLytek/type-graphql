@@ -45,10 +45,9 @@ export class MetadataStorage {
   fieldDirectives: DirectiveFieldMetadata[] = [];
   classExtensions: ExtensionsClassMetadata[] = [];
   fieldExtensions: ExtensionsFieldMetadata[] = [];
-
-  private resolverClasses: ResolverClassMetadata[] = [];
-  private fields: FieldMetadata[] = [];
-  private params: ParamMetadata[] = [];
+  resolverClasses: ResolverClassMetadata[] = [];
+  fields: FieldMetadata[] = [];
+  params: ParamMetadata[] = [];
 
   constructor() {
     ensureReflectMetadataExists();

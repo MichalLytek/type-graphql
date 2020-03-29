@@ -1,0 +1,1 @@
+export { getMetadataStorage } from "./getMetadataStorage";
