@@ -46,9 +46,9 @@ And that's it! 😉
 TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
 
 ```typescript
-@Resolver((of) => Recipe)
+@Resolver(of => Recipe)
 export class RecipeResolver {
-  @Mutation((returns) => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
     // you can be 100% sure that the input is correct
     console.assert(recipeInput.title.length <= 30);
@@ -73,7 +73,7 @@ And we can still enable it per resolver's argument if we need to:
 
 ```typescript
 class RecipeResolver {
-  @Mutation((returns) => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
     // ...
   }
@@ -84,7 +84,7 @@ The `ValidatorOptions` object used for setting features like [validation groups]
 
 ```typescript
 class RecipeResolver {
-  @Mutation((returns) => Recipe)
+  @Mutation(returns => Recipe)
   async addRecipe(
     @Arg("input", { validate: { groups: ["admin"] } })
     recipeInput: RecipeInput,

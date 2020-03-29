@@ -133,7 +133,8 @@ describe("Resolvers", () => {
           @Arg("numberArg") numberArg: number,
           @Arg("inputArg") inputArg: SampleInput,
           @Arg("inputChildArg") inputChildArg: SampleInputChild,
-          @Arg("explicitNullableArg", type => String, { nullable: true }) explicitNullableArg: any,
+          @Arg("explicitNullableArg", type => String, { nullable: true })
+          explicitNullableArg: any,
           @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
@@ -1093,7 +1094,7 @@ describe("Resolvers", () => {
     function DescriptorDecorator(): MethodDecorator {
       return (obj, methodName, descriptor: any) => {
         const originalMethod: Function = descriptor.value;
-        descriptor.value = function() {
+        descriptor.value = function () {
           descriptorEvaluated = true;
           return originalMethod.apply(this, arguments);
         };

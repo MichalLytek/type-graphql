@@ -24,7 +24,10 @@ export async function seedDatabase() {
     {
       title: "Recipe 2",
       author: defaultUser._id,
-      ratings: [{ value: 2, user: defaultUser }, { value: 4, user: defaultUser }],
+      ratings: [
+        { value: 2, user: defaultUser },
+        { value: 4, user: defaultUser },
+      ],
     },
   ] as Recipe[]);
 

@@ -19,7 +19,7 @@ export function getParams(
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
-    .map((paramInfo) => {
+    .map(paramInfo => {
       switch (paramInfo.kind) {
         case "args":
           return validateArg(

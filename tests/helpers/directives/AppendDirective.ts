@@ -21,7 +21,7 @@ export class AppendDirective extends SchemaDirectiveVisitor {
       astNode: undefined,
     });
 
-    field.resolve = async function(source, { append, ...otherArgs }, context, info) {
+    field.resolve = async function (source, { append, ...otherArgs }, context, info) {
       const result = await resolve!.call(this, source, otherArgs, context, info);
 
       return `${result}${append}`;

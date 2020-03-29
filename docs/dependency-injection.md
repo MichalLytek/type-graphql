@@ -71,10 +71,7 @@ export class RecipeService {
 > Be aware than when you use [InversifyJS](https://github.com/inversify/InversifyJS), you have to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types), e.g.:
 >
 > ```typescript
-> container
->   .bind<SampleResolver>(SampleResolver)
->   .to(SampleResolver)
->   .inSingletonScope();
+> container.bind<SampleResolver>(SampleResolver).to(SampleResolver).inSingletonScope();
 > ```
 
 ## Scoped containers
