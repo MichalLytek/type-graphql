@@ -125,13 +125,13 @@ describe("buildTypeDefsAndResolvers", () => {
     registerEnumType(SampleStringEnum, { name: "SampleStringEnum" });
 
     const SampleUnion = createUnionType({
-      types: [SampleType2, SampleType3],
+      types: () => [SampleType2, SampleType3],
       name: "SampleUnion",
       description: "SampleUnion description",
     });
 
     const SampleResolveUnion = createUnionType({
-      types: [SampleType2, SampleType3],
+      types: () => [SampleType2, SampleType3],
       name: "SampleResolveUnion",
       resolveType: value => {
         if ("sampleType2StringField" in value) {

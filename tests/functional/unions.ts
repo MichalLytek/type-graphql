@@ -40,7 +40,7 @@ describe("Unions", () => {
     const OneTwoThreeUnion = createUnionType({
       name: "OneTwoThreeUnion",
       description: "OneTwoThreeUnion description",
-      types: [ObjectOne, ObjectTwo, ObjectThree],
+      types: () => [ObjectOne, ObjectTwo, ObjectThree],
     });
     const OneTwoThreeUnionFn = createUnionType({
       name: "OneTwoThreeUnionFn",
@@ -50,7 +50,7 @@ describe("Unions", () => {
 
     const UnionWithStringResolveType = createUnionType({
       name: "UnionWithStringResolveType",
-      types: [ObjectOne, ObjectTwo],
+      types: () => [ObjectOne, ObjectTwo],
       resolveType: value => {
         if ("fieldOne" in value) {
           return "ObjectOne";
@@ -64,7 +64,7 @@ describe("Unions", () => {
 
     const UnionWithClassResolveType = createUnionType({
       name: "UnionWithClassResolveType",
-      types: [ObjectOne, ObjectTwo],
+      types: () => [ObjectOne, ObjectTwo],
       resolveType: value => {
         if ("fieldOne" in value) {
           return ObjectOne;
@@ -308,6 +308,30 @@ describe("Unions", () => {
       expect(errorMessage).toContain("OneTwoThreeUnion");
       expect(errorMessage).toContain("instance");
       expect(errorMessage).toContain("plain");
+    });
+  });
+
+  describe("typings", () => {
+    it("should correctly transform to TS union type when using extending classes", async () => {
+      getMetadataStorage().clear();
+      @ObjectType()
+      class Base {
+        @Field()
+        base: string;
+      }
+      @ObjectType()
+      class Extended extends Base {
+        @Field()
+        extended: string;
+      }
+      const ExtendedBase = createUnionType({
+        name: "ExtendedBase",
+        types: () => [Base, Extended] as const,
+      });
+      const _extended: typeof ExtendedBase = {
+        base: "base",
+        extended: "extended",
+      };
     });
   });
 

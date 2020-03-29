@@ -32,19 +32,19 @@ class Actor {
 }
 ```
 
-Now let's create a union type from the object types above:
+Now let's create an union type from the object types above - the rarely seen `[ ] as const` syntax is to inform TypeScript compiler that it's a tuple, which allows for better TS union type inference:
 
 ```typescript
 import { createUnionType } from "type-graphql";
 
 const SearchResultUnion = createUnionType({
   name: "SearchResult", // the name of the GraphQL union
-  types: () => [Movie, Actor], // function that returns array of object types classes
+  types: () => [Movie, Actor] as const, // function that returns tuple of object types classes
 });
 ```
 
-Now we can use the union type in the query.
-Notice, that due to TypeScript's reflection limitation, we have to explicitly use the `SearchResultUnion` value in the `@Query` decorator return type annotation.
+Then we can use the union type in the query by providing the `SearchResultUnion` value in the `@Query` decorator return type annotation.
+Notice, that we have to explicitly use the decorator return type annotation due to TypeScript's reflection limitations.
 For TypeScript compile-time type safety we can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
 
 ```typescript
@@ -69,7 +69,7 @@ However, we can also provide our own `resolveType` function implementation to th
 ```typescript
 const SearchResultUnion = createUnionType({
   name: "SearchResult",
-  types: () => [Movie, Actor],
+  types: () => [Movie, Actor] as const,
   // our implementation of detecting returned object type
   resolveType: value => {
     if ("rating" in value) {

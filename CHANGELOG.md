@@ -8,6 +8,7 @@
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - **Breaking Change**: make `class-validator` an optional, peer dependency (#366)
+- **Breaking Change**: remove deprecated direct array syntax for declaring union types
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 - add possibility to tune up the performance and disable auth & middlewares stack for simple field resolvers (#479)
@@ -24,6 +25,7 @@
 - fix using shared union type in multiple schemas
 - fix using shared interface type in multiple schemas
 - fix calling field resolver without providing resolver class to `buildSchema`
+- fix generated TS union type for union type of object type classes extending themselves (#587)
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface
