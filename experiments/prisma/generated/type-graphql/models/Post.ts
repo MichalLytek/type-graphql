@@ -45,6 +45,12 @@ export class Post {
 
   author?: User;
 
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined,
+  })
+  authorId!: number;
+
   @Field(_type => PostKind, {
     nullable: true,
     description: undefined,

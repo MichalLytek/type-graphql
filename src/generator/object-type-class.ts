@@ -42,8 +42,10 @@ export default async function generateObjectTypeClassFromModel(
       .map(field => field.type),
   );
 
-  const modelDocs =
-    model.documentation && model.documentation.replace("\r", "");
+  // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
+  const modelDocs = undefined as string | undefined;
+  // const modelDocs =
+  //   model.documentation && model.documentation.replace("\r", "");
 
   sourceFile.addClass({
     name: getBaseModelTypeName(model.name),
@@ -64,8 +66,10 @@ export default async function generateObjectTypeClassFromModel(
     properties: model.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
         const isOptional = !!field.relationName || !field.isRequired;
-        const fieldDocs =
-          field.documentation && field.documentation.replace("\r", "");
+        // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
+        const fieldDocs = undefined as string | undefined;
+        // const fieldDocs =
+        //   field.documentation && field.documentation.replace("\r", "");
 
         return {
           name: field.name,

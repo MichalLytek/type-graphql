@@ -1,8 +1,8 @@
 ![integration logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/integration.png)
 
-# TypeGraphQL & Prisma 2 integration
+# TypeGraphQL & Prisma 2.0 integration
 
-Prisma 2 generator to emit TypeGraphQL type classes and resolvers
+Prisma 2.0 generator to emit TypeGraphQL type classes and resolvers
 
 ## Installation
 
@@ -12,11 +12,11 @@ Fist of all, you have to install the generator, as a dev dependency:
 npm i -D typegraphql-prisma
 ```
 
-`typegraphql-prisma` is designed to work only with selected version of `prisma2`, so please install this version if you don't have it already installed:
+`typegraphql-prisma` is designed to work only with selected version of `prisma`, so please install this version if you don't have it already installed:
 
 ```sh
-npm i -D prisma2@2.0.0-preview024
-npm i @prisma/client@2.0.0-preview024
+npm i -D @prisma/cli@2.0.0-beta.1
+npm i @prisma/client@2.0.0-beta.1
 ```
 
 Also, be aware that due to usage of some newer Node.js features, you also have to use **Node.js v10.12 or newer**.
@@ -35,7 +35,7 @@ generator typegraphql {
 }
 ```
 
-Then after running `npx prisma2 generate`, this will emit the generated TypeGraphQL classes to `@generated/typegraphql-prisma` in `node_modules` folder. You can also configure the default output folder, e.g.:
+Then after running `npx prisma generate`, this will emit the generated TypeGraphQL classes to `@generated/typegraphql-prisma` in `node_modules` folder. You can also configure the default output folder, e.g.:
 
 ```prisma
 generator typegraphql {

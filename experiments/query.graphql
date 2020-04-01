@@ -69,3 +69,48 @@ fragment PostData on Post {
   content
   kind
 }
+
+query GetDirectorsWithMovies {
+  directors {
+    firstName
+    lastName
+    movies {
+      title
+    }
+  }
+}
+
+query GetMoviesWithDirector {
+  movies {
+    title
+    director {
+      firstName
+      lastName
+    }
+  }
+}
+
+query GetDirector {
+  director(
+    where: { firstName_lastName: { firstName: "Bob", lastName: "Nolan" } }
+  ) {
+    firstName
+    lastName
+  }
+}
+
+query GetMovie {
+  movie(
+    where: {
+      directorFirstName_directorLastName_title: {
+        directorFirstName: "Bob"
+        directorLastName: "Nolan"
+        title: "Hello World 2"
+      }
+    }
+  ) {
+    title
+    directorFirstName
+    directorLastName
+  }
+}

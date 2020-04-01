@@ -1,6 +1,7 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { IntFilter } from "../inputs/IntFilter";
 import { NullablePostKindFilter } from "../inputs/NullablePostKindFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -46,6 +47,12 @@ export class PostScalarWhereInput {
     description: undefined
   })
   content?: NullableStringFilter | null;
+
+  @Field(_type => IntFilter, {
+    nullable: true,
+    description: undefined
+  })
+  authorId?: IntFilter | null;
 
   @Field(_type => NullablePostKindFilter, {
     nullable: true,

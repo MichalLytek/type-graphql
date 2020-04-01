@@ -1,5 +1,7 @@
 tsconfig*.json
 lib/**/*
 package/**/*
+tests/artifacts
+coverage
 **/prisma/generated/**/*
 **/prisma/migrations/**/*

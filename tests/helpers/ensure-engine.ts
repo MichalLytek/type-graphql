@@ -19,6 +19,6 @@ export default async function ensurePrismaEngine() {
       "query-engine": prismaClientRuntimeDir,
     },
     showProgress: true,
-    version: require("prisma2/package.json").prisma.version,
+    version: require("@prisma/cli/package.json").prisma.version,
   });
 }

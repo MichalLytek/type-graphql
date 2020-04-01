@@ -5,8 +5,10 @@ Array [
   Array [
     Object {
       "where": Object {
-        "color": "BLUE",
-        "title": "Post 1",
+        "title_color": Object {
+          "color": "BLUE",
+          "title": "Post 1",
+        },
       },
     },
   ],

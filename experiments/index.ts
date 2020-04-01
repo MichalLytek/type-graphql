@@ -25,6 +25,11 @@ import {
   CategoryCrudResolver,
   // Patient,
   PatientCrudResolver,
+  FindManyPostResolver,
+  MovieCrudResolver,
+  DirectorCrudResolver,
+  DirectorRelationsResolver,
+  MovieRelationsResolver,
 } from "./prisma/generated/type-graphql";
 import { PrismaClient } from "./prisma/generated/client";
 
@@ -72,6 +77,11 @@ async function main() {
       UpdateManyPostResolver,
       CategoryCrudResolver,
       PatientCrudResolver,
+      FindManyPostResolver,
+      MovieCrudResolver,
+      MovieRelationsResolver,
+      DirectorCrudResolver,
+      DirectorRelationsResolver,
     ],
     validate: false,
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),

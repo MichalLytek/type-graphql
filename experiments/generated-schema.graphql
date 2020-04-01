@@ -71,6 +71,80 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
+type Director {
+  firstName: String!
+  lastName: String!
+  movies(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): [Movie!]
+}
+
+input DirectorCreateInput {
+  firstName: String!
+  lastName: String!
+  movies: MovieCreateManyWithoutDirectorInput
+}
+
+input DirectorCreateOneWithoutMoviesInput {
+  connect: DirectorWhereUniqueInput
+  create: DirectorCreateWithoutMoviesInput
+}
+
+input DirectorCreateWithoutMoviesInput {
+  firstName: String!
+  lastName: String!
+}
+
+input DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput {
+  directorFirstName: String!
+  directorLastName: String!
+  title: String!
+}
+
+input DirectorOrderByInput {
+  firstName: OrderByArg
+  lastName: OrderByArg
+}
+
+input DirectorUpdateInput {
+  firstName: String
+  lastName: String
+  movies: MovieUpdateManyWithoutDirectorInput
+}
+
+input DirectorUpdateManyMutationInput {
+  firstName: String
+  lastName: String
+}
+
+input DirectorUpdateOneRequiredWithoutMoviesInput {
+  connect: DirectorWhereUniqueInput
+  create: DirectorCreateWithoutMoviesInput
+  update: DirectorUpdateWithoutMoviesDataInput
+  upsert: DirectorUpsertWithoutMoviesInput
+}
+
+input DirectorUpdateWithoutMoviesDataInput {
+  firstName: String
+  lastName: String
+}
+
+input DirectorUpsertWithoutMoviesInput {
+  create: DirectorCreateWithoutMoviesInput!
+  update: DirectorUpdateWithoutMoviesDataInput!
+}
+
+input DirectorWhereInput {
+  AND: [DirectorWhereInput!]
+  firstName: StringFilter
+  lastName: StringFilter
+  movies: MovieFilter
+  NOT: [DirectorWhereInput!]
+  OR: [DirectorWhereInput!]
+}
+
+input DirectorWhereUniqueInput {
+  firstName_lastName: FirstNameLastNameCompoundUniqueInput
+}
+
 input FirstNameLastNameCompoundUniqueInput {
   firstName: String!
   lastName: String!
@@ -98,25 +172,138 @@ input IntFilter {
   notIn: [Int!]
 }
 
+type Movie {
+  director: Director!
+  directorFirstName: String!
+  directorLastName: String!
+  title: String!
+}
+
+input MovieCreateInput {
+  director: DirectorCreateOneWithoutMoviesInput!
+  title: String!
+}
+
+input MovieCreateManyWithoutDirectorInput {
+  connect: [MovieWhereUniqueInput!]
+  create: [MovieCreateWithoutDirectorInput!]
+}
+
+input MovieCreateWithoutDirectorInput {
+  title: String!
+}
+
+input MovieFilter {
+  every: MovieWhereInput
+  none: MovieWhereInput
+  some: MovieWhereInput
+}
+
+input MovieOrderByInput {
+  directorFirstName: OrderByArg
+  directorLastName: OrderByArg
+  title: OrderByArg
+}
+
+input MovieScalarWhereInput {
+  AND: [MovieScalarWhereInput!]
+  directorFirstName: StringFilter
+  directorLastName: StringFilter
+  NOT: [MovieScalarWhereInput!]
+  OR: [MovieScalarWhereInput!]
+  title: StringFilter
+}
+
+input MovieUpdateInput {
+  director: DirectorUpdateOneRequiredWithoutMoviesInput
+  title: String
+}
+
+input MovieUpdateManyDataInput {
+  title: String
+}
+
+input MovieUpdateManyMutationInput {
+  title: String
+}
+
+input MovieUpdateManyWithoutDirectorInput {
+  connect: [MovieWhereUniqueInput!]
+  create: [MovieCreateWithoutDirectorInput!]
+  delete: [MovieWhereUniqueInput!]
+  deleteMany: [MovieScalarWhereInput!]
+  disconnect: [MovieWhereUniqueInput!]
+  set: [MovieWhereUniqueInput!]
+  update: [MovieUpdateWithWhereUniqueWithoutDirectorInput!]
+  updateMany: [MovieUpdateManyWithWhereNestedInput!]
+  upsert: [MovieUpsertWithWhereUniqueWithoutDirectorInput!]
+}
+
+input MovieUpdateManyWithWhereNestedInput {
+  data: MovieUpdateManyDataInput!
+  where: MovieScalarWhereInput!
+}
+
+input MovieUpdateWithoutDirectorDataInput {
+  title: String
+}
+
+input MovieUpdateWithWhereUniqueWithoutDirectorInput {
+  data: MovieUpdateWithoutDirectorDataInput!
+  where: MovieWhereUniqueInput!
+}
+
+input MovieUpsertWithWhereUniqueWithoutDirectorInput {
+  create: MovieCreateWithoutDirectorInput!
+  update: MovieUpdateWithoutDirectorDataInput!
+  where: MovieWhereUniqueInput!
+}
+
+input MovieWhereInput {
+  AND: [MovieWhereInput!]
+  director: DirectorWhereInput
+  directorFirstName: StringFilter
+  directorLastName: StringFilter
+  NOT: [MovieWhereInput!]
+  OR: [MovieWhereInput!]
+  title: StringFilter
+}
+
+input MovieWhereUniqueInput {
+  directorFirstName_directorLastName_title: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput
+}
+
 type Mutation {
   createOneCategory(data: CategoryCreateInput!): Category!
+  createOneDirector(data: DirectorCreateInput!): Director!
+  createOneMovie(data: MovieCreateInput!): Movie!
   createOnePatient(data: PatientCreateInput!): Patient!
   createOnePost(data: PostCreateInput!): Post!
   createOneUser(data: UserCreateInput!): User!
   deleteManyCategory(where: CategoryWhereInput): BatchPayload!
+  deleteManyDirector(where: DirectorWhereInput): BatchPayload!
+  deleteManyMovie(where: MovieWhereInput): BatchPayload!
   deleteManyPatient(where: PatientWhereInput): BatchPayload!
   deleteManyUser(where: UserWhereInput): BatchPayload!
   deleteOneCategory(where: CategoryWhereUniqueInput!): Category
+  deleteOneDirector(where: DirectorWhereUniqueInput!): Director
+  deleteOneMovie(where: MovieWhereUniqueInput!): Movie
   deleteOnePatient(where: PatientWhereUniqueInput!): Patient
   deleteOneUser(where: UserWhereUniqueInput!): User
   updateManyCategory(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  updateManyDirector(data: DirectorUpdateManyMutationInput!, where: DirectorWhereInput): BatchPayload!
+  updateManyMovie(data: MovieUpdateManyMutationInput!, where: MovieWhereInput): BatchPayload!
   updateManyPatient(data: PatientUpdateManyMutationInput!, where: PatientWhereInput): BatchPayload!
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateOneDirector(data: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director
+  updateOneMovie(data: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie
   updateOnePatient(data: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   upsertOneCategory(create: CategoryCreateInput!, update: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
+  upsertOneDirector(create: DirectorCreateInput!, update: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director!
+  upsertOneMovie(create: MovieCreateInput!, update: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie!
   upsertOnePatient(create: PatientCreateInput!, update: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient!
   upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
@@ -192,6 +379,7 @@ input PatientWhereUniqueInput {
 
 type Post {
   author: User!
+  authorId: Int!
   content: String
   createdAt: DateTime!
   kind: PostKind
@@ -240,6 +428,7 @@ enum PostKind {
 
 input PostOrderByInput {
   author: OrderByArg
+  authorId: OrderByArg
   content: OrderByArg
   createdAt: OrderByArg
   kind: OrderByArg
@@ -251,6 +440,7 @@ input PostOrderByInput {
 
 input PostScalarWhereInput {
   AND: [PostScalarWhereInput!]
+  authorId: IntFilter
   content: NullableStringFilter
   createdAt: DateTimeFilter
   kind: NullablePostKindFilter
@@ -323,6 +513,7 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 input PostWhereInput {
   AND: [PostWhereInput!]
   author: UserWhereInput
+  authorId: IntFilter
   content: NullableStringFilter
   createdAt: DateTimeFilter
   kind: NullablePostKindFilter
@@ -343,6 +534,10 @@ type Query {
   allUsers: [User!]!
   categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
+  director(where: DirectorWhereUniqueInput!): Director
+  directors(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): [Director!]!
+  movie(where: MovieWhereUniqueInput!): Movie
+  movies(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): [Movie!]!
   patient(where: PatientWhereUniqueInput!): Patient
   patients(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
@@ -383,15 +578,12 @@ input StringFilter {
   startsWith: String
 }
 
-"""User model comment"""
 type User {
   age: Int!
   amount: Float!
   balance: Float!
   email: String!
   hello: String!
-
-  """User model field comment"""
   id: Int!
   name: String
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]

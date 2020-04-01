@@ -62,7 +62,8 @@ model Post {
   published Boolean
   title     String
   content   String?
-  author    User
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
   // coAuthor  User?
   kind      PostKind?
 }
@@ -95,6 +96,7 @@ model Movie {
 model Director {
   firstName String
   lastName  String
+  movies    Movie[]
 
   @@id([firstName, lastName])
 }

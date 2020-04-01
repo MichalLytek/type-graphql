@@ -52,5 +52,11 @@ export class PostOrderByInput {
     nullable: true,
     description: undefined
   })
+  authorId?: keyof typeof OrderByArg | null;
+
+  @Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
   kind?: keyof typeof OrderByArg | null;
 }

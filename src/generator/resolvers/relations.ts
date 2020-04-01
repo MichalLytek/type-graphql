@@ -64,8 +64,10 @@ export default async function generateRelationsResolverClassesFromModel(
       const outputTypeField = outputType.fields.find(
         it => it.name === field.name,
       )!;
-      const fieldDocs =
-        field.documentation && field.documentation.replace("\r", "");
+      // FIXME: remove when issue fixed: https://github.com/prisma/prisma2/issues/1987
+      const fieldDocs = undefined as string | undefined;
+      // const fieldDocs =
+      //   field.documentation && field.documentation.replace("\r", "");
       const fieldType = getFieldTSType(field, modelNames);
 
       let argsTypeName: string | undefined;

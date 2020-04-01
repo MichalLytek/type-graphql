@@ -49,17 +49,18 @@ describe("generator integration", () => {
       }
 
       model Post {
-        uuid     String  @id @default(cuid())
-        content  String
-        author   User
-        color    Color
+        uuid      String  @id @default(cuid())
+        content   String
+        author    User    @relation(fields: [authorId], references: [id])
+        authorId  Int
+        color     Color
       }
     `;
     await fs.writeFile(path.join(cwdDirPath, "schema.prisma"), schema);
   });
 
-  it("should generates TypeGraphQL classes files to output folder by running `prisma2 generate`", async () => {
-    const { stderr } = await exec("npx prisma2 generate", {
+  it("should generates TypeGraphQL classes files to output folder by running `prisma generate`", async () => {
+    const { stderr } = await exec("npx prisma generate", {
       cwd: cwdDirPath,
     });
 
@@ -75,7 +76,7 @@ describe("generator integration", () => {
   }, 60000);
 
   it("should be able to use generate TypeGraphQL classes files to generate GraphQL schema", async () => {
-    const { stderr } = await exec("npx prisma2 generate", {
+    const { stderr } = await exec("npx prisma generate", {
       cwd: cwdDirPath,
     });
     const {
@@ -123,7 +124,7 @@ describe("generator integration", () => {
       "type-graphql",
     );
 
-    const prisma2GenerateResult = await exec("npx prisma2 generate", {
+    const prismaGenerateResult = await exec("npx prisma generate", {
       cwd: cwdDirPath,
     });
     await fs.writeFile(
@@ -134,29 +135,28 @@ describe("generator integration", () => {
       cwd: typegraphqlfolderPath,
     });
 
-    expect(prisma2GenerateResult.stderr).toHaveLength(0);
+    expect(prismaGenerateResult.stderr).toHaveLength(0);
     expect(tscResult.stdout).toHaveLength(0);
     expect(tscResult.stderr).toHaveLength(0);
   }, 60000);
 
   it("should properly fetch the data from DB using PrismaClient while queried by GraphQL schema", async () => {
-    const prisma2GenerateResult = await exec("npx prisma2 generate", {
+    const prismaGenerateResult = await exec("npx prisma generate", {
       cwd: cwdDirPath,
     });
-    // console.log(prisma2GenerateResult);
-    expect(prisma2GenerateResult.stderr).toHaveLength(0);
+    // console.log(prismaGenerateResult);
+    expect(prismaGenerateResult.stderr).toHaveLength(0);
 
     const migrateSaveResult = await exec(
-      "npx prisma2 migrate save --experimental --name='init' --create-db",
+      "npx prisma migrate save --experimental --name='init' --create-db",
       { cwd: cwdDirPath },
     );
     // console.log(migrateSaveResult);
     expect(migrateSaveResult.stderr).toHaveLength(0);
 
-    const migrateUpResult = await exec(
-      "npx prisma2 migrate up --experimental",
-      { cwd: cwdDirPath },
-    );
+    const migrateUpResult = await exec("npx prisma migrate up --experimental", {
+      cwd: cwdDirPath,
+    });
     // console.log(migrateUpResult);
     expect(migrateUpResult.stderr).toHaveLength(0);
 

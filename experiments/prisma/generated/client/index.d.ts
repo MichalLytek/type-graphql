@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: a5496bff511ac9d1efe467700d3b8955e6030765
- * Prisma Client JS version: 2.0.0-alpha.980
+ * Query Engine version: 2accb9c7eacdc984874eaeb63377fe705dfd3203
+ * Prisma Client JS version: 2.0.0-beta.1
  */
 export declare type PrismaVersion = {
   client: string
@@ -778,6 +778,7 @@ export type Post = {
   published: boolean
   title: string
   content: string | null
+  authorId: number
   kind: PostKind | null
 }
 
@@ -789,6 +790,7 @@ export type PostSelect = {
   title?: boolean
   content?: boolean
   author?: boolean | UserArgs
+  authorId?: boolean
   kind?: boolean
 }
 
@@ -2824,10 +2826,6 @@ export type DirectorArgs = {
  */
 
 
-export type authorCompoundInlineFilterInput = {
-
-}
-
 export type PostWhereInput = {
   uuid?: string | UUIDFilter | null
   createdAt?: Date | string | DateTimeFilter | null
@@ -2835,6 +2833,7 @@ export type PostWhereInput = {
   published?: boolean | BooleanFilter | null
   title?: string | StringFilter | null
   content?: string | NullableStringFilter | null
+  authorId?: number | IntFilter | null
   kind?: PostKind | NullablePostKindFilter | null
   AND?: Enumerable<PostWhereInput> | null
   OR?: Enumerable<PostWhereInput> | null
@@ -2910,11 +2909,6 @@ export type DirectorWhereInput = {
   NOT?: Enumerable<DirectorWhereInput> | null
 }
 
-export type directorCompoundInlineFilterInput = {
-  directorFirstName: string
-  directorLastName: string
-}
-
 export type MovieWhereInput = {
   directorFirstName?: string | StringFilter | null
   directorLastName?: string | StringFilter | null
@@ -2986,6 +2980,7 @@ export type PostScalarWhereInput = {
   published?: boolean | BooleanFilter | null
   title?: string | StringFilter | null
   content?: string | NullableStringFilter | null
+  authorId?: number | IntFilter | null
   kind?: PostKind | NullablePostKindFilter | null
   AND?: Enumerable<PostScalarWhereInput> | null
   OR?: Enumerable<PostScalarWhereInput> | null
@@ -3320,13 +3315,6 @@ export type NullableStringFilter = {
   endsWith?: string | null
 }
 
-export type NullablePostKindFilter = {
-  equals?: PostKind | null
-  not?: PostKind | null | NullablePostKindFilter
-  in?: Enumerable<PostKind> | null
-  notIn?: Enumerable<PostKind> | null
-}
-
 export type IntFilter = {
   equals?: number | null
   not?: number | IntFilter | null
@@ -3336,6 +3324,13 @@ export type IntFilter = {
   lte?: number | null
   gt?: number | null
   gte?: number | null
+}
+
+export type NullablePostKindFilter = {
+  equals?: PostKind | null
+  not?: PostKind | null | NullablePostKindFilter
+  in?: Enumerable<PostKind> | null
+  notIn?: Enumerable<PostKind> | null
 }
 
 export type FloatFilter = {
@@ -3385,6 +3380,8 @@ export type PostOrderByInput = {
   published?: OrderByArg | null
   title?: OrderByArg | null
   content?: OrderByArg | null
+  author?: OrderByArg | null
+  authorId?: OrderByArg | null
   kind?: OrderByArg | null
 }
 

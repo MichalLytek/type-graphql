@@ -1,6 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`relations resolvers generation should properly generate args class for array relation resolvers: UserPostsArgs 1`] = `
+exports[`relations resolvers generation should properly generate relation resolver class for model with multi id keys with relation: MovieRelationsResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { Director } from \\"../../../models/Director\\";
+import { Movie } from \\"../../../models/Movie\\";
+
+@Resolver(_of => Movie)
+export class MovieRelationsResolver {
+  @FieldResolver(_type => Director, {
+    nullable: false,
+    description: undefined,
+  })
+  async director(@Root() movie: Movie, @Ctx() ctx: any): Promise<Director> {
+    return ctx.prisma.movie.findOne({
+      where: {
+        directorFirstName_directorLastName_title: {
+          directorFirstName: movie.directorFirstName,
+          directorLastName: movie.directorLastName,
+          title: movie.title,
+        },
+      },
+    }).director({});
+  }
+}
+"
+`;
+
+exports[`relations resolvers generation should properly generate relation resolver class for model with unique fields: DirectorRelationsResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { Director } from \\"../../../models/Director\\";
+import { Movie } from \\"../../../models/Movie\\";
+import { DirectorMoviesArgs } from \\"./args/DirectorMoviesArgs\\";
+
+@Resolver(_of => Director)
+export class DirectorRelationsResolver {
+  @FieldResolver(_type => [Movie], {
+    nullable: true,
+    description: undefined,
+  })
+  async movies(@Root() director: Director, @Ctx() ctx: any, @Args() args: DirectorMoviesArgs): Promise<Movie[] | null> {
+    return ctx.prisma.director.findOne({
+      where: {
+        firstName_lastName: {
+          firstName: director.firstName,
+          lastName: director.lastName,
+        },
+      },
+    }).movies(args);
+  }
+}
+"
+`;
+
+exports[`relations resolvers generation should properly generate resolver and args class for array relation resolvers: UserPostsArgs 1`] = `
 "import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
 import { PostOrderByInput } from \\"../../../inputs/PostOrderByInput\\";
 import { PostWhereInput } from \\"../../../inputs/PostWhereInput\\";
@@ -32,6 +84,51 @@ export class UserPostsArgs {
 "
 `;
 
+exports[`relations resolvers generation should properly generate resolver and args class for array relation resolvers: UserRelationsResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { Post } from \\"../../../models/Post\\";
+import { User } from \\"../../../models/User\\";
+import { UserPostsArgs } from \\"./args/UserPostsArgs\\";
+
+@Resolver(_of => User)
+export class UserRelationsResolver {
+  @FieldResolver(_type => [Post], {
+    nullable: true,
+    description: undefined,
+  })
+  async posts(@Root() user: User, @Ctx() ctx: any, @Args() args: UserPostsArgs): Promise<Post[] | null> {
+    return ctx.prisma.user.findOne({
+      where: {
+        id: user.id,
+      },
+    }).posts(args);
+  }
+}
+"
+`;
+
+exports[`relations resolvers generation should properly generate resolver class for single relation resolvers: UserRelationsResolver 1`] = `
+"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+import { Address } from \\"../../../models/Address\\";
+import { User } from \\"../../../models/User\\";
+
+@Resolver(_of => User)
+export class UserRelationsResolver {
+  @FieldResolver(_type => Address, {
+    nullable: true,
+    description: undefined,
+  })
+  async address(@Root() user: User, @Ctx() ctx: any): Promise<Address | null> {
+    return ctx.prisma.user.findOne({
+      where: {
+        id: user.id,
+      },
+    }).address({});
+  }
+}
+"
+`;
+
 exports[`relations resolvers generation should properly generate resolvers classes for prisma models with cyclic relations: Post 1`] = `
 "import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
 import { Post } from \\"../../../models/Post\\";
@@ -41,7 +138,7 @@ import { User } from \\"../../../models/User\\";
 export class PostRelationsResolver {
   @FieldResolver(_type => User, {
     nullable: true,
-    description: \\"author field doc\\",
+    description: undefined,
   })
   async author(@Root() post: Post, @Ctx() ctx: any): Promise<User | null> {
     return ctx.prisma.post.findOne({
