@@ -44,7 +44,7 @@ import {
   ConflictingDefaultValuesError,
   InterfaceResolveTypeError,
 } from "../errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
+import { ResolverFilterData, ResolverTopicData, TypeResolver, ClassType } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 import {
@@ -53,6 +53,8 @@ import {
   getInputValueDefinitionNode,
   getObjectTypeDefinitionNode,
 } from "./definition-node";
+import { ObjectClassMetadata } from "../metadata/definitions/object-class-metdata";
+import { InterfaceClassMetadata } from "../metadata/definitions/interface-class-metadata";
 
 interface AbstractInfo {
   isAbstract: boolean;
@@ -60,10 +62,12 @@ interface AbstractInfo {
 interface ObjectTypeInfo extends AbstractInfo {
   target: Function;
   type: GraphQLObjectType;
+  metadata: ObjectClassMetadata;
 }
 interface InterfaceTypeInfo extends AbstractInfo {
   target: Function;
   type: GraphQLInterfaceType;
+  metadata: InterfaceClassMetadata;
 }
 interface InputObjectTypeInfo extends AbstractInfo {
   target: Function;
@@ -104,6 +108,7 @@ export abstract class SchemaGenerator {
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
   private static enumTypesInfo: EnumTypeInfo[] = [];
   private static unionTypesInfo: UnionTypeInfo[] = [];
+  private static usedInterfaceTypes = new Set<Function>();
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
@@ -132,6 +137,7 @@ export abstract class SchemaGenerator {
     });
 
     BuildContext.reset();
+    this.usedInterfaceTypes = new Set<Function>();
     return schema;
   }
 
@@ -190,7 +196,7 @@ export abstract class SchemaGenerator {
             : instance => {
                 const instanceTarget = unionMetadata
                   .getClassTypes()
-                  .find(ClassType => instance instanceof ClassType);
+                  .find(ObjectClassType => instance instanceof ObjectClassType);
                 if (!instanceTarget) {
                   throw new UnionResolveTypeError(unionMetadata);
                 }
@@ -232,6 +238,7 @@ export abstract class SchemaGenerator {
       };
       const interfaceClasses = objectType.interfaceClasses || [];
       return {
+        metadata: objectType,
         target: objectType.target,
         isAbstract: objectType.isAbstract || false,
         type: new GraphQLObjectType({
@@ -350,6 +357,7 @@ export abstract class SchemaGenerator {
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
         return {
+          metadata: interfaceType,
           target: interfaceType.target,
           isAbstract: interfaceType.isAbstract || false,
           type: new GraphQLInterfaceType({
@@ -509,6 +517,23 @@ export abstract class SchemaGenerator {
   }
 
   private static buildOtherTypes(orphanedTypes?: Function[]): GraphQLNamedType[] {
+    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(typeInfo =>
+      typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
+        const implementedInterfaceInfo = this.interfaceTypesInfo.find(
+          it => it.target === interfaceClass,
+        );
+        if (!implementedInterfaceInfo) {
+          return false;
+        }
+        if (implementedInterfaceInfo.metadata.autoRegisteringDisabled) {
+          return false;
+        }
+        if (!this.usedInterfaceTypes.has(interfaceClass)) {
+          return false;
+        }
+        return true;
+      }),
+    );
     return [
       ...this.filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
         this.objectTypesInfo,
@@ -522,6 +547,7 @@ export abstract class SchemaGenerator {
         this.inputTypesInfo,
         orphanedTypes,
       ),
+      ...autoRegisteredObjectTypesInfo.map(typeInfo => typeInfo.type),
     ];
   }
 
@@ -665,6 +691,7 @@ export abstract class SchemaGenerator {
     if (!gqlType) {
       const interfaceType = this.interfaceTypesInfo.find(it => it.target === (type as Function));
       if (interfaceType) {
+        this.usedInterfaceTypes.add(interfaceType.target);
         gqlType = interfaceType.type;
       }
     }

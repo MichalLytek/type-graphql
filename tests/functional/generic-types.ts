@@ -81,7 +81,9 @@ describe("Generic types", () => {
 
     @ObjectType({ implements: SampleInterfaceType })
     class SampleType implements SampleInterfaceType {
+      @Field()
       baseField: string;
+      @Field()
       sampleField: string;
     }
 
