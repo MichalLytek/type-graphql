@@ -246,8 +246,8 @@ describe("buildTypeDefsAndResolvers", () => {
       typeDefs,
       resolvers,
     });
-    const introspectionResult = await graphql<IntrospectionQuery>(schema, getIntrospectionQuery());
-    schemaIntrospection = introspectionResult.data!.__schema;
+    const introspectionResult = await graphql(schema, getIntrospectionQuery());
+    schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
   });
 
   it("should generate schema without errors", () => {

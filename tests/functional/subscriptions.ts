@@ -244,7 +244,7 @@ describe("Subscriptions", () => {
         null,
         null,
         options.subscriptionVariables,
-      )) as AsyncIterableIterator<ExecutionResult<any>>;
+      )) as AsyncIterableIterator<ExecutionResult>;
       const onDataPromise = results.next().then(async ({ value }) => {
         options.onSubscribedData(value.data);
       });

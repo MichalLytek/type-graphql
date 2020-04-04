@@ -1,5 +1,5 @@
 import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
-import { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/schemaPrinter";
+import { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/printSchema";
 
 import { outputFile, outputFileSync } from "../helpers/filesystem";
 
