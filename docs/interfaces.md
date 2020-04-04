@@ -8,13 +8,13 @@ In object-oriented programming it is common to create interfaces which describe 
 
 Read more about the GraphQL Interface Type in the [official GraphQL docs](https://graphql.org/learn/schema/#interfaces).
 
-## Usage
+## Abstract classes
 
 TypeScript has first class support for interfaces. Unfortunately, they only exist at compile-time, so we can't use them to build GraphQL schema at runtime by using decorators.
 
-Luckily, we can use an abstract class for this purpose. It behaves almost like an interface - it can't be "newed" but it can be implemented by the class - and it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat it like an interface, we can safely use it.
+Luckily, we can use an abstract class for this purpose. It behaves almost like an interface as it can't be "newed" but it can be implemented by another class. The only difference is that it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat the abstract class like an interface, we can safely use it.
 
-### Defining interface type
+## Defining interface type
 
 How do we create a GraphQL interface definition? We create an abstract class and decorate it with the `@InterfaceType()` decorator. The rest is exactly the same as with object types: we use the `@Field` decorator to declare the shape of the type:
 
@@ -32,7 +32,7 @@ abstract class IPerson {
 }
 ```
 
-We can then use this "interface" in the object type class definition:
+We can then use this interface type class like an interface in the object type class definition:
 
 ```typescript
 @ObjectType({ implements: IPerson })
@@ -47,7 +47,7 @@ The only difference is that we have to let TypeGraphQL know that this `ObjectTyp
 
 It is also allowed to omit the decorators since the GraphQL types will be copied from the interface definition - this way we won't have to maintain two definitions and solely rely on TypeScript type checking for correct interface implementation.
 
-We can extend the base interface type abstract class as well because all the fields are inherited and emitted in schema:
+We can also extend the base interface type abstract class as well because all the fields are inherited and emitted in schema:
 
 ```typescript
 @ObjectType({ implements: IPerson })
@@ -57,7 +57,7 @@ class Person extends IPerson {
 }
 ```
 
-### Resolvers and arguments
+## Resolvers and arguments
 
 What's more, we can define resolvers for the interface fields, using the same syntax we would use when defining one for our object type:
 
@@ -146,6 +146,34 @@ class IPersonResolver {
   }
 }
 ```
+
+## Registering in schema
+
+By default, if the interface type is explicitly used in schema definition (used as a return type of a query/mutation or as some field type), all object types that implement that interface will be emitted in schema, so we don't need to do anything.
+
+However, in some cases like the `Node` interface that is used in Relay-based systems, this behavior might be not intended when exposing multiple, separates schemas (like a public and the private ones).
+
+In this situation, we can provide an `{ autoRegisterImplementations: false }` option to the `@InterfaceType` decorator to prevent emitting all this object types in the schema:
+
+```ts
+@InterfaceType({ autoRegisterImplementations: false })
+abstract class Node {
+  @Field(type => ID)
+  id: string;
+}
+```
+
+Then we need to add all the object types (that implement this interface type and which we want to expose in selected schema) to the `orphanedTypes` array option in `buildSchema`:
+
+```ts
+const schema = await buildSchema({
+  resolvers,
+  // here we provide such object types
+  orphanedTypes: [Person, Animal, Recipe],
+});
+```
+
+Be aware that if the object type class is explicitly used as the GraphQL type (like `Recipe` type as the return type of `addRecipe` mutation), it will be emitted regardless the `orphanedTypes` setting.
 
 ## Resolving Type
 
