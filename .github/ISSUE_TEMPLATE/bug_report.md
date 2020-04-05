@@ -4,8 +4,7 @@ about: Something works incorrectly or doesn't work at all
 ---
 
 **Describe the Bug**
-A clear and concise description of what the bug is. -->
-
+A clear and concise description of what the bug is.
 **To Reproduce**
 A quick guide how to reproduce the bug.
 You can paste here code snippets or even better, provide a link to the repository with minimal reproducible code example.
