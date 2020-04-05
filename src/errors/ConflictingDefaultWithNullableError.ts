@@ -1,9 +1,14 @@
 import { NullableListOptions } from "../decorators/types";
 
 export class ConflictingDefaultWithNullableError extends Error {
-  constructor(typeOwnerName: string, defaultValue: any, nullable: boolean | NullableListOptions) {
+  constructor(
+    targetName: string,
+    propertyName: string,
+    defaultValue: any,
+    nullable: boolean | NullableListOptions,
+  ) {
     super(
-      `Wrong nullable option set for ${typeOwnerName}. ` +
+      `Wrong nullable option set for ${targetName}#${propertyName}. ` +
         `You cannot combine default value '${defaultValue}' with nullable '${nullable}'.`,
     );
 

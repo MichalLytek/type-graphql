@@ -1,5 +1,5 @@
 export * from "./ArgumentValidationError";
-export * from "./CannotDetermineTypeError";
+export * from "./CannotDetermineGraphQLTypeError";
 export * from "./ForbiddenError";
 export * from "./GeneratingSchemaError";
 export * from "./ConflictingDefaultValuesError";

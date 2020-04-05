@@ -43,6 +43,7 @@ import {
   MissingSubscriptionTopicsError,
   ConflictingDefaultValuesError,
   InterfaceResolveTypeError,
+  CannotDetermineGraphQLTypeError,
 } from "../errors";
 import { ResolverFilterData, ResolverTopicData, TypeResolver, ClassType } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
@@ -247,10 +248,19 @@ export abstract class SchemaGenerator {
           astNode: getObjectTypeDefinitionNode(objectType.name, objectType.directives),
           extensions: objectType.extensions,
           interfaces: () => {
-            let interfaces = interfaceClasses.map<GraphQLInterfaceType>(
-              interfaceClass =>
-                this.interfaceTypesInfo.find(info => info.target === interfaceClass)!.type,
-            );
+            let interfaces = interfaceClasses.map<GraphQLInterfaceType>(interfaceClass => {
+              const interfaceTypeInfo = this.interfaceTypesInfo.find(
+                info => info.target === interfaceClass,
+              );
+              if (!interfaceTypeInfo) {
+                throw new Error(
+                  `Cannot find interface type metadata for class '${interfaceClass.name}' ` +
+                    `provided in 'implements' option for '${objectType.target.name}' object type class. ` +
+                    `Please make sure that class is annotated with an '@InterfaceType()' decorator.`,
+                );
+              }
+              return interfaceTypeInfo.type;
+            });
             // copy interfaces from super class
             if (hasExtended) {
               const superClass = getSuperClassType();
@@ -291,6 +301,7 @@ export abstract class SchemaGenerator {
                       resolver.resolverClassMetadata.isAbstract === false),
                 );
                 const type = this.getGraphQLOutputType(
+                  field.target,
                   field.name,
                   field.getType(),
                   field.typeOptions,
@@ -303,7 +314,7 @@ export abstract class SchemaGenerator {
                     : false;
                 fieldsMap[field.schemaName] = {
                   type,
-                  args: this.generateHandlerArgs(field.params!),
+                  args: this.generateHandlerArgs(field.target, field.name, field.params!),
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : isSimpleResolver
@@ -374,8 +385,13 @@ export abstract class SchemaGenerator {
                         resolver.resolverClassMetadata.isAbstract === false),
                   );
                   fieldsMap[field.schemaName] = {
-                    type: this.getGraphQLOutputType(field.name, field.getType(), field.typeOptions),
-                    args: this.generateHandlerArgs(field.params!),
+                    type: this.getGraphQLOutputType(
+                      field.target,
+                      field.name,
+                      field.getType(),
+                      field.typeOptions,
+                    ),
+                    args: this.generateHandlerArgs(field.target, field.name, field.params!),
                     resolve: fieldResolverMetadata
                       ? createAdvancedFieldResolver(fieldResolverMetadata)
                       : createBasicFieldResolver(field),
@@ -446,6 +462,7 @@ export abstract class SchemaGenerator {
                 );
 
                 const type = this.getGraphQLInputType(
+                  field.target,
                   field.name,
                   field.getType(),
                   field.typeOptions,
@@ -560,13 +577,14 @@ export abstract class SchemaGenerator {
         return fields;
       }
       const type = this.getGraphQLOutputType(
+        handler.target,
         handler.methodName,
         handler.getReturnType(),
         handler.returnTypeOptions,
       );
       fields[handler.schemaName] = {
         type,
-        args: this.generateHandlerArgs(handler.params!),
+        args: this.generateHandlerArgs(handler.target, handler.methodName, handler.params!),
         resolve: createHandlerResolver(handler),
         description: handler.description,
         deprecationReason: handler.deprecationReason,
@@ -627,18 +645,35 @@ export abstract class SchemaGenerator {
     }, basicFields);
   }
 
-  private static generateHandlerArgs(params: ParamMetadata[]): GraphQLFieldConfigArgumentMap {
+  private static generateHandlerArgs(
+    target: Function,
+    propertyName: string,
+    params: ParamMetadata[],
+  ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
         args[param.name] = {
           description: param.description,
-          type: this.getGraphQLInputType(param.name, param.getType(), param.typeOptions),
+          type: this.getGraphQLInputType(
+            target,
+            propertyName,
+            param.getType(),
+            param.typeOptions,
+            param.index,
+            param.name,
+          ),
           defaultValue: param.typeOptions.defaultValue,
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
           it => it.target === param.getType(),
-        )!;
+        );
+        if (!argumentType) {
+          throw new Error(
+            `The value used as a type of '@Args' for '${propertyName}' of '${target.name}' ` +
+              `is not a class decorated with '@ArgsType' decorator!`,
+          );
+        }
         let superClass = Object.getPrototypeOf(argumentType.target);
         while (superClass.prototype !== undefined) {
           const superArgumentType = getMetadataStorage().argumentTypes.find(
@@ -669,14 +704,20 @@ export abstract class SchemaGenerator {
       );
       args[field.schemaName] = {
         description: field.description,
-        type: this.getGraphQLInputType(field.name, field.getType(), field.typeOptions),
+        type: this.getGraphQLInputType(
+          field.target,
+          field.name,
+          field.getType(),
+          field.typeOptions,
+        ),
         defaultValue: field.typeOptions.defaultValue,
       };
     });
   }
 
   private static getGraphQLOutputType(
-    typeOwnerName: string,
+    target: Function,
+    propertyName: string,
     type: TypeValue,
     typeOptions: TypeOptions = {},
   ): GraphQLOutputType {
@@ -708,17 +749,20 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      throw new Error(`Cannot determine GraphQL output type for ${typeOwnerName}`!);
+      throw new CannotDetermineGraphQLTypeError("output", target.name, propertyName);
     }
 
     const { nullableByDefault } = BuildContext;
-    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions, nullableByDefault);
+    return wrapWithTypeOptions(target, propertyName, gqlType, typeOptions, nullableByDefault);
   }
 
   private static getGraphQLInputType(
-    typeOwnerName: string,
+    target: Function,
+    propertyName: string,
     type: TypeValue,
     typeOptions: TypeOptions = {},
+    parameterIndex?: number,
+    argName?: string,
   ): GraphQLInputType {
     let gqlType: GraphQLInputType | undefined;
     gqlType = convertTypeIfScalar(type);
@@ -735,11 +779,17 @@ export abstract class SchemaGenerator {
       }
     }
     if (!gqlType) {
-      throw new Error(`Cannot determine GraphQL input type for ${typeOwnerName}`!);
+      throw new CannotDetermineGraphQLTypeError(
+        "input",
+        target.name,
+        propertyName,
+        parameterIndex,
+        argName,
+      );
     }
 
     const { nullableByDefault } = BuildContext;
-    return wrapWithTypeOptions(typeOwnerName, gqlType, typeOptions, nullableByDefault);
+    return wrapWithTypeOptions(target, propertyName, gqlType, typeOptions, nullableByDefault);
   }
 
   private static getResolveTypeFunction<TSource = any, TContext = any>(

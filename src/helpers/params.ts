@@ -7,6 +7,7 @@ export interface ParamInfo {
   prototype: Object;
   propertyKey: string | symbol;
   parameterIndex: number;
+  argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   options?: TypeOptions & ValidateOptions;
 }
@@ -14,6 +15,7 @@ export function getParamInfo({
   prototype,
   propertyKey,
   parameterIndex,
+  argName,
   returnTypeFunc,
   options = {},
 }: ParamInfo): CommonArgMetadata {
@@ -26,6 +28,7 @@ export function getParamInfo({
     prototype,
     propertyKey,
     parameterIndex,
+    argName,
     returnTypeFunc,
     typeOptions: options,
   });

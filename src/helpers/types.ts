@@ -38,7 +38,8 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
 }
 
 export function wrapWithTypeOptions<T extends GraphQLType>(
-  typeOwnerName: string,
+  target: Function,
+  propertyName: string,
   type: T,
   typeOptions: TypeOptions,
   nullableByDefault: boolean,
@@ -47,14 +48,15 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
     !typeOptions.array &&
     (typeOptions.nullable === "items" || typeOptions.nullable === "itemsAndList")
   ) {
-    throw new WrongNullableListOptionError(typeOwnerName, typeOptions.nullable);
+    throw new WrongNullableListOptionError(target.name, propertyName, typeOptions.nullable);
   }
   if (
     typeOptions.defaultValue !== undefined &&
     (typeOptions.nullable === false || typeOptions.nullable === "items")
   ) {
     throw new ConflictingDefaultWithNullableError(
-      typeOwnerName,
+      target.name,
+      propertyName,
       typeOptions.defaultValue,
       typeOptions.nullable,
     );

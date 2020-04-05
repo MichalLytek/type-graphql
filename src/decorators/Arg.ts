@@ -25,7 +25,14 @@ export function Arg(
       kind: "arg",
       name,
       description: options.description,
-      ...getParamInfo({ prototype, propertyKey, parameterIndex, returnTypeFunc, options }),
+      ...getParamInfo({
+        prototype,
+        propertyKey,
+        parameterIndex,
+        returnTypeFunc,
+        options,
+        argName: name,
+      }),
     });
   };
 }

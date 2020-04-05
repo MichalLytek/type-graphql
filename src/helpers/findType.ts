@@ -6,7 +6,7 @@ import {
   RecursiveArray,
 } from "../decorators/types";
 import { bannedTypes } from "./returnTypes";
-import { NoExplicitTypeError, CannotDetermineTypeError } from "../errors";
+import { NoExplicitTypeError } from "../errors";
 
 export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
 
@@ -19,17 +19,19 @@ export interface GetTypeParams {
   metadataKey: MetadataKey;
   prototype: Object;
   propertyKey: string;
+  parameterIndex?: number;
+  argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   typeOptions?: TypeOptions;
-  parameterIndex?: number;
 }
 export function findType({
   metadataKey,
   prototype,
   propertyKey,
+  parameterIndex,
+  argName,
   returnTypeFunc,
   typeOptions = {},
-  parameterIndex,
 }: GetTypeParams): TypeInfo {
   const options: TypeOptions = { ...typeOptions };
   let metadataDesignType: Function | undefined;
@@ -44,17 +46,14 @@ export function findType({
     metadataDesignType = reflectedType as Function | undefined;
   }
 
-  if (
-    !returnTypeFunc &&
-    (!metadataDesignType || (metadataDesignType && bannedTypes.includes(metadataDesignType)))
-  ) {
-    throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex);
+  if (!returnTypeFunc && (!metadataDesignType || bannedTypes.includes(metadataDesignType))) {
+    throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex, argName);
   }
+
   if (metadataDesignType === Array) {
     options.array = true;
     options.arrayDepth = 1;
   }
-
   if (returnTypeFunc) {
     const getType = () => {
       const returnTypeFuncReturnValue = returnTypeFunc();
@@ -76,7 +75,7 @@ export function findType({
       typeOptions: options,
     };
   } else {
-    throw new CannotDetermineTypeError(prototype.constructor.name, propertyKey, parameterIndex);
+    throw new Error("Ooops... this should never happen :)");
   }
 }
 

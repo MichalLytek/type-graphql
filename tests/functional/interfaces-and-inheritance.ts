@@ -395,7 +395,7 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should throw error when field type doesn't match with interface", async () => {
-      expect.assertions(4);
+      expect.assertions(3);
       try {
         @InterfaceType()
         class IBase {
@@ -422,10 +422,50 @@ describe("Interfaces and inheritance", () => {
       } catch (err) {
         expect(err).toBeInstanceOf(GeneratingSchemaError);
         const schemaError = err as GeneratingSchemaError;
-        const errMessage = schemaError.details[0].message;
-        expect(errMessage).toContain("IBase");
-        expect(errMessage).toContain("ChildObject");
-        expect(errMessage).toContain("baseField");
+        expect(schemaError.message).toMatchInlineSnapshot(`
+          "Some errors occurred while generating GraphQL schema:
+            Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.
+          Please check the \`details\` property of the error to get more detailed info."
+        `);
+        expect(JSON.stringify(schemaError.details, null, 2)).toMatchInlineSnapshot(`
+          "[
+            {
+              \\"message\\": \\"Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.\\"
+            }
+          ]"
+        `);
+      }
+    });
+
+    it("should throw error when not interface type is provided as `implements` option", async () => {
+      expect.assertions(2);
+      try {
+        @ObjectType()
+        class SampleNotInterface {
+          @Field()
+          sampleField: string;
+        }
+        @ObjectType({ implements: [SampleNotInterface] })
+        class SampleImplementingObject implements SampleNotInterface {
+          @Field()
+          sampleField: string;
+        }
+        @Resolver()
+        class SampleResolver {
+          @Query()
+          sampleQuery(): SampleImplementingObject {
+            return {} as SampleImplementingObject;
+          }
+        }
+        await buildSchema({
+          resolvers: [SampleResolver],
+          validate: false,
+        });
+      } catch (err) {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toMatchInlineSnapshot(
+          `"Cannot find interface type metadata for class 'SampleNotInterface' provided in 'implements' option for 'SampleImplementingObject' object type class. Please make sure that class is annotated with an '@InterfaceType()' decorator."`,
+        );
       }
     });
   });

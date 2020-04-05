@@ -1,10 +1,14 @@
 export class NoExplicitTypeError extends Error {
-  constructor(typeName: string, propertyKey: string, parameterIndex?: number) {
-    let errorMessage = `You need to provide explicit type for ${typeName}#${propertyKey} `;
-    if (parameterIndex !== undefined) {
-      errorMessage += `parameter #${parameterIndex} `;
+  constructor(typeName: string, propertyKey: string, parameterIndex?: number, argName?: string) {
+    let errorMessage =
+      `Unable to infer GraphQL type from TypeScript reflection system. ` +
+      `You need to provide explicit type for `;
+    if (argName) {
+      errorMessage += `argument named '${argName}' of `;
+    } else if (parameterIndex !== undefined) {
+      errorMessage += `parameter #${parameterIndex} of `;
     }
-    errorMessage += "!";
+    errorMessage += `'${propertyKey}' of '${typeName}' class.`;
     super(errorMessage);
 
     Object.setPrototypeOf(this, new.target.prototype);

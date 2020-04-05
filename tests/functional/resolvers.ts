@@ -48,6 +48,8 @@ import {
   ConflictingDefaultWithNullableError,
   WrongNullableListOptionError,
   createParamDecorator,
+  CannotDetermineGraphQLTypeError,
+  NoExplicitTypeError,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -821,7 +823,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when arg type is not correct", async () => {
-        expect.assertions(5);
+        expect.assertions(3);
 
         try {
           @Resolver()
@@ -833,11 +835,11 @@ describe("Resolvers", () => {
           }
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("provide explicit type");
-          expect(error.message).toContain("parameter");
-          expect(error.message).toContain("#0");
-          expect(error.message).toContain("sampleQuery");
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for argument named 'arg' of 'sampleQuery' of 'SampleResolverWithError' class."`,
+          );
         }
       });
 
@@ -854,9 +856,11 @@ describe("Resolvers", () => {
           }
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("provide explicit type");
-          expect(error.message).toContain("sampleQuery");
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+          );
         }
       });
 
@@ -873,9 +877,11 @@ describe("Resolvers", () => {
           }
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("provide explicit type");
-          expect(error.message).toContain("sampleQuery");
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+          );
         }
       });
 
@@ -892,9 +898,11 @@ describe("Resolvers", () => {
           }
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("provide explicit type");
-          expect(error.message).toContain("sampleMutation");
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+          );
         }
       });
 
@@ -911,14 +919,16 @@ describe("Resolvers", () => {
           }
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("provide explicit type");
-          expect(error.message).toContain("sampleMutation");
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+          );
         }
       });
 
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
-        expect.assertions(3);
+        expect.assertions(2);
 
         @ObjectType()
         class SampleObjectWithError {
@@ -943,14 +953,15 @@ describe("Resolvers", () => {
           });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toContain("@Resolver");
-          expect(error.message).toContain("SampleResolverWithError");
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"No provided object type in '@Resolver' decorator for class 'SampleResolverWithError!'"`,
+          );
         }
       });
 
       it("should throw error when creating independent field resolver with no type info", async () => {
-        expect.assertions(4);
+        expect.assertions(3);
 
         @ObjectType()
         class SampleObjectWithError {
@@ -975,15 +986,103 @@ describe("Resolvers", () => {
           });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(NoExplicitTypeError);
+          const error = err as NoExplicitTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'independentField' of 'SampleResolverWithError' class."`,
+          );
+        }
+      });
+
+      it("should throw error when using undecorated class as an explicit type", async () => {
+        expect.assertions(3);
+
+        class SampleUndecoratedObject {
+          sampleField: string;
+        }
+
+        try {
+          @Resolver()
+          class SampleResolverWithError {
+            @Query(returns => SampleUndecoratedObject)
+            sampleQuery(): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolverWithError],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+          const error = err as CannotDetermineGraphQLTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Does the value used as its TS type or explicit type is decorated with a proper decorator or is it a proper output value?"`,
+          );
+        }
+      });
+
+      it("should throw error when using object type class is used as explicit type in place of input type", async () => {
+        expect.assertions(3);
+
+        @ObjectType()
+        class SampleObject {
+          @Field()
+          sampleField: string;
+        }
+
+        try {
+          @Resolver()
+          class SampleResolverWithError {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleObject): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolverWithError],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
+          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+          const error = err as CannotDetermineGraphQLTypeError;
+          expect(error.message).toMatchInlineSnapshot(
+            `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Does the value used as its TS type or explicit type is decorated with a proper decorator or is it a proper input value?"`,
+          );
+        }
+      });
+
+      it("should throw error when using object type class is used as explicit type in place of args type", async () => {
+        expect.assertions(2);
+
+        @ObjectType()
+        class SampleObject {
+          @Field()
+          sampleField: string;
+        }
+
+        try {
+          @Resolver()
+          class SampleResolverWithError {
+            @Query()
+            sampleQuery(@Args() args: SampleObject): string {
+              return "sampleQuery";
+            }
+          }
+          await buildSchema({
+            resolvers: [SampleResolverWithError],
+          });
+        } catch (err) {
+          expect(err).toBeInstanceOf(Error);
           const error = err as Error;
-          expect(error.message).toContain("explicit type");
-          expect(error.message).toContain("SampleResolverWithError");
-          expect(error.message).toContain("independentField");
+          expect(error.message).toMatchInlineSnapshot(
+            `"The value used as a type of '@Args' for 'sampleQuery' of 'SampleResolverWithError' is not a class decorated with '@ArgsType' decorator!"`,
+          );
         }
       });
 
       it("should throw error when declared default values are not equal", async () => {
-        expect.assertions(10);
+        expect.assertions(3);
 
         try {
           @InputType()
@@ -1004,19 +1103,14 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(Error);
           expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
           const error = err as ConflictingDefaultValuesError;
-          expect(error.message).toContain("conflicting default values");
-          expect(error.message).toContain("inputField");
-          expect(error.message).toContain("SampleInput");
-          expect(error.message).toContain("is not equal");
-          expect(error.message).toContain("decorator");
-          expect(error.message).toContain("decoratorDefaultValue");
-          expect(error.message).toContain("initializer");
-          expect(error.message).toContain("initializerDefaultValue");
+          expect(error.message).toMatchInlineSnapshot(
+            `"The 'inputField' field of 'SampleInput' has conflicting default values. Default value from decorator ('decoratorDefaultValue') is not equal to the property initializer value ('initializerDefaultValue')."`,
+          );
         }
       });
 
       it("should throw error when default value set with non-nullable option", async () => {
-        expect.assertions(8);
+        expect.assertions(3);
 
         try {
           @InputType()
@@ -1037,18 +1131,14 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(Error);
           expect(err).toBeInstanceOf(ConflictingDefaultWithNullableError);
           const error = err as ConflictingDefaultWithNullableError;
-          expect(error.message).toContain("cannot combine");
-          expect(error.message).toContain("default value");
-          expect(error.message).toContain("stringDefaultValue");
-          expect(error.message).toContain("nullable");
-          expect(error.message).toContain("false");
-          expect(error.message).toContain("inputField");
-          // expect(error.message).toContain("SampleInput");
+          expect(error.message).toMatchInlineSnapshot(
+            `"Wrong nullable option set for SampleInput#inputField. You cannot combine default value 'stringDefaultValue' with nullable 'false'."`,
+          );
         }
       });
 
       it("should throw error when list nullable option is combined with non-list type", async () => {
-        expect.assertions(6);
+        expect.assertions(3);
 
         try {
           @InputType()
@@ -1069,11 +1159,9 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(Error);
           expect(err).toBeInstanceOf(WrongNullableListOptionError);
           const error = err as WrongNullableListOptionError;
-          expect(error.message).toContain("Wrong nullable option");
-          expect(error.message).toContain("nullable");
-          expect(error.message).toContain("items");
-          expect(error.message).toContain("inputField");
-          // expect(error.message).toContain("SampleInput");
+          expect(error.message).toMatchInlineSnapshot(
+            `"Wrong nullable option set for SampleInput#inputField. You cannot combine non-list type with nullable 'items'."`,
+          );
         }
       });
     });

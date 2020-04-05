@@ -9,6 +9,7 @@
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - **Breaking Change**: make `class-validator` an optional, peer dependency (#366)
 - **Breaking Change**: remove deprecated direct array syntax for declaring union types
+- **Breaking Change**: remove `CannotDetermineTypeError` and make other error messages more detailed and specific
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 - add possibility to tune up the performance and disable auth & middlewares stack for simple field resolvers (#479)
