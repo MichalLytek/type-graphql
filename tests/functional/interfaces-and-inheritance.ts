@@ -383,6 +383,7 @@ describe("Interfaces and inheritance", () => {
       }
       const schema = await buildSchema({
         resolvers: [SampleResolver],
+        validate: false,
       });
       expect(schema).toBeDefined();
     });
@@ -416,6 +417,7 @@ describe("Interfaces and inheritance", () => {
         }
         await buildSchema({
           resolvers: [SampleResolver],
+          validate: false,
         });
       } catch (err) {
         expect(err).toBeInstanceOf(GeneratingSchemaError);
@@ -648,6 +650,7 @@ describe("Interfaces and inheritance", () => {
           SecondInterfaceWithClassResolveTypeObject,
           FirstInterfaceWithClassResolveTypeObject,
         ],
+        validate: false,
       });
     });
 
@@ -834,10 +837,12 @@ describe("Interfaces and inheritance", () => {
     });
   });
 
-  describe("Mutliple schemas", () => {
-    it("should correctly return data from interface query for all schemas that uses the same interface", async () => {
+  describe("Multiple schemas", () => {
+    beforeEach(() => {
       getMetadataStorage().clear();
+    });
 
+    it("should correctly return data from interface query for all schemas that uses the same interface", async () => {
       @InterfaceType()
       class BaseInterface {
         @Field()
@@ -881,10 +886,12 @@ describe("Interfaces and inheritance", () => {
       const firstSchema = await buildSchema({
         resolvers: [OneTwoResolver],
         orphanedTypes: [One, Two],
+        validate: false,
       });
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
         orphanedTypes: [One, Two],
+        validate: false,
       });
       const firstResult = await graphql(firstSchema, query);
       const secondResult = await graphql(secondSchema, query);
@@ -901,6 +908,111 @@ describe("Interfaces and inheritance", () => {
         baseField: "baseField",
         one: "one",
       });
+    });
+
+    it("should by default automatically register all and only the object types that implements an used interface type", async () => {
+      @InterfaceType()
+      abstract class SampleUnusedInterface {
+        @Field()
+        sampleField: string;
+      }
+      @ObjectType({ implements: SampleUnusedInterface })
+      class SampleUnusedObjectType implements SampleUnusedInterface {
+        @Field()
+        sampleField: string;
+        @Field()
+        sampleUnusedInterfaceField: SampleUnusedInterface;
+      }
+      @InterfaceType()
+      abstract class SampleUsedInterface {
+        @Field()
+        sampleField: string;
+      }
+      @ObjectType({ implements: SampleUsedInterface })
+      class SampleObjectTypeImplementingUsedInterface implements SampleUsedInterface {
+        @Field()
+        sampleField: string;
+        @Field()
+        sampleAdditionalField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleUsedInterface {
+          const sampleObject = new SampleObjectTypeImplementingUsedInterface();
+          sampleObject.sampleField = "sampleField";
+          sampleObject.sampleAdditionalField = "sampleAdditionalField";
+          return sampleObject;
+        }
+      }
+
+      const { schemaIntrospection } = await getSchemaInfo({
+        resolvers: [SampleResolver],
+      });
+
+      expect(schemaIntrospection.types).not.toContainEqual(
+        expect.objectContaining({
+          kind: "OBJECT",
+          name: "SampleUnusedObjectType",
+        }),
+      );
+      expect(schemaIntrospection.types).toContainEqual(
+        expect.objectContaining({
+          kind: "OBJECT",
+          name: "SampleObjectTypeImplementingUsedInterface",
+        }),
+      );
+    });
+
+    it("should register only the object types from orphanedType when interface type has disabled auto registering", async () => {
+      @InterfaceType({ autoRegisterImplementations: false })
+      abstract class SampleUsedInterface {
+        @Field()
+        sampleField: string;
+      }
+      @ObjectType({ implements: SampleUsedInterface })
+      class FirstSampleObject implements SampleUsedInterface {
+        @Field()
+        sampleField: string;
+        @Field()
+        sampleFirstAdditionalField: string;
+      }
+      @ObjectType({ implements: SampleUsedInterface })
+      class SecondSampleObject implements SampleUsedInterface {
+        @Field()
+        sampleField: string;
+        @Field()
+        sampleSecondAdditionalField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleUsedInterface {
+          const sampleObject: FirstSampleObject = {
+            sampleField: "sampleField",
+            sampleFirstAdditionalField: "sampleFirstAdditionalField",
+          };
+          return sampleObject;
+        }
+      }
+
+      const { schemaIntrospection } = await getSchemaInfo({
+        resolvers: [SampleResolver],
+        orphanedTypes: [FirstSampleObject],
+      });
+
+      expect(schemaIntrospection.types).toContainEqual(
+        expect.objectContaining({
+          kind: "OBJECT",
+          name: "FirstSampleObject",
+        }),
+      );
+      expect(schemaIntrospection.types).not.toContainEqual(
+        expect.objectContaining({
+          kind: "OBJECT",
+          name: "SecondSampleObject",
+        }),
+      );
     });
   });
 });

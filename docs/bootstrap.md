@@ -9,7 +9,7 @@ After creating our resolvers, type classes, and other business-related code, we 
 To create an executable schema from type and resolver definitions, we need to use the `buildSchema` function.
 It takes a configuration object as a parameter and returns a promise of a `GraphQLSchema` object.
 
-In the configuration object you must provide a `resolvers` property, which can be an array of resolver classes:
+In the configuration object we must provide a `resolvers` property, which can be an array of resolver classes:
 
 ```typescript
 import { FirstResolver, SecondResolver } from "../app/src/resolvers";
@@ -21,7 +21,7 @@ const schema = await buildSchema({
 
 Be aware that only operations (queries, mutation, etc.) defined in the resolvers classes (and types directly connected to them) will be emitted in schema.
 
-So if you e.g. have defined some object types that implements an interface but are not directly used in other types definition (like a part of an union, a type of a field or a return type of an operation), you need to provide them manually in `orphanedTypes` options of `buildSchema`:
+So if we have defined some object types (that implements an interface type [with disabled auto registering](interfaces.md#registering-in-schema)) but are not directly used in other types definition (like a part of an union, a type of a field or a return type of an operation), we need to provide them manually in `orphanedTypes` options of `buildSchema`:
 
 ```typescript
 import { FirstResolver, SecondResolver } from "../app/src/resolvers";
