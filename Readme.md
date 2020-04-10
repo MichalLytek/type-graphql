@@ -15,8 +15,8 @@ npm i -D typegraphql-prisma
 `typegraphql-prisma` is designed to work only with selected version of `prisma`, so please install this version if you don't have it already installed:
 
 ```sh
-npm i -D @prisma/cli@2.0.0-beta.1
-npm i @prisma/client@2.0.0-beta.1
+npm i -D @prisma/cli@2.0.0-beta.2
+npm i @prisma/client@2.0.0-beta.2
 ```
 
 Also, be aware that due to usage of some newer Node.js features, you also have to use **Node.js v10.12 or newer**.

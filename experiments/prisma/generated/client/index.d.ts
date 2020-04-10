@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: 2accb9c7eacdc984874eaeb63377fe705dfd3203
- * Prisma Client JS version: 2.0.0-beta.1
+ * Query Engine version: 76857c35ba1e1764dd5473656ecbbb2f739e1822
+ * Prisma Client JS version: 2.0.0-beta.2
  */
 export declare type PrismaVersion = {
   client: string
@@ -170,7 +170,7 @@ export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLe
  * ```
  *
  * 
- * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+ * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
  */
 export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
   /**
@@ -218,7 +218,7 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * ```
    *
    * 
-   * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md).
+   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
    */
   constructor(optionsArg?: T);
   on<V extends U>(eventType: V, callback: V extends never ? never : (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
@@ -248,7 +248,7 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * const result = await prisma.raw`SELECT * FROM User WHERE id = ${userId};`
   * ```
   * 
-  * Read more in our [docs](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md#raw-database-access).
+  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
   raw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
@@ -383,7 +383,7 @@ export type UserGetPayload<
   ? User
   : S extends undefined
   ? never
-  : S extends UserArgs
+  : S extends FindManyUserArgs
   ? 'include' extends U
     ? User  & {
       [P in TrueKeys<S['include']>]:
@@ -473,7 +473,7 @@ export interface UserDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -506,7 +506,7 @@ export interface UserDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -537,7 +537,7 @@ export interface UserDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class UserClient<T> implements Promise<T> {
@@ -805,7 +805,7 @@ export type PostGetPayload<
   ? Post
   : S extends undefined
   ? never
-  : S extends PostArgs
+  : S extends FindManyPostArgs
   ? 'include' extends U
     ? Post  & {
       [P in TrueKeys<S['include']>]:
@@ -895,7 +895,7 @@ export interface PostDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -928,7 +928,7 @@ export interface PostDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -959,7 +959,7 @@ export interface PostDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyPostArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class PostClient<T> implements Promise<T> {
@@ -1205,10 +1205,6 @@ export type CategorySelect = {
   number?: boolean
 }
 
-export type CategoryInclude = {
-
-}
-
 export type CategoryGetPayload<
   S extends boolean | null | undefined | CategoryArgs,
   U = keyof S
@@ -1216,7 +1212,7 @@ export type CategoryGetPayload<
   ? Category
   : S extends undefined
   ? never
-  : S extends CategoryArgs
+  : S extends FindManyCategoryArgs
   ? 'include' extends U
     ? Category 
   : 'select' extends U
@@ -1301,7 +1297,7 @@ export interface CategoryDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -1334,7 +1330,7 @@ export interface CategoryDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -1365,7 +1361,7 @@ export interface CategoryDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyCategoryArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class CategoryClient<T> implements Promise<T> {
@@ -1420,10 +1416,6 @@ export type FindOneCategoryArgs = {
   **/
   select?: CategorySelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
-  /**
    * Filter, which Category to fetch.
   **/
   where: CategoryWhereUniqueInput
@@ -1438,10 +1430,6 @@ export type FindManyCategoryArgs = {
    * Select specific fields to fetch from the Category
   **/
   select?: CategorySelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
   /**
    * Filter, which Categories to fetch.
   **/
@@ -1482,10 +1470,6 @@ export type CategoryCreateArgs = {
   **/
   select?: CategorySelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
-  /**
    * The data needed to create a Category.
   **/
   data: CategoryCreateInput
@@ -1500,10 +1484,6 @@ export type CategoryUpdateArgs = {
    * Select specific fields to fetch from the Category
   **/
   select?: CategorySelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
   /**
    * The data needed to update a Category.
   **/
@@ -1533,10 +1513,6 @@ export type CategoryUpsertArgs = {
   **/
   select?: CategorySelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
-  /**
    * The filter to search for the Category to update in case it exists.
   **/
   where: CategoryWhereUniqueInput
@@ -1560,10 +1536,6 @@ export type CategoryDeleteArgs = {
   **/
   select?: CategorySelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
-  /**
    * Filter which Category to delete.
   **/
   where: CategoryWhereUniqueInput
@@ -1586,10 +1558,6 @@ export type CategoryArgs = {
    * Select specific fields to fetch from the Category
   **/
   select?: CategorySelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: CategoryInclude | null
 }
 
 
@@ -1610,10 +1578,6 @@ export type PatientSelect = {
   email?: boolean
 }
 
-export type PatientInclude = {
-
-}
-
 export type PatientGetPayload<
   S extends boolean | null | undefined | PatientArgs,
   U = keyof S
@@ -1621,7 +1585,7 @@ export type PatientGetPayload<
   ? Patient
   : S extends undefined
   ? never
-  : S extends PatientArgs
+  : S extends FindManyPatientArgs
   ? 'include' extends U
     ? Patient 
   : 'select' extends U
@@ -1706,7 +1670,7 @@ export interface PatientDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -1739,7 +1703,7 @@ export interface PatientDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -1770,7 +1734,7 @@ export interface PatientDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyPatientArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class PatientClient<T> implements Promise<T> {
@@ -1825,10 +1789,6 @@ export type FindOnePatientArgs = {
   **/
   select?: PatientSelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
-  /**
    * Filter, which Patient to fetch.
   **/
   where: PatientWhereUniqueInput
@@ -1843,10 +1803,6 @@ export type FindManyPatientArgs = {
    * Select specific fields to fetch from the Patient
   **/
   select?: PatientSelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
   /**
    * Filter, which Patients to fetch.
   **/
@@ -1887,10 +1843,6 @@ export type PatientCreateArgs = {
   **/
   select?: PatientSelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
-  /**
    * The data needed to create a Patient.
   **/
   data: PatientCreateInput
@@ -1905,10 +1857,6 @@ export type PatientUpdateArgs = {
    * Select specific fields to fetch from the Patient
   **/
   select?: PatientSelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
   /**
    * The data needed to update a Patient.
   **/
@@ -1938,10 +1886,6 @@ export type PatientUpsertArgs = {
   **/
   select?: PatientSelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
-  /**
    * The filter to search for the Patient to update in case it exists.
   **/
   where: PatientWhereUniqueInput
@@ -1965,10 +1909,6 @@ export type PatientDeleteArgs = {
   **/
   select?: PatientSelect | null
   /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
-  /**
    * Filter which Patient to delete.
   **/
   where: PatientWhereUniqueInput
@@ -1991,10 +1931,6 @@ export type PatientArgs = {
    * Select specific fields to fetch from the Patient
   **/
   select?: PatientSelect | null
-  /**
-   * Choose, which related nodes to fetch as well.
-  **/
-  include?: PatientInclude | null
 }
 
 
@@ -2027,7 +1963,7 @@ export type MovieGetPayload<
   ? Movie
   : S extends undefined
   ? never
-  : S extends MovieArgs
+  : S extends FindManyMovieArgs
   ? 'include' extends U
     ? Movie  & {
       [P in TrueKeys<S['include']>]:
@@ -2117,7 +2053,7 @@ export interface MovieDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -2150,7 +2086,7 @@ export interface MovieDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -2181,7 +2117,7 @@ export interface MovieDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyMovieArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class MovieClient<T> implements Promise<T> {
@@ -2437,7 +2373,7 @@ export type DirectorGetPayload<
   ? Director
   : S extends undefined
   ? never
-  : S extends DirectorArgs
+  : S extends FindManyDirectorArgs
   ? 'include' extends U
     ? Director  & {
       [P in TrueKeys<S['include']>]:
@@ -2527,7 +2463,7 @@ export interface DirectorDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -2560,7 +2496,7 @@ export interface DirectorDelegate {
    *     // ... provide filter here
    *   },
    *   data: {
-   *     // ... provider data here
+   *     // ... provide data here
    *   }
    * })
    * 
@@ -2591,7 +2527,7 @@ export interface DirectorDelegate {
   /**
    * 
    */
-  count(): Promise<number>
+  count(args?: Omit<FindManyDirectorArgs, 'select' | 'include'>): Promise<number>
 }
 
 export declare class DirectorClient<T> implements Promise<T> {

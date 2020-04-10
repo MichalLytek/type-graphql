@@ -28,10 +28,11 @@ describe("relations resolvers execution", () => {
         }
 
         model Post {
-          uuid     String  @id @default(cuid())
-          content  String
-          author   User
-          color    Color
+          uuid      String  @id @default(cuid())
+          content   String
+          author    User    @relation(fields: [authorId], references: [id])
+          authorId  Int
+          color     Color
         }
       `;
       await generateCodeFromSchema(prismaSchema, { outputDirPath });
@@ -238,10 +239,11 @@ describe("relations resolvers execution", () => {
         }
 
         model Post {
-          title    String
-          color    Color
-          text     String?
-          author   User
+          title     String
+          color     Color
+          text      String?
+          author    User     @relation(fields: [authorId], references: [id])
+          authorId  Int
 
           @@unique([title, color])
         }

@@ -1,6 +1,8 @@
 import { DMMF } from './dmmf-types';
 import { DatasourceOverwrite } from '@prisma/engine-core/dist/NodeEngine';
+import { Document } from './query';
 import { GeneratorConfig } from '@prisma/generator-helper/dist/types';
+import { Dataloader } from './Dataloader';
 import { InternalDatasource } from './utils/printDatasources';
 export declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
 export declare type Datasources = any;
@@ -65,4 +67,25 @@ export interface GetPrismaClientOptions {
     internalDatasources: InternalDatasource[];
 }
 export declare function getPrismaClient(config: GetPrismaClientOptions): any;
+export declare class PrismaClientFetcher {
+    prisma: any;
+    debug: boolean;
+    hooks: any;
+    dataloader: Dataloader<{
+        document: Document;
+    }>;
+    constructor(prisma: any, enableDebug?: boolean, hooks?: any);
+    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, }: {
+        document: Document;
+        dataPath: string[];
+        rootField: string;
+        typeName: string;
+        isList: boolean;
+        clientMethod: string;
+        callsite?: string;
+        collectTimestamps?: any;
+    }): Promise<any>;
+    sanitizeMessage(message: any): any;
+    unpack(document: any, data: any, path: any, rootField: any): any;
+}
 export declare function getOperation(action: DMMF.ModelAction): 'query' | 'mutation';

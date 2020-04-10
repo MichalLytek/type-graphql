@@ -1,13 +1,14 @@
 import { /*dmmf, */ DMMFClass } from './dmmf';
 import { DMMF } from './dmmf-types';
 import { ArgError, FieldError, InvalidArgError, InvalidFieldError } from './error-types';
+import { MissingItem } from './utils/printJsonErrors';
 export declare class Document {
     readonly type: 'query' | 'mutation';
     readonly children: Field[];
     constructor(type: 'query' | 'mutation', children: Field[]);
     toString(): string;
     validate(select?: any, isTopLevelQuery?: boolean, originalMethod?: string, errorFormat?: 'pretty' | 'minimal' | 'colorless'): void;
-    protected printFieldError: ({ error, path }: FieldError, minimal: boolean) => string;
+    protected printFieldError: ({ error, path }: FieldError, missingItems: MissingItem[], minimal: boolean) => string;
     protected printArgError: ({ error, path }: ArgError, hasMissingItems: boolean, minimal: boolean) => string;
     /**
      * As we're allowing both single objects and array of objects for list inputs, we need to remove incorrect

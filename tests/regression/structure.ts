@@ -28,10 +28,11 @@ describe("structure", () => {
       }
 
       model Post {
-        uuid    String  @id @default(cuid())
-        content String
-        author  User
-        color   Color
+        uuid      String  @id @default(cuid())
+        content   String
+        author    User    @relation(fields: [authorId], references: [id])
+        authorId  Int
+        color     Color
       }
     `;
 

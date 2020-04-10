@@ -131,6 +131,12 @@ export class Post {
   id!: number;
 
   author?: User;
+
+  @Field(_type => Int, {
+    nullable: false,
+    description: undefined,
+  })
+  authorId!: number;
 }
 "
 `;
@@ -176,6 +182,12 @@ export class Service {
   name!: string;
 
   sourceService?: Service | null;
+
+  @Field(_type => Int, {
+    nullable: true,
+    description: undefined,
+  })
+  sourceId?: number | null;
 
   services?: Service[] | null;
 }

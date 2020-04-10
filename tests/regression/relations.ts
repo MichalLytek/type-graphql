@@ -23,9 +23,10 @@ describe("relations resolvers generation", () => {
         posts  Post[]
       }
       model Post {
-        uuid   String  @id @default(cuid())
+        uuid      String  @id @default(cuid())
         /// author field doc
-        author User?
+        author    User?   @relation(fields: [authorId], references: [id])
+        authorId  Int?
       }
     `;
 

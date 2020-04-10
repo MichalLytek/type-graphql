@@ -63,8 +63,9 @@ describe("models", () => {
         posts  Post[]
       }
       model Post {
-        id     Int  @id @default(autoincrement())
-        author User
+        id        Int   @id @default(autoincrement())
+        author    User  @relation(fields: [authorId], references: [id])
+        authorId  Int
       }
     `;
 
@@ -77,11 +78,20 @@ describe("models", () => {
   });
 
   it("should properly generate object type classes for prisma models with self relations", async () => {
+    // const schema = /* prisma */ `
+    //   model Service {
+    //     id            Int       @default(autoincrement()) @id
+    //     name          String
+    //     sourceService Service?  @relation("serviceToService", fields: [id], references: [id])
+    //     services      Service[] @relation("serviceToService")
+    //   }
+    // `;
     const schema = /* prisma */ `
       model Service {
-        id            Int       @id @default(autoincrement())
+        id            Int       @default(autoincrement()) @id
         name          String
-        sourceService Service?  @relation("serviceToService")
+        sourceService Service?  @relation("serviceToService", fields: [sourceId], references: [id])
+        sourceId      Int?
         services      Service[] @relation("serviceToService")
       }
     `;

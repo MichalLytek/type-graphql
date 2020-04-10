@@ -33,6 +33,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": true,
+            "isReadOnly": false,
             "type": "Int",
             "default": {
               "name": "autoincrement",
@@ -50,6 +51,7 @@
             "isRequired": true,
             "isUnique": true,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -62,6 +64,7 @@
             "isRequired": false,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -74,6 +77,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Int",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -86,6 +90,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Float",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -98,6 +103,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Float",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -110,6 +116,7 @@
             "isRequired": false,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Post",
             "relationName": "PostToUser",
             "relationToFields": [],
@@ -125,6 +132,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Role",
             "isGenerated": false,
             "isUpdatedAt": false,
@@ -149,6 +157,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": true,
+            "isReadOnly": false,
             "type": "String",
             "default": {
               "name": "uuid",
@@ -165,6 +174,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "DateTime",
             "default": {
               "name": "now",
@@ -181,6 +191,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "DateTime",
             "isGenerated": false,
             "isUpdatedAt": true
@@ -193,6 +204,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Boolean",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -205,6 +217,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -217,6 +230,7 @@
             "isRequired": false,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -229,6 +243,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "User",
             "relationName": "PostToUser",
             "relationToFields": [
@@ -246,6 +261,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": true,
             "type": "Int",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -258,6 +274,7 @@
             "isRequired": false,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "PostKind",
             "isGenerated": false,
             "isUpdatedAt": false,
@@ -281,6 +298,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -293,6 +311,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -305,6 +324,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Int",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -332,6 +352,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -344,6 +365,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -356,6 +378,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -381,6 +404,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": true,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -393,6 +417,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": true,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -405,6 +430,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Director",
             "relationName": "DirectorToMovie",
             "relationToFields": [
@@ -423,6 +449,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -449,6 +476,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -461,6 +489,7 @@
             "isRequired": true,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false
@@ -473,6 +502,7 @@
             "isRequired": false,
             "isUnique": false,
             "isId": false,
+            "isReadOnly": false,
             "type": "Movie",
             "relationName": "DirectorToMovie",
             "relationToFields": [],
