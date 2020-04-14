@@ -57,6 +57,43 @@ class Person extends IPerson {
 }
 ```
 
+## Implementing other interfaces
+
+Since `graphql-js` version `15.0`, it's also possible for interface type to [implement other interface types](https://github.com/graphql/graphql-js/pull/2084).
+
+To accomplish this, we can just use the same syntax that we utilize for object types - the `implements` decorator option:
+
+```typescript
+@InterfaceType()
+class Node {
+  @Field(type => ID)
+  id: string;
+}
+
+@ObjectType({ implements: Node })
+class Person extends Node {
+  @Field()
+  name: string;
+
+  @Field(type => Int)
+  age: number;
+}
+```
+
+This example produces following representation in GraphQL SDL:
+
+```graphql
+interface Node {
+  id: ID!
+}
+
+interface Person implements Node {
+  id: ID!
+  name: String!
+  age: Int!
+}
+```
+
 ## Resolvers and arguments
 
 What's more, we can define resolvers for the interface fields, using the same syntax we would use when defining one for our object type:

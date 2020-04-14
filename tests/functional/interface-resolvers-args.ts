@@ -216,6 +216,8 @@ describe("Interfaces with resolvers and arguments", () => {
           return `SampleInterfaceWithArgsAndInlineResolver: ${sampleArg}`;
         }
       }
+      @InterfaceType({ implements: SampleInterfaceWithArgsAndInlineResolver })
+      abstract class SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver extends SampleInterfaceWithArgsAndInlineResolver {}
       @InterfaceType()
       abstract class SampleInterfaceWithArgsAndFieldResolver {}
 
@@ -227,6 +229,15 @@ describe("Interfaces with resolvers and arguments", () => {
       }
       @ObjectType({ implements: SampleInterfaceWithArgsAndInlineResolver })
       class SampleImplementingObjectWithArgsAndInheritedResolver extends SampleInterfaceWithArgsAndInlineResolver {}
+      @ObjectType({
+        implements: [
+          SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver,
+          SampleInterfaceWithArgsAndInlineResolver,
+        ],
+      })
+      class SampleObjectImplementingInterfaceImplementingWithArgsAndInheritedResolver
+        extends SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver
+        implements SampleInterfaceWithArgsAndInlineResolver {}
       @ObjectType({ implements: SampleInterfaceWithArgsAndFieldResolver })
       class SampleImplementingObjectWithArgsAndInheritedFieldResolver extends SampleInterfaceWithArgsAndFieldResolver {}
 
@@ -263,6 +274,10 @@ describe("Interfaces with resolvers and arguments", () => {
         queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver(): SampleImplementingObjectWithArgsAndInheritedFieldResolver {
           return new SampleImplementingObjectWithArgsAndInheritedFieldResolver();
         }
+        @Query()
+        queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver(): SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver {
+          return new SampleObjectImplementingInterfaceImplementingWithArgsAndInheritedResolver();
+        }
       }
 
       schema = await buildSchema({
@@ -271,9 +286,11 @@ describe("Interfaces with resolvers and arguments", () => {
           SampleInterfaceWithArgs,
           SampleInterfaceWithArgsAndInlineResolver,
           SampleInterfaceWithArgsAndFieldResolver,
+          SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver,
           SampleImplementingObjectWithArgsAndOwnResolver,
           SampleImplementingObjectWithArgsAndInheritedResolver,
           SampleImplementingObjectWithArgsAndInheritedFieldResolver,
+          SampleObjectImplementingInterfaceImplementingWithArgsAndInheritedResolver,
         ],
         validate: false,
       });
@@ -386,6 +403,24 @@ describe("Interfaces with resolvers and arguments", () => {
         .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceResolver: sampleArgValue");
+    });
+
+    it("should invoke interface type resolvers field resolver from implemented interface for implementing object type", async () => {
+      const query = /* graphql */ `
+        query {
+          queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver {
+            sampleFieldWithArgs(sampleArg: "sampleArgValue")
+          }
+        }
+      `;
+
+      const { data, errors } = await graphql(schema, query);
+
+      expect(errors).toBeUndefined();
+      const result = data!.queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver
+        .sampleFieldWithArgs;
+      expect(result).toBeDefined();
+      expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });
   });
 });

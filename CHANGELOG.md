@@ -17,6 +17,7 @@
 - add `@Extensions` decorator for putting metadata into GraphQL types config (#521)
 - add support for defining arguments and implementing resolvers for interface types fields (#579)
 - add `{ autoRegisterImplementations: false }` option to prevent automatic emitting in schema all the object types that implements used interface type (#595)
+- allow interfaces to implement other interfaces (#602)
 ### Fixes
 - refactor union types function syntax handling to prevent possible errors with circular refs
 - fix transforming and validating nested inputs and arrays (#462)

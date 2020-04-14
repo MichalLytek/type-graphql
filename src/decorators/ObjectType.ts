@@ -1,10 +1,10 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions, AbstractClassOptions } from "./types";
+import { DescriptionOptions, AbstractClassOptions, ImplementsClassOptions } from "./types";
 
 export type ObjectTypeOptions = DescriptionOptions &
-  AbstractClassOptions & {
-    implements?: Function | Function[];
+  AbstractClassOptions &
+  ImplementsClassOptions & {
     /** Set to `true` to disable auth and all middlewares stack for all this Object Type fields resolvers */
     simpleResolvers?: boolean;
   };

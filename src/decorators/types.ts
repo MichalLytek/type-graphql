@@ -56,6 +56,9 @@ export interface SchemaNameOptions {
 export interface AbstractClassOptions {
   isAbstract?: boolean;
 }
+export interface ImplementsClassOptions {
+  implements?: Function | Function[];
+}
 export interface ResolveTypeOptions<TSource = any, TContext = any> {
   resolveType?: TypeResolver<TSource, TContext>;
 }

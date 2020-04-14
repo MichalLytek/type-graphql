@@ -364,6 +364,7 @@ export abstract class SchemaGenerator {
           );
           return superClassTypeInfo ? superClassTypeInfo.type : undefined;
         };
+
         // fetch ahead the subset of object types that implements this interface
         const implementingObjectTypesTargets = getMetadataStorage()
           .objectTypes.filter(
@@ -375,6 +376,7 @@ export abstract class SchemaGenerator {
         const implementingObjectTypesInfo = this.objectTypesInfo.filter(objectTypesInfo =>
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
+
         return {
           metadata: interfaceType,
           target: interfaceType.target,
@@ -382,8 +384,37 @@ export abstract class SchemaGenerator {
           type: new GraphQLInterfaceType({
             name: interfaceType.name,
             description: interfaceType.description,
+            interfaces: () => {
+              let interfaces = (interfaceType.interfaceClasses || []).map<GraphQLInterfaceType>(
+                interfaceClass =>
+                  this.interfaceTypesInfo.find(info => info.target === interfaceClass)!.type,
+              );
+              // copy interfaces from super class
+              if (hasExtended) {
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superInterfaces = superClass.getInterfaces();
+                  interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
+                }
+              }
+              return interfaces;
+            },
             fields: () => {
-              let fields = interfaceType.fields!.reduce<GraphQLFieldConfigMap<any, any>>(
+              const fieldsMetadata: FieldMetadata[] = [];
+              // support for implicitly implementing interfaces
+              // get fields from interfaces definitions
+              if (interfaceType.interfaceClasses) {
+                const implementedInterfacesMetadata = getMetadataStorage().interfaceTypes.filter(
+                  it => interfaceType.interfaceClasses!.includes(it.target),
+                );
+                implementedInterfacesMetadata.forEach(it => {
+                  fieldsMetadata.push(...(it.fields || []));
+                });
+              }
+              // push own fields at the end to overwrite the one inherited from interface
+              fieldsMetadata.push(...interfaceType.fields!);
+
+              let fields = fieldsMetadata!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
                   const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
                     resolver =>

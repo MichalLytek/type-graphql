@@ -37,6 +37,7 @@ describe("Interfaces and inheritance", () => {
     let queryType: IntrospectionObjectType;
     let sampleInterface1Type: IntrospectionInterfaceType;
     let sampleInterface2Type: IntrospectionInterfaceType;
+    let sampleInterfaceImplementing1: IntrospectionInterfaceType;
     let sampleMultiImplementingObjectType: IntrospectionObjectType;
     let sampleExtendingImplementingObjectType: IntrospectionObjectType;
     let sampleImplementingObject1Type: IntrospectionObjectType;
@@ -62,6 +63,13 @@ describe("Interfaces and inheritance", () => {
       }
       @InterfaceType()
       abstract class SampleInterfaceExtending1 extends SampleInterface1 {
+        @Field()
+        ownStringField1: string;
+      }
+      @InterfaceType({ implements: [SampleInterface1] })
+      abstract class SampleInterfaceImplementing1 implements SampleInterface1 {
+        id: string;
+        interfaceStringField1: string;
         @Field()
         ownStringField1: string;
       }
@@ -147,6 +155,7 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [
           SampleInterface1,
           SampleInterfaceExtending1,
+          SampleInterfaceImplementing1,
           SampleImplementingObject1,
           SampleImplementingObject2,
           SampleMultiImplementingObject,
@@ -161,6 +170,9 @@ describe("Interfaces and inheritance", () => {
       ) as IntrospectionInterfaceType;
       sampleInterface2Type = schemaIntrospection.types.find(
         type => type.name === "SampleInterface2",
+      ) as IntrospectionInterfaceType;
+      sampleInterfaceImplementing1 = schemaIntrospection.types.find(
+        type => type.name === "SampleInterfaceImplementing1",
       ) as IntrospectionInterfaceType;
       sampleImplementingObject1Type = schemaIntrospection.types.find(
         type => type.name === "SampleImplementingObject1",
@@ -217,6 +229,28 @@ describe("Interfaces and inheritance", () => {
 
       expect(idFieldType.name).toEqual("ID");
       expect(interfaceStringField.name).toEqual("String");
+      expect(ownStringField1.name).toEqual("String");
+    });
+
+    it("should generate type of interface implementing other interface correctly", async () => {
+      expect(sampleInterfaceImplementing1).toBeDefined();
+      expect(sampleInterfaceImplementing1.kind).toEqual(TypeKind.INTERFACE);
+      expect(sampleInterfaceImplementing1.fields).toHaveLength(3);
+
+      expect(sampleInterfaceImplementing1.interfaces).toContainEqual(
+        expect.objectContaining({
+          name: "SampleInterface1",
+        }),
+      );
+
+      const idFieldType = getInnerFieldType(sampleInterfaceImplementing1, "id");
+      expect(idFieldType.name).toEqual("ID");
+      const interfaceStringField = getInnerFieldType(
+        sampleInterfaceImplementing1,
+        "interfaceStringField1",
+      );
+      expect(interfaceStringField.name).toEqual("String");
+      const ownStringField1 = getInnerFieldType(sampleInterfaceImplementing1, "ownStringField1");
       expect(ownStringField1.name).toEqual("String");
     });
 
