@@ -1,4 +1,4 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { CreateOneMovieArgs } from "./args/CreateOneMovieArgs";
 import { DeleteManyMovieArgs } from "./args/DeleteManyMovieArgs";
 import { DeleteOneMovieArgs } from "./args/DeleteOneMovieArgs";
@@ -11,73 +11,73 @@ import { Movie } from "../../../models/Movie";
 import { AggregateMovie } from "../../outputs/AggregateMovie";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
-@Resolver(_of => Movie)
+@TypeGraphQL.Resolver(_of => Movie)
 export class MovieCrudResolver {
-  @Query(_returns => Movie, {
+  @TypeGraphQL.Query(_returns => Movie, {
     nullable: true,
     description: undefined
   })
-  async movie(@Ctx() ctx: any, @Args() args: FindOneMovieArgs): Promise<Movie | null> {
+  async movie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.findOne(args);
   }
 
-  @Query(_returns => [Movie], {
+  @TypeGraphQL.Query(_returns => [Movie], {
     nullable: false,
     description: undefined
   })
-  async movies(@Ctx() ctx: any, @Args() args: FindManyMovieArgs): Promise<Movie[]> {
+  async movies(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindManyMovieArgs): Promise<Movie[]> {
     return ctx.prisma.movie.findMany(args);
   }
 
-  @Mutation(_returns => Movie, {
+  @TypeGraphQL.Mutation(_returns => Movie, {
     nullable: false,
     description: undefined
   })
-  async createOneMovie(@Ctx() ctx: any, @Args() args: CreateOneMovieArgs): Promise<Movie> {
+  async createOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneMovieArgs): Promise<Movie> {
     return ctx.prisma.movie.create(args);
   }
 
-  @Mutation(_returns => Movie, {
+  @TypeGraphQL.Mutation(_returns => Movie, {
     nullable: true,
     description: undefined
   })
-  async deleteOneMovie(@Ctx() ctx: any, @Args() args: DeleteOneMovieArgs): Promise<Movie | null> {
+  async deleteOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.delete(args);
   }
 
-  @Mutation(_returns => Movie, {
+  @TypeGraphQL.Mutation(_returns => Movie, {
     nullable: true,
     description: undefined
   })
-  async updateOneMovie(@Ctx() ctx: any, @Args() args: UpdateOneMovieArgs): Promise<Movie | null> {
+  async updateOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.update(args);
   }
 
-  @Mutation(_returns => BatchPayload, {
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async deleteManyMovie(@Ctx() ctx: any, @Args() args: DeleteManyMovieArgs): Promise<BatchPayload> {
+  async deleteManyMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteManyMovieArgs): Promise<BatchPayload> {
     return ctx.prisma.movie.deleteMany(args);
   }
 
-  @Mutation(_returns => BatchPayload, {
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyMovie(@Ctx() ctx: any, @Args() args: UpdateManyMovieArgs): Promise<BatchPayload> {
+  async updateManyMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateManyMovieArgs): Promise<BatchPayload> {
     return ctx.prisma.movie.updateMany(args);
   }
 
-  @Mutation(_returns => Movie, {
+  @TypeGraphQL.Mutation(_returns => Movie, {
     nullable: false,
     description: undefined
   })
-  async upsertOneMovie(@Ctx() ctx: any, @Args() args: UpsertOneMovieArgs): Promise<Movie> {
+  async upsertOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneMovieArgs): Promise<Movie> {
     return ctx.prisma.movie.upsert(args);
   }
 
-  @Query(_returns => AggregateMovie, {
+  @TypeGraphQL.Query(_returns => AggregateMovie, {
     nullable: false,
     description: undefined
   })

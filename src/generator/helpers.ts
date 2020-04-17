@@ -95,11 +95,13 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
       return "String";
     }
     case "Boolean":
-    case "String":
+    case "String": {
+      return scalar;
+    }
     case "ID":
     case "Int":
     case "Float": {
-      return scalar;
+      return `TypeGraphQL.${scalar}`;
     }
     default: {
       throw new Error(`Unrecognized scalar type: ${scalar}`);

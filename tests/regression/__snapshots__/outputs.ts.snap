@@ -1,51 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`outputs should properly generate args type classes for aggregate: AggregateSampleCountArgs 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { SampleOrderByInput } from \\"../../inputs/SampleOrderByInput\\";
 import { SampleWhereInput } from \\"../../inputs/SampleWhereInput\\";
 import { SampleWhereUniqueInput } from \\"../../inputs/SampleWhereUniqueInput\\";
 
-@ArgsType()
+@TypeGraphQL.ArgsType()
 export class AggregateSampleCountArgs {
-  @Field(_type => SampleWhereInput, { nullable: true })
+  @TypeGraphQL.Field(_type => SampleWhereInput, { nullable: true })
   where?: SampleWhereInput | null;
 
-  @Field(_type => SampleOrderByInput, { nullable: true })
+  @TypeGraphQL.Field(_type => SampleOrderByInput, { nullable: true })
   orderBy?: SampleOrderByInput | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => SampleWhereUniqueInput, { nullable: true })
+  @TypeGraphQL.Field(_type => SampleWhereUniqueInput, { nullable: true })
   after?: SampleWhereUniqueInput | null;
 
-  @Field(_type => SampleWhereUniqueInput, { nullable: true })
+  @TypeGraphQL.Field(_type => SampleWhereUniqueInput, { nullable: true })
   before?: SampleWhereUniqueInput | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   first?: number | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   last?: number | null;
 }
 "
 `;
 
 exports[`outputs should properly generate output type classes: AggregateSample 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { AggregateSampleCountArgs } from \\"./args/AggregateSampleCountArgs\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class AggregateSample {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined
   })
-  count(@Ctx() ctx: any, @Args() args: AggregateSampleCountArgs) {
+  count(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: AggregateSampleCountArgs) {
     return ctx.prisma.sample.count(args);
   }
 }
@@ -53,14 +53,14 @@ export class AggregateSample {
 `;
 
 exports[`outputs should properly generate output type classes: BatchPayload 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class BatchPayload {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined
   })

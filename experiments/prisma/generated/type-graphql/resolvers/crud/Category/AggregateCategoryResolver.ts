@@ -1,10 +1,10 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { Category } from "../../../models/Category";
 import { AggregateCategory } from "../../outputs/AggregateCategory";
 
-@Resolver(_of => Category)
+@TypeGraphQL.Resolver(_of => Category)
 export class AggregateCategoryResolver {
-  @Query(_returns => AggregateCategory, {
+  @TypeGraphQL.Query(_returns => AggregateCategory, {
     nullable: false,
     description: undefined
   })

@@ -1,18 +1,18 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { Movie } from "../models/Movie";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class Director {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   firstName!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })

@@ -2,7 +2,7 @@ import { EnumMemberStructure, OptionalKind, Project } from "ts-morph";
 import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
-import { generateTypeGraphQLImports } from "./imports";
+import { generateTypeGraphQLImport } from "./imports";
 import { enumsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
 
@@ -16,7 +16,7 @@ export default async function generateEnumFromDef(
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
 
   // FIXME: remove when issue fixed: https://github.com/prisma/prisma2/issues/1987
   const documentation = undefined as string | undefined;
@@ -40,7 +40,7 @@ export default async function generateEnumFromDef(
 
   // TODO: refactor to AST
   sourceFile.addStatements([
-    `registerEnumType(${enumDef.name}, {
+    `TypeGraphQL.registerEnumType(${enumDef.name}, {
       name: "${enumDef.name}",
       description: ${documentation ? `"${documentation}"` : "undefined"},
     });`,

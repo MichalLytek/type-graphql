@@ -1,8 +1,8 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { MovieCreateInput } from "../../../inputs/MovieCreateInput";
 
-@ArgsType()
+@TypeGraphQL.ArgsType()
 export class CreateOneMovieArgs {
-  @Field(_type => MovieCreateInput, { nullable: false })
+  @TypeGraphQL.Field(_type => MovieCreateInput, { nullable: false })
   data!: MovieCreateInput;
 }

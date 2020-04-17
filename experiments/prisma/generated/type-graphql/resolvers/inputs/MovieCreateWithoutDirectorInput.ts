@@ -1,11 +1,11 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieCreateWithoutDirectorInput {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })

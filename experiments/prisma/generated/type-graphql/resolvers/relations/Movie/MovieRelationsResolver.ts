@@ -1,14 +1,14 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { Director } from "../../../models/Director";
 import { Movie } from "../../../models/Movie";
 
-@Resolver(_of => Movie)
+@TypeGraphQL.Resolver(_of => Movie)
 export class MovieRelationsResolver {
-  @FieldResolver(_type => Director, {
+  @TypeGraphQL.FieldResolver(_type => Director, {
     nullable: false,
     description: undefined,
   })
-  async director(@Root() movie: Movie, @Ctx() ctx: any): Promise<Director> {
+  async director(@TypeGraphQL.Root() movie: Movie, @TypeGraphQL.Ctx() ctx: any): Promise<Director> {
     return ctx.prisma.movie.findOne({
       where: {
         directorFirstName_directorLastName_title: {

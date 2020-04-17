@@ -15,7 +15,7 @@ import {
 } from "../config";
 import generateArgsTypeClassFromArgs from "../args-class";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
@@ -49,7 +49,7 @@ export default async function generateCrudResolverClassFromMapping(
     overwrite: true,
   });
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
 
   const actionNames = Object.keys(mapping).filter(
     key => !baseKeys.includes(key as any),
@@ -139,7 +139,7 @@ export default async function generateCrudResolverClassFromMapping(
     isExported: true,
     decorators: [
       {
-        name: "Resolver",
+        name: "TypeGraphQL.Resolver",
         arguments: [`_of => ${model.name}`],
       },
     ],

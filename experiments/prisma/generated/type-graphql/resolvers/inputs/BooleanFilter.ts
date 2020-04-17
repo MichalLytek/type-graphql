@@ -1,17 +1,17 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class BooleanFilter {
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
   equals?: boolean | null;
 
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })

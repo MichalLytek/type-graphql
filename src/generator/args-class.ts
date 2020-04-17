@@ -11,7 +11,7 @@ import {
 import { DMMFTypeInfo } from "./types";
 import { argsFolderName } from "./config";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateInputsImports,
   generateEnumsImports,
 } from "./imports";
@@ -33,7 +33,7 @@ export default async function generateArgsTypeClassFromArgs(
     overwrite: true,
   });
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   generateInputsImports(
     sourceFile,
     args
@@ -56,7 +56,7 @@ export default async function generateArgsTypeClassFromArgs(
     isExported: true,
     decorators: [
       {
-        name: "ArgsType",
+        name: "TypeGraphQL.ArgsType",
         arguments: [],
       },
     ],
@@ -72,7 +72,7 @@ export default async function generateArgsTypeClassFromArgs(
         trailingTrivia: "\r\n",
         decorators: [
           {
-            name: "Field",
+            name: "TypeGraphQL.Field",
             arguments: [
               `_type => ${getTypeGraphQLType(
                 inputType as DMMFTypeInfo,

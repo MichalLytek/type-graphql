@@ -8,7 +8,7 @@ import {
   getTypeGraphQLType,
 } from "./helpers";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateModelsImports,
   generateEnumsImports,
 } from "./imports";
@@ -27,7 +27,7 @@ export default async function generateObjectTypeClassFromModel(
     overwrite: true,
   });
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   generateModelsImports(
     sourceFile,
     model.fields
@@ -52,7 +52,7 @@ export default async function generateObjectTypeClassFromModel(
     isExported: true,
     decorators: [
       {
-        name: "ObjectType",
+        name: "TypeGraphQL.ObjectType",
         arguments: [
           // `"${model.name}"`,
           // `"${getBaseModelTypeName(model.name)}"`,
@@ -82,7 +82,7 @@ export default async function generateObjectTypeClassFromModel(
               ? []
               : [
                   {
-                    name: "Field",
+                    name: "TypeGraphQL.Field",
                     arguments: [
                       `_type => ${getTypeGraphQLType(field, modelNames)}`,
                       `{

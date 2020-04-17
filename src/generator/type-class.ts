@@ -17,7 +17,7 @@ import {
 import { DMMFTypeInfo } from "./types";
 import { outputsFolderName, inputsFolderName } from "./config";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateInputsImports,
   generateEnumsImports,
   generateArgsImports,
@@ -58,7 +58,7 @@ export async function generateOutputTypeClassFromType(
     .filter(it => it.argsTypeName)
     .map(it => it.argsTypeName!);
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
 
   sourceFile.addClass({
@@ -66,7 +66,7 @@ export async function generateOutputTypeClassFromType(
     isExported: true,
     decorators: [
       {
-        name: "ObjectType",
+        name: "TypeGraphQL.ObjectType",
         arguments: [
           `{
             isAbstract: true,
@@ -88,7 +88,7 @@ export async function generateOutputTypeClassFromType(
           trailingTrivia: "\r\n",
           decorators: [
             {
-              name: "Field",
+              name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   field.outputType as DMMFTypeInfo,
@@ -120,7 +120,7 @@ export async function generateOutputTypeClassFromType(
           trailingTrivia: "\r\n",
           decorators: [
             {
-              name: "Field",
+              name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   fieldInfo.outputType as DMMFTypeInfo,
@@ -138,12 +138,12 @@ export async function generateOutputTypeClassFromType(
               name: "ctx",
               // TODO: import custom `ContextType`
               type: "any",
-              decorators: [{ name: "Ctx", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
             },
             {
               name: "args",
               type: fieldInfo.argsTypeName,
-              decorators: [{ name: "Args", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
             },
           ],
           statements: [
@@ -169,7 +169,7 @@ export async function generateInputTypeClassFromType(
     overwrite: true,
   });
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   generateInputsImports(
     sourceFile,
     type.fields
@@ -192,7 +192,7 @@ export async function generateInputTypeClassFromType(
     isExported: true,
     decorators: [
       {
-        name: "InputType",
+        name: "TypeGraphQL.InputType",
         arguments: [
           `{
             isAbstract: true,
@@ -212,7 +212,7 @@ export async function generateInputTypeClassFromType(
           trailingTrivia: "\r\n",
           decorators: [
             {
-              name: "Field",
+              name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   inputType as DMMFTypeInfo,

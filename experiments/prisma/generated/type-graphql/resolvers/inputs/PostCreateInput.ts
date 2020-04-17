@@ -1,55 +1,55 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { UserCreateOneWithoutPostsInput } from "../inputs/UserCreateOneWithoutPostsInput";
 import { PostKind } from "../../enums/PostKind";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class PostCreateInput {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   uuid?: string | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   createdAt?: Date | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   updatedAt?: Date | null;
 
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: false,
     description: undefined
   })
   published!: boolean;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
   title!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   content?: string | null;
 
-  @Field(_type => PostKind, {
+  @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
   kind?: keyof typeof PostKind | null;
 
-  @Field(_type => UserCreateOneWithoutPostsInput, {
+  @TypeGraphQL.Field(_type => UserCreateOneWithoutPostsInput, {
     nullable: false,
     description: undefined
   })

@@ -9,7 +9,7 @@ import {
   ModelKeys,
 } from "../config";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
@@ -44,7 +44,7 @@ export default async function generateActionResolverClass(
     overwrite: true,
   });
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   if (argsTypeName) {
     generateArgsImports(sourceFile, [argsTypeName], 0);
   }
@@ -64,7 +64,7 @@ export default async function generateActionResolverClass(
     isExported: true,
     decorators: [
       {
-        name: "Resolver",
+        name: "TypeGraphQL.Resolver",
         arguments: [`_of => ${model.name}`],
       },
     ],

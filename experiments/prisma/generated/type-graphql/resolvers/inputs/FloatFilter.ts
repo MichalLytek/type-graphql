@@ -1,53 +1,53 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FloatFilter {
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   equals?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   not?: number | null;
 
-  @Field(_type => [Float], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
   in?: number[] | null;
 
-  @Field(_type => [Float], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
   notIn?: number[] | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   lt?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   lte?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   gt?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })

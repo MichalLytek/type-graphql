@@ -1,28 +1,28 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { MovieOrderByInput } from "../../../inputs/MovieOrderByInput";
 import { MovieWhereInput } from "../../../inputs/MovieWhereInput";
 import { MovieWhereUniqueInput } from "../../../inputs/MovieWhereUniqueInput";
 
-@ArgsType()
+@TypeGraphQL.ArgsType()
 export class DirectorMoviesArgs {
-  @Field(_type => MovieWhereInput, { nullable: true })
+  @TypeGraphQL.Field(_type => MovieWhereInput, { nullable: true })
   where?: MovieWhereInput | null;
 
-  @Field(_type => MovieOrderByInput, { nullable: true })
+  @TypeGraphQL.Field(_type => MovieOrderByInput, { nullable: true })
   orderBy?: MovieOrderByInput | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null;
 
-  @Field(_type => MovieWhereUniqueInput, { nullable: true })
+  @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
   after?: MovieWhereUniqueInput | null;
 
-  @Field(_type => MovieWhereUniqueInput, { nullable: true })
+  @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
   before?: MovieWhereUniqueInput | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   first?: number | null;
 
-  @Field(_type => Int, { nullable: true })
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   last?: number | null;
 }

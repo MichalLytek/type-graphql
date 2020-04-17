@@ -69,29 +69,29 @@ export enum PostKind {
   BLOG = "BLOG",
   ADVERT = "ADVERT",
 }
-registerEnumType(PostKind, {
+TypeGraphQL.registerEnumType(PostKind, {
   name: "PostKind",
   description: undefined,
 });
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class User {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   id!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   email!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined,
   })

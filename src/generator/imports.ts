@@ -13,27 +13,10 @@ import {
 } from "./config";
 import { GeneratedResolverData } from "./types";
 
-export function generateTypeGraphQLImports(sourceFile: SourceFile) {
+export function generateTypeGraphQLImport(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "type-graphql",
-    namedImports: [
-      "registerEnumType",
-      "ObjectType",
-      "Field",
-      "Int",
-      "Float",
-      "ID",
-      "Resolver",
-      "FieldResolver",
-      "Root",
-      "Ctx",
-      "InputType",
-      "Query",
-      "Mutation",
-      "Arg",
-      "ArgsType",
-      "Args",
-    ].sort(),
+    namespaceImport: "TypeGraphQL",
   });
 }
 

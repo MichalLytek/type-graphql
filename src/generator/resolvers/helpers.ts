@@ -32,7 +32,7 @@ export function generateCrudResolverClassMethodDeclaration(
     returnType: `Promise<${returnTSType}>`,
     decorators: [
       {
-        name: operationKind,
+        name: `TypeGraphQL.${operationKind}`,
         arguments: [
           `_returns => ${getTypeGraphQLType(
             method.outputType as DMMFTypeInfo,
@@ -53,7 +53,7 @@ export function generateCrudResolverClassMethodDeclaration(
               name: "ctx",
               // TODO: import custom `ContextType`
               type: "any",
-              decorators: [{ name: "Ctx", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
             },
           ]),
       ...(!argsTypeName
@@ -62,7 +62,7 @@ export function generateCrudResolverClassMethodDeclaration(
             {
               name: "args",
               type: argsTypeName,
-              decorators: [{ name: "Args", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
             },
           ]),
     ],

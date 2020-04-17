@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`models should properly generate object type class for prisma model with descriptions: User 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { Post } from \\"../models/Post\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class User {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
   id!: number;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   stringField!: string;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
@@ -33,50 +33,50 @@ export class User {
 `;
 
 exports[`models should properly generate object type class for prisma model with different scalar fields types: User 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class User {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
   intIdField!: number;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
   stringField!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined,
   })
   optionalStringField?: string | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
   intField!: number;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false,
     description: undefined,
   })
   floatField!: number;
 
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: false,
     description: undefined,
   })
   booleanField!: boolean;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: false,
     description: undefined,
   })
@@ -86,27 +86,27 @@ export class User {
 `;
 
 exports[`models should properly generate object type class for prisma model with enum and alias fields types: User 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { Sample } from \\"../enums/Sample\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class User {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
   intIdField!: number;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false,
     description: undefined,
   })
   aliasField!: number;
 
-  @Field(_type => Sample, {
+  @TypeGraphQL.Field(_type => Sample, {
     nullable: false,
     description: undefined,
   })
@@ -116,15 +116,15 @@ export class User {
 `;
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations: Post 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { User } from \\"../models/User\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class Post {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
@@ -132,7 +132,7 @@ export class Post {
 
   author?: User;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
@@ -142,15 +142,15 @@ export class Post {
 `;
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations: User 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { Post } from \\"../models/Post\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class User {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
@@ -162,20 +162,20 @@ export class User {
 `;
 
 exports[`models should properly generate object type classes for prisma models with self relations: Service 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@ObjectType({
+@TypeGraphQL.ObjectType({
   isAbstract: true,
   description: undefined,
 })
 export class Service {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined,
   })
   id!: number;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined,
   })
@@ -183,7 +183,7 @@ export class Service {
 
   sourceService?: Service | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined,
   })

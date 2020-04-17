@@ -1,4 +1,4 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { CreateOneUserArgs } from "./args/CreateOneUserArgs";
 import { DeleteManyUserArgs } from "./args/DeleteManyUserArgs";
 import { DeleteOneUserArgs } from "./args/DeleteOneUserArgs";
@@ -11,73 +11,73 @@ import { User } from "../../../models/User";
 import { AggregateUser } from "../../outputs/AggregateUser";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
-@Resolver(_of => User)
+@TypeGraphQL.Resolver(_of => User)
 export class UserCrudResolver {
-  @Query(_returns => User, {
+  @TypeGraphQL.Query(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async user(@Ctx() ctx: any, @Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.findOne(args);
   }
 
-  @Query(_returns => [User], {
+  @TypeGraphQL.Query(_returns => [User], {
     nullable: false,
     description: undefined
   })
-  async users(@Ctx() ctx: any, @Args() args: FindManyUserArgs): Promise<User[]> {
+  async users(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindManyUserArgs): Promise<User[]> {
     return ctx.prisma.user.findMany(args);
   }
 
-  @Mutation(_returns => User, {
+  @TypeGraphQL.Mutation(_returns => User, {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@Ctx() ctx: any, @Args() args: CreateOneUserArgs): Promise<User> {
+  async createOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneUserArgs): Promise<User> {
     return ctx.prisma.user.create(args);
   }
 
-  @Mutation(_returns => User, {
+  @TypeGraphQL.Mutation(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@Ctx() ctx: any, @Args() args: DeleteOneUserArgs): Promise<User | null> {
+  async deleteOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.delete(args);
   }
 
-  @Mutation(_returns => User, {
+  @TypeGraphQL.Mutation(_returns => User, {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@Ctx() ctx: any, @Args() args: UpdateOneUserArgs): Promise<User | null> {
+  async updateOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.update(args);
   }
 
-  @Mutation(_returns => BatchPayload, {
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async deleteManyUser(@Ctx() ctx: any, @Args() args: DeleteManyUserArgs): Promise<BatchPayload> {
+  async deleteManyUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteManyUserArgs): Promise<BatchPayload> {
     return ctx.prisma.user.deleteMany(args);
   }
 
-  @Mutation(_returns => BatchPayload, {
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
     nullable: false,
     description: undefined
   })
-  async updateManyUser(@Ctx() ctx: any, @Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
+  async updateManyUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateManyUserArgs): Promise<BatchPayload> {
     return ctx.prisma.user.updateMany(args);
   }
 
-  @Mutation(_returns => User, {
+  @TypeGraphQL.Mutation(_returns => User, {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
+  async upsertOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneUserArgs): Promise<User> {
     return ctx.prisma.user.upsert(args);
   }
 
-  @Query(_returns => AggregateUser, {
+  @TypeGraphQL.Query(_returns => AggregateUser, {
     nullable: false,
     description: undefined
   })

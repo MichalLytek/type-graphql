@@ -1,33 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`inputs should properly generate input type class for filtering by enums values: ColorFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { Color } from \\"../../enums/Color\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class ColorFilter {
-  @Field(_type => Color, {
+  @TypeGraphQL.Field(_type => Color, {
     nullable: true,
     description: undefined
   })
   equals?: keyof typeof Color | null;
 
-  @Field(_type => Color, {
+  @TypeGraphQL.Field(_type => Color, {
     nullable: true,
     description: undefined
   })
   not?: keyof typeof Color | null;
 
-  @Field(_type => [Color], {
+  @TypeGraphQL.Field(_type => [Color], {
     nullable: true,
     description: undefined
   })
   in?: Array<keyof typeof Color> | null;
 
-  @Field(_type => [Color], {
+  @TypeGraphQL.Field(_type => [Color], {
     nullable: true,
     description: undefined
   })
@@ -37,61 +37,61 @@ export class ColorFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by fields: SampleModelWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { BooleanFilter } from \\"../inputs/BooleanFilter\\";
 import { DateTimeFilter } from \\"../inputs/DateTimeFilter\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class SampleModelWhereInput {
-  @Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
   intIdField?: IntFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   stringField?: StringFilter | null;
 
-  @Field(_type => FloatFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
   floatField?: FloatFilter | null;
 
-  @Field(_type => BooleanFilter, {
+  @TypeGraphQL.Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
   booleanField?: BooleanFilter | null;
 
-  @Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
   dateField?: DateTimeFilter | null;
 
-  @Field(_type => [SampleModelWhereInput], {
+  @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: SampleModelWhereInput[] | null;
 
-  @Field(_type => [SampleModelWhereInput], {
+  @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: SampleModelWhereInput[] | null;
 
-  @Field(_type => [SampleModelWhereInput], {
+  @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
@@ -101,20 +101,20 @@ export class SampleModelWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by fields: SampleModelWhereUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class SampleModelWhereUniqueInput {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   intIdField?: number | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
@@ -124,27 +124,27 @@ export class SampleModelWhereUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by relation fields: FirstModelOrderByInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { OrderByArg } from \\"../../enums/OrderByArg\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstModelOrderByInput {
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   idField?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   uniqueStringField?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
@@ -154,54 +154,54 @@ export class FirstModelOrderByInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by relation fields: FirstModelScalarWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
 import { SecondModelFilter } from \\"../inputs/SecondModelFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstModelScalarWhereInput {
-  @Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
   idField?: IntFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   uniqueStringField?: StringFilter | null;
 
-  @Field(_type => FloatFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
   floatField?: FloatFilter | null;
 
-  @Field(_type => SecondModelFilter, {
+  @TypeGraphQL.Field(_type => SecondModelFilter, {
     nullable: true,
     description: undefined
   })
   secondModelsField?: SecondModelFilter | null;
 
-  @Field(_type => [FirstModelScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: FirstModelScalarWhereInput[] | null;
 
-  @Field(_type => [FirstModelScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: FirstModelScalarWhereInput[] | null;
 
-  @Field(_type => [FirstModelScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
@@ -211,54 +211,54 @@ export class FirstModelScalarWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by relation fields: FirstModelWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
 import { SecondModelFilter } from \\"../inputs/SecondModelFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstModelWhereInput {
-  @Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
   idField?: IntFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   uniqueStringField?: StringFilter | null;
 
-  @Field(_type => FloatFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
   floatField?: FloatFilter | null;
 
-  @Field(_type => SecondModelFilter, {
+  @TypeGraphQL.Field(_type => SecondModelFilter, {
     nullable: true,
     description: undefined
   })
   secondModelsField?: SecondModelFilter | null;
 
-  @Field(_type => [FirstModelWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: FirstModelWhereInput[] | null;
 
-  @Field(_type => [FirstModelWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: FirstModelWhereInput[] | null;
 
-  @Field(_type => [FirstModelWhereInput], {
+  @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
@@ -268,20 +268,20 @@ export class FirstModelWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by relation fields: FirstModelWhereUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstModelWhereUniqueInput {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   idField?: number | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
@@ -291,20 +291,20 @@ export class FirstModelWhereUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: BooleanFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class BooleanFilter {
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
   equals?: boolean | null;
 
-  @Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
@@ -314,56 +314,56 @@ export class BooleanFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: DateTimeFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DateTimeFilter {
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   equals?: Date | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   not?: Date | null;
 
-  @Field(_type => [Date], {
+  @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
   in?: Date[] | null;
 
-  @Field(_type => [Date], {
+  @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
   notIn?: Date[] | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   lt?: Date | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   lte?: Date | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
   gt?: Date | null;
 
-  @Field(_type => Date, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
@@ -373,56 +373,56 @@ export class DateTimeFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: FloatFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FloatFilter {
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   equals?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   not?: number | null;
 
-  @Field(_type => [Float], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
   in?: number[] | null;
 
-  @Field(_type => [Float], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
   notIn?: number[] | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   lt?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   lte?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
   gt?: number | null;
 
-  @Field(_type => Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
@@ -432,56 +432,56 @@ export class FloatFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: IntFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class IntFilter {
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   equals?: number | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   not?: number | null;
 
-  @Field(_type => [Int], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
   in?: number[] | null;
 
-  @Field(_type => [Int], {
+  @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
   notIn?: number[] | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   lt?: number | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   lte?: number | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
   gt?: number | null;
 
-  @Field(_type => Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
@@ -491,74 +491,74 @@ export class IntFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: StringFilter 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class StringFilter {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   equals?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   not?: string | null;
 
-  @Field(_type => [String], {
+  @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
   in?: string[] | null;
 
-  @Field(_type => [String], {
+  @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
   notIn?: string[] | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   lt?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   lte?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   gt?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   gte?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   contains?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   startsWith?: string | null;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
@@ -568,27 +568,27 @@ export class StringFilter {
 `;
 
 exports[`inputs should properly generate input type classes for model with composite unique index: DirectorOrderByInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { OrderByArg } from \\"../../enums/OrderByArg\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DirectorOrderByInput {
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   firstName?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   lastName?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
@@ -598,53 +598,53 @@ export class DirectorOrderByInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with composite unique index: DirectorWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
 import { MovieFilter } from \\"../inputs/MovieFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DirectorWhereInput {
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   firstName?: StringFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   lastName?: StringFilter | null;
 
-  @Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
   age?: IntFilter | null;
 
-  @Field(_type => MovieFilter, {
+  @TypeGraphQL.Field(_type => MovieFilter, {
     nullable: true,
     description: undefined
   })
   movies?: MovieFilter | null;
 
-  @Field(_type => [DirectorWhereInput], {
+  @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: DirectorWhereInput[] | null;
 
-  @Field(_type => [DirectorWhereInput], {
+  @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: DirectorWhereInput[] | null;
 
-  @Field(_type => [DirectorWhereInput], {
+  @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
@@ -654,15 +654,15 @@ export class DirectorWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with composite unique index: DirectorWhereUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { FirstNameLastNameCompoundUniqueInput } from \\"../inputs/FirstNameLastNameCompoundUniqueInput\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DirectorWhereUniqueInput {
-  @Field(_type => FirstNameLastNameCompoundUniqueInput, {
+  @TypeGraphQL.Field(_type => FirstNameLastNameCompoundUniqueInput, {
     nullable: true,
     description: undefined
   })
@@ -672,20 +672,20 @@ export class DirectorWhereUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with composite unique index: FirstNameLastNameCompoundUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstNameLastNameCompoundUniqueInput {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
   firstName!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
@@ -695,26 +695,26 @@ export class FirstNameLastNameCompoundUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with id keys with relation: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput {
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
   directorFirstName!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
   directorLastName!: string;
 
-  @Field(_type => String, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false,
     description: undefined
   })
@@ -724,33 +724,33 @@ export class DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with id keys with relation: MovieOrderByInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { OrderByArg } from \\"../../enums/OrderByArg\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieOrderByInput {
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   directorFirstName?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   directorLastName?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
   title?: keyof typeof OrderByArg | null;
 
-  @Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
@@ -760,52 +760,52 @@ export class MovieOrderByInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with id keys with relation: MovieScalarWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieScalarWhereInput {
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   directorFirstName?: StringFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   directorLastName?: StringFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   title?: StringFilter | null;
 
-  @Field(_type => FloatFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
   rating?: FloatFilter | null;
 
-  @Field(_type => [MovieScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: MovieScalarWhereInput[] | null;
 
-  @Field(_type => [MovieScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: MovieScalarWhereInput[] | null;
 
-  @Field(_type => [MovieScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
@@ -815,59 +815,59 @@ export class MovieScalarWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with id keys with relation: MovieWhereInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { DirectorWhereInput } from \\"../inputs/DirectorWhereInput\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieWhereInput {
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   directorFirstName?: StringFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   directorLastName?: StringFilter | null;
 
-  @Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
   title?: StringFilter | null;
 
-  @Field(_type => FloatFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
   rating?: FloatFilter | null;
 
-  @Field(_type => [MovieWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
   AND?: MovieWhereInput[] | null;
 
-  @Field(_type => [MovieWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
   OR?: MovieWhereInput[] | null;
 
-  @Field(_type => [MovieWhereInput], {
+  @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
   NOT?: MovieWhereInput[] | null;
 
-  @Field(_type => DirectorWhereInput, {
+  @TypeGraphQL.Field(_type => DirectorWhereInput, {
     nullable: true,
     description: undefined
   })
@@ -877,15 +877,15 @@ export class MovieWhereInput {
 `;
 
 exports[`inputs should properly generate input type classes for model with id keys with relation: MovieWhereUniqueInput 1`] = `
-"import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from \\"type-graphql\\";
+"import * as TypeGraphQL from \\"type-graphql\\";
 import { DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput } from \\"../inputs/DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput\\";
 
-@InputType({
+@TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieWhereUniqueInput {
-  @Field(_type => DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput, {
+  @TypeGraphQL.Field(_type => DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput, {
     nullable: true,
     description: undefined
   })

@@ -1,10 +1,10 @@
-import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import * as TypeGraphQL from "type-graphql";
 import { Post } from "../../../models/Post";
 import { AggregatePost } from "../../outputs/AggregatePost";
 
-@Resolver(_of => Post)
+@TypeGraphQL.Resolver(_of => Post)
 export class AggregatePostResolver {
-  @Query(_returns => AggregatePost, {
+  @TypeGraphQL.Query(_returns => AggregatePost, {
     nullable: false,
     description: undefined
   })

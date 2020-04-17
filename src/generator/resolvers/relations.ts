@@ -16,7 +16,7 @@ import {
   argsFolderName,
 } from "../config";
 import {
-  generateTypeGraphQLImports,
+  generateTypeGraphQLImport,
   generateArgsImports,
   generateModelsImports,
   generateArgsBarrelFile,
@@ -97,7 +97,7 @@ export default async function generateRelationsResolverClassesFromModel(
     await saveSourceFile(barrelExportSourceFile);
   }
 
-  generateTypeGraphQLImports(sourceFile);
+  generateTypeGraphQLImport(sourceFile);
   generateModelsImports(
     sourceFile,
     [...relationFields.map(field => field.type), model.name],
@@ -110,7 +110,7 @@ export default async function generateRelationsResolverClassesFromModel(
     isExported: true,
     decorators: [
       {
-        name: "Resolver",
+        name: "TypeGraphQL.Resolver",
         arguments: [`_of => ${getBaseModelTypeName(model.name)}`],
       },
     ],
@@ -143,7 +143,7 @@ export default async function generateRelationsResolverClassesFromModel(
           returnType: `Promise<${fieldType}>`,
           decorators: [
             {
-              name: "FieldResolver",
+              name: "TypeGraphQL.FieldResolver",
               arguments: [
                 `_type => ${getTypeGraphQLType(field, modelNames)}`,
                 `{
@@ -157,13 +157,13 @@ export default async function generateRelationsResolverClassesFromModel(
             {
               name: rootArgName,
               type: `${getBaseModelTypeName(model.name)}`,
-              decorators: [{ name: "Root", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Root", arguments: [] }],
             },
             {
               name: "ctx",
               // TODO: import custom `ContextType`
               type: "any",
-              decorators: [{ name: "Ctx", arguments: [] }],
+              decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
             },
             ...(!argsTypeName
               ? []
@@ -171,7 +171,7 @@ export default async function generateRelationsResolverClassesFromModel(
                   {
                     name: "args",
                     type: argsTypeName,
-                    decorators: [{ name: "Args", arguments: [] }],
+                    decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
                   },
                 ]),
           ],
