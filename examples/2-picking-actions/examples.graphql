@@ -14,7 +14,7 @@ query GetAllUsersAndPosts {
 }
 
 query GetSelectedPost {
-  post(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
+  post(where: { id: "ck947ed8j0002gktpb4ch9bsb" }) {
     ...PostData
     author {
       ...UserData
