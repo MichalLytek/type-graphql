@@ -1,0 +1,56 @@
+query GetAllUsersAndPosts {
+  users {
+    ...UserData
+    posts {
+      ...PostData
+    }
+  }
+  posts {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSelectedPost {
+  post(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSomeUsers {
+  users(
+    where: { email: { contains: "prisma" } }
+    orderBy: { name: desc }
+  ) {
+    ...UserData
+    posts(last: 1) {
+      ...PostData
+    }
+  }
+}
+
+query GetPrismaPostCount {
+  aggregatePost {
+    count(where: { title: { contains: "Prisma" } })
+  }
+}
+
+fragment UserData on User {
+  id
+  email
+  name
+}
+
+fragment PostData on Post {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  content
+}
