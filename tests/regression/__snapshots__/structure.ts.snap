@@ -15,6 +15,7 @@ exports[`structure should generate proper folders structure and file names for c
   [resolvers]
     [crud]
       [Post]
+        AggregatePostResolver.ts
         CreateOnePostResolver.ts
         DeleteManyPostResolver.ts
         DeleteOnePostResolver.ts
@@ -35,6 +36,7 @@ exports[`structure should generate proper folders structure and file names for c
           UpsertOnePostArgs.ts
           index.ts
       [User]
+        AggregateUserResolver.ts
         CreateOneUserResolver.ts
         DeleteManyUserResolver.ts
         DeleteOneUserResolver.ts
@@ -92,6 +94,10 @@ exports[`structure should generate proper folders structure and file names for c
       AggregatePost.ts
       AggregateUser.ts
       BatchPayload.ts
+      [args]
+        AggregatePostCountArgs.ts
+        AggregateUserCountArgs.ts
+        index.ts
       index.ts
     [relations]
       [Post]

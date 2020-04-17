@@ -1,4 +1,5 @@
 import { Arg, Args, ArgsType, Ctx, Field, FieldResolver, Float, ID, InputType, Int, Mutation, ObjectType, Query, Resolver, Root, registerEnumType } from "type-graphql";
+import { AggregateCategoryCountArgs } from "./args/AggregateCategoryCountArgs";
 
 @ObjectType({
   isAbstract: true,
@@ -9,5 +10,7 @@ export class AggregateCategory {
     nullable: false,
     description: undefined
   })
-  count!: number;
+  count(@Ctx() ctx: any, @Args() args: AggregateCategoryCountArgs) {
+    return ctx.prisma.category.count(args);
+  }
 }

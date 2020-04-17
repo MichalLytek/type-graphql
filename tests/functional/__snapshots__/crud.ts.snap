@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`crud resolvers execution should properly call PrismaClient on \`aggregate\` action: aggregateUserCount call args 1`] = `
+Array [
+  Array [
+    AggregateUserCountArgs {
+      "first": 0,
+      "orderBy": UserOrderByInput {
+        "intIdField": "desc",
+      },
+      "skip": 0,
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution should properly call PrismaClient on \`aggregate\` action: aggregateUserCount mocked response 1`] = `
+Object {
+  "aggregateUser": Object {
+    "count": 5,
+  },
+}
+`;
+
 exports[`crud resolvers execution should properly call PrismaClient on \`create\` action: createOneUser call args 1`] = `
 Array [
   Array [

@@ -8,6 +8,7 @@ import { UpdateManyDirectorArgs } from "./args/UpdateManyDirectorArgs";
 import { UpdateOneDirectorArgs } from "./args/UpdateOneDirectorArgs";
 import { UpsertOneDirectorArgs } from "./args/UpsertOneDirectorArgs";
 import { Director } from "../../../models/Director";
+import { AggregateDirector } from "../../outputs/AggregateDirector";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Director)
@@ -74,5 +75,13 @@ export class DirectorCrudResolver {
   })
   async upsertOneDirector(@Ctx() ctx: any, @Args() args: UpsertOneDirectorArgs): Promise<Director> {
     return ctx.prisma.director.upsert(args);
+  }
+
+  @Query(_returns => AggregateDirector, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateDirector(): Promise<AggregateDirector> {
+    return new AggregateDirector();
   }
 }

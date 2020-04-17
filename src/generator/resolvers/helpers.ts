@@ -46,12 +46,16 @@ export function generateCrudResolverClassMethodDeclaration(
       },
     ],
     parameters: [
-      {
-        name: "ctx",
-        // TODO: import custom `ContextType`
-        type: "any",
-        decorators: [{ name: "Ctx", arguments: [] }],
-      },
+      ...(actionName === "aggregate"
+        ? []
+        : [
+            {
+              name: "ctx",
+              // TODO: import custom `ContextType`
+              type: "any",
+              decorators: [{ name: "Ctx", arguments: [] }],
+            },
+          ]),
       ...(!argsTypeName
         ? []
         : [
@@ -62,10 +66,16 @@ export function generateCrudResolverClassMethodDeclaration(
             },
           ]),
     ],
-    statements: [
-      `return ctx.prisma.${collectionName}.${actionName}(${
-        argsTypeName ? "args" : ""
-      });`,
-    ],
+    statements:
+      actionName === "aggregate"
+        ? [
+            // it will expose field resolvers automatically
+            `return new ${returnTSType}();`,
+          ]
+        : [
+            `return ctx.prisma.${collectionName}.${actionName}(${
+              argsTypeName ? "args" : ""
+            });`,
+          ],
   };
 }

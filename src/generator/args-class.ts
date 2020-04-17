@@ -19,14 +19,15 @@ import saveSourceFile from "../utils/saveSourceFile";
 
 export default async function generateArgsTypeClassFromArgs(
   project: Project,
-  resolverDirPath: string,
+  generateDirPath: string,
   args: DMMF.SchemaArg[],
   methodName: string,
   modelNames: string[],
+  inputImportsLevel = 3,
 ) {
   const name = `${pascalCase(methodName)}Args`;
 
-  const dirPath = path.resolve(resolverDirPath, argsFolderName);
+  const dirPath = path.resolve(generateDirPath, argsFolderName);
   const filePath = path.resolve(dirPath, `${name}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
@@ -39,7 +40,7 @@ export default async function generateArgsTypeClassFromArgs(
       .map(arg => selectInputTypeFromTypes(arg.inputType))
       .filter(argType => argType.kind === "object")
       .map(argType => argType.type as string),
-    3,
+    inputImportsLevel,
   );
   generateEnumsImports(
     sourceFile,

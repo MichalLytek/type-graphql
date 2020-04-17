@@ -6,6 +6,14 @@ exports[`generator integration should be able to use generate TypeGraphQL classe
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AggregatePost {
+  count(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): Int!
+}
+
+type AggregateUser {
+  count(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): Int!
+}
+
 type BatchPayload {
   count: Int!
 }
@@ -187,6 +195,8 @@ input PostWhereUniqueInput {
 }
 
 type Query {
+  aggregatePost: AggregatePost!
+  aggregateUser: AggregateUser!
   post(where: PostWhereUniqueInput!): Post
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
@@ -290,6 +300,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
   [resolvers]
     [crud]
       [Post]
+        AggregatePostResolver.ts
         CreateOnePostResolver.ts
         DeleteManyPostResolver.ts
         DeleteOnePostResolver.ts
@@ -310,6 +321,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
           UpsertOnePostArgs.ts
           index.ts
       [User]
+        AggregateUserResolver.ts
         CreateOneUserResolver.ts
         DeleteManyUserResolver.ts
         DeleteOneUserResolver.ts
@@ -367,6 +379,10 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       AggregatePost.ts
       AggregateUser.ts
       BatchPayload.ts
+      [args]
+        AggregatePostCountArgs.ts
+        AggregateUserCountArgs.ts
+        index.ts
       index.ts
     [relations]
       [Post]

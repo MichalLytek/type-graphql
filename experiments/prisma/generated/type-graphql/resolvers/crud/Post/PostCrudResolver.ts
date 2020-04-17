@@ -8,6 +8,7 @@ import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
 import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
 import { UpsertOnePostArgs } from "./args/UpsertOnePostArgs";
 import { Post } from "../../../models/Post";
+import { AggregatePost } from "../../outputs/AggregatePost";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Post)
@@ -74,5 +75,13 @@ export class PostCrudResolver {
   })
   async upsertOnePost(@Ctx() ctx: any, @Args() args: UpsertOnePostArgs): Promise<Post> {
     return ctx.prisma.post.upsert(args);
+  }
+
+  @Query(_returns => AggregatePost, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregatePost(): Promise<AggregatePost> {
+    return new AggregatePost();
   }
 }

@@ -19,6 +19,7 @@ import {
   outputsFolderName,
   enumsFolderName,
   modelsFolderName,
+  argsFolderName,
 } from "./config";
 import {
   generateResolversBarrelFile,
@@ -27,6 +28,7 @@ import {
   generateIndexFile,
   generateModelsBarrelFile,
   generateEnumsBarrelFile,
+  generateArgsBarrelFile,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import { GenerateCodeOptions } from "./options";
@@ -93,7 +95,7 @@ export default async function generateCode(
     // skip generating models and root resolvers
     type => !modelNames.includes(type.name) && !rootTypes.includes(type),
   );
-  await Promise.all(
+  const argsTypesNamesArray = await Promise.all(
     outputTypesToGenerate.map(type =>
       generateOutputTypeClassFromType(
         project,
@@ -103,6 +105,21 @@ export default async function generateCode(
       ),
     ),
   );
+  const argsTypesNames = argsTypesNamesArray.reduce((a, b) => a.concat(b), []);
+  const outputsArgsBarrelExportSourceFile = project.createSourceFile(
+    path.resolve(
+      baseDirPath,
+      resolversFolderName,
+      outputsFolderName,
+      argsFolderName,
+      "index.ts",
+    ),
+    undefined,
+    { overwrite: true },
+  );
+  generateArgsBarrelFile(outputsArgsBarrelExportSourceFile, argsTypesNames);
+  await saveSourceFile(outputsArgsBarrelExportSourceFile);
+
   const outputsBarrelExportSourceFile = project.createSourceFile(
     path.resolve(
       baseDirPath,
@@ -116,6 +133,7 @@ export default async function generateCode(
   generateOutputsBarrelFile(
     outputsBarrelExportSourceFile,
     outputTypesToGenerate.map(it => it.name),
+    argsTypesNames.length > 0,
   );
   await saveSourceFile(outputsBarrelExportSourceFile);
 

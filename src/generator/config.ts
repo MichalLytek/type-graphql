@@ -7,15 +7,12 @@ export type ModelKeys = keyof Exclude<DMMF.Mapping, BaseKeys>;
 
 export type SupportedQueries = keyof Pick<
   DMMF.Mapping,
-  "findOne" | "findMany"
-  // TODO: uncomment when dmmf update aggregate details
-  // "findOne" | "findMany" | "aggregate"
+  "findOne" | "findMany" | "aggregate"
 >;
 export const supportedQueryActions: SupportedQueries[] = [
   "findOne",
   "findMany",
-  // TODO: uncomment when dmmf update aggregate details
-  // "aggregate",
+  "aggregate",
 ];
 
 export type SupportedMutations = keyof Pick<

@@ -8,6 +8,7 @@ import { UpdateManyUserArgs } from "./args/UpdateManyUserArgs";
 import { UpdateOneUserArgs } from "./args/UpdateOneUserArgs";
 import { UpsertOneUserArgs } from "./args/UpsertOneUserArgs";
 import { User } from "../../../models/User";
+import { AggregateUser } from "../../outputs/AggregateUser";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => User)
@@ -74,5 +75,13 @@ export class UserCrudResolver {
   })
   async upsertOneUser(@Ctx() ctx: any, @Args() args: UpsertOneUserArgs): Promise<User> {
     return ctx.prisma.user.upsert(args);
+  }
+
+  @Query(_returns => AggregateUser, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateUser(): Promise<AggregateUser> {
+    return new AggregateUser();
   }
 }

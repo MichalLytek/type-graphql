@@ -310,6 +310,33 @@ describe("crud resolvers execution", () => {
     );
   });
 
-  // implement test when dmmf update aggregate details
-  it.todo("should properly call PrismaClient on `aggregate` action");
+  it("should properly call PrismaClient on `aggregate` action", async () => {
+    const document = /* graphql */ `
+      query {
+        aggregateUser {
+          count(
+            first: 0
+            skip: 0
+            orderBy: { intIdField: desc }
+            where: { dateField: { lte: "2019-12-31T19:16:02.572Z" } }
+          )
+        }
+      }
+    `;
+    const prismaMock = {
+      user: {
+        count: jest.fn().mockResolvedValue(5),
+      },
+    };
+
+    const { data, errors } = await graphql(graphQLSchema, document, null, {
+      prisma: prismaMock,
+    });
+
+    expect(errors).toBeUndefined();
+    expect(data).toMatchSnapshot("aggregateUserCount mocked response");
+    expect(prismaMock.user.count.mock.calls).toMatchSnapshot(
+      "aggregateUserCount call args",
+    );
+  });
 });

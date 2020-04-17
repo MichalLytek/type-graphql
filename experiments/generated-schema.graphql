@@ -3,6 +3,26 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AggregateCategory {
+  count(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): Int!
+}
+
+type AggregateDirector {
+  count(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): Int!
+}
+
+type AggregateMovie {
+  count(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): Int!
+}
+
+type AggregatePatient {
+  count(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): Int!
+}
+
+type AggregateUser {
+  count(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): Int!
+}
+
 type BatchPayload {
   count: Int!
 }
@@ -530,6 +550,11 @@ input PostWhereUniqueInput {
 }
 
 type Query {
+  aggregateCategory: AggregateCategory!
+  aggregateDirector: AggregateDirector!
+  aggregateMovie: AggregateMovie!
+  aggregatePatient: AggregatePatient!
+  aggregateUser: AggregateUser!
   allPosts: [Post!]!
   allUsers: [User!]!
   categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): [Category!]!
@@ -546,7 +571,6 @@ type Query {
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
-"""Role enum comment"""
 enum Role {
   ADMIN
   USER

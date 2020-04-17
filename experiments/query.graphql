@@ -114,3 +114,9 @@ query GetMovie {
     directorLastName
   }
 }
+
+query CountBravoPatients {
+  countBravoPatients: aggregatePatient {
+    count(where: { lastName: { contains: "Bravo" } })
+  }
+}

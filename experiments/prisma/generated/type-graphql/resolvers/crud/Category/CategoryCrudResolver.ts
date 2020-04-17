@@ -8,6 +8,7 @@ import { UpdateManyCategoryArgs } from "./args/UpdateManyCategoryArgs";
 import { UpdateOneCategoryArgs } from "./args/UpdateOneCategoryArgs";
 import { UpsertOneCategoryArgs } from "./args/UpsertOneCategoryArgs";
 import { Category } from "../../../models/Category";
+import { AggregateCategory } from "../../outputs/AggregateCategory";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Category)
@@ -74,5 +75,13 @@ export class CategoryCrudResolver {
   })
   async upsertOneCategory(@Ctx() ctx: any, @Args() args: UpsertOneCategoryArgs): Promise<Category> {
     return ctx.prisma.category.upsert(args);
+  }
+
+  @Query(_returns => AggregateCategory, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateCategory(): Promise<AggregateCategory> {
+    return new AggregateCategory();
   }
 }

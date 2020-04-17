@@ -8,6 +8,7 @@ import { UpdateManyMovieArgs } from "./args/UpdateManyMovieArgs";
 import { UpdateOneMovieArgs } from "./args/UpdateOneMovieArgs";
 import { UpsertOneMovieArgs } from "./args/UpsertOneMovieArgs";
 import { Movie } from "../../../models/Movie";
+import { AggregateMovie } from "../../outputs/AggregateMovie";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Movie)
@@ -74,5 +75,13 @@ export class MovieCrudResolver {
   })
   async upsertOneMovie(@Ctx() ctx: any, @Args() args: UpsertOneMovieArgs): Promise<Movie> {
     return ctx.prisma.movie.upsert(args);
+  }
+
+  @Query(_returns => AggregateMovie, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateMovie(): Promise<AggregateMovie> {
+    return new AggregateMovie();
   }
 }

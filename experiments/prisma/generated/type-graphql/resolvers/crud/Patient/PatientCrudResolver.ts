@@ -8,6 +8,7 @@ import { UpdateManyPatientArgs } from "./args/UpdateManyPatientArgs";
 import { UpdateOnePatientArgs } from "./args/UpdateOnePatientArgs";
 import { UpsertOnePatientArgs } from "./args/UpsertOnePatientArgs";
 import { Patient } from "../../../models/Patient";
+import { AggregatePatient } from "../../outputs/AggregatePatient";
 import { BatchPayload } from "../../outputs/BatchPayload";
 
 @Resolver(_of => Patient)
@@ -74,5 +75,13 @@ export class PatientCrudResolver {
   })
   async upsertOnePatient(@Ctx() ctx: any, @Args() args: UpsertOnePatientArgs): Promise<Patient> {
     return ctx.prisma.patient.upsert(args);
+  }
+
+  @Query(_returns => AggregatePatient, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregatePatient(): Promise<AggregatePatient> {
+    return new AggregatePatient();
   }
 }

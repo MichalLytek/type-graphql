@@ -96,6 +96,7 @@ export function generateInputsBarrelFile(
 export function generateOutputsBarrelFile(
   sourceFile: SourceFile,
   outputTypeNames: string[],
+  hasSomeArgs: boolean,
 ) {
   sourceFile.addExportDeclarations(
     outputTypeNames
@@ -105,6 +106,9 @@ export function generateOutputsBarrelFile(
         namedExports: [outputTypeName],
       })),
   );
+  if (hasSomeArgs) {
+    sourceFile.addExportDeclaration({ moduleSpecifier: `./${argsFolderName}` });
+  }
 }
 
 export function generateIndexFile(
