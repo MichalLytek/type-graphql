@@ -1,0 +1,98 @@
+query GetAllUsersAndPosts {
+  users {
+    ...UserData
+    posts {
+      ...PostData
+    }
+  }
+  posts {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSelectedPost {
+  post(where: { id: "ck60jnqnc0001fsda47x5cwc6" }) {
+    ...PostData
+    author {
+      ...UserData
+    }
+  }
+}
+
+query GetSomeUsers {
+  users(where: { email: { contains: "prisma" } }, orderBy: { name: desc }) {
+    ...UserData
+    posts(last: 1) {
+      ...PostData
+    }
+  }
+}
+
+query CustomResolversQuery {
+  bestUser {
+    ...UserData
+    favoritePost {
+      ...PostData
+    }
+  }
+}
+
+mutation UpdatePost {
+  updateOnePost(
+    where: { id: "ck60jnqnc0002fsdarkjqtyrd" }
+    data: { published: true }
+  ) {
+    ...PostData
+  }
+}
+
+mutation AddUser {
+  createOneUser(data: { email: "test@test.test", name: "Test" }) {
+    ...UserData
+  }
+}
+
+mutation AddUserWithPost {
+  createOneUser(
+    data: {
+      email: "test2@test.test"
+      name: "Test2"
+      posts: {
+        create: {
+          title: "Test post"
+          content: "Missing content"
+          published: false
+        }
+      }
+    }
+  ) {
+    ...UserData
+    posts {
+      ...PostData
+    }
+  }
+}
+
+query GetPrismaPostCount {
+  aggregatePost {
+    count(where: { title: { contains: "Prisma" } })
+  }
+}
+
+fragment UserData on User {
+  id
+  email
+  name
+}
+
+fragment PostData on Post {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  content
+}
