@@ -950,6 +950,162 @@ describe("Interfaces and inheritance", () => {
       });
     });
 
+    it("should correctly return data from interface query for all schemas that uses the same interface when string `resolveType` is provided", async () => {
+      @InterfaceType({
+        resolveType: value => {
+          if ("one" in value) {
+            return "One";
+          }
+          if ("two" in value) {
+            return "Two";
+          }
+          throw new Error("Unkown resolveType error");
+        },
+      })
+      class BaseInterface {
+        @Field()
+        baseField: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class One extends BaseInterface {
+        @Field()
+        one: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class Two extends BaseInterface {
+        @Field()
+        two: string;
+      }
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => BaseInterface)
+        base(): BaseInterface {
+          const one = new One();
+          one.baseField = "baseField";
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          base {
+            __typename
+            baseField
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+        validate: false,
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+        validate: false,
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+    });
+
+    it("should correctly return data from interface query for all schemas that uses the same interface when class `resolveType` is provided", async () => {
+      @InterfaceType({
+        resolveType: value => {
+          if ("one" in value) {
+            return One;
+          }
+          if ("two" in value) {
+            return Two;
+          }
+          throw new Error("Unkown resolveType error");
+        },
+      })
+      class BaseInterface {
+        @Field()
+        baseField: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class One extends BaseInterface {
+        @Field()
+        one: string;
+      }
+      @ObjectType({ implements: [BaseInterface] })
+      class Two extends BaseInterface {
+        @Field()
+        two: string;
+      }
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => BaseInterface)
+        base(): BaseInterface {
+          const one = new One();
+          one.baseField = "baseField";
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          base {
+            __typename
+            baseField
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+        validate: false,
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+        orphanedTypes: [One, Two],
+        validate: false,
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.base).toEqual({
+        __typename: "One",
+        baseField: "baseField",
+        one: "one",
+      });
+    });
+
     it("should by default automatically register all and only the object types that implements an used interface type", async () => {
       @InterfaceType()
       abstract class SampleUnusedInterface {

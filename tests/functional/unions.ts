@@ -396,5 +396,145 @@ describe("Unions", () => {
         one: "one",
       });
     });
+
+    it("should correctly return data from union query for all schemas that uses the same union when string `resolveType` is provided", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class One {
+        @Field()
+        one: string;
+      }
+      @ObjectType()
+      class Two {
+        @Field()
+        two: string;
+      }
+      const OneTwo = createUnionType({
+        name: "OneTwo",
+        types: () => [One, Two],
+        resolveType: value => {
+          if ("one" in value) {
+            return "One";
+          }
+          if ("two" in value) {
+            return "Two";
+          }
+          throw new Error("Unknown union error");
+        },
+      });
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => OneTwo)
+        oneTwo(): typeof OneTwo {
+          const one = new One();
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          oneTwo {
+            __typename
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
+    });
+
+    it("should correctly return data from union query for all schemas that uses the same union when class `resolveType` is provided", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class One {
+        @Field()
+        one: string;
+      }
+      @ObjectType()
+      class Two {
+        @Field()
+        two: string;
+      }
+      const OneTwo = createUnionType({
+        name: "OneTwo",
+        types: () => [One, Two],
+        resolveType: value => {
+          if ("one" in value) {
+            return One;
+          }
+          if ("two" in value) {
+            return Two;
+          }
+          throw new Error("Unknown union error");
+        },
+      });
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => OneTwo)
+        oneTwo(): typeof OneTwo {
+          const one = new One();
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          oneTwo {
+            __typename
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const firstSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const secondSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const firstResult = await graphql(firstSchema, query);
+      const secondResult = await graphql(secondSchema, query);
+
+      expect(firstResult.errors).toBeUndefined();
+      expect(firstResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
+      expect(secondResult.errors).toBeUndefined();
+      expect(secondResult.data!.oneTwo).toEqual({
+        __typename: "One",
+        one: "one",
+      });
+    });
   });
 });

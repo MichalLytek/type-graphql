@@ -178,12 +178,16 @@ export abstract class SchemaGenerator {
   private static buildTypesInfo(resolvers?: Function[]) {
     this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
       // use closure to capture values from this selected schema build
-      let unionObjectTypesInfo: ObjectTypeInfo[] = [];
+      const unionObjectTypesInfo: ObjectTypeInfo[] = [];
       // called once after building all `objectTypesInfo`
       const typesThunk = () => {
-        unionObjectTypesInfo = unionMetadata
-          .getClassTypes()
-          .map(objectTypeCls => this.objectTypesInfo.find(type => type.target === objectTypeCls)!);
+        unionObjectTypesInfo.push(
+          ...unionMetadata
+            .getClassTypes()
+            .map(
+              objectTypeCls => this.objectTypesInfo.find(type => type.target === objectTypeCls)!,
+            ),
+        );
         return unionObjectTypesInfo.map(it => it.type);
       };
       return {
@@ -193,7 +197,11 @@ export abstract class SchemaGenerator {
           description: unionMetadata.description,
           types: typesThunk,
           resolveType: unionMetadata.resolveType
-            ? this.getResolveTypeFunction(unionMetadata.resolveType)
+            ? this.getResolveTypeFunction(
+                unionMetadata.resolveType,
+                // use closure captured `unionObjectTypesInfo`
+                unionObjectTypesInfo,
+              )
             : instance => {
                 const instanceTarget = unionMetadata
                   .getClassTypes()
@@ -417,7 +425,7 @@ export abstract class SchemaGenerator {
               return fields;
             },
             resolveType: interfaceType.resolveType
-              ? this.getResolveTypeFunction(interfaceType.resolveType)
+              ? this.getResolveTypeFunction(interfaceType.resolveType, implementingObjectTypesInfo)
               : instance => {
                   const typeTarget = implementingObjectTypesTargets.find(
                     typeCls => instance instanceof typeCls,
@@ -794,13 +802,14 @@ export abstract class SchemaGenerator {
 
   private static getResolveTypeFunction<TSource = any, TContext = any>(
     resolveType: TypeResolver<TSource, TContext>,
+    possibleObjectTypesInfo: ObjectTypeInfo[],
   ): GraphQLTypeResolver<TSource, TContext> {
     return async (...args) => {
       const resolvedType = await resolveType(...args);
       if (typeof resolvedType === "string") {
         return resolvedType;
       }
-      return this.objectTypesInfo.find(objectType => objectType.target === resolvedType)!.type;
+      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)!.type;
     };
   }
 
