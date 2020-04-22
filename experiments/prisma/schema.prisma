@@ -7,7 +7,6 @@ type Numeric = Float
 
 generator client {
   provider      = "prisma-client-js"
-  // binaryTargets = ["windows", "debian-openssl-1.1.x"]
   binaryTargets = ["windows"]
   output        = "../prisma/generated/client"
 }
@@ -18,37 +17,25 @@ generator typegraphql {
   emitDMMF = true
 }
 
-/// Role enum comment
+// Role enum comment
 enum Role {
-  // USER = "User"
   USER
-  // ADMIN = "Admin"
   ADMIN
 }
 
-/// User model comment
+// User model comment
+// @@TypeGraphQL.type("Client")
 model User {
-  /// User model field comment
-  id      Int     @id @default(autoincrement())
+  // User model field comment
+  id      Int     @default(autoincrement()) @id
   email   String  @unique
   name    String?
   age     Int
   balance Numeric
   amount  Float
   posts   Post[]
-  // maybePosts  Post[]?
   role    Role
-  // address     Address
-  // address2 embed {
-  //   street  String
-  //   zipCode String
-  // }
 }
-
-// embed Address {
-//   street  String
-//   zipCode String
-// }
 
 enum PostKind {
   BLOG
@@ -64,7 +51,6 @@ model Post {
   content   String?
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
-  // coAuthor  User?
   kind      PostKind?
 }
 

@@ -4,7 +4,7 @@ import path from "path";
 
 import { noop } from "./helpers";
 import generateEnumFromDef from "./enum";
-import generateObjectTypeClassFromModel from "./object-type-class";
+import generateObjectTypeClassFromModel from "./model-type-class";
 import generateRelationsResolverClassesFromModel from "./resolvers/relations";
 import {
   generateOutputTypeClassFromType,

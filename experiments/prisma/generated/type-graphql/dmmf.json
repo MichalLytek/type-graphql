@@ -14,7 +14,7 @@
           }
         ],
         "dbName": null,
-        "documentation": "/ Role enum comment\r\nUSER = \"User\"\r\nADMIN = \"Admin\"\r"
+        "documentation": "Role enum comment\r"
       },
       {
         "name": "PostKind",
@@ -52,7 +52,7 @@
             },
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "/ User model field comment\r"
+            "documentation": "User model field comment\r"
           },
           {
             "name": "email",
@@ -140,12 +140,11 @@
             "isReadOnly": false,
             "type": "Role",
             "isGenerated": false,
-            "isUpdatedAt": false,
-            "documentation": "maybePosts  Post[]?\r"
+            "isUpdatedAt": false
           }
         ],
         "isGenerated": false,
-        "documentation": "/ User model comment\r\naddress     Address\r\naddress2 embed {\r\nstreet  String\r\nzipCode String\r\n}\r",
+        "documentation": "User model comment\r\n@@TypeGraphQL.type(\"Client\")\r",
         "idFields": [],
         "uniqueFields": []
       },
@@ -276,8 +275,7 @@
             "isReadOnly": false,
             "type": "PostKind",
             "isGenerated": false,
-            "isUpdatedAt": false,
-            "documentation": "coAuthor  User?\r"
+            "isUpdatedAt": false
           }
         ],
         "isGenerated": false,

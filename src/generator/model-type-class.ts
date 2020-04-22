@@ -6,6 +6,7 @@ import {
   getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
+  parseDocumentationAttributes,
 } from "./helpers";
 import {
   generateTypeGraphQLImport,
@@ -46,6 +47,12 @@ export default async function generateObjectTypeClassFromModel(
   const modelDocs = undefined as string | undefined;
   // const modelDocs =
   //   model.documentation && model.documentation.replace("\r", "");
+  const attributeArgs = parseDocumentationAttributes(
+    model.documentation,
+    "type",
+  );
+  const typeName = attributeArgs?.slice(1, -1);
+  console.log(model.name, typeName);
 
   sourceFile.addClass({
     name: getBaseModelTypeName(model.name),
