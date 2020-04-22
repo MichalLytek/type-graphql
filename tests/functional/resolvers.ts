@@ -1154,7 +1154,8 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
-          await buildSchema({ resolvers: [SampleResolver] });
+          const resolvers = [SampleResolver] as const;
+          await buildSchema({ resolvers });
         } catch (err) {
           expect(err).toBeInstanceOf(Error);
           expect(err).toBeInstanceOf(WrongNullableListOptionError);
