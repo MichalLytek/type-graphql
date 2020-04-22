@@ -46,12 +46,6 @@ export class PostOrderByInput {
     nullable: true,
     description: undefined
   })
-  author?: keyof typeof OrderByArg | null;
-
-  @TypeGraphQL.Field(_type => OrderByArg, {
-    nullable: true,
-    description: undefined
-  })
   authorId?: keyof typeof OrderByArg | null;
 
   @TypeGraphQL.Field(_type => OrderByArg, {

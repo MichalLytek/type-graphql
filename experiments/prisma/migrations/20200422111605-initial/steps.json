@@ -34,7 +34,7 @@
         "source": "db"
       },
       "argument": "provider",
-      "value": "\"sqlite\""
+      "value": "\"postgresql\""
     },
     {
       "tag": "CreateArgument",
@@ -43,7 +43,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "\"file:../dev.db\""
+      "value": "env(\"DATABASE_URL\")"
     },
     {
       "tag": "CreateModel",

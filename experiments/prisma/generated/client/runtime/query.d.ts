@@ -7,7 +7,7 @@ export declare class Document {
     readonly children: Field[];
     constructor(type: 'query' | 'mutation', children: Field[]);
     toString(): string;
-    validate(select?: any, isTopLevelQuery?: boolean, originalMethod?: string, errorFormat?: 'pretty' | 'minimal' | 'colorless'): void;
+    validate(select?: any, isTopLevelQuery?: boolean, originalMethod?: string, errorFormat?: 'pretty' | 'minimal' | 'colorless', validationCallsite?: any): void;
     protected printFieldError: ({ error, path }: FieldError, missingItems: MissingItem[], minimal: boolean) => string;
     protected printArgError: ({ error, path }: ArgError, hasMissingItems: boolean, minimal: boolean) => string;
     /**

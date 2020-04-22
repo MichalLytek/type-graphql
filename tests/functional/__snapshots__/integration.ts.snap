@@ -109,7 +109,6 @@ input PostFilter {
 }
 
 input PostOrderByInput {
-  author: OrderByArg
   authorId: OrderByArg
   color: OrderByArg
   content: OrderByArg

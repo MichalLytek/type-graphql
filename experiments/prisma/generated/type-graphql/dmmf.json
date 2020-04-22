@@ -40,7 +40,6 @@
           {
             "name": "id",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -58,7 +57,6 @@
           {
             "name": "email",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": true,
@@ -71,7 +69,6 @@
           {
             "name": "name",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": false,
             "isUnique": false,
@@ -84,7 +81,6 @@
           {
             "name": "age",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -97,7 +93,6 @@
           {
             "name": "balance",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -110,7 +105,6 @@
           {
             "name": "amount",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -123,7 +117,6 @@
           {
             "name": "posts",
             "kind": "object",
-            "dbNames": [],
             "isList": true,
             "isRequired": false,
             "isUnique": false,
@@ -131,6 +124,7 @@
             "isReadOnly": false,
             "type": "Post",
             "relationName": "PostToUser",
+            "relationFromFields": [],
             "relationToFields": [],
             "relationOnDelete": "NONE",
             "isGenerated": false,
@@ -139,7 +133,6 @@
           {
             "name": "role",
             "kind": "enum",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -164,7 +157,6 @@
           {
             "name": "uuid",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -181,7 +173,6 @@
           {
             "name": "createdAt",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -198,7 +189,6 @@
           {
             "name": "updatedAt",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -211,7 +201,6 @@
           {
             "name": "published",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -224,7 +213,6 @@
           {
             "name": "title",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -237,7 +225,6 @@
           {
             "name": "content",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": false,
             "isUnique": false,
@@ -250,7 +237,6 @@
           {
             "name": "author",
             "kind": "object",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -258,6 +244,9 @@
             "isReadOnly": false,
             "type": "User",
             "relationName": "PostToUser",
+            "relationFromFields": [
+              "authorId"
+            ],
             "relationToFields": [
               "id"
             ],
@@ -268,7 +257,6 @@
           {
             "name": "authorId",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -281,7 +269,6 @@
           {
             "name": "kind",
             "kind": "enum",
-            "dbNames": [],
             "isList": false,
             "isRequired": false,
             "isUnique": false,
@@ -305,7 +292,6 @@
           {
             "name": "name",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -318,7 +304,6 @@
           {
             "name": "slug",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -331,7 +316,6 @@
           {
             "name": "number",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -359,7 +343,6 @@
           {
             "name": "firstName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -372,7 +355,6 @@
           {
             "name": "lastName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -385,7 +367,6 @@
           {
             "name": "email",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -411,7 +392,6 @@
           {
             "name": "directorFirstName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -424,7 +404,6 @@
           {
             "name": "directorLastName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -437,7 +416,6 @@
           {
             "name": "director",
             "kind": "object",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -445,6 +423,10 @@
             "isReadOnly": false,
             "type": "Director",
             "relationName": "DirectorToMovie",
+            "relationFromFields": [
+              "directorFirstName",
+              "directorLastName"
+            ],
             "relationToFields": [
               "firstName",
               "lastName"
@@ -456,7 +438,6 @@
           {
             "name": "title",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -483,7 +464,6 @@
           {
             "name": "firstName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -496,7 +476,6 @@
           {
             "name": "lastName",
             "kind": "scalar",
-            "dbNames": [],
             "isList": false,
             "isRequired": true,
             "isUnique": false,
@@ -509,7 +488,6 @@
           {
             "name": "movies",
             "kind": "object",
-            "dbNames": [],
             "isList": true,
             "isRequired": false,
             "isUnique": false,
@@ -517,6 +495,7 @@
             "isReadOnly": false,
             "type": "Movie",
             "relationName": "DirectorToMovie",
+            "relationFromFields": [],
             "relationToFields": [],
             "relationOnDelete": "NONE",
             "isGenerated": false,
@@ -8956,8 +8935,6 @@
           "title_DESC",
           "content_ASC",
           "content_DESC",
-          "author_ASC",
-          "author_DESC",
           "authorId_ASC",
           "authorId_DESC",
           "kind_ASC",

@@ -4,3 +4,4 @@ dist
 package
 tests/artifacts
 coverage
+.env

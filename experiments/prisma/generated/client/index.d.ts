@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: 76857c35ba1e1764dd5473656ecbbb2f739e1822
- * Prisma Client JS version: 2.0.0-beta.2
+ * Query Engine version: 2fb8f444d9cdf7c0beee7b041194b42d7a9ce1e6
+ * Prisma Client JS version: 2.0.0-beta.3
  */
 export declare type PrismaVersion = {
   client: string
@@ -3316,7 +3316,6 @@ export type PostOrderByInput = {
   published?: OrderByArg | null
   title?: OrderByArg | null
   content?: OrderByArg | null
-  author?: OrderByArg | null
   authorId?: OrderByArg | null
   kind?: OrderByArg | null
 }

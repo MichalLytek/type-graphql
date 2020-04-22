@@ -6,6 +6,7 @@ import util from "util";
 import childProcess from "child_process";
 import { buildSchema } from "type-graphql";
 import { graphql } from "graphql";
+const pgtools = require("pgtools");
 
 import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { stringifyDirectoryTrees } from "../helpers/structure";
@@ -22,8 +23,8 @@ describe("generator integration", () => {
 
     schema = /* prisma */ `
       datasource db {
-        provider = "sqlite"
-        url      = "file:./dev.db"
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
       }
 
       generator client {
@@ -57,6 +58,10 @@ describe("generator integration", () => {
       }
     `;
     await fs.writeFile(path.join(cwdDirPath, "schema.prisma"), schema);
+    await fs.writeFile(
+      path.join(cwdDirPath, ".env"),
+      `DATABASE_URL=${process.env.TEST_DATABASE_URL}`,
+    );
   });
 
   it("should generates TypeGraphQL classes files to output folder by running `prisma generate`", async () => {
@@ -104,20 +109,18 @@ describe("generator integration", () => {
   }, 60000);
 
   it("should be able to generate TypeGraphQL classes files without any type errors", async () => {
-    const tsconfigContent = /* json */ `
-      {
-        "compilerOptions": {
-          "target": "es2018",
-          "module": "commonjs",
-          "strict": true,
-          "skipLibCheck": true,
-          "esModuleInterop": true,
-          "experimentalDecorators": true,
-          "emitDecoratorMetadata": true,
-          "forceConsistentCasingInFileNames": true
-        }
-      }
-    `;
+    const tsconfigContent = {
+      compilerOptions: {
+        target: "es2018",
+        module: "commonjs",
+        strict: true,
+        skipLibCheck: true,
+        esModuleInterop: true,
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+        forceConsistentCasingInFileNames: true,
+      },
+    };
     const typegraphqlfolderPath = path.join(
       cwdDirPath,
       "generated",
@@ -129,7 +132,7 @@ describe("generator integration", () => {
     });
     await fs.writeFile(
       path.join(typegraphqlfolderPath, "tsconfig.json"),
-      tsconfigContent,
+      JSON.stringify(tsconfigContent),
     );
     const tscResult = await exec("npx tsc --noEmit", {
       cwd: typegraphqlfolderPath,
@@ -146,6 +149,14 @@ describe("generator integration", () => {
     });
     // console.log(prismaGenerateResult);
     expect(prismaGenerateResult.stderr).toHaveLength(0);
+
+    // drop database before migrate
+    const originalDatabaseUrl = process.env.TEST_DATABASE_URL!;
+    const [dbName, ...databaseUrlParts] = originalDatabaseUrl
+      .split("/")
+      .reverse();
+    const databaseUrl = databaseUrlParts.reverse().join("/") + "/postgres";
+    await pgtools.dropdb(databaseUrl, dbName);
 
     const migrateSaveResult = await exec(
       "npx prisma migrate save --experimental --name='init' --create-db",

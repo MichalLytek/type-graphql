@@ -447,7 +447,6 @@ enum PostKind {
 }
 
 input PostOrderByInput {
-  author: OrderByArg
   authorId: OrderByArg
   content: OrderByArg
   createdAt: OrderByArg
