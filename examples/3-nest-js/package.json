@@ -14,6 +14,7 @@
     "apollo-server-fastify": "^2.12.0",
     "graphql": "^14.6.0",
     "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5",
     "type-graphql": "0.18.0-beta.16",
     "typegraphql-nestjs": "^0.1.2"
   },
