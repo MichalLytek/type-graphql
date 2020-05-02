@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { getComplexity, simpleEstimator, fieldExtensionsEstimator } from "graphql-query-complexity";
-import { separateOperations } from "graphql";
 import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe-resolver";
@@ -29,11 +28,11 @@ async function bootstrap() {
               // Our built schema
               schema,
               // To calculate query complexity properly,
-              // we have to check if the document contains multiple operations
-              // and eventually extract it operation from the whole query document.
-              query: request.operationName
-                ? separateOperations(document)[request.operationName]
-                : document,
+              // we have to check only the requested operation
+              // not the whole document that may contains multiple operations
+              operationName: request.operationName,
+              // The GraphQL query document
+              query: document,
               // The variables for our GraphQL query
               variables: request.variables,
               // Add any number of estimators. The estimators are invoked in order, the first

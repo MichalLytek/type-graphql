@@ -5,7 +5,7 @@
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.0.0`
-- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.4.1` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
+- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.5.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - **Breaking Change**: make `class-validator` an optional, peer dependency (#366)
 - **Breaking Change**: remove deprecated direct array syntax for declaring union types
