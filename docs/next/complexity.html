@@ -101,11 +101,11 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
               <span class="token comment">// Our built schema</span>
               schema<span class="token punctuation">,</span>
               <span class="token comment">// To calculate query complexity properly,</span>
-              <span class="token comment">// we have to check if the document contains multiple operations</span>
-              <span class="token comment">// and eventually extract it operation from the whole query document.</span>
-              query<span class="token operator">:</span> request<span class="token punctuation">.</span>operationName
-                <span class="token operator">?</span> <span class="token function">separateOperations</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">[</span>request<span class="token punctuation">.</span>operationName<span class="token punctuation">]</span>
-                <span class="token operator">:</span> document<span class="token punctuation">,</span>
+              <span class="token comment">// we have to check only the requested operation</span>
+              <span class="token comment">// not the whole document that may contains multiple operations</span>
+              operationName<span class="token operator">:</span> request<span class="token punctuation">.</span>operationName<span class="token punctuation">,</span>
+              <span class="token comment">// The GraphQL query document</span>
+              query<span class="token operator">:</span> document<span class="token punctuation">,</span>
               <span class="token comment">// The variables for our GraphQL query</span>
               variables<span class="token operator">:</span> request<span class="token punctuation">.</span>variables<span class="token punctuation">,</span>
               <span class="token comment">// Add any number of estimators. The estimators are invoked in order, the first</span>
