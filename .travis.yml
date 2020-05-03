@@ -1,10 +1,6 @@
 os: linux
+dist: xenial
 language: node_js
-node_js:
-  - 13
-  - 12
-  - 10
-  - 10.3
 stages:
   - test
   - name: deploy
@@ -12,6 +8,7 @@ stages:
 jobs:
   include:
     - stage: test
+      node_js: 14
       before_install:
         - npm i -g codecov
       script:
@@ -20,7 +17,7 @@ jobs:
       after_success:
         - codecov
     - stage: deploy
-      node_js: 13
+      node_js: 14
       install: true
       before_script:
         - chmod +x publish-website.sh
