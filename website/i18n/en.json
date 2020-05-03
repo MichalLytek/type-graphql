@@ -365,6 +365,68 @@
       },
       "version-0.17.6/version-0.17.6-custom-decorators": {
         "title": "Custom decorators"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-bootstrap": {
+        "title": "Bootstrapping"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-complexity": {
+        "title": "Query complexity"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-directives": {
+        "title": "Directives"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-emit-schema": {
+        "title": "Emitting the schema SDL"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-extensions": {
+        "title": "Extensions"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-getting-started": {
+        "title": "Getting started"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-installation": {
+        "title": "Installation"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-performance": {
+        "title": "Performance"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-types-and-fields": {
+        "title": "Types and Fields"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-unions": {
+        "title": "Unions"
+      },
+      "version-1.0.0-rc.1/version-1.0.0-rc.1-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {

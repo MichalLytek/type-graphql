@@ -1,14 +1,15 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v1.0.0-rc.1
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.0.0`
 - **Breaking Change**: update `graphql-query-complexity` dependency to `^0.5.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - **Breaking Change**: make `class-validator` an optional, peer dependency of version `>=0.12.0` (#366)
-- **Breaking Change**: remove deprecated direct array syntax for declaring union types
 - **Breaking Change**: remove `CannotDetermineTypeError` and make other error messages more detailed and specific
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
@@ -19,10 +20,10 @@
 - add `{ autoRegisterImplementations: false }` option to prevent automatic emitting in schema all the object types that implements used interface type (#595)
 - allow interfaces to implement other interfaces (#602)
 ### Fixes
+- **Breaking Change**: stop returning null for `GraphQLTimestamp` and `GraphQLISODateTime` scalars when returned value is not a `Date` instance - now it throws explicit error instead
 - refactor union types function syntax handling to prevent possible errors with circular refs
 - fix transforming and validating nested inputs and arrays (#462)
 - remove duplicated entries for resolver classes that use inheritance (#499)
-- **Breaking Change**: stop returning null for `GraphQLTimestamp` and `GraphQLISODateTime` scalars when returned value is not a `Date` instance - now it throws explicit error instead
 - fix using `name` option on interface fields (#567)
 - fix not calling `authChecker` during subscribe phase for subscriptions (#578)
 - fix using shared union type in multiple schemas
@@ -33,6 +34,7 @@
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface
+- **Breaking Change**: remove deprecated direct array syntax for declaring union types
 
 ## v0.17.6
 ### Fixes
