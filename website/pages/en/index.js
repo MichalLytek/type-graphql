@@ -252,29 +252,16 @@ const CollectiveSection = props => (
             <img src={imgUrl("gorrion.png")} width="250" />
             <span>Gorrion Software House</span>
           </a>
-          <a href="https://opencollective.com/demid-nikitin">
-            <img
-              src={
-                "https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg"
-              }
-              height="100"
-            />
-            <span>Demid Nikitin</span>
-          </a>
           <a href="https://alka.app/">
             <img src={imgUrl("alka.png")} width="150" />
             <span>Alka Finance</span>
-          </a>
-          <a href="https://www.mryum.com/">
-            <img src={imgUrl("mr-yum.png")} width="100" />
-            <span>Mr Yum</span>
           </a>
           <a href="https://www.joinlifex.com/">
             <img src={imgUrl("lifex.svg")} width="100" />
             <span>LifeX Aps</span>
           </a>
         </div>
-        <h3>Backers ☕ and Members 💪</h3>
+        <h3>Members 💪 and Backers ☕</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
           <img src="https://opencollective.com/typegraphql/sponsors.svg?width=1024&button=false" />
         </a>

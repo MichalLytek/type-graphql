@@ -161,13 +161,13 @@ Please ask your company to also support this open source project by [becoming a 
 
 ### Sponsors 🚀
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) |  [<img src="https://opencollective-production.s3-us-west-1.amazonaws.com/73f90010-67e9-11e9-b984-89e2dc4d10f9.jpg" height="100">](https://opencollective.com/demid-nikitin) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/alka.png" width="150">](https://alka.app/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/mr-yum.png" width="100">](https://www.mryum.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="125">](https://www.joinlifex.com/) |
-| :---: | :---: | :---: | :---: | :---: | 
-| [**Gorrion Software House**](https://gorrion.io/) | [**Demid Nikitin**](https://opencollective.com/demid-nikitin) | [**Alka Finance**](https://alka.app/) | [**Mr Yum**](https://www.mryum.com/) | [**LifeX Aps**](https://www.joinlifex.com/) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) |  [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/alka.png" width="150">](https://alka.app/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="125">](https://www.joinlifex.com/) |
+| :---: | :---: | :---: | 
+| [**Gorrion Software House**](https://gorrion.io/) | [**Alka Finance**](https://alka.app/) |  [**LifeX Aps**](https://www.joinlifex.com/) |
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
-###  Members 💪 and Backers ☕
+### Members 💪 and Backers ☕
 
 [![](https://opencollective.com/typegraphql/sponsors.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 [![](https://opencollective.com/typegraphql/backers.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
