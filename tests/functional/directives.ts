@@ -396,7 +396,7 @@ describe("Directives", () => {
         assertValidDirective(fields.append.astNode, "upper");
       });
 
-      it("adds field directives to subclass input type fields", async () => {
+      it("adds inherited field directives to input type fields while extending input type class", async () => {
         const fields = (schema.getType(
           "SubDirectiveOnFieldInput",
         ) as GraphQLInputObjectType).getFields();
@@ -445,7 +445,7 @@ describe("Directives", () => {
         });
       });
 
-      it("calls subclass object type directives", async () => {
+      it("call object type directives while extending field type class", async () => {
         const query = `query {
           subObjectType {
             withDirective
