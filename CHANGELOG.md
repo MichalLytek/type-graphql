@@ -2,6 +2,7 @@
 
 <!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+- fix `@Directive()` cannot be extends by subclasses 
 
 ## v1.0.0-rc.1
 ### Features
@@ -31,7 +32,6 @@
 - fix calling field resolver without providing resolver class to `buildSchema`
 - fix generated TS union type for union type of object type classes extending themselves (#587)
 - fix using shared union and interface types in multiple schemas when `resolveType` is used
-- fix `@Directive()` cannot be extends by subclasses 
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface

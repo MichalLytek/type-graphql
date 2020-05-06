@@ -395,10 +395,8 @@ describe("Directives", () => {
         expect(fields.append).toHaveProperty("astNode");
         assertValidDirective(fields.append.astNode, "upper");
       });
-    });
 
-    describe("SubInputType", () => {
-      it("adds field directives to input type fields", async () => {
+      it("adds field directives to subclass input type fields", async () => {
         const fields = (schema.getType(
           "SubDirectiveOnFieldInput",
         ) as GraphQLInputObjectType).getFields();
@@ -446,10 +444,8 @@ describe("Directives", () => {
           fieldResolverWithAppendDefinition: "hello, world!",
         });
       });
-    });
 
-    describe("SubObjectType", () => {
-      it("calls object type directives", async () => {
+      it("calls subclass object type directives", async () => {
         const query = `query {
           subObjectType {
             withDirective
