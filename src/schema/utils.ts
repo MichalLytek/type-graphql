@@ -15,6 +15,7 @@ export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
       const superField = fieldInfo[fieldName];
       fieldsMap[fieldName] = {
         type: superField.type,
+        astNode: superField.astNode,
         description: superField.description,
         defaultValue: superField.defaultValue,
       };
@@ -36,6 +37,7 @@ export function getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQL
           argMap[name] = arg;
           return argMap;
         }, {}),
+        astNode: superField.astNode,
         resolve: superField.resolve,
         description: superField.description,
         deprecationReason: superField.deprecationReason,
