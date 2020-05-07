@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- expose `createResolversMap` utility that generates apollo-like resolvers object
 
 ## v1.0.0-rc.1
 ### Features

@@ -6,8 +6,7 @@ import {
   buildFederatedSchema as buildApolloFederationSchema,
 } from "@apollo/federation";
 import { addResolversToSchema, GraphQLResolverMap } from "apollo-graphql";
-import { buildSchema, BuildSchemaOptions } from "../../../src";
-import { createResolversMap } from "../../../src/utils/createResolversMap";
+import { buildSchema, BuildSchemaOptions, createResolversMap } from "../../../src";
 
 export async function buildFederatedSchema(
   options: Omit<BuildSchemaOptions, "skipCheck">,
