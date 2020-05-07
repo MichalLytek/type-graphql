@@ -4,6 +4,8 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - expose `createResolversMap` utility that generates apollo-like resolvers object
+### Fixes
+- properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
 
 ## v1.0.0-rc.1
 ### Features

@@ -37,6 +37,9 @@ describe("Directives", () => {
       }
 
       @InputType()
+      class SubDirectiveOnFieldInput extends DirectiveOnFieldInput {}
+
+      @InputType()
       @Directive("@upper")
       class DirectiveOnClassInput {
         @Field()
@@ -93,6 +96,14 @@ describe("Directives", () => {
         @Field()
         @Directive("upper")
         withInputUpperOnClass(@Arg("input") input: DirectiveOnClassInput): string {
+          return `hello${input.append}`;
+        }
+      }
+
+      @ObjectType()
+      class SubSampleObjectType extends SampleObjectType {
+        @Field()
+        withInput(@Arg("input") input: SubDirectiveOnFieldInput): string {
           return `hello${input.append}`;
         }
       }
@@ -206,8 +217,16 @@ describe("Directives", () => {
         }
       }
 
+      @Resolver(of => SubSampleObjectType)
+      class SubSampleResolver {
+        @Query(() => SubSampleObjectType)
+        subObjectType(): SubSampleObjectType {
+          return new SubSampleObjectType();
+        }
+      }
+
       schema = await buildSchema({
-        resolvers: [SampleResolver, SampleObjectTypeResolver],
+        resolvers: [SampleResolver, SampleObjectTypeResolver, SubSampleResolver],
       });
 
       SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
@@ -376,6 +395,16 @@ describe("Directives", () => {
         expect(fields.append).toHaveProperty("astNode");
         assertValidDirective(fields.append.astNode, "upper");
       });
+
+      it("adds inherited field directives to input type fields while extending input type class", async () => {
+        const fields = (schema.getType(
+          "SubDirectiveOnFieldInput",
+        ) as GraphQLInputObjectType).getFields();
+
+        expect(fields).toHaveProperty("append");
+        expect(fields.append).toHaveProperty("astNode");
+        assertValidDirective(fields.append.astNode, "upper");
+      });
     });
 
     describe("ObjectType", () => {
@@ -401,6 +430,43 @@ describe("Directives", () => {
 
         expect(data).toHaveProperty("objectType");
         expect(data!.objectType).toEqual({
+          withDirective: "withDirective",
+          // withDirectiveWithArgs: "withDirectiveWithArgs",
+          withUpper: "WITHUPPER",
+          withUpperDefinition: "WITHUPPERDEFINITION",
+          withAppend: "hello, world!",
+          withAppendDefinition: "hello, world!",
+          withUpperAndAppend: "HELLO, WORLD!",
+          withInput: "hello, WORLD!",
+          withInputUpper: "HELLO, WORLD!",
+          withInputOnClass: "hello, WORLD!",
+          withInputUpperOnClass: "HELLO, WORLD!",
+          fieldResolverWithAppendDefinition: "hello, world!",
+        });
+      });
+
+      it("call object type directives while extending field type class", async () => {
+        const query = `query {
+          subObjectType {
+            withDirective
+            # withDirectiveWithArgs
+            withUpper
+            withUpperDefinition
+            withAppend(append: ", world!")
+            withAppendDefinition(append: ", world!")
+            withUpperAndAppend(append: ", world!")
+            withInput(input: { append: ", world!" })
+            withInputUpper(input: { append: ", world!" })
+            withInputOnClass(input: { append: ", world!" })
+            withInputUpperOnClass(input: { append: ", world!" })
+            fieldResolverWithAppendDefinition(append: ", world!")
+          }
+      }`;
+
+        const { data } = await graphql(schema, query);
+
+        expect(data).toHaveProperty("subObjectType");
+        expect(data!.subObjectType).toEqual({
           withDirective: "withDirective",
           // withDirectiveWithArgs: "withDirectiveWithArgs",
           withUpper: "WITHUPPER",
