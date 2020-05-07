@@ -1,8 +1,11 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
-- fix `@Directive()` cannot be extends by subclasses 
+### Features
+- expose `createResolversMap` utility that generates apollo-like resolvers object
+### Fixes
+- properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
 
 ## v1.0.0-rc.1
 ### Features
