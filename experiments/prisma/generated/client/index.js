@@ -16,12 +16,12 @@ const fs = require('fs')
 const debug = debugLib('prisma-client')
 
 /**
- * Query Engine version: 2fb8f444d9cdf7c0beee7b041194b42d7a9ce1e6
- * Prisma Client JS version: 2.0.0-beta.3
+ * Query Engine version: afd294205618b1c825b013ba6f5a6ebe4aa4a514
+ * Prisma Client JS version: 2.0.0-beta.4
  */
 exports.prismaVersion = {
-  engine: "2fb8f444d9cdf7c0beee7b041194b42d7a9ce1e6",
-  client: "2.0.0-beta.3"
+  engine: "afd294205618b1c825b013ba6f5a6ebe4aa4a514",
+  client: "2.0.0-beta.4"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -36,10 +36,10 @@ exports.PrismaClientValidationError = PrismaClientValidationError;
  * In order to make `ncc` and `node-file-trace` happy.
 **/
 
-path.join(__dirname, 'runtime/query-engine-windows');
+path.join(__dirname, 'query-engine-windows');
 
 /**
- * Annotation for Zeit Now
+ * Annotation for Vercel
 **/
 path.join(__dirname, 'schema.prisma');
 
@@ -88,7 +88,8 @@ const config = {
     "binaryTargets": [
       "windows"
     ],
-    "config": {}
+    "config": {},
+    "isCustomOutput": true
   },
   "sqliteDatasourceOverrides": [],
   "relativePath": "..\\..",

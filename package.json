@@ -13,36 +13,36 @@
     "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
   },
   "peerDependencies": {
-    "@prisma/cli": "2.0.0-beta.3",
-    "@prisma/client": "2.0.0-beta.3",
+    "@prisma/cli": "2.0.0-beta.4",
+    "@prisma/client": "2.0.0-beta.4",
     "@types/node": "*",
-    "type-graphql": "0.18.0-beta.17"
+    "type-graphql": "1.0.0-rc.1"
   },
   "dependencies": {
-    "@prisma/generator-helper": "2.0.0-beta.3",
-    "@prisma/sdk": "2.0.0-beta.3",
+    "@prisma/generator-helper": "2.0.0-beta.4",
+    "@prisma/sdk": "2.0.0-beta.4",
     "pluralize": "^8.0.0",
-    "ts-morph": "^7.0.2",
-    "tslib": "^1.11.1"
+    "ts-morph": "^7.0.3",
+    "tslib": "^1.11.2"
   },
   "devDependencies": {
-    "@prisma/cli": "2.0.0-beta.3",
-    "@prisma/client": "2.0.0-beta.3",
+    "@prisma/cli": "2.0.0-beta.4",
+    "@prisma/client": "2.0.0-beta.4",
     "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.2",
+    "@types/node": "^13.13.5",
     "@types/pluralize": "0.0.29",
     "directory-tree": "^2.2.4",
     "env-cmd": "^10.1.0",
-    "graphql": "^14.6.0",
+    "graphql": "^15.0.0",
     "husky": "^4.2.5",
     "jest": "^25.4.0",
-    "lint-staged": "^10.1.7",
+    "lint-staged": "^10.2.2",
     "pgtools": "^0.3.0",
     "prettier": "^2.0.5",
     "reflect-metadata": "^0.1.13",
-    "ts-jest": "^25.4.0",
-    "ts-node": "^8.9.0",
-    "type-graphql": "0.18.0-beta.17",
+    "ts-jest": "~25.4.0",
+    "ts-node": "^8.10.1",
+    "type-graphql": "1.0.0-rc.1",
     "typescript": "^3.8.3"
   },
   "license": "MIT",

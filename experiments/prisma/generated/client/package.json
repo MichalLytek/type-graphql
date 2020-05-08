@@ -1,0 +1,5 @@
+{
+  "name": ".prisma/client",
+  "main": "index.js",
+  "types": "index.d.ts"
+}
