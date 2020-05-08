@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
 import { BooleanFilter } from "../inputs/BooleanFilter";
+import { ClientWhereInput } from "../inputs/ClientWhereInput";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { NullablePostKindFilter } from "../inputs/NullablePostKindFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { UUIDFilter } from "../inputs/UUIDFilter";
-import { UserWhereInput } from "../inputs/UserWhereInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -79,9 +79,9 @@ export class PostWhereInput {
   })
   NOT?: PostWhereInput[] | null;
 
-  @TypeGraphQL.Field(_type => UserWhereInput, {
+  @TypeGraphQL.Field(_type => ClientWhereInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserWhereInput | null;
+  author?: ClientWhereInput | null;
 }

@@ -1,8 +1,8 @@
-export { CreateOnePatientArgs } from "./CreateOnePatientArgs";
+export { CreatePatientArgs } from "./CreatePatientArgs";
 export { DeleteManyPatientArgs } from "./DeleteManyPatientArgs";
-export { DeleteOnePatientArgs } from "./DeleteOnePatientArgs";
+export { DeletePatientArgs } from "./DeletePatientArgs";
 export { FindManyPatientArgs } from "./FindManyPatientArgs";
 export { FindOnePatientArgs } from "./FindOnePatientArgs";
 export { UpdateManyPatientArgs } from "./UpdateManyPatientArgs";
-export { UpdateOnePatientArgs } from "./UpdateOnePatientArgs";
-export { UpsertOnePatientArgs } from "./UpsertOnePatientArgs";
+export { UpdatePatientArgs } from "./UpdatePatientArgs";
+export { UpsertPatientArgs } from "./UpsertPatientArgs";

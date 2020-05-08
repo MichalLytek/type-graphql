@@ -70,14 +70,14 @@ describe("crud", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const createOneUserArgsTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/args/CreateOneUserArgs.ts",
+    const createUserArgsTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/args/CreateUserArgs.ts",
     );
     const deleteManyUserArgsTSFile = await readGeneratedFile(
       "/resolvers/crud/User/args/DeleteManyUserArgs.ts",
     );
-    const deleteOneUserArgsTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/args/DeleteOneUserArgs.ts",
+    const deleteUserArgsTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/args/DeleteUserArgs.ts",
     );
     const findManyUserArgsTSFile = await readGeneratedFile(
       "/resolvers/crud/User/args/FindManyUserArgs.ts",
@@ -88,24 +88,24 @@ describe("crud", () => {
     const updateManyUserArgsTSFile = await readGeneratedFile(
       "/resolvers/crud/User/args/UpdateManyUserArgs.ts",
     );
-    const updateOneUserArgsTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/args/UpdateOneUserArgs.ts",
+    const updateUserArgsTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/args/UpdateUserArgs.ts",
     );
-    const upsertOneUserArgsTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/args/UpsertOneUserArgs.ts",
+    const upsertUserArgsTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/args/UpsertUserArgs.ts",
     );
     const indexTSFile = await readGeneratedFile(
       "/resolvers/crud/User/args/index.ts",
     );
 
-    expect(createOneUserArgsTSFile).toMatchSnapshot("CreateOneUserArgs");
+    expect(createUserArgsTSFile).toMatchSnapshot("CreateUserArgs");
     expect(deleteManyUserArgsTSFile).toMatchSnapshot("DeleteManyUserArgs");
-    expect(deleteOneUserArgsTSFile).toMatchSnapshot("DeleteOneUserArgs");
+    expect(deleteUserArgsTSFile).toMatchSnapshot("DeleteUserArgs");
     expect(findManyUserArgsTSFile).toMatchSnapshot("FindManyUserArgs");
     expect(findOneUserArgsTSFile).toMatchSnapshot("FindOneUserArgs");
     expect(updateManyUserArgsTSFile).toMatchSnapshot("UpdateManyUserArgs");
-    expect(updateOneUserArgsTSFile).toMatchSnapshot("UpdateOneUserArgs");
-    expect(upsertOneUserArgsTSFile).toMatchSnapshot("UpsertOneUserArgs");
+    expect(updateUserArgsTSFile).toMatchSnapshot("UpdateUserArgs");
+    expect(upsertUserArgsTSFile).toMatchSnapshot("UpsertUserArgs");
     expect(indexTSFile).toMatchSnapshot("Index");
   });
 
@@ -120,14 +120,14 @@ describe("crud", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
-    const createOneUserArgsTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/CreateOneUserResolver.ts",
+    const createUserResolverTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/CreateUserResolver.ts",
     );
     const deleteManyUserResolverTSFile = await readGeneratedFile(
       "/resolvers/crud/User/DeleteManyUserResolver.ts",
     );
-    const deleteOneUserResolverTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/DeleteOneUserResolver.ts",
+    const deleteUserResolverTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/DeleteUserResolver.ts",
     );
     const findManyUserResolverTSFile = await readGeneratedFile(
       "/resolvers/crud/User/FindManyUserResolver.ts",
@@ -138,32 +138,170 @@ describe("crud", () => {
     const updateManyUserResolverTSFile = await readGeneratedFile(
       "/resolvers/crud/User/UpdateManyUserResolver.ts",
     );
-    const updateOneUserResolverTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/UpdateOneUserResolver.ts",
+    const updateUserResolverTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/UpdateUserResolver.ts",
     );
-    const upsertOneUserResolverTSFile = await readGeneratedFile(
-      "/resolvers/crud/User/UpsertOneUserResolver.ts",
+    const upsertUserResolverTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/UpsertUserResolver.ts",
     );
     const indexTSFile = await readGeneratedFile("/resolvers/crud/index.ts");
 
-    expect(createOneUserArgsTSFile).toMatchSnapshot("CreateOneUserResolver");
+    expect(createUserResolverTSFile).toMatchSnapshot("CreateOneUserResolver");
     expect(deleteManyUserResolverTSFile).toMatchSnapshot(
       "DeleteManyUserResolver",
     );
-    expect(deleteOneUserResolverTSFile).toMatchSnapshot(
-      "DeleteOneUserResolver",
-    );
+    expect(deleteUserResolverTSFile).toMatchSnapshot("DeleteUserResolver");
     expect(findManyUserResolverTSFile).toMatchSnapshot("FindManyUserResolver");
     expect(findOneUserResolverTSFile).toMatchSnapshot("FindOneUserResolver");
     expect(updateManyUserResolverTSFile).toMatchSnapshot(
       "UpdateManyUserResolver",
     );
-    expect(updateOneUserResolverTSFile).toMatchSnapshot(
-      "UpdateOneUserResolver",
-    );
-    expect(upsertOneUserResolverTSFile).toMatchSnapshot(
-      "UpsertOneUserResolver",
-    );
+    expect(updateUserResolverTSFile).toMatchSnapshot("UpdateUserResolver");
+    expect(upsertUserResolverTSFile).toMatchSnapshot("UpsertUserResolver");
     expect(indexTSFile).toMatchSnapshot("Index");
+  });
+
+  describe("when model is renamed", () => {
+    it("should properly generate resolver class for single prisma model", async () => {
+      const schema = /* prisma */ `
+        // @@TypeGraphQL.type("Client")
+        model User {
+          intIdField          Int     @id @default(autoincrement())
+          uniqueStringField   String  @unique
+          optionalStringField String?
+          dateField           DateTime
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        useOriginalMapping: true,
+      });
+      const clientCrudResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/ClientCrudResolver.ts",
+      );
+
+      expect(clientCrudResolverTSFile).toMatchSnapshot("ClientCrudResolver");
+    });
+
+    it("should properly generate args classes for every method of crud resolver", async () => {
+      const schema = /* prisma */ `
+        // @@TypeGraphQL.type("Client")
+        model User {
+          intIdField          Int     @id @default(autoincrement())
+          uniqueStringField   String  @unique
+          optionalStringField String?
+          dateField           DateTime
+        }
+      `;
+
+      await generateCodeFromSchema(schema, { outputDirPath });
+      const createClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/CreateClientArgs.ts",
+      );
+      const deleteManyClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/DeleteManyClientArgs.ts",
+      );
+      const deleteClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/DeleteClientArgs.ts",
+      );
+      const findManyClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/FindManyClientArgs.ts",
+      );
+      const findOneClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/FindOneClientArgs.ts",
+      );
+      const updateManyClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/UpdateManyClientArgs.ts",
+      );
+      const updateClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/UpdateClientArgs.ts",
+      );
+      const upsertClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/UpsertClientArgs.ts",
+      );
+      const indexTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/index.ts",
+      );
+
+      expect(createClientArgsTSFile).toMatchSnapshot("CreateClientArgs");
+      expect(deleteManyClientArgsTSFile).toMatchSnapshot(
+        "DeleteManyClientArgs",
+      );
+      expect(deleteClientArgsTSFile).toMatchSnapshot("DeleteClientArgs");
+      expect(findManyClientArgsTSFile).toMatchSnapshot("FindManyClientArgs");
+      expect(findOneClientArgsTSFile).toMatchSnapshot("FindOneClientArgs");
+      expect(updateManyClientArgsTSFile).toMatchSnapshot(
+        "UpdateManyClientArgs",
+      );
+      expect(updateClientArgsTSFile).toMatchSnapshot("UpdateClientArgs");
+      expect(upsertClientArgsTSFile).toMatchSnapshot("UpsertClientArgs");
+      expect(indexTSFile).toMatchSnapshot("Index");
+    });
+
+    it("should properly generate actions resolver classes for prisma model", async () => {
+      const schema = /* prisma */ `
+        // @@TypeGraphQL.type("Client")
+        model User {
+          intIdField          Int     @id @default(autoincrement())
+          uniqueStringField   String  @unique
+          optionalStringField String?
+          dateField           DateTime
+        }
+      `;
+
+      await generateCodeFromSchema(schema, { outputDirPath });
+      const createClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/CreateClientResolver.ts",
+      );
+      const deleteManyClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/DeleteManyClientResolver.ts",
+      );
+      const deleteClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/DeleteClientResolver.ts",
+      );
+      const findManyClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/FindManyClientResolver.ts",
+      );
+      const findOneClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/FindOneClientResolver.ts",
+      );
+      const updateManyClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/UpdateManyClientResolver.ts",
+      );
+      const updateClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/UpdateClientResolver.ts",
+      );
+      const upsertClientResolverTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/UpsertClientResolver.ts",
+      );
+      const indexTSFile = await readGeneratedFile("/resolvers/crud/index.ts");
+
+      expect(createClientResolverTSFile).toMatchSnapshot(
+        "CreateOneClientResolver",
+      );
+      expect(deleteManyClientResolverTSFile).toMatchSnapshot(
+        "DeleteManyClientResolver",
+      );
+      expect(deleteClientResolverTSFile).toMatchSnapshot(
+        "DeleteClientResolver",
+      );
+      expect(findManyClientResolverTSFile).toMatchSnapshot(
+        "FindManyClientResolver",
+      );
+      expect(findOneClientResolverTSFile).toMatchSnapshot(
+        "FindOneClientResolver",
+      );
+      expect(updateManyClientResolverTSFile).toMatchSnapshot(
+        "UpdateManyClientResolver",
+      );
+      expect(updateClientResolverTSFile).toMatchSnapshot(
+        "UpdateClientResolver",
+      );
+      expect(upsertClientResolverTSFile).toMatchSnapshot(
+        "UpsertClientResolver",
+      );
+      expect(indexTSFile).toMatchSnapshot("Index");
+    });
   });
 });

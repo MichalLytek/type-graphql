@@ -43,18 +43,18 @@ input IntFilter {
 }
 
 type Mutation {
-  createOnePost(data: PostCreateInput!): Post!
-  createOneUser(data: UserCreateInput!): User!
+  createPost(data: PostCreateInput!): Post!
+  createUser(data: UserCreateInput!): User!
   deleteManyPost(where: PostWhereInput): BatchPayload!
   deleteManyUser(where: UserWhereInput): BatchPayload!
-  deleteOnePost(where: PostWhereUniqueInput!): Post
-  deleteOneUser(where: UserWhereUniqueInput!): User
+  deletePost(where: PostWhereUniqueInput!): Post
+  deleteUser(where: UserWhereUniqueInput!): User
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertOnePost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
-  upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertPost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
+  upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 input NullableStringFilter {
@@ -300,45 +300,45 @@ exports[`generator integration should generates TypeGraphQL classes files to out
     [crud]
       [Post]
         AggregatePostResolver.ts
-        CreateOnePostResolver.ts
+        CreatePostResolver.ts
         DeleteManyPostResolver.ts
-        DeleteOnePostResolver.ts
+        DeletePostResolver.ts
         FindManyPostResolver.ts
         FindOnePostResolver.ts
         PostCrudResolver.ts
         UpdateManyPostResolver.ts
-        UpdateOnePostResolver.ts
-        UpsertOnePostResolver.ts
+        UpdatePostResolver.ts
+        UpsertPostResolver.ts
         [args]
-          CreateOnePostArgs.ts
+          CreatePostArgs.ts
           DeleteManyPostArgs.ts
-          DeleteOnePostArgs.ts
+          DeletePostArgs.ts
           FindManyPostArgs.ts
           FindOnePostArgs.ts
           UpdateManyPostArgs.ts
-          UpdateOnePostArgs.ts
-          UpsertOnePostArgs.ts
+          UpdatePostArgs.ts
+          UpsertPostArgs.ts
           index.ts
       [User]
         AggregateUserResolver.ts
-        CreateOneUserResolver.ts
+        CreateUserResolver.ts
         DeleteManyUserResolver.ts
-        DeleteOneUserResolver.ts
+        DeleteUserResolver.ts
         FindManyUserResolver.ts
         FindOneUserResolver.ts
         UpdateManyUserResolver.ts
-        UpdateOneUserResolver.ts
-        UpsertOneUserResolver.ts
+        UpdateUserResolver.ts
+        UpsertUserResolver.ts
         UserCrudResolver.ts
         [args]
-          CreateOneUserArgs.ts
+          CreateUserArgs.ts
           DeleteManyUserArgs.ts
-          DeleteOneUserArgs.ts
+          DeleteUserArgs.ts
           FindManyUserArgs.ts
           FindOneUserArgs.ts
           UpdateManyUserArgs.ts
-          UpdateOneUserArgs.ts
-          UpsertOneUserArgs.ts
+          UpdateUserArgs.ts
+          UpsertUserArgs.ts
           index.ts
       index.ts
     [inputs]

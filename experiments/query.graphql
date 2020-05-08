@@ -1,6 +1,6 @@
-query GetUsersAndPosts {
-  users {
-    ...UserData
+query GetClientsAndPosts {
+  clients {
+    ...ClientData
     advertPosts: posts(where: { kind: { equals: ADVERT } }) {
       ...PostData
     }
@@ -19,13 +19,13 @@ query GetUsersAndPosts {
   allPosts {
     ...PostData
     author {
-      ...UserData
+      ...ClientData
     }
   }
 }
 
-mutation AddUser {
-  createOneUser(
+mutation AddClient {
+  createClient(
     data: {
       age: 50
       amount: 123
@@ -35,22 +35,22 @@ mutation AddUser {
       role: USER
     }
   ) {
-    ...UserData
+    ...ClientData
   }
 }
 
-query FindUsers {
-  users(
+query FindClients {
+  clients(
     orderBy: { id: desc }
     where: {
       OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]
     }
   ) {
-    ...UserData
+    ...ClientData
   }
 }
 
-fragment UserData on User {
+fragment ClientData on Client {
   id
   email
   age

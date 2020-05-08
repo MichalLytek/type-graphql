@@ -115,6 +115,52 @@ export class User {
 "
 `;
 
+exports[`models should properly generate object type classes for prisma models with cyclic relations when models are renamed: Article 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import { Client } from \\"../models/Client\\";
+
+@TypeGraphQL.ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class Article {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: number;
+
+  author?: Client;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined,
+  })
+  authorId!: number;
+}
+"
+`;
+
+exports[`models should properly generate object type classes for prisma models with cyclic relations when models are renamed: Client 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import { Article } from \\"../models/Article\\";
+
+@TypeGraphQL.ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class Client {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: number;
+
+  posts?: Article[] | null;
+}
+"
+`;
+
 exports[`models should properly generate object type classes for prisma models with cyclic relations: Post 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import { User } from \\"../models/User\\";

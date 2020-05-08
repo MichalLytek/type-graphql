@@ -34,7 +34,7 @@ input IntFilter {
 }
 
 type Mutation {
-  createOneUser(data: UserCreateInput!): User!
+  createUser(data: UserCreateInput!): User!
 }
 
 input NullableStringFilter {

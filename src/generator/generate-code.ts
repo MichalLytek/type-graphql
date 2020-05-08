@@ -2,7 +2,7 @@ import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import { Project } from "ts-morph";
 import path from "path";
 
-import { noop } from "./helpers";
+import { noop, getInputTypeName } from "./helpers";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./model-type-class";
 import generateRelationsResolverClassesFromModel from "./resolvers/relations";
@@ -32,6 +32,7 @@ import {
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import { GenerateCodeOptions } from "./options";
+import { DmmfDocument } from "./dmmf/dmmf-document";
 
 export default async function generateCode(
   dmmf: DMMF.Document,
@@ -43,23 +44,28 @@ export default async function generateCode(
   const resolversDirPath = path.resolve(baseDirPath, resolversFolderName);
   const modelNames = dmmf.datamodel.models.map(model => model.name);
 
+  log("Transforming dmmfDocument...");
+  const dmmfDocument = new DmmfDocument(dmmf);
+
   log("Generating enums...");
-  const datamodelEnumNames = dmmf.datamodel.enums.map(enumDef => enumDef.name);
+  const datamodelEnumNames = dmmfDocument.datamodel.enums.map(
+    enumDef => enumDef.name,
+  );
   await Promise.all(
-    dmmf.datamodel.enums.map(enumDef =>
+    dmmfDocument.datamodel.enums.map(enumDef =>
       generateEnumFromDef(project, baseDirPath, enumDef),
     ),
   );
   await Promise.all(
-    dmmf.schema.enums
+    dmmfDocument.schema.enums
       // skip enums from datamodel
       .filter(enumDef => !datamodelEnumNames.includes(enumDef.name))
       .map(enumDef => generateEnumFromDef(project, baseDirPath, enumDef)),
   );
   const emittedEnumNames = [
     ...new Set([
-      ...dmmf.schema.enums.map(it => it.name),
-      ...dmmf.datamodel.enums.map(it => it.name),
+      ...dmmfDocument.schema.enums.map(it => it.name),
+      ...dmmfDocument.datamodel.enums.map(it => it.name),
     ]),
   ];
   const enumsBarrelExportSourceFile = project.createSourceFile(
@@ -72,8 +78,13 @@ export default async function generateCode(
 
   log("Generating models...");
   await Promise.all(
-    dmmf.datamodel.models.map(model =>
-      generateObjectTypeClassFromModel(project, baseDirPath, model, modelNames),
+    dmmfDocument.datamodel.models.map(model =>
+      generateObjectTypeClassFromModel(
+        project,
+        baseDirPath,
+        model,
+        dmmfDocument,
+      ),
     ),
   );
   const modelsBarrelExportSourceFile = project.createSourceFile(
@@ -83,29 +94,31 @@ export default async function generateCode(
   );
   generateModelsBarrelFile(
     modelsBarrelExportSourceFile,
-    dmmf.datamodel.models.map(it => it.name),
+    dmmfDocument.datamodel.models.map(it => it.typeName),
   );
   await saveSourceFile(modelsBarrelExportSourceFile);
 
   log("Generating output types...");
-  const rootTypes = dmmf.schema.outputTypes.filter(type =>
+  const rootTypes = dmmfDocument.schema.outputTypes.filter(type =>
     ["Query", "Mutation"].includes(type.name),
   );
-  const outputTypesToGenerate = dmmf.schema.outputTypes.filter(
+  const outputTypesToGenerate = dmmfDocument.schema.outputTypes.filter(
     // skip generating models and root resolvers
     type => !modelNames.includes(type.name) && !rootTypes.includes(type),
   );
-  const argsTypesNamesArray = await Promise.all(
+  const outputTypesInfo = await Promise.all(
     outputTypesToGenerate.map(type =>
       generateOutputTypeClassFromType(
         project,
         resolversDirPath,
         type,
-        modelNames,
+        dmmfDocument,
       ),
     ),
   );
-  const argsTypesNames = argsTypesNamesArray.reduce((a, b) => a.concat(b), []);
+  const argsTypesNames = outputTypesInfo
+    .map(it => it.fieldArgsTypeNames)
+    .reduce((a, b) => a.concat(b), []);
   const outputsArgsBarrelExportSourceFile = project.createSourceFile(
     path.resolve(
       baseDirPath,
@@ -132,19 +145,19 @@ export default async function generateCode(
   );
   generateOutputsBarrelFile(
     outputsBarrelExportSourceFile,
-    outputTypesToGenerate.map(it => it.name),
+    outputTypesInfo.map(it => it.typeName),
     argsTypesNames.length > 0,
   );
   await saveSourceFile(outputsBarrelExportSourceFile);
 
   log("Generating input types...");
   await Promise.all(
-    dmmf.schema.inputTypes.map(type =>
+    dmmfDocument.schema.inputTypes.map(type =>
       generateInputTypeClassFromType(
         project,
         resolversDirPath,
         type,
-        modelNames,
+        dmmfDocument,
       ),
     ),
   );
@@ -160,26 +173,30 @@ export default async function generateCode(
   );
   generateInputsBarrelFile(
     inputsBarrelExportSourceFile,
-    dmmf.schema.inputTypes.map(it => it.name),
+    dmmfDocument.schema.inputTypes.map(it =>
+      getInputTypeName(it.name, dmmfDocument),
+    ),
   );
   await saveSourceFile(inputsBarrelExportSourceFile);
 
   log("Generating relation resolvers...");
   const relationResolversData = await Promise.all(
-    dmmf.datamodel.models
+    dmmfDocument.datamodel.models
       .filter(model => model.fields.some(field => field.relationName))
       .map(model => {
-        const outputType = dmmf.schema.outputTypes.find(
+        const outputType = dmmfDocument.schema.outputTypes.find(
           type => type.name === model.name,
         )!;
-        const mapping = dmmf.mappings.find(it => it.model === model.name)!;
+        const mapping = dmmfDocument.mappings.find(
+          it => it.model === model.name,
+        )!;
         return generateRelationsResolverClassesFromModel(
           project,
           baseDirPath,
           model,
           mapping,
           outputType,
-          modelNames,
+          dmmfDocument,
         );
       }),
   );
@@ -204,8 +221,8 @@ export default async function generateCode(
 
   log("Generating crud resolvers...");
   const crudResolversData = await Promise.all(
-    dmmf.mappings.map(mapping => {
-      const model = dmmf.datamodel.models.find(
+    dmmfDocument.mappings.map(mapping => {
+      const model = dmmfDocument.datamodel.models.find(
         model => model.name === mapping.model,
       )!;
       return generateCrudResolverClassFromMapping(
@@ -216,6 +233,7 @@ export default async function generateCode(
         rootTypes,
         modelNames,
         options,
+        dmmfDocument,
       );
     }),
   );

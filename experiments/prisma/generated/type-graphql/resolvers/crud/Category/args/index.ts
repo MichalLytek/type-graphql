@@ -1,8 +1,8 @@
-export { CreateOneCategoryArgs } from "./CreateOneCategoryArgs";
+export { CreateCategoryArgs } from "./CreateCategoryArgs";
+export { DeleteCategoryArgs } from "./DeleteCategoryArgs";
 export { DeleteManyCategoryArgs } from "./DeleteManyCategoryArgs";
-export { DeleteOneCategoryArgs } from "./DeleteOneCategoryArgs";
 export { FindManyCategoryArgs } from "./FindManyCategoryArgs";
 export { FindOneCategoryArgs } from "./FindOneCategoryArgs";
+export { UpdateCategoryArgs } from "./UpdateCategoryArgs";
 export { UpdateManyCategoryArgs } from "./UpdateManyCategoryArgs";
-export { UpdateOneCategoryArgs } from "./UpdateOneCategoryArgs";
-export { UpsertOneCategoryArgs } from "./UpsertOneCategoryArgs";
+export { UpsertCategoryArgs } from "./UpsertCategoryArgs";

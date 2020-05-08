@@ -7,6 +7,10 @@ type AggregateCategory {
   count(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): Int!
 }
 
+type AggregateClient {
+  count(after: ClientWhereUniqueInput, before: ClientWhereUniqueInput, first: Int, last: Int, orderBy: ClientOrderByInput, skip: Int, where: ClientWhereInput): Int!
+}
+
 type AggregateDirector {
   count(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): Int!
 }
@@ -17,10 +21,6 @@ type AggregateMovie {
 
 type AggregatePatient {
   count(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): Int!
-}
-
-type AggregateUser {
-  count(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): Int!
 }
 
 type BatchPayload {
@@ -73,6 +73,92 @@ input CategoryWhereInput {
 
 input CategoryWhereUniqueInput {
   slug_number: SlugNumberCompoundUniqueInput
+}
+
+type Client {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  email: String!
+  hello: String!
+  id: Int!
+  name: String
+  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  role: Role!
+}
+
+input ClientCreateInput {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  email: String!
+  name: String
+  posts: PostCreateManyWithoutAuthorInput
+  role: Role!
+}
+
+input ClientCreateOneWithoutPostsInput {
+  connect: ClientWhereUniqueInput
+  create: ClientCreateWithoutPostsInput
+}
+
+input ClientCreateWithoutPostsInput {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  email: String!
+  name: String
+  role: Role!
+}
+
+input ClientOrderByInput {
+  age: OrderByArg
+  amount: OrderByArg
+  balance: OrderByArg
+  email: OrderByArg
+  id: OrderByArg
+  name: OrderByArg
+  role: OrderByArg
+}
+
+input ClientUpdateInput {
+  age: Int
+  amount: Float
+  balance: Float
+  email: String
+  id: Int
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+  role: Role
+}
+
+input ClientUpdateManyMutationInput {
+  age: Int
+  amount: Float
+  balance: Float
+  email: String
+  id: Int
+  name: String
+  role: Role
+}
+
+input ClientWhereInput {
+  age: IntFilter
+  amount: FloatFilter
+  AND: [ClientWhereInput!]
+  balance: FloatFilter
+  email: StringFilter
+  id: IntFilter
+  name: NullableStringFilter
+  NOT: [ClientWhereInput!]
+  OR: [ClientWhereInput!]
+  posts: PostFilter
+  role: RoleFilter
+}
+
+input ClientWhereUniqueInput {
+  email: String
+  id: Int
 }
 
 """
@@ -294,38 +380,38 @@ input MovieWhereUniqueInput {
 }
 
 type Mutation {
-  createOneCategory(data: CategoryCreateInput!): Category!
-  createOneDirector(data: DirectorCreateInput!): Director!
-  createOneMovie(data: MovieCreateInput!): Movie!
-  createOnePatient(data: PatientCreateInput!): Patient!
-  createOnePost(data: PostCreateInput!): Post!
-  createOneUser(data: UserCreateInput!): User!
+  createCategory(data: CategoryCreateInput!): Category!
+  createClient(data: ClientCreateInput!): Client!
+  createDirector(data: DirectorCreateInput!): Director!
+  createMovie(data: MovieCreateInput!): Movie!
+  createPatient(data: PatientCreateInput!): Patient!
+  createPost(data: PostCreateInput!): Post!
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteClient(where: ClientWhereUniqueInput!): Client
+  deleteDirector(where: DirectorWhereUniqueInput!): Director
   deleteManyCategory(where: CategoryWhereInput): BatchPayload!
+  deleteManyClient(where: ClientWhereInput): BatchPayload!
   deleteManyDirector(where: DirectorWhereInput): BatchPayload!
   deleteManyMovie(where: MovieWhereInput): BatchPayload!
   deleteManyPatient(where: PatientWhereInput): BatchPayload!
-  deleteManyUser(where: UserWhereInput): BatchPayload!
-  deleteOneCategory(where: CategoryWhereUniqueInput!): Category
-  deleteOneDirector(where: DirectorWhereUniqueInput!): Director
-  deleteOneMovie(where: MovieWhereUniqueInput!): Movie
-  deleteOnePatient(where: PatientWhereUniqueInput!): Patient
-  deleteOneUser(where: UserWhereUniqueInput!): User
+  deleteMovie(where: MovieWhereUniqueInput!): Movie
+  deletePatient(where: PatientWhereUniqueInput!): Patient
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateClient(data: ClientUpdateInput!, where: ClientWhereUniqueInput!): Client
+  updateDirector(data: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director
   updateManyCategory(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  updateManyClient(data: ClientUpdateManyMutationInput!, where: ClientWhereInput): BatchPayload!
   updateManyDirector(data: DirectorUpdateManyMutationInput!, where: DirectorWhereInput): BatchPayload!
   updateManyMovie(data: MovieUpdateManyMutationInput!, where: MovieWhereInput): BatchPayload!
   updateManyPatient(data: PatientUpdateManyMutationInput!, where: PatientWhereInput): BatchPayload!
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateOneCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
-  updateOneDirector(data: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director
-  updateOneMovie(data: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie
-  updateOnePatient(data: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertOneCategory(create: CategoryCreateInput!, update: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
-  upsertOneDirector(create: DirectorCreateInput!, update: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director!
-  upsertOneMovie(create: MovieCreateInput!, update: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie!
-  upsertOnePatient(create: PatientCreateInput!, update: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient!
-  upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  updateMovie(data: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie
+  updatePatient(data: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient
+  upsertCategory(create: CategoryCreateInput!, update: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
+  upsertClient(create: ClientCreateInput!, update: ClientUpdateInput!, where: ClientWhereUniqueInput!): Client!
+  upsertDirector(create: DirectorCreateInput!, update: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director!
+  upsertMovie(create: MovieCreateInput!, update: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie!
+  upsertPatient(create: PatientCreateInput!, update: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient!
 }
 
 input NullablePostKindFilter {
@@ -398,7 +484,7 @@ input PatientWhereUniqueInput {
 }
 
 type Post {
-  author: User!
+  author: Client!
   authorId: Int!
   content: String
   createdAt: DateTime!
@@ -410,7 +496,7 @@ type Post {
 }
 
 input PostCreateInput {
-  author: UserCreateOneWithoutPostsInput!
+  author: ClientCreateOneWithoutPostsInput!
   content: String
   createdAt: DateTime
   kind: PostKind
@@ -531,7 +617,7 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 
 input PostWhereInput {
   AND: [PostWhereInput!]
-  author: UserWhereInput
+  author: ClientWhereInput
   authorId: IntFilter
   content: NullableStringFilter
   createdAt: DateTimeFilter
@@ -550,14 +636,16 @@ input PostWhereUniqueInput {
 
 type Query {
   aggregateCategory: AggregateCategory!
+  aggregateClient: AggregateClient!
   aggregateDirector: AggregateDirector!
   aggregateMovie: AggregateMovie!
   aggregatePatient: AggregatePatient!
-  aggregateUser: AggregateUser!
+  allClients: [Client!]!
   allPosts: [Post!]!
-  allUsers: [User!]!
   categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
+  client(where: ClientWhereUniqueInput!): Client
+  clients(after: ClientWhereUniqueInput, before: ClientWhereUniqueInput, first: Int, last: Int, orderBy: ClientOrderByInput, skip: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
   directors(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): [Director!]!
   movie(where: MovieWhereUniqueInput!): Movie
@@ -566,8 +654,6 @@ type Query {
   patients(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
-  user(where: UserWhereUniqueInput!): User
-  users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
 }
 
 enum Role {
@@ -599,92 +685,6 @@ input StringFilter {
   not: String
   notIn: [String!]
   startsWith: String
-}
-
-type User {
-  age: Int!
-  amount: Float!
-  balance: Float!
-  email: String!
-  hello: String!
-  id: Int!
-  name: String
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
-  role: Role!
-}
-
-input UserCreateInput {
-  age: Int!
-  amount: Float!
-  balance: Float!
-  email: String!
-  name: String
-  posts: PostCreateManyWithoutAuthorInput
-  role: Role!
-}
-
-input UserCreateOneWithoutPostsInput {
-  connect: UserWhereUniqueInput
-  create: UserCreateWithoutPostsInput
-}
-
-input UserCreateWithoutPostsInput {
-  age: Int!
-  amount: Float!
-  balance: Float!
-  email: String!
-  name: String
-  role: Role!
-}
-
-input UserOrderByInput {
-  age: OrderByArg
-  amount: OrderByArg
-  balance: OrderByArg
-  email: OrderByArg
-  id: OrderByArg
-  name: OrderByArg
-  role: OrderByArg
-}
-
-input UserUpdateInput {
-  age: Int
-  amount: Float
-  balance: Float
-  email: String
-  id: Int
-  name: String
-  posts: PostUpdateManyWithoutAuthorInput
-  role: Role
-}
-
-input UserUpdateManyMutationInput {
-  age: Int
-  amount: Float
-  balance: Float
-  email: String
-  id: Int
-  name: String
-  role: Role
-}
-
-input UserWhereInput {
-  age: IntFilter
-  amount: FloatFilter
-  AND: [UserWhereInput!]
-  balance: FloatFilter
-  email: StringFilter
-  id: IntFilter
-  name: NullableStringFilter
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  posts: PostFilter
-  role: RoleFilter
-}
-
-input UserWhereUniqueInput {
-  email: String
-  id: Int
 }
 
 input UUIDFilter {

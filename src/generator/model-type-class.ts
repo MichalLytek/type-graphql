@@ -1,13 +1,7 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
-import {
-  getBaseModelTypeName,
-  getFieldTSType,
-  getTypeGraphQLType,
-  parseDocumentationAttributes,
-} from "./helpers";
+import { getFieldTSType, getTypeGraphQLType } from "./helpers";
 import {
   generateTypeGraphQLImport,
   generateModelsImports,
@@ -15,15 +9,17 @@ import {
 } from "./imports";
 import { modelsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
+import { DMMF } from "./dmmf/types";
+import { DmmfDocument } from "./dmmf/dmmf-document";
 
 export default async function generateObjectTypeClassFromModel(
   project: Project,
   baseDirPath: string,
   model: DMMF.Model,
-  modelNames: string[],
+  dmmfDocument: DmmfDocument,
 ) {
   const dirPath = path.resolve(baseDirPath, modelsFolderName);
-  const filePath = path.resolve(dirPath, `${model.name}.ts`);
+  const filePath = path.resolve(dirPath, `${model.typeName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -34,7 +30,11 @@ export default async function generateObjectTypeClassFromModel(
     model.fields
       .filter(field => field.kind === "object")
       .filter(field => field.type !== model.name)
-      .map(field => field.type),
+      .map(field =>
+        dmmfDocument.isModelName(field.type)
+          ? dmmfDocument.getModelTypeName(field.type)!
+          : field.type,
+      ),
   );
   generateEnumsImports(
     sourceFile,
@@ -47,22 +47,14 @@ export default async function generateObjectTypeClassFromModel(
   const modelDocs = undefined as string | undefined;
   // const modelDocs =
   //   model.documentation && model.documentation.replace("\r", "");
-  const attributeArgs = parseDocumentationAttributes(
-    model.documentation,
-    "type",
-  );
-  const typeName = attributeArgs?.slice(1, -1);
-  console.log(model.name, typeName);
 
   sourceFile.addClass({
-    name: getBaseModelTypeName(model.name),
+    name: model.typeName,
     isExported: true,
     decorators: [
       {
         name: "TypeGraphQL.ObjectType",
         arguments: [
-          // `"${model.name}"`,
-          // `"${getBaseModelTypeName(model.name)}"`,
           `{
             isAbstract: true,
             description: ${modelDocs ? `"${modelDocs}"` : "undefined"},
@@ -80,7 +72,7 @@ export default async function generateObjectTypeClassFromModel(
 
         return {
           name: field.name,
-          type: getFieldTSType(field, modelNames),
+          type: getFieldTSType(field, dmmfDocument),
           hasExclamationToken: !isOptional,
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
@@ -91,7 +83,7 @@ export default async function generateObjectTypeClassFromModel(
                   {
                     name: "TypeGraphQL.Field",
                     arguments: [
-                      `_type => ${getTypeGraphQLType(field, modelNames)}`,
+                      `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
                       `{
                         nullable: ${isOptional},
                         description: ${

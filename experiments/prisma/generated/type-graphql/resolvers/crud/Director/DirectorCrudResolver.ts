@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOneDirectorArgs } from "./args/CreateOneDirectorArgs";
+import { CreateDirectorArgs } from "./args/CreateDirectorArgs";
+import { DeleteDirectorArgs } from "./args/DeleteDirectorArgs";
 import { DeleteManyDirectorArgs } from "./args/DeleteManyDirectorArgs";
-import { DeleteOneDirectorArgs } from "./args/DeleteOneDirectorArgs";
 import { FindManyDirectorArgs } from "./args/FindManyDirectorArgs";
 import { FindOneDirectorArgs } from "./args/FindOneDirectorArgs";
+import { UpdateDirectorArgs } from "./args/UpdateDirectorArgs";
 import { UpdateManyDirectorArgs } from "./args/UpdateManyDirectorArgs";
-import { UpdateOneDirectorArgs } from "./args/UpdateOneDirectorArgs";
-import { UpsertOneDirectorArgs } from "./args/UpsertOneDirectorArgs";
+import { UpsertDirectorArgs } from "./args/UpsertDirectorArgs";
 import { Director } from "../../../models/Director";
 import { AggregateDirector } from "../../outputs/AggregateDirector";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -33,7 +33,7 @@ export class DirectorCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneDirectorArgs): Promise<Director> {
+  async createDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateDirectorArgs): Promise<Director> {
     return ctx.prisma.director.create(args);
   }
 
@@ -41,7 +41,7 @@ export class DirectorCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneDirectorArgs): Promise<Director | null> {
+  async deleteDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class DirectorCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneDirectorArgs): Promise<Director | null> {
+  async updateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.update(args);
   }
 
@@ -73,7 +73,7 @@ export class DirectorCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneDirectorArgs): Promise<Director> {
+  async upsertDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertDirectorArgs): Promise<Director> {
     return ctx.prisma.director.upsert(args);
   }
 

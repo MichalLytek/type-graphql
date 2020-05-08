@@ -99,7 +99,7 @@ describe("crud resolvers execution", () => {
   it("should properly call PrismaClient on `create` action", async () => {
     const document = /* graphql */ `
       mutation {
-        createOneUser(
+        createUser(
           data: {
             uniqueStringField: "unique"
             optionalStringField: "optional"
@@ -125,16 +125,16 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("createOneUser mocked response");
+    expect(data).toMatchSnapshot("createUser mocked response");
     expect(prismaMock.user.create.mock.calls).toMatchSnapshot(
-      "createOneUser call args",
+      "createUser call args",
     );
   });
 
   it("should properly call PrismaClient on `delete` action", async () => {
     const document = /* graphql */ `
       mutation {
-        deleteOneUser(
+        deleteUser(
           where: {
             uniqueStringField: "unique"
           }
@@ -158,16 +158,16 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("deleteOneUser mocked response");
+    expect(data).toMatchSnapshot("deleteUser mocked response");
     expect(prismaMock.user.delete.mock.calls).toMatchSnapshot(
-      "deleteOneUser call args",
+      "deleteUser call args",
     );
   });
 
   it("should properly call PrismaClient on `update` action", async () => {
     const document = /* graphql */ `
       mutation {
-        updateOneUser(
+        updateUser(
           data: {
             dateField: "2019-12-31T14:16:02.572Z",
           }
@@ -194,9 +194,9 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("updateOneUser mocked response");
+    expect(data).toMatchSnapshot("updateUser mocked response");
     expect(prismaMock.user.update.mock.calls).toMatchSnapshot(
-      "updateOneUser call args",
+      "updateUser call args",
     );
   });
 
@@ -268,7 +268,7 @@ describe("crud resolvers execution", () => {
   it("should properly call PrismaClient on `upsert` action", async () => {
     const document = /* graphql */ `
       mutation {
-        upsertOneUser(
+        upsertUser(
           where: {
             uniqueStringField: "unique"
           }
@@ -304,9 +304,9 @@ describe("crud resolvers execution", () => {
     });
 
     expect(errors).toBeUndefined();
-    expect(data).toMatchSnapshot("upsertOneUser mocked response");
+    expect(data).toMatchSnapshot("upsertUser mocked response");
     expect(prismaMock.user.upsert.mock.calls).toMatchSnapshot(
-      "upsertOneUser call args",
+      "upsertUser call args",
     );
   });
 

@@ -241,4 +241,41 @@ describe("inputs", () => {
       "DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput",
     );
   });
+
+  it("should properly generate input type classes when model is renamed", async () => {
+    const schema = /* prisma */ `
+      // @@TypeGraphQL.type("Example")
+      model SampleModel {
+        intIdField    Int       @id @default(autoincrement())
+        stringField   String    @unique
+        floatField    Float
+        booleanField  Boolean
+        dateField     DateTime
+        other         OtherModel @relation(fields: [otherId], references: [id])
+        otherId       Int
+      }
+
+      model OtherModel {
+        id    Int     @id @default(autoincrement())
+        name  String
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const exampleWhereInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/ExampleWhereInput.ts",
+    );
+    const exampleWhereUniqueInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/ExampleWhereUniqueInput.ts",
+    );
+    const exampleOrderByInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/ExampleOrderByInput.ts",
+    );
+
+    expect(exampleWhereInputTSFile).toMatchSnapshot("ExampleWhereInput");
+    expect(exampleWhereUniqueInputTSFile).toMatchSnapshot(
+      "ExampleWhereUniqueInput",
+    );
+    expect(exampleOrderByInputTSFile).toMatchSnapshot("ExampleOrderByInput");
+  });
 });

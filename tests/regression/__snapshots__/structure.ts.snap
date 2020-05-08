@@ -1,5 +1,116 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`structure should generate proper folders and file names when model is renamed: structure 1`] = `
+"
+[type-graphql]
+  [enums]
+    Color.ts
+    OrderByArg.ts
+    index.ts
+  index.ts
+  [models]
+    RenamedPost.ts
+    RenamedUser.ts
+    index.ts
+  [resolvers]
+    [crud]
+      [RenamedPost]
+        AggregateRenamedPostResolver.ts
+        CreateRenamedPostResolver.ts
+        DeleteManyRenamedPostResolver.ts
+        DeleteRenamedPostResolver.ts
+        FindManyRenamedPostResolver.ts
+        FindOneRenamedPostResolver.ts
+        RenamedPostCrudResolver.ts
+        UpdateManyRenamedPostResolver.ts
+        UpdateRenamedPostResolver.ts
+        UpsertRenamedPostResolver.ts
+        [args]
+          CreateRenamedPostArgs.ts
+          DeleteManyRenamedPostArgs.ts
+          DeleteRenamedPostArgs.ts
+          FindManyRenamedPostArgs.ts
+          FindOneRenamedPostArgs.ts
+          UpdateManyRenamedPostArgs.ts
+          UpdateRenamedPostArgs.ts
+          UpsertRenamedPostArgs.ts
+          index.ts
+      [RenamedUser]
+        AggregateRenamedUserResolver.ts
+        CreateRenamedUserResolver.ts
+        DeleteManyRenamedUserResolver.ts
+        DeleteRenamedUserResolver.ts
+        FindManyRenamedUserResolver.ts
+        FindOneRenamedUserResolver.ts
+        RenamedUserCrudResolver.ts
+        UpdateManyRenamedUserResolver.ts
+        UpdateRenamedUserResolver.ts
+        UpsertRenamedUserResolver.ts
+        [args]
+          CreateRenamedUserArgs.ts
+          DeleteManyRenamedUserArgs.ts
+          DeleteRenamedUserArgs.ts
+          FindManyRenamedUserArgs.ts
+          FindOneRenamedUserArgs.ts
+          UpdateManyRenamedUserArgs.ts
+          UpdateRenamedUserArgs.ts
+          UpsertRenamedUserArgs.ts
+          index.ts
+      index.ts
+    [inputs]
+      ColorFilter.ts
+      IntFilter.ts
+      NullableStringFilter.ts
+      RenamedPostCreateInput.ts
+      RenamedPostCreateManyWithoutAuthorInput.ts
+      RenamedPostCreateWithoutAuthorInput.ts
+      RenamedPostFilter.ts
+      RenamedPostOrderByInput.ts
+      RenamedPostScalarWhereInput.ts
+      RenamedPostUpdateInput.ts
+      RenamedPostUpdateManyDataInput.ts
+      RenamedPostUpdateManyMutationInput.ts
+      RenamedPostUpdateManyWithWhereNestedInput.ts
+      RenamedPostUpdateManyWithoutAuthorInput.ts
+      RenamedPostUpdateWithWhereUniqueWithoutAuthorInput.ts
+      RenamedPostUpdateWithoutAuthorDataInput.ts
+      RenamedPostUpsertWithWhereUniqueWithoutAuthorInput.ts
+      RenamedPostWhereInput.ts
+      RenamedPostWhereUniqueInput.ts
+      RenamedUserCreateInput.ts
+      RenamedUserCreateOneWithoutPostsInput.ts
+      RenamedUserCreateWithoutPostsInput.ts
+      RenamedUserOrderByInput.ts
+      RenamedUserUpdateInput.ts
+      RenamedUserUpdateManyMutationInput.ts
+      RenamedUserUpdateOneRequiredWithoutPostsInput.ts
+      RenamedUserUpdateWithoutPostsDataInput.ts
+      RenamedUserUpsertWithoutPostsInput.ts
+      RenamedUserWhereInput.ts
+      RenamedUserWhereUniqueInput.ts
+      StringFilter.ts
+      index.ts
+    [outputs]
+      AggregateRenamedPost.ts
+      AggregateRenamedUser.ts
+      BatchPayload.ts
+      [args]
+        AggregateRenamedPostCountArgs.ts
+        AggregateRenamedUserCountArgs.ts
+        index.ts
+      index.ts
+    [relations]
+      [RenamedPost]
+        RenamedPostRelationsResolver.ts
+      [RenamedUser]
+        RenamedUserRelationsResolver.ts
+        [args]
+          RenamedUserPostsArgs.ts
+          index.ts
+      index.ts
+"
+`;
+
 exports[`structure should generate proper folders structure and file names for complex datamodel: structure 1`] = `
 "
 [type-graphql]
@@ -16,45 +127,45 @@ exports[`structure should generate proper folders structure and file names for c
     [crud]
       [Post]
         AggregatePostResolver.ts
-        CreateOnePostResolver.ts
+        CreatePostResolver.ts
         DeleteManyPostResolver.ts
-        DeleteOnePostResolver.ts
+        DeletePostResolver.ts
         FindManyPostResolver.ts
         FindOnePostResolver.ts
         PostCrudResolver.ts
         UpdateManyPostResolver.ts
-        UpdateOnePostResolver.ts
-        UpsertOnePostResolver.ts
+        UpdatePostResolver.ts
+        UpsertPostResolver.ts
         [args]
-          CreateOnePostArgs.ts
+          CreatePostArgs.ts
           DeleteManyPostArgs.ts
-          DeleteOnePostArgs.ts
+          DeletePostArgs.ts
           FindManyPostArgs.ts
           FindOnePostArgs.ts
           UpdateManyPostArgs.ts
-          UpdateOnePostArgs.ts
-          UpsertOnePostArgs.ts
+          UpdatePostArgs.ts
+          UpsertPostArgs.ts
           index.ts
       [User]
         AggregateUserResolver.ts
-        CreateOneUserResolver.ts
+        CreateUserResolver.ts
         DeleteManyUserResolver.ts
-        DeleteOneUserResolver.ts
+        DeleteUserResolver.ts
         FindManyUserResolver.ts
         FindOneUserResolver.ts
         UpdateManyUserResolver.ts
-        UpdateOneUserResolver.ts
-        UpsertOneUserResolver.ts
+        UpdateUserResolver.ts
+        UpsertUserResolver.ts
         UserCrudResolver.ts
         [args]
-          CreateOneUserArgs.ts
+          CreateUserArgs.ts
           DeleteManyUserArgs.ts
-          DeleteOneUserArgs.ts
+          DeleteUserArgs.ts
           FindManyUserArgs.ts
           FindOneUserArgs.ts
           UpdateManyUserArgs.ts
-          UpdateOneUserArgs.ts
-          UpsertOneUserArgs.ts
+          UpdateUserArgs.ts
+          UpsertUserArgs.ts
           index.ts
       index.ts
     [inputs]

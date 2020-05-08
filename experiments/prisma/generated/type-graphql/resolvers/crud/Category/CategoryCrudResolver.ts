@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOneCategoryArgs } from "./args/CreateOneCategoryArgs";
+import { CreateCategoryArgs } from "./args/CreateCategoryArgs";
+import { DeleteCategoryArgs } from "./args/DeleteCategoryArgs";
 import { DeleteManyCategoryArgs } from "./args/DeleteManyCategoryArgs";
-import { DeleteOneCategoryArgs } from "./args/DeleteOneCategoryArgs";
 import { FindManyCategoryArgs } from "./args/FindManyCategoryArgs";
 import { FindOneCategoryArgs } from "./args/FindOneCategoryArgs";
+import { UpdateCategoryArgs } from "./args/UpdateCategoryArgs";
 import { UpdateManyCategoryArgs } from "./args/UpdateManyCategoryArgs";
-import { UpdateOneCategoryArgs } from "./args/UpdateOneCategoryArgs";
-import { UpsertOneCategoryArgs } from "./args/UpsertOneCategoryArgs";
+import { UpsertCategoryArgs } from "./args/UpsertCategoryArgs";
 import { Category } from "../../../models/Category";
 import { AggregateCategory } from "../../outputs/AggregateCategory";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -33,7 +33,7 @@ export class CategoryCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneCategoryArgs): Promise<Category> {
+  async createCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateCategoryArgs): Promise<Category> {
     return ctx.prisma.category.create(args);
   }
 
@@ -41,7 +41,7 @@ export class CategoryCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneCategoryArgs): Promise<Category | null> {
+  async deleteCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class CategoryCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneCategoryArgs): Promise<Category | null> {
+  async updateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.update(args);
   }
 
@@ -73,7 +73,7 @@ export class CategoryCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneCategoryArgs): Promise<Category> {
+  async upsertCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertCategoryArgs): Promise<Category> {
     return ctx.prisma.category.upsert(args);
   }
 

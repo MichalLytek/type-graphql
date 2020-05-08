@@ -1,1 +1,0 @@
-export { UserPostsArgs } from "./UserPostsArgs";

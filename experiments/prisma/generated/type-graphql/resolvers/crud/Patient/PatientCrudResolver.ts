@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOnePatientArgs } from "./args/CreateOnePatientArgs";
+import { CreatePatientArgs } from "./args/CreatePatientArgs";
 import { DeleteManyPatientArgs } from "./args/DeleteManyPatientArgs";
-import { DeleteOnePatientArgs } from "./args/DeleteOnePatientArgs";
+import { DeletePatientArgs } from "./args/DeletePatientArgs";
 import { FindManyPatientArgs } from "./args/FindManyPatientArgs";
 import { FindOnePatientArgs } from "./args/FindOnePatientArgs";
 import { UpdateManyPatientArgs } from "./args/UpdateManyPatientArgs";
-import { UpdateOnePatientArgs } from "./args/UpdateOnePatientArgs";
-import { UpsertOnePatientArgs } from "./args/UpsertOnePatientArgs";
+import { UpdatePatientArgs } from "./args/UpdatePatientArgs";
+import { UpsertPatientArgs } from "./args/UpsertPatientArgs";
 import { Patient } from "../../../models/Patient";
 import { AggregatePatient } from "../../outputs/AggregatePatient";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -33,7 +33,7 @@ export class PatientCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOnePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOnePatientArgs): Promise<Patient> {
+  async createPatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreatePatientArgs): Promise<Patient> {
     return ctx.prisma.patient.create(args);
   }
 
@@ -41,7 +41,7 @@ export class PatientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOnePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOnePatientArgs): Promise<Patient | null> {
+  async deletePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class PatientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOnePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOnePatientArgs): Promise<Patient | null> {
+  async updatePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.update(args);
   }
 
@@ -73,7 +73,7 @@ export class PatientCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOnePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOnePatientArgs): Promise<Patient> {
+  async upsertPatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertPatientArgs): Promise<Patient> {
     return ctx.prisma.patient.upsert(args);
   }
 

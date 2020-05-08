@@ -1,25 +1,29 @@
 import { DMMF } from "@prisma/client/runtime/dmmf-types";
+import pluralize from "pluralize";
 
 import { DMMFTypeInfo } from "./types";
 import { ModelKeys } from "./config";
+import { DmmfDocument } from "./dmmf/dmmf-document";
 
 export function noop() {}
 
-export function getBaseModelTypeName(modelName: string) {
-  // TODO: add proper support for swapping model types with custom types
-  // return `Base${modelName}`;
-  return modelName;
-}
-
-export function getFieldTSType(typeInfo: DMMFTypeInfo, modelNames: string[]) {
+export function getFieldTSType(
+  typeInfo: DMMFTypeInfo,
+  dmmfDocument: DmmfDocument,
+  modelName?: string,
+  typeName?: string,
+) {
   let TSType: string;
   if (typeInfo.kind === "scalar") {
     TSType = mapScalarToTSType(typeInfo.type);
   } else if (typeInfo.kind === "object") {
-    if (modelNames.includes(typeInfo.type)) {
-      TSType = getBaseModelTypeName(typeInfo.type);
+    if (dmmfDocument.isModelName(typeInfo.type)) {
+      TSType = dmmfDocument.getModelTypeName(typeInfo.type)!;
     } else {
-      TSType = typeInfo.type;
+      TSType =
+        !typeName || !modelName
+          ? getInputTypeName(typeInfo.type, dmmfDocument)
+          : typeInfo.type.replace(modelName, typeName);
     }
   } else if (typeInfo.kind === "enum") {
     TSType = `keyof typeof ${typeInfo.type}`;
@@ -65,16 +69,21 @@ export function mapScalarToTSType(scalar: string) {
 
 export function getTypeGraphQLType(
   typeInfo: DMMFTypeInfo,
-  modelNames: string[],
+  dmmfDocument: DmmfDocument,
+  modelName?: string,
+  typeName?: string,
 ) {
   let GraphQLType: string;
   if (typeInfo.kind === "scalar") {
     GraphQLType = mapScalarToTypeGraphQLType(typeInfo.type);
   } else if (typeInfo.kind === "object") {
-    if (modelNames.includes(typeInfo.type)) {
-      GraphQLType = getBaseModelTypeName(typeInfo.type);
+    if (dmmfDocument.isModelName(typeInfo.type)) {
+      GraphQLType = dmmfDocument.getModelTypeName(typeInfo.type)!;
     } else {
-      GraphQLType = typeInfo.type;
+      GraphQLType =
+        !typeName || !modelName
+          ? getInputTypeName(typeInfo.type, dmmfDocument)
+          : typeInfo.type.replace(modelName, typeName);
     }
   } else {
     GraphQLType = typeInfo.type;
@@ -129,35 +138,48 @@ export function pascalCase(str: string): string {
 
 export function getMappedActionName(
   actionName: ModelKeys,
-  methodName: string,
-  mapping: DMMF.Mapping,
+  typeName: string,
 ): string {
   switch (actionName) {
     case "findOne": {
-      return camelCase(mapping.model);
+      return camelCase(typeName);
     }
     case "findMany": {
-      return camelCase(mapping.plural);
+      return pluralize(camelCase(typeName));
     }
     default: {
-      return methodName;
+      return `${actionName}${typeName}`;
     }
   }
 }
 
-const attributeRegex = /(@@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
-const attributeArgsRegex = /(?:\(")+([A-Za-z])+(?:"\))+/;
-const attributeKindRegex = /(?:\.)+([A-Za-z])+(?:\()+/;
+export function getInputTypeName(
+  originalInputName: string,
+  dmmfDocument: DmmfDocument,
+): string {
+  const inputParseResult = [
+    "Create",
+    "OrderBy",
+    "Update",
+    "Upsert",
+    "ScalarWhere",
+    "Where",
+    "Filter",
+  ]
+    .map(inputKeyword => originalInputName.search(inputKeyword))
+    .filter(position => position >= 0);
 
-export function parseDocumentationAttributes(
-  documentation: string | undefined,
-  expectedAttributeKind: string,
-) {
-  const attribute = documentation?.match(attributeRegex)?.[0];
-  const attributeKind = attribute?.match(attributeKindRegex)?.[0]?.slice(1, -1);
-  if (attributeKind !== expectedAttributeKind) {
-    return;
+  if (inputParseResult.length === 0) {
+    return originalInputName;
   }
-  const attributeArgs = attribute?.match(attributeArgsRegex)?.[0]?.slice(1, -1);
-  return attributeArgs;
+
+  const keywordPhrasePosition = inputParseResult[0];
+  const modelName = originalInputName.slice(0, keywordPhrasePosition);
+  const typeNameRest = originalInputName.slice(keywordPhrasePosition);
+  const modelTypeName = dmmfDocument.getModelTypeName(modelName);
+  // console.log(originalInputName, modelName, modelTypeName, typeNameRest);
+  if (!modelTypeName) {
+    return originalInputName;
+  }
+  return `${modelTypeName}${typeNameRest}`;
 }

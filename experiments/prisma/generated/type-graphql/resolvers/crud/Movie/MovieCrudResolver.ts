@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOneMovieArgs } from "./args/CreateOneMovieArgs";
+import { CreateMovieArgs } from "./args/CreateMovieArgs";
 import { DeleteManyMovieArgs } from "./args/DeleteManyMovieArgs";
-import { DeleteOneMovieArgs } from "./args/DeleteOneMovieArgs";
+import { DeleteMovieArgs } from "./args/DeleteMovieArgs";
 import { FindManyMovieArgs } from "./args/FindManyMovieArgs";
 import { FindOneMovieArgs } from "./args/FindOneMovieArgs";
 import { UpdateManyMovieArgs } from "./args/UpdateManyMovieArgs";
-import { UpdateOneMovieArgs } from "./args/UpdateOneMovieArgs";
-import { UpsertOneMovieArgs } from "./args/UpsertOneMovieArgs";
+import { UpdateMovieArgs } from "./args/UpdateMovieArgs";
+import { UpsertMovieArgs } from "./args/UpsertMovieArgs";
 import { Movie } from "../../../models/Movie";
 import { AggregateMovie } from "../../outputs/AggregateMovie";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -33,7 +33,7 @@ export class MovieCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneMovieArgs): Promise<Movie> {
+  async createMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateMovieArgs): Promise<Movie> {
     return ctx.prisma.movie.create(args);
   }
 
@@ -41,7 +41,7 @@ export class MovieCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneMovieArgs): Promise<Movie | null> {
+  async deleteMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class MovieCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneMovieArgs): Promise<Movie | null> {
+  async updateMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.update(args);
   }
 
@@ -73,7 +73,7 @@ export class MovieCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneMovieArgs): Promise<Movie> {
+  async upsertMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertMovieArgs): Promise<Movie> {
     return ctx.prisma.movie.upsert(args);
   }
 

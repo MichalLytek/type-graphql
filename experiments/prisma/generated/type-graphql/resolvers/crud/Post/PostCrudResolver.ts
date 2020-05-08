@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOnePostArgs } from "./args/CreateOnePostArgs";
+import { CreatePostArgs } from "./args/CreatePostArgs";
 import { DeleteManyPostArgs } from "./args/DeleteManyPostArgs";
-import { DeleteOnePostArgs } from "./args/DeleteOnePostArgs";
+import { DeletePostArgs } from "./args/DeletePostArgs";
 import { FindManyPostArgs } from "./args/FindManyPostArgs";
 import { FindOnePostArgs } from "./args/FindOnePostArgs";
 import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
-import { UpdateOnePostArgs } from "./args/UpdateOnePostArgs";
-import { UpsertOnePostArgs } from "./args/UpsertOnePostArgs";
+import { UpdatePostArgs } from "./args/UpdatePostArgs";
+import { UpsertPostArgs } from "./args/UpsertPostArgs";
 import { Post } from "../../../models/Post";
 import { AggregatePost } from "../../outputs/AggregatePost";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -33,7 +33,7 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOnePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOnePostArgs): Promise<Post> {
+  async createPost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreatePostArgs): Promise<Post> {
     return ctx.prisma.post.create(args);
   }
 
@@ -41,7 +41,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOnePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOnePostArgs): Promise<Post | null> {
+  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | null> {
     return ctx.prisma.post.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOnePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOnePostArgs): Promise<Post | null> {
+  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | null> {
     return ctx.prisma.post.update(args);
   }
 
@@ -73,7 +73,7 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOnePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOnePostArgs): Promise<Post> {
+  async upsertPost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertPostArgs): Promise<Post> {
     return ctx.prisma.post.upsert(args);
   }
 

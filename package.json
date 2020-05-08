@@ -21,6 +21,7 @@
   "dependencies": {
     "@prisma/generator-helper": "2.0.0-beta.3",
     "@prisma/sdk": "2.0.0-beta.3",
+    "pluralize": "^8.0.0",
     "ts-morph": "^7.0.2",
     "tslib": "^1.11.1"
   },
@@ -29,6 +30,7 @@
     "@prisma/client": "2.0.0-beta.3",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.2",
+    "@types/pluralize": "0.0.29",
     "directory-tree": "^2.2.4",
     "env-cmd": "^10.1.0",
     "graphql": "^14.6.0",

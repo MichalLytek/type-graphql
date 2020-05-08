@@ -1,8 +1,7 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
-import { getBaseModelTypeName, camelCase } from "../helpers";
+import { camelCase } from "../helpers";
 import { GeneratedResolverData } from "../types";
 import {
   baseKeys,
@@ -25,6 +24,8 @@ import saveSourceFile from "../../utils/saveSourceFile";
 import generateActionResolverClass from "./separate-action";
 import { GenerateCodeOptions } from "../options";
 import { generateCrudResolverClassMethodDeclaration } from "./helpers";
+import { DmmfDocument } from "../dmmf/dmmf-document";
+import { DMMF } from "../dmmf/types";
 
 export default async function generateCrudResolverClassFromMapping(
   project: Project,
@@ -34,15 +35,16 @@ export default async function generateCrudResolverClassFromMapping(
   types: DMMF.OutputType[],
   modelNames: string[],
   options: GenerateCodeOptions,
+  dmmfDocument: DmmfDocument,
 ): Promise<GeneratedResolverData> {
-  const resolverName = `${model.name}CrudResolver`;
+  const resolverName = `${model.typeName}CrudResolver`;
   const collectionName = camelCase(mapping.model);
 
   const resolverDirPath = path.resolve(
     baseDirPath,
     resolversFolderName,
     crudResolversFolderName,
-    model.name,
+    model.typeName,
   );
   const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
@@ -85,8 +87,8 @@ export default async function generateCrudResolverClassFromMapping(
           project,
           resolverDirPath,
           method.args,
-          method.name,
-          modelNames,
+          `${actionName}${dmmfDocument.getModelTypeName(mapping.model)}`,
+          dmmfDocument,
         );
       }
 
@@ -125,12 +127,26 @@ export default async function generateCrudResolverClassFromMapping(
   ];
   generateModelsImports(
     sourceFile,
-    distinctOutputTypesNames.filter(typeName => modelNames.includes(typeName)),
+    distinctOutputTypesNames
+      .filter(typeName => modelNames.includes(typeName))
+      .map(typeName =>
+        dmmfDocument.isModelName(typeName)
+          ? dmmfDocument.getModelTypeName(typeName)!
+          : typeName,
+      ),
     3,
   );
   generateOutputsImports(
     sourceFile,
-    distinctOutputTypesNames.filter(typeName => !modelNames.includes(typeName)),
+    distinctOutputTypesNames
+      .filter(typeName => !modelNames.includes(typeName))
+      .map(typeName =>
+        typeName.includes("Aggregate")
+          ? `Aggregate${dmmfDocument.getModelTypeName(
+              typeName.replace("Aggregate", ""),
+            )}`
+          : typeName,
+      ),
     2,
   );
 
@@ -140,7 +156,7 @@ export default async function generateCrudResolverClassFromMapping(
     decorators: [
       {
         name: "TypeGraphQL.Resolver",
-        arguments: [`_of => ${model.name}`],
+        arguments: [`_of => ${model.typeName}`],
       },
     ],
     methods: await Promise.all(
@@ -149,10 +165,11 @@ export default async function generateCrudResolverClassFromMapping(
           generateCrudResolverClassMethodDeclaration(
             operationKind,
             actionName,
+            model.typeName,
             method,
             argsTypeName,
             collectionName,
-            modelNames,
+            dmmfDocument,
             mapping,
             options,
           ),
@@ -176,13 +193,14 @@ export default async function generateCrudResolverClassFromMapping(
           modelNames,
           mapping,
           options,
+          dmmfDocument,
         ),
     ),
   );
 
   await saveSourceFile(sourceFile);
   return {
-    modelName: model.name,
+    modelName: model.typeName,
     resolverName,
     actionResolverNames,
     argTypeNames,

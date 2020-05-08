@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { User } from "../models/User";
+import { Client } from "../models/Client";
 import { PostKind } from "../enums/PostKind";
 
 @TypeGraphQL.ObjectType({
@@ -43,7 +43,7 @@ export class Post {
   })
   content?: string | null;
 
-  author?: User;
+  author?: Client;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,

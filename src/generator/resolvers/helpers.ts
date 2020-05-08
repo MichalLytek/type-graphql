@@ -8,26 +8,30 @@ import {
 import { DMMFTypeInfo } from "../types";
 import { GenerateCodeOptions } from "../options";
 import { ModelKeys } from "../config";
+import { DmmfDocument } from "../dmmf/dmmf-document";
 
 export function generateCrudResolverClassMethodDeclaration(
   operationKind: string,
   actionName: ModelKeys,
+  typeName: string,
   method: DMMF.SchemaField,
   argsTypeName: string | undefined,
   collectionName: string,
-  modelNames: string[],
+  dmmfDocument: DmmfDocument,
   mapping: DMMF.Mapping,
   options: GenerateCodeOptions,
 ) {
   const returnTSType = getFieldTSType(
     method.outputType as DMMFTypeInfo,
-    modelNames,
+    dmmfDocument,
+    mapping.model,
+    typeName,
   );
 
   return {
     name: options.useOriginalMapping
-      ? method.name
-      : getMappedActionName(actionName, method.name, mapping),
+      ? `${actionName}${typeName}`
+      : getMappedActionName(actionName, typeName),
     isAsync: true,
     returnType: `Promise<${returnTSType}>`,
     decorators: [
@@ -36,7 +40,9 @@ export function generateCrudResolverClassMethodDeclaration(
         arguments: [
           `_returns => ${getTypeGraphQLType(
             method.outputType as DMMFTypeInfo,
-            modelNames,
+            dmmfDocument,
+            mapping.model,
+            typeName,
           )}`,
           `{
             nullable: ${!method.outputType.isRequired},

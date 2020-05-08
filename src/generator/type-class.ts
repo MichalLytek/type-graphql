@@ -13,6 +13,7 @@ import {
   selectInputTypeFromTypes,
   camelCase,
   pascalCase,
+  getInputTypeName,
 } from "./helpers";
 import { DMMFTypeInfo } from "./types";
 import { outputsFolderName, inputsFolderName } from "./config";
@@ -24,15 +25,24 @@ import {
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import generateArgsTypeClassFromArgs from "./args-class";
+import { DmmfDocument } from "./dmmf/dmmf-document";
 
 export async function generateOutputTypeClassFromType(
   project: Project,
   dirPath: string,
   type: DMMF.OutputType,
-  modelNames: string[],
-): Promise<string[]> {
+  dmmfDocument: DmmfDocument,
+) {
+  // TODO: make it more future-proof
+  const modelName = type.name.replace("Aggregate", "");
+  const typeName = !type.name.includes("Aggregate")
+    ? type.name
+    : `Aggregate${dmmfDocument.getModelTypeName(
+        type.name.replace("Aggregate", ""),
+      )}`;
+
   const fileDirPath = path.resolve(dirPath, outputsFolderName);
-  const filePath = path.resolve(fileDirPath, `${type.name}.ts`);
+  const filePath = path.resolve(fileDirPath, `${typeName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -45,8 +55,8 @@ export async function generateOutputTypeClassFromType(
           project,
           fileDirPath,
           field.args,
-          `${type.name}${pascalCase(field.name)}`,
-          modelNames,
+          `${typeName}${pascalCase(field.name)}`,
+          dmmfDocument,
           2,
         );
       }
@@ -62,7 +72,7 @@ export async function generateOutputTypeClassFromType(
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
 
   sourceFile.addClass({
-    name: type.name,
+    name: typeName,
     isExported: true,
     decorators: [
       {
@@ -82,7 +92,7 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: field.name,
-          type: getFieldTSType(field.outputType as DMMFTypeInfo, modelNames),
+          type: getFieldTSType(field.outputType as DMMFTypeInfo, dmmfDocument),
           hasExclamationToken: isRequired,
           hasQuestionToken: !isRequired,
           trailingTrivia: "\r\n",
@@ -92,7 +102,7 @@ export async function generateOutputTypeClassFromType(
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   field.outputType as DMMFTypeInfo,
-                  modelNames,
+                  dmmfDocument,
                 )}`,
                 `{
                   nullable: ${!isRequired},
@@ -108,14 +118,13 @@ export async function generateOutputTypeClassFromType(
       .filter(it => it.args.length > 0 && type.name.startsWith("Aggregate"))
       .map<OptionalKind<MethodDeclarationStructure>>(fieldInfo => {
         const isRequired = fieldInfo.outputType.isRequired;
-        // TODO: make it more future-proof
-        const collectionName = camelCase(type.name.replace("Aggregate", ""));
+        const collectionName = camelCase(modelName);
 
         return {
           name: fieldInfo.name,
           type: getFieldTSType(
             fieldInfo.outputType as DMMFTypeInfo,
-            modelNames,
+            dmmfDocument,
           ),
           trailingTrivia: "\r\n",
           decorators: [
@@ -124,7 +133,7 @@ export async function generateOutputTypeClassFromType(
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   fieldInfo.outputType as DMMFTypeInfo,
-                  modelNames,
+                  dmmfDocument,
                 )}`,
                 `{
                   nullable: ${!isRequired},
@@ -155,16 +164,21 @@ export async function generateOutputTypeClassFromType(
 
   await saveSourceFile(sourceFile);
 
-  return fieldArgsTypeNames;
+  return { typeName, fieldArgsTypeNames };
 }
 
 export async function generateInputTypeClassFromType(
   project: Project,
   dirPath: string,
   type: DMMF.InputType,
-  modelNames: string[],
+  dmmfDocument: DmmfDocument,
 ): Promise<void> {
-  const filePath = path.resolve(dirPath, inputsFolderName, `${type.name}.ts`);
+  const inputTypeName = getInputTypeName(type.name, dmmfDocument);
+  const filePath = path.resolve(
+    dirPath,
+    inputsFolderName,
+    `${inputTypeName}.ts`,
+  );
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -175,8 +189,10 @@ export async function generateInputTypeClassFromType(
     type.fields
       .map(field => selectInputTypeFromTypes(field.inputType))
       .filter(fieldType => fieldType.kind === "object")
-      .map(fieldType => fieldType.type as string)
-      .filter(fieldType => fieldType !== type.name),
+      .map(fieldType =>
+        getInputTypeName(fieldType.type as string, dmmfDocument),
+      )
+      .filter(fieldType => fieldType !== inputTypeName),
   );
   generateEnumsImports(
     sourceFile,
@@ -188,7 +204,7 @@ export async function generateInputTypeClassFromType(
   );
 
   sourceFile.addClass({
-    name: type.name,
+    name: inputTypeName,
     isExported: true,
     decorators: [
       {
@@ -206,7 +222,7 @@ export async function generateInputTypeClassFromType(
         const inputType = selectInputTypeFromTypes(field.inputType);
         return {
           name: field.name,
-          type: getFieldTSType(inputType as DMMFTypeInfo, modelNames),
+          type: getFieldTSType(inputType as DMMFTypeInfo, dmmfDocument),
           hasExclamationToken: inputType.isRequired,
           hasQuestionToken: !inputType.isRequired,
           trailingTrivia: "\r\n",
@@ -216,7 +232,7 @@ export async function generateInputTypeClassFromType(
               arguments: [
                 `_type => ${getTypeGraphQLType(
                   inputType as DMMFTypeInfo,
-                  modelNames,
+                  dmmfDocument,
                 )}`,
                 `{
                   nullable: ${!inputType.isRequired},

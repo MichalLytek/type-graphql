@@ -45,4 +45,39 @@ describe("structure", () => {
     // FIXME: replace with `.toMatchInlineSnapshot()` when it starts working again
     expect(directoryStructureString).toMatchSnapshot("structure");
   });
+
+  it("should generate proper folders and file names when model is renamed", async () => {
+    const schema = /* prisma */ `
+      enum Color {
+        RED
+        GREEN
+        BLUE
+      }
+
+      // @@TypeGraphQL.type("RenamedUser")
+      model User {
+        id    Int      @id @default(autoincrement())
+        name  String?
+        posts Post[]
+      }
+
+      // @@TypeGraphQL.type("RenamedPost")
+      model Post {
+        uuid      String  @id @default(cuid())
+        content   String
+        author    User    @relation(fields: [authorId], references: [id])
+        authorId  Int
+        color     Color
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const directoryStructure = directoryTree(outputDirPath);
+    const directoryStructureString =
+      "\n[type-graphql]\n" +
+      stringifyDirectoryTrees(directoryStructure.children, 2);
+
+    // FIXME: replace with `.toMatchInlineSnapshot()` when it starts working again
+    expect(directoryStructureString).toMatchSnapshot("structure");
+  });
 });

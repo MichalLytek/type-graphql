@@ -1,5 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
-import { UserCreateOneWithoutPostsInput } from "../inputs/UserCreateOneWithoutPostsInput";
+import { ClientCreateOneWithoutPostsInput } from "../inputs/ClientCreateOneWithoutPostsInput";
 import { PostKind } from "../../enums/PostKind";
 
 @TypeGraphQL.InputType({
@@ -49,9 +49,9 @@ export class PostCreateInput {
   })
   kind?: keyof typeof PostKind | null;
 
-  @TypeGraphQL.Field(_type => UserCreateOneWithoutPostsInput, {
+  @TypeGraphQL.Field(_type => ClientCreateOneWithoutPostsInput, {
     nullable: false,
     description: undefined
   })
-  author!: UserCreateOneWithoutPostsInput;
+  author!: ClientCreateOneWithoutPostsInput;
 }

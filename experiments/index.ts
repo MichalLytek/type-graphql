@@ -11,15 +11,15 @@ import { ApolloServer } from "apollo-server";
 import path from "path";
 
 import {
-  User,
-  // User as BaseUser,
-  UserRelationsResolver,
-  UserCrudResolver,
+  Client,
+  // Client as BaseClient,
+  ClientRelationsResolver,
+  ClientCrudResolver,
   Post,
   // Post as BasePost,
   PostRelationsResolver,
   FindOnePostResolver,
-  CreateOnePostResolver,
+  CreatePostResolver,
   UpdateManyPostResolver,
   // Category,
   CategoryCrudResolver,
@@ -43,10 +43,10 @@ interface Context {
   prisma: PrismaClient;
 }
 
-@Resolver(of => User)
-class UserResolver {
-  @Query(returns => [User])
-  async allUsers(@Ctx() { prisma }: Context): Promise<User[]> {
+@Resolver(of => Client)
+class ClientResolver {
+  @Query(returns => [Client])
+  async allClients(@Ctx() { prisma }: Context): Promise<Client[]> {
     return prisma.user.findMany();
   }
 
@@ -67,13 +67,13 @@ class PostResolver {
 async function main() {
   const schema = await buildSchema({
     resolvers: [
-      UserResolver,
-      UserRelationsResolver,
-      UserCrudResolver,
+      ClientResolver,
+      ClientRelationsResolver,
+      ClientCrudResolver,
       PostResolver,
       PostRelationsResolver,
       FindOnePostResolver,
-      CreateOnePostResolver,
+      CreatePostResolver,
       UpdateManyPostResolver,
       CategoryCrudResolver,
       PatientCrudResolver,

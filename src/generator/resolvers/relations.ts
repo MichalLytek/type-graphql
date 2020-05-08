@@ -1,9 +1,7 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import {
-  getBaseModelTypeName,
   getFieldTSType,
   getTypeGraphQLType,
   camelCase,
@@ -23,6 +21,8 @@ import {
 } from "../imports";
 import { GeneratedResolverData } from "../types";
 import saveSourceFile from "../../utils/saveSourceFile";
+import { DmmfDocument } from "../dmmf/dmmf-document";
+import { DMMF } from "../dmmf/types";
 
 export default async function generateRelationsResolverClassesFromModel(
   project: Project,
@@ -30,10 +30,10 @@ export default async function generateRelationsResolverClassesFromModel(
   model: DMMF.Model,
   mapping: DMMF.Mapping,
   outputType: DMMF.OutputType,
-  modelNames: string[],
+  dmmfDocument: DmmfDocument,
 ): Promise<GeneratedResolverData> {
-  const resolverName = `${model.name}RelationsResolver`;
-  const rootArgName = camelCase(model.name);
+  const resolverName = `${model.typeName}RelationsResolver`;
+  const rootArgName = camelCase(model.typeName);
   const relationFields = model.fields.filter(field => field.relationName);
   const singleIdField = model.fields.find(field => field.isId);
   const singleUniqueField = model.fields.find(field => field.isUnique);
@@ -52,7 +52,7 @@ export default async function generateRelationsResolverClassesFromModel(
     baseDirPath,
     resolversFolderName,
     relationsResolversFolderName,
-    model.name,
+    model.typeName,
   );
   const filePath = path.resolve(resolverDirPath, `${resolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
@@ -68,7 +68,7 @@ export default async function generateRelationsResolverClassesFromModel(
       const fieldDocs = undefined as string | undefined;
       // const fieldDocs =
       //   field.documentation && field.documentation.replace("\r", "");
-      const fieldType = getFieldTSType(field, modelNames);
+      const fieldType = getFieldTSType(field, dmmfDocument);
 
       let argsTypeName: string | undefined;
       if (outputTypeField.args.length > 0) {
@@ -76,8 +76,8 @@ export default async function generateRelationsResolverClassesFromModel(
           project,
           resolverDirPath,
           outputTypeField.args,
-          model.name + pascalCase(field.name),
-          modelNames,
+          model.typeName + pascalCase(field.name),
+          dmmfDocument,
         );
       }
       return { field, fieldDocs, fieldType, argsTypeName };
@@ -100,7 +100,11 @@ export default async function generateRelationsResolverClassesFromModel(
   generateTypeGraphQLImport(sourceFile);
   generateModelsImports(
     sourceFile,
-    [...relationFields.map(field => field.type), model.name],
+    [...relationFields.map(field => field.type), model.name].map(typeName =>
+      dmmfDocument.isModelName(typeName)
+        ? dmmfDocument.getModelTypeName(typeName)!
+        : typeName,
+    ),
     3,
   );
   generateArgsImports(sourceFile, argTypeNames, 0);
@@ -111,7 +115,7 @@ export default async function generateRelationsResolverClassesFromModel(
     decorators: [
       {
         name: "TypeGraphQL.Resolver",
-        arguments: [`_of => ${getBaseModelTypeName(model.name)}`],
+        arguments: [`_of => ${model.typeName}`],
       },
     ],
     methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
@@ -134,7 +138,7 @@ export default async function generateRelationsResolverClassesFromModel(
           `;
         } else {
           throw new Error(
-            `Unexpected error happened on generating 'whereConditionString' for ${model.name} relation resolver`,
+            `Unexpected error happened on generating 'whereConditionString' for ${model.typeName} relation resolver`,
           );
         }
         return {
@@ -145,7 +149,7 @@ export default async function generateRelationsResolverClassesFromModel(
             {
               name: "TypeGraphQL.FieldResolver",
               arguments: [
-                `_type => ${getTypeGraphQLType(field, modelNames)}`,
+                `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
                 `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
@@ -156,7 +160,7 @@ export default async function generateRelationsResolverClassesFromModel(
           parameters: [
             {
               name: rootArgName,
-              type: `${getBaseModelTypeName(model.name)}`,
+              type: model.typeName,
               decorators: [{ name: "TypeGraphQL.Root", arguments: [] }],
             },
             {
@@ -187,5 +191,5 @@ export default async function generateRelationsResolverClassesFromModel(
   });
 
   await saveSourceFile(sourceFile);
-  return { modelName: model.name, resolverName, argTypeNames };
+  return { modelName: model.typeName, resolverName, argTypeNames };
 }

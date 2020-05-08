@@ -1,5 +1,4 @@
 import { Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import { pascalCase } from "../helpers";
@@ -17,6 +16,8 @@ import {
 import saveSourceFile from "../../utils/saveSourceFile";
 import { GenerateCodeOptions } from "../options";
 import { generateCrudResolverClassMethodDeclaration } from "./helpers";
+import { DmmfDocument } from "../dmmf/dmmf-document";
+import { DMMF } from "../dmmf/types";
 
 export default async function generateActionResolverClass(
   project: Project,
@@ -31,13 +32,16 @@ export default async function generateActionResolverClass(
   modelNames: string[],
   mapping: DMMF.Mapping,
   options: GenerateCodeOptions,
+  dmmfDocument: DmmfDocument,
 ): Promise<string> {
-  const actionResolverName = `${pascalCase(method.name)}Resolver`;
+  const actionResolverName = `${pascalCase(
+    actionName,
+  )}${dmmfDocument.getModelTypeName(mapping.model)}Resolver`;
   const resolverDirPath = path.resolve(
     baseDirPath,
     resolversFolderName,
     crudResolversFolderName,
-    model.name,
+    model.typeName,
   );
   const filePath = path.resolve(resolverDirPath, `${actionResolverName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
@@ -50,12 +54,26 @@ export default async function generateActionResolverClass(
   }
   generateModelsImports(
     sourceFile,
-    [model.name, outputTypeName].filter(name => modelNames.includes(name)),
+    [model.name, outputTypeName]
+      .filter(name => modelNames.includes(name))
+      .map(typeName =>
+        dmmfDocument.isModelName(typeName)
+          ? dmmfDocument.getModelTypeName(typeName)!
+          : typeName,
+      ),
     3,
   );
   generateOutputsImports(
     sourceFile,
-    [outputTypeName].filter(name => !modelNames.includes(name)),
+    [outputTypeName]
+      .filter(name => !modelNames.includes(name))
+      .map(typeName =>
+        typeName.includes("Aggregate")
+          ? `Aggregate${dmmfDocument.getModelTypeName(
+              typeName.replace("Aggregate", ""),
+            )}`
+          : typeName,
+      ),
     2,
   );
 
@@ -65,17 +83,18 @@ export default async function generateActionResolverClass(
     decorators: [
       {
         name: "TypeGraphQL.Resolver",
-        arguments: [`_of => ${model.name}`],
+        arguments: [`_of => ${model.typeName}`],
       },
     ],
     methods: [
       generateCrudResolverClassMethodDeclaration(
         operationKind,
         actionName,
+        model.typeName,
         method,
         argsTypeName,
         collectionName,
-        modelNames,
+        dmmfDocument,
         mapping,
         options,
       ),
