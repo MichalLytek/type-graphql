@@ -252,6 +252,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("gorrion.png")} width="250" />
             <span>Gorrion Software House</span>
           </a>
+          <a href="https://www.ligrsystems.com/">
+            <img src={imgUrl("live-graphics-system.png")} width="100" />
+            <span>Live Graphic Systems</span>
+          </a>
           <a href="https://alka.app/">
             <img src={imgUrl("alka.png")} width="150" />
             <span>Alka Finance</span>
