@@ -17,11 +17,12 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
 - [Subscriptions (simple)](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions)
 - [Subscriptions (using Redis)](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions)
 - [Interfaces](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
+- [Extensions (metadata)](https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions)
 
 ## Features usage
 
 - [Dependency injection (IoC container)](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container)
-  - [scoped container](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container)
+  - [Scoped containers](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container)
 - [Authorization](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization)
 - [Validation](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation)
 - [Types inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
@@ -29,12 +30,14 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
 - [Generic types](https://github.com/MichalLytek/type-graphql/tree/master/examples/generic-types)
 - [Mixin classes](https://github.com/MichalLytek/type-graphql/tree/master/examples/mixin-classes)
 - [Middlewares and Custom Decorators](https://github.com/MichalLytek/type-graphql/tree/master/examples/middlewares-custom-decorators)
+- [Query complexity](https://github.com/MichalLytek/type-graphql/tree/master/examples/query-complexity)
 
 ## 3rd party libs integration
 
 - [TypeORM (manual, synchronous) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-lazy-relations)
 - [Typegoose](https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose)
+- [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-engine)
 - [Apollo client state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
 

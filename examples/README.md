@@ -17,11 +17,12 @@ So if you are looking for examples that are compatible with the version you use,
 - [Subscriptions (simple)](./simple-subscriptions)
 - [Subscriptions (using Redis)](./redis-subscriptions)
 - [Interfaces](./interfaces-inheritance)
+- [Extensions (metadata)](./extensions)
 
 ## Features usage
 
 - [Dependency injection (IoC container)](./using-container)
-  - [(scoped container)](./using-scoped-container)
+  - [Scoped containers](./using-scoped-container)
 - [Authorization](./authorization)
 - [Validation](./automatic-validation)
 - [Types inheritance](./interfaces-inheritance)
@@ -29,12 +30,14 @@ So if you are looking for examples that are compatible with the version you use,
 - [Generic types](./generic-types)
 - [Mixin classes](./mixin-classes)
 - [Middlewares and custom decorators](./middlewares-custom-decorators)
+- [Query complexity](./query-complexity)
 
 ## 3rd party libs integration
 
 - [TypeORM (manual, synchronous) \*](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
 - [Typegoose](./typegoose)
+- [Apollo federation](./apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
 - [Apollo client state](./apollo-client)
 
