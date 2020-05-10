@@ -6,6 +6,7 @@
 - expose `createResolversMap` utility that generates apollo-like resolvers object
 ### Fixes
 - properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
+- skip transforming empty array items into input classes
 
 ## v1.0.0-rc.1
 ### Features

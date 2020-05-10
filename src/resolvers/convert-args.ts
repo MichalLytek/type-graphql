@@ -73,6 +73,10 @@ function generateInstanceTransformationTree(target: TypeValue): TransformationTr
 }
 
 function convertToInput(tree: TransformationTree, data: any) {
+  if (data == null) {
+    // skip converting undefined and null
+    return data;
+  }
   const inputFields = tree.getFields().reduce<Record<string, any>>((fields, field) => {
     const siblings = field.fields;
     const value = data[field.name];
