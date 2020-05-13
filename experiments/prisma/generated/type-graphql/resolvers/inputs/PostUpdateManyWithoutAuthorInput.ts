@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostCreateWithoutAuthorInput } from "../inputs/PostCreateWithoutAuthorInput";
 import { PostScalarWhereInput } from "../inputs/PostScalarWhereInput";
 import { PostUpdateManyWithWhereNestedInput } from "../inputs/PostUpdateManyWithWhereNestedInput";

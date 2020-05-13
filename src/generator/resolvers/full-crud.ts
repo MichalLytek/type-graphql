@@ -19,6 +19,7 @@ import {
   generateModelsImports,
   generateOutputsImports,
   generateArgsBarrelFile,
+  generateGraphQLScalarImport,
 } from "../imports";
 import saveSourceFile from "../../utils/saveSourceFile";
 import generateActionResolverClass from "./separate-action";

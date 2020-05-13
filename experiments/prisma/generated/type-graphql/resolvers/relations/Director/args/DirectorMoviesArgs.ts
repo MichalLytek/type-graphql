@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { MovieOrderByInput } from "../../../inputs/MovieOrderByInput";
 import { MovieWhereInput } from "../../../inputs/MovieWhereInput";
 import { MovieWhereUniqueInput } from "../../../inputs/MovieWhereUniqueInput";

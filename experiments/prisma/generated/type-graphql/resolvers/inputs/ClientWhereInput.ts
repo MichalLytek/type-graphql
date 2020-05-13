@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { FloatFilter } from "../inputs/FloatFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";

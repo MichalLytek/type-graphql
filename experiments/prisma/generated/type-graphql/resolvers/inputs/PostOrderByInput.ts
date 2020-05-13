@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { OrderByArg } from "../../enums/OrderByArg";
 
 @TypeGraphQL.InputType({
@@ -53,4 +54,10 @@ export class PostOrderByInput {
     description: undefined
   })
   kind?: keyof typeof OrderByArg | null;
+
+  @TypeGraphQL.Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  metadata?: keyof typeof OrderByArg | null;
 }

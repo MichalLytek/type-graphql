@@ -3,6 +3,8 @@ import { PrismaClient, PostKind } from "./prisma/generated/client";
 const prisma = new PrismaClient({});
 
 async function main() {
+  await prisma.connect();
+
   await prisma.post.deleteMany({});
   await prisma.user.deleteMany({});
   await prisma.category.deleteMany({});
@@ -25,6 +27,9 @@ async function main() {
             createdAt: new Date("2019-08-16"),
             published: true,
             updatedAt: new Date("2019-08-17"),
+            metadata: {
+              publishedOnWikiLeaks: true,
+            },
           },
           {
             title: "Post title 2",
@@ -32,6 +37,9 @@ async function main() {
             kind: PostKind.ADVERT,
             createdAt: new Date("2019-08-17"),
             published: false,
+            metadata: {
+              publishedOnWikiLeaks: false,
+            },
           },
         ],
       },
@@ -54,6 +62,9 @@ async function main() {
             createdAt: new Date("2019-08-16"),
             published: true,
             updatedAt: new Date("2019-08-17"),
+            metadata: {
+              views: 1,
+            },
           },
           {
             title: "Post title 4",
@@ -61,6 +72,9 @@ async function main() {
             kind: PostKind.ADVERT,
             createdAt: new Date("2019-08-17"),
             published: false,
+            metadata: {
+              views: 0,
+            },
           },
           {
             title: "Post title 5",
@@ -69,6 +83,10 @@ async function main() {
             createdAt: new Date("2019-08-16"),
             published: true,
             updatedAt: new Date("2019-08-17"),
+            metadata: {
+              views: 2137,
+              publishedOnWikiLeaks: true,
+            },
           },
         ],
       },

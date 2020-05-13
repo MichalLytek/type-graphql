@@ -19,6 +19,12 @@ npm i -D @prisma/cli@2.0.0-beta.5
 npm i @prisma/client@2.0.0-beta.5
 ```
 
+To support Prisma `Json` scalar, you also need to install the GraphQL JSON scalar:
+
+```sh
+npm i graphql-type-json
+```
+
 Also, be aware that due to usage of some newer Node.js features, you also have to use **Node.js v10.12 or newer**.
 
 ## Configuration

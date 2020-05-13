@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { DirectorCreateInput } from "../../../inputs/DirectorCreateInput";
 import { DirectorUpdateInput } from "../../../inputs/DirectorUpdateInput";
 import { DirectorWhereUniqueInput } from "../../../inputs/DirectorWhereUniqueInput";

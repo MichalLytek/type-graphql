@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";

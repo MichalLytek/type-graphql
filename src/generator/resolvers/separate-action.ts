@@ -12,6 +12,7 @@ import {
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
+  generateGraphQLScalarImport,
 } from "../imports";
 import saveSourceFile from "../../utils/saveSourceFile";
 import { GenerateCodeOptions } from "../options";

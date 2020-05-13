@@ -2,6 +2,7 @@
 
 exports[`outputs should properly generate aggregate classes for renamed model: AggregateExample 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { AggregateExampleCountArgs } from \\"./args/AggregateExampleCountArgs\\";
 
 @TypeGraphQL.ObjectType({
@@ -22,6 +23,7 @@ export class AggregateExample {
 
 exports[`outputs should properly generate aggregate classes for renamed model: AggregateExampleCountArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { ExampleOrderByInput } from \\"../../inputs/ExampleOrderByInput\\";
 import { ExampleWhereInput } from \\"../../inputs/ExampleWhereInput\\";
 import { ExampleWhereUniqueInput } from \\"../../inputs/ExampleWhereUniqueInput\\";
@@ -66,6 +68,7 @@ export * from \\"./args\\";
 
 exports[`outputs should properly generate args type classes for aggregate: AggregateSampleCountArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { SampleOrderByInput } from \\"../../inputs/SampleOrderByInput\\";
 import { SampleWhereInput } from \\"../../inputs/SampleWhereInput\\";
 import { SampleWhereUniqueInput } from \\"../../inputs/SampleWhereUniqueInput\\";
@@ -103,6 +106,7 @@ exports[`outputs should properly generate args type classes for aggregate: outpu
 
 exports[`outputs should properly generate output type classes: AggregateSample 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { AggregateSampleCountArgs } from \\"./args/AggregateSampleCountArgs\\";
 
 @TypeGraphQL.ObjectType({
@@ -123,6 +127,7 @@ export class AggregateSample {
 
 exports[`outputs should properly generate output type classes: BatchPayload 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,

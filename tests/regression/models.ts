@@ -18,6 +18,10 @@ describe("models", () => {
 
   it("should properly generate object type class for prisma model with different scalar fields types", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
       model User {
         intIdField          Int     @id @default(autoincrement())
         stringField         String  @unique
@@ -26,6 +30,7 @@ describe("models", () => {
         floatField          Float
         booleanField        Boolean
         dateField           DateTime
+        jsonField           Json
       }
     `;
 

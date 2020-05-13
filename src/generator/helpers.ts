@@ -62,6 +62,8 @@ export function mapScalarToTSType(scalar: string) {
     case "Float": {
       return "number";
     }
+    case "Json":
+      return "object";
     default:
       throw new Error(`Unrecognized scalar type: ${scalar}`);
   }
@@ -111,6 +113,9 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
     case "Int":
     case "Float": {
       return `TypeGraphQL.${scalar}`;
+    }
+    case "Json": {
+      return `GraphQLJSON`;
     }
     default: {
       throw new Error(`Unrecognized scalar type: ${scalar}`);

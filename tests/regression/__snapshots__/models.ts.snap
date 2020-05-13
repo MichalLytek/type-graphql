@@ -2,6 +2,7 @@
 
 exports[`models should properly generate object type class for prisma model with descriptions: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { Post } from \\"../models/Post\\";
 
 @TypeGraphQL.ObjectType({
@@ -34,6 +35,7 @@ export class User {
 
 exports[`models should properly generate object type class for prisma model with different scalar fields types: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,
@@ -81,12 +83,19 @@ export class User {
     description: undefined,
   })
   dateField!: Date;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: false,
+    description: undefined,
+  })
+  jsonField!: object;
 }
 "
 `;
 
 exports[`models should properly generate object type class for prisma model with enum and alias fields types: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { Sample } from \\"../enums/Sample\\";
 
 @TypeGraphQL.ObjectType({
@@ -117,6 +126,7 @@ export class User {
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations when models are renamed: Article 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { Client } from \\"../models/Client\\";
 
 @TypeGraphQL.ObjectType({
@@ -143,6 +153,7 @@ export class Article {
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations when models are renamed: Client 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { Article } from \\"../models/Article\\";
 
 @TypeGraphQL.ObjectType({
@@ -163,6 +174,7 @@ export class Client {
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations: Post 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { User } from \\"../models/User\\";
 
 @TypeGraphQL.ObjectType({
@@ -189,6 +201,7 @@ export class Post {
 
 exports[`models should properly generate object type classes for prisma models with cyclic relations: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { Post } from \\"../models/Post\\";
 
 @TypeGraphQL.ObjectType({
@@ -209,6 +222,7 @@ export class User {
 
 exports[`models should properly generate object type classes for prisma models with self relations: Service 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,

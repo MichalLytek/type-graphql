@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostCreateInput } from "../../../inputs/PostCreateInput";
 import { PostUpdateInput } from "../../../inputs/PostUpdateInput";
 import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";

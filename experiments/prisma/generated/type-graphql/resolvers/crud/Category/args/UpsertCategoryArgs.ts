@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { CategoryCreateInput } from "../../../inputs/CategoryCreateInput";
 import { CategoryUpdateInput } from "../../../inputs/CategoryUpdateInput";
 import { CategoryWhereUniqueInput } from "../../../inputs/CategoryWhereUniqueInput";

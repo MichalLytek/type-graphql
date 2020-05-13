@@ -16,6 +16,7 @@
     "@prisma/cli": "2.0.0-beta.5",
     "@prisma/client": "2.0.0-beta.5",
     "@types/node": "*",
+    "graphql-type-json": "^0.3.1",
     "type-graphql": "1.0.0-rc.1"
   },
   "dependencies": {
@@ -28,12 +29,14 @@
   "devDependencies": {
     "@prisma/cli": "2.0.0-beta.5",
     "@prisma/client": "2.0.0-beta.5",
+    "@types/graphql-type-json": "^0.3.2",
     "@types/jest": "^25.2.1",
     "@types/node": "^14.0.1",
     "@types/pluralize": "0.0.29",
     "directory-tree": "^2.2.4",
     "env-cmd": "^10.1.0",
     "graphql": "^15.0.0",
+    "graphql-type-json": "^0.3.1",
     "husky": "^4.2.5",
     "jest": "^25.4.0",
     "lint-staged": "^10.2.2",

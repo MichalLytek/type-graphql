@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { ClientCreateOneWithoutPostsInput } from "../inputs/ClientCreateOneWithoutPostsInput";
 import { PostKind } from "../../enums/PostKind";
 
@@ -48,6 +49,12 @@ export class PostCreateInput {
     description: undefined
   })
   kind?: keyof typeof PostKind | null;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: false,
+    description: undefined
+  })
+  metadata!: object;
 
   @TypeGraphQL.Field(_type => ClientCreateOneWithoutPostsInput, {
     nullable: false,

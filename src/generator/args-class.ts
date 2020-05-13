@@ -15,6 +15,7 @@ import {
   generateTypeGraphQLImport,
   generateInputsImports,
   generateEnumsImports,
+  generateGraphQLScalarImport,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import { DmmfDocument } from "./dmmf/dmmf-document";
@@ -35,6 +36,7 @@ export default async function generateArgsTypeClassFromArgs(
   });
 
   generateTypeGraphQLImport(sourceFile);
+  generateGraphQLScalarImport(sourceFile);
   generateInputsImports(
     sourceFile,
     args

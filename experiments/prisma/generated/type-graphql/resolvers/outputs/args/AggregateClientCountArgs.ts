@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { ClientOrderByInput } from "../../inputs/ClientOrderByInput";
 import { ClientWhereInput } from "../../inputs/ClientWhereInput";
 import { ClientWhereUniqueInput } from "../../inputs/ClientWhereUniqueInput";

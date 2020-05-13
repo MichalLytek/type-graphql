@@ -18,6 +18,7 @@ import {
   generateArgsImports,
   generateModelsImports,
   generateArgsBarrelFile,
+  generateGraphQLScalarImport,
 } from "../imports";
 import { GeneratedResolverData } from "../types";
 import saveSourceFile from "../../utils/saveSourceFile";

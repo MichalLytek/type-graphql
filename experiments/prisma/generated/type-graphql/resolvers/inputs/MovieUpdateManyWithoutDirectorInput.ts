@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { MovieCreateWithoutDirectorInput } from "../inputs/MovieCreateWithoutDirectorInput";
 import { MovieScalarWhereInput } from "../inputs/MovieScalarWhereInput";
 import { MovieUpdateManyWithWhereNestedInput } from "../inputs/MovieUpdateManyWithWhereNestedInput";

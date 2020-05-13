@@ -54,6 +54,7 @@ export class DirectorRelationsResolver {
 
 exports[`relations resolvers generation should properly generate resolver and args class for array relation resolvers: UserPostsArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
 import { PostOrderByInput } from \\"../../../inputs/PostOrderByInput\\";
 import { PostWhereInput } from \\"../../../inputs/PostWhereInput\\";
 import { PostWhereUniqueInput } from \\"../../../inputs/PostWhereUniqueInput\\";

@@ -22,6 +22,7 @@ import {
   generateInputsImports,
   generateEnumsImports,
   generateArgsImports,
+  generateGraphQLScalarImport,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import generateArgsTypeClassFromArgs from "./args-class";
@@ -69,6 +70,7 @@ export async function generateOutputTypeClassFromType(
     .map(it => it.argsTypeName!);
 
   generateTypeGraphQLImport(sourceFile);
+  generateGraphQLScalarImport(sourceFile);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
 
   sourceFile.addClass({
@@ -184,11 +186,15 @@ export async function generateInputTypeClassFromType(
   });
 
   generateTypeGraphQLImport(sourceFile);
+  generateGraphQLScalarImport(sourceFile);
   generateInputsImports(
     sourceFile,
     type.fields
       .map(field => selectInputTypeFromTypes(field.inputType))
-      .filter(fieldType => fieldType.kind === "object")
+      .filter(
+        fieldType =>
+          fieldType.kind === "object" && fieldType.type !== "JsonFilter",
+      )
       .map(fieldType =>
         getInputTypeName(fieldType.type as string, dmmfDocument),
       )
@@ -217,33 +223,36 @@ export async function generateInputTypeClassFromType(
         ],
       },
     ],
-    properties: type.fields.map<OptionalKind<PropertyDeclarationStructure>>(
-      field => {
-        const inputType = selectInputTypeFromTypes(field.inputType);
+    properties: type.fields
+      .map(field => ({
+        ...field,
+        inputType: selectInputTypeFromTypes(field.inputType),
+      }))
+      .filter(field => field.inputType.type !== "JsonFilter")
+      .map<OptionalKind<PropertyDeclarationStructure>>(field => {
         return {
           name: field.name,
-          type: getFieldTSType(inputType as DMMFTypeInfo, dmmfDocument),
-          hasExclamationToken: inputType.isRequired,
-          hasQuestionToken: !inputType.isRequired,
+          type: getFieldTSType(field.inputType as DMMFTypeInfo, dmmfDocument),
+          hasExclamationToken: field.inputType.isRequired,
+          hasQuestionToken: !field.inputType.isRequired,
           trailingTrivia: "\r\n",
           decorators: [
             {
               name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
-                  inputType as DMMFTypeInfo,
+                  field.inputType as DMMFTypeInfo,
                   dmmfDocument,
                 )}`,
                 `{
-                  nullable: ${!inputType.isRequired},
+                  nullable: ${!field.inputType.isRequired},
                   description: undefined
                 }`,
               ],
             },
           ],
         };
-      },
-    ),
+      }),
   });
 
   await saveSourceFile(sourceFile);

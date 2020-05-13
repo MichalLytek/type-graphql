@@ -6,6 +6,7 @@ import {
   generateTypeGraphQLImport,
   generateModelsImports,
   generateEnumsImports,
+  generateGraphQLScalarImport,
 } from "./imports";
 import { modelsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
@@ -25,6 +26,7 @@ export default async function generateObjectTypeClassFromModel(
   });
 
   generateTypeGraphQLImport(sourceFile);
+  generateGraphQLScalarImport(sourceFile);
   generateModelsImports(
     sourceFile,
     model.fields

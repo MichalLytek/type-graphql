@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostKind } from "../../enums/PostKind";
 
 @TypeGraphQL.InputType({
@@ -47,4 +48,10 @@ export class PostCreateWithoutAuthorInput {
     description: undefined
   })
   kind?: keyof typeof PostKind | null;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: false,
+    description: undefined
+  })
+  metadata!: object;
 }

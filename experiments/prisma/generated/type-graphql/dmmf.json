@@ -276,6 +276,18 @@
             "type": "PostKind",
             "isGenerated": false,
             "isUpdatedAt": false
+          },
+          {
+            "name": "metadata",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Json",
+            "isGenerated": false,
+            "isUpdatedAt": false
           }
         ],
         "isGenerated": false,
@@ -3900,6 +3912,16 @@
               "isList": false,
               "isNullable": true
             }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -4074,6 +4096,16 @@
               "isRequired": false,
               "isList": false,
               "isNullable": true
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           }
         ]
@@ -4930,6 +4962,16 @@
               "isList": false,
               "isNullable": true
             }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -5412,6 +5454,16 @@
             }
           },
           {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "author",
             "inputType": {
               "type": "UserCreateOneWithoutPostsInput",
@@ -5642,6 +5694,16 @@
             }
           },
           {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "author",
             "inputType": {
               "type": "UserUpdateOneRequiredWithoutPostsInput",
@@ -5724,6 +5786,16 @@
               "isRequired": false,
               "isList": false,
               "isNullable": true
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           }
         ]
@@ -7048,6 +7120,17 @@
               "type": "PostKind",
               "kind": "enum",
               "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata",
+            "args": [],
+            "outputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
               "isList": false,
               "isNullable": false
             }
@@ -9807,7 +9890,9 @@
           "authorId_ASC",
           "authorId_DESC",
           "kind_ASC",
-          "kind_DESC"
+          "kind_DESC",
+          "metadata_ASC",
+          "metadata_DESC"
         ]
       },
       {

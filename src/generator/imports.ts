@@ -20,6 +20,13 @@ export function generateTypeGraphQLImport(sourceFile: SourceFile) {
   });
 }
 
+export function generateGraphQLScalarImport(sourceFile: SourceFile) {
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: "graphql-type-json",
+    defaultImport: "GraphQLJSON",
+  });
+}
+
 export function generateArgsBarrelFile(
   sourceFile: SourceFile,
   argsTypeNames: string[],

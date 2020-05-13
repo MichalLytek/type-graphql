@@ -264,6 +264,18 @@
             "type": "PostKind",
             "isGenerated": false,
             "isUpdatedAt": false
+          },
+          {
+            "name": "metadata",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Json",
+            "isGenerated": false,
+            "isUpdatedAt": false
           }
         ],
         "isGenerated": false,
@@ -700,6 +712,17 @@
               "type": "PostKind",
               "kind": "enum",
               "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata",
+            "args": [],
+            "outputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
               "isList": false,
               "isNullable": false
             }
@@ -3886,6 +3909,24 @@
             "isRelationFilter": false
           },
           {
+            "name": "metadata",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "Json"
+              },
+              {
+                "type": "JsonFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
             "name": "AND",
             "inputType": [
               {
@@ -4845,6 +4886,18 @@
                 "isNullable": true
               }
             ]
+          },
+          {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
           }
         ]
       },
@@ -5052,6 +5105,18 @@
                 "isNullable": true
               }
             ]
+          },
+          {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
           }
         ]
       },
@@ -5244,6 +5309,24 @@
             "isRelationFilter": false
           },
           {
+            "name": "metadata",
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "Json"
+              },
+              {
+                "type": "JsonFilter",
+                "isList": false,
+                "isRequired": false,
+                "kind": "object"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
             "name": "AND",
             "inputType": [
               {
@@ -5370,6 +5453,18 @@
                 "isRequired": false,
                 "isList": false,
                 "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
               }
             ]
           }
@@ -5942,6 +6037,18 @@
             ]
           },
           {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
             "name": "author",
             "inputType": [
               {
@@ -6214,6 +6321,18 @@
             ]
           },
           {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
             "name": "author",
             "inputType": [
               {
@@ -6311,6 +6430,18 @@
                 "isRequired": false,
                 "isList": false,
                 "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "Json",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
               }
             ]
           }
@@ -8078,6 +8209,11 @@
         "atLeastOne": false
       },
       {
+        "name": "JsonFilter",
+        "fields": [],
+        "atLeastOne": false
+      },
+      {
         "name": "FloatFilter",
         "fields": [
           {
@@ -8513,6 +8649,18 @@
           },
           {
             "name": "kind",
+            "inputType": [
+              {
+                "type": "OrderByArg",
+                "isList": false,
+                "isRequired": false,
+                "kind": "enum"
+              }
+            ],
+            "isRelationFilter": false
+          },
+          {
+            "name": "metadata",
             "inputType": [
               {
                 "type": "OrderByArg",

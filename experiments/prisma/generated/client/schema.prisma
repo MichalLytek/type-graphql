@@ -52,6 +52,7 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
   kind      PostKind?
+  metadata  Json
 }
 
 model Category {

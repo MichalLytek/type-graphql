@@ -278,6 +278,11 @@ input IntFilter {
   notIn: [Int!]
 }
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type Movie {
   director: Director!
   directorFirstName: String!
@@ -489,6 +494,7 @@ type Post {
   content: String
   createdAt: DateTime!
   kind: PostKind
+  metadata: JSON!
   published: Boolean!
   title: String!
   updatedAt: DateTime!
@@ -500,6 +506,7 @@ input PostCreateInput {
   content: String
   createdAt: DateTime
   kind: PostKind
+  metadata: JSON!
   published: Boolean!
   title: String!
   updatedAt: DateTime
@@ -515,6 +522,7 @@ input PostCreateWithoutAuthorInput {
   content: String
   createdAt: DateTime
   kind: PostKind
+  metadata: JSON!
   published: Boolean!
   title: String!
   updatedAt: DateTime
@@ -537,6 +545,7 @@ input PostOrderByInput {
   content: OrderByArg
   createdAt: OrderByArg
   kind: OrderByArg
+  metadata: OrderByArg
   published: OrderByArg
   title: OrderByArg
   updatedAt: OrderByArg
@@ -561,6 +570,7 @@ input PostUpdateManyDataInput {
   content: String
   createdAt: DateTime
   kind: PostKind
+  metadata: JSON
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -571,6 +581,7 @@ input PostUpdateManyMutationInput {
   content: String
   createdAt: DateTime
   kind: PostKind
+  metadata: JSON
   published: Boolean
   title: String
   updatedAt: DateTime
@@ -598,6 +609,7 @@ input PostUpdateWithoutAuthorDataInput {
   content: String
   createdAt: DateTime
   kind: PostKind
+  metadata: JSON
   published: Boolean
   title: String
   updatedAt: DateTime

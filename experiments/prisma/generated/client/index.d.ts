@@ -780,6 +780,7 @@ export type Post = {
   content: string | null
   authorId: number
   kind: PostKind | null
+  metadata: object
 }
 
 export type PostSelect = {
@@ -792,6 +793,7 @@ export type PostSelect = {
   author?: boolean | UserArgs
   authorId?: boolean
   kind?: boolean
+  metadata?: boolean
 }
 
 export type PostInclude = {
@@ -2771,6 +2773,7 @@ export type PostWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter | null
   kind?: PostKind | NullablePostKindFilter | null
+  metadata?: object | JsonFilter | null
   AND?: Enumerable<PostWhereInput> | null
   OR?: Enumerable<PostWhereInput> | null
   NOT?: Enumerable<PostWhereInput> | null
@@ -2877,6 +2880,7 @@ export type PostCreateWithoutAuthorInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
+  metadata: object
 }
 
 export type PostCreateManyWithoutAuthorInput = {
@@ -2902,6 +2906,7 @@ export type PostUpdateWithoutAuthorDataInput = {
   title?: string | null
   content?: string | null
   kind?: PostKind | null
+  metadata?: object | null
 }
 
 export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
@@ -2918,6 +2923,7 @@ export type PostScalarWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter | null
   kind?: PostKind | NullablePostKindFilter | null
+  metadata?: object | JsonFilter | null
   AND?: Enumerable<PostScalarWhereInput> | null
   OR?: Enumerable<PostScalarWhereInput> | null
   NOT?: Enumerable<PostScalarWhereInput> | null
@@ -2931,6 +2937,7 @@ export type PostUpdateManyDataInput = {
   title?: string | null
   content?: string | null
   kind?: PostKind | null
+  metadata?: object | null
 }
 
 export type PostUpdateManyWithWhereNestedInput = {
@@ -2999,6 +3006,7 @@ export type PostCreateInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
+  metadata: object
   author: UserCreateOneWithoutPostsInput
 }
 
@@ -3032,6 +3040,7 @@ export type PostUpdateInput = {
   title?: string | null
   content?: string | null
   kind?: PostKind | null
+  metadata?: object | null
   author?: UserUpdateOneRequiredWithoutPostsInput | null
 }
 
@@ -3043,6 +3052,7 @@ export type PostUpdateManyMutationInput = {
   title?: string | null
   content?: string | null
   kind?: PostKind | null
+  metadata?: object | null
 }
 
 export type CategoryCreateInput = {
@@ -3269,6 +3279,10 @@ export type NullablePostKindFilter = {
   notIn?: Enumerable<PostKind> | null
 }
 
+export type JsonFilter = {
+
+}
+
 export type FloatFilter = {
   equals?: number | null
   not?: number | FloatFilter | null
@@ -3318,6 +3332,7 @@ export type PostOrderByInput = {
   content?: OrderByArg | null
   authorId?: OrderByArg | null
   kind?: OrderByArg | null
+  metadata?: OrderByArg | null
 }
 
 export type CategoryOrderByInput = {

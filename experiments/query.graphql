@@ -68,6 +68,7 @@ fragment PostData on Post {
   title
   content
   kind
+  metadata
 }
 
 query GetDirectorsWithMovies {
