@@ -145,6 +145,13 @@ export function getMappedActionName(
   actionName: ModelKeys,
   typeName: string,
 ): string {
+  const defaultMappedActionName = `${actionName}${typeName}`;
+
+  const hasNoPlural = typeName === pluralize(typeName);
+  if (hasNoPlural) {
+    return defaultMappedActionName;
+  }
+
   switch (actionName) {
     case "findOne": {
       return camelCase(typeName);
@@ -153,7 +160,7 @@ export function getMappedActionName(
       return pluralize(camelCase(typeName));
     }
     default: {
-      return `${actionName}${typeName}`;
+      return defaultMappedActionName;
     }
   }
 }

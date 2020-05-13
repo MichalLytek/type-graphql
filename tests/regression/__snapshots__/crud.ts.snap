@@ -404,6 +404,97 @@ export class UserCrudResolver {
 "
 `;
 
+exports[`crud should properly generate resolver class when cannot pluralize model name: StaffCrudResolver 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import { CreateStaffArgs } from \\"./args/CreateStaffArgs\\";
+import { DeleteManyStaffArgs } from \\"./args/DeleteManyStaffArgs\\";
+import { DeleteStaffArgs } from \\"./args/DeleteStaffArgs\\";
+import { FindManyStaffArgs } from \\"./args/FindManyStaffArgs\\";
+import { FindOneStaffArgs } from \\"./args/FindOneStaffArgs\\";
+import { UpdateManyStaffArgs } from \\"./args/UpdateManyStaffArgs\\";
+import { UpdateStaffArgs } from \\"./args/UpdateStaffArgs\\";
+import { UpsertStaffArgs } from \\"./args/UpsertStaffArgs\\";
+import { Staff } from \\"../../../models/Staff\\";
+import { AggregateStaff } from \\"../../outputs/AggregateStaff\\";
+import { BatchPayload } from \\"../../outputs/BatchPayload\\";
+
+@TypeGraphQL.Resolver(_of => Staff)
+export class StaffCrudResolver {
+  @TypeGraphQL.Query(_returns => Staff, {
+    nullable: true,
+    description: undefined
+  })
+  async findOneStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneStaffArgs): Promise<Staff | null> {
+    return ctx.prisma.staff.findOne(args);
+  }
+
+  @TypeGraphQL.Query(_returns => [Staff], {
+    nullable: false,
+    description: undefined
+  })
+  async findManyStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindManyStaffArgs): Promise<Staff[]> {
+    return ctx.prisma.staff.findMany(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => Staff, {
+    nullable: false,
+    description: undefined
+  })
+  async createStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateStaffArgs): Promise<Staff> {
+    return ctx.prisma.staff.create(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => Staff, {
+    nullable: true,
+    description: undefined
+  })
+  async deleteStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteStaffArgs): Promise<Staff | null> {
+    return ctx.prisma.staff.delete(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => Staff, {
+    nullable: true,
+    description: undefined
+  })
+  async updateStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateStaffArgs): Promise<Staff | null> {
+    return ctx.prisma.staff.update(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async deleteManyStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteManyStaffArgs): Promise<BatchPayload> {
+    return ctx.prisma.staff.deleteMany(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => BatchPayload, {
+    nullable: false,
+    description: undefined
+  })
+  async updateManyStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateManyStaffArgs): Promise<BatchPayload> {
+    return ctx.prisma.staff.updateMany(args);
+  }
+
+  @TypeGraphQL.Mutation(_returns => Staff, {
+    nullable: false,
+    description: undefined
+  })
+  async upsertStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertStaffArgs): Promise<Staff> {
+    return ctx.prisma.staff.upsert(args);
+  }
+
+  @TypeGraphQL.Query(_returns => AggregateStaff, {
+    nullable: false,
+    description: undefined
+  })
+  async aggregateStaff(): Promise<AggregateStaff> {
+    return new AggregateStaff();
+  }
+}
+"
+`;
+
 exports[`crud should properly generate resolver class when useOriginalMapping is used: FindOneUserResolver 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import { FindOneUserArgs } from \\"./args/FindOneUserArgs\\";

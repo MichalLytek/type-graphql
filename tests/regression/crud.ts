@@ -59,6 +59,26 @@ describe("crud", () => {
     expect(findOneUserResolverTSFile).toMatchSnapshot("FindOneUserResolver");
   });
 
+  it("should properly generate resolver class when cannot pluralize model name", async () => {
+    const schema = /* prisma */ `
+      model Staff {
+        intIdField          Int     @id @default(autoincrement())
+        uniqueStringField   String  @unique
+        optionalStringField String?
+        dateField           DateTime
+      }
+    `;
+
+    await generateCodeFromSchema(schema, {
+      outputDirPath,
+    });
+    const staffCrudResolverTSFile = await readGeneratedFile(
+      "/resolvers/crud/Staff/StaffCrudResolver.ts",
+    );
+
+    expect(staffCrudResolverTSFile).toMatchSnapshot("StaffCrudResolver");
+  });
+
   it("should properly generate args classes for every method of crud resolver", async () => {
     const schema = /* prisma */ `
       model User {
