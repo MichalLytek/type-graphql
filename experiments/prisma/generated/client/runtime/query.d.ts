@@ -96,5 +96,6 @@ export interface MapDatesOptions {
     data: any;
 }
 export declare function mapDates({ field, data }: MapDatesOptions): any;
+export declare function mapJson({ field, data }: MapDatesOptions): any;
 export declare function getField(document: Document, path: string[]): Field;
 export {};
