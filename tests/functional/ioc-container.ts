@@ -8,6 +8,7 @@ import {
   Field,
   Resolver,
   Query,
+  Arg,
   buildSchema,
   ResolverData,
   ContainerType,
@@ -166,6 +167,43 @@ describe("IOC container", () => {
 
     await graphql(schema, query, null, queryContext);
 
+    expect(called).toEqual(true);
+  });
+
+  it("should properly get instance from an async container", async () => {
+    let called: boolean = false;
+
+    @Resolver()
+    class SampleResolver {
+      @Query()
+      sampleQuery(@Arg("sampleArg") sampleArg: string): string {
+        return sampleArg;
+      }
+    }
+
+    const asyncContainer: ContainerType = {
+      async get(someClass: any) {
+        await new Promise(setImmediate);
+        called = true;
+        return Container.get(someClass);
+      },
+    };
+
+    const schema = await buildSchema({
+      resolvers: [SampleResolver],
+      container: asyncContainer,
+    });
+
+    const query = /* graphql */ `
+      query {
+        sampleQuery(sampleArg: "sampleArgValue")
+      }
+    `;
+
+    const result = await graphql(schema, query);
+
+    expect(result.errors).toBeUndefined();
+    expect(result.data!.sampleQuery).toEqual("sampleArgValue");
     expect(called).toEqual(true);
   });
 });

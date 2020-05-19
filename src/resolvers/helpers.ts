@@ -97,7 +97,7 @@ export function applyMiddlewares(
       const currentMiddleware = middlewares[currentIndex];
       // arrow function or class
       if (currentMiddleware.prototype !== undefined) {
-        const middlewareClassInstance = container.getInstance(
+        const middlewareClassInstance = await container.getInstance(
           currentMiddleware as MiddlewareClass<any>,
           resolverData,
         );

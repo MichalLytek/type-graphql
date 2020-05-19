@@ -3,7 +3,7 @@ import { ResolverData } from "../interfaces";
 export type SupportedType<T> = { new (...args: any[]): T } | Function;
 
 export interface ContainerType {
-  get(someClass: any, resolverData: ResolverData<any>): any;
+  get(someClass: any, resolverData: ResolverData<any>): any | Promise<any>;
 }
 
 export type ContainerGetter<TContext extends object> = (
@@ -46,7 +46,10 @@ export class IOCContainer {
     }
   }
 
-  getInstance<T = any>(someClass: SupportedType<T>, resolverData: ResolverData<any>): T {
+  getInstance<T = any>(
+    someClass: SupportedType<T>,
+    resolverData: ResolverData<any>,
+  ): T | Promise<T> {
     const container = this.containerGetter ? this.containerGetter(resolverData) : this.container;
     if (!container) {
       return this.defaultContainer.get<T>(someClass);

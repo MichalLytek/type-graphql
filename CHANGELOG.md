@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - expose `createResolversMap` utility that generates apollo-like resolvers object
+- support IoC containers which `.get()` method returns a `Promise` of resolver instance
 ### Fixes
 - properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
 - skip transforming empty array items into input classes

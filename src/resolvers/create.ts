@@ -28,7 +28,29 @@ export function createHandlerResolver(
 
   return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
-    const targetInstance = container.getInstance(resolverMetadata.target, resolverData);
+    const targetInstanceOrPromise: Promise<any> | any = container.getInstance(
+      resolverMetadata.target,
+      resolverData,
+    );
+    if (isPromiseLike(targetInstanceOrPromise)) {
+      return targetInstanceOrPromise.then(targetInstance =>
+        applyMiddlewares(container, resolverData, middlewares, () => {
+          const params: Promise<any[]> | any[] = getParams(
+            resolverMetadata.params!,
+            resolverData,
+            globalValidate,
+            pubSub,
+          );
+          if (isPromiseLike(params)) {
+            return params.then(resolvedParams =>
+              targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
+            );
+          } else {
+            return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
+          }
+        }),
+      );
+    }
     return applyMiddlewares(container, resolverData, middlewares, () => {
       const params: Promise<any[]> | any[] = getParams(
         resolverMetadata.params!,
@@ -36,6 +58,7 @@ export function createHandlerResolver(
         globalValidate,
         pubSub,
       );
+      const targetInstance = targetInstanceOrPromise;
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
