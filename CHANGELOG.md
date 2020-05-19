@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v1.0.0-rc.2
 ### Features
 - expose `createResolversMap` utility that generates apollo-like resolvers object
 - support IoC containers which `.get()` method returns a `Promise` of resolver instance
