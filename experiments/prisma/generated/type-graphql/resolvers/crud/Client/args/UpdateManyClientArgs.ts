@@ -9,5 +9,5 @@ export class UpdateManyClientArgs {
   data!: ClientUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
-  where?: ClientWhereInput | null;
+  where?: ClientWhereInput | null | undefined;
 }

@@ -14,23 +14,23 @@ export class ClientUpdateOneRequiredWithoutPostsInput {
     nullable: true,
     description: undefined
   })
-  create?: ClientCreateWithoutPostsInput | null;
+  create?: ClientCreateWithoutPostsInput | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, {
     nullable: true,
     description: undefined
   })
-  connect?: ClientWhereUniqueInput | null;
+  connect?: ClientWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientUpdateWithoutPostsDataInput, {
     nullable: true,
     description: undefined
   })
-  update?: ClientUpdateWithoutPostsDataInput | null;
+  update?: ClientUpdateWithoutPostsDataInput | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientUpsertWithoutPostsInput, {
     nullable: true,
     description: undefined
   })
-  upsert?: ClientUpsertWithoutPostsInput | null;
+  upsert?: ClientUpsertWithoutPostsInput | null | undefined;
 }

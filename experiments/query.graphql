@@ -53,8 +53,9 @@ query FindClients {
 fragment ClientData on Client {
   id
   email
+  firstName
   age
-  balance
+  accountBalance
   amount
   role
   hello

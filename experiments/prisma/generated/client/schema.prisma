@@ -29,8 +29,10 @@ model User {
   // User model field comment
   id      Int     @default(autoincrement()) @id
   email   String  @unique
+  // @@TypeGraphQL.field("firstName")
   name    String?
   age     Int
+  // @@TypeGraphQL.field("accountBalance")
   balance Numeric
   amount  Float
   posts   Post[]

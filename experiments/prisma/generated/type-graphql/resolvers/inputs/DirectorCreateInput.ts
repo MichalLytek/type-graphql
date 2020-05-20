@@ -23,5 +23,5 @@ export class DirectorCreateInput {
     nullable: true,
     description: undefined
   })
-  movies?: MovieCreateManyWithoutDirectorInput | null;
+  movies?: MovieCreateManyWithoutDirectorInput | null | undefined;
 }

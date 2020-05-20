@@ -38,7 +38,7 @@ export function getFieldTSType(
     }
   }
   if (!typeInfo.isRequired) {
-    TSType += " | null";
+    TSType += " | null | undefined";
   }
   return TSType;
 }

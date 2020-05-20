@@ -8,7 +8,7 @@ export class FindOneCategoryResolver {
     nullable: true,
     description: undefined
   })
-  async category(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneCategoryArgs): Promise<Category | null> {
+  async category(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneCategoryArgs): Promise<Category | null | undefined> {
     return ctx.prisma.category.findOne(args);
   }
 }

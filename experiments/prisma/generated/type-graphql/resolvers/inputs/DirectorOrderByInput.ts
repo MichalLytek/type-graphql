@@ -11,11 +11,11 @@ export class DirectorOrderByInput {
     nullable: true,
     description: undefined
   })
-  firstName?: keyof typeof OrderByArg | null;
+  firstName?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  lastName?: keyof typeof OrderByArg | null;
+  lastName?: keyof typeof OrderByArg | null | undefined;
 }

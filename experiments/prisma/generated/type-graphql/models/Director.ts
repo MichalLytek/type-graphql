@@ -19,5 +19,5 @@ export class Director {
   })
   lastName!: string;
 
-  movies?: Movie[] | null;
+  movies?: Movie[] | null | undefined;
 }

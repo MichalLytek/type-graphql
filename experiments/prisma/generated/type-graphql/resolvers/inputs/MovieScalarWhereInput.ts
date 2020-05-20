@@ -11,35 +11,35 @@ export class MovieScalarWhereInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: StringFilter | null;
+  directorFirstName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: StringFilter | null;
+  directorLastName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null;
+  title?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: MovieScalarWhereInput[] | null;
+  AND?: MovieScalarWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: MovieScalarWhereInput[] | null;
+  OR?: MovieScalarWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: MovieScalarWhereInput[] | null;
+  NOT?: MovieScalarWhereInput[] | null | undefined;
 }

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`crud resolvers execution should properly resolve aliased field values from prisma model values: user mocked response 1`] = `
+Object {
+  "user": Object {
+    "dateOfBirth": "2019-12-31T14:16:02.572Z",
+    "firstName": "John",
+    "id": 1,
+  },
+}
+`;

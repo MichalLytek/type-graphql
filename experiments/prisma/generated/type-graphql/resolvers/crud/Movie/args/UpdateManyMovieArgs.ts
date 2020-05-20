@@ -9,5 +9,5 @@ export class UpdateManyMovieArgs {
   data!: MovieUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => MovieWhereInput, { nullable: true })
-  where?: MovieWhereInput | null;
+  where?: MovieWhereInput | null | undefined;
 }

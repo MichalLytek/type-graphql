@@ -10,5 +10,5 @@ export class MovieUpdateWithoutDirectorDataInput {
     nullable: true,
     description: undefined
   })
-  title?: string | null;
+  title?: string | null | undefined;
 }

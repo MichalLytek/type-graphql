@@ -9,5 +9,5 @@ export class UpdateManyDirectorArgs {
   data!: DirectorUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => DirectorWhereInput, { nullable: true })
-  where?: DirectorWhereInput | null;
+  where?: DirectorWhereInput | null | undefined;
 }

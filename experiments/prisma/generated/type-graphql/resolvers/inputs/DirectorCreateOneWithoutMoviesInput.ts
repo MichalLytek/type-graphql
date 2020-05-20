@@ -12,11 +12,11 @@ export class DirectorCreateOneWithoutMoviesInput {
     nullable: true,
     description: undefined
   })
-  create?: DirectorCreateWithoutMoviesInput | null;
+  create?: DirectorCreateWithoutMoviesInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, {
     nullable: true,
     description: undefined
   })
-  connect?: DirectorWhereUniqueInput | null;
+  connect?: DirectorWhereUniqueInput | null | undefined;
 }

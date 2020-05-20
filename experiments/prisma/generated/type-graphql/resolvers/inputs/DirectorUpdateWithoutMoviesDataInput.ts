@@ -10,11 +10,11 @@ export class DirectorUpdateWithoutMoviesDataInput {
     nullable: true,
     description: undefined
   })
-  firstName?: string | null;
+  firstName?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lastName?: string | null;
+  lastName?: string | null | undefined;
 }

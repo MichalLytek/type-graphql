@@ -18,7 +18,7 @@ export class ClientCreateInput {
     nullable: true,
     description: undefined
   })
-  name?: string | null;
+  name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -48,5 +48,5 @@ export class ClientCreateInput {
     nullable: true,
     description: undefined
   })
-  posts?: PostCreateManyWithoutAuthorInput | null;
+  posts?: PostCreateManyWithoutAuthorInput | null | undefined;
 }

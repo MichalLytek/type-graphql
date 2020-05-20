@@ -14,23 +14,23 @@ export class DirectorUpdateOneRequiredWithoutMoviesInput {
     nullable: true,
     description: undefined
   })
-  create?: DirectorCreateWithoutMoviesInput | null;
+  create?: DirectorCreateWithoutMoviesInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, {
     nullable: true,
     description: undefined
   })
-  connect?: DirectorWhereUniqueInput | null;
+  connect?: DirectorWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorUpdateWithoutMoviesDataInput, {
     nullable: true,
     description: undefined
   })
-  update?: DirectorUpdateWithoutMoviesDataInput | null;
+  update?: DirectorUpdateWithoutMoviesDataInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorUpsertWithoutMoviesInput, {
     nullable: true,
     description: undefined
   })
-  upsert?: DirectorUpsertWithoutMoviesInput | null;
+  upsert?: DirectorUpsertWithoutMoviesInput | null | undefined;
 }

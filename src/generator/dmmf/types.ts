@@ -20,7 +20,7 @@ export declare namespace DMMF {
     dbName: string | null;
     fields: Field[];
     documentation?: string;
-    [key: string]: any;
+    // [key: string]: any;
     idFields: string[];
     uniqueFields: string[][];
     typeName: string;
@@ -29,12 +29,12 @@ export declare namespace DMMF {
   interface Field {
     kind: FieldKind;
     name: string;
+    typeFieldAlias?: string;
     isRequired: boolean;
     isList: boolean;
     isUnique: boolean;
     isId: boolean;
     type: string;
-    // typeGraphQLType: string;
     dbNames: string[] | null;
     isGenerated: boolean;
     relationToFields?: any[];
@@ -42,7 +42,7 @@ export declare namespace DMMF {
     relationName?: string;
     documentation?: string;
     default?: FieldDefault | string | boolean;
-    [key: string]: any;
+    // [key: string]: any;
   }
   interface FieldDefault {
     name: string;

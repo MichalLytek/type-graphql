@@ -16,65 +16,65 @@ export class ClientWhereInput {
     nullable: true,
     description: undefined
   })
-  id?: IntFilter | null;
+  id?: IntFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  email?: StringFilter | null;
+  email?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  name?: NullableStringFilter | null;
+  name?: NullableStringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  age?: IntFilter | null;
+  age?: IntFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  balance?: FloatFilter | null;
+  balance?: FloatFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  amount?: FloatFilter | null;
+  amount?: FloatFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => PostFilter, {
     nullable: true,
     description: undefined
   })
-  posts?: PostFilter | null;
+  posts?: PostFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => RoleFilter, {
     nullable: true,
     description: undefined
   })
-  role?: RoleFilter | null;
+  role?: RoleFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: ClientWhereInput[] | null;
+  AND?: ClientWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: ClientWhereInput[] | null;
+  OR?: ClientWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: ClientWhereInput[] | null;
+  NOT?: ClientWhereInput[] | null | undefined;
 }

@@ -11,17 +11,17 @@ export class MovieFilter {
     nullable: true,
     description: undefined
   })
-  every?: MovieWhereInput | null;
+  every?: MovieWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => MovieWhereInput, {
     nullable: true,
     description: undefined
   })
-  some?: MovieWhereInput | null;
+  some?: MovieWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => MovieWhereInput, {
     nullable: true,
     description: undefined
   })
-  none?: MovieWhereInput | null;
+  none?: MovieWhereInput | null | undefined;
 }

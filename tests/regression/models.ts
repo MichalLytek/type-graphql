@@ -145,4 +145,22 @@ describe("models", () => {
     expect(clientModelTSFile).toMatchSnapshot("Client");
     expect(articleModelTSFile).toMatchSnapshot("Article");
   });
+
+  it("should properly generate object type class for prisma model with renamed fields", async () => {
+    const schema = /* prisma */ `
+      model User {
+        id           Int       @id @default(autoincrement())
+        dateOfBirth  DateTime
+        // @@TypeGraphQL.field("firstName")
+        name         String
+        // @@TypeGraphQL.field("accountBalance")
+        balance      Float?
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const userModelTSFile = await readGeneratedFile("/models/User.ts");
+
+    expect(userModelTSFile).toMatchSnapshot("User");
+  });
 });

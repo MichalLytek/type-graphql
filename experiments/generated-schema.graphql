@@ -76,13 +76,13 @@ input CategoryWhereUniqueInput {
 }
 
 type Client {
+  accountBalance: Float!
   age: Int!
   amount: Float!
-  balance: Float!
   email: String!
+  firstName: String
   hello: String!
   id: Int!
-  name: String
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   role: Role!
 }

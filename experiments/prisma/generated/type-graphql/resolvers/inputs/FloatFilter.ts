@@ -10,47 +10,47 @@ export class FloatFilter {
     nullable: true,
     description: undefined
   })
-  equals?: number | null;
+  equals?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  not?: number | null;
+  not?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  in?: number[] | null;
+  in?: number[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  notIn?: number[] | null;
+  notIn?: number[] | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lt?: number | null;
+  lt?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lte?: number | null;
+  lte?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gt?: number | null;
+  gt?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gte?: number | null;
+  gte?: number | null | undefined;
 }

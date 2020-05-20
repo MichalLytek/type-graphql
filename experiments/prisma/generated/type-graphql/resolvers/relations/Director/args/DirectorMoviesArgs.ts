@@ -7,23 +7,23 @@ import { MovieWhereUniqueInput } from "../../../inputs/MovieWhereUniqueInput";
 @TypeGraphQL.ArgsType()
 export class DirectorMoviesArgs {
   @TypeGraphQL.Field(_type => MovieWhereInput, { nullable: true })
-  where?: MovieWhereInput | null;
+  where?: MovieWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => MovieOrderByInput, { nullable: true })
-  orderBy?: MovieOrderByInput | null;
+  orderBy?: MovieOrderByInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null;
+  skip?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
-  after?: MovieWhereUniqueInput | null;
+  after?: MovieWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
-  before?: MovieWhereUniqueInput | null;
+  before?: MovieWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null;
+  first?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null;
+  last?: number | null | undefined;
 }

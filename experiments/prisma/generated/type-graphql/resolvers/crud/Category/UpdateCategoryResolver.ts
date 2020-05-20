@@ -8,7 +8,7 @@ export class UpdateCategoryResolver {
     nullable: true,
     description: undefined
   })
-  async updateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateCategoryArgs): Promise<Category | null> {
+  async updateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateCategoryArgs): Promise<Category | null | undefined> {
     return ctx.prisma.category.update(args);
   }
 }

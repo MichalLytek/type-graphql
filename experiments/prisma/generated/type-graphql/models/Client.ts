@@ -20,11 +20,7 @@ export class Client {
   })
   email!: string;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-    description: undefined,
-  })
-  name?: string | null;
+  name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -32,10 +28,6 @@ export class Client {
   })
   age!: number;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: false,
-    description: undefined,
-  })
   balance!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
@@ -44,11 +36,27 @@ export class Client {
   })
   amount!: number;
 
-  posts?: Post[] | null;
+  posts?: Post[] | null | undefined;
 
   @TypeGraphQL.Field(_type => Role, {
     nullable: false,
     description: undefined,
   })
   role!: keyof typeof Role;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+    description: undefined,
+  })
+  get firstName(): string | null | undefined {
+    return this.name;
+  }
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: false,
+    description: undefined,
+  })
+  get accountBalance(): number {
+    return this.balance;
+  }
 }

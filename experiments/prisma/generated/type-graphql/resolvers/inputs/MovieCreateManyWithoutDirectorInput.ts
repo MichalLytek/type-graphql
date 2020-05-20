@@ -12,11 +12,11 @@ export class MovieCreateManyWithoutDirectorInput {
     nullable: true,
     description: undefined
   })
-  create?: MovieCreateWithoutDirectorInput[] | null;
+  create?: MovieCreateWithoutDirectorInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  connect?: MovieWhereUniqueInput[] | null;
+  connect?: MovieWhereUniqueInput[] | null | undefined;
 }

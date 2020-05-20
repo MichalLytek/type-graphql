@@ -11,5 +11,5 @@ export class MovieWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | null;
+  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | null | undefined;
 }

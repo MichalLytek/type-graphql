@@ -9,5 +9,5 @@ export class UpdateManyPostArgs {
   data!: PostUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
-  where?: PostWhereInput | null;
+  where?: PostWhereInput | null | undefined;
 }

@@ -17,7 +17,7 @@ export class ClientCreateWithoutPostsInput {
     nullable: true,
     description: undefined
   })
-  name?: string | null;
+  name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,

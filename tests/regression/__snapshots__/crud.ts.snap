@@ -48,7 +48,7 @@ export class DeleteUserResolver {
     nullable: true,
     description: undefined
   })
-  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null> {
+  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 }
@@ -84,7 +84,7 @@ export class FindOneUserResolver {
     nullable: true,
     description: undefined
   })
-  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 }
@@ -136,7 +136,7 @@ export class UpdateUserResolver {
     nullable: true,
     description: undefined
   })
-  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null> {
+  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 }
@@ -182,7 +182,7 @@ import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
 @TypeGraphQL.ArgsType()
 export class DeleteManyUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | null;
+  where?: UserWhereInput | null | undefined;
 }
 "
 `;
@@ -210,25 +210,25 @@ import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
 @TypeGraphQL.ArgsType()
 export class FindManyUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | null;
+  where?: UserWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
-  orderBy?: UserOrderByInput | null;
+  orderBy?: UserOrderByInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null;
+  skip?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
-  after?: UserWhereUniqueInput | null;
+  after?: UserWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
-  before?: UserWhereUniqueInput | null;
+  before?: UserWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null;
+  first?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null;
+  last?: number | null | undefined;
 }
 "
 `;
@@ -270,7 +270,7 @@ export class UpdateManyUserArgs {
   data!: UserUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | null;
+  where?: UserWhereInput | null | undefined;
 }
 "
 `;
@@ -333,7 +333,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -357,7 +357,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null> {
+  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 
@@ -365,7 +365,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null> {
+  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 
@@ -424,7 +424,7 @@ export class StaffCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneStaffArgs): Promise<Staff | null> {
+  async findOneStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneStaffArgs): Promise<Staff | null | undefined> {
     return ctx.prisma.staff.findOne(args);
   }
 
@@ -448,7 +448,7 @@ export class StaffCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteStaffArgs): Promise<Staff | null> {
+  async deleteStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteStaffArgs): Promise<Staff | null | undefined> {
     return ctx.prisma.staff.delete(args);
   }
 
@@ -456,7 +456,7 @@ export class StaffCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateStaffArgs): Promise<Staff | null> {
+  async updateStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateStaffArgs): Promise<Staff | null | undefined> {
     return ctx.prisma.staff.update(args);
   }
 
@@ -506,7 +506,7 @@ export class FindOneUserResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
+  async findOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 }
@@ -533,7 +533,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
+  async findOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -557,7 +557,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null> {
+  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 
@@ -565,7 +565,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null> {
+  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 
@@ -633,7 +633,7 @@ export class DeleteClientResolver {
     nullable: true,
     description: undefined
   })
-  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null> {
+  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 }
@@ -688,7 +688,7 @@ export class FindOneClientResolver {
     nullable: true,
     description: undefined
   })
-  async client(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | null> {
+  async client(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 }
@@ -721,7 +721,7 @@ export class UpdateClientResolver {
     nullable: true,
     description: undefined
   })
-  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | null> {
+  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 }
@@ -799,7 +799,7 @@ import { ClientWhereInput } from \\"../../../inputs/ClientWhereInput\\";
 @TypeGraphQL.ArgsType()
 export class DeleteManyClientArgs {
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
-  where?: ClientWhereInput | null;
+  where?: ClientWhereInput | null | undefined;
 }
 "
 `;
@@ -814,25 +814,25 @@ import { ClientWhereUniqueInput } from \\"../../../inputs/ClientWhereUniqueInput
 @TypeGraphQL.ArgsType()
 export class FindManyClientArgs {
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
-  where?: ClientWhereInput | null;
+  where?: ClientWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientOrderByInput, { nullable: true })
-  orderBy?: ClientOrderByInput | null;
+  orderBy?: ClientOrderByInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null;
+  skip?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
-  after?: ClientWhereUniqueInput | null;
+  after?: ClientWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
-  before?: ClientWhereUniqueInput | null;
+  before?: ClientWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null;
+  first?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null;
+  last?: number | null | undefined;
 }
 "
 `;
@@ -891,7 +891,7 @@ export class UpdateManyClientArgs {
   data!: ClientUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
-  where?: ClientWhereInput | null;
+  where?: ClientWhereInput | null | undefined;
 }
 "
 `;
@@ -937,7 +937,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async findOneClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | null> {
+  async findOneClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -961,7 +961,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null> {
+  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 
@@ -969,7 +969,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | null> {
+  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 

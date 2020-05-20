@@ -10,5 +10,5 @@ export class PostWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }

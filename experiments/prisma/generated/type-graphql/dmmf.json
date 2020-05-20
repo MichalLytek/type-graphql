@@ -76,7 +76,8 @@
             "isReadOnly": false,
             "type": "String",
             "isGenerated": false,
-            "isUpdatedAt": false
+            "isUpdatedAt": false,
+            "documentation": "@@TypeGraphQL.field(\"firstName\")"
           },
           {
             "name": "age",
@@ -100,7 +101,8 @@
             "isReadOnly": false,
             "type": "Float",
             "isGenerated": false,
-            "isUpdatedAt": false
+            "isUpdatedAt": false,
+            "documentation": "@@TypeGraphQL.field(\"accountBalance\")"
           },
           {
             "name": "amount",

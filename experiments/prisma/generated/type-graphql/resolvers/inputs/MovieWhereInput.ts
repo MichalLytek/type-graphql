@@ -12,41 +12,41 @@ export class MovieWhereInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: StringFilter | null;
+  directorFirstName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: StringFilter | null;
+  directorLastName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null;
+  title?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: MovieWhereInput[] | null;
+  AND?: MovieWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: MovieWhereInput[] | null;
+  OR?: MovieWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: MovieWhereInput[] | null;
+  NOT?: MovieWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereInput, {
     nullable: true,
     description: undefined
   })
-  director?: DirectorWhereInput | null;
+  director?: DirectorWhereInput | null | undefined;
 }

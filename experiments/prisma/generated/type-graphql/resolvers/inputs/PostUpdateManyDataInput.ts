@@ -11,47 +11,47 @@ export class PostUpdateManyDataInput {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: Date | null;
+  createdAt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: Date | null;
+  updatedAt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  published?: boolean | null;
+  published?: boolean | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  title?: string | null;
+  title?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  content?: string | null;
+  content?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof PostKind | null;
+  kind?: keyof typeof PostKind | null | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  metadata?: object | null;
+  metadata?: object | null | undefined;
 }

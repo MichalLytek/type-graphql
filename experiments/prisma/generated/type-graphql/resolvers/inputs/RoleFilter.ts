@@ -11,23 +11,23 @@ export class RoleFilter {
     nullable: true,
     description: undefined
   })
-  equals?: keyof typeof Role | null;
+  equals?: keyof typeof Role | null | undefined;
 
   @TypeGraphQL.Field(_type => Role, {
     nullable: true,
     description: undefined
   })
-  not?: keyof typeof Role | null;
+  not?: keyof typeof Role | null | undefined;
 
   @TypeGraphQL.Field(_type => [Role], {
     nullable: true,
     description: undefined
   })
-  in?: Array<keyof typeof Role> | null;
+  in?: Array<keyof typeof Role> | null | undefined;
 
   @TypeGraphQL.Field(_type => [Role], {
     nullable: true,
     description: undefined
   })
-  notIn?: Array<keyof typeof Role> | null;
+  notIn?: Array<keyof typeof Role> | null | undefined;
 }

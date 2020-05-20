@@ -11,53 +11,53 @@ export class PostOrderByInput {
     nullable: true,
     description: undefined
   })
-  uuid?: keyof typeof OrderByArg | null;
+  uuid?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  createdAt?: keyof typeof OrderByArg | null;
+  createdAt?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: keyof typeof OrderByArg | null;
+  updatedAt?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  published?: keyof typeof OrderByArg | null;
+  published?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  title?: keyof typeof OrderByArg | null;
+  title?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  content?: keyof typeof OrderByArg | null;
+  content?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  authorId?: keyof typeof OrderByArg | null;
+  authorId?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof OrderByArg | null;
+  kind?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  metadata?: keyof typeof OrderByArg | null;
+  metadata?: keyof typeof OrderByArg | null | undefined;
 }

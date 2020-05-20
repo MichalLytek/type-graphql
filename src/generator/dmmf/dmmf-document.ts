@@ -13,11 +13,16 @@ export class DmmfDocument implements DMMF.Document {
     this.mappings = mappings;
   }
 
-  getModelTypeName(modelName: string) {
+  getModelTypeName(modelName: string): string | undefined {
     return this.datamodel.models.find(it => it.name === modelName)?.typeName;
   }
 
-  isModelName(typeName: string) {
+  isModelName(typeName: string): boolean {
     return this.datamodel.models.some(it => it.name === typeName);
+  }
+
+  getModelFieldAlias(modelName: string, fieldName: string): string | undefined {
+    const model = this.datamodel.models.find(it => it.name === modelName);
+    return model?.fields.find(it => it.name === fieldName)?.typeFieldAlias;
   }
 }

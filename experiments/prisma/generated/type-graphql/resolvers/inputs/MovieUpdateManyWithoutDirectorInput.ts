@@ -16,53 +16,53 @@ export class MovieUpdateManyWithoutDirectorInput {
     nullable: true,
     description: undefined
   })
-  create?: MovieCreateWithoutDirectorInput[] | null;
+  create?: MovieCreateWithoutDirectorInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  connect?: MovieWhereUniqueInput[] | null;
+  connect?: MovieWhereUniqueInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  set?: MovieWhereUniqueInput[] | null;
+  set?: MovieWhereUniqueInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  disconnect?: MovieWhereUniqueInput[] | null;
+  disconnect?: MovieWhereUniqueInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  delete?: MovieWhereUniqueInput[] | null;
+  delete?: MovieWhereUniqueInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieUpdateWithWhereUniqueWithoutDirectorInput], {
     nullable: true,
     description: undefined
   })
-  update?: MovieUpdateWithWhereUniqueWithoutDirectorInput[] | null;
+  update?: MovieUpdateWithWhereUniqueWithoutDirectorInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieUpdateManyWithWhereNestedInput], {
     nullable: true,
     description: undefined
   })
-  updateMany?: MovieUpdateManyWithWhereNestedInput[] | null;
+  updateMany?: MovieUpdateManyWithWhereNestedInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  deleteMany?: MovieScalarWhereInput[] | null;
+  deleteMany?: MovieScalarWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [MovieUpsertWithWhereUniqueWithoutDirectorInput], {
     nullable: true,
     description: undefined
   })
-  upsert?: MovieUpsertWithWhereUniqueWithoutDirectorInput[] | null;
+  upsert?: MovieUpsertWithWhereUniqueWithoutDirectorInput[] | null | undefined;
 }

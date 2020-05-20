@@ -12,35 +12,35 @@ export class CategoryWhereInput {
     nullable: true,
     description: undefined
   })
-  name?: StringFilter | null;
+  name?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  slug?: StringFilter | null;
+  slug?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  number?: IntFilter | null;
+  number?: IntFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [CategoryWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: CategoryWhereInput[] | null;
+  AND?: CategoryWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [CategoryWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: CategoryWhereInput[] | null;
+  OR?: CategoryWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [CategoryWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: CategoryWhereInput[] | null;
+  NOT?: CategoryWhereInput[] | null | undefined;
 }

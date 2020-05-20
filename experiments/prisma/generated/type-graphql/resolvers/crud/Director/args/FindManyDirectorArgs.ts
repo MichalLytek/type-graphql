@@ -7,23 +7,23 @@ import { DirectorWhereUniqueInput } from "../../../inputs/DirectorWhereUniqueInp
 @TypeGraphQL.ArgsType()
 export class FindManyDirectorArgs {
   @TypeGraphQL.Field(_type => DirectorWhereInput, { nullable: true })
-  where?: DirectorWhereInput | null;
+  where?: DirectorWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorOrderByInput, { nullable: true })
-  orderBy?: DirectorOrderByInput | null;
+  orderBy?: DirectorOrderByInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null;
+  skip?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, { nullable: true })
-  after?: DirectorWhereUniqueInput | null;
+  after?: DirectorWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, { nullable: true })
-  before?: DirectorWhereUniqueInput | null;
+  before?: DirectorWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null;
+  first?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null;
+  last?: number | null | undefined;
 }

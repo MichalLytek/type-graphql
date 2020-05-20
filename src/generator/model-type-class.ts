@@ -1,4 +1,10 @@
-import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
+import {
+  PropertyDeclarationStructure,
+  OptionalKind,
+  Project,
+  MethodDeclarationStructure,
+  GetAccessorDeclarationStructure,
+} from "ts-morph";
 import path from "path";
 
 import { getFieldTSType, getTypeGraphQLType } from "./helpers";
@@ -79,7 +85,7 @@ export default async function generateObjectTypeClassFromModel(
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
           decorators: [
-            ...(field.relationName
+            ...(field.relationName || field.typeFieldAlias
               ? []
               : [
                   {
@@ -102,6 +108,45 @@ export default async function generateObjectTypeClassFromModel(
         };
       },
     ),
+    getAccessors: model.fields
+      .filter(field => field.typeFieldAlias)
+      .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
+        const isOptional = !!field.relationName || !field.isRequired;
+        // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
+        const fieldDocs = undefined as string | undefined;
+        // const fieldDocs =
+        //   field.documentation && field.documentation.replace("\r", "");
+
+        return {
+          name: field.typeFieldAlias!,
+          returnType: getFieldTSType(field, dmmfDocument),
+          hasExclamationToken: !isOptional,
+          hasQuestionToken: isOptional,
+          trailingTrivia: "\r\n",
+          decorators: [
+            ...(field.relationName
+              ? []
+              : [
+                  {
+                    name: "TypeGraphQL.Field",
+                    arguments: [
+                      `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
+                      `{
+                        nullable: ${isOptional},
+                        description: ${
+                          fieldDocs ? `"${fieldDocs}"` : "undefined"
+                        },
+                      }`,
+                    ],
+                  },
+                ]),
+          ],
+          statements: [`return this.${field.name};`],
+          ...(fieldDocs && {
+            docs: [{ description: fieldDocs }],
+          }),
+        };
+      }),
     ...(modelDocs && {
       docs: [{ description: modelDocs }],
     }),

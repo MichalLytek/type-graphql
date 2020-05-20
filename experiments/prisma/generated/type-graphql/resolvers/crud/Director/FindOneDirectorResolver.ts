@@ -8,7 +8,7 @@ export class FindOneDirectorResolver {
     nullable: true,
     description: undefined
   })
-  async director(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneDirectorArgs): Promise<Director | null> {
+  async director(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneDirectorArgs): Promise<Director | null | undefined> {
     return ctx.prisma.director.findOne(args);
   }
 }

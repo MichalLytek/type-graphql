@@ -20,5 +20,18 @@ function transformModel(model: PrismaDMMF.Model): DMMF.Model {
   return {
     ...model,
     typeName: typeName ?? model.name,
+    fields: model.fields.map(transformField),
+  };
+}
+
+function transformField(field: PrismaDMMF.Field): DMMF.Field {
+  const attributeArgs = parseDocumentationAttributes(
+    field.documentation,
+    "field",
+  );
+  const typeFieldAlias = attributeArgs?.slice(1, -1);
+  return {
+    ...field,
+    typeFieldAlias,
   };
 }

@@ -11,5 +11,5 @@ export class PatientWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null;
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null | undefined;
 }

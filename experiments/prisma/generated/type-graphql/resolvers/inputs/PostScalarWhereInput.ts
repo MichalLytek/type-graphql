@@ -17,65 +17,65 @@ export class PostScalarWhereInput {
     nullable: true,
     description: undefined
   })
-  uuid?: UUIDFilter | null;
+  uuid?: UUIDFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  createdAt?: DateTimeFilter | null;
+  createdAt?: DateTimeFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: DateTimeFilter | null;
+  updatedAt?: DateTimeFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  published?: BooleanFilter | null;
+  published?: BooleanFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null;
+  title?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  content?: NullableStringFilter | null;
+  content?: NullableStringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  authorId?: IntFilter | null;
+  authorId?: IntFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => NullablePostKindFilter, {
     nullable: true,
     description: undefined
   })
-  kind?: NullablePostKindFilter | null;
+  kind?: NullablePostKindFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: PostScalarWhereInput[] | null;
+  AND?: PostScalarWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: PostScalarWhereInput[] | null;
+  OR?: PostScalarWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: PostScalarWhereInput[] | null;
+  NOT?: PostScalarWhereInput[] | null | undefined;
 }

@@ -10,11 +10,11 @@ export class ClientWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  id?: number | null;
+  id?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  email?: string | null;
+  email?: string | null | undefined;
 }

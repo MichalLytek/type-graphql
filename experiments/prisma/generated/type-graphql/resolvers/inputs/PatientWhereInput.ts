@@ -11,35 +11,35 @@ export class PatientWhereInput {
     nullable: true,
     description: undefined
   })
-  firstName?: StringFilter | null;
+  firstName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  lastName?: StringFilter | null;
+  lastName?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  email?: StringFilter | null;
+  email?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [PatientWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: PatientWhereInput[] | null;
+  AND?: PatientWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PatientWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: PatientWhereInput[] | null;
+  OR?: PatientWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PatientWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: PatientWhereInput[] | null;
+  NOT?: PatientWhereInput[] | null | undefined;
 }

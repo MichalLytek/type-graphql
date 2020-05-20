@@ -11,5 +11,5 @@ export class CategoryWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  slug_number?: SlugNumberCompoundUniqueInput | null;
+  slug_number?: SlugNumberCompoundUniqueInput | null | undefined;
 }

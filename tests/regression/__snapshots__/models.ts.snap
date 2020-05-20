@@ -28,7 +28,7 @@ export class User {
   })
   intField!: number;
 
-  posts?: Post[] | null;
+  posts?: Post[] | null | undefined;
 }
 "
 `;
@@ -58,7 +58,7 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  optionalStringField?: string | null;
+  optionalStringField?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -124,6 +124,50 @@ export class User {
 "
 `;
 
+exports[`models should properly generate object type class for prisma model with renamed fields: User 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+
+@TypeGraphQL.ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class User {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: number;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false,
+    description: undefined,
+  })
+  dateOfBirth!: Date;
+
+  name!: string;
+
+  balance?: number | null | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  get firstName(): string {
+    return this.name;
+  }
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined,
+  })
+  get accountBalance(): number | null | undefined {
+    return this.balance;
+  }
+}
+"
+`;
+
 exports[`models should properly generate object type classes for prisma models with cyclic relations when models are renamed: Article 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -167,7 +211,7 @@ export class Client {
   })
   id!: number;
 
-  posts?: Article[] | null;
+  posts?: Article[] | null | undefined;
 }
 "
 `;
@@ -215,7 +259,7 @@ export class User {
   })
   id!: number;
 
-  posts?: Post[] | null;
+  posts?: Post[] | null | undefined;
 }
 "
 `;
@@ -241,15 +285,15 @@ export class Service {
   })
   name!: string;
 
-  sourceService?: Service | null;
+  sourceService?: Service | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined,
   })
-  sourceId?: number | null;
+  sourceId?: number | null | undefined;
 
-  services?: Service[] | null;
+  services?: Service[] | null | undefined;
 }
 "
 `;
