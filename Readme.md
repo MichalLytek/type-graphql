@@ -157,7 +157,9 @@ In order to use generated types and resolvers classes in NestJS, you need to use
 
 Due to difference between TypeGraphQL and NestJS decorators, `typegraphql-prisma` doesn't work anymore with `@nestjs/graphql` from version 7.0.
 
-### Customization
+### Advanced usage
+
+#### Custom operations
 
 You can also add custom queries and mutations to the schema as always, using the generated `PrismaClient` client:
 
@@ -172,6 +174,8 @@ export class CustomUserResolver {
   }
 }
 ```
+
+#### Adding fields to model type
 
 If you want to add a field to the generated type like `User`, you have to add a proper `@FieldResolver` for that:
 
@@ -191,6 +195,8 @@ export class CustomUserResolver {
   }
 }
 ```
+
+#### Exposing selected Prisma actions
 
 If you want to expose only certain Prisma actions, like `findManyUser` or `createOneUser`, you can import resolver classes only for them, instead of the whole model `CrudResolver`.
 Then you just have to put them into the `buildSchema`:
@@ -214,6 +220,8 @@ const schema = await buildSchema({
 });
 ```
 
+#### Changing exposed model type name
+
 You can also change the name of the model types exposed in GraphQL Schema. To achieve this, just put the `@@TypeGraphQL.type` comment above the model definition in `schema.prisma` file, e.g:
 
 ```prisma
@@ -232,6 +240,34 @@ type Mutation {
   createClient(data: ClientCreateInput!): Client!
 }
 ```
+
+#### Changing exposed model type field name
+
+You can also change the name of the model type fields exposed in GraphQL Schema. To achieve this, just put the `@TypeGraphQL.field` comment above the model field definition in `schema.prisma` file, e.g:
+
+```prisma
+model User {
+  id     Int     @default(autoincrement()) @id
+  // @TypeGraphQL.field("emailAddress")
+  email  String  @unique
+  posts  Post[]
+}
+```
+
+This will result in the following GraphQL schema representation:
+
+```graphql
+type User {
+  id: Int!
+  emailAddress: String!
+  posts: [Post!]!
+}
+```
+
+All generated CRUD and relations resolvers fully support this feature and map the original prisma property to the changed field exposed in schema under the hood.
+
+However, at least for now, this feature changes the name only for model's `@ObjectType`, so all resolvers args and input types still reference the original fields names.
+This behavior is a subject to change in the near future.
 
 ## Examples
 
