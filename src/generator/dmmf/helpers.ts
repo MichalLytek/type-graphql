@@ -1,14 +1,21 @@
-const attributeRegex = /(@@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
+// TODO: support not string args
+const modelAttributeRegex = /(@@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
+const fieldAttributeRegex = /(@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
+const attributeNameRegex = /(?:\.)+([A-Za-z])+(?:\()+/;
 const attributeArgsRegex = /(?:\(")+([A-Za-z])+(?:"\))+/;
-const attributeKindRegex = /(?:\.)+([A-Za-z])+(?:\()+/;
 
 export function parseDocumentationAttributes(
   documentation: string | undefined,
-  expectedAttributeKind: string,
+  expectedAttributeName: string,
+  expectedAttributeKind: "model" | "field",
 ) {
+  const attributeRegex =
+    expectedAttributeKind === "model"
+      ? modelAttributeRegex
+      : fieldAttributeRegex;
   const attribute = documentation?.match(attributeRegex)?.[0];
-  const attributeKind = attribute?.match(attributeKindRegex)?.[0]?.slice(1, -1);
-  if (attributeKind !== expectedAttributeKind) {
+  const attributeName = attribute?.match(attributeNameRegex)?.[0]?.slice(1, -1);
+  if (attributeName !== expectedAttributeName) {
     return;
   }
   const attributeArgs = attribute?.match(attributeArgsRegex)?.[0]?.slice(1, -1);

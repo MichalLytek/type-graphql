@@ -109,9 +109,8 @@ export default async function generateObjectTypeClassFromModel(
       },
     ),
     getAccessors: model.fields
-      .filter(field => field.typeFieldAlias)
+      .filter(field => field.typeFieldAlias && !field.relationName)
       .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
-        const isOptional = !!field.relationName || !field.isRequired;
         // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
         const fieldDocs = undefined as string | undefined;
         // const fieldDocs =
@@ -120,26 +119,18 @@ export default async function generateObjectTypeClassFromModel(
         return {
           name: field.typeFieldAlias!,
           returnType: getFieldTSType(field, dmmfDocument),
-          hasExclamationToken: !isOptional,
-          hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
           decorators: [
-            ...(field.relationName
-              ? []
-              : [
-                  {
-                    name: "TypeGraphQL.Field",
-                    arguments: [
-                      `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
-                      `{
-                        nullable: ${isOptional},
-                        description: ${
-                          fieldDocs ? `"${fieldDocs}"` : "undefined"
-                        },
-                      }`,
-                    ],
-                  },
-                ]),
+            {
+              name: "TypeGraphQL.Field",
+              arguments: [
+                `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
+                `{
+                  nullable: ${!field.isRequired},
+                  description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
+                }`,
+              ],
+            },
           ],
           statements: [`return this.${field.name};`],
           ...(fieldDocs && {

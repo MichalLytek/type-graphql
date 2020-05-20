@@ -127,6 +127,7 @@ export class User {
 exports[`models should properly generate object type class for prisma model with renamed fields: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
+import { Post } from \\"../models/Post\\";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,
@@ -148,6 +149,8 @@ export class User {
   name!: string;
 
   balance?: number | null | undefined;
+
+  posts?: Post[] | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false,

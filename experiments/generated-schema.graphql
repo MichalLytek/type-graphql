@@ -79,11 +79,11 @@ type Client {
   accountBalance: Float!
   age: Int!
   amount: Float!
+  clientPosts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   email: String!
   firstName: String
   hello: String!
   id: Int!
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   role: Role!
 }
 

@@ -52,6 +52,51 @@ export class DirectorRelationsResolver {
 "
 `;
 
+exports[`relations resolvers generation should properly generate relation resolvers classes for models with renamed relation fields: Post 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import { Post } from \\"../../../models/Post\\";
+import { User } from \\"../../../models/User\\";
+
+@TypeGraphQL.Resolver(_of => Post)
+export class PostRelationsResolver {
+  @TypeGraphQL.FieldResolver(_type => User, {
+    nullable: true,
+    description: undefined,
+  })
+  async postAuthor(@TypeGraphQL.Root() post: Post, @TypeGraphQL.Ctx() ctx: any): Promise<User | null | undefined> {
+    return ctx.prisma.post.findOne({
+      where: {
+        uuid: post.uuid,
+      },
+    }).author({});
+  }
+}
+"
+`;
+
+exports[`relations resolvers generation should properly generate relation resolvers classes for models with renamed relation fields: User 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import { Post } from \\"../../../models/Post\\";
+import { User } from \\"../../../models/User\\";
+import { UserPostsArgs } from \\"./args/UserPostsArgs\\";
+
+@TypeGraphQL.Resolver(_of => User)
+export class UserRelationsResolver {
+  @TypeGraphQL.FieldResolver(_type => [Post], {
+    nullable: true,
+    description: undefined,
+  })
+  async userPosts(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserPostsArgs): Promise<Post[] | null | undefined> {
+    return ctx.prisma.user.findOne({
+      where: {
+        id: user.id,
+      },
+    }).posts(args);
+  }
+}
+"
+`;
+
 exports[`relations resolvers generation should properly generate resolver and args class for array relation resolvers: UserPostsArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";

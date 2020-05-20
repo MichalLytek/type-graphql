@@ -1,37 +1,35 @@
 import "reflect-metadata";
 import { promises as fs } from "fs";
 import { buildSchema } from "type-graphql";
-import { graphql, GraphQLSchema } from "graphql";
+import { graphql } from "graphql";
 
 import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { generateCodeFromSchema } from "../helpers/generate-code";
 
 describe("crud resolvers execution", () => {
   let outputDirPath: string;
-  let graphQLSchema: GraphQLSchema;
 
-  beforeAll(async () => {
-    outputDirPath = generateArtifactsDirPath("functional-crud");
+  beforeEach(async () => {
+    outputDirPath = generateArtifactsDirPath("renaming-fields");
     await fs.mkdir(outputDirPath, { recursive: true });
+  });
+
+  it("should properly resolve aliased field values from prisma model values", async () => {
     const prismaSchema = /* prisma */ `
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
-        // @@TypeGraphQL.field("firstName")
+        // @TypeGraphQL.field("firstName")
         name         String
       }
     `;
     await generateCodeFromSchema(prismaSchema, { outputDirPath });
     const { UserCrudResolver } = require(outputDirPath +
       "/resolvers/crud/User/UserCrudResolver.ts");
-
-    graphQLSchema = await buildSchema({
+    const graphQLSchema = await buildSchema({
       resolvers: [UserCrudResolver],
       validate: false,
     });
-  });
-
-  it("should properly resolve aliased field values from prisma model values", async () => {
     const document = /* graphql */ `
       query {
         user(where: { id: 1 }) {

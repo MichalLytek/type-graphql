@@ -1,18 +1,18 @@
 query GetClientsAndPosts {
   clients {
     ...ClientData
-    advertPosts: posts(where: { kind: { equals: ADVERT } }) {
+    advertPosts: clientPosts(where: { kind: { equals: ADVERT } }) {
       ...PostData
     }
-    blogPosts: posts(where: { kind: { equals: BLOG } }) {
+    blogPosts: clientPosts(where: { kind: { equals: BLOG } }) {
       ...PostData
       author {
-        posts(where: { kind: { equals: ADVERT } }) {
+        clientPosts(where: { kind: { equals: ADVERT } }) {
           ...PostData
         }
       }
     }
-    posts {
+    clientPosts {
       ...PostData
     }
   }

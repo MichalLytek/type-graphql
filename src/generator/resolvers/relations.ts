@@ -143,7 +143,7 @@ export default async function generateRelationsResolverClassesFromModel(
           );
         }
         return {
-          name: field.name,
+          name: field.typeFieldAlias ?? field.name,
           isAsync: true,
           returnType: `Promise<${fieldType}>`,
           decorators: [

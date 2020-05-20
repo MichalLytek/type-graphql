@@ -15,6 +15,7 @@ function transformModel(model: PrismaDMMF.Model): DMMF.Model {
   const attributeArgs = parseDocumentationAttributes(
     model.documentation,
     "type",
+    "model",
   );
   const typeName = attributeArgs?.slice(1, -1);
   return {
@@ -27,6 +28,7 @@ function transformModel(model: PrismaDMMF.Model): DMMF.Model {
 function transformField(field: PrismaDMMF.Field): DMMF.Field {
   const attributeArgs = parseDocumentationAttributes(
     field.documentation,
+    "field",
     "field",
   );
   const typeFieldAlias = attributeArgs?.slice(1, -1);

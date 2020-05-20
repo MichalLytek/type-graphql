@@ -151,10 +151,17 @@ describe("models", () => {
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
-        // @@TypeGraphQL.field("firstName")
+        // @TypeGraphQL.field("firstName")
         name         String
-        // @@TypeGraphQL.field("accountBalance")
+        // @TypeGraphQL.field("accountBalance")
         balance      Float?
+        // @TypeGraphQL.field("userPosts")
+        posts        Post[]
+      }
+      model Post {
+        uuid      String  @id @default(cuid())
+        author    User?   @relation(fields: [authorId], references: [id])
+        authorId  Int?
       }
     `;
 

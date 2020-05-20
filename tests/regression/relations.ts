@@ -154,4 +154,32 @@ describe("relations resolvers generation", () => {
       "MovieRelationsResolver",
     );
   });
+
+  it("should properly generate relation resolvers classes for models with renamed relation fields", async () => {
+    const schema = /* prisma */ `
+      model User {
+        id     Int    @id @default(autoincrement())
+        // @TypeGraphQL.field("userPosts")
+        posts  Post[]
+      }
+      model Post {
+        uuid      String  @id @default(cuid())
+        /// author field doc
+        // @TypeGraphQL.field("postAuthor")
+        author    User?   @relation(fields: [authorId], references: [id])
+        authorId  Int?
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const userResolverTSFile = await readGeneratedFile(
+      "/resolvers/relations/User/UserRelationsResolver.ts",
+    );
+    const postResolverTSFile = await readGeneratedFile(
+      "/resolvers/relations/Post/PostRelationsResolver.ts",
+    );
+
+    expect(userResolverTSFile).toMatchSnapshot("User");
+    expect(postResolverTSFile).toMatchSnapshot("Post");
+  });
 });

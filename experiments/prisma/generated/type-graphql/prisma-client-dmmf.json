@@ -65,7 +65,7 @@
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "@@TypeGraphQL.field(\"firstName\")"
+            "documentation": "@TypeGraphQL.field(\"firstName\")"
           },
           {
             "name": "age",
@@ -90,7 +90,7 @@
             "type": "Float",
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "@@TypeGraphQL.field(\"accountBalance\")"
+            "documentation": "@TypeGraphQL.field(\"accountBalance\")"
           },
           {
             "name": "amount",
@@ -118,7 +118,8 @@
             "relationToFields": [],
             "relationOnDelete": "NONE",
             "isGenerated": false,
-            "isUpdatedAt": false
+            "isUpdatedAt": false,
+            "documentation": "@TypeGraphQL.field(\"clientPosts\")"
           },
           {
             "name": "role",
