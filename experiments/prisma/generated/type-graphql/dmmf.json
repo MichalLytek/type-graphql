@@ -13,8 +13,7 @@
             "dbName": null
           }
         ],
-        "dbName": null,
-        "documentation": "Role enum comment"
+        "dbName": null
       },
       {
         "name": "PostKind",
@@ -52,7 +51,7 @@
             },
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "User model field comment"
+            "documentation": "User model field doc"
           },
           {
             "name": "email",
@@ -147,7 +146,7 @@
           }
         ],
         "isGenerated": false,
-        "documentation": "User model comment\n@@TypeGraphQL.type(\"Client\")",
+        "documentation": "User model doc\n@@TypeGraphQL.type(\"Client\")",
         "idFields": [],
         "uniqueFields": []
       },
@@ -1279,6 +1278,26 @@
               "isRequired": false,
               "isList": true,
               "isNullable": true
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata_not",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           },
           {
@@ -4023,7 +4042,7 @@
               "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": false
+              "isNullable": true
             }
           }
         ]
@@ -4889,6 +4908,26 @@
               "isRequired": false,
               "isList": true,
               "isNullable": true
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata_not",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           }
         ]
@@ -6293,7 +6332,7 @@
               "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": false
+              "isNullable": true
             }
           }
         ]

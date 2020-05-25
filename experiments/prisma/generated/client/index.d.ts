@@ -16,8 +16,8 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Query Engine version: 0c2ec197653b278b2978845ef958db88824cd82e
- * Prisma Client JS version: 2.0.0-beta.5
+ * Prisma Client JS version: 2.0.0-alpha.1236
+ * Query Engine version: e8f07a3db3f81a7e84d36f1ce4c59d221dfb0705
  */
 export declare type PrismaVersion = {
   client: string
@@ -98,13 +98,31 @@ export type Datasources = {
 export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
 
 export interface PrismaClientOptions {
+  /**
+   * Overwrites the datasource url from your prisma.schema file
+   */
   datasources?: Datasources
 
   /**
-   * @default "pretty"
+   * @default "colorless"
    */
   errorFormat?: ErrorFormat
 
+  /**
+   * @example
+   * ```
+   * // Defaults to stdout
+   * log: ['query', 'info', 'warn']
+   * 
+   * // Emit as events
+   * log: [
+   *  { emit: 'stdout', level: 'query' },
+   *  { emit: 'stdout', level: 'info' },
+   *  { emit: 'stdout', level: 'warn' }
+   * ]
+   * ```
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+   */
   log?: Array<LogLevel | LogDefinition>
 
   /**
@@ -119,11 +137,6 @@ export interface PrismaClientOptions {
     }
     measurePerformance?: boolean
   }
-
-  /**
-   * Useful for pgbouncer
-   */
-  forceTransactions?: boolean
 }
 
 export type Hooks = {
@@ -618,31 +631,31 @@ export type FindManyUserArgs = {
   /**
    * Filter, which Users to fetch.
   **/
-  where?: UserWhereInput | null
+  where?: UserWhereInput
   /**
    * Determine the order of the Users to fetch.
   **/
-  orderBy?: UserOrderByInput | null
+  orderBy?: UserOrderByInput
   /**
    * Skip the first `n` Users.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Users that come after the User you provide with the current order.
   **/
-  after?: UserWhereUniqueInput | null
+  after?: UserWhereUniqueInput
   /**
    * Get all Users that come before the User you provide with the current order.
   **/
-  before?: UserWhereUniqueInput | null
+  before?: UserWhereUniqueInput
   /**
    * Get the first `n` Users.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Users.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -693,7 +706,7 @@ export type UserUpdateArgs = {
  */
 export type UserUpdateManyArgs = {
   data: UserUpdateManyMutationInput
-  where?: UserWhereInput | null
+  where?: UserWhereInput
 }
 
 
@@ -747,7 +760,7 @@ export type UserDeleteArgs = {
  * User deleteMany
  */
 export type UserDeleteManyArgs = {
-  where?: UserWhereInput | null
+  where?: UserWhereInput
 }
 
 
@@ -1042,31 +1055,31 @@ export type FindManyPostArgs = {
   /**
    * Filter, which Posts to fetch.
   **/
-  where?: PostWhereInput | null
+  where?: PostWhereInput
   /**
    * Determine the order of the Posts to fetch.
   **/
-  orderBy?: PostOrderByInput | null
+  orderBy?: PostOrderByInput
   /**
    * Skip the first `n` Posts.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Posts that come after the Post you provide with the current order.
   **/
-  after?: PostWhereUniqueInput | null
+  after?: PostWhereUniqueInput
   /**
    * Get all Posts that come before the Post you provide with the current order.
   **/
-  before?: PostWhereUniqueInput | null
+  before?: PostWhereUniqueInput
   /**
    * Get the first `n` Posts.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Posts.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -1117,7 +1130,7 @@ export type PostUpdateArgs = {
  */
 export type PostUpdateManyArgs = {
   data: PostUpdateManyMutationInput
-  where?: PostWhereInput | null
+  where?: PostWhereInput
 }
 
 
@@ -1171,7 +1184,7 @@ export type PostDeleteArgs = {
  * Post deleteMany
  */
 export type PostDeleteManyArgs = {
-  where?: PostWhereInput | null
+  where?: PostWhereInput
 }
 
 
@@ -1435,31 +1448,31 @@ export type FindManyCategoryArgs = {
   /**
    * Filter, which Categories to fetch.
   **/
-  where?: CategoryWhereInput | null
+  where?: CategoryWhereInput
   /**
    * Determine the order of the Categories to fetch.
   **/
-  orderBy?: CategoryOrderByInput | null
+  orderBy?: CategoryOrderByInput
   /**
    * Skip the first `n` Categories.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Categories that come after the Category you provide with the current order.
   **/
-  after?: CategoryWhereUniqueInput | null
+  after?: CategoryWhereUniqueInput
   /**
    * Get all Categories that come before the Category you provide with the current order.
   **/
-  before?: CategoryWhereUniqueInput | null
+  before?: CategoryWhereUniqueInput
   /**
    * Get the first `n` Categories.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Categories.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -1502,7 +1515,7 @@ export type CategoryUpdateArgs = {
  */
 export type CategoryUpdateManyArgs = {
   data: CategoryUpdateManyMutationInput
-  where?: CategoryWhereInput | null
+  where?: CategoryWhereInput
 }
 
 
@@ -1548,7 +1561,7 @@ export type CategoryDeleteArgs = {
  * Category deleteMany
  */
 export type CategoryDeleteManyArgs = {
-  where?: CategoryWhereInput | null
+  where?: CategoryWhereInput
 }
 
 
@@ -1808,31 +1821,31 @@ export type FindManyPatientArgs = {
   /**
    * Filter, which Patients to fetch.
   **/
-  where?: PatientWhereInput | null
+  where?: PatientWhereInput
   /**
    * Determine the order of the Patients to fetch.
   **/
-  orderBy?: PatientOrderByInput | null
+  orderBy?: PatientOrderByInput
   /**
    * Skip the first `n` Patients.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Patients that come after the Patient you provide with the current order.
   **/
-  after?: PatientWhereUniqueInput | null
+  after?: PatientWhereUniqueInput
   /**
    * Get all Patients that come before the Patient you provide with the current order.
   **/
-  before?: PatientWhereUniqueInput | null
+  before?: PatientWhereUniqueInput
   /**
    * Get the first `n` Patients.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Patients.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -1875,7 +1888,7 @@ export type PatientUpdateArgs = {
  */
 export type PatientUpdateManyArgs = {
   data: PatientUpdateManyMutationInput
-  where?: PatientWhereInput | null
+  where?: PatientWhereInput
 }
 
 
@@ -1921,7 +1934,7 @@ export type PatientDeleteArgs = {
  * Patient deleteMany
  */
 export type PatientDeleteManyArgs = {
-  where?: PatientWhereInput | null
+  where?: PatientWhereInput
 }
 
 
@@ -2200,31 +2213,31 @@ export type FindManyMovieArgs = {
   /**
    * Filter, which Movies to fetch.
   **/
-  where?: MovieWhereInput | null
+  where?: MovieWhereInput
   /**
    * Determine the order of the Movies to fetch.
   **/
-  orderBy?: MovieOrderByInput | null
+  orderBy?: MovieOrderByInput
   /**
    * Skip the first `n` Movies.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Movies that come after the Movie you provide with the current order.
   **/
-  after?: MovieWhereUniqueInput | null
+  after?: MovieWhereUniqueInput
   /**
    * Get all Movies that come before the Movie you provide with the current order.
   **/
-  before?: MovieWhereUniqueInput | null
+  before?: MovieWhereUniqueInput
   /**
    * Get the first `n` Movies.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Movies.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -2275,7 +2288,7 @@ export type MovieUpdateArgs = {
  */
 export type MovieUpdateManyArgs = {
   data: MovieUpdateManyMutationInput
-  where?: MovieWhereInput | null
+  where?: MovieWhereInput
 }
 
 
@@ -2329,7 +2342,7 @@ export type MovieDeleteArgs = {
  * Movie deleteMany
  */
 export type MovieDeleteManyArgs = {
-  where?: MovieWhereInput | null
+  where?: MovieWhereInput
 }
 
 
@@ -2610,31 +2623,31 @@ export type FindManyDirectorArgs = {
   /**
    * Filter, which Directors to fetch.
   **/
-  where?: DirectorWhereInput | null
+  where?: DirectorWhereInput
   /**
    * Determine the order of the Directors to fetch.
   **/
-  orderBy?: DirectorOrderByInput | null
+  orderBy?: DirectorOrderByInput
   /**
    * Skip the first `n` Directors.
   **/
-  skip?: number | null
+  skip?: number
   /**
    * Get all Directors that come after the Director you provide with the current order.
   **/
-  after?: DirectorWhereUniqueInput | null
+  after?: DirectorWhereUniqueInput
   /**
    * Get all Directors that come before the Director you provide with the current order.
   **/
-  before?: DirectorWhereUniqueInput | null
+  before?: DirectorWhereUniqueInput
   /**
    * Get the first `n` Directors.
   **/
-  first?: number | null
+  first?: number
   /**
    * Get the last `n` Directors.
   **/
-  last?: number | null
+  last?: number
 }
 
 
@@ -2685,7 +2698,7 @@ export type DirectorUpdateArgs = {
  */
 export type DirectorUpdateManyArgs = {
   data: DirectorUpdateManyMutationInput
-  where?: DirectorWhereInput | null
+  where?: DirectorWhereInput
 }
 
 
@@ -2739,7 +2752,7 @@ export type DirectorDeleteArgs = {
  * Director deleteMany
  */
 export type DirectorDeleteManyArgs = {
-  where?: DirectorWhereInput | null
+  where?: DirectorWhereInput
 }
 
 
@@ -2765,51 +2778,51 @@ export type DirectorArgs = {
 
 
 export type PostWhereInput = {
-  uuid?: string | UUIDFilter | null
-  createdAt?: Date | string | DateTimeFilter | null
-  updatedAt?: Date | string | DateTimeFilter | null
-  published?: boolean | BooleanFilter | null
-  title?: string | StringFilter | null
+  uuid?: string | UUIDFilter
+  createdAt?: Date | string | DateTimeFilter
+  updatedAt?: Date | string | DateTimeFilter
+  published?: boolean | BooleanFilter
+  title?: string | StringFilter
   content?: string | NullableStringFilter | null
-  authorId?: number | IntFilter | null
+  authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: object | JsonFilter | null
-  AND?: Enumerable<PostWhereInput> | null
-  OR?: Enumerable<PostWhereInput> | null
-  NOT?: Enumerable<PostWhereInput> | null
+  metadata?: object | JsonFilter
+  AND?: Enumerable<PostWhereInput>
+  OR?: Enumerable<PostWhereInput>
+  NOT?: Enumerable<PostWhereInput>
   author?: UserWhereInput | null
 }
 
 export type UserWhereInput = {
-  id?: number | IntFilter | null
-  email?: string | StringFilter | null
+  id?: number | IntFilter
+  email?: string | StringFilter
   name?: string | NullableStringFilter | null
-  age?: number | IntFilter | null
-  balance?: number | FloatFilter | null
-  amount?: number | FloatFilter | null
+  age?: number | IntFilter
+  balance?: number | FloatFilter
+  amount?: number | FloatFilter
   posts?: PostFilter | null
-  role?: Role | RoleFilter | null
-  AND?: Enumerable<UserWhereInput> | null
-  OR?: Enumerable<UserWhereInput> | null
-  NOT?: Enumerable<UserWhereInput> | null
+  role?: Role | RoleFilter
+  AND?: Enumerable<UserWhereInput>
+  OR?: Enumerable<UserWhereInput>
+  NOT?: Enumerable<UserWhereInput>
 }
 
 export type UserWhereUniqueInput = {
-  id?: number | null
-  email?: string | null
+  id?: number
+  email?: string
 }
 
 export type PostWhereUniqueInput = {
-  uuid?: string | null
+  uuid?: string
 }
 
 export type CategoryWhereInput = {
-  name?: string | StringFilter | null
-  slug?: string | StringFilter | null
-  number?: number | IntFilter | null
-  AND?: Enumerable<CategoryWhereInput> | null
-  OR?: Enumerable<CategoryWhereInput> | null
-  NOT?: Enumerable<CategoryWhereInput> | null
+  name?: string | StringFilter
+  slug?: string | StringFilter
+  number?: number | IntFilter
+  AND?: Enumerable<CategoryWhereInput>
+  OR?: Enumerable<CategoryWhereInput>
+  NOT?: Enumerable<CategoryWhereInput>
 }
 
 export type SlugNumberCompoundUniqueInput = {
@@ -2818,16 +2831,16 @@ export type SlugNumberCompoundUniqueInput = {
 }
 
 export type CategoryWhereUniqueInput = {
-  slug_number?: SlugNumberCompoundUniqueInput | null
+  slug_number?: SlugNumberCompoundUniqueInput
 }
 
 export type PatientWhereInput = {
-  firstName?: string | StringFilter | null
-  lastName?: string | StringFilter | null
-  email?: string | StringFilter | null
-  AND?: Enumerable<PatientWhereInput> | null
-  OR?: Enumerable<PatientWhereInput> | null
-  NOT?: Enumerable<PatientWhereInput> | null
+  firstName?: string | StringFilter
+  lastName?: string | StringFilter
+  email?: string | StringFilter
+  AND?: Enumerable<PatientWhereInput>
+  OR?: Enumerable<PatientWhereInput>
+  NOT?: Enumerable<PatientWhereInput>
 }
 
 export type FirstNameLastNameCompoundUniqueInput = {
@@ -2836,25 +2849,25 @@ export type FirstNameLastNameCompoundUniqueInput = {
 }
 
 export type PatientWhereUniqueInput = {
-  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput
 }
 
 export type DirectorWhereInput = {
-  firstName?: string | StringFilter | null
-  lastName?: string | StringFilter | null
+  firstName?: string | StringFilter
+  lastName?: string | StringFilter
   movies?: MovieFilter | null
-  AND?: Enumerable<DirectorWhereInput> | null
-  OR?: Enumerable<DirectorWhereInput> | null
-  NOT?: Enumerable<DirectorWhereInput> | null
+  AND?: Enumerable<DirectorWhereInput>
+  OR?: Enumerable<DirectorWhereInput>
+  NOT?: Enumerable<DirectorWhereInput>
 }
 
 export type MovieWhereInput = {
-  directorFirstName?: string | StringFilter | null
-  directorLastName?: string | StringFilter | null
-  title?: string | StringFilter | null
-  AND?: Enumerable<MovieWhereInput> | null
-  OR?: Enumerable<MovieWhereInput> | null
-  NOT?: Enumerable<MovieWhereInput> | null
+  directorFirstName?: string | StringFilter
+  directorLastName?: string | StringFilter
+  title?: string | StringFilter
+  AND?: Enumerable<MovieWhereInput>
+  OR?: Enumerable<MovieWhereInput>
+  NOT?: Enumerable<MovieWhereInput>
   director?: DirectorWhereInput | null
 }
 
@@ -2865,17 +2878,17 @@ export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
 }
 
 export type MovieWhereUniqueInput = {
-  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | null
+  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput
 }
 
 export type DirectorWhereUniqueInput = {
-  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput
 }
 
 export type PostCreateWithoutAuthorInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   published: boolean
   title: string
   content?: string | null
@@ -2884,8 +2897,8 @@ export type PostCreateWithoutAuthorInput = {
 }
 
 export type PostCreateManyWithoutAuthorInput = {
-  create?: Enumerable<PostCreateWithoutAuthorInput> | null
-  connect?: Enumerable<PostWhereUniqueInput> | null
+  create?: Enumerable<PostCreateWithoutAuthorInput>
+  connect?: Enumerable<PostWhereUniqueInput>
 }
 
 export type UserCreateInput = {
@@ -2899,14 +2912,14 @@ export type UserCreateInput = {
 }
 
 export type PostUpdateWithoutAuthorDataInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
-  published?: boolean | null
-  title?: string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published?: boolean
+  title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object | null
+  metadata?: object
 }
 
 export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
@@ -2915,29 +2928,29 @@ export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
 }
 
 export type PostScalarWhereInput = {
-  uuid?: string | UUIDFilter | null
-  createdAt?: Date | string | DateTimeFilter | null
-  updatedAt?: Date | string | DateTimeFilter | null
-  published?: boolean | BooleanFilter | null
-  title?: string | StringFilter | null
+  uuid?: string | UUIDFilter
+  createdAt?: Date | string | DateTimeFilter
+  updatedAt?: Date | string | DateTimeFilter
+  published?: boolean | BooleanFilter
+  title?: string | StringFilter
   content?: string | NullableStringFilter | null
-  authorId?: number | IntFilter | null
+  authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: object | JsonFilter | null
-  AND?: Enumerable<PostScalarWhereInput> | null
-  OR?: Enumerable<PostScalarWhereInput> | null
-  NOT?: Enumerable<PostScalarWhereInput> | null
+  metadata?: object | JsonFilter
+  AND?: Enumerable<PostScalarWhereInput>
+  OR?: Enumerable<PostScalarWhereInput>
+  NOT?: Enumerable<PostScalarWhereInput>
 }
 
 export type PostUpdateManyDataInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
-  published?: boolean | null
-  title?: string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published?: boolean
+  title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object | null
+  metadata?: object
 }
 
 export type PostUpdateManyWithWhereNestedInput = {
@@ -2952,36 +2965,36 @@ export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
 }
 
 export type PostUpdateManyWithoutAuthorInput = {
-  create?: Enumerable<PostCreateWithoutAuthorInput> | null
-  connect?: Enumerable<PostWhereUniqueInput> | null
-  set?: Enumerable<PostWhereUniqueInput> | null
-  disconnect?: Enumerable<PostWhereUniqueInput> | null
-  delete?: Enumerable<PostWhereUniqueInput> | null
-  update?: Enumerable<PostUpdateWithWhereUniqueWithoutAuthorInput> | null
-  updateMany?: Enumerable<PostUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<PostScalarWhereInput> | null
-  upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput> | null
+  create?: Enumerable<PostCreateWithoutAuthorInput>
+  connect?: Enumerable<PostWhereUniqueInput>
+  set?: Enumerable<PostWhereUniqueInput>
+  disconnect?: Enumerable<PostWhereUniqueInput>
+  delete?: Enumerable<PostWhereUniqueInput>
+  update?: Enumerable<PostUpdateWithWhereUniqueWithoutAuthorInput>
+  updateMany?: Enumerable<PostUpdateManyWithWhereNestedInput>
+  deleteMany?: Enumerable<PostScalarWhereInput>
+  upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput>
 }
 
 export type UserUpdateInput = {
-  id?: number | null
-  email?: string | null
+  id?: number
+  email?: string
   name?: string | null
-  age?: number | null
-  balance?: number | null
-  amount?: number | null
-  role?: Role | null
-  posts?: PostUpdateManyWithoutAuthorInput | null
+  age?: number
+  balance?: number
+  amount?: number
+  role?: Role
+  posts?: PostUpdateManyWithoutAuthorInput
 }
 
 export type UserUpdateManyMutationInput = {
-  id?: number | null
-  email?: string | null
+  id?: number
+  email?: string
   name?: string | null
-  age?: number | null
-  balance?: number | null
-  amount?: number | null
-  role?: Role | null
+  age?: number
+  balance?: number
+  amount?: number
+  role?: Role
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -2994,14 +3007,14 @@ export type UserCreateWithoutPostsInput = {
 }
 
 export type UserCreateOneWithoutPostsInput = {
-  create?: UserCreateWithoutPostsInput | null
-  connect?: UserWhereUniqueInput | null
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
 }
 
 export type PostCreateInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   published: boolean
   title: string
   content?: string | null
@@ -3011,13 +3024,13 @@ export type PostCreateInput = {
 }
 
 export type UserUpdateWithoutPostsDataInput = {
-  id?: number | null
-  email?: string | null
+  id?: number
+  email?: string
   name?: string | null
-  age?: number | null
-  balance?: number | null
-  amount?: number | null
-  role?: Role | null
+  age?: number
+  balance?: number
+  amount?: number
+  role?: Role
 }
 
 export type UserUpsertWithoutPostsInput = {
@@ -3026,33 +3039,33 @@ export type UserUpsertWithoutPostsInput = {
 }
 
 export type UserUpdateOneRequiredWithoutPostsInput = {
-  create?: UserCreateWithoutPostsInput | null
-  connect?: UserWhereUniqueInput | null
-  update?: UserUpdateWithoutPostsDataInput | null
-  upsert?: UserUpsertWithoutPostsInput | null
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+  update?: UserUpdateWithoutPostsDataInput
+  upsert?: UserUpsertWithoutPostsInput
 }
 
 export type PostUpdateInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
-  published?: boolean | null
-  title?: string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published?: boolean
+  title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object | null
-  author?: UserUpdateOneRequiredWithoutPostsInput | null
+  metadata?: object
+  author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
 export type PostUpdateManyMutationInput = {
-  uuid?: string | null
-  createdAt?: Date | string | null
-  updatedAt?: Date | string | null
-  published?: boolean | null
-  title?: string | null
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published?: boolean
+  title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object | null
+  metadata?: object
 }
 
 export type CategoryCreateInput = {
@@ -3062,15 +3075,15 @@ export type CategoryCreateInput = {
 }
 
 export type CategoryUpdateInput = {
-  name?: string | null
-  slug?: string | null
-  number?: number | null
+  name?: string
+  slug?: string
+  number?: number
 }
 
 export type CategoryUpdateManyMutationInput = {
-  name?: string | null
-  slug?: string | null
-  number?: number | null
+  name?: string
+  slug?: string
+  number?: number
 }
 
 export type PatientCreateInput = {
@@ -3080,15 +3093,15 @@ export type PatientCreateInput = {
 }
 
 export type PatientUpdateInput = {
-  firstName?: string | null
-  lastName?: string | null
-  email?: string | null
+  firstName?: string
+  lastName?: string
+  email?: string
 }
 
 export type PatientUpdateManyMutationInput = {
-  firstName?: string | null
-  lastName?: string | null
-  email?: string | null
+  firstName?: string
+  lastName?: string
+  email?: string
 }
 
 export type DirectorCreateWithoutMoviesInput = {
@@ -3097,8 +3110,8 @@ export type DirectorCreateWithoutMoviesInput = {
 }
 
 export type DirectorCreateOneWithoutMoviesInput = {
-  create?: DirectorCreateWithoutMoviesInput | null
-  connect?: DirectorWhereUniqueInput | null
+  create?: DirectorCreateWithoutMoviesInput
+  connect?: DirectorWhereUniqueInput
 }
 
 export type MovieCreateInput = {
@@ -3107,8 +3120,8 @@ export type MovieCreateInput = {
 }
 
 export type DirectorUpdateWithoutMoviesDataInput = {
-  firstName?: string | null
-  lastName?: string | null
+  firstName?: string
+  lastName?: string
 }
 
 export type DirectorUpsertWithoutMoviesInput = {
@@ -3117,19 +3130,19 @@ export type DirectorUpsertWithoutMoviesInput = {
 }
 
 export type DirectorUpdateOneRequiredWithoutMoviesInput = {
-  create?: DirectorCreateWithoutMoviesInput | null
-  connect?: DirectorWhereUniqueInput | null
-  update?: DirectorUpdateWithoutMoviesDataInput | null
-  upsert?: DirectorUpsertWithoutMoviesInput | null
+  create?: DirectorCreateWithoutMoviesInput
+  connect?: DirectorWhereUniqueInput
+  update?: DirectorUpdateWithoutMoviesDataInput
+  upsert?: DirectorUpsertWithoutMoviesInput
 }
 
 export type MovieUpdateInput = {
-  title?: string | null
-  director?: DirectorUpdateOneRequiredWithoutMoviesInput | null
+  title?: string
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput
 }
 
 export type MovieUpdateManyMutationInput = {
-  title?: string | null
+  title?: string
 }
 
 export type MovieCreateWithoutDirectorInput = {
@@ -3137,8 +3150,8 @@ export type MovieCreateWithoutDirectorInput = {
 }
 
 export type MovieCreateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput> | null
-  connect?: Enumerable<MovieWhereUniqueInput> | null
+  create?: Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: Enumerable<MovieWhereUniqueInput>
 }
 
 export type DirectorCreateInput = {
@@ -3148,7 +3161,7 @@ export type DirectorCreateInput = {
 }
 
 export type MovieUpdateWithoutDirectorDataInput = {
-  title?: string | null
+  title?: string
 }
 
 export type MovieUpdateWithWhereUniqueWithoutDirectorInput = {
@@ -3157,16 +3170,16 @@ export type MovieUpdateWithWhereUniqueWithoutDirectorInput = {
 }
 
 export type MovieScalarWhereInput = {
-  directorFirstName?: string | StringFilter | null
-  directorLastName?: string | StringFilter | null
-  title?: string | StringFilter | null
-  AND?: Enumerable<MovieScalarWhereInput> | null
-  OR?: Enumerable<MovieScalarWhereInput> | null
-  NOT?: Enumerable<MovieScalarWhereInput> | null
+  directorFirstName?: string | StringFilter
+  directorLastName?: string | StringFilter
+  title?: string | StringFilter
+  AND?: Enumerable<MovieScalarWhereInput>
+  OR?: Enumerable<MovieScalarWhereInput>
+  NOT?: Enumerable<MovieScalarWhereInput>
 }
 
 export type MovieUpdateManyDataInput = {
-  title?: string | null
+  title?: string
 }
 
 export type MovieUpdateManyWithWhereNestedInput = {
@@ -3181,70 +3194,70 @@ export type MovieUpsertWithWhereUniqueWithoutDirectorInput = {
 }
 
 export type MovieUpdateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput> | null
-  connect?: Enumerable<MovieWhereUniqueInput> | null
-  set?: Enumerable<MovieWhereUniqueInput> | null
-  disconnect?: Enumerable<MovieWhereUniqueInput> | null
-  delete?: Enumerable<MovieWhereUniqueInput> | null
-  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput> | null
-  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<MovieScalarWhereInput> | null
-  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput> | null
+  create?: Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: Enumerable<MovieWhereUniqueInput>
+  set?: Enumerable<MovieWhereUniqueInput>
+  disconnect?: Enumerable<MovieWhereUniqueInput>
+  delete?: Enumerable<MovieWhereUniqueInput>
+  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
+  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput>
+  deleteMany?: Enumerable<MovieScalarWhereInput>
+  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
 }
 
 export type DirectorUpdateInput = {
-  firstName?: string | null
-  lastName?: string | null
-  movies?: MovieUpdateManyWithoutDirectorInput | null
+  firstName?: string
+  lastName?: string
+  movies?: MovieUpdateManyWithoutDirectorInput
 }
 
 export type DirectorUpdateManyMutationInput = {
-  firstName?: string | null
-  lastName?: string | null
+  firstName?: string
+  lastName?: string
 }
 
 export type UUIDFilter = {
-  equals?: string | null
-  not?: string | UUIDFilter | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
+  equals?: string
+  not?: string | UUIDFilter
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
 }
 
 export type DateTimeFilter = {
-  equals?: Date | string | null
-  not?: Date | string | DateTimeFilter | null
-  in?: Enumerable<Date | string> | null
-  notIn?: Enumerable<Date | string> | null
-  lt?: Date | string | null
-  lte?: Date | string | null
-  gt?: Date | string | null
-  gte?: Date | string | null
+  equals?: Date | string
+  not?: Date | string | DateTimeFilter
+  in?: Enumerable<Date | string>
+  notIn?: Enumerable<Date | string>
+  lt?: Date | string
+  lte?: Date | string
+  gt?: Date | string
+  gte?: Date | string
 }
 
 export type BooleanFilter = {
-  equals?: boolean | null
-  not?: boolean | BooleanFilter | null
+  equals?: boolean
+  not?: boolean | BooleanFilter
 }
 
 export type StringFilter = {
-  equals?: string | null
-  not?: string | StringFilter | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
+  equals?: string
+  not?: string | StringFilter
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
 }
 
 export type NullableStringFilter = {
@@ -3262,14 +3275,14 @@ export type NullableStringFilter = {
 }
 
 export type IntFilter = {
-  equals?: number | null
-  not?: number | IntFilter | null
-  in?: Enumerable<number> | null
-  notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
+  equals?: number
+  not?: number | IntFilter
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
 }
 
 export type NullablePostKindFilter = {
@@ -3284,33 +3297,33 @@ export type JsonFilter = {
 }
 
 export type FloatFilter = {
-  equals?: number | null
-  not?: number | FloatFilter | null
-  in?: Enumerable<number> | null
-  notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
+  equals?: number
+  not?: number | FloatFilter
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
 }
 
 export type PostFilter = {
-  every?: PostWhereInput | null
-  some?: PostWhereInput | null
-  none?: PostWhereInput | null
+  every?: PostWhereInput
+  some?: PostWhereInput
+  none?: PostWhereInput
 }
 
 export type RoleFilter = {
-  equals?: Role | null
-  not?: Role | RoleFilter | null
-  in?: Enumerable<Role> | null
-  notIn?: Enumerable<Role> | null
+  equals?: Role
+  not?: Role | RoleFilter
+  in?: Enumerable<Role>
+  notIn?: Enumerable<Role>
 }
 
 export type MovieFilter = {
-  every?: MovieWhereInput | null
-  some?: MovieWhereInput | null
-  none?: MovieWhereInput | null
+  every?: MovieWhereInput
+  some?: MovieWhereInput
+  none?: MovieWhereInput
 }
 
 export type UserOrderByInput = {

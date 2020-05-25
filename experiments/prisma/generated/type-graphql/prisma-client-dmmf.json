@@ -7,8 +7,7 @@
           "USER",
           "ADMIN"
         ],
-        "dbName": null,
-        "documentation": "Role enum comment"
+        "dbName": null
       },
       {
         "name": "PostKind",
@@ -40,7 +39,7 @@
             },
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "User model field comment"
+            "documentation": "User model field doc"
           },
           {
             "name": "email",
@@ -135,7 +134,7 @@
           }
         ],
         "isGenerated": false,
-        "documentation": "User model comment\\n@@TypeGraphQL.type(\"Client\")",
+        "documentation": "User model doc\\n@@TypeGraphQL.type(\"Client\")",
         "idFields": [],
         "uniqueFields": []
       },
@@ -822,6 +821,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "PostOrderByInput",
                     "kind": "object"
                   }
@@ -933,6 +933,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "UserOrderByInput",
                     "kind": "object"
                   }
@@ -1033,6 +1034,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "PostOrderByInput",
                     "kind": "object"
                   }
@@ -1171,6 +1173,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "CategoryOrderByInput",
                     "kind": "object"
                   }
@@ -1309,6 +1312,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "PatientOrderByInput",
                     "kind": "object"
                   }
@@ -1431,6 +1435,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "MovieOrderByInput",
                     "kind": "object"
                   }
@@ -1580,6 +1585,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "MovieOrderByInput",
                     "kind": "object"
                   }
@@ -1680,6 +1686,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "DirectorOrderByInput",
                     "kind": "object"
                   }
@@ -1780,6 +1787,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "UserOrderByInput",
                     "kind": "object"
                   }
@@ -1910,6 +1918,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "PostOrderByInput",
                     "kind": "object"
                   }
@@ -2040,6 +2049,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "CategoryOrderByInput",
                     "kind": "object"
                   }
@@ -2170,6 +2180,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "PatientOrderByInput",
                     "kind": "object"
                   }
@@ -2300,6 +2311,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "MovieOrderByInput",
                     "kind": "object"
                   }
@@ -2430,6 +2442,7 @@
                   {
                     "isList": false,
                     "isRequired": false,
+                    "isNullable": false,
                     "type": "DirectorOrderByInput",
                     "kind": "object"
                   }
@@ -3761,6 +3774,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               },
@@ -3768,6 +3782,7 @@
                 "type": "UUIDFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3779,6 +3794,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               },
@@ -3786,6 +3802,7 @@
                 "type": "DateTimeFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3797,6 +3814,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               },
@@ -3804,6 +3822,7 @@
                 "type": "DateTimeFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3815,6 +3834,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Boolean"
               },
@@ -3822,6 +3842,7 @@
                 "type": "BooleanFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3833,6 +3854,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -3840,6 +3862,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3851,6 +3874,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -3858,12 +3882,14 @@
                 "type": "NullableStringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               },
               {
                 "type": "null",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar"
               }
             ],
@@ -3875,6 +3901,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
@@ -3882,6 +3909,7 @@
                 "type": "IntFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3893,6 +3921,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               },
@@ -3900,12 +3929,14 @@
                 "type": "NullablePostKindFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               },
               {
                 "type": "null",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar"
               }
             ],
@@ -3917,6 +3948,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Json"
               },
@@ -3924,6 +3956,7 @@
                 "type": "JsonFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -3994,6 +4027,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
@@ -4001,6 +4035,7 @@
                 "type": "IntFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4012,6 +4047,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4019,6 +4055,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4030,6 +4067,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4037,12 +4075,14 @@
                 "type": "NullableStringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               },
               {
                 "type": "null",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar"
               }
             ],
@@ -4054,6 +4094,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
@@ -4061,6 +4102,7 @@
                 "type": "IntFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4072,6 +4114,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               },
@@ -4079,6 +4122,7 @@
                 "type": "FloatFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4090,6 +4134,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               },
@@ -4097,6 +4142,7 @@
                 "type": "FloatFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4109,6 +4155,7 @@
                 "type": "PostFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               }
             ],
@@ -4121,6 +4168,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "Role"
               },
@@ -4128,6 +4176,7 @@
                 "type": "RoleFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4233,6 +4282,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4240,6 +4290,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4251,6 +4302,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4258,6 +4310,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4269,6 +4322,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
@@ -4276,6 +4330,7 @@
                 "type": "IntFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4380,6 +4435,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4387,6 +4443,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4398,6 +4455,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4405,6 +4463,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4416,6 +4475,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4423,6 +4483,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4527,6 +4588,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4534,6 +4596,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4545,6 +4608,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4552,6 +4616,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4564,6 +4629,7 @@
                 "type": "MovieFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               }
             ],
@@ -4622,6 +4688,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4629,6 +4696,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4640,6 +4708,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4647,6 +4716,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -4658,6 +4728,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -4665,6 +4736,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5016,7 +5088,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5161,6 +5233,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               },
@@ -5168,6 +5241,7 @@
                 "type": "UUIDFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5179,6 +5253,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               },
@@ -5186,6 +5261,7 @@
                 "type": "DateTimeFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5197,6 +5273,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               },
@@ -5204,6 +5281,7 @@
                 "type": "DateTimeFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5215,6 +5293,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Boolean"
               },
@@ -5222,6 +5301,7 @@
                 "type": "BooleanFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5233,6 +5313,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -5240,6 +5321,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5251,6 +5333,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -5258,12 +5341,14 @@
                 "type": "NullableStringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               },
               {
                 "type": "null",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar"
               }
             ],
@@ -5275,6 +5360,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
@@ -5282,6 +5368,7 @@
                 "type": "IntFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -5293,6 +5380,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               },
@@ -5300,12 +5388,14 @@
                 "type": "NullablePostKindFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "object"
               },
               {
                 "type": "null",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar"
               }
             ],
@@ -5317,6 +5407,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Json"
               },
@@ -5324,6 +5415,7 @@
                 "type": "JsonFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -7021,7 +7113,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -7082,6 +7174,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -7089,6 +7182,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -7100,6 +7194,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -7107,6 +7202,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -7118,6 +7214,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
@@ -7125,6 +7222,7 @@
                 "type": "StringFilter",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object"
               }
             ],
@@ -7453,6 +7551,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7465,12 +7564,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUIDFilter"
               }
@@ -7483,6 +7584,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7495,6 +7597,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7507,6 +7610,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7519,6 +7623,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7531,6 +7636,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7543,6 +7649,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7555,6 +7662,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7567,6 +7675,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7579,6 +7688,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "UUID"
               }
@@ -7597,6 +7707,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7609,12 +7720,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTimeFilter"
               }
@@ -7627,6 +7740,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7639,6 +7753,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7651,6 +7766,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7663,6 +7779,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7675,6 +7792,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7687,6 +7805,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "DateTime"
               }
@@ -7705,6 +7824,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Boolean"
               }
@@ -7717,12 +7837,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Boolean"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "BooleanFilter"
               }
@@ -7741,6 +7863,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7753,12 +7876,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "StringFilter"
               }
@@ -7771,6 +7896,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7783,6 +7909,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7795,6 +7922,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7807,6 +7935,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7819,6 +7948,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7831,6 +7961,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7843,6 +7974,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7855,6 +7987,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7867,6 +8000,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7885,12 +8019,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "null"
               }
@@ -7903,18 +8039,21 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "null"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "NullableStringFilter"
               }
@@ -7927,6 +8066,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7939,6 +8079,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7951,6 +8092,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7963,6 +8105,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7975,6 +8118,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7987,6 +8131,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -7999,6 +8144,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -8011,6 +8157,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -8023,6 +8170,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "scalar",
                 "type": "String"
               }
@@ -8041,6 +8189,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8053,12 +8202,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "IntFilter"
               }
@@ -8071,6 +8222,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8083,6 +8235,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8095,6 +8248,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8107,6 +8261,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8119,6 +8274,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8131,6 +8287,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Int"
               }
@@ -8149,12 +8306,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "null"
               }
@@ -8167,18 +8326,21 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "null"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "NullablePostKindFilter"
               }
@@ -8191,6 +8353,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               }
@@ -8203,6 +8366,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum",
                 "type": "PostKind"
               }
@@ -8226,6 +8390,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8238,12 +8403,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "FloatFilter"
               }
@@ -8256,6 +8423,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8268,6 +8436,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8280,6 +8449,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8292,6 +8462,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8304,6 +8475,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8316,6 +8488,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "scalar",
                 "type": "Float"
               }
@@ -8334,6 +8507,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "PostWhereInput"
               }
@@ -8346,6 +8520,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "PostWhereInput"
               }
@@ -8358,6 +8533,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "PostWhereInput"
               }
@@ -8376,6 +8552,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "Role"
               }
@@ -8388,12 +8565,14 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "Role"
               },
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "RoleFilter"
               }
@@ -8406,6 +8585,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "Role"
               }
@@ -8418,6 +8598,7 @@
               {
                 "isList": true,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "enum",
                 "type": "Role"
               }
@@ -8436,6 +8617,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "MovieWhereInput"
               }
@@ -8448,6 +8630,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "MovieWhereInput"
               }
@@ -8460,6 +8643,7 @@
               {
                 "isList": false,
                 "isRequired": false,
+                "isNullable": false,
                 "kind": "object",
                 "type": "MovieWhereInput"
               }
@@ -8481,6 +8665,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8493,6 +8678,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8505,6 +8691,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8517,6 +8704,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8529,6 +8717,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8541,6 +8730,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8553,6 +8743,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8573,6 +8764,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8585,6 +8777,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8597,6 +8790,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8609,6 +8803,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8621,6 +8816,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8633,6 +8829,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8645,6 +8842,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8657,6 +8855,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8669,6 +8868,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8689,6 +8889,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8701,6 +8902,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8713,6 +8915,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8733,6 +8936,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8745,6 +8949,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8757,6 +8962,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8777,6 +8983,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8789,6 +8996,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8801,6 +9009,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8821,6 +9030,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],
@@ -8833,6 +9043,7 @@
                 "type": "OrderByArg",
                 "isList": false,
                 "isRequired": false,
+                "isNullable": true,
                 "kind": "enum"
               }
             ],

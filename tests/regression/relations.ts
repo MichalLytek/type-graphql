@@ -159,13 +159,13 @@ describe("relations resolvers generation", () => {
     const schema = /* prisma */ `
       model User {
         id     Int    @id @default(autoincrement())
-        // @TypeGraphQL.field("userPosts")
+        /// @TypeGraphQL.field("userPosts")
         posts  Post[]
       }
       model Post {
         uuid      String  @id @default(cuid())
         /// author field doc
-        // @TypeGraphQL.field("postAuthor")
+        /// @TypeGraphQL.field("postAuthor")
         author    User?   @relation(fields: [authorId], references: [id])
         authorId  Int?
       }

@@ -17,25 +17,25 @@ generator typegraphql {
   emitDMMF = true
 }
 
-// Role enum comment
+/// Role enum doc
 enum Role {
   USER
   ADMIN
 }
 
-// User model comment
-// @@TypeGraphQL.type("Client")
+/// User model doc
+//// @@TypeGraphQL.type("Client")
 model User {
-  // User model field comment
+  /// User model field doc
   id      Int     @default(autoincrement()) @id
   email   String  @unique
-  // @TypeGraphQL.field("firstName")
+  //// @TypeGraphQL.field("firstName")
   name    String?
   age     Int
-  // @TypeGraphQL.field("accountBalance")
+  //// @TypeGraphQL.field("accountBalance")
   balance Numeric
   amount  Float
-  // @TypeGraphQL.field("clientPosts")
+  //// @TypeGraphQL.field("clientPosts")
   posts   Post[]
   role    Role
 }

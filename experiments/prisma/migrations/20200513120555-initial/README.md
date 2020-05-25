@@ -76,7 +76,7 @@ migration ..20200513120555-initial
 +}
 +
 +// User model comment
-+// @@TypeGraphQL.type("Client")
++/// @@TypeGraphQL.type("Client")
 +model User {
 +  // User model field comment
 +  id      Int     @default(autoincrement()) @id

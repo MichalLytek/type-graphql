@@ -184,7 +184,7 @@ describe("crud", () => {
   describe("when model is renamed", () => {
     it("should properly generate resolver class for single prisma model", async () => {
       const schema = /* prisma */ `
-        // @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type("Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique
@@ -206,7 +206,7 @@ describe("crud", () => {
 
     it("should properly generate args classes for every method of crud resolver", async () => {
       const schema = /* prisma */ `
-        // @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type("Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique
@@ -261,7 +261,7 @@ describe("crud", () => {
 
     it("should properly generate actions resolver classes for prisma model", async () => {
       const schema = /* prisma */ `
-        // @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type("Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique

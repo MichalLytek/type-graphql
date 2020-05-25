@@ -287,7 +287,7 @@ describe("inputs", () => {
 
   it("should properly generate input type classes when model is renamed", async () => {
     const schema = /* prisma */ `
-      // @@TypeGraphQL.type("Example")
+      /// @@TypeGraphQL.type("Example")
       model SampleModel {
         intIdField    Int       @id @default(autoincrement())
         stringField   String    @unique

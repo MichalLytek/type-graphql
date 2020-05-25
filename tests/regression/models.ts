@@ -125,12 +125,12 @@ describe("models", () => {
 
   it("should properly generate object type classes for prisma models with cyclic relations when models are renamed", async () => {
     const schema = /* prisma */ `
-      // @@TypeGraphQL.type("Client")
+      /// @@TypeGraphQL.type("Client")
       model User {
         id     Int    @id @default(autoincrement())
         posts  Post[]
       }
-      // @@TypeGraphQL.type("Article")
+      /// @@TypeGraphQL.type("Article")
       model Post {
         id        Int   @id @default(autoincrement())
         author    User  @relation(fields: [authorId], references: [id])
@@ -151,11 +151,11 @@ describe("models", () => {
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
-        // @TypeGraphQL.field("firstName")
+        /// @TypeGraphQL.field("firstName")
         name         String
-        // @TypeGraphQL.field("accountBalance")
+        /// @TypeGraphQL.field("accountBalance")
         balance      Float?
-        // @TypeGraphQL.field("userPosts")
+        /// @TypeGraphQL.field("userPosts")
         posts        Post[]
       }
       model Post {

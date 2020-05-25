@@ -54,14 +54,14 @@ describe("structure", () => {
         BLUE
       }
 
-      // @@TypeGraphQL.type("RenamedUser")
+      /// @@TypeGraphQL.type("RenamedUser")
       model User {
         id    Int      @id @default(autoincrement())
         name  String?
         posts Post[]
       }
 
-      // @@TypeGraphQL.type("RenamedPost")
+      /// @@TypeGraphQL.type("RenamedPost")
       model Post {
         uuid      String  @id @default(cuid())
         content   String

@@ -15,8 +15,8 @@ npm i -D typegraphql-prisma
 `typegraphql-prisma` is designed to work only with selected version of `prisma`, so please install this version if you don't have it already installed:
 
 ```sh
-npm i -D @prisma/cli@2.0.0-beta.5
-npm i @prisma/client@2.0.0-beta.5
+npm i -D @prisma/cli@2.0.0-alpha.1236
+npm i @prisma/client@2.0.0-alpha.1236
 ```
 
 To support Prisma `Json` scalar, you also need to install the GraphQL JSON scalar:
@@ -222,10 +222,11 @@ const schema = await buildSchema({
 
 #### Changing exposed model type name
 
-You can also change the name of the model types exposed in GraphQL Schema. To achieve this, just put the `@@TypeGraphQL.type` comment above the model definition in `schema.prisma` file, e.g:
+You can also change the name of the model types exposed in GraphQL Schema. 
+To achieve this, just put the `@@TypeGraphQL.type` doc line above the model definition in `schema.prisma` file, e.g:
 
 ```prisma
-// @@TypeGraphQL.type("Client")
+/// @@TypeGraphQL.type("Client")
 model User {
   id     Int     @default(autoincrement()) @id
   email  String  @unique
@@ -243,12 +244,13 @@ type Mutation {
 
 #### Changing exposed model type field name
 
-You can also change the name of the model type fields exposed in GraphQL Schema. To achieve this, just put the `@TypeGraphQL.field` comment above the model field definition in `schema.prisma` file, e.g:
+You can also change the name of the model type fields exposed in GraphQL Schema. 
+To achieve this, just put the `@TypeGraphQL.field` doc line above the model field definition in `schema.prisma` file, e.g:
 
 ```prisma
 model User {
   id     Int     @default(autoincrement()) @id
-  // @TypeGraphQL.field("emailAddress")
+  /// @TypeGraphQL.field("emailAddress")
   email  String  @unique
   posts  Post[]
 }

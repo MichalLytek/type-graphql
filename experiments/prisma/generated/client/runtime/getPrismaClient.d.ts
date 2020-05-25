@@ -7,11 +7,29 @@ import { InternalDatasource } from './utils/printDatasources';
 export declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
 export declare type Datasources = any;
 export interface PrismaClientOptions {
+    /**
+     * Overwrites the datasource url from your prisma.schema file
+     */
     datasources?: Datasources;
     /**
-     * @default "pretty"
+     * @default "colorless"
      */
     errorFormat?: ErrorFormat;
+    /**
+     * @example
+     * \`\`\`
+     * // Defaults to stdout
+     * log: ['query', 'info', 'warn']
+     *
+     * // Emit as events
+     * log: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     * ]
+     * \`\`\`
+     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     */
     log?: Array<LogLevel | LogDefinition>;
     /**
      * You probably don't want to use this. \`__internal\` is used by internal tooling.
@@ -25,10 +43,6 @@ export interface PrismaClientOptions {
         };
         measurePerformance?: boolean;
     };
-    /**
-     * Useful for pgbouncer
-     */
-    forceTransactions?: boolean;
 }
 export declare type Hooks = {
     beforeRequest?: (options: {
@@ -65,6 +79,7 @@ export interface GetPrismaClientOptions {
     relativePath: string;
     dirname: string;
     internalDatasources: InternalDatasource[];
+    clientVersion?: string;
 }
 export declare function getPrismaClient(config: GetPrismaClientOptions): any;
 export declare class PrismaClientFetcher {
@@ -83,9 +98,20 @@ export declare class PrismaClientFetcher {
         isList: boolean;
         clientMethod: string;
         callsite?: string;
-        collectTimestamps?: any;
+        collectTimestamps?: CollectTimestamps;
     }): Promise<any>;
     sanitizeMessage(message: any): any;
     unpack(document: any, data: any, path: any, rootField: any): any;
 }
+declare class CollectTimestamps {
+    records: any[];
+    start: any;
+    additionalResults: any;
+    constructor(startName: any);
+    record(name: any): void;
+    elapsed(start: any, end: any): number;
+    addResults(results: any): void;
+    getResults(): any;
+}
 export declare function getOperation(action: DMMF.ModelAction): 'query' | 'mutation';
+export {};

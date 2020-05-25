@@ -40,7 +40,7 @@ export interface IncludeAndSelectError {
     field: DMMF.SchemaField;
 }
 export declare type JavaScriptPrimitiveType = 'number' | 'string' | 'boolean';
-export declare type InvalidArgError = InvalidArgNameError | MissingArgError | InvalidArgTypeError | AtLeastOneError | AtMostOneError;
+export declare type InvalidArgError = InvalidArgNameError | MissingArgError | InvalidArgTypeError | AtLeastOneError | AtMostOneError | InvalidNullArgError;
 /**
  * This error occurs if the user provides an arg name that doens't exist
  */
@@ -62,6 +62,16 @@ export interface MissingArgError {
     type: 'missingArg';
     missingName: string;
     missingType: DMMF.SchemaArgInputType[];
+    atLeastOne: boolean;
+    atMostOne: boolean;
+}
+/**
+ * If a user incorrectly provided null where she shouldn't have
+ */
+export interface InvalidNullArgError {
+    type: 'invalidNullArg';
+    name: string;
+    invalidType: DMMF.SchemaArgInputType[];
     atLeastOne: boolean;
     atMostOne: boolean;
 }

@@ -66,6 +66,7 @@ export declare namespace DMMF {
     type ArgType = string | InputType | Enum;
     interface SchemaArgInputType {
         isRequired: boolean;
+        isNullable: boolean;
         isList: boolean;
         type: ArgType;
         kind: FieldKind;

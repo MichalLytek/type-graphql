@@ -19,7 +19,7 @@ describe("crud resolvers execution", () => {
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
-        // @TypeGraphQL.field("firstName")
+        /// @TypeGraphQL.field("firstName")
         name         String
       }
     `;
