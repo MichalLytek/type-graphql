@@ -34,3 +34,27 @@ However, in some TypeScript projects like the ones using Angular, which AoT comp
 ```
 
 Thanks to this, our bundle will be much lighter as we don't need to embed the whole TypeGraphQL library code in our app.
+
+## Usage with Cypress Tests
+
+If you're importing a module into your test which includes a type-graphql decorator you need to tell Cypress's webpack config to shim type-graph.
+
+First `yarn add --dev webpack @cypress/webpack-preprocessor ts-loader`. Note: You might already have one or more of these installed - delete as required.
+
+Then in `cypress/plugins/index.js` just add this to your config:
+
+```js
+module.exports = (on, config) => {
+  const { NormalModuleReplacementPlugin } = require('webpack')
+  const options = {
+    webpackOptions: {
+      plugins: [
+        new NormalModuleReplacementPlugin(/type-graphql$/, resource => {
+          resource.request = resource.request.replace(/type-graphql/, "type-graphql/dist/browser-shim.js");
+        }),
+      ];
+    },
+  }
+  on('file:preprocessor', wp(options));
+}
+```
