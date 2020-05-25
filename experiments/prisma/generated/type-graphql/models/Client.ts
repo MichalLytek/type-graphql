@@ -3,14 +3,16 @@ import GraphQLJSON from "graphql-type-json";
 import { Post } from "../models/Post";
 import { Role } from "../enums/Role";
 
+/** User model doc */
 @TypeGraphQL.ObjectType({
   isAbstract: true,
-  description: undefined,
+  description: "User model doc",
 })
 export class Client {
+  /** User model field doc */
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
-    description: undefined,
+    description: "User model field doc",
   })
   id!: number;
 
@@ -20,6 +22,7 @@ export class Client {
   })
   email!: string;
 
+  /** renamed field doc */
   name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
@@ -44,9 +47,10 @@ export class Client {
   })
   role!: keyof typeof Role;
 
+  /** renamed field doc */
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
-    description: undefined,
+    description: "renamed field doc",
   })
   get firstName(): string | null | undefined {
     return this.name;

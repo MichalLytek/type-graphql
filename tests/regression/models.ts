@@ -151,6 +151,7 @@ describe("models", () => {
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
+        /// renamed field docs
         /// @TypeGraphQL.field("firstName")
         name         String
         /// @TypeGraphQL.field("accountBalance")

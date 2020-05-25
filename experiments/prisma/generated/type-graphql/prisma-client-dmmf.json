@@ -64,7 +64,7 @@
             "type": "String",
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "@TypeGraphQL.field(\"firstName\")"
+            "documentation": "renamed field doc\\n@TypeGraphQL.field(\"firstName\")"
           },
           {
             "name": "age",

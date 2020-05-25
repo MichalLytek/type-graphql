@@ -6,6 +6,7 @@ import {
   getTypeGraphQLType,
   camelCase,
   pascalCase,
+  cleanDocsString,
 } from "../helpers";
 import generateArgsTypeClassFromArgs from "../args-class";
 import {
@@ -65,10 +66,7 @@ export default async function generateRelationsResolverClassesFromModel(
       const outputTypeField = outputType.fields.find(
         it => it.name === field.name,
       )!;
-      // FIXME: remove when issue fixed: https://github.com/prisma/prisma2/issues/1987
-      const fieldDocs = undefined as string | undefined;
-      // const fieldDocs =
-      //   field.documentation && field.documentation.replace("\r", "");
+      const fieldDocs = cleanDocsString(field.documentation);
       const fieldType = getFieldTSType(field, dmmfDocument);
 
       let argsTypeName: string | undefined;

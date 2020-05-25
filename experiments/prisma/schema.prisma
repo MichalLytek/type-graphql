@@ -25,19 +25,20 @@ enum Role {
 
 // User model comment
 /// User model doc
-//// @@TypeGraphQL.type("Client")
+/// @@TypeGraphQL.type("Client")
 model User {
   // User model field comment
   /// User model field doc
   id      Int     @default(autoincrement()) @id
   email   String  @unique
-  //// @TypeGraphQL.field("firstName")
+  /// renamed field doc
+  /// @TypeGraphQL.field("firstName")
   name    String?
   age     Int
-  //// @TypeGraphQL.field("accountBalance")
+  /// @TypeGraphQL.field("accountBalance")
   balance Numeric
   amount  Float
-  //// @TypeGraphQL.field("clientPosts")
+  /// @TypeGraphQL.field("clientPosts")
   posts   Post[]
   role    Role
 }

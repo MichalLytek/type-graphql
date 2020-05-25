@@ -1,8 +1,8 @@
 // TODO: support not string args
-const modelAttributeRegex = /(@@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
-const fieldAttributeRegex = /(@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
-const attributeNameRegex = /(?:\.)+([A-Za-z])+(?:\()+/;
-const attributeArgsRegex = /(?:\(")+([A-Za-z])+(?:"\))+/;
+export const modelAttributeRegex = /(@@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
+export const fieldAttributeRegex = /(@TypeGraphQL\.)+([A-z])+(\(")+([A-z])+("\))+/;
+export const attributeNameRegex = /(?:\.)+([A-Za-z])+(?:\()+/;
+export const attributeArgsRegex = /(?:\(")+([A-Za-z])+(?:"\))+/;
 
 export function parseDocumentationAttributes(
   documentation: string | undefined,

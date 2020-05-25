@@ -75,14 +75,19 @@ input CategoryWhereUniqueInput {
   slug_number: SlugNumberCompoundUniqueInput
 }
 
+"""User model doc"""
 type Client {
   accountBalance: Float!
   age: Int!
   amount: Float!
   clientPosts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
   email: String!
+
+  """renamed field doc"""
   firstName: String
   hello: String!
+
+  """User model field doc"""
   id: Int!
   role: Role!
 }

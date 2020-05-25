@@ -4,6 +4,7 @@ import pluralize from "pluralize";
 import { DMMFTypeInfo } from "./types";
 import { ModelKeys } from "./config";
 import { DmmfDocument } from "./dmmf/dmmf-document";
+import { modelAttributeRegex, fieldAttributeRegex } from "./dmmf/helpers";
 
 export function noop() {}
 
@@ -189,9 +190,25 @@ export function getInputTypeName(
   const modelName = originalInputName.slice(0, keywordPhrasePosition);
   const typeNameRest = originalInputName.slice(keywordPhrasePosition);
   const modelTypeName = dmmfDocument.getModelTypeName(modelName);
-  // console.log(originalInputName, modelName, modelTypeName, typeNameRest);
   if (!modelTypeName) {
     return originalInputName;
   }
   return `${modelTypeName}${typeNameRest}`;
+}
+
+export function cleanDocsString(
+  documentation: string | undefined,
+): string | undefined {
+  if (!documentation) {
+    return;
+  }
+  let cleanedDocs = documentation;
+  cleanedDocs = cleanedDocs.replace(modelAttributeRegex, "");
+  cleanedDocs = cleanedDocs.replace(fieldAttributeRegex, "");
+  cleanedDocs = cleanedDocs.split('"').join('\\"');
+  cleanedDocs = cleanedDocs.split("\r").join("");
+  cleanedDocs = cleanedDocs.split("\\r").join("");
+  cleanedDocs = cleanedDocs.split("\n").join("");
+  cleanedDocs = cleanedDocs.split("\\n").join("");
+  return cleanedDocs;
 }

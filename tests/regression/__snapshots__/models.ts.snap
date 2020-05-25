@@ -5,9 +5,10 @@ exports[`models should properly generate object type class for prisma model with
 import GraphQLJSON from \\"graphql-type-json\\";
 import { Post } from \\"../models/Post\\";
 
+/** User model doc */
 @TypeGraphQL.ObjectType({
   isAbstract: true,
-  description: undefined,
+  description: \\"User model doc\\",
 })
 export class User {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
@@ -16,9 +17,10 @@ export class User {
   })
   id!: number;
 
+  /** field doc */
   @TypeGraphQL.Field(_type => String, {
     nullable: false,
-    description: undefined,
+    description: \\"field doc\\",
   })
   stringField!: string;
 
@@ -28,6 +30,7 @@ export class User {
   })
   intField!: number;
 
+  /** relation doc */
   posts?: Post[] | null | undefined;
 }
 "
@@ -146,15 +149,17 @@ export class User {
   })
   dateOfBirth!: Date;
 
+  /** renamed field docs */
   name!: string;
 
   balance?: number | null | undefined;
 
   posts?: Post[] | null | undefined;
 
+  /** renamed field docs */
   @TypeGraphQL.Field(_type => String, {
     nullable: false,
-    description: undefined,
+    description: \\"renamed field docs\\",
   })
   get firstName(): string {
     return this.name;

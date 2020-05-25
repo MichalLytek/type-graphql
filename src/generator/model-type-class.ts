@@ -7,7 +7,7 @@ import {
 } from "ts-morph";
 import path from "path";
 
-import { getFieldTSType, getTypeGraphQLType } from "./helpers";
+import { getFieldTSType, getTypeGraphQLType, cleanDocsString } from "./helpers";
 import {
   generateTypeGraphQLImport,
   generateModelsImports,
@@ -51,10 +51,7 @@ export default async function generateObjectTypeClassFromModel(
       .map(field => field.type),
   );
 
-  // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
-  const modelDocs = undefined as string | undefined;
-  // const modelDocs =
-  //   model.documentation && model.documentation.replace("\r", "");
+  const modelDocs = cleanDocsString(model.documentation);
 
   sourceFile.addClass({
     name: model.typeName,
@@ -73,10 +70,7 @@ export default async function generateObjectTypeClassFromModel(
     properties: model.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
         const isOptional = !!field.relationName || !field.isRequired;
-        // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
-        const fieldDocs = undefined as string | undefined;
-        // const fieldDocs =
-        //   field.documentation && field.documentation.replace("\r", "");
+        const fieldDocs = cleanDocsString(field.documentation);
 
         return {
           name: field.name,
@@ -111,10 +105,7 @@ export default async function generateObjectTypeClassFromModel(
     getAccessors: model.fields
       .filter(field => field.typeFieldAlias && !field.relationName)
       .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
-        // FIXME: restore when issue fixed: https://github.com/prisma/prisma2/issues/1987
-        const fieldDocs = undefined as string | undefined;
-        // const fieldDocs =
-        //   field.documentation && field.documentation.replace("\r", "");
+        const fieldDocs = cleanDocsString(field.documentation);
 
         return {
           name: field.typeFieldAlias!,

@@ -61,7 +61,7 @@ import { User } from \\"../../../models/User\\";
 export class PostRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => User, {
     nullable: true,
-    description: undefined,
+    description: \\"author field doc\\",
   })
   async postAuthor(@TypeGraphQL.Root() post: Post, @TypeGraphQL.Ctx() ctx: any): Promise<User | null | undefined> {
     return ctx.prisma.post.findOne({
@@ -184,7 +184,7 @@ import { User } from \\"../../../models/User\\";
 export class PostRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => User, {
     nullable: true,
-    description: undefined,
+    description: \\"author field doc\\",
   })
   async author(@TypeGraphQL.Root() post: Post, @TypeGraphQL.Ctx() ctx: any): Promise<User | null | undefined> {
     return ctx.prisma.post.findOne({
