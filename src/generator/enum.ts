@@ -1,10 +1,10 @@
 import { EnumMemberStructure, OptionalKind, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import { generateTypeGraphQLImport } from "./imports";
 import { enumsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
+import { DMMF } from "./dmmf/types";
 
 export default async function generateEnumFromDef(
   project: Project,

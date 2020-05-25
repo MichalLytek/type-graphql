@@ -1,6 +1,6 @@
 import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { DMMF } from "./types";
-import { transformDatamodel } from "./transform";
+import { transformDatamodel, transformSchema } from "./transform";
 
 export class DmmfDocument implements DMMF.Document {
   datamodel: DMMF.Datamodel;
@@ -9,7 +9,7 @@ export class DmmfDocument implements DMMF.Document {
 
   constructor({ datamodel, schema, mappings }: PrismaDMMF.Document) {
     this.datamodel = transformDatamodel(datamodel);
-    this.schema = schema;
+    this.schema = transformSchema(schema, this);
     this.mappings = mappings;
   }
 

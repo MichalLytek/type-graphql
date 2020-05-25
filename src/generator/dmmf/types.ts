@@ -20,16 +20,16 @@ export declare namespace DMMF {
     dbName: string | null;
     fields: Field[];
     documentation?: string;
-    // [key: string]: any;
     idFields: string[];
     uniqueFields: string[][];
+    // [key: string]: any;
+    // additional props
     typeName: string;
   }
   type FieldKind = "scalar" | "object" | "enum";
   interface Field {
     kind: FieldKind;
     name: string;
-    typeFieldAlias?: string;
     isRequired: boolean;
     isList: boolean;
     isUnique: boolean;
@@ -43,6 +43,8 @@ export declare namespace DMMF {
     documentation?: string;
     default?: FieldDefault | string | boolean;
     // [key: string]: any;
+    // additional props
+    typeFieldAlias?: string;
   }
   interface FieldDefault {
     name: string;
@@ -71,12 +73,16 @@ export declare namespace DMMF {
     isRequired: boolean;
     isNullable: boolean;
     isList: boolean;
-    type: ArgType;
+    // type: ArgType;
+    argType: ArgType;
     kind: FieldKind;
+    // additional props
+    type: string;
   }
   interface SchemaArg {
     name: string;
-    inputType: SchemaArgInputType[];
+    // inputType: SchemaArgInputType[];
+    selectedInputType: SchemaArgInputType;
     isRelationFilter?: boolean;
     nullEqualsUndefined?: boolean;
     comment?: string;
@@ -89,7 +95,7 @@ export declare namespace DMMF {
   interface SchemaField {
     name: string;
     outputType: {
-      type: string | OutputType | Enum;
+      type: string;
       isList: boolean;
       isRequired: boolean;
       kind: FieldKind;
@@ -103,6 +109,8 @@ export declare namespace DMMF {
     atLeastOne?: boolean;
     atMostOne?: boolean;
     fields: SchemaArg[];
+    // additional props
+    typeName: string;
   }
   interface Mapping {
     model: string;

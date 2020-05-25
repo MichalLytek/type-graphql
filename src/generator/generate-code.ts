@@ -1,8 +1,8 @@
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { Project } from "ts-morph";
 import path from "path";
 
-import { noop, getInputTypeName } from "./helpers";
+import { noop } from "./helpers";
 import generateEnumFromDef from "./enum";
 import generateObjectTypeClassFromModel from "./model-type-class";
 import generateRelationsResolverClassesFromModel from "./resolvers/relations";
@@ -35,7 +35,7 @@ import { GenerateCodeOptions } from "./options";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 
 export default async function generateCode(
-  dmmf: DMMF.Document,
+  dmmf: PrismaDMMF.Document,
   options: GenerateCodeOptions,
   log: (msg: string) => void = noop,
 ) {
@@ -176,7 +176,7 @@ export default async function generateCode(
   );
   generateInputsBarrelFile(
     inputsBarrelExportSourceFile,
-    inputTypesToEmit.map(it => getInputTypeName(it.name, dmmfDocument)),
+    inputTypesToEmit.map(it => it.typeName),
   );
   await saveSourceFile(inputsBarrelExportSourceFile);
 

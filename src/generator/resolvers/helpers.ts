@@ -1,14 +1,12 @@
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
-
 import {
   getFieldTSType,
   getMappedActionName,
   getTypeGraphQLType,
 } from "../helpers";
-import { DMMFTypeInfo } from "../types";
 import { GenerateCodeOptions } from "../options";
 import { ModelKeys } from "../config";
 import { DmmfDocument } from "../dmmf/dmmf-document";
+import { DMMF } from "../dmmf/types";
 
 export function generateCrudResolverClassMethodDeclaration(
   operationKind: string,
@@ -22,7 +20,7 @@ export function generateCrudResolverClassMethodDeclaration(
   options: GenerateCodeOptions,
 ) {
   const returnTSType = getFieldTSType(
-    method.outputType as DMMFTypeInfo,
+    method.outputType,
     dmmfDocument,
     mapping.model,
     typeName,
@@ -39,7 +37,7 @@ export function generateCrudResolverClassMethodDeclaration(
         name: `TypeGraphQL.${operationKind}`,
         arguments: [
           `_returns => ${getTypeGraphQLType(
-            method.outputType as DMMFTypeInfo,
+            method.outputType,
             dmmfDocument,
             mapping.model,
             typeName,

@@ -1,4 +1,3 @@
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import pluralize from "pluralize";
 
 import { DMMFTypeInfo } from "./types";
@@ -122,16 +121,6 @@ export function mapScalarToTypeGraphQLType(scalar: string) {
       throw new Error(`Unrecognized scalar type: ${scalar}`);
     }
   }
-}
-
-export function selectInputTypeFromTypes(
-  inputTypes: DMMF.SchemaArgInputType[],
-): DMMF.SchemaArgInputType {
-  return (
-    inputTypes.find(it => it.kind === "object") ||
-    inputTypes.find(it => it.kind === "enum") ||
-    inputTypes[0]
-  );
 }
 
 export function camelCase(str: string) {

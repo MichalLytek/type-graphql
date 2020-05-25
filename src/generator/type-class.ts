@@ -4,18 +4,14 @@ import {
   Project,
   MethodDeclarationStructure,
 } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
 import {
   getFieldTSType,
   getTypeGraphQLType,
-  selectInputTypeFromTypes,
   camelCase,
   pascalCase,
-  getInputTypeName,
 } from "./helpers";
-import { DMMFTypeInfo } from "./types";
 import { outputsFolderName, inputsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -27,6 +23,7 @@ import {
 import saveSourceFile from "../utils/saveSourceFile";
 import generateArgsTypeClassFromArgs from "./args-class";
 import { DmmfDocument } from "./dmmf/dmmf-document";
+import { DMMF } from "./dmmf/types";
 
 export async function generateOutputTypeClassFromType(
   project: Project,
@@ -94,7 +91,7 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: field.name,
-          type: getFieldTSType(field.outputType as DMMFTypeInfo, dmmfDocument),
+          type: getFieldTSType(field.outputType, dmmfDocument),
           hasExclamationToken: isRequired,
           hasQuestionToken: !isRequired,
           trailingTrivia: "\r\n",
@@ -103,7 +100,7 @@ export async function generateOutputTypeClassFromType(
               name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
-                  field.outputType as DMMFTypeInfo,
+                  field.outputType,
                   dmmfDocument,
                 )}`,
                 `{
@@ -124,17 +121,14 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: fieldInfo.name,
-          type: getFieldTSType(
-            fieldInfo.outputType as DMMFTypeInfo,
-            dmmfDocument,
-          ),
+          type: getFieldTSType(fieldInfo.outputType, dmmfDocument),
           trailingTrivia: "\r\n",
           decorators: [
             {
               name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
-                  fieldInfo.outputType as DMMFTypeInfo,
+                  fieldInfo.outputType,
                   dmmfDocument,
                 )}`,
                 `{
@@ -172,14 +166,13 @@ export async function generateOutputTypeClassFromType(
 export async function generateInputTypeClassFromType(
   project: Project,
   dirPath: string,
-  type: DMMF.InputType,
+  inputType: DMMF.InputType,
   dmmfDocument: DmmfDocument,
 ): Promise<void> {
-  const inputTypeName = getInputTypeName(type.name, dmmfDocument);
   const filePath = path.resolve(
     dirPath,
     inputsFolderName,
-    `${inputTypeName}.ts`,
+    `${inputType.typeName}.ts`,
   );
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
@@ -189,28 +182,27 @@ export async function generateInputTypeClassFromType(
   generateGraphQLScalarImport(sourceFile);
   generateInputsImports(
     sourceFile,
-    type.fields
-      .map(field => selectInputTypeFromTypes(field.inputType))
+    inputType.fields
+      .map(field => field.selectedInputType)
       .filter(
-        fieldType =>
-          fieldType.kind === "object" && fieldType.type !== "JsonFilter",
+        fieldInputType =>
+          fieldInputType.kind === "object" &&
+          fieldInputType.type !== "JsonFilter",
       )
-      .map(fieldType =>
-        getInputTypeName(fieldType.type as string, dmmfDocument),
-      )
-      .filter(fieldType => fieldType !== inputTypeName),
+      .map(fieldInputType => fieldInputType.type)
+      .filter(fieldType => fieldType !== inputType.typeName),
   );
   generateEnumsImports(
     sourceFile,
-    type.fields
-      .map(field => selectInputTypeFromTypes(field.inputType))
+    inputType.fields
+      .map(field => field.selectedInputType)
       .filter(fieldType => fieldType.kind === "enum")
       .map(fieldType => fieldType.type as string),
     2,
   );
 
   sourceFile.addClass({
-    name: inputTypeName,
+    name: inputType.typeName,
     isExported: true,
     decorators: [
       {
@@ -223,29 +215,25 @@ export async function generateInputTypeClassFromType(
         ],
       },
     ],
-    properties: type.fields
-      .map(field => ({
-        ...field,
-        inputType: selectInputTypeFromTypes(field.inputType),
-      }))
-      .filter(field => field.inputType.type !== "JsonFilter")
+    properties: inputType.fields
+      .filter(field => field.selectedInputType.type !== "JsonFilter")
       .map<OptionalKind<PropertyDeclarationStructure>>(field => {
         return {
           name: field.name,
-          type: getFieldTSType(field.inputType as DMMFTypeInfo, dmmfDocument),
-          hasExclamationToken: field.inputType.isRequired,
-          hasQuestionToken: !field.inputType.isRequired,
+          type: getFieldTSType(field.selectedInputType, dmmfDocument),
+          hasExclamationToken: field.selectedInputType.isRequired,
+          hasQuestionToken: !field.selectedInputType.isRequired,
           trailingTrivia: "\r\n",
           decorators: [
             {
               name: "TypeGraphQL.Field",
               arguments: [
                 `_type => ${getTypeGraphQLType(
-                  field.inputType as DMMFTypeInfo,
+                  field.selectedInputType,
                   dmmfDocument,
                 )}`,
                 `{
-                  nullable: ${!field.inputType.isRequired},
+                  nullable: ${!field.selectedInputType.isRequired},
                   description: undefined
                 }`,
               ],

@@ -1,15 +1,7 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
 import path from "path";
 
-import {
-  getFieldTSType,
-  getTypeGraphQLType,
-  pascalCase,
-  selectInputTypeFromTypes,
-  getInputTypeName,
-} from "./helpers";
-import { DMMFTypeInfo } from "./types";
+import { getFieldTSType, getTypeGraphQLType, pascalCase } from "./helpers";
 import { argsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -19,6 +11,7 @@ import {
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import { DmmfDocument } from "./dmmf/dmmf-document";
+import { DMMF } from "./dmmf/types";
 
 export default async function generateArgsTypeClassFromArgs(
   project: Project,
@@ -40,15 +33,15 @@ export default async function generateArgsTypeClassFromArgs(
   generateInputsImports(
     sourceFile,
     args
-      .map(arg => selectInputTypeFromTypes(arg.inputType))
-      .filter(argType => argType.kind === "object")
-      .map(argType => getInputTypeName(argType.type as string, dmmfDocument)),
+      .map(arg => arg.selectedInputType)
+      .filter(argInputType => argInputType.kind === "object")
+      .map(argInputType => argInputType.type),
     inputImportsLevel,
   );
   generateEnumsImports(
     sourceFile,
     args
-      .map(field => selectInputTypeFromTypes(field.inputType))
+      .map(field => field.selectedInputType)
       .filter(argType => argType.kind === "enum")
       .map(argType => argType.type as string),
     3,
@@ -64,12 +57,11 @@ export default async function generateArgsTypeClassFromArgs(
       },
     ],
     properties: args.map<OptionalKind<PropertyDeclarationStructure>>(arg => {
-      const inputType = selectInputTypeFromTypes(arg.inputType);
-      const isOptional = !inputType.isRequired;
+      const isOptional = !arg.selectedInputType.isRequired;
 
       return {
         name: arg.name,
-        type: getFieldTSType(inputType as DMMFTypeInfo, dmmfDocument),
+        type: getFieldTSType(arg.selectedInputType, dmmfDocument),
         hasExclamationToken: !isOptional,
         hasQuestionToken: isOptional,
         trailingTrivia: "\r\n",
@@ -78,7 +70,7 @@ export default async function generateArgsTypeClassFromArgs(
             name: "TypeGraphQL.Field",
             arguments: [
               `_type => ${getTypeGraphQLType(
-                inputType as DMMFTypeInfo,
+                arg.selectedInputType,
                 dmmfDocument,
               )}`,
               `{ nullable: ${isOptional} }`,

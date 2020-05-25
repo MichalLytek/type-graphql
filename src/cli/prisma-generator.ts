@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@prisma/generator-helper";
-import { DMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { promises as asyncFs } from "fs";
 import path from "path";
 
@@ -14,7 +14,7 @@ export async function generate(options: GeneratorOptions) {
 
   const prismaClientDmmf = require(options.otherGenerators.find(
     it => it.provider === "prisma-client-js",
-  )!.output!).dmmf as DMMF.Document;
+  )!.output!).dmmf as PrismaDMMF.Document;
 
   const config: GenerateCodeOptions = {
     ...options.generator.config,
