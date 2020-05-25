@@ -3,7 +3,8 @@ name: TypeGraphQL Prisma 2 integration
 on:
   push:
     branches:
-      - prisma
+      # - prisma
+      - none
 
 jobs:
   build:
@@ -11,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: [12.x, 13.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
