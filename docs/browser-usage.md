@@ -37,7 +37,7 @@ Thanks to this, our bundle will be much lighter as we don't need to embed the wh
 
 ## Usage with Cypress Tests
 
-If you're importing a module into your test which includes a type-graphql decorator you need to tell Cypress's webpack config to shim type-graph.
+If you're importing a module into your test which includes a type-graphql decorator you need to tell Cypress's webpack config to shim type-graphl.
 
 First `yarn add --dev webpack @cypress/webpack-preprocessor ts-loader`. Note: You might already have one or more of these installed - delete as required.
 
