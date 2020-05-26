@@ -97,12 +97,8 @@ To do this, we use the <code>@Field</code> decorator, which is also used to coll
   averageRating<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>For simple types (like <code>string</code> or <code>boolean</code>) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like <code>Array</code> or <code>Promise</code>). So to declare the <code>Rate[]</code> type, we have two options available:</p>
-<ul>
-<li><code>@Field(type =&gt; [Rate])</code> (recommended, explicit <code>[ ]</code> syntax for Array types)</li>
-<li><code>@Field(itemType =&gt; Rate)</code> (<code>array</code> is inferred from reflection - also works but is prone to errors)</li>
-</ul>
-<p>For nested arrays however, the explicit <code>[ ]</code> notation is required to determine the depth of the array. <code>@Field(type =&gt; [[Int]])</code> would tell the compiler we expect an integer array of depth 2.</p>
+<p>For simple types (like <code>string</code> or <code>boolean</code>) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like <code>Array</code> or <code>Promise</code>). So to declare the <code>Rate[]</code> type, we have to use the explicit <code>[ ]</code> syntax for array types - <code>@Field(type =&gt; [Rate])</code>.
+For nested arrays, we just use the explicit <code>[ ]</code> notation to determine the depth of the array, e.g. <code>@Field(type =&gt; [[Int]])</code> would tell the compiler we expect an integer array of depth 2.</p>
 <p>Why use function syntax and not a simple <code>{ type: Rate }</code> config object? Because, by using function syntax we solve the problem of circular dependencies (e.g. Post &lt;--&gt; User), so it was adopted as a convention. You can use the shorthand syntax <code>@Field(() =&gt; Rate)</code> if you want to save some keystrokes but it might be less readable for others.</p>
 <p>By default, all fields are non nullable, just like properties in TypeScript. However, you can change that behavior by providing <code>nullableByDefault: true</code> option in <code>buildSchema</code> settings, described in <a href="/docs/next/bootstrap.html">bootstrap guide</a>.</p>
 <p>So for nullable properties like <code>averageRating</code> which might not be defined when a recipe has no ratings yet, we mark the class property as optional with a <code>?:</code> operator and also have to pass the <code>{ nullable: true }</code> decorator parameter. We should be aware that when we declare our type as a nullable union (e.g. <code>string | null</code>), we need to explicitly provide the type to the <code>@Field</code> decorator.</p>
