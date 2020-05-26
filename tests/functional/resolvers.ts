@@ -138,7 +138,6 @@ describe("Resolvers", () => {
           @Arg("inputChildArg") inputChildArg: SampleInputChild,
           @Arg("explicitNullableArg", type => String, { nullable: true })
           explicitNullableArg: any,
-          @Arg("stringArrayArg", type => String) stringArrayArg: string[],
           @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
           defaultStringArg: string,
@@ -186,22 +185,17 @@ describe("Resolvers", () => {
           return Math.random() > 0.5 ? "explicitStringQuery" : null;
         }
 
-        @Query(itemType => String)
-        implicitStringArrayQuery(): string[] {
-          return [];
-        }
-
-        @Query(itemType => [String])
+        @Query(returnType => [String])
         explicitStringArrayQuery(): any {
           return [];
         }
 
-        @Query(itemType => [String], { nullable: "items" })
+        @Query(returnType => [String], { nullable: "items" })
         explicitNullableItemArrayQuery(): any {
           return [];
         }
 
-        @Query(itemType => [String], { nullable: "itemsAndList" })
+        @Query(returnType => [String], { nullable: "itemsAndList" })
         explicitNullableArrayWithNullableItemsQuery(): any {
           return [];
         }
@@ -324,7 +318,7 @@ describe("Resolvers", () => {
         const argMethodFieldInnerType = argMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(argMethodField.name).toEqual("argMethodField");
-        expect(argMethodField.args).toHaveLength(10);
+        expect(argMethodField.args).toHaveLength(9);
         expect(argMethodFieldType.kind).toEqual(TypeKind.NON_NULL);
         expect(argMethodFieldInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(argMethodFieldInnerType.name).toEqual("String");
@@ -374,21 +368,6 @@ describe("Resolvers", () => {
         expect(explicitNullableArg.name).toEqual("explicitNullableArg");
         expect(explicitNullableArgType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitNullableArgType.name).toEqual("String");
-      });
-
-      it("should generate string array arg type for object field method", async () => {
-        const stringArrayArg = argMethodField.args.find(arg => arg.name === "stringArrayArg")!;
-        const stringArrayArgType = stringArrayArg.type as IntrospectionNonNullTypeRef;
-        const stringArrayArgArrayType = stringArrayArgType.ofType as IntrospectionListTypeRef;
-        const stringArrayArgInnerType = stringArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
-        const stringArrayArgArrayItemType = stringArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
-
-        expect(stringArrayArg.name).toEqual("stringArrayArg");
-        expect(stringArrayArgType.kind).toEqual(TypeKind.NON_NULL);
-        expect(stringArrayArgArrayType.kind).toEqual(TypeKind.LIST);
-        expect(stringArrayArgInnerType.kind).toEqual(TypeKind.NON_NULL);
-        expect(stringArrayArgArrayItemType.kind).toEqual(TypeKind.SCALAR);
-        expect(stringArrayArgArrayItemType.name).toEqual("String");
       });
 
       it("should generate string array arg type for object field method when explicitly sets", async () => {
@@ -713,18 +692,6 @@ describe("Resolvers", () => {
 
         expect(nullableStringQueryType.kind).toEqual(TypeKind.SCALAR);
         expect(nullableStringQueryType.name).toEqual("String");
-      });
-
-      it("should generate implicit array string return type for query", async () => {
-        const implicitStringArrayQuery = getQuery("implicitStringArrayQuery");
-        const type = implicitStringArrayQuery.type as IntrospectionNonNullTypeRef;
-        const listType = type.ofType as IntrospectionListTypeRef;
-        const nonNullItemType = listType.ofType as IntrospectionNonNullTypeRef;
-        const itemType = nonNullItemType.ofType as IntrospectionNamedTypeRef;
-
-        expect(listType.kind).toEqual(TypeKind.LIST);
-        expect(itemType.kind).toEqual(TypeKind.SCALAR);
-        expect(itemType.name).toEqual("String");
       });
 
       it("should generate explicit array string return type for query", async () => {

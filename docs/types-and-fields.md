@@ -47,12 +47,8 @@ class Recipe {
 }
 ```
 
-For simple types (like `string` or `boolean`) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like `Array` or `Promise`). So to declare the `Rate[]` type, we have two options available:
-
-- `@Field(type => [Rate])` (recommended, explicit `[ ]` syntax for Array types)
-- `@Field(itemType => Rate)` (`array` is inferred from reflection - also works but is prone to errors)
-
-For nested arrays however, the explicit `[ ]` notation is required to determine the depth of the array. `@Field(type => [[Int]])` would tell the compiler we expect an integer array of depth 2.
+For simple types (like `string` or `boolean`) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like `Array` or `Promise`). So to declare the `Rate[]` type, we have to use the explicit `[ ]` syntax for array types - `@Field(type => [Rate])`.
+For nested arrays, we just use the explicit `[ ]` notation to determine the depth of the array, e.g. `@Field(type => [[Int]])` would tell the compiler we expect an integer array of depth 2.
 
 Why use function syntax and not a simple `{ type: Rate }` config object? Because, by using function syntax we solve the problem of circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to save some keystrokes but it might be less readable for others.
 

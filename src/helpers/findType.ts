@@ -50,10 +50,6 @@ export function findType({
     throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex, argName);
   }
 
-  if (metadataDesignType === Array) {
-    options.array = true;
-    options.arrayDepth = 1;
-  }
   if (returnTypeFunc) {
     const getType = () => {
       const returnTypeFuncReturnValue = returnTypeFunc();

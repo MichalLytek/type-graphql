@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- **Breaking Change**: remove legacy array inference - now explicit array syntax (`[Item]`) is required
 
 ## v1.0.0-rc.2
 ### Features

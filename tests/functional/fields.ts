@@ -6,11 +6,12 @@ import {
   IntrospectionNamedTypeRef,
   IntrospectionListTypeRef,
   TypeKind,
+  IntrospectionScalarType,
 } from "graphql";
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ObjectType, Field, Query, Resolver } from "../../src";
+import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "../../src";
 import { NullableListOptions } from "../../src/decorators/types";
 
 describe("Fields - schema", () => {
@@ -45,8 +46,8 @@ describe("Fields - schema", () => {
       @Field({ nullable: true })
       implicitNullableStringField: string;
 
-      @Field(type => String)
-      implicitStringArrayField: string[];
+      @Field(type => [String])
+      explicitStringArrayField: string[];
 
       @Field(type => [String], { nullable: true })
       nullableArrayFieldNew: string[] | null;
@@ -74,6 +75,9 @@ describe("Fields - schema", () => {
 
       @Field(type => [[String]], { nullable: "itemsAndList" })
       nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
+
+      @Field(type => GraphQLISODateTime)
+      overwrittenArrayScalarField: string[];
     }
 
     @Resolver(of => SampleObject)
@@ -132,7 +136,7 @@ describe("Fields - schema", () => {
     }
   });
 
-  it("should throw error when field type is array and no explicit item type provided", async () => {
+  it("should throw error when field type is array and no explicit type provided", async () => {
     expect.assertions(3);
     getMetadataStorage().clear();
 
@@ -239,7 +243,7 @@ describe("Fields - schema", () => {
 
   it("should generate non-nullable array of non-nullable items field type by default", async () => {
     const nonNullField = sampleObjectType.fields.find(
-      field => field.name === "implicitStringArrayField",
+      field => field.name === "explicitStringArrayField",
     )!;
     const nonNullFieldType = nonNullField.type as IntrospectionNonNullTypeRef;
     const arrayFieldType = nonNullFieldType.ofType as IntrospectionListTypeRef;
@@ -368,5 +372,17 @@ describe("Fields - schema", () => {
     expect(arrayItemFieldType.kind).toEqual(TypeKind.LIST);
     expect(arrayItemScalarFieldType.kind).toEqual(TypeKind.SCALAR);
     expect(arrayItemScalarFieldType.name).toEqual("String");
+  });
+
+  it("should generate not a list type for explicit scalar even when the reflected type is array", async () => {
+    const overwrittenArrayScalarField = sampleObjectType.fields.find(
+      field => field.name === "overwrittenArrayScalarField",
+    )!;
+    const overwrittenArrayScalarFieldType = overwrittenArrayScalarField.type as IntrospectionNonNullTypeRef;
+    const overwrittenArrayScalarFieldInnerType = overwrittenArrayScalarFieldType.ofType as IntrospectionScalarType;
+
+    expect(overwrittenArrayScalarFieldType.kind).toEqual(TypeKind.NON_NULL);
+    expect(overwrittenArrayScalarFieldInnerType.kind).toEqual(TypeKind.SCALAR);
+    expect(overwrittenArrayScalarFieldInnerType.name).toEqual("DateTime");
   });
 });
