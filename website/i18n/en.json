@@ -427,6 +427,10 @@
       "version-1.0.0-rc.1/version-1.0.0-rc.1-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-1.0.0-rc.2/version-1.0.0-rc.2-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
       }
     },
     "links": {
