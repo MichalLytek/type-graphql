@@ -157,13 +157,21 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Gold Sponsors 🏆
 
-Please ask your company to also support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors) and getting your company logo on our README on Github as well as on the landing page of the official documentation site with a link to your company site.
+Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors) and getting a premium technical support from our core contributors. 
+
+Also your company logo in large size will be placed on our Readme on GitHub as well as on the landing page of the official documentation site, with a link to your company website.
+
+### Silver Sponsors 🥈
+
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/mr-yum.png" width="125">](https://www.mryum.com/) |
+| :---: | :---: |
+| [**Gorrion Software House**](https://gorrion.io/) | [**Mr Yum**](https://www.mryum.com/) | 
 
 ### Sponsors 🚀
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="100">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/alka.png" width="150">](https://alka.app/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="125">](https://www.joinlifex.com/) |
-| :---: | :---: | :---: |  :---: |
-| [**Gorrion Software House**](https://gorrion.io/) | [**Live Graphic Systems**](https://www.ligrsystems.com/) | [**Alka Finance**](https://alka.app/) | [**LifeX Aps**](https://www.joinlifex.com/) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="75">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/alka.png" width="125">](https://alka.app/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="100">](https://www.joinlifex.com/) |
+| :---: | :---: |  :---: |
+| [**Live Graphic Systems**](https://www.ligrsystems.com/) | [**Alka Finance**](https://alka.app/) | [**LifeX Aps**](https://www.joinlifex.com/) |
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 

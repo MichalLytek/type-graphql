@@ -246,18 +246,35 @@ const CollectiveSection = props => (
     </Container>
     <div id="sponsors" className="snippet-container">
       <div className="wrapper">
-        <h3>Sponsors 🚀</h3>
+        <h3>Gold Sponsors 🏆</h3>
+        <span>Please ask your company to support this open source project by</span>{" "}
+        <a href="https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors">
+          becoming a gold sponsor
+        </a>{" "}
+        <span>
+          and getting a premium technical support from our core contributors. <br />
+          Also your company logo in large size will be placed on our Readme on GitHub as well as on
+          the landing page of the official documentation site, with a link to your company website.
+        </span>
+        <h3>Silver Sponsors 🥈</h3>
         <div className="tiles">
           <a href="https://gorrion.io/">
             <img src={imgUrl("gorrion.png")} width="250" />
             <span>Gorrion Software House</span>
           </a>
+          <a href="https://www.mryum.com/">
+            <img src={imgUrl("mr-yum.png")} width="125" />
+            <span>Mr Yum</span>
+          </a>
+        </div>
+        <h3>Sponsors 🚀</h3>
+        <div className="tiles">
           <a href="https://www.ligrsystems.com/">
-            <img src={imgUrl("live-graphics-system.png")} width="100" />
+            <img src={imgUrl("live-graphics-system.png")} width="75" />
             <span>Live Graphic Systems</span>
           </a>
           <a href="https://alka.app/">
-            <img src={imgUrl("alka.png")} width="150" />
+            <img src={imgUrl("alka.png")} width="125" />
             <span>Alka Finance</span>
           </a>
           <a href="https://www.joinlifex.com/">
