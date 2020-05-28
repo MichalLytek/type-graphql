@@ -302,7 +302,7 @@ class Recipe {
   ratings: Rate[];
 
   @Field(type => Float, { nullable: true })
-  averageRating(@Arg("since") sinceDate: Date): number | null {
+  get averageRating(@Arg("since") sinceDate: Date): number | null {
     const ratings = this.ratings.filter(rate => rate.date > sinceDate);
     if (!ratings.length) return null;
 
