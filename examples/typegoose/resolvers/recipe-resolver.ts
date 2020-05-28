@@ -31,7 +31,8 @@ export class RecipeResolver {
       author: user._id,
     } as Recipe);
 
-    return await recipe.save();
+    await recipe.save();
+    return recipe;
   }
 
   @Mutation(returns => Recipe)

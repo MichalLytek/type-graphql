@@ -2,11 +2,12 @@ import { Recipe, RecipeModel } from "./entities/recipe";
 import { User, UserModel } from "./entities/user";
 
 export async function seedDatabase() {
-  const defaultUser = await new UserModel({
+  const defaultUser = new UserModel({
     email: "test@github.com",
     nickname: "MichalLytek",
     password: "s3cr3tp4ssw0rd",
-  } as User).save();
+  } as User);
+  await defaultUser.save();
 
   await RecipeModel.create([
     {
@@ -31,7 +32,5 @@ export async function seedDatabase() {
     },
   ] as Recipe[]);
 
-  return {
-    defaultUser,
-  };
+  return { defaultUser };
 }
