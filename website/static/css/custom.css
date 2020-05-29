@@ -47,6 +47,16 @@ a:hover {
   padding-bottom: 60px;
 }
 
+#sponsors h3.title {
+  margin-bottom: 1.5em;
+}
+
+#sponsors blockquote.note {
+  background-color: #f6f6f6;
+  border-left: 8px solid #f1f1f1;
+  padding: 15px 30px 15px 15px;
+}
+
 #sponsors .wrapper {
   display: block;
   padding-left: 45px;

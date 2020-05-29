@@ -246,43 +246,51 @@ const CollectiveSection = props => (
     </Container>
     <div id="sponsors" className="snippet-container">
       <div className="wrapper">
-        <h3>Gold Sponsors 🏆</h3>
-        <span>Please ask your company to support this open source project by</span>{" "}
-        <a href="https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors">
-          becoming a gold sponsor
-        </a>{" "}
-        <span>
-          and getting a premium technical support from our core contributors. <br />
-          Also your company logo in large size will be placed on our Readme on GitHub as well as on
-          the landing page of the official documentation site, with a link to your company website.
-        </span>
-        <h3>Silver Sponsors 🥈</h3>
+        <h3 className="title">Gold Sponsors 🏆</h3>
+        <div className="tiles">
+          <a href="http://career.bluereceipt.co/">
+            <img
+              src={imgUrl("blue_receipt.gif")}
+              style={{ width: 450, filter: "brightness(0.975)" }}
+            />
+
+            <span style={{ fontSize: 20 }}>BlueReceipt</span>
+          </a>
+        </div>
+        <blockquote className="note">
+          <span>Please ask your company to support this open source project by</span>{" "}
+          <a href="https://opencollective.com/typegraphql/contribute/gold-sponsors-8340">
+            becoming a gold sponsor
+          </a>{" "}
+          <span>and getting a premium technical support from our core contributors.</span>
+        </blockquote>
+        <h3 className="title">Silver Sponsors 🥈</h3>
         <div className="tiles">
           <a href="https://gorrion.io/">
-            <img src={imgUrl("gorrion.png")} width="250" />
+            <img src={imgUrl("gorrion.png")} style={{ width: 250 }} />
             <span>Gorrion Software House</span>
           </a>
           <a href="https://www.mryum.com/">
-            <img src={imgUrl("mr-yum.png")} width="125" />
+            <img src={imgUrl("mr-yum.png")} style={{ width: 125 }} />
             <span>Mr Yum</span>
           </a>
         </div>
-        <h3>Sponsors 🚀</h3>
+        <h3 className="title">Sponsors 🚀</h3>
         <div className="tiles">
           <a href="https://www.ligrsystems.com/">
-            <img src={imgUrl("live-graphics-system.png")} width="75" />
+            <img src={imgUrl("live-graphics-system.png")} style={{ width: 75 }} />
             <span>Live Graphic Systems</span>
           </a>
           <a href="https://alka.app/">
-            <img src={imgUrl("alka.png")} width="125" />
+            <img src={imgUrl("alka.png")} style={{ width: 125 }} />
             <span>Alka Finance</span>
           </a>
           <a href="https://www.joinlifex.com/">
-            <img src={imgUrl("lifex.svg")} width="100" />
+            <img src={imgUrl("lifex.svg")} style={{ width: 100 }} />
             <span>LifeX Aps</span>
           </a>
         </div>
-        <h3>Members 💪 and Backers ☕</h3>
+        <h3 className="title">Members 💪 and Backers ☕</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
           <img src="https://opencollective.com/typegraphql/sponsors.svg?width=1024&button=false" />
         </a>

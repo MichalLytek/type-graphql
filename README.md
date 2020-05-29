@@ -157,13 +157,15 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Gold Sponsors 🏆
 
-Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/tier/8340-gold-sponsors) and getting a premium technical support from our core contributors. 
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/blue_receipt.gif" width="450">](http://career.bluereceipt.co/) |
+| :---: |
+| [**BlueReceipt**](http://career.bluereceipt.co/) |
 
-Also your company logo in large size will be placed on our Readme on GitHub as well as on the landing page of the official documentation site, with a link to your company website.
+> Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/gold-sponsors-8340) and getting a premium technical support from our core contributors.
 
 ### Silver Sponsors 🥈
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/mr-yum.png" width="125">](https://www.mryum.com/) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/mr-yum.png" width="100">](https://www.mryum.com/) |
 | :---: | :---: |
 | [**Gorrion Software House**](https://gorrion.io/) | [**Mr Yum**](https://www.mryum.com/) | 
 
