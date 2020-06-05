@@ -169,11 +169,11 @@ It doesn't have a large company that sits behind - its ongoing development is po
 | :---: | :---: |
 | [**Gorrion Software House**](https://gorrion.io/) | [**Mr Yum**](https://www.mryum.com/) | 
 
-### Sponsors 🚀
+### Bronze Sponsors 🥉
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="75">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/alka.png" width="125">](https://alka.app/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="100">](https://www.joinlifex.com/) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="60">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="75">](https://www.joinlifex.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/swiss-mentor.png" width="125">](https://www.swissmentor.com/) |
 | :---: | :---: |  :---: |
-| [**Live Graphic Systems**](https://www.ligrsystems.com/) | [**Alka Finance**](https://alka.app/) | [**LifeX Aps**](https://www.joinlifex.com/) |
+| [**Live Graphic Systems**](https://www.ligrsystems.com/) | [**LifeX Aps**](https://www.joinlifex.com/) | [**SwissMentor**](https://www.swissmentor.com/) |
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 

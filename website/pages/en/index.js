@@ -271,23 +271,23 @@ const CollectiveSection = props => (
             <span>Gorrion Software House</span>
           </a>
           <a href="https://www.mryum.com/">
-            <img src={imgUrl("mr-yum.png")} style={{ width: 125 }} />
+            <img src={imgUrl("mr-yum.png")} style={{ width: 100 }} />
             <span>Mr Yum</span>
           </a>
         </div>
-        <h3 className="title">Sponsors 🚀</h3>
+        <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
           <a href="https://www.ligrsystems.com/">
-            <img src={imgUrl("live-graphics-system.png")} style={{ width: 75 }} />
+            <img src={imgUrl("live-graphics-system.png")} style={{ width: 60 }} />
             <span>Live Graphic Systems</span>
           </a>
-          <a href="https://alka.app/">
-            <img src={imgUrl("alka.png")} style={{ width: 125 }} />
-            <span>Alka Finance</span>
-          </a>
           <a href="https://www.joinlifex.com/">
-            <img src={imgUrl("lifex.svg")} style={{ width: 100 }} />
+            <img src={imgUrl("lifex.svg")} style={{ width: 75 }} />
             <span>LifeX Aps</span>
+          </a>
+          <a href="https://www.swissmentor.com/">
+            <img src={imgUrl("swiss-mentor.png")} style={{ width: 125 }} />
+            <span>SwissMentor</span>
           </a>
         </div>
         <h3 className="title">Members 💪 and Backers ☕</h3>
