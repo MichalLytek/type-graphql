@@ -122,7 +122,7 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
             <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment">// Here we can react to the calculated complexity,</span>
             <span class="token comment">// like compare it with max and throw error when the threshold is reached.</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>complexity <span class="token operator">>=</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>complexity <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
               <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>
                 <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Sorry, too complicated query! </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>complexity<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is over 20 that is the max allowed complexity.</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
               <span class="token punctuation">)</span><span class="token punctuation">;</span>
