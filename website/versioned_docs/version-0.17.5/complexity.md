@@ -75,7 +75,7 @@ async function bootstrap() {
             });
             // Here we can react to the calculated complexity,
             // like compare it with max and throw error when the threshold is reached.
-            if (complexity >= 20) {
+            if (complexity > 20) {
               throw new Error(
                 `Sorry, too complicated query! ${complexity} is over 20 that is the max allowed complexity.`,
               );
