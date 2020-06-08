@@ -34,6 +34,18 @@ const schema = await buildSchema({
 });
 ```
 
+In case of defining the resolvers array somewhere else (not inline in the `buildSchema`), we need to use the `as const` syntax to inform the TS compiler and satisfy the `NonEmptyArray<T>` constraints:
+
+```typescript
+// resolvers.ts
+export const resolvers = [FirstResolver, SecondResolver] as const;
+
+// schema.ts
+import { resolvers } from "./resolvers";
+
+const schema = await buildSchema({ resolvers });
+```
+
 However, when there are several resolver classes, manual imports can be cumbersome.
 So we can also provide an array of paths to resolver module files instead, which can include globs:
 
