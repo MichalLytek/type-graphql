@@ -92,7 +92,9 @@ class GetRecipesArgs {
 
 We can define default values for optional fields in the `@Field()` decorator using the `defaultValue` option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.
 
-Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the [validation docs](validation.md). You can also define helper fields and methods for your args or input class.
+Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the [validation docs](validation.md).
+
+We can also define helper fields and methods for our args or input classes. But be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of args and input classes under the hood by itself.
 
 ```typescript
 import { Min, Max } from "class-validator";

@@ -121,3 +121,5 @@ As we can see, for the `id` property of `Recipe` we passed `type => ID` and for 
 Also the `user` property doesn't have a `@Field()` decorator - this way we can hide some properties of our data model. In this case, we need to store the `user` field of the `Rate` object to the database in order to prevent multiple rates, but we don't want to make it publicly accessible.
 
 Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
+
+Be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of object type classes under the hood by itself.
