@@ -128,7 +128,8 @@ The second is to provide the return type. Since the method is async, the reflect
 <span class="token punctuation">}</span>
 </code></pre>
 <p>We can define default values for optional fields in the <code>@Field()</code> decorator using the <code>defaultValue</code> option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.</p>
-<p>Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the <a href="/docs/next/validation.html">validation docs</a>. You can also define helper fields and methods for your args or input class.</p>
+<p>Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the <a href="/docs/next/validation.html">validation docs</a>.</p>
+<p>We can also define helper fields and methods for our args or input classes. But be aware that <strong>defining constructors is strictly forbidden</strong> and we shouldn't use them there, as TypeGraphQL creates instances of args and input classes under the hood by itself.</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Min<span class="token punctuation">,</span> Max <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"class-validator"</span><span class="token punctuation">;</span>
 
 @<span class="token function">ArgsType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
