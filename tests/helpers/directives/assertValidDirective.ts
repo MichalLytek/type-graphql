@@ -4,7 +4,8 @@ import {
   InputValueDefinitionNode,
   parseValue,
 } from "graphql";
-import Maybe from "graphql/tsutils/Maybe";
+
+import { Maybe } from "../../../src/interfaces/Maybe";
 
 export function assertValidDirective(
   astNode: Maybe<FieldDefinitionNode | InputObjectTypeDefinitionNode | InputValueDefinitionNode>,

@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - **Breaking Change**: remove legacy array inference - now explicit array syntax (`[Item]`) is required
+- **Breaking Change**: update `graphql-js` peer dependency to `^15.1.0`
 - update deps to newest major versions (`tslib`, `graphql-query-complexity`)
 
 ## v1.0.0-rc.2
