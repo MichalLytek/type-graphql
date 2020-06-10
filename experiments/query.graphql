@@ -42,6 +42,7 @@ mutation AddClient {
 query FindClients {
   clients(
     orderBy: { id: desc }
+    take: 2
     where: {
       OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]
     }

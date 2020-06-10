@@ -12,27 +12,34 @@ generator client {
 }
 
 generator typegraphql {
-  provider = "../src/cli/dev.ts"
+  provider = "node ../src/cli/dev.ts"
   output   = "../prisma/generated/type-graphql"
   emitDMMF = true
 }
 
 // Role enum comment
+/// Role enum doc
 enum Role {
   USER
   ADMIN
 }
 
 // User model comment
-// @@TypeGraphQL.type("Client")
+/// User model doc
+/// @@TypeGraphQL.type("Client")
 model User {
   // User model field comment
+  /// User model field doc
   id      Int     @default(autoincrement()) @id
   email   String  @unique
+  /// renamed field doc
+  /// @TypeGraphQL.field("firstName")
   name    String?
   age     Int
+  /// @TypeGraphQL.field("accountBalance")
   balance Numeric
   amount  Float
+  /// @TypeGraphQL.field("clientPosts")
   posts   Post[]
   role    Role
 }

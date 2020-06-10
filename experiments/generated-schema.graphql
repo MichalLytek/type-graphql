@@ -4,23 +4,23 @@
 # -----------------------------------------------
 
 type AggregateCategory {
-  count(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): Int!
+  count(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): Int!
 }
 
 type AggregateClient {
-  count(after: ClientWhereUniqueInput, before: ClientWhereUniqueInput, first: Int, last: Int, orderBy: ClientOrderByInput, skip: Int, where: ClientWhereInput): Int!
+  count(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): Int!
 }
 
 type AggregateDirector {
-  count(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): Int!
+  count(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): Int!
 }
 
 type AggregateMovie {
-  count(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): Int!
+  count(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): Int!
 }
 
 type AggregatePatient {
-  count(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): Int!
+  count(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): Int!
 }
 
 type BatchPayload {
@@ -80,7 +80,7 @@ type Client {
   accountBalance: Float!
   age: Int!
   amount: Float!
-  clientPosts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  clientPosts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
   email: String!
 
   """renamed field doc"""
@@ -185,7 +185,7 @@ input DateTimeFilter {
 type Director {
   firstName: String!
   lastName: String!
-  movies(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): [Movie!]
+  movies(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]
 }
 
 input DirectorCreateInput {
@@ -286,7 +286,7 @@ input IntFilter {
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
-scalar JSON
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 type Movie {
   director: Director!
@@ -659,20 +659,21 @@ type Query {
   aggregatePatient: AggregatePatient!
   allClients: [Client!]!
   allPosts: [Post!]!
-  categories(after: CategoryWhereUniqueInput, before: CategoryWhereUniqueInput, first: Int, last: Int, orderBy: CategoryOrderByInput, skip: Int, where: CategoryWhereInput): [Category!]!
+  categories(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
   client(where: ClientWhereUniqueInput!): Client
-  clients(after: ClientWhereUniqueInput, before: ClientWhereUniqueInput, first: Int, last: Int, orderBy: ClientOrderByInput, skip: Int, where: ClientWhereInput): [Client!]!
+  clients(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
-  directors(after: DirectorWhereUniqueInput, before: DirectorWhereUniqueInput, first: Int, last: Int, orderBy: DirectorOrderByInput, skip: Int, where: DirectorWhereInput): [Director!]!
+  directors(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
   movie(where: MovieWhereUniqueInput!): Movie
-  movies(after: MovieWhereUniqueInput, before: MovieWhereUniqueInput, first: Int, last: Int, orderBy: MovieOrderByInput, skip: Int, where: MovieWhereInput): [Movie!]!
+  movies(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]!
   patient(where: PatientWhereUniqueInput!): Patient
-  patients(after: PatientWhereUniqueInput, before: PatientWhereUniqueInput, first: Int, last: Int, orderBy: PatientOrderByInput, skip: Int, where: PatientWhereInput): [Patient!]!
+  patients(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
 }
 
+"""Role enum doc"""
 enum Role {
   ADMIN
   USER
