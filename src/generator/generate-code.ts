@@ -45,7 +45,7 @@ export default async function generateCode(
   const modelNames = dmmf.datamodel.models.map(model => model.name);
 
   log("Transforming dmmfDocument...");
-  const dmmfDocument = new DmmfDocument(dmmf);
+  const dmmfDocument = new DmmfDocument(dmmf, options);
 
   log("Generating enums...");
   const datamodelEnumNames = dmmfDocument.datamodel.enums.map(

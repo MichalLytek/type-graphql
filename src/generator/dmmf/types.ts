@@ -115,15 +115,25 @@ export declare namespace DMMF {
   interface Mapping {
     model: string;
     plural: string;
-    findOne?: string | null;
-    findMany?: string | null;
-    create?: string | null;
-    update?: string | null;
-    updateMany?: string | null;
-    upsert?: string | null;
-    delete?: string | null;
-    deleteMany?: string | null;
-    aggregate?: string | null;
+    // findOne?: string | null;
+    // findMany?: string | null;
+    // create?: string | null;
+    // update?: string | null;
+    // updateMany?: string | null;
+    // upsert?: string | null;
+    // delete?: string | null;
+    // deleteMany?: string | null;
+    // aggregate?: string | null;
+
+    // additional props
+    actions: Action[];
+  }
+  // additional type
+  interface Action {
+    name: string;
+    fieldName: string;
+    kind: ModelAction;
+    operation: "Query" | "Mutation";
   }
   enum ModelAction {
     findOne = "findOne",
@@ -134,6 +144,7 @@ export declare namespace DMMF {
     upsert = "upsert",
     delete = "delete",
     deleteMany = "deleteMany",
+    aggregate = "aggregate",
   }
 }
 export interface BaseField {

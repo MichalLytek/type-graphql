@@ -19,7 +19,6 @@ import {
   generateModelsImports,
   generateOutputsImports,
   generateArgsBarrelFile,
-  generateGraphQLScalarImport,
 } from "../imports";
 import saveSourceFile from "../../utils/saveSourceFile";
 import generateActionResolverClass from "./separate-action";
@@ -54,30 +53,20 @@ export default async function generateCrudResolverClassFromMapping(
 
   generateTypeGraphQLImport(sourceFile);
 
-  const actionNames = Object.keys(mapping).filter(
-    key => !baseKeys.includes(key as any),
-  ) as ModelKeys[];
-
-  const supportedActionNames = actionNames.filter(
-    actionName => getOperationKindName(actionName) !== undefined,
-  );
-
   const methodsInfo = await Promise.all(
-    supportedActionNames.map(async actionName => {
-      const operationKind = getOperationKindName(actionName)!;
-      const fieldName = mapping[actionName];
+    mapping.actions.map(async action => {
       const type = types.find(type =>
-        type.fields.some(field => field.name === fieldName),
+        type.fields.some(field => field.name === action.fieldName),
       );
       if (!type) {
         throw new Error(
-          `Cannot find type with field ${fieldName} in root types definitions!`,
+          `Cannot find type with field ${action.fieldName} in root types definitions!`,
         );
       }
-      const method = type.fields.find(field => field.name === fieldName);
+      const method = type.fields.find(field => field.name === action.fieldName);
       if (!method) {
         throw new Error(
-          `Cannot find field ${fieldName} in output types definitions!`,
+          `Cannot find field ${action.fieldName} in output types definitions!`,
         );
       }
       const outputTypeName = method.outputType.type as string;
@@ -88,15 +77,14 @@ export default async function generateCrudResolverClassFromMapping(
           project,
           resolverDirPath,
           method.args,
-          `${actionName}${dmmfDocument.getModelTypeName(mapping.model)}`,
+          `${action.kind}${dmmfDocument.getModelTypeName(mapping.model)}`,
           dmmfDocument,
         );
       }
 
       return {
-        operationKind,
         method,
-        actionName,
+        action,
         outputTypeName,
         argsTypeName,
       };
@@ -162,40 +150,35 @@ export default async function generateCrudResolverClassFromMapping(
     ],
     methods: await Promise.all(
       methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
-        ({ operationKind, actionName, method, argsTypeName }) =>
+        ({ action, method, argsTypeName }) =>
           generateCrudResolverClassMethodDeclaration(
-            operationKind,
-            actionName,
+            action,
             model.typeName,
             method,
             argsTypeName,
             collectionName,
             dmmfDocument,
             mapping,
-            options,
           ),
       ),
     ),
   });
 
   const actionResolverNames = await Promise.all(
-    methodsInfo.map(
-      ({ operationKind, actionName, method, outputTypeName, argsTypeName }) =>
-        generateActionResolverClass(
-          project,
-          baseDirPath,
-          model,
-          operationKind,
-          actionName,
-          method,
-          outputTypeName,
-          argsTypeName,
-          collectionName,
-          modelNames,
-          mapping,
-          options,
-          dmmfDocument,
-        ),
+    methodsInfo.map(({ action, method, outputTypeName, argsTypeName }) =>
+      generateActionResolverClass(
+        project,
+        baseDirPath,
+        model,
+        action,
+        method,
+        outputTypeName,
+        argsTypeName,
+        collectionName,
+        modelNames,
+        mapping,
+        dmmfDocument,
+      ),
     ),
   );
 
@@ -206,9 +189,4 @@ export default async function generateCrudResolverClassFromMapping(
     actionResolverNames,
     argTypeNames,
   };
-}
-
-function getOperationKindName(actionName: string): string | undefined {
-  if (supportedQueryActions.includes(actionName as any)) return "Query";
-  if (supportedMutationActions.includes(actionName as any)) return "Mutation";
 }

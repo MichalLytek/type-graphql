@@ -1,16 +1,24 @@
 import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { DMMF } from "./types";
-import { transformDatamodel, transformSchema } from "./transform";
+import {
+  transformDatamodel,
+  transformSchema,
+  transformMappings,
+} from "./transform";
+import { GenerateCodeOptions } from "../options";
 
 export class DmmfDocument implements DMMF.Document {
   datamodel: DMMF.Datamodel;
   schema: DMMF.Schema;
   mappings: DMMF.Mapping[];
 
-  constructor({ datamodel, schema, mappings }: PrismaDMMF.Document) {
+  constructor(
+    { datamodel, schema, mappings }: PrismaDMMF.Document,
+    options: GenerateCodeOptions,
+  ) {
     this.datamodel = transformDatamodel(datamodel);
     this.schema = transformSchema(schema, this);
-    this.mappings = mappings;
+    this.mappings = transformMappings(mappings, this, options);
   }
 
   getModelTypeName(modelName: string): string | undefined {

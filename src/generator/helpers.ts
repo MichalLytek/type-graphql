@@ -131,30 +131,6 @@ export function pascalCase(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-export function getMappedActionName(
-  actionName: ModelKeys,
-  typeName: string,
-): string {
-  const defaultMappedActionName = `${actionName}${typeName}`;
-
-  const hasNoPlural = typeName === pluralize(typeName);
-  if (hasNoPlural) {
-    return defaultMappedActionName;
-  }
-
-  switch (actionName) {
-    case "findOne": {
-      return camelCase(typeName);
-    }
-    case "findMany": {
-      return pluralize(camelCase(typeName));
-    }
-    default: {
-      return defaultMappedActionName;
-    }
-  }
-}
-
 export function getInputTypeName(
   originalInputName: string,
   dmmfDocument: DmmfDocument,

@@ -1,8 +1,11 @@
 import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { DMMF } from "./types";
 import { parseDocumentationAttributes } from "./helpers";
-import { getInputTypeName } from "../helpers";
+import { getInputTypeName, camelCase } from "../helpers";
 import { DmmfDocument } from "./dmmf-document";
+import pluralize from "pluralize";
+import { GenerateCodeOptions } from "../options";
+import { supportedQueryActions, supportedMutationActions } from "../config";
 
 export function transformDatamodel(
   datamodel: PrismaDMMF.Datamodel,
@@ -24,6 +27,14 @@ export function transformSchema(
     rootMutationType: datamodel.rootMutationType,
     rootQueryType: datamodel.rootQueryType,
   };
+}
+
+export function transformMappings(
+  mapping: PrismaDMMF.Mapping[],
+  dmmfDocument: DmmfDocument,
+  options: GenerateCodeOptions,
+): DMMF.Mapping[] {
+  return mapping.map(transformMapping(dmmfDocument, options));
 }
 
 function transformModel(model: PrismaDMMF.Model): DMMF.Model {
@@ -89,6 +100,28 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
   };
 }
 
+function transformMapping(
+  dmmfDocument: DmmfDocument,
+  options: GenerateCodeOptions,
+) {
+  return (mapping: PrismaDMMF.Mapping): DMMF.Mapping => {
+    const { model, plural, ...availableActions } = mapping;
+    const actions = Object.entries(availableActions).map<DMMF.Action>(
+      ([modelAction, fieldName]) => {
+        const kind = modelAction as DMMF.ModelAction;
+        const modelName = dmmfDocument.getModelTypeName(model) ?? model;
+        return {
+          name: getMappedActionName(kind, modelName, options),
+          fieldName,
+          kind: kind,
+          operation: getOperationKindName(kind) as any,
+        };
+      },
+    );
+    return { model, plural, actions };
+  };
+}
+
 function selectInputTypeFromTypes(dmmfDocument: DmmfDocument) {
   return (
     inputTypes: PrismaDMMF.SchemaArgInputType[],
@@ -107,4 +140,37 @@ function selectInputTypeFromTypes(dmmfDocument: DmmfDocument) {
           : inputType,
     };
   };
+}
+
+function getMappedActionName(
+  actionName: DMMF.ModelAction,
+  typeName: string,
+  options: GenerateCodeOptions,
+): string {
+  const defaultMappedActionName = `${actionName}${typeName}`;
+  if (options.useOriginalMapping) {
+    return defaultMappedActionName;
+  }
+
+  const hasNoPlural = typeName === pluralize(typeName);
+  if (hasNoPlural) {
+    return defaultMappedActionName;
+  }
+
+  switch (actionName) {
+    case "findOne": {
+      return camelCase(typeName);
+    }
+    case "findMany": {
+      return pluralize(camelCase(typeName));
+    }
+    default: {
+      return defaultMappedActionName;
+    }
+  }
+}
+
+function getOperationKindName(actionName: string): string | undefined {
+  if (supportedQueryActions.includes(actionName as any)) return "Query";
+  if (supportedMutationActions.includes(actionName as any)) return "Mutation";
 }
