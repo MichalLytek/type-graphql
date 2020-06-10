@@ -8,9 +8,7 @@
     "test": "ts-node ./tests/helpers/setup-tests.ts && jest --watch --verbose",
     "test:integration": "ts-node ./tests/helpers/setup-tests.ts && env-cmd jest --watch --verbose --config ./jest.config.integration.js",
     "test:ci": "ts-node ./tests/helpers/setup-tests.ts && jest --coverage --verbose --runInBand && jest --coverage --verbose --runInBand --config ./jest.config.integration.js",
-    "format": "prettier --write ./**/*.{js,json,ts,tsx}",
-    "docker": "docker-compose run linux-node",
-    "basic-example:docker": "docker-compose up -d --force-recreate basic-example && docker-compose logs -f basic-example"
+    "format": "prettier --write ./**/*.{js,json,ts,tsx}"
   },
   "peerDependencies": {
     "@prisma/cli": "2.0.0",
@@ -32,6 +30,7 @@
     "@types/graphql-type-json": "^0.3.2",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
+    "@types/pg": "^7.14.3",
     "@types/pluralize": "0.0.29",
     "directory-tree": "^2.2.4",
     "env-cmd": "^10.1.0",
@@ -40,7 +39,7 @@
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lint-staged": "^10.2.9",
-    "pgtools": "^0.3.0",
+    "pg": "^8.2.1",
     "prettier": "^2.0.5",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "~26.1.0",

@@ -6,7 +6,7 @@ import util from "util";
 import childProcess from "child_process";
 import { buildSchema } from "type-graphql";
 import { graphql } from "graphql";
-const pgtools = require("pgtools");
+import pg from "pg";
 
 import generateArtifactsDirPath from "../helpers/artifacts-dir";
 import { stringifyDirectoryTrees } from "../helpers/structure";
@@ -156,7 +156,12 @@ describe("generator integration", () => {
       .split("/")
       .reverse();
     const databaseUrl = databaseUrlParts.reverse().join("/") + "/postgres";
-    await pgtools.dropdb(databaseUrl, dbName);
+    const pgClient = new pg.Client({
+      connectionString: databaseUrl,
+    });
+    await pgClient.connect();
+    await pgClient.query(`DROP DATABASE IF EXISTS "${dbName}"`);
+    await pgClient.end();
 
     const migrateSaveResult = await exec(
       "npx prisma migrate save --experimental --name='init' --create-db",

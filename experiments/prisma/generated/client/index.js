@@ -49,6 +49,7 @@ exports.raw = sqltag.raw
 **/
 
 path.join(__dirname, 'query-engine-windows');
+path.join(__dirname, 'query-engine-debian-openssl-1.1.x');
 
 /**
  * Annotation for Vercel
@@ -96,22 +97,23 @@ const config = {
   "generator": {
     "name": "client",
     "provider": "prisma-client-js",
-    "output": "D:\\#Projekty\\typegraphql-prisma\\experiments\\prisma\\generated\\client",
+    "output": "/home/majkel/development/typegraphql-prisma/experiments/prisma/generated/client",
     "binaryTargets": [
-      "windows"
+      "windows",
+      "debian-openssl-1.1.x"
     ],
     "config": {},
     "isCustomOutput": true
   },
   "sqliteDatasourceOverrides": [],
-  "relativePath": "..\\..",
+  "relativePath": "../..",
   "internalDatasources": [
     {
       "name": "db",
       "connectorType": "postgresql",
       "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:qwerty@localhost:5434/typegraphql-prisma-experiments"
+        "fromEnvVar": null,
+        "value": "postgresql://"
       }
     }
   ],
