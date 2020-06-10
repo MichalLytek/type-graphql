@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { AggregatePostCountArgs } from "./args/AggregatePostCountArgs";
 
 @TypeGraphQL.ObjectType({

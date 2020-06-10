@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostOrderByInput } from "../../../inputs/PostOrderByInput";
 import { PostWhereInput } from "../../../inputs/PostWhereInput";
 import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
@@ -6,23 +7,17 @@ import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
 @TypeGraphQL.ArgsType()
 export class UserPostsArgs {
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
-  where?: PostWhereInput | null;
+  where?: PostWhereInput | null | undefined;
 
   @TypeGraphQL.Field(_type => PostOrderByInput, { nullable: true })
-  orderBy?: PostOrderByInput | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null;
+  orderBy?: PostOrderByInput | null | undefined;
 
   @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
-  after?: PostWhereUniqueInput | null;
-
-  @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
-  before?: PostWhereUniqueInput | null;
+  cursor?: PostWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null;
+  take?: number | null | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null;
+  skip?: number | null | undefined;
 }

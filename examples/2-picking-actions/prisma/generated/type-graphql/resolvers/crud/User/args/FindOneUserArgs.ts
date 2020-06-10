@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { UserWhereUniqueInput } from "../../../inputs/UserWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()

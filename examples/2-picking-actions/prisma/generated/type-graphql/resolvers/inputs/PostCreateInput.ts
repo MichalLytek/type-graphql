@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { UserCreateOneWithoutPostsInput } from "../inputs/UserCreateOneWithoutPostsInput";
 
 @TypeGraphQL.InputType({
@@ -10,19 +11,19 @@ export class PostCreateInput {
     nullable: true,
     description: undefined
   })
-  id?: string | null;
+  id?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: Date | null;
+  createdAt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: Date | null;
+  updatedAt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false,
@@ -40,11 +41,11 @@ export class PostCreateInput {
     nullable: true,
     description: undefined
   })
-  content?: string | null;
+  content?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateOneWithoutPostsInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserCreateOneWithoutPostsInput | null;
+  author?: UserCreateOneWithoutPostsInput | null | undefined;
 }

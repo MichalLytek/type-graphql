@@ -14,7 +14,7 @@ query GetAllUsersAndPosts {
 }
 
 query GetSelectedPost {
-  post(where: { id: "ck9465r6o0002n0tpdnuor7qj" }) {
+  post(where: { id: "ckb9gc3ds000284tpovtswl6w" }) {
     ...PostData
     author {
       ...UserData
@@ -25,7 +25,7 @@ query GetSelectedPost {
 query GetSomeUsers {
   users(where: { email: { contains: "prisma" } }, orderBy: { name: desc }) {
     ...UserData
-    posts(last: 1) {
+    posts(take: 1) {
       ...PostData
     }
   }
@@ -41,8 +41,8 @@ query CustomResolversQuery {
 }
 
 mutation UpdatePost {
-  updateOnePost(
-    where: { id: "ck9465r6o0002n0tpdnuor7qj" }
+  updatePost(
+    where: { id: "ckb9gc3ds000284tpovtswl6w" }
     data: { published: true }
   ) {
     ...PostData
@@ -50,13 +50,13 @@ mutation UpdatePost {
 }
 
 mutation AddUser {
-  createOneUser(data: { email: "test@test.test", name: "Test" }) {
+  createUser(data: { email: "test@test.test", name: "Test" }) {
     ...UserData
   }
 }
 
 mutation AddUserWithPost {
-  createOneUser(
+  createUser(
     data: {
       email: "test2@test.test"
       name: "Test2"

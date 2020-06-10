@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostUpdateManyMutationInput } from "../../../inputs/PostUpdateManyMutationInput";
 import { PostWhereInput } from "../../../inputs/PostWhereInput";
 
@@ -8,5 +9,5 @@ export class UpdateManyPostArgs {
   data!: PostUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
-  where?: PostWhereInput | null;
+  where?: PostWhereInput | null | undefined;
 }

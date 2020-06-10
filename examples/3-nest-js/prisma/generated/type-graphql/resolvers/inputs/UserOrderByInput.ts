@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { OrderByArg } from "../../enums/OrderByArg";
 
 @TypeGraphQL.InputType({
@@ -10,17 +11,17 @@ export class UserOrderByInput {
     nullable: true,
     description: undefined
   })
-  id?: keyof typeof OrderByArg | null;
+  id?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  email?: keyof typeof OrderByArg | null;
+  email?: keyof typeof OrderByArg | null | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  name?: keyof typeof OrderByArg | null;
+  name?: keyof typeof OrderByArg | null | undefined;
 }

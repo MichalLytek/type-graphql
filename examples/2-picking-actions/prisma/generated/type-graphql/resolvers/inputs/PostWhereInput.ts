@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { BooleanFilter } from "../inputs/BooleanFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
@@ -14,65 +15,65 @@ export class PostWhereInput {
     nullable: true,
     description: undefined
   })
-  id?: StringFilter | null;
+  id?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  createdAt?: DateTimeFilter | null;
+  createdAt?: DateTimeFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: DateTimeFilter | null;
+  updatedAt?: DateTimeFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  published?: BooleanFilter | null;
+  published?: BooleanFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null;
+  title?: StringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  content?: NullableStringFilter | null;
+  content?: NullableStringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  authorId?: NullableStringFilter | null;
+  authorId?: NullableStringFilter | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: PostWhereInput[] | null;
+  AND?: PostWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: PostWhereInput[] | null;
+  OR?: PostWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: PostWhereInput[] | null;
+  NOT?: PostWhereInput[] | null | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserWhereInput | null;
+  author?: UserWhereInput | null | undefined;
 }

@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostUpdateManyWithoutAuthorInput } from "../inputs/PostUpdateManyWithoutAuthorInput";
 
 @TypeGraphQL.InputType({
@@ -10,23 +11,23 @@ export class UserUpdateInput {
     nullable: true,
     description: undefined
   })
-  id?: string | null;
+  id?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  email?: string | null;
+  email?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  name?: string | null;
+  name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => PostUpdateManyWithoutAuthorInput, {
     nullable: true,
     description: undefined
   })
-  posts?: PostUpdateManyWithoutAuthorInput | null;
+  posts?: PostUpdateManyWithoutAuthorInput | null | undefined;
 }

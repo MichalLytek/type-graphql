@@ -4,11 +4,11 @@
 # -----------------------------------------------
 
 type AggregatePost {
-  count(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): Int!
+  count(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): Int!
 }
 
 type AggregateUser {
-  count(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): Int!
+  count(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): Int!
 }
 
 type BatchPayload {
@@ -37,18 +37,18 @@ input DateTimeFilter {
 }
 
 type Mutation {
-  createOnePost(data: PostCreateInput!): Post!
-  createOneUser(data: UserCreateInput!): User!
+  createPost(data: PostCreateInput!): Post!
+  createUser(data: UserCreateInput!): User!
   deleteManyPost(where: PostWhereInput): BatchPayload!
   deleteManyUser(where: UserWhereInput): BatchPayload!
-  deleteOnePost(where: PostWhereUniqueInput!): Post
-  deleteOneUser(where: UserWhereUniqueInput!): User
+  deletePost(where: PostWhereUniqueInput!): Post
+  deleteUser(where: UserWhereUniqueInput!): User
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertOnePost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
-  upsertOneUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertPost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
+  upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 input NullableStringFilter {
@@ -112,7 +112,6 @@ input PostFilter {
 }
 
 input PostOrderByInput {
-  author: OrderByArg
   authorId: OrderByArg
   content: OrderByArg
   createdAt: OrderByArg
@@ -223,9 +222,9 @@ type Query {
   aggregateUser: AggregateUser!
   bestUser: User
   post(where: PostWhereUniqueInput!): Post
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]!
+  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
-  users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 input StringFilter {
@@ -247,7 +246,7 @@ type User {
   favoritePost: Post
   id: String!
   name: String
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
 }
 
 input UserCreateInput {

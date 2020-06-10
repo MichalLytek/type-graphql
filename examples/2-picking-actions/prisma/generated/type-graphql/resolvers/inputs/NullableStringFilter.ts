@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -9,65 +10,65 @@ export class NullableStringFilter {
     nullable: true,
     description: undefined
   })
-  equals?: string | null;
+  equals?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  not?: string | null;
+  not?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  in?: string[] | null;
+  in?: string[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  notIn?: string[] | null;
+  notIn?: string[] | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lt?: string | null;
+  lt?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lte?: string | null;
+  lte?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gt?: string | null;
+  gt?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gte?: string | null;
+  gte?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  contains?: string | null;
+  contains?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  startsWith?: string | null;
+  startsWith?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  endsWith?: string | null;
+  endsWith?: string | null | undefined;
 }

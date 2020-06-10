@@ -1,12 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
-import { CreateOneUserArgs } from "./args/CreateOneUserArgs";
+import { CreateUserArgs } from "./args/CreateUserArgs";
 import { DeleteManyUserArgs } from "./args/DeleteManyUserArgs";
-import { DeleteOneUserArgs } from "./args/DeleteOneUserArgs";
+import { DeleteUserArgs } from "./args/DeleteUserArgs";
 import { FindManyUserArgs } from "./args/FindManyUserArgs";
 import { FindOneUserArgs } from "./args/FindOneUserArgs";
 import { UpdateManyUserArgs } from "./args/UpdateManyUserArgs";
-import { UpdateOneUserArgs } from "./args/UpdateOneUserArgs";
-import { UpsertOneUserArgs } from "./args/UpsertOneUserArgs";
+import { UpdateUserArgs } from "./args/UpdateUserArgs";
+import { UpsertUserArgs } from "./args/UpsertUserArgs";
 import { User } from "../../../models/User";
 import { AggregateUser } from "../../outputs/AggregateUser";
 import { BatchPayload } from "../../outputs/BatchPayload";
@@ -17,7 +17,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
+  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -33,7 +33,7 @@ export class UserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async createOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateOneUserArgs): Promise<User> {
+  async createUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CreateUserArgs): Promise<User> {
     return ctx.prisma.user.create(args);
   }
 
@@ -41,7 +41,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteOneUserArgs): Promise<User | null> {
+  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.delete(args);
   }
 
@@ -49,7 +49,7 @@ export class UserCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateOneUserArgs): Promise<User | null> {
+  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null | undefined> {
     return ctx.prisma.user.update(args);
   }
 
@@ -73,7 +73,7 @@ export class UserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async upsertOneUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertOneUserArgs): Promise<User> {
+  async upsertUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpsertUserArgs): Promise<User> {
     return ctx.prisma.user.upsert(args);
   }
 

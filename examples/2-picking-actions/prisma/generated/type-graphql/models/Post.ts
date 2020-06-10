@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { User } from "../models/User";
 
 @TypeGraphQL.ObjectType({
@@ -40,13 +41,13 @@ export class Post {
     nullable: true,
     description: undefined,
   })
-  content?: string | null;
+  content?: string | null | undefined;
 
-  author?: User | null;
+  author?: User | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined,
   })
-  authorId?: string | null;
+  authorId?: string | null | undefined;
 }

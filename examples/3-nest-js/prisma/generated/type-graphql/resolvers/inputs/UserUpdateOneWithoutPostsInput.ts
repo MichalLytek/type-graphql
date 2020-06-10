@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { UserCreateWithoutPostsInput } from "../inputs/UserCreateWithoutPostsInput";
 import { UserUpdateWithoutPostsDataInput } from "../inputs/UserUpdateWithoutPostsDataInput";
 import { UserUpsertWithoutPostsInput } from "../inputs/UserUpsertWithoutPostsInput";
@@ -13,35 +14,35 @@ export class UserUpdateOneWithoutPostsInput {
     nullable: true,
     description: undefined
   })
-  create?: UserCreateWithoutPostsInput | null;
+  create?: UserCreateWithoutPostsInput | null | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, {
     nullable: true,
     description: undefined
   })
-  connect?: UserWhereUniqueInput | null;
+  connect?: UserWhereUniqueInput | null | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  disconnect?: boolean | null;
+  disconnect?: boolean | null | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  delete?: boolean | null;
+  delete?: boolean | null | undefined;
 
   @TypeGraphQL.Field(_type => UserUpdateWithoutPostsDataInput, {
     nullable: true,
     description: undefined
   })
-  update?: UserUpdateWithoutPostsDataInput | null;
+  update?: UserUpdateWithoutPostsDataInput | null | undefined;
 
   @TypeGraphQL.Field(_type => UserUpsertWithoutPostsInput, {
     nullable: true,
     description: undefined
   })
-  upsert?: UserUpsertWithoutPostsInput | null;
+  upsert?: UserUpsertWithoutPostsInput | null | undefined;
 }

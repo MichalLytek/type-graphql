@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { PostCreateManyWithoutAuthorInput } from "../inputs/PostCreateManyWithoutAuthorInput";
 
 @TypeGraphQL.InputType({
@@ -10,7 +11,7 @@ export class UserCreateInput {
     nullable: true,
     description: undefined
   })
-  id?: string | null;
+  id?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false,
@@ -22,11 +23,11 @@ export class UserCreateInput {
     nullable: true,
     description: undefined
   })
-  name?: string | null;
+  name?: string | null | undefined;
 
   @TypeGraphQL.Field(_type => PostCreateManyWithoutAuthorInput, {
     nullable: true,
     description: undefined
   })
-  posts?: PostCreateManyWithoutAuthorInput | null;
+  posts?: PostCreateManyWithoutAuthorInput | null | undefined;
 }

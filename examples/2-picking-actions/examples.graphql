@@ -14,7 +14,7 @@ query GetAllUsersAndPosts {
 }
 
 query GetSelectedPost {
-  post(where: { id: "ck947ed8j0002gktpb4ch9bsb" }) {
+  post(where: { id: "ckb9g3im50002bdtpztdb1r0y" }) {
     ...PostData
     author {
       ...UserData
@@ -28,7 +28,7 @@ query GetSomeUsers {
     orderBy: { name: desc }
   ) {
     ...UserData
-    posts(last: 1) {
+    posts(take: 1) {
       ...PostData
     }
   }

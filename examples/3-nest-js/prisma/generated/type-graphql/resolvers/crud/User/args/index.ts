@@ -1,8 +1,8 @@
-export { CreateOneUserArgs } from "./CreateOneUserArgs";
+export { CreateUserArgs } from "./CreateUserArgs";
 export { DeleteManyUserArgs } from "./DeleteManyUserArgs";
-export { DeleteOneUserArgs } from "./DeleteOneUserArgs";
+export { DeleteUserArgs } from "./DeleteUserArgs";
 export { FindManyUserArgs } from "./FindManyUserArgs";
 export { FindOneUserArgs } from "./FindOneUserArgs";
 export { UpdateManyUserArgs } from "./UpdateManyUserArgs";
-export { UpdateOneUserArgs } from "./UpdateOneUserArgs";
-export { UpsertOneUserArgs } from "./UpsertOneUserArgs";
+export { UpdateUserArgs } from "./UpdateUserArgs";
+export { UpsertUserArgs } from "./UpsertUserArgs";

@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 import { UserUpdateManyMutationInput } from "../../../inputs/UserUpdateManyMutationInput";
 import { UserWhereInput } from "../../../inputs/UserWhereInput";
 
@@ -8,5 +9,5 @@ export class UpdateManyUserArgs {
   data!: UserUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | null;
+  where?: UserWhereInput | null | undefined;
 }

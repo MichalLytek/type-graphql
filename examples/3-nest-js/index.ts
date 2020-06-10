@@ -40,7 +40,7 @@ class CustomUserResolver {
   ): Promise<Post | undefined> {
     const [favoritePost] = await prisma.user
       .findOne({ where: { id: user.id } })
-      .posts({ first: 1 });
+      .posts({ take: 1 });
 
     return favoritePost;
   }

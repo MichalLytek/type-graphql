@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import GraphQLJSON from "graphql-type-json";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -9,47 +10,47 @@ export class DateTimeFilter {
     nullable: true,
     description: undefined
   })
-  equals?: Date | null;
+  equals?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  not?: Date | null;
+  not?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  in?: Date[] | null;
+  in?: Date[] | null | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  notIn?: Date[] | null;
+  notIn?: Date[] | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lt?: Date | null;
+  lt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lte?: Date | null;
+  lte?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gt?: Date | null;
+  gt?: Date | null | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gte?: Date | null;
+  gte?: Date | null | undefined;
 }
