@@ -12,18 +12,12 @@ export class FindManyPatientArgs {
   @TypeGraphQL.Field(_type => PatientOrderByInput, { nullable: true })
   orderBy?: PatientOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => PatientWhereUniqueInput, { nullable: true })
+  cursor?: PatientWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => PatientWhereUniqueInput, { nullable: true })
-  after?: PatientWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => PatientWhereUniqueInput, { nullable: true })
-  before?: PatientWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

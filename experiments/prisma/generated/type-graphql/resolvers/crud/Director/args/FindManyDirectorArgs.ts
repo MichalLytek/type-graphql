@@ -12,18 +12,12 @@ export class FindManyDirectorArgs {
   @TypeGraphQL.Field(_type => DirectorOrderByInput, { nullable: true })
   orderBy?: DirectorOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, { nullable: true })
+  cursor?: DirectorWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, { nullable: true })
-  after?: DirectorWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => DirectorWhereUniqueInput, { nullable: true })
-  before?: DirectorWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

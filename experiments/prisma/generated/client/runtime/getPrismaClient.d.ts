@@ -53,7 +53,7 @@ export declare type Hooks = {
         document: any;
     }) => any;
 };
-export declare type LogLevel = 'info' | 'query' | 'warn';
+export declare type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export declare type LogDefinition = {
     level: LogLevel;
     emit: 'stdout' | 'event';

@@ -7,6 +7,10 @@ import {
   PrismaClientRustPanicError,
   PrismaClientInitializationError,
   PrismaClientValidationError,
+  sqltag as sql,
+  empty,
+  join,
+  raw,
 } from './runtime';
 
 export { PrismaClientKnownRequestError }
@@ -16,8 +20,13 @@ export { PrismaClientInitializationError }
 export { PrismaClientValidationError }
 
 /**
- * Prisma Client JS version: 2.0.0-alpha.1236
- * Query Engine version: e8f07a3db3f81a7e84d36f1ce4c59d221dfb0705
+ * Re-export of sql-template-tag
+ */
+export { sql, empty, join, raw }
+
+/**
+ * Prisma Client JS version: 2.0.0
+ * Query Engine version: de2bc1cbdb5561ad73d2f08463fa2eec48993f56
  */
 export declare type PrismaVersion = {
   client: string
@@ -28,6 +37,25 @@ export declare const prismaVersion: PrismaVersion
 /**
  * Utility Types
  */
+
+/**
+ * From https://github.com/sindresorhus/type-fest/
+ * Matches a JSON object.
+ * This type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from. 
+ */
+declare type JsonObject = {[Key in string]?: JsonValue}
+ 
+/**
+ * From https://github.com/sindresorhus/type-fest/
+ * Matches a JSON array.
+ */
+declare interface JsonArray extends Array<JsonValue> {}
+ 
+/**
+ * From https://github.com/sindresorhus/type-fest/
+ * Matches any valid JSON value.
+ */
+declare type JsonValue = string | number | boolean | null | JsonObject | JsonArray
 
 declare type SelectAndInclude = {
   select: any
@@ -41,7 +69,6 @@ declare type HasSelect = {
 declare type HasInclude = {
   include: any
 }
-
 
 declare type CheckSelect<T, S, U> = T extends SelectAndInclude
   ? 'Please either choose `select` or `include`'
@@ -112,13 +139,14 @@ export interface PrismaClientOptions {
    * @example
    * ```
    * // Defaults to stdout
-   * log: ['query', 'info', 'warn']
+   * log: ['query', 'info', 'warn', 'error']
    * 
    * // Emit as events
    * log: [
    *  { emit: 'stdout', level: 'query' },
    *  { emit: 'stdout', level: 'info' },
    *  { emit: 'stdout', level: 'warn' }
+   *  { emit: 'stdout', level: 'error' }
    * ]
    * ```
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
@@ -144,14 +172,14 @@ export type Hooks = {
 }
 
 /* Types for Logging */
-export type LogLevel = 'info' | 'query' | 'warn'
+export type LogLevel = 'info' | 'query' | 'warn' | 'error'
 export type LogDefinition = {
   level: LogLevel
   emit: 'stdout' | 'event'
 }
 
 export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-export type GetEvents<T extends Array<LogLevel | LogDefinition>> = GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]>
+export type GetEvents<T extends Array<LogLevel | LogDefinition>> = GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]> 
 
 export type QueryEvent = {
   timestamp: Date
@@ -185,7 +213,10 @@ export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLe
  * 
  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
  */
-export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never> {
+export declare class PrismaClient<
+  T extends PrismaClientOptions = PrismaClientOptions,
+  U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never
+> {
   /**
    * @private
    */
@@ -234,7 +265,7 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
    */
   constructor(optionsArg?: T);
-  on<V extends U>(eventType: V, callback: V extends never ? never : (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
+  on<V extends U>(eventType: V, callback: (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
   /**
    * Connect with the database
    */
@@ -247,23 +278,34 @@ export declare class PrismaClient<T extends PrismaClientOptions = {}, U = keyof 
    * Disconnect from the database
    */
   disconnect(): Promise<any>;
+
   /**
-   * Makes a raw query
+   * Executes a raw query and returns the number of affected rows
    * @example
    * ```
-   * // Fetch all entries from the `User` table
-   * const result = await prisma.raw`SELECT * FROM User;`
+   * // With parameters use prisma.executeRaw``, values will be escaped automatically
+   * const result = await prisma.executeRaw`UPDATE User SET cool = ${true} WHERE id = ${1};`
    * // Or
-   * const result = await prisma.raw('SELECT * FROM User;')
-   * 
-   * // With parameters use prisma.raw``, values will be escaped automatically
-   * const userId = '1'
-   * const result = await prisma.raw`SELECT * FROM User WHERE id = ${userId};`
+   * const result = await prisma.executeRaw('UPDATE User SET cool = $1 WHERE id = $2 ;', true, 1)
   * ```
   * 
   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
-  raw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
+  executeRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<number>;
+
+  /**
+   * Performs a raw query and returns the SELECT data
+   * @example
+   * ```
+   * // With parameters use prisma.queryRaw``, values will be escaped automatically
+   * const result = await prisma.queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'ema.il'};`
+   * // Or
+   * const result = await prisma.queryRaw('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'ema.il')
+  * ```
+  * 
+  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
+  */
+  queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -437,7 +479,7 @@ export interface UserDelegate {
    * const users = await prisma.user.findMany()
    * 
    * // Get first 10 Users
-   * const users = await prisma.user.findMany({ first: 10 })
+   * const users = await prisma.user.findMany({ take: 10 })
    * 
    * // Only select the `id`
    * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
@@ -637,25 +679,17 @@ export type FindManyUserArgs = {
   **/
   orderBy?: UserOrderByInput
   /**
+   * Sets the position for listing Users.
+  **/
+  cursor?: UserWhereUniqueInput
+  /**
+   * The number of Users to fetch. If negative number, it will take Users before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Users.
   **/
   skip?: number
-  /**
-   * Get all Users that come after the User you provide with the current order.
-  **/
-  after?: UserWhereUniqueInput
-  /**
-   * Get all Users that come before the User you provide with the current order.
-  **/
-  before?: UserWhereUniqueInput
-  /**
-   * Get the first `n` Users.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Users.
-  **/
-  last?: number
 }
 
 
@@ -793,7 +827,7 @@ export type Post = {
   content: string | null
   authorId: number
   kind: PostKind | null
-  metadata: object
+  metadata: JsonValue
 }
 
 export type PostSelect = {
@@ -861,7 +895,7 @@ export interface PostDelegate {
    * const posts = await prisma.post.findMany()
    * 
    * // Get first 10 Posts
-   * const posts = await prisma.post.findMany({ first: 10 })
+   * const posts = await prisma.post.findMany({ take: 10 })
    * 
    * // Only select the `uuid`
    * const postWithUuidOnly = await prisma.post.findMany({ select: { uuid: true } })
@@ -1061,25 +1095,17 @@ export type FindManyPostArgs = {
   **/
   orderBy?: PostOrderByInput
   /**
+   * Sets the position for listing Posts.
+  **/
+  cursor?: PostWhereUniqueInput
+  /**
+   * The number of Posts to fetch. If negative number, it will take Posts before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Posts.
   **/
   skip?: number
-  /**
-   * Get all Posts that come after the Post you provide with the current order.
-  **/
-  after?: PostWhereUniqueInput
-  /**
-   * Get all Posts that come before the Post you provide with the current order.
-  **/
-  before?: PostWhereUniqueInput
-  /**
-   * Get the first `n` Posts.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Posts.
-  **/
-  last?: number
 }
 
 
@@ -1263,7 +1289,7 @@ export interface CategoryDelegate {
    * const categories = await prisma.category.findMany()
    * 
    * // Get first 10 Categories
-   * const categories = await prisma.category.findMany({ first: 10 })
+   * const categories = await prisma.category.findMany({ take: 10 })
    * 
    * // Only select the `name`
    * const categoryWithNameOnly = await prisma.category.findMany({ select: { name: true } })
@@ -1454,25 +1480,17 @@ export type FindManyCategoryArgs = {
   **/
   orderBy?: CategoryOrderByInput
   /**
+   * Sets the position for listing Categories.
+  **/
+  cursor?: CategoryWhereUniqueInput
+  /**
+   * The number of Categories to fetch. If negative number, it will take Categories before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Categories.
   **/
   skip?: number
-  /**
-   * Get all Categories that come after the Category you provide with the current order.
-  **/
-  after?: CategoryWhereUniqueInput
-  /**
-   * Get all Categories that come before the Category you provide with the current order.
-  **/
-  before?: CategoryWhereUniqueInput
-  /**
-   * Get the first `n` Categories.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Categories.
-  **/
-  last?: number
 }
 
 
@@ -1636,7 +1654,7 @@ export interface PatientDelegate {
    * const patients = await prisma.patient.findMany()
    * 
    * // Get first 10 Patients
-   * const patients = await prisma.patient.findMany({ first: 10 })
+   * const patients = await prisma.patient.findMany({ take: 10 })
    * 
    * // Only select the `firstName`
    * const patientWithFirstNameOnly = await prisma.patient.findMany({ select: { firstName: true } })
@@ -1827,25 +1845,17 @@ export type FindManyPatientArgs = {
   **/
   orderBy?: PatientOrderByInput
   /**
+   * Sets the position for listing Patients.
+  **/
+  cursor?: PatientWhereUniqueInput
+  /**
+   * The number of Patients to fetch. If negative number, it will take Patients before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Patients.
   **/
   skip?: number
-  /**
-   * Get all Patients that come after the Patient you provide with the current order.
-  **/
-  after?: PatientWhereUniqueInput
-  /**
-   * Get all Patients that come before the Patient you provide with the current order.
-  **/
-  before?: PatientWhereUniqueInput
-  /**
-   * Get the first `n` Patients.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Patients.
-  **/
-  last?: number
 }
 
 
@@ -2019,7 +2029,7 @@ export interface MovieDelegate {
    * const movies = await prisma.movie.findMany()
    * 
    * // Get first 10 Movies
-   * const movies = await prisma.movie.findMany({ first: 10 })
+   * const movies = await prisma.movie.findMany({ take: 10 })
    * 
    * // Only select the `directorFirstName`
    * const movieWithDirectorFirstNameOnly = await prisma.movie.findMany({ select: { directorFirstName: true } })
@@ -2219,25 +2229,17 @@ export type FindManyMovieArgs = {
   **/
   orderBy?: MovieOrderByInput
   /**
+   * Sets the position for listing Movies.
+  **/
+  cursor?: MovieWhereUniqueInput
+  /**
+   * The number of Movies to fetch. If negative number, it will take Movies before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Movies.
   **/
   skip?: number
-  /**
-   * Get all Movies that come after the Movie you provide with the current order.
-  **/
-  after?: MovieWhereUniqueInput
-  /**
-   * Get all Movies that come before the Movie you provide with the current order.
-  **/
-  before?: MovieWhereUniqueInput
-  /**
-   * Get the first `n` Movies.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Movies.
-  **/
-  last?: number
 }
 
 
@@ -2429,7 +2431,7 @@ export interface DirectorDelegate {
    * const directors = await prisma.director.findMany()
    * 
    * // Get first 10 Directors
-   * const directors = await prisma.director.findMany({ first: 10 })
+   * const directors = await prisma.director.findMany({ take: 10 })
    * 
    * // Only select the `firstName`
    * const directorWithFirstNameOnly = await prisma.director.findMany({ select: { firstName: true } })
@@ -2629,25 +2631,17 @@ export type FindManyDirectorArgs = {
   **/
   orderBy?: DirectorOrderByInput
   /**
+   * Sets the position for listing Directors.
+  **/
+  cursor?: DirectorWhereUniqueInput
+  /**
+   * The number of Directors to fetch. If negative number, it will take Directors before the `cursor`.
+  **/
+  take?: number
+  /**
    * Skip the first `n` Directors.
   **/
   skip?: number
-  /**
-   * Get all Directors that come after the Director you provide with the current order.
-  **/
-  after?: DirectorWhereUniqueInput
-  /**
-   * Get all Directors that come before the Director you provide with the current order.
-  **/
-  before?: DirectorWhereUniqueInput
-  /**
-   * Get the first `n` Directors.
-  **/
-  first?: number
-  /**
-   * Get the last `n` Directors.
-  **/
-  last?: number
 }
 
 
@@ -2786,9 +2780,9 @@ export type PostWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: object | JsonFilter
+  metadata?: JsonValue | JsonFilter
   AND?: Enumerable<PostWhereInput>
-  OR?: Enumerable<PostWhereInput>
+  OR?: Array<PostWhereInput>
   NOT?: Enumerable<PostWhereInput>
   author?: UserWhereInput | null
 }
@@ -2803,7 +2797,7 @@ export type UserWhereInput = {
   posts?: PostFilter | null
   role?: Role | RoleFilter
   AND?: Enumerable<UserWhereInput>
-  OR?: Enumerable<UserWhereInput>
+  OR?: Array<UserWhereInput>
   NOT?: Enumerable<UserWhereInput>
 }
 
@@ -2821,7 +2815,7 @@ export type CategoryWhereInput = {
   slug?: string | StringFilter
   number?: number | IntFilter
   AND?: Enumerable<CategoryWhereInput>
-  OR?: Enumerable<CategoryWhereInput>
+  OR?: Array<CategoryWhereInput>
   NOT?: Enumerable<CategoryWhereInput>
 }
 
@@ -2839,7 +2833,7 @@ export type PatientWhereInput = {
   lastName?: string | StringFilter
   email?: string | StringFilter
   AND?: Enumerable<PatientWhereInput>
-  OR?: Enumerable<PatientWhereInput>
+  OR?: Array<PatientWhereInput>
   NOT?: Enumerable<PatientWhereInput>
 }
 
@@ -2857,7 +2851,7 @@ export type DirectorWhereInput = {
   lastName?: string | StringFilter
   movies?: MovieFilter | null
   AND?: Enumerable<DirectorWhereInput>
-  OR?: Enumerable<DirectorWhereInput>
+  OR?: Array<DirectorWhereInput>
   NOT?: Enumerable<DirectorWhereInput>
 }
 
@@ -2866,7 +2860,7 @@ export type MovieWhereInput = {
   directorLastName?: string | StringFilter
   title?: string | StringFilter
   AND?: Enumerable<MovieWhereInput>
-  OR?: Enumerable<MovieWhereInput>
+  OR?: Array<MovieWhereInput>
   NOT?: Enumerable<MovieWhereInput>
   director?: DirectorWhereInput | null
 }
@@ -2893,7 +2887,7 @@ export type PostCreateWithoutAuthorInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
-  metadata: object
+  metadata: JsonValue
 }
 
 export type PostCreateManyWithoutAuthorInput = {
@@ -2919,7 +2913,7 @@ export type PostUpdateWithoutAuthorDataInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object
+  metadata?: JsonValue
 }
 
 export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
@@ -2936,9 +2930,9 @@ export type PostScalarWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: object | JsonFilter
+  metadata?: JsonValue | JsonFilter
   AND?: Enumerable<PostScalarWhereInput>
-  OR?: Enumerable<PostScalarWhereInput>
+  OR?: Array<PostScalarWhereInput>
   NOT?: Enumerable<PostScalarWhereInput>
 }
 
@@ -2950,7 +2944,7 @@ export type PostUpdateManyDataInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object
+  metadata?: JsonValue
 }
 
 export type PostUpdateManyWithWhereNestedInput = {
@@ -3019,7 +3013,7 @@ export type PostCreateInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
-  metadata: object
+  metadata: JsonValue
   author: UserCreateOneWithoutPostsInput
 }
 
@@ -3053,7 +3047,7 @@ export type PostUpdateInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object
+  metadata?: JsonValue
   author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -3065,7 +3059,7 @@ export type PostUpdateManyMutationInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: object
+  metadata?: JsonValue
 }
 
 export type CategoryCreateInput = {
@@ -3174,7 +3168,7 @@ export type MovieScalarWhereInput = {
   directorLastName?: string | StringFilter
   title?: string | StringFilter
   AND?: Enumerable<MovieScalarWhereInput>
-  OR?: Enumerable<MovieScalarWhereInput>
+  OR?: Array<MovieScalarWhereInput>
   NOT?: Enumerable<MovieScalarWhereInput>
 }
 

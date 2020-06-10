@@ -33,7 +33,7 @@ describe("generator integration", () => {
       }
 
       generator typegraphql {
-        provider = "../../../src/cli/dev.ts"
+        provider = "node ../../../src/cli/dev.ts"
         output   = "./generated/type-graphql"
       }
 

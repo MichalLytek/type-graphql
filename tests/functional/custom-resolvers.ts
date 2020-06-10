@@ -43,7 +43,7 @@ describe("custom resolvers execution", () => {
     const document = /* graphql */ `
       query {
         customFindManyPost(
-          first: 1
+          take: 1
           skip: 1
           where: {
             content: { startsWith: "Test" }

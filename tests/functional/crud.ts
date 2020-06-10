@@ -64,8 +64,8 @@ describe("crud resolvers execution", () => {
     const document = /* graphql */ `
       query {
         users(
-          first: 0
-          skip: 0
+          take: 1
+          skip: 1
           orderBy: { intIdField: desc }
           where: { dateField: { lte: "2019-12-31T19:16:02.572Z" } }
         ) {
@@ -315,8 +315,8 @@ describe("crud resolvers execution", () => {
       query {
         aggregateUser {
           count(
-            first: 0
-            skip: 0
+            take: 1
+            skip: 1
             orderBy: { intIdField: desc }
             where: { dateField: { lte: "2019-12-31T19:16:02.572Z" } }
           )

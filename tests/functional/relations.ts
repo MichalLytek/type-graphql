@@ -132,7 +132,7 @@ describe("relations resolvers execution", () => {
         query {
           users {
             name
-            posts(skip: 1, first: 1, where: {
+            posts(skip: 1, take: 1, where: {
               content: {
                 startsWith: "test"
               }

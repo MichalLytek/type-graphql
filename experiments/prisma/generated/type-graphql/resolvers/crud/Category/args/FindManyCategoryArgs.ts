@@ -12,18 +12,12 @@ export class FindManyCategoryArgs {
   @TypeGraphQL.Field(_type => CategoryOrderByInput, { nullable: true })
   orderBy?: CategoryOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => CategoryWhereUniqueInput, { nullable: true })
+  cursor?: CategoryWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => CategoryWhereUniqueInput, { nullable: true })
-  after?: CategoryWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => CategoryWhereUniqueInput, { nullable: true })
-  before?: CategoryWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

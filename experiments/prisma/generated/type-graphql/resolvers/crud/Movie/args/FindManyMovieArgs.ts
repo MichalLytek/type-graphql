@@ -12,18 +12,12 @@ export class FindManyMovieArgs {
   @TypeGraphQL.Field(_type => MovieOrderByInput, { nullable: true })
   orderBy?: MovieOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
+  cursor?: MovieWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
-  after?: MovieWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
-  before?: MovieWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

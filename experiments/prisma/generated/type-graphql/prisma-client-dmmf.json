@@ -7,7 +7,8 @@
           "USER",
           "ADMIN"
         ],
-        "dbName": null
+        "dbName": null,
+        "documentation": "Role enum doc"
       },
       {
         "name": "PostKind",
@@ -33,6 +34,7 @@
             "isId": true,
             "isReadOnly": false,
             "type": "Int",
+            "hasDefaultValue": true,
             "default": {
               "name": "autoincrement",
               "args": []
@@ -50,6 +52,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -62,6 +65,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false,
             "documentation": "renamed field doc\\n@TypeGraphQL.field(\"firstName\")"
@@ -75,6 +79,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Int",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -87,6 +92,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Float",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false,
             "documentation": "@TypeGraphQL.field(\"accountBalance\")"
@@ -100,6 +106,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Float",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -112,6 +119,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Post",
+            "hasDefaultValue": false,
             "relationName": "PostToUser",
             "relationFromFields": [],
             "relationToFields": [],
@@ -129,6 +137,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Role",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           }
@@ -136,7 +145,8 @@
         "isGenerated": false,
         "documentation": "User model doc\\n@@TypeGraphQL.type(\"Client\")",
         "idFields": [],
-        "uniqueFields": []
+        "uniqueFields": [],
+        "uniqueIndexes": []
       },
       {
         "name": "Post",
@@ -152,6 +162,7 @@
             "isId": true,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": true,
             "default": {
               "name": "uuid",
               "args": []
@@ -168,6 +179,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "DateTime",
+            "hasDefaultValue": true,
             "default": {
               "name": "now",
               "args": []
@@ -184,6 +196,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "DateTime",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": true
           },
@@ -196,6 +209,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Boolean",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -208,6 +222,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -220,6 +235,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -232,6 +248,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "User",
+            "hasDefaultValue": false,
             "relationName": "PostToUser",
             "relationFromFields": [
               "authorId"
@@ -252,6 +269,7 @@
             "isId": false,
             "isReadOnly": true,
             "type": "Int",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -264,6 +282,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "PostKind",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -276,13 +295,15 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Json",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           }
         ],
         "isGenerated": false,
         "idFields": [],
-        "uniqueFields": []
+        "uniqueFields": [],
+        "uniqueIndexes": []
       },
       {
         "name": "Category",
@@ -298,6 +319,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -310,6 +332,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -322,6 +345,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Int",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           }
@@ -333,6 +357,15 @@
             "slug",
             "number"
           ]
+        ],
+        "uniqueIndexes": [
+          {
+            "name": null,
+            "fields": [
+              "slug",
+              "number"
+            ]
+          }
         ]
       },
       {
@@ -349,6 +382,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -361,6 +395,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -373,6 +408,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           }
@@ -382,7 +418,8 @@
           "firstName",
           "lastName"
         ],
-        "uniqueFields": []
+        "uniqueFields": [],
+        "uniqueIndexes": []
       },
       {
         "name": "Movie",
@@ -398,6 +435,7 @@
             "isId": false,
             "isReadOnly": true,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -410,6 +448,7 @@
             "isId": false,
             "isReadOnly": true,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -422,6 +461,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Director",
+            "hasDefaultValue": false,
             "relationName": "DirectorToMovie",
             "relationFromFields": [
               "directorFirstName",
@@ -444,6 +484,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           }
@@ -454,7 +495,8 @@
           "directorLastName",
           "title"
         ],
-        "uniqueFields": []
+        "uniqueFields": [],
+        "uniqueIndexes": []
       },
       {
         "name": "Director",
@@ -470,6 +512,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -482,6 +525,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "String",
+            "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
           },
@@ -494,6 +538,7 @@
             "isId": false,
             "isReadOnly": false,
             "type": "Movie",
+            "hasDefaultValue": false,
             "relationName": "DirectorToMovie",
             "relationFromFields": [],
             "relationToFields": [],
@@ -507,7 +552,8 @@
           "firstName",
           "lastName"
         ],
-        "uniqueFields": []
+        "uniqueFields": [],
+        "uniqueIndexes": []
       }
     ]
   },
@@ -828,55 +874,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PostWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -940,55 +962,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "UserWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "UserWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "UserWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1041,55 +1039,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PostWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1180,55 +1154,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CategoryWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1319,55 +1269,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PatientWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "PatientWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "PatientWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1442,55 +1368,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1592,55 +1494,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1693,55 +1571,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1794,55 +1648,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "UserWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "UserWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "UserWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -1925,55 +1755,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PostWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "PostWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -2056,55 +1862,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CategoryWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -2187,55 +1969,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PatientWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "PatientWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "PatientWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -2318,55 +2076,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -2449,55 +2183,31 @@
                 ]
               },
               {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
                 "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "after",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "before",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "first",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "last",
                 "inputType": [
                   {
                     "type": "Int",
@@ -3727,6 +3437,42 @@
           },
           {
             "name": "executeRaw",
+            "args": [
+              {
+                "name": "query",
+                "inputType": [
+                  {
+                    "type": "String",
+                    "kind": "scalar",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "parameters",
+                "inputType": [
+                  {
+                    "type": "Json",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "queryRaw",
             "args": [
               {
                 "name": "query",

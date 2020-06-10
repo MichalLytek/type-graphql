@@ -12,18 +12,12 @@ export class AggregateClientCountArgs {
   @TypeGraphQL.Field(_type => ClientOrderByInput, { nullable: true })
   orderBy?: ClientOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
+  cursor?: ClientWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
-  after?: ClientWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
-  before?: ClientWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

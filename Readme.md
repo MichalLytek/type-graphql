@@ -12,14 +12,16 @@ Fist of all, you have to install the generator, as a dev dependency:
 npm i -D typegraphql-prisma
 ```
 
-`typegraphql-prisma` is designed to work only with selected version of `prisma`, so please install this version if you don't have it already installed:
+Futhermore, `typegraphql-prisma` to work properly requires `prisma` to be, so please install prisma dependencies if you don't have it already installed:
 
 ```sh
-npm i -D @prisma/cli@2.0.0-alpha.1236
-npm i @prisma/client@2.0.0-alpha.1236
+npm i -D @prisma/cli
+npm i @prisma/client
 ```
 
-To support Prisma `Json` scalar, you also need to install the GraphQL JSON scalar:
+> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version at least `2.0.0`!
+
+You also need to install the GraphQL JSON scalar library (to support the Prisma `Json` scalar):
 
 ```sh
 npm i graphql-type-json
@@ -37,7 +39,7 @@ generator client {
 }
 
 generator typegraphql {
-  provider = "node_modules/typegraphql-prisma/generator.js"
+  provider = "node node_modules/typegraphql-prisma/generator.js"
 }
 ```
 
@@ -45,7 +47,7 @@ Then after running `npx prisma generate`, this will emit the generated TypeGraph
 
 ```prisma
 generator typegraphql {
-  provider = "node_modules/typegraphql-prisma/generator.js"
+  provider = "node node_modules/typegraphql-prisma/generator.js"
   output   = "../prisma/generated/type-graphql"
 }
 ```

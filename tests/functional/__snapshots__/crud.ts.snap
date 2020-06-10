@@ -4,11 +4,11 @@ exports[`crud resolvers execution should properly call PrismaClient on \`aggrega
 Array [
   Array [
     AggregateUserCountArgs {
-      "first": 0,
       "orderBy": UserOrderByInput {
         "intIdField": "desc",
       },
-      "skip": 0,
+      "skip": 1,
+      "take": 1,
       "where": UserWhereInput {
         "dateField": DateTimeFilter {
           "lte": 2019-12-31T19:16:02.572Z,
@@ -97,11 +97,11 @@ exports[`crud resolvers execution should properly call PrismaClient on \`findMan
 Array [
   Array [
     FindManyUserArgs {
-      "first": 0,
       "orderBy": UserOrderByInput {
         "intIdField": "desc",
       },
-      "skip": 0,
+      "skip": 1,
+      "take": 1,
       "where": UserWhereInput {
         "dateField": DateTimeFilter {
           "lte": 2019-12-31T19:16:02.572Z,

@@ -57,7 +57,7 @@ enum OrderByArg {
 }
 
 type Query {
-  users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User!]!
+  users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 input StringFilter {

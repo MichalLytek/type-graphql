@@ -36,20 +36,14 @@ export class AggregateExampleCountArgs {
   @TypeGraphQL.Field(_type => ExampleOrderByInput, { nullable: true })
   orderBy?: ExampleOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => ExampleWhereUniqueInput, { nullable: true })
+  cursor?: ExampleWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => ExampleWhereUniqueInput, { nullable: true })
-  after?: ExampleWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => ExampleWhereUniqueInput, { nullable: true })
-  before?: ExampleWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }
 "
 `;
@@ -81,20 +75,14 @@ export class AggregateSampleCountArgs {
   @TypeGraphQL.Field(_type => SampleOrderByInput, { nullable: true })
   orderBy?: SampleOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => SampleWhereUniqueInput, { nullable: true })
+  cursor?: SampleWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => SampleWhereUniqueInput, { nullable: true })
-  after?: SampleWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => SampleWhereUniqueInput, { nullable: true })
-  before?: SampleWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }
 "
 `;

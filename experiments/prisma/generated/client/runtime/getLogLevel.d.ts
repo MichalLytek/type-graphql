@@ -1,4 +1,4 @@
-declare type LogLevel = 'info' | 'query' | 'warn';
+declare type LogLevel = 'info' | 'query' | 'warn' | 'error';
 declare type LogDefinition = {
     level: LogLevel;
     emit: 'stdout' | 'event';

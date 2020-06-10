@@ -12,18 +12,12 @@ export class ClientPostsArgs {
   @TypeGraphQL.Field(_type => PostOrderByInput, { nullable: true })
   orderBy?: PostOrderByInput | null | undefined;
 
+  @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
+  cursor?: PostWhereUniqueInput | null | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | null | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
-  after?: PostWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
-  before?: PostWhereUniqueInput | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  first?: number | null | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  last?: number | null | undefined;
 }

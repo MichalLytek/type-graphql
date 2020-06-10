@@ -14,14 +14,19 @@ export declare namespace DMMF {
     models: Model[];
     enums: Enum[];
   }
+  interface UniqueIndex {
+    name: string;
+    fields: string[];
+  }
   interface Model {
     name: string;
     isEmbedded: boolean;
     dbName: string | null;
     fields: Field[];
+    uniqueFields: string[][];
+    uniqueIndexes: UniqueIndex[];
     documentation?: string;
     idFields: string[];
-    uniqueFields: string[][];
     // [key: string]: any;
     // additional props
     typeName: string;
@@ -37,18 +42,18 @@ export declare namespace DMMF {
     type: string;
     dbNames: string[] | null;
     isGenerated: boolean;
+    hasDefaultValue: boolean;
+    default?: FieldDefault | string | boolean | number;
     relationToFields?: any[];
     relationOnDelete?: string;
     relationName?: string;
     documentation?: string;
-    default?: FieldDefault | string | boolean;
     // [key: string]: any;
     // additional props
     typeFieldAlias?: string;
   }
   interface FieldDefault {
     name: string;
-    returnType: string;
     args: any[];
   }
   interface Schema {
@@ -74,18 +79,19 @@ export declare namespace DMMF {
     isNullable: boolean;
     isList: boolean;
     // type: ArgType;
-    argType: ArgType;
     kind: FieldKind;
     // additional props
+    argType: ArgType;
     type: string;
   }
   interface SchemaArg {
     name: string;
     // inputType: SchemaArgInputType[];
-    selectedInputType: SchemaArgInputType;
     isRelationFilter?: boolean;
     nullEqualsUndefined?: boolean;
     comment?: string;
+    // additional props
+    selectedInputType: SchemaArgInputType;
   }
   interface OutputType {
     name: string;
@@ -95,6 +101,7 @@ export declare namespace DMMF {
   interface SchemaField {
     name: string;
     outputType: {
+      // type: string | OutputType | Enum;
       type: string;
       isList: boolean;
       isRequired: boolean;
@@ -144,6 +151,7 @@ export declare namespace DMMF {
     upsert = "upsert",
     delete = "delete",
     deleteMany = "deleteMany",
+    // additional props
     aggregate = "aggregate",
   }
 }

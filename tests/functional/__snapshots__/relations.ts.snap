@@ -52,8 +52,8 @@ exports[`relations resolvers execution single primary key should properly call P
 Array [
   Array [
     UserPostsArgs {
-      "first": 1,
       "skip": 1,
+      "take": 1,
       "where": PostWhereInput {
         "content": StringFilter {
           "startsWith": "test",
