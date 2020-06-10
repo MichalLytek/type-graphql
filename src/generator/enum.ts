@@ -5,6 +5,7 @@ import { generateTypeGraphQLImport } from "./imports";
 import { enumsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
 import { DMMF } from "./dmmf/types";
+import { cleanDocsString } from "./helpers";
 
 export default async function generateEnumFromDef(
   project: Project,
@@ -18,10 +19,7 @@ export default async function generateEnumFromDef(
   });
   generateTypeGraphQLImport(sourceFile);
 
-  // FIXME: remove when issue fixed: https://github.com/prisma/prisma2/issues/1987
-  const documentation = undefined as string | undefined;
-  // const documentation =
-  //   enumDef.documentation && enumDef.documentation.split("\\r")[0].slice(2);
+  const documentation = cleanDocsString(enumDef.documentation);
   sourceFile.addEnum({
     isExported: true,
     name: enumDef.name,

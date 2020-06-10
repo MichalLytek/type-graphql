@@ -17,6 +17,7 @@ generator typegraphql {
   emitDMMF = true
 }
 
+// Role enum comment
 /// Role enum doc
 enum Role {
   USER
