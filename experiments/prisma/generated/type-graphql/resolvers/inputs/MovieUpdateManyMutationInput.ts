@@ -10,5 +10,5 @@ export class MovieUpdateManyMutationInput {
     nullable: true,
     description: undefined
   })
-  title?: string | null | undefined;
+  title?: string | undefined;
 }

@@ -93,12 +93,12 @@ type Client {
 }
 
 input ClientCreateInput {
+  accountBalance: Float!
   age: Int!
   amount: Float!
-  balance: Float!
+  clientPosts: PostCreateManyWithoutAuthorInput
   email: String!
-  name: String
-  posts: PostCreateManyWithoutAuthorInput
+  firstName: String
   role: Role!
 }
 
@@ -108,56 +108,56 @@ input ClientCreateOneWithoutPostsInput {
 }
 
 input ClientCreateWithoutPostsInput {
+  accountBalance: Float!
   age: Int!
   amount: Float!
-  balance: Float!
   email: String!
-  name: String
+  firstName: String
   role: Role!
 }
 
 input ClientOrderByInput {
+  accountBalance: OrderByArg
   age: OrderByArg
   amount: OrderByArg
-  balance: OrderByArg
   email: OrderByArg
+  firstName: OrderByArg
   id: OrderByArg
-  name: OrderByArg
   role: OrderByArg
 }
 
 input ClientUpdateInput {
+  accountBalance: Float
   age: Int
   amount: Float
-  balance: Float
+  clientPosts: PostUpdateManyWithoutAuthorInput
   email: String
+  firstName: String
   id: Int
-  name: String
-  posts: PostUpdateManyWithoutAuthorInput
   role: Role
 }
 
 input ClientUpdateManyMutationInput {
+  accountBalance: Float
   age: Int
   amount: Float
-  balance: Float
   email: String
+  firstName: String
   id: Int
-  name: String
   role: Role
 }
 
 input ClientWhereInput {
+  accountBalance: FloatFilter
   age: IntFilter
   amount: FloatFilter
   AND: [ClientWhereInput!]
-  balance: FloatFilter
+  clientPosts: PostFilter
   email: StringFilter
+  firstName: NullableStringFilter
   id: IntFilter
-  name: NullableStringFilter
   NOT: [ClientWhereInput!]
   OR: [ClientWhereInput!]
-  posts: PostFilter
   role: RoleFilter
 }
 
@@ -663,6 +663,7 @@ type Query {
   category(where: CategoryWhereUniqueInput!): Category
   client(where: ClientWhereUniqueInput!): Client
   clients(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
+  customFindClients(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
   directors(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
   movie(where: MovieWhereUniqueInput!): Movie

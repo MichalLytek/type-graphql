@@ -10,11 +10,11 @@ export class BooleanFilter {
     nullable: true,
     description: undefined
   })
-  equals?: boolean | null | undefined;
+  equals?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  not?: boolean | null | undefined;
+  not?: boolean | undefined;
 }

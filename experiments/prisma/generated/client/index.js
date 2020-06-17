@@ -112,8 +112,8 @@ const config = {
       "name": "db",
       "connectorType": "postgresql",
       "url": {
-        "fromEnvVar": null,
-        "value": "postgresql://"
+        "fromEnvVar": "DATABASE_URL",
+        "value": "postgresql://postgres:qwerty@localhost:5434/typegraphql-prisma-experiments"
       }
     }
   ],

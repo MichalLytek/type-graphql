@@ -12,11 +12,11 @@ export class PostCreateManyWithoutAuthorInput {
     nullable: true,
     description: undefined
   })
-  create?: PostCreateWithoutAuthorInput[] | null | undefined;
+  create?: PostCreateWithoutAuthorInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  connect?: PostWhereUniqueInput[] | null | undefined;
+  connect?: PostWhereUniqueInput[] | undefined;
 }

@@ -11,23 +11,23 @@ export class NullablePostKindFilter {
     nullable: true,
     description: undefined
   })
-  equals?: keyof typeof PostKind | null | undefined;
+  equals?: keyof typeof PostKind | undefined;
 
   @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
-  not?: keyof typeof PostKind | null | undefined;
+  not?: keyof typeof PostKind | undefined;
 
   @TypeGraphQL.Field(_type => [PostKind], {
     nullable: true,
     description: undefined
   })
-  in?: Array<keyof typeof PostKind> | null | undefined;
+  in?: Array<keyof typeof PostKind> | undefined;
 
   @TypeGraphQL.Field(_type => [PostKind], {
     nullable: true,
     description: undefined
   })
-  notIn?: Array<keyof typeof PostKind> | null | undefined;
+  notIn?: Array<keyof typeof PostKind> | undefined;
 }

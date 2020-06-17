@@ -193,16 +193,16 @@ describe("inputs", () => {
         director          Director @relation(fields: [directorFirstName, directorLastName], references: [firstName, lastName])
         title             String
         rating            Float
-      
+
         @@id([directorFirstName, directorLastName, title])
       }
-      
+
       model Director {
         firstName String
         lastName  String
         age       Int
         movies    Movie[]
-      
+
         @@id([firstName, lastName])
       }
     `;
@@ -239,16 +239,16 @@ describe("inputs", () => {
         director          Director @relation(fields: [directorFirstName, directorLastName], references: [firstName, lastName])
         title             String
         rating            Float
-      
+
         @@id([directorFirstName, directorLastName, title])
       }
-      
+
       model Director {
         firstName String
         lastName  String
         age       Int
         movies    Movie[]
-      
+
         @@id([firstName, lastName])
       }
     `;
@@ -320,5 +320,26 @@ describe("inputs", () => {
       "ExampleWhereUniqueInput",
     );
     expect(exampleOrderByInputTSFile).toMatchSnapshot("ExampleOrderByInput");
+  });
+
+  it("should properly generate input type classes when model field is renamed", async () => {
+    const schema = /* prisma */ `
+      model Sample {
+        idField         Int     @id @default(autoincrement())
+        /// @TypeGraphQL.field("mappedFieldName")
+        modelFieldName  String
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const sampleWhereInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/SampleWhereInput.ts",
+    );
+    const sampleOrderByInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/SampleOrderByInput.ts",
+    );
+
+    expect(sampleWhereInputTSFile).toMatchSnapshot("SampleWhereInput");
+    expect(sampleOrderByInputTSFile).toMatchSnapshot("SampleOrderByInput");
   });
 });

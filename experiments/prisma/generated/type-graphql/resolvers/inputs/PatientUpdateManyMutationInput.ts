@@ -10,17 +10,17 @@ export class PatientUpdateManyMutationInput {
     nullable: true,
     description: undefined
   })
-  firstName?: string | null | undefined;
+  firstName?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lastName?: string | null | undefined;
+  lastName?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  email?: string | null | undefined;
+  email?: string | undefined;
 }

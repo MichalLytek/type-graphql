@@ -268,10 +268,18 @@ type User {
 }
 ```
 
-All generated CRUD and relations resolvers fully support this feature and map the original prisma property to the changed field exposed in schema under the hood.
+All generated CRUD and relations resolvers fully support this feature and they map under the hood the original prisma property to the renamed field exposed in schema.
 
-However, at least for now, this feature changes the name only for model's `@ObjectType`, so all resolvers args and input types still reference the original fields names.
-This behavior is a subject to change in the near future.
+The same goes to the resolvers input types - they will also be emitted with changed field name, e.g.:
+
+```graphql
+input UserCreateInput {
+  emailAddress: String!
+  posts: PostCreateManyWithoutAuthorInput
+}
+```
+
+The emitted input type classes automatically map the provided renamed field values from GraphQL query into proper Prisma input properties out of the box.
 
 ## Examples
 

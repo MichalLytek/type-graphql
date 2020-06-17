@@ -7,17 +7,17 @@ import { PostWhereUniqueInput } from "../../inputs/PostWhereUniqueInput";
 @TypeGraphQL.ArgsType()
 export class AggregatePostCountArgs {
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
-  where?: PostWhereInput | null | undefined;
+  where?: PostWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => PostOrderByInput, { nullable: true })
-  orderBy?: PostOrderByInput | null | undefined;
+  orderBy?: PostOrderByInput | undefined;
 
   @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
-  cursor?: PostWhereUniqueInput | null | undefined;
+  cursor?: PostWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | null | undefined;
+  take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null | undefined;
+  skip?: number | undefined;
 }

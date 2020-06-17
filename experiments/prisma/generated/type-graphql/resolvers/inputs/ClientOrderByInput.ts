@@ -11,41 +11,57 @@ export class ClientOrderByInput {
     nullable: true,
     description: undefined
   })
-  id?: keyof typeof OrderByArg | null | undefined;
+  id?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  email?: keyof typeof OrderByArg | null | undefined;
+  email?: keyof typeof OrderByArg | undefined;
+
+  name?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  name?: keyof typeof OrderByArg | null | undefined;
+  age?: keyof typeof OrderByArg | undefined;
+
+  balance?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  age?: keyof typeof OrderByArg | null | undefined;
+  amount?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  balance?: keyof typeof OrderByArg | null | undefined;
+  role?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  amount?: keyof typeof OrderByArg | null | undefined;
+  get firstName() {
+    return this.name;
+  }
+
+  set firstName(name: keyof typeof OrderByArg | undefined) {
+    this.name = name;
+  }
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  role?: keyof typeof OrderByArg | null | undefined;
+  get accountBalance() {
+    return this.balance;
+  }
+
+  set accountBalance(balance: keyof typeof OrderByArg | undefined) {
+    this.balance = balance;
+  }
 }

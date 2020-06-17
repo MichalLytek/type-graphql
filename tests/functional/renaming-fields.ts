@@ -56,4 +56,43 @@ describe("crud resolvers execution", () => {
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("user mocked response");
   });
+
+  it("should properly map aliased input field values to prisma input values", async () => {
+    const prismaSchema = /* prisma */ `
+      model User {
+        id           Int       @id @default(autoincrement())
+        dateOfBirth  DateTime
+        /// @TypeGraphQL.field("firstName")
+        name         String
+      }
+    `;
+    await generateCodeFromSchema(prismaSchema, { outputDirPath });
+    const { UserCrudResolver } = require(outputDirPath +
+      "/resolvers/crud/User/UserCrudResolver.ts");
+    const graphQLSchema = await buildSchema({
+      resolvers: [UserCrudResolver],
+      validate: false,
+    });
+    const document = /* graphql */ `
+      query {
+        users(where: { firstName: { equals: "John" }}) {
+          id
+        }
+      }
+    `;
+    const prismaMock = {
+      user: {
+        findMany: jest.fn().mockResolvedValue([{ id: 1 }]),
+      },
+    };
+
+    const { errors } = await graphql(graphQLSchema, document, null, {
+      prisma: prismaMock,
+    });
+
+    expect(errors).toBeUndefined();
+    expect(prismaMock.user.findMany.mock.calls).toMatchSnapshot(
+      "findManyUser call args",
+    );
+  });
 });

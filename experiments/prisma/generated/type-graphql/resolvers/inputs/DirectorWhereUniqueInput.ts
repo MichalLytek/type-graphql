@@ -11,5 +11,5 @@ export class DirectorWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null | undefined;
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | undefined;
 }

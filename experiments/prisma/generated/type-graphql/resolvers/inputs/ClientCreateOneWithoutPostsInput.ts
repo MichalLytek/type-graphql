@@ -12,11 +12,11 @@ export class ClientCreateOneWithoutPostsInput {
     nullable: true,
     description: undefined
   })
-  create?: ClientCreateWithoutPostsInput | null | undefined;
+  create?: ClientCreateWithoutPostsInput | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, {
     nullable: true,
     description: undefined
   })
-  connect?: ClientWhereUniqueInput | null | undefined;
+  connect?: ClientWhereUniqueInput | undefined;
 }

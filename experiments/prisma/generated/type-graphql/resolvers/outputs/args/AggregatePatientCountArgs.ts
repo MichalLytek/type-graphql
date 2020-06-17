@@ -7,17 +7,17 @@ import { PatientWhereUniqueInput } from "../../inputs/PatientWhereUniqueInput";
 @TypeGraphQL.ArgsType()
 export class AggregatePatientCountArgs {
   @TypeGraphQL.Field(_type => PatientWhereInput, { nullable: true })
-  where?: PatientWhereInput | null | undefined;
+  where?: PatientWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => PatientOrderByInput, { nullable: true })
-  orderBy?: PatientOrderByInput | null | undefined;
+  orderBy?: PatientOrderByInput | undefined;
 
   @TypeGraphQL.Field(_type => PatientWhereUniqueInput, { nullable: true })
-  cursor?: PatientWhereUniqueInput | null | undefined;
+  cursor?: PatientWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | null | undefined;
+  take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null | undefined;
+  skip?: number | undefined;
 }

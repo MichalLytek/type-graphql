@@ -1,7 +1,4 @@
-import pluralize from "pluralize";
-
 import { DMMFTypeInfo } from "./types";
-import { ModelKeys } from "./config";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import { modelAttributeRegex, fieldAttributeRegex } from "./dmmf/helpers";
 
@@ -38,7 +35,9 @@ export function getFieldTSType(
     }
   }
   if (!typeInfo.isRequired) {
-    TSType += " | null | undefined";
+    // FIXME: use properly null for output and undefined for input
+    // TSType += " | null | undefined";
+    TSType += " | undefined";
   }
   return TSType;
 }
@@ -131,10 +130,7 @@ export function pascalCase(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-export function getInputTypeName(
-  originalInputName: string,
-  dmmfDocument: DmmfDocument,
-): string {
+function getInputKeywordPhrasePosition(inputTypeName: string) {
   const inputParseResult = [
     "Create",
     "OrderBy",
@@ -144,20 +140,44 @@ export function getInputTypeName(
     "Where",
     "Filter",
   ]
-    .map(inputKeyword => originalInputName.search(inputKeyword))
+    .map(inputKeyword => inputTypeName.search(inputKeyword))
     .filter(position => position >= 0);
 
   if (inputParseResult.length === 0) {
-    return originalInputName;
+    return;
   }
 
   const keywordPhrasePosition = inputParseResult[0];
+  return keywordPhrasePosition;
+}
+
+export function getModelNameFromInputType(inputTypeName: string) {
+  const keywordPhrasePosition = getInputKeywordPhrasePosition(inputTypeName);
+  if (!keywordPhrasePosition) {
+    return;
+  }
+  const modelName = inputTypeName.slice(0, keywordPhrasePosition);
+  return modelName;
+}
+
+export function getInputTypeName(
+  originalInputName: string,
+  dmmfDocument: DmmfDocument,
+): string {
+  const keywordPhrasePosition = getInputKeywordPhrasePosition(
+    originalInputName,
+  );
+  if (!keywordPhrasePosition) {
+    return originalInputName;
+  }
+
   const modelName = originalInputName.slice(0, keywordPhrasePosition);
   const typeNameRest = originalInputName.slice(keywordPhrasePosition);
   const modelTypeName = dmmfDocument.getModelTypeName(modelName);
   if (!modelTypeName) {
     return originalInputName;
   }
+
   return `${modelTypeName}${typeNameRest}`;
 }
 

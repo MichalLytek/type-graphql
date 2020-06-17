@@ -23,7 +23,7 @@ export class Client {
   email!: string;
 
   /** renamed field doc */
-  name?: string | null | undefined;
+  name?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -39,7 +39,7 @@ export class Client {
   })
   amount!: number;
 
-  posts?: Post[] | null | undefined;
+  posts?: Post[] | undefined;
 
   @TypeGraphQL.Field(_type => Role, {
     nullable: false,
@@ -52,7 +52,7 @@ export class Client {
     nullable: true,
     description: "renamed field doc",
   })
-  get firstName(): string | null | undefined {
+  get firstName(): string | undefined {
     return this.name;
   }
 

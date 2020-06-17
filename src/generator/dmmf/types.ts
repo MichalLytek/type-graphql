@@ -92,6 +92,7 @@ export declare namespace DMMF {
     comment?: string;
     // additional props
     selectedInputType: SchemaArgInputType;
+    typeName: string;
   }
   interface OutputType {
     name: string;

@@ -7,17 +7,17 @@ import { CategoryWhereUniqueInput } from "../../../inputs/CategoryWhereUniqueInp
 @TypeGraphQL.ArgsType()
 export class FindManyCategoryArgs {
   @TypeGraphQL.Field(_type => CategoryWhereInput, { nullable: true })
-  where?: CategoryWhereInput | null | undefined;
+  where?: CategoryWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => CategoryOrderByInput, { nullable: true })
-  orderBy?: CategoryOrderByInput | null | undefined;
+  orderBy?: CategoryOrderByInput | undefined;
 
   @TypeGraphQL.Field(_type => CategoryWhereUniqueInput, { nullable: true })
-  cursor?: CategoryWhereUniqueInput | null | undefined;
+  cursor?: CategoryWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | null | undefined;
+  take?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | null | undefined;
+  skip?: number | undefined;
 }

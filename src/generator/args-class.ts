@@ -60,7 +60,7 @@ export default async function generateArgsTypeClassFromArgs(
       const isOptional = !arg.selectedInputType.isRequired;
 
       return {
-        name: arg.name,
+        name: arg.typeName,
         type: getFieldTSType(arg.selectedInputType, dmmfDocument),
         hasExclamationToken: !isOptional,
         hasQuestionToken: isOptional,

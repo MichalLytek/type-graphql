@@ -12,19 +12,19 @@ export class PostCreateInput {
     nullable: true,
     description: undefined
   })
-  uuid?: string | null | undefined;
+  uuid?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: Date | null | undefined;
+  createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: Date | null | undefined;
+  updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false,
@@ -42,13 +42,13 @@ export class PostCreateInput {
     nullable: true,
     description: undefined
   })
-  content?: string | null | undefined;
+  content?: string | undefined;
 
   @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof PostKind | null | undefined;
+  kind?: keyof typeof PostKind | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: false,

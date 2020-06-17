@@ -31,7 +31,7 @@ export class User {
   intField!: number;
 
   /** relation doc */
-  posts?: Post[] | null | undefined;
+  posts?: Post[] | undefined;
 }
 "
 `;
@@ -61,7 +61,7 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  optionalStringField?: string | null | undefined;
+  optionalStringField?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -152,9 +152,9 @@ export class User {
   /** renamed field docs */
   name!: string;
 
-  balance?: number | null | undefined;
+  balance?: number | undefined;
 
-  posts?: Post[] | null | undefined;
+  posts?: Post[] | undefined;
 
   /** renamed field docs */
   @TypeGraphQL.Field(_type => String, {
@@ -169,7 +169,7 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  get accountBalance(): number | null | undefined {
+  get accountBalance(): number | undefined {
     return this.balance;
   }
 }
@@ -219,7 +219,7 @@ export class Client {
   })
   id!: number;
 
-  posts?: Article[] | null | undefined;
+  posts?: Article[] | undefined;
 }
 "
 `;
@@ -267,7 +267,7 @@ export class User {
   })
   id!: number;
 
-  posts?: Post[] | null | undefined;
+  posts?: Post[] | undefined;
 }
 "
 `;
@@ -293,15 +293,15 @@ export class Service {
   })
   name!: string;
 
-  sourceService?: Service | null | undefined;
+  sourceService?: Service | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined,
   })
-  sourceId?: number | null | undefined;
+  sourceId?: number | undefined;
 
-  services?: Service[] | null | undefined;
+  services?: Service[] | undefined;
 }
 "
 `;

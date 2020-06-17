@@ -16,53 +16,53 @@ export class PostUpdateManyWithoutAuthorInput {
     nullable: true,
     description: undefined
   })
-  create?: PostCreateWithoutAuthorInput[] | null | undefined;
+  create?: PostCreateWithoutAuthorInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  connect?: PostWhereUniqueInput[] | null | undefined;
+  connect?: PostWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  set?: PostWhereUniqueInput[] | null | undefined;
+  set?: PostWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  disconnect?: PostWhereUniqueInput[] | null | undefined;
+  disconnect?: PostWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereUniqueInput], {
     nullable: true,
     description: undefined
   })
-  delete?: PostWhereUniqueInput[] | null | undefined;
+  delete?: PostWhereUniqueInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostUpdateWithWhereUniqueWithoutAuthorInput], {
     nullable: true,
     description: undefined
   })
-  update?: PostUpdateWithWhereUniqueWithoutAuthorInput[] | null | undefined;
+  update?: PostUpdateWithWhereUniqueWithoutAuthorInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostUpdateManyWithWhereNestedInput], {
     nullable: true,
     description: undefined
   })
-  updateMany?: PostUpdateManyWithWhereNestedInput[] | null | undefined;
+  updateMany?: PostUpdateManyWithWhereNestedInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  deleteMany?: PostScalarWhereInput[] | null | undefined;
+  deleteMany?: PostScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [PostUpsertWithWhereUniqueWithoutAuthorInput], {
     nullable: true,
     description: undefined
   })
-  upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | null | undefined;
+  upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | undefined;
 }

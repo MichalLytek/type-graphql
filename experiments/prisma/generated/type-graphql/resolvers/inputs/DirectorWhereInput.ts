@@ -12,35 +12,35 @@ export class DirectorWhereInput {
     nullable: true,
     description: undefined
   })
-  firstName?: StringFilter | null | undefined;
+  firstName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  lastName?: StringFilter | null | undefined;
+  lastName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => MovieFilter, {
     nullable: true,
     description: undefined
   })
-  movies?: MovieFilter | null | undefined;
+  movies?: MovieFilter | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: DirectorWhereInput[] | null | undefined;
+  AND?: DirectorWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: DirectorWhereInput[] | null | undefined;
+  OR?: DirectorWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: DirectorWhereInput[] | null | undefined;
+  NOT?: DirectorWhereInput[] | undefined;
 }

@@ -9,5 +9,5 @@ export class UpdateManyPatientArgs {
   data!: PatientUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => PatientWhereInput, { nullable: true })
-  where?: PatientWhereInput | null | undefined;
+  where?: PatientWhereInput | undefined;
 }

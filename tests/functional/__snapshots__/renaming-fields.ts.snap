@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`crud resolvers execution should properly map aliased input field values to prisma input values: findManyUser call args 1`] = `
+Array [
+  Array [
+    FindManyUserArgs {
+      "where": UserWhereInput {
+        "name": StringFilter {
+          "equals": "John",
+        },
+      },
+    },
+  ],
+]
+`;
+
 exports[`crud resolvers execution should properly resolve aliased field values from prisma model values: user mocked response 1`] = `
 Object {
   "user": Object {

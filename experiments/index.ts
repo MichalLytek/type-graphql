@@ -6,6 +6,7 @@ import {
   buildSchema,
   FieldResolver,
   Ctx,
+  Args,
 } from "type-graphql";
 import { ApolloServer } from "apollo-server";
 import path from "path";
@@ -30,6 +31,7 @@ import {
   DirectorCrudResolver,
   DirectorRelationsResolver,
   MovieRelationsResolver,
+  FindManyClientArgs,
 } from "./prisma/generated/type-graphql";
 import { PrismaClient } from "./prisma/generated/client";
 
@@ -47,7 +49,15 @@ interface Context {
 class ClientResolver {
   @Query(returns => [Client])
   async allClients(@Ctx() { prisma }: Context): Promise<Client[]> {
-    return prisma.user.findMany();
+    return (await prisma.user.findMany()) as Client[];
+  }
+
+  @Query(returns => [Client])
+  async customFindClientsWithArgs(
+    @Args() args: FindManyClientArgs,
+    @Ctx() { prisma }: Context,
+  ) {
+    return prisma.user.findMany(args);
   }
 
   @FieldResolver()
@@ -60,7 +70,7 @@ class ClientResolver {
 class PostResolver {
   @Query(returns => [Post])
   async allPosts(@Ctx() { prisma }: Context): Promise<Post[]> {
-    return prisma.post.findMany();
+    return (await prisma.post.findMany()) as Post[];
   }
 }
 

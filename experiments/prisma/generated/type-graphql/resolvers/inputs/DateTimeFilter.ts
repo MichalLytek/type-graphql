@@ -10,47 +10,47 @@ export class DateTimeFilter {
     nullable: true,
     description: undefined
   })
-  equals?: Date | null | undefined;
+  equals?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  not?: Date | null | undefined;
+  not?: Date | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  in?: Date[] | null | undefined;
+  in?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  notIn?: Date[] | null | undefined;
+  notIn?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lt?: Date | null | undefined;
+  lt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lte?: Date | null | undefined;
+  lte?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gt?: Date | null | undefined;
+  gt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gte?: Date | null | undefined;
+  gte?: Date | undefined;
 }

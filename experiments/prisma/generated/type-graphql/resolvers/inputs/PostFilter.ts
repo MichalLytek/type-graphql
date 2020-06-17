@@ -11,17 +11,17 @@ export class PostFilter {
     nullable: true,
     description: undefined
   })
-  every?: PostWhereInput | null | undefined;
+  every?: PostWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => PostWhereInput, {
     nullable: true,
     description: undefined
   })
-  some?: PostWhereInput | null | undefined;
+  some?: PostWhereInput | undefined;
 
   @TypeGraphQL.Field(_type => PostWhereInput, {
     nullable: true,
     description: undefined
   })
-  none?: PostWhereInput | null | undefined;
+  none?: PostWhereInput | undefined;
 }

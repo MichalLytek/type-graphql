@@ -1,7 +1,11 @@
 import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { DMMF } from "./types";
 import { parseDocumentationAttributes } from "./helpers";
-import { getInputTypeName, camelCase } from "../helpers";
+import {
+  getInputTypeName,
+  camelCase,
+  getModelNameFromInputType,
+} from "../helpers";
 import { DmmfDocument } from "./dmmf-document";
 import pluralize from "pluralize";
 import { GenerateCodeOptions } from "../options";
@@ -66,15 +70,21 @@ function transformField(field: PrismaDMMF.Field): DMMF.Field {
 
 function transformInputType(dmmfDocument: DmmfDocument) {
   return (inputType: PrismaDMMF.InputType): DMMF.InputType => {
+    const modelName = getModelNameFromInputType(inputType.name);
+    const modelType = modelName
+      ? dmmfDocument.datamodel.models.find(it => it.name === modelName)
+      : undefined;
     return {
       ...inputType,
       typeName: getInputTypeName(inputType.name, dmmfDocument),
-      fields: inputType.fields.map(field => ({
-        ...field,
-        selectedInputType: selectInputTypeFromTypes(dmmfDocument)(
+      fields: inputType.fields.map(field => {
+        const modelField = modelType?.fields.find(it => it.name === field.name);
+        const typeName = modelField?.typeFieldAlias ?? field.name;
+        const selectedInputType = selectInputTypeFromTypes(dmmfDocument)(
           field.inputType,
-        ),
-      })),
+        );
+        return { ...field, selectedInputType, typeName };
+      }),
     };
   };
 }
@@ -94,6 +104,8 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
           selectedInputType: selectInputTypeFromTypes(dmmfDocument)(
             arg.inputType,
           ),
+          // TODO: add proper mapping in the future if needed
+          typeName: arg.name,
         })),
       })),
     };

@@ -10,65 +10,65 @@ export class StringFilter {
     nullable: true,
     description: undefined
   })
-  equals?: string | null | undefined;
+  equals?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  not?: string | null | undefined;
+  not?: string | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  in?: string[] | null | undefined;
+  in?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  notIn?: string[] | null | undefined;
+  notIn?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lt?: string | null | undefined;
+  lt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lte?: string | null | undefined;
+  lte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gt?: string | null | undefined;
+  gt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gte?: string | null | undefined;
+  gte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  contains?: string | null | undefined;
+  contains?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  startsWith?: string | null | undefined;
+  startsWith?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  endsWith?: string | null | undefined;
+  endsWith?: string | undefined;
 }

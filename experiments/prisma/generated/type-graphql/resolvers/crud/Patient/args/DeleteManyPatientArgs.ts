@@ -5,5 +5,5 @@ import { PatientWhereInput } from "../../../inputs/PatientWhereInput";
 @TypeGraphQL.ArgsType()
 export class DeleteManyPatientArgs {
   @TypeGraphQL.Field(_type => PatientWhereInput, { nullable: true })
-  where?: PatientWhereInput | null | undefined;
+  where?: PatientWhereInput | undefined;
 }

@@ -9,7 +9,7 @@ export class DirectorRelationsResolver {
     nullable: true,
     description: undefined,
   })
-  async movies(@TypeGraphQL.Root() director: Director, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DirectorMoviesArgs): Promise<Movie[] | null | undefined> {
+  async movies(@TypeGraphQL.Root() director: Director, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DirectorMoviesArgs): Promise<Movie[] | undefined> {
     return ctx.prisma.director.findOne({
       where: {
         firstName_lastName: {

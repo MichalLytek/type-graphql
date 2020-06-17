@@ -11,11 +11,11 @@ export class MovieUpdateInput {
     nullable: true,
     description: undefined
   })
-  title?: string | null | undefined;
+  title?: string | undefined;
 
   @TypeGraphQL.Field(_type => DirectorUpdateOneRequiredWithoutMoviesInput, {
     nullable: true,
     description: undefined
   })
-  director?: DirectorUpdateOneRequiredWithoutMoviesInput | null | undefined;
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput | undefined;
 }

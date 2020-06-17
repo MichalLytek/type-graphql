@@ -9,5 +9,5 @@ export class UpdateManyCategoryArgs {
   data!: CategoryUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => CategoryWhereInput, { nullable: true })
-  where?: CategoryWhereInput | null | undefined;
+  where?: CategoryWhereInput | undefined;
 }

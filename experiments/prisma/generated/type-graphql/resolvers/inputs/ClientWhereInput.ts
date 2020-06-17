@@ -16,65 +16,89 @@ export class ClientWhereInput {
     nullable: true,
     description: undefined
   })
-  id?: IntFilter | null | undefined;
+  id?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  email?: StringFilter | null | undefined;
+  email?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  name?: NullableStringFilter | null | undefined;
+  name?: NullableStringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  age?: IntFilter | null | undefined;
+  age?: IntFilter | undefined;
+
+  balance?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  balance?: FloatFilter | null | undefined;
+  amount?: FloatFilter | undefined;
 
-  @TypeGraphQL.Field(_type => FloatFilter, {
-    nullable: true,
-    description: undefined
-  })
-  amount?: FloatFilter | null | undefined;
-
-  @TypeGraphQL.Field(_type => PostFilter, {
-    nullable: true,
-    description: undefined
-  })
-  posts?: PostFilter | null | undefined;
+  posts?: PostFilter | undefined;
 
   @TypeGraphQL.Field(_type => RoleFilter, {
     nullable: true,
     description: undefined
   })
-  role?: RoleFilter | null | undefined;
+  role?: RoleFilter | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: ClientWhereInput[] | null | undefined;
+  AND?: ClientWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: ClientWhereInput[] | null | undefined;
+  OR?: ClientWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ClientWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: ClientWhereInput[] | null | undefined;
+  NOT?: ClientWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  get firstName() {
+    return this.name;
+  }
+
+  set firstName(name: NullableStringFilter | undefined) {
+    this.name = name;
+  }
+
+  @TypeGraphQL.Field(_type => FloatFilter, {
+    nullable: true,
+    description: undefined
+  })
+  get accountBalance() {
+    return this.balance;
+  }
+
+  set accountBalance(balance: FloatFilter | undefined) {
+    this.balance = balance;
+  }
+
+  @TypeGraphQL.Field(_type => PostFilter, {
+    nullable: true,
+    description: undefined
+  })
+  get clientPosts() {
+    return this.posts;
+  }
+
+  set clientPosts(posts: PostFilter | undefined) {
+    this.posts = posts;
+  }
 }

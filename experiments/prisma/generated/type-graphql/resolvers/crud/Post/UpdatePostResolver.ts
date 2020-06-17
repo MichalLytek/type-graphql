@@ -8,7 +8,7 @@ export class UpdatePostResolver {
     nullable: true,
     description: undefined
   })
-  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | null | undefined> {
+  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | undefined> {
     return ctx.prisma.post.update(args);
   }
 }

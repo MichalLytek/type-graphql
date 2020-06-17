@@ -10,17 +10,17 @@ export class CategoryUpdateManyMutationInput {
     nullable: true,
     description: undefined
   })
-  name?: string | null | undefined;
+  name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  slug?: string | null | undefined;
+  slug?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  number?: number | null | undefined;
+  number?: number | undefined;
 }

@@ -14,25 +14,25 @@ export class ColorFilter {
     nullable: true,
     description: undefined
   })
-  equals?: keyof typeof Color | null | undefined;
+  equals?: keyof typeof Color | undefined;
 
   @TypeGraphQL.Field(_type => Color, {
     nullable: true,
     description: undefined
   })
-  not?: keyof typeof Color | null | undefined;
+  not?: keyof typeof Color | undefined;
 
   @TypeGraphQL.Field(_type => [Color], {
     nullable: true,
     description: undefined
   })
-  in?: Array<keyof typeof Color> | null | undefined;
+  in?: Array<keyof typeof Color> | undefined;
 
   @TypeGraphQL.Field(_type => [Color], {
     nullable: true,
     description: undefined
   })
-  notIn?: Array<keyof typeof Color> | null | undefined;
+  notIn?: Array<keyof typeof Color> | undefined;
 }
 "
 `;
@@ -56,61 +56,61 @@ export class SampleModelWhereInput {
     nullable: true,
     description: undefined
   })
-  intIdField?: IntFilter | null | undefined;
+  intIdField?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  stringField?: StringFilter | null | undefined;
+  stringField?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFilter, {
     nullable: true,
     description: undefined
   })
-  optionalStringField?: NullableStringFilter | null | undefined;
+  optionalStringField?: NullableStringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  intField?: IntFilter | null | undefined;
+  intField?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  floatField?: FloatFilter | null | undefined;
+  floatField?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  booleanField?: BooleanFilter | null | undefined;
+  booleanField?: BooleanFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  dateField?: DateTimeFilter | null | undefined;
+  dateField?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: SampleModelWhereInput[] | null | undefined;
+  AND?: SampleModelWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: SampleModelWhereInput[] | null | undefined;
+  OR?: SampleModelWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: SampleModelWhereInput[] | null | undefined;
+  NOT?: SampleModelWhereInput[] | undefined;
 }
 "
 `;
@@ -128,13 +128,13 @@ export class SampleModelWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  intIdField?: number | null | undefined;
+  intIdField?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  stringField?: string | null | undefined;
+  stringField?: string | undefined;
 }
 "
 `;
@@ -153,19 +153,19 @@ export class FirstModelOrderByInput {
     nullable: true,
     description: undefined
   })
-  idField?: keyof typeof OrderByArg | null | undefined;
+  idField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  uniqueStringField?: keyof typeof OrderByArg | null | undefined;
+  uniqueStringField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  floatField?: keyof typeof OrderByArg | null | undefined;
+  floatField?: keyof typeof OrderByArg | undefined;
 }
 "
 `;
@@ -187,43 +187,43 @@ export class FirstModelScalarWhereInput {
     nullable: true,
     description: undefined
   })
-  idField?: IntFilter | null | undefined;
+  idField?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  uniqueStringField?: StringFilter | null | undefined;
+  uniqueStringField?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  floatField?: FloatFilter | null | undefined;
+  floatField?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => SecondModelFilter, {
     nullable: true,
     description: undefined
   })
-  secondModelsField?: SecondModelFilter | null | undefined;
+  secondModelsField?: SecondModelFilter | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: FirstModelScalarWhereInput[] | null | undefined;
+  AND?: FirstModelScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: FirstModelScalarWhereInput[] | null | undefined;
+  OR?: FirstModelScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: FirstModelScalarWhereInput[] | null | undefined;
+  NOT?: FirstModelScalarWhereInput[] | undefined;
 }
 "
 `;
@@ -245,43 +245,43 @@ export class FirstModelWhereInput {
     nullable: true,
     description: undefined
   })
-  idField?: IntFilter | null | undefined;
+  idField?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  uniqueStringField?: StringFilter | null | undefined;
+  uniqueStringField?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  floatField?: FloatFilter | null | undefined;
+  floatField?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => SecondModelFilter, {
     nullable: true,
     description: undefined
   })
-  secondModelsField?: SecondModelFilter | null | undefined;
+  secondModelsField?: SecondModelFilter | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: FirstModelWhereInput[] | null | undefined;
+  AND?: FirstModelWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: FirstModelWhereInput[] | null | undefined;
+  OR?: FirstModelWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [FirstModelWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: FirstModelWhereInput[] | null | undefined;
+  NOT?: FirstModelWhereInput[] | undefined;
 }
 "
 `;
@@ -299,13 +299,13 @@ export class FirstModelWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  idField?: number | null | undefined;
+  idField?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  uniqueStringField?: string | null | undefined;
+  uniqueStringField?: string | undefined;
 }
 "
 `;
@@ -323,13 +323,13 @@ export class BooleanFilter {
     nullable: true,
     description: undefined
   })
-  equals?: boolean | null | undefined;
+  equals?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  not?: boolean | null | undefined;
+  not?: boolean | undefined;
 }
 "
 `;
@@ -347,49 +347,49 @@ export class DateTimeFilter {
     nullable: true,
     description: undefined
   })
-  equals?: Date | null | undefined;
+  equals?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  not?: Date | null | undefined;
+  not?: Date | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  in?: Date[] | null | undefined;
+  in?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  notIn?: Date[] | null | undefined;
+  notIn?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lt?: Date | null | undefined;
+  lt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lte?: Date | null | undefined;
+  lte?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gt?: Date | null | undefined;
+  gt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gte?: Date | null | undefined;
+  gte?: Date | undefined;
 }
 "
 `;
@@ -407,49 +407,49 @@ export class FloatFilter {
     nullable: true,
     description: undefined
   })
-  equals?: number | null | undefined;
+  equals?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  not?: number | null | undefined;
+  not?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  in?: number[] | null | undefined;
+  in?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  notIn?: number[] | null | undefined;
+  notIn?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lt?: number | null | undefined;
+  lt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lte?: number | null | undefined;
+  lte?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gt?: number | null | undefined;
+  gt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gte?: number | null | undefined;
+  gte?: number | undefined;
 }
 "
 `;
@@ -467,49 +467,49 @@ export class IntFilter {
     nullable: true,
     description: undefined
   })
-  equals?: number | null | undefined;
+  equals?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  not?: number | null | undefined;
+  not?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
-  in?: number[] | null | undefined;
+  in?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
-  notIn?: number[] | null | undefined;
+  notIn?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  lt?: number | null | undefined;
+  lt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  lte?: number | null | undefined;
+  lte?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  gt?: number | null | undefined;
+  gt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  gte?: number | null | undefined;
+  gte?: number | undefined;
 }
 "
 `;
@@ -527,13 +527,13 @@ export class NullableBooleanFilter {
     nullable: true,
     description: undefined
   })
-  equals?: boolean | null | undefined;
+  equals?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  not?: boolean | null | undefined;
+  not?: boolean | undefined;
 }
 "
 `;
@@ -551,49 +551,49 @@ export class NullableDateTimeFilter {
     nullable: true,
     description: undefined
   })
-  equals?: Date | null | undefined;
+  equals?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  not?: Date | null | undefined;
+  not?: Date | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  in?: Date[] | null | undefined;
+  in?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => [Date], {
     nullable: true,
     description: undefined
   })
-  notIn?: Date[] | null | undefined;
+  notIn?: Date[] | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lt?: Date | null | undefined;
+  lt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  lte?: Date | null | undefined;
+  lte?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gt?: Date | null | undefined;
+  gt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  gte?: Date | null | undefined;
+  gte?: Date | undefined;
 }
 "
 `;
@@ -611,49 +611,49 @@ export class NullableFloatFilter {
     nullable: true,
     description: undefined
   })
-  equals?: number | null | undefined;
+  equals?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  not?: number | null | undefined;
+  not?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  in?: number[] | null | undefined;
+  in?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
     description: undefined
   })
-  notIn?: number[] | null | undefined;
+  notIn?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lt?: number | null | undefined;
+  lt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  lte?: number | null | undefined;
+  lte?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gt?: number | null | undefined;
+  gt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true,
     description: undefined
   })
-  gte?: number | null | undefined;
+  gte?: number | undefined;
 }
 "
 `;
@@ -671,49 +671,49 @@ export class NullableIntFilter {
     nullable: true,
     description: undefined
   })
-  equals?: number | null | undefined;
+  equals?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  not?: number | null | undefined;
+  not?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
-  in?: number[] | null | undefined;
+  in?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Int], {
     nullable: true,
     description: undefined
   })
-  notIn?: number[] | null | undefined;
+  notIn?: number[] | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  lt?: number | null | undefined;
+  lt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  lte?: number | null | undefined;
+  lte?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  gt?: number | null | undefined;
+  gt?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined
   })
-  gte?: number | null | undefined;
+  gte?: number | undefined;
 }
 "
 `;
@@ -731,67 +731,67 @@ export class NullableStringFilter {
     nullable: true,
     description: undefined
   })
-  equals?: string | null | undefined;
+  equals?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  not?: string | null | undefined;
+  not?: string | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  in?: string[] | null | undefined;
+  in?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  notIn?: string[] | null | undefined;
+  notIn?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lt?: string | null | undefined;
+  lt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lte?: string | null | undefined;
+  lte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gt?: string | null | undefined;
+  gt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gte?: string | null | undefined;
+  gte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  contains?: string | null | undefined;
+  contains?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  startsWith?: string | null | undefined;
+  startsWith?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  endsWith?: string | null | undefined;
+  endsWith?: string | undefined;
 }
 "
 `;
@@ -809,67 +809,67 @@ export class StringFilter {
     nullable: true,
     description: undefined
   })
-  equals?: string | null | undefined;
+  equals?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  not?: string | null | undefined;
+  not?: string | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  in?: string[] | null | undefined;
+  in?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
     description: undefined
   })
-  notIn?: string[] | null | undefined;
+  notIn?: string[] | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lt?: string | null | undefined;
+  lt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  lte?: string | null | undefined;
+  lte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gt?: string | null | undefined;
+  gt?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  gte?: string | null | undefined;
+  gte?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  contains?: string | null | undefined;
+  contains?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  startsWith?: string | null | undefined;
+  startsWith?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  endsWith?: string | null | undefined;
+  endsWith?: string | undefined;
 }
 "
 `;
@@ -888,19 +888,19 @@ export class DirectorOrderByInput {
     nullable: true,
     description: undefined
   })
-  firstName?: keyof typeof OrderByArg | null | undefined;
+  firstName?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  lastName?: keyof typeof OrderByArg | null | undefined;
+  lastName?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  age?: keyof typeof OrderByArg | null | undefined;
+  age?: keyof typeof OrderByArg | undefined;
 }
 "
 `;
@@ -921,43 +921,43 @@ export class DirectorWhereInput {
     nullable: true,
     description: undefined
   })
-  firstName?: StringFilter | null | undefined;
+  firstName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  lastName?: StringFilter | null | undefined;
+  lastName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  age?: IntFilter | null | undefined;
+  age?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => MovieFilter, {
     nullable: true,
     description: undefined
   })
-  movies?: MovieFilter | null | undefined;
+  movies?: MovieFilter | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: DirectorWhereInput[] | null | undefined;
+  AND?: DirectorWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: DirectorWhereInput[] | null | undefined;
+  OR?: DirectorWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: DirectorWhereInput[] | null | undefined;
+  NOT?: DirectorWhereInput[] | undefined;
 }
 "
 `;
@@ -976,7 +976,7 @@ export class DirectorWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | null | undefined;
+  firstName_lastName?: FirstNameLastNameCompoundUniqueInput | undefined;
 }
 "
 `;
@@ -1049,25 +1049,25 @@ export class MovieOrderByInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: keyof typeof OrderByArg | null | undefined;
+  directorFirstName?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: keyof typeof OrderByArg | null | undefined;
+  directorLastName?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  title?: keyof typeof OrderByArg | null | undefined;
+  title?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  rating?: keyof typeof OrderByArg | null | undefined;
+  rating?: keyof typeof OrderByArg | undefined;
 }
 "
 `;
@@ -1087,43 +1087,43 @@ export class MovieScalarWhereInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: StringFilter | null | undefined;
+  directorFirstName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: StringFilter | null | undefined;
+  directorLastName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null | undefined;
+  title?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  rating?: FloatFilter | null | undefined;
+  rating?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: MovieScalarWhereInput[] | null | undefined;
+  AND?: MovieScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: MovieScalarWhereInput[] | null | undefined;
+  OR?: MovieScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: MovieScalarWhereInput[] | null | undefined;
+  NOT?: MovieScalarWhereInput[] | undefined;
 }
 "
 `;
@@ -1144,49 +1144,49 @@ export class MovieWhereInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: StringFilter | null | undefined;
+  directorFirstName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: StringFilter | null | undefined;
+  directorLastName?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null | undefined;
+  title?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  rating?: FloatFilter | null | undefined;
+  rating?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: MovieWhereInput[] | null | undefined;
+  AND?: MovieWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: MovieWhereInput[] | null | undefined;
+  OR?: MovieWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [MovieWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: MovieWhereInput[] | null | undefined;
+  NOT?: MovieWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => DirectorWhereInput, {
     nullable: true,
     description: undefined
   })
-  director?: DirectorWhereInput | null | undefined;
+  director?: DirectorWhereInput | undefined;
 }
 "
 `;
@@ -1205,7 +1205,92 @@ export class MovieWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | null | undefined;
+  directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes when model field is renamed: SampleOrderByInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { OrderByArg } from \\"../../enums/OrderByArg\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class SampleOrderByInput {
+  @TypeGraphQL.Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  idField?: keyof typeof OrderByArg | undefined;
+
+  modelFieldName?: keyof typeof OrderByArg | undefined;
+
+  @TypeGraphQL.Field(_type => OrderByArg, {
+    nullable: true,
+    description: undefined
+  })
+  get mappedFieldName() {
+    return this.modelFieldName;
+  }
+
+  set mappedFieldName(modelFieldName: keyof typeof OrderByArg | undefined) {
+    this.modelFieldName = modelFieldName;
+  }
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes when model field is renamed: SampleWhereInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { IntFilter } from \\"../inputs/IntFilter\\";
+import { StringFilter } from \\"../inputs/StringFilter\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class SampleWhereInput {
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true,
+    description: undefined
+  })
+  idField?: IntFilter | undefined;
+
+  modelFieldName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  AND?: SampleWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  OR?: SampleWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  NOT?: SampleWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  get mappedFieldName() {
+    return this.modelFieldName;
+  }
+
+  set mappedFieldName(modelFieldName: StringFilter | undefined) {
+    this.modelFieldName = modelFieldName;
+  }
 }
 "
 `;
@@ -1224,37 +1309,37 @@ export class ExampleOrderByInput {
     nullable: true,
     description: undefined
   })
-  intIdField?: keyof typeof OrderByArg | null | undefined;
+  intIdField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  stringField?: keyof typeof OrderByArg | null | undefined;
+  stringField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  floatField?: keyof typeof OrderByArg | null | undefined;
+  floatField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  booleanField?: keyof typeof OrderByArg | null | undefined;
+  booleanField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  dateField?: keyof typeof OrderByArg | null | undefined;
+  dateField?: keyof typeof OrderByArg | undefined;
 
   @TypeGraphQL.Field(_type => OrderByArg, {
     nullable: true,
     description: undefined
   })
-  otherId?: keyof typeof OrderByArg | null | undefined;
+  otherId?: keyof typeof OrderByArg | undefined;
 }
 "
 `;
@@ -1278,61 +1363,61 @@ export class ExampleWhereInput {
     nullable: true,
     description: undefined
   })
-  intIdField?: IntFilter | null | undefined;
+  intIdField?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  stringField?: StringFilter | null | undefined;
+  stringField?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true,
     description: undefined
   })
-  floatField?: FloatFilter | null | undefined;
+  floatField?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => BooleanFilter, {
     nullable: true,
     description: undefined
   })
-  booleanField?: BooleanFilter | null | undefined;
+  booleanField?: BooleanFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  dateField?: DateTimeFilter | null | undefined;
+  dateField?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
     description: undefined
   })
-  otherId?: IntFilter | null | undefined;
+  otherId?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => [ExampleWhereInput], {
     nullable: true,
     description: undefined
   })
-  AND?: ExampleWhereInput[] | null | undefined;
+  AND?: ExampleWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ExampleWhereInput], {
     nullable: true,
     description: undefined
   })
-  OR?: ExampleWhereInput[] | null | undefined;
+  OR?: ExampleWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [ExampleWhereInput], {
     nullable: true,
     description: undefined
   })
-  NOT?: ExampleWhereInput[] | null | undefined;
+  NOT?: ExampleWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => OtherModelWhereInput, {
     nullable: true,
     description: undefined
   })
-  other?: OtherModelWhereInput | null | undefined;
+  other?: OtherModelWhereInput | undefined;
 }
 "
 `;
@@ -1350,13 +1435,13 @@ export class ExampleWhereUniqueInput {
     nullable: true,
     description: undefined
   })
-  intIdField?: number | null | undefined;
+  intIdField?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  stringField?: string | null | undefined;
+  stringField?: string | undefined;
 }
 "
 `;

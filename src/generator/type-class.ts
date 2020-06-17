@@ -3,6 +3,9 @@ import {
   OptionalKind,
   Project,
   MethodDeclarationStructure,
+  GetAccessorDeclaration,
+  GetAccessorDeclarationStructure,
+  SetAccessorDeclarationStructure,
 } from "ts-morph";
 import path from "path";
 
@@ -201,6 +204,16 @@ export async function generateInputTypeClassFromType(
     2,
   );
 
+  const fields = inputType.fields
+    .filter(field => field.selectedInputType.type !== "JsonFilter")
+    .map(field => {
+      const hasMappedName = field.name !== field.typeName;
+      return {
+        ...field,
+        hasMappedName,
+      };
+    });
+
   sourceFile.addClass({
     name: inputType.typeName,
     isExported: true,
@@ -215,15 +228,45 @@ export async function generateInputTypeClassFromType(
         ],
       },
     ],
-    properties: inputType.fields
-      .filter(field => field.selectedInputType.type !== "JsonFilter")
-      .map<OptionalKind<PropertyDeclarationStructure>>(field => {
+    properties: fields.map<OptionalKind<PropertyDeclarationStructure>>(
+      field => {
+        const isOptional = !field.selectedInputType.isRequired;
         return {
           name: field.name,
+          type: getFieldTSType(field.selectedInputType, dmmfDocument),
+          hasExclamationToken: !isOptional,
+          hasQuestionToken: isOptional,
+          trailingTrivia: "\r\n",
+          decorators: field.hasMappedName
+            ? []
+            : [
+                {
+                  name: "TypeGraphQL.Field",
+                  arguments: [
+                    `_type => ${getTypeGraphQLType(
+                      field.selectedInputType,
+                      dmmfDocument,
+                    )}`,
+                    `{
+                  nullable: ${isOptional},
+                  description: undefined
+                }`,
+                  ],
+                },
+              ],
+        };
+      },
+    ),
+    getAccessors: fields
+      .filter(field => field.hasMappedName)
+      .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
+        return {
+          name: field.typeName,
           type: getFieldTSType(field.selectedInputType, dmmfDocument),
           hasExclamationToken: field.selectedInputType.isRequired,
           hasQuestionToken: !field.selectedInputType.isRequired,
           trailingTrivia: "\r\n",
+          statements: [`return this.${field.name};`],
           decorators: [
             {
               name: "TypeGraphQL.Field",
@@ -239,6 +282,23 @@ export async function generateInputTypeClassFromType(
               ],
             },
           ],
+        };
+      }),
+    setAccessors: fields
+      .filter(field => field.hasMappedName)
+      .map<OptionalKind<SetAccessorDeclarationStructure>>(field => {
+        const fieldTSType = getFieldTSType(
+          field.selectedInputType,
+          dmmfDocument,
+        );
+        return {
+          name: field.typeName,
+          type: fieldTSType,
+          hasExclamationToken: field.selectedInputType.isRequired,
+          hasQuestionToken: !field.selectedInputType.isRequired,
+          trailingTrivia: "\r\n",
+          parameters: [{ name: field.name, type: fieldTSType }],
+          statements: [`this.${field.name} = ${field.name};`],
         };
       }),
   });
