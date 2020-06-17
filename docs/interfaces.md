@@ -70,7 +70,7 @@ class Node {
   id: string;
 }
 
-@ObjectType({ implements: Node })
+@InterfaceType({ implements: Node })
 class Person extends Node {
   @Field()
   name: string;
