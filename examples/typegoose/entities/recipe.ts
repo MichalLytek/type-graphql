@@ -23,7 +23,7 @@ export class Recipe {
   description?: string;
 
   @Field(type => [Rate])
-  @Property({ items: Rate, default: [] })
+  @Property({ type: () => Rate, default: [] })
   ratings: Rate[];
 
   @Field(type => User)
