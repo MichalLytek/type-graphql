@@ -1,6 +1,5 @@
 import {
   prop as Property,
-  arrayProp as ArrayProperty,
   getModelForClass,
 } from "@typegoose/typegoose";
 import { ObjectId } from "mongodb";
@@ -24,7 +23,7 @@ export class Recipe {
   description?: string;
 
   @Field(type => [Rate])
-  @ArrayProperty({ items: Rate, default: [] })
+  @Property({ items: Rate, default: [] })
   ratings: Rate[];
 
   @Field(type => User)
