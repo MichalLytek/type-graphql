@@ -61,7 +61,7 @@ class SampleObject {
 
 ## Date Scalars
 
-TypeGraphQL provides built-in scalars for the `Date` type. There are two versions of this scalar:
+TypeGraphQL provides built-in scalars for the `Date` type. There are two versions of this scalar (default: `isoDate`):
 
 - timestamp based (`"timestamp"`) - `1518037458374`
 - ISO format (`"isoDate"`) - `"2018-02-07T21:04:39.573Z"`
