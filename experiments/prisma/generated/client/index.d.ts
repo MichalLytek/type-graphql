@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.0.0
- * Query Engine version: de2bc1cbdb5561ad73d2f08463fa2eec48993f56
+ * Prisma Client JS version: 2.1.0
+ * Query Engine version: 4440772035795a0424be62040e2295c56e5c6ad0
  */
 export declare type PrismaVersion = {
   client: string
@@ -43,19 +43,29 @@ export declare const prismaVersion: PrismaVersion
  * Matches a JSON object.
  * This type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from. 
  */
-declare type JsonObject = {[Key in string]?: JsonValue}
+export declare type JsonObject = {[Key in string]?: JsonValue}
  
 /**
  * From https://github.com/sindresorhus/type-fest/
  * Matches a JSON array.
  */
-declare interface JsonArray extends Array<JsonValue> {}
+export declare interface JsonArray extends Array<JsonValue> {}
  
 /**
  * From https://github.com/sindresorhus/type-fest/
  * Matches any valid JSON value.
  */
-declare type JsonValue = string | number | boolean | null | JsonObject | JsonArray
+export declare type JsonValue = string | number | boolean | null | JsonObject | JsonArray
+
+
+/**
+ * Same as JsonObject, but allows undefined
+ */
+export declare type InputJsonObject = {[Key in string]?: JsonValue}
+ 
+export declare interface InputJsonArray extends Array<JsonValue> {}
+ 
+export declare type InputJsonValue = undefined |  string | number | boolean | null | InputJsonObject | InputJsonArray
 
 declare type SelectAndInclude = {
   select: any
@@ -117,9 +127,12 @@ declare class PrismaClientFetcher {
  * Client
 **/
 
+export declare type Datasource = {
+  url?: string
+}
 
 export type Datasources = {
-  db?: string
+  db?: Datasource
 }
 
 export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
@@ -152,19 +165,6 @@ export interface PrismaClientOptions {
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
    */
   log?: Array<LogLevel | LogDefinition>
-
-  /**
-   * You probably don't want to use this. `__internal` is used by internal tooling.
-   */
-  __internal?: {
-    debug?: boolean
-    hooks?: Hooks
-    engine?: {
-      cwd?: string
-      binaryPath?: string
-    }
-    measurePerformance?: boolean
-  }
 }
 
 export type Hooks = {
@@ -470,7 +470,7 @@ export interface UserDelegate {
   **/
   findOne<T extends FindOneUserArgs>(
     args: Subset<T, FindOneUserArgs>
-  ): CheckSelect<T, UserClient<User | null>, UserClient<UserGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__UserClient<User | null>, Prisma__UserClient<UserGetPayload<T> | null>>
   /**
    * Find zero or more Users.
    * @param {FindManyUserArgs=} args - Arguments to filter and select certain fields only.
@@ -502,7 +502,7 @@ export interface UserDelegate {
   **/
   create<T extends UserCreateArgs>(
     args: Subset<T, UserCreateArgs>
-  ): CheckSelect<T, UserClient<User>, UserClient<UserGetPayload<T>>>
+  ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
   /**
    * Delete a User.
    * @param {UserDeleteArgs} args - Arguments to delete one User.
@@ -517,7 +517,7 @@ export interface UserDelegate {
   **/
   delete<T extends UserDeleteArgs>(
     args: Subset<T, UserDeleteArgs>
-  ): CheckSelect<T, UserClient<User>, UserClient<UserGetPayload<T>>>
+  ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
   /**
    * Update one User.
    * @param {UserUpdateArgs} args - Arguments to update one User.
@@ -535,7 +535,7 @@ export interface UserDelegate {
   **/
   update<T extends UserUpdateArgs>(
     args: Subset<T, UserUpdateArgs>
-  ): CheckSelect<T, UserClient<User>, UserClient<UserGetPayload<T>>>
+  ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
   /**
    * Delete zero or more Users.
    * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
@@ -588,14 +588,20 @@ export interface UserDelegate {
   **/
   upsert<T extends UserUpsertArgs>(
     args: Subset<T, UserUpsertArgs>
-  ): CheckSelect<T, UserClient<User>, UserClient<UserGetPayload<T>>>
+  ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class UserClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for User.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__UserClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -886,7 +892,7 @@ export interface PostDelegate {
   **/
   findOne<T extends FindOnePostArgs>(
     args: Subset<T, FindOnePostArgs>
-  ): CheckSelect<T, PostClient<Post | null>, PostClient<PostGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__PostClient<Post | null>, Prisma__PostClient<PostGetPayload<T> | null>>
   /**
    * Find zero or more Posts.
    * @param {FindManyPostArgs=} args - Arguments to filter and select certain fields only.
@@ -918,7 +924,7 @@ export interface PostDelegate {
   **/
   create<T extends PostCreateArgs>(
     args: Subset<T, PostCreateArgs>
-  ): CheckSelect<T, PostClient<Post>, PostClient<PostGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
   /**
    * Delete a Post.
    * @param {PostDeleteArgs} args - Arguments to delete one Post.
@@ -933,7 +939,7 @@ export interface PostDelegate {
   **/
   delete<T extends PostDeleteArgs>(
     args: Subset<T, PostDeleteArgs>
-  ): CheckSelect<T, PostClient<Post>, PostClient<PostGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
   /**
    * Update one Post.
    * @param {PostUpdateArgs} args - Arguments to update one Post.
@@ -951,7 +957,7 @@ export interface PostDelegate {
   **/
   update<T extends PostUpdateArgs>(
     args: Subset<T, PostUpdateArgs>
-  ): CheckSelect<T, PostClient<Post>, PostClient<PostGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
   /**
    * Delete zero or more Posts.
    * @param {PostDeleteManyArgs} args - Arguments to filter Posts to delete.
@@ -1004,14 +1010,20 @@ export interface PostDelegate {
   **/
   upsert<T extends PostUpsertArgs>(
     args: Subset<T, PostUpsertArgs>
-  ): CheckSelect<T, PostClient<Post>, PostClient<PostGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyPostArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class PostClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for Post.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__PostClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -1028,7 +1040,7 @@ export declare class PostClient<T> implements Promise<T> {
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-  author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, UserClient<User | null>, UserClient<UserGetPayload<T> | null>>;
+  author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null>, Prisma__UserClient<UserGetPayload<T> | null>>;
 
   private get _document();
   /**
@@ -1280,7 +1292,7 @@ export interface CategoryDelegate {
   **/
   findOne<T extends FindOneCategoryArgs>(
     args: Subset<T, FindOneCategoryArgs>
-  ): CheckSelect<T, CategoryClient<Category | null>, CategoryClient<CategoryGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__CategoryClient<Category | null>, Prisma__CategoryClient<CategoryGetPayload<T> | null>>
   /**
    * Find zero or more Categories.
    * @param {FindManyCategoryArgs=} args - Arguments to filter and select certain fields only.
@@ -1312,7 +1324,7 @@ export interface CategoryDelegate {
   **/
   create<T extends CategoryCreateArgs>(
     args: Subset<T, CategoryCreateArgs>
-  ): CheckSelect<T, CategoryClient<Category>, CategoryClient<CategoryGetPayload<T>>>
+  ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
   /**
    * Delete a Category.
    * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
@@ -1327,7 +1339,7 @@ export interface CategoryDelegate {
   **/
   delete<T extends CategoryDeleteArgs>(
     args: Subset<T, CategoryDeleteArgs>
-  ): CheckSelect<T, CategoryClient<Category>, CategoryClient<CategoryGetPayload<T>>>
+  ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
   /**
    * Update one Category.
    * @param {CategoryUpdateArgs} args - Arguments to update one Category.
@@ -1345,7 +1357,7 @@ export interface CategoryDelegate {
   **/
   update<T extends CategoryUpdateArgs>(
     args: Subset<T, CategoryUpdateArgs>
-  ): CheckSelect<T, CategoryClient<Category>, CategoryClient<CategoryGetPayload<T>>>
+  ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
   /**
    * Delete zero or more Categories.
    * @param {CategoryDeleteManyArgs} args - Arguments to filter Categories to delete.
@@ -1398,14 +1410,20 @@ export interface CategoryDelegate {
   **/
   upsert<T extends CategoryUpsertArgs>(
     args: Subset<T, CategoryUpsertArgs>
-  ): CheckSelect<T, CategoryClient<Category>, CategoryClient<CategoryGetPayload<T>>>
+  ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyCategoryArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class CategoryClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for Category.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__CategoryClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -1645,7 +1663,7 @@ export interface PatientDelegate {
   **/
   findOne<T extends FindOnePatientArgs>(
     args: Subset<T, FindOnePatientArgs>
-  ): CheckSelect<T, PatientClient<Patient | null>, PatientClient<PatientGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__PatientClient<Patient | null>, Prisma__PatientClient<PatientGetPayload<T> | null>>
   /**
    * Find zero or more Patients.
    * @param {FindManyPatientArgs=} args - Arguments to filter and select certain fields only.
@@ -1677,7 +1695,7 @@ export interface PatientDelegate {
   **/
   create<T extends PatientCreateArgs>(
     args: Subset<T, PatientCreateArgs>
-  ): CheckSelect<T, PatientClient<Patient>, PatientClient<PatientGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
   /**
    * Delete a Patient.
    * @param {PatientDeleteArgs} args - Arguments to delete one Patient.
@@ -1692,7 +1710,7 @@ export interface PatientDelegate {
   **/
   delete<T extends PatientDeleteArgs>(
     args: Subset<T, PatientDeleteArgs>
-  ): CheckSelect<T, PatientClient<Patient>, PatientClient<PatientGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
   /**
    * Update one Patient.
    * @param {PatientUpdateArgs} args - Arguments to update one Patient.
@@ -1710,7 +1728,7 @@ export interface PatientDelegate {
   **/
   update<T extends PatientUpdateArgs>(
     args: Subset<T, PatientUpdateArgs>
-  ): CheckSelect<T, PatientClient<Patient>, PatientClient<PatientGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
   /**
    * Delete zero or more Patients.
    * @param {PatientDeleteManyArgs} args - Arguments to filter Patients to delete.
@@ -1763,14 +1781,20 @@ export interface PatientDelegate {
   **/
   upsert<T extends PatientUpsertArgs>(
     args: Subset<T, PatientUpsertArgs>
-  ): CheckSelect<T, PatientClient<Patient>, PatientClient<PatientGetPayload<T>>>
+  ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyPatientArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class PatientClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for Patient.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__PatientClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -2020,7 +2044,7 @@ export interface MovieDelegate {
   **/
   findOne<T extends FindOneMovieArgs>(
     args: Subset<T, FindOneMovieArgs>
-  ): CheckSelect<T, MovieClient<Movie | null>, MovieClient<MovieGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__MovieClient<Movie | null>, Prisma__MovieClient<MovieGetPayload<T> | null>>
   /**
    * Find zero or more Movies.
    * @param {FindManyMovieArgs=} args - Arguments to filter and select certain fields only.
@@ -2052,7 +2076,7 @@ export interface MovieDelegate {
   **/
   create<T extends MovieCreateArgs>(
     args: Subset<T, MovieCreateArgs>
-  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
   /**
    * Delete a Movie.
    * @param {MovieDeleteArgs} args - Arguments to delete one Movie.
@@ -2067,7 +2091,7 @@ export interface MovieDelegate {
   **/
   delete<T extends MovieDeleteArgs>(
     args: Subset<T, MovieDeleteArgs>
-  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
   /**
    * Update one Movie.
    * @param {MovieUpdateArgs} args - Arguments to update one Movie.
@@ -2085,7 +2109,7 @@ export interface MovieDelegate {
   **/
   update<T extends MovieUpdateArgs>(
     args: Subset<T, MovieUpdateArgs>
-  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
   /**
    * Delete zero or more Movies.
    * @param {MovieDeleteManyArgs} args - Arguments to filter Movies to delete.
@@ -2138,14 +2162,20 @@ export interface MovieDelegate {
   **/
   upsert<T extends MovieUpsertArgs>(
     args: Subset<T, MovieUpsertArgs>
-  ): CheckSelect<T, MovieClient<Movie>, MovieClient<MovieGetPayload<T>>>
+  ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyMovieArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class MovieClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for Movie.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__MovieClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -2162,7 +2192,7 @@ export declare class MovieClient<T> implements Promise<T> {
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-  director<T extends DirectorArgs = {}>(args?: Subset<T, DirectorArgs>): CheckSelect<T, DirectorClient<Director | null>, DirectorClient<DirectorGetPayload<T> | null>>;
+  director<T extends DirectorArgs = {}>(args?: Subset<T, DirectorArgs>): CheckSelect<T, Prisma__DirectorClient<Director | null>, Prisma__DirectorClient<DirectorGetPayload<T> | null>>;
 
   private get _document();
   /**
@@ -2422,7 +2452,7 @@ export interface DirectorDelegate {
   **/
   findOne<T extends FindOneDirectorArgs>(
     args: Subset<T, FindOneDirectorArgs>
-  ): CheckSelect<T, DirectorClient<Director | null>, DirectorClient<DirectorGetPayload<T> | null>>
+  ): CheckSelect<T, Prisma__DirectorClient<Director | null>, Prisma__DirectorClient<DirectorGetPayload<T> | null>>
   /**
    * Find zero or more Directors.
    * @param {FindManyDirectorArgs=} args - Arguments to filter and select certain fields only.
@@ -2454,7 +2484,7 @@ export interface DirectorDelegate {
   **/
   create<T extends DirectorCreateArgs>(
     args: Subset<T, DirectorCreateArgs>
-  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
   /**
    * Delete a Director.
    * @param {DirectorDeleteArgs} args - Arguments to delete one Director.
@@ -2469,7 +2499,7 @@ export interface DirectorDelegate {
   **/
   delete<T extends DirectorDeleteArgs>(
     args: Subset<T, DirectorDeleteArgs>
-  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
   /**
    * Update one Director.
    * @param {DirectorUpdateArgs} args - Arguments to update one Director.
@@ -2487,7 +2517,7 @@ export interface DirectorDelegate {
   **/
   update<T extends DirectorUpdateArgs>(
     args: Subset<T, DirectorUpdateArgs>
-  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
   /**
    * Delete zero or more Directors.
    * @param {DirectorDeleteManyArgs} args - Arguments to filter Directors to delete.
@@ -2540,14 +2570,20 @@ export interface DirectorDelegate {
   **/
   upsert<T extends DirectorUpsertArgs>(
     args: Subset<T, DirectorUpsertArgs>
-  ): CheckSelect<T, DirectorClient<Director>, DirectorClient<DirectorGetPayload<T>>>
+  ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
   /**
    * 
    */
   count(args?: Omit<FindManyDirectorArgs, 'select' | 'include'>): Promise<number>
 }
 
-export declare class DirectorClient<T> implements Promise<T> {
+/**
+ * The delegate class that acts as a "Promise-like" for Director.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__DirectorClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -2780,7 +2816,7 @@ export type PostWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: JsonValue | JsonFilter
+  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<PostWhereInput>
   OR?: Array<PostWhereInput>
   NOT?: Enumerable<PostWhereInput>
@@ -2887,7 +2923,7 @@ export type PostCreateWithoutAuthorInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
-  metadata: JsonValue
+  metadata: InputJsonValue
 }
 
 export type PostCreateManyWithoutAuthorInput = {
@@ -2913,7 +2949,7 @@ export type PostUpdateWithoutAuthorDataInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: JsonValue
+  metadata?: InputJsonValue
 }
 
 export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
@@ -2930,7 +2966,7 @@ export type PostScalarWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: JsonValue | JsonFilter
+  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<PostScalarWhereInput>
   OR?: Array<PostScalarWhereInput>
   NOT?: Enumerable<PostScalarWhereInput>
@@ -2944,7 +2980,7 @@ export type PostUpdateManyDataInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: JsonValue
+  metadata?: InputJsonValue
 }
 
 export type PostUpdateManyWithWhereNestedInput = {
@@ -3013,7 +3049,7 @@ export type PostCreateInput = {
   title: string
   content?: string | null
   kind?: PostKind | null
-  metadata: JsonValue
+  metadata: InputJsonValue
   author: UserCreateOneWithoutPostsInput
 }
 
@@ -3047,7 +3083,7 @@ export type PostUpdateInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: JsonValue
+  metadata?: InputJsonValue
   author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -3059,7 +3095,7 @@ export type PostUpdateManyMutationInput = {
   title?: string
   content?: string | null
   kind?: PostKind | null
-  metadata?: JsonValue
+  metadata?: InputJsonValue
 }
 
 export type CategoryCreateInput = {
@@ -3287,7 +3323,8 @@ export type NullablePostKindFilter = {
 }
 
 export type JsonFilter = {
-
+  equals?: InputJsonValue
+  not?: InputJsonValue | JsonFilter
 }
 
 export type FloatFilter = {

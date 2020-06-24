@@ -5,7 +5,10 @@ import { GeneratorConfig } from '@prisma/generator-helper/dist/types';
 import { Dataloader } from './Dataloader';
 import { InternalDatasource } from './utils/printDatasources';
 export declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
-export declare type Datasources = any;
+export declare type Datasource = {
+    url?: string;
+};
+export declare type Datasources = Record<string, Datasource>;
 export interface PrismaClientOptions {
     /**
      * Overwrites the datasource url from your prisma.schema file
@@ -32,6 +35,7 @@ export interface PrismaClientOptions {
      */
     log?: Array<LogLevel | LogDefinition>;
     /**
+     * @internal
      * You probably don't want to use this. \`__internal\` is used by internal tooling.
      */
     __internal?: {
@@ -78,8 +82,9 @@ export interface GetPrismaClientOptions {
     sqliteDatasourceOverrides?: DatasourceOverwrite[];
     relativePath: string;
     dirname: string;
-    internalDatasources: InternalDatasource[];
+    internalDatasources: Omit<InternalDatasource, 'url'>[];
     clientVersion?: string;
+    engineVersion?: string;
 }
 export declare function getPrismaClient(config: GetPrismaClientOptions): any;
 export declare class PrismaClientFetcher {
@@ -88,9 +93,10 @@ export declare class PrismaClientFetcher {
     hooks: any;
     dataloader: Dataloader<{
         document: Document;
+        runInTransaction?: boolean;
     }>;
     constructor(prisma: any, enableDebug?: boolean, hooks?: any);
-    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, }: {
+    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, runInTransaction, }: {
         document: Document;
         dataPath: string[];
         rootField: string;
@@ -99,6 +105,7 @@ export declare class PrismaClientFetcher {
         clientMethod: string;
         callsite?: string;
         collectTimestamps?: CollectTimestamps;
+        runInTransaction?: boolean;
     }): Promise<any>;
     sanitizeMessage(message: any): any;
     unpack(document: any, data: any, path: any, rootField: any): any;

@@ -26,6 +26,9 @@ export declare const GraphQLScalarToJSTypeTable: {
     UUID: string;
     Json: string;
 };
+export declare const JSOutputTypeToInputType: {
+    JsonValue: string;
+};
 export declare const JSTypeToGraphQLType: {
     string: string;
     boolean: string;
