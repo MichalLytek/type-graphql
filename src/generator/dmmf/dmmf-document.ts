@@ -4,10 +4,12 @@ import {
   transformDatamodel,
   transformSchema,
   transformMappings,
+  transformBareModel,
 } from "./transform";
 import { GenerateCodeOptions } from "../options";
 
 export class DmmfDocument implements DMMF.Document {
+  private models: DMMF.Model[];
   datamodel: DMMF.Datamodel;
   schema: DMMF.Schema;
   mappings: DMMF.Mapping[];
@@ -16,21 +18,22 @@ export class DmmfDocument implements DMMF.Document {
     { datamodel, schema, mappings }: PrismaDMMF.Document,
     options: GenerateCodeOptions,
   ) {
-    this.datamodel = transformDatamodel(datamodel);
+    this.models = datamodel.models.map(transformBareModel);
+    this.datamodel = transformDatamodel(datamodel, this);
     this.schema = transformSchema(schema, this);
     this.mappings = transformMappings(mappings, this, options);
   }
 
   getModelTypeName(modelName: string): string | undefined {
-    return this.datamodel.models.find(it => it.name === modelName)?.typeName;
+    return this.models.find(it => it.name === modelName)?.typeName;
   }
 
   isModelName(typeName: string): boolean {
-    return this.datamodel.models.some(it => it.name === typeName);
+    return this.models.some(it => it.name === typeName);
   }
 
   getModelFieldAlias(modelName: string, fieldName: string): string | undefined {
-    const model = this.datamodel.models.find(it => it.name === modelName);
+    const model = this.models.find(it => it.name === modelName);
     return model?.fields.find(it => it.name === fieldName)?.typeFieldAlias;
   }
 }

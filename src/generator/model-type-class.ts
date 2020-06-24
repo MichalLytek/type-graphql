@@ -6,7 +6,7 @@ import {
 } from "ts-morph";
 import path from "path";
 
-import { getFieldTSType, getTypeGraphQLType, cleanDocsString } from "./helpers";
+import { cleanDocsString } from "./helpers";
 import {
   generateTypeGraphQLImport,
   generateModelsImports,
@@ -77,7 +77,7 @@ export default async function generateObjectTypeClassFromModel(
 
         return {
           name: field.name,
-          type: getFieldTSType(field, dmmfDocument, false),
+          type: field.fieldTSType,
           hasExclamationToken: !isOptional,
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
@@ -88,7 +88,7 @@ export default async function generateObjectTypeClassFromModel(
                   {
                     name: "TypeGraphQL.Field",
                     arguments: [
-                      `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
+                      `_type => ${field.typeGraphQLType}`,
                       `{
                         nullable: ${isOptional},
                         description: ${
@@ -112,13 +112,13 @@ export default async function generateObjectTypeClassFromModel(
 
         return {
           name: field.typeFieldAlias!,
-          returnType: getFieldTSType(field, dmmfDocument, false),
+          returnType: field.fieldTSType,
           trailingTrivia: "\r\n",
           decorators: [
             {
               name: "TypeGraphQL.Field",
               arguments: [
-                `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
+                `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},

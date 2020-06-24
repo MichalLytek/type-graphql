@@ -5,6 +5,8 @@ import {
   getInputTypeName,
   camelCase,
   getModelNameFromInputType,
+  getTypeGraphQLType,
+  getFieldTSType,
 } from "../helpers";
 import { DmmfDocument } from "./dmmf-document";
 import pluralize from "pluralize";
@@ -13,10 +15,11 @@ import { supportedQueryActions, supportedMutationActions } from "../config";
 
 export function transformDatamodel(
   datamodel: PrismaDMMF.Datamodel,
+  dmmfDocument: DmmfDocument,
 ): DMMF.Datamodel {
   return {
     enums: datamodel.enums,
-    models: datamodel.models.map(transformModel),
+    models: datamodel.models.map(transformModelWithFields(dmmfDocument)),
   };
 }
 
@@ -41,7 +44,7 @@ export function transformMappings(
   return mapping.map(transformMapping(dmmfDocument, options));
 }
 
-function transformModel(model: PrismaDMMF.Model): DMMF.Model {
+export function transformBareModel(model: PrismaDMMF.Model): DMMF.Model {
   const attributeArgs = parseDocumentationAttributes(
     model.documentation,
     "type",
@@ -51,20 +54,42 @@ function transformModel(model: PrismaDMMF.Model): DMMF.Model {
   return {
     ...model,
     typeName: typeName ?? model.name,
-    fields: model.fields.map(transformField),
+    fields: [],
   };
 }
 
-function transformField(field: PrismaDMMF.Field): DMMF.Field {
-  const attributeArgs = parseDocumentationAttributes(
-    field.documentation,
-    "field",
-    "field",
-  );
-  const typeFieldAlias = attributeArgs?.slice(1, -1);
-  return {
-    ...field,
-    typeFieldAlias,
+function transformModelWithFields(dmmfDocument: DmmfDocument) {
+  return (model: PrismaDMMF.Model): DMMF.Model => {
+    const attributeArgs = parseDocumentationAttributes(
+      model.documentation,
+      "type",
+      "model",
+    );
+    const typeName = attributeArgs?.slice(1, -1);
+    return {
+      ...model,
+      typeName: typeName ?? model.name,
+      fields: model.fields.map(transformField(dmmfDocument)),
+    };
+  };
+}
+
+function transformField(dmmfDocument: DmmfDocument) {
+  return (field: PrismaDMMF.Field): DMMF.Field => {
+    const attributeArgs = parseDocumentationAttributes(
+      field.documentation,
+      "field",
+      "field",
+    );
+    const typeFieldAlias = attributeArgs?.slice(1, -1);
+    const fieldTSType = getFieldTSType(field, dmmfDocument, false);
+    const typeGraphQLType = getTypeGraphQLType(field, dmmfDocument);
+    return {
+      ...field,
+      typeFieldAlias,
+      fieldTSType,
+      typeGraphQLType,
+    };
   };
 }
 
@@ -77,13 +102,28 @@ function transformInputType(dmmfDocument: DmmfDocument) {
     return {
       ...inputType,
       typeName: getInputTypeName(inputType.name, dmmfDocument),
-      fields: inputType.fields.map(field => {
+      fields: inputType.fields.map<DMMF.SchemaArg>(field => {
         const modelField = modelType?.fields.find(it => it.name === field.name);
         const typeName = modelField?.typeFieldAlias ?? field.name;
         const selectedInputType = selectInputTypeFromTypes(dmmfDocument)(
           field.inputType,
         );
-        return { ...field, selectedInputType, typeName };
+        const typeGraphQLType = getTypeGraphQLType(
+          selectedInputType,
+          dmmfDocument,
+        );
+        const fieldTSType = getFieldTSType(
+          selectedInputType,
+          dmmfDocument,
+          true,
+        );
+        return {
+          ...field,
+          selectedInputType,
+          typeName,
+          typeGraphQLType,
+          fieldTSType,
+        };
       }),
     };
   };
@@ -93,21 +133,42 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
   return (outputType: PrismaDMMF.OutputType): DMMF.OutputType => {
     return {
       ...outputType,
-      fields: outputType.fields.map<DMMF.SchemaField>(field => ({
-        ...field,
-        outputType: {
+      fields: outputType.fields.map<DMMF.SchemaField>(field => {
+        const outputType: DMMF.SchemaField["outputType"] = {
           ...field.outputType,
           type: field.outputType.type as string,
-        },
-        args: field.args.map<DMMF.SchemaArg>(arg => ({
-          ...arg,
-          selectedInputType: selectInputTypeFromTypes(dmmfDocument)(
-            arg.inputType,
-          ),
-          // TODO: add proper mapping in the future if needed
-          typeName: arg.name,
-        })),
-      })),
+        };
+        const fieldTSType = getFieldTSType(outputType, dmmfDocument, false);
+        const typeGraphQLType = getTypeGraphQLType(outputType, dmmfDocument);
+        return {
+          ...field,
+          outputType,
+          fieldTSType,
+          typeGraphQLType,
+          args: field.args.map<DMMF.SchemaArg>(arg => {
+            const selectedInputType = selectInputTypeFromTypes(dmmfDocument)(
+              arg.inputType,
+            );
+            const typeGraphQLType = getTypeGraphQLType(
+              selectedInputType,
+              dmmfDocument,
+            );
+            const fieldTSType = getFieldTSType(
+              selectedInputType,
+              dmmfDocument,
+              true,
+            );
+            return {
+              ...arg,
+              selectedInputType,
+              fieldTSType,
+              typeGraphQLType,
+              // TODO: add proper mapping in the future if needed
+              typeName: arg.name,
+            };
+          }),
+        };
+      }),
     };
   };
 }

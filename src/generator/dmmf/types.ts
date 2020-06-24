@@ -51,6 +51,8 @@ export declare namespace DMMF {
     // [key: string]: any;
     // additional props
     typeFieldAlias?: string;
+    typeGraphQLType: string;
+    fieldTSType: string;
   }
   interface FieldDefault {
     name: string;
@@ -93,6 +95,8 @@ export declare namespace DMMF {
     // additional props
     selectedInputType: SchemaArgInputType;
     typeName: string;
+    typeGraphQLType: string;
+    fieldTSType: string;
   }
   interface OutputType {
     name: string;
@@ -109,6 +113,9 @@ export declare namespace DMMF {
       kind: FieldKind;
     };
     args: SchemaArg[];
+    // additional props
+    typeGraphQLType: string;
+    fieldTSType: string;
   }
   interface InputType {
     name: string;

@@ -1,7 +1,7 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
 import path from "path";
 
-import { getFieldTSType, getTypeGraphQLType, pascalCase } from "./helpers";
+import { pascalCase } from "./helpers";
 import { argsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -61,7 +61,7 @@ export default async function generateArgsTypeClassFromArgs(
 
       return {
         name: arg.typeName,
-        type: getFieldTSType(arg.selectedInputType, dmmfDocument, true),
+        type: arg.fieldTSType,
         hasExclamationToken: !isOptional,
         hasQuestionToken: isOptional,
         trailingTrivia: "\r\n",
@@ -69,10 +69,7 @@ export default async function generateArgsTypeClassFromArgs(
           {
             name: "TypeGraphQL.Field",
             arguments: [
-              `_type => ${getTypeGraphQLType(
-                arg.selectedInputType,
-                dmmfDocument,
-              )}`,
+              `_type => ${arg.typeGraphQLType}`,
               `{ nullable: ${isOptional} }`,
             ],
           },

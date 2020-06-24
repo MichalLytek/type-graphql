@@ -8,12 +8,7 @@ import {
 } from "ts-morph";
 import path from "path";
 
-import {
-  getFieldTSType,
-  getTypeGraphQLType,
-  camelCase,
-  pascalCase,
-} from "./helpers";
+import { camelCase, pascalCase } from "./helpers";
 import { outputsFolderName, inputsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -97,7 +92,7 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: field.name,
-          type: getFieldTSType(field.outputType, dmmfDocument, false),
+          type: field.fieldTSType,
           hasExclamationToken: isRequired,
           hasQuestionToken: !isRequired,
           trailingTrivia: "\r\n",
@@ -105,10 +100,7 @@ export async function generateOutputTypeClassFromType(
             {
               name: "TypeGraphQL.Field",
               arguments: [
-                `_type => ${getTypeGraphQLType(
-                  field.outputType,
-                  dmmfDocument,
-                )}`,
+                `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!isRequired},
                   description: undefined
@@ -121,22 +113,19 @@ export async function generateOutputTypeClassFromType(
     methods: fieldsInfo
       // TODO: allow also for other fields args
       .filter(it => it.args.length > 0 && type.name.startsWith("Aggregate"))
-      .map<OptionalKind<MethodDeclarationStructure>>(fieldInfo => {
-        const isRequired = fieldInfo.outputType.isRequired;
+      .map<OptionalKind<MethodDeclarationStructure>>(field => {
+        const isRequired = field.outputType.isRequired;
         const collectionName = camelCase(modelName);
 
         return {
-          name: fieldInfo.name,
-          type: getFieldTSType(fieldInfo.outputType, dmmfDocument, false),
+          name: field.name,
+          type: field.fieldTSType,
           trailingTrivia: "\r\n",
           decorators: [
             {
               name: "TypeGraphQL.Field",
               arguments: [
-                `_type => ${getTypeGraphQLType(
-                  fieldInfo.outputType,
-                  dmmfDocument,
-                )}`,
+                `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!isRequired},
                   description: undefined
@@ -153,12 +142,12 @@ export async function generateOutputTypeClassFromType(
             },
             {
               name: "args",
-              type: fieldInfo.argsTypeName,
+              type: field.argsTypeName,
               decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
             },
           ],
           statements: [
-            `return ctx.prisma.${collectionName}.${fieldInfo.name}(args);`,
+            `return ctx.prisma.${collectionName}.${field.name}(args);`,
           ],
         };
       }),
@@ -231,7 +220,7 @@ export async function generateInputTypeClassFromType(
         const isOptional = !field.selectedInputType.isRequired;
         return {
           name: field.name,
-          type: getFieldTSType(field.selectedInputType, dmmfDocument, true),
+          type: field.fieldTSType,
           hasExclamationToken: !isOptional,
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
@@ -241,14 +230,11 @@ export async function generateInputTypeClassFromType(
                 {
                   name: "TypeGraphQL.Field",
                   arguments: [
-                    `_type => ${getTypeGraphQLType(
-                      field.selectedInputType,
-                      dmmfDocument,
-                    )}`,
+                    `_type => ${field.typeGraphQLType}`,
                     `{
-                  nullable: ${isOptional},
-                  description: undefined
-                }`,
+                      nullable: ${isOptional},
+                      description: undefined
+                    }`,
                   ],
                 },
               ],
@@ -260,7 +246,7 @@ export async function generateInputTypeClassFromType(
       .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
         return {
           name: field.typeName,
-          type: getFieldTSType(field.selectedInputType, dmmfDocument, true),
+          type: field.fieldTSType,
           hasExclamationToken: field.selectedInputType.isRequired,
           hasQuestionToken: !field.selectedInputType.isRequired,
           trailingTrivia: "\r\n",
@@ -269,10 +255,7 @@ export async function generateInputTypeClassFromType(
             {
               name: "TypeGraphQL.Field",
               arguments: [
-                `_type => ${getTypeGraphQLType(
-                  field.selectedInputType,
-                  dmmfDocument,
-                )}`,
+                `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!field.selectedInputType.isRequired},
                   description: undefined
@@ -285,18 +268,13 @@ export async function generateInputTypeClassFromType(
     setAccessors: fields
       .filter(field => field.hasMappedName)
       .map<OptionalKind<SetAccessorDeclarationStructure>>(field => {
-        const fieldTSType = getFieldTSType(
-          field.selectedInputType,
-          dmmfDocument,
-          true,
-        );
         return {
           name: field.typeName,
-          type: fieldTSType,
+          type: field.fieldTSType,
           hasExclamationToken: field.selectedInputType.isRequired,
           hasQuestionToken: !field.selectedInputType.isRequired,
           trailingTrivia: "\r\n",
-          parameters: [{ name: field.name, type: fieldTSType }],
+          parameters: [{ name: field.name, type: field.fieldTSType }],
           statements: [`this.${field.name} = ${field.name};`],
         };
       }),

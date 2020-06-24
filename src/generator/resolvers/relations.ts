@@ -1,13 +1,7 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
 import path from "path";
 
-import {
-  getFieldTSType,
-  getTypeGraphQLType,
-  camelCase,
-  pascalCase,
-  cleanDocsString,
-} from "../helpers";
+import { camelCase, pascalCase, cleanDocsString } from "../helpers";
 import generateArgsTypeClassFromArgs from "../args-class";
 import {
   resolversFolderName,
@@ -19,7 +13,6 @@ import {
   generateArgsImports,
   generateModelsImports,
   generateArgsBarrelFile,
-  generateGraphQLScalarImport,
 } from "../imports";
 import { GeneratedResolverData } from "../types";
 import saveSourceFile from "../../utils/saveSourceFile";
@@ -67,7 +60,6 @@ export default async function generateRelationsResolverClassesFromModel(
         it => it.name === field.name,
       )!;
       const fieldDocs = cleanDocsString(field.documentation);
-      const fieldType = getFieldTSType(field, dmmfDocument, false);
 
       let argsTypeName: string | undefined;
       if (outputTypeField.args.length > 0) {
@@ -79,7 +71,7 @@ export default async function generateRelationsResolverClassesFromModel(
           dmmfDocument,
         );
       }
-      return { field, fieldDocs, fieldType, argsTypeName };
+      return { field, fieldDocs, argsTypeName };
     }),
   );
   const argTypeNames = methodsInfo
@@ -118,7 +110,7 @@ export default async function generateRelationsResolverClassesFromModel(
       },
     ],
     methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
-      ({ field, fieldType, fieldDocs, argsTypeName }) => {
+      ({ field, fieldDocs, argsTypeName }) => {
         let whereConditionString: string = "";
         // TODO: refactor to AST
         if (singleFilterField) {
@@ -143,12 +135,12 @@ export default async function generateRelationsResolverClassesFromModel(
         return {
           name: field.typeFieldAlias ?? field.name,
           isAsync: true,
-          returnType: `Promise<${fieldType}>`,
+          returnType: `Promise<${field.fieldTSType}>`,
           decorators: [
             {
               name: "TypeGraphQL.FieldResolver",
               arguments: [
-                `_type => ${getTypeGraphQLType(field, dmmfDocument)}`,
+                `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!field.isRequired},
                   description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
