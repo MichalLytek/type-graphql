@@ -151,11 +151,8 @@ export default async function generateCode(
   await saveSourceFile(outputsBarrelExportSourceFile);
 
   log("Generating input types...");
-  const inputTypesToEmit = dmmfDocument.schema.inputTypes.filter(
-    type => type.name !== "JsonFilter",
-  );
   await Promise.all(
-    inputTypesToEmit.map(type =>
+    dmmfDocument.schema.inputTypes.map(type =>
       generateInputTypeClassFromType(
         project,
         resolversDirPath,
@@ -176,7 +173,7 @@ export default async function generateCode(
   );
   generateInputsBarrelFile(
     inputsBarrelExportSourceFile,
-    inputTypesToEmit.map(it => it.typeName),
+    dmmfDocument.schema.inputTypes.map(it => it.typeName),
   );
   await saveSourceFile(inputsBarrelExportSourceFile);
 

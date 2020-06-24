@@ -4,6 +4,7 @@ import { BooleanFilter } from "../inputs/BooleanFilter";
 import { ClientWhereInput } from "../inputs/ClientWhereInput";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { JsonFilter } from "../inputs/JsonFilter";
 import { NullablePostKindFilter } from "../inputs/NullablePostKindFilter";
 import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -61,6 +62,12 @@ export class PostWhereInput {
     description: undefined
   })
   kind?: NullablePostKindFilter | undefined;
+
+  @TypeGraphQL.Field(_type => JsonFilter, {
+    nullable: true,
+    description: undefined
+  })
+  metadata?: JsonFilter | undefined;
 
   @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,

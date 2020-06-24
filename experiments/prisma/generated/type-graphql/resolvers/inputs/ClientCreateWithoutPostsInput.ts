@@ -21,7 +21,7 @@ export class ClientCreateWithoutPostsInput {
   })
   age!: number;
 
-  balance?: number;
+  balance!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false,

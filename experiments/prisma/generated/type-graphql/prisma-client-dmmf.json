@@ -8123,7 +8123,41 @@
       },
       {
         "name": "JsonFilter",
-        "fields": [],
+        "fields": [
+          {
+            "name": "equals",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "isNullable": false,
+                "kind": "scalar",
+                "type": "Json"
+              }
+            ]
+          },
+          {
+            "name": "not",
+            "isRelationFilter": false,
+            "inputType": [
+              {
+                "isList": false,
+                "isRequired": false,
+                "isNullable": false,
+                "kind": "scalar",
+                "type": "Json"
+              },
+              {
+                "isList": false,
+                "isRequired": false,
+                "isNullable": false,
+                "kind": "scalar",
+                "type": "JsonFilter"
+              }
+            ]
+          }
+        ],
         "atLeastOne": false
       },
       {

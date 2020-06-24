@@ -22,7 +22,7 @@ export class ClientCreateInput {
   })
   age!: number;
 
-  balance?: number;
+  balance!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false,

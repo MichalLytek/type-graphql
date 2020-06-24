@@ -3,7 +3,6 @@ import {
   OptionalKind,
   Project,
   MethodDeclarationStructure,
-  GetAccessorDeclaration,
   GetAccessorDeclarationStructure,
   SetAccessorDeclarationStructure,
 } from "ts-morph";
@@ -186,13 +185,8 @@ export async function generateInputTypeClassFromType(
   generateInputsImports(
     sourceFile,
     inputType.fields
-      .map(field => field.selectedInputType)
-      .filter(
-        fieldInputType =>
-          fieldInputType.kind === "object" &&
-          fieldInputType.type !== "JsonFilter",
-      )
-      .map(fieldInputType => fieldInputType.type)
+      .filter(field => field.selectedInputType.kind === "object")
+      .map(field => field.selectedInputType.type)
       .filter(fieldType => fieldType !== inputType.typeName),
   );
   generateEnumsImports(
@@ -204,15 +198,13 @@ export async function generateInputTypeClassFromType(
     2,
   );
 
-  const fields = inputType.fields
-    .filter(field => field.selectedInputType.type !== "JsonFilter")
-    .map(field => {
-      const hasMappedName = field.name !== field.typeName;
-      return {
-        ...field,
-        hasMappedName,
-      };
-    });
+  const fields = inputType.fields.map(field => {
+    const hasMappedName = field.name !== field.typeName;
+    return {
+      ...field,
+      hasMappedName,
+    };
+  });
 
   sourceFile.addClass({
     name: inputType.typeName,

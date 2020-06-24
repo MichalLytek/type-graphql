@@ -44,6 +44,7 @@ import { BooleanFilter } from \\"../inputs/BooleanFilter\\";
 import { DateTimeFilter } from \\"../inputs/DateTimeFilter\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
+import { JsonFilter } from \\"../inputs/JsonFilter\\";
 import { NullableStringFilter } from \\"../inputs/NullableStringFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
@@ -93,6 +94,12 @@ export class SampleModelWhereInput {
     description: undefined
   })
   dateField?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => JsonFilter, {
+    nullable: true,
+    description: undefined
+  })
+  jsonField?: JsonFilter | undefined;
 
   @TypeGraphQL.Field(_type => [SampleModelWhereInput], {
     nullable: true,
@@ -514,6 +521,30 @@ export class IntFilter {
 "
 `;
 
+exports[`inputs should properly generate input type classes for filtering scalar fields: JsonFilter 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class JsonFilter {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: object | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  not?: object | undefined;
+}
+"
+`;
+
 exports[`inputs should properly generate input type classes for filtering scalar fields: NullableBooleanFilter 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -714,6 +745,30 @@ export class NullableIntFilter {
     description: undefined
   })
   gte?: number | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for filtering scalar fields: NullableJsonFilter 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class NullableJsonFilter {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  equals?: object | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  not?: object | undefined;
 }
 "
 `;

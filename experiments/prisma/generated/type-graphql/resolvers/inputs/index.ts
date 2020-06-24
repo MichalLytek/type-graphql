@@ -32,6 +32,7 @@ export { DirectorWhereUniqueInput } from "./DirectorWhereUniqueInput";
 export { FirstNameLastNameCompoundUniqueInput } from "./FirstNameLastNameCompoundUniqueInput";
 export { FloatFilter } from "./FloatFilter";
 export { IntFilter } from "./IntFilter";
+export { JsonFilter } from "./JsonFilter";
 export { MovieCreateInput } from "./MovieCreateInput";
 export { MovieCreateManyWithoutDirectorInput } from "./MovieCreateManyWithoutDirectorInput";
 export { MovieCreateWithoutDirectorInput } from "./MovieCreateWithoutDirectorInput";
