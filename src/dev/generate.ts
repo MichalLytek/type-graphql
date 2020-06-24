@@ -9,5 +9,12 @@ export default async function generate(
   console.log("Loading datamodel...");
   const dmmf = require(dmmfJSONPath) as PrismaDMMF.Document;
 
-  await generateCode(dmmf, { outputDirPath: outputTSFilePath }, console.log);
+  await generateCode(
+    dmmf,
+    {
+      outputDirPath: outputTSFilePath,
+      relativePrismaRequirePath: "../client",
+    },
+    console.log,
+  );
 }

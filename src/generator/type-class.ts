@@ -21,17 +21,20 @@ import {
   generateEnumsImports,
   generateArgsImports,
   generateGraphQLScalarImport,
+  generatePrismaJsonTypeImport,
 } from "./imports";
 import saveSourceFile from "../utils/saveSourceFile";
 import generateArgsTypeClassFromArgs from "./args-class";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import { DMMF } from "./dmmf/types";
+import { GenerateCodeOptions } from "./options";
 
 export async function generateOutputTypeClassFromType(
   project: Project,
   dirPath: string,
   type: DMMF.OutputType,
   dmmfDocument: DmmfDocument,
+  options: GenerateCodeOptions,
 ) {
   // TODO: make it more future-proof
   const modelName = type.name.replace("Aggregate", "");
@@ -70,6 +73,11 @@ export async function generateOutputTypeClassFromType(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
+  generatePrismaJsonTypeImport(
+    sourceFile,
+    options.relativePrismaRequirePath,
+    2,
+  );
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
 
   sourceFile.addClass({
@@ -93,7 +101,7 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: field.name,
-          type: getFieldTSType(field.outputType, dmmfDocument),
+          type: getFieldTSType(field.outputType, dmmfDocument, false),
           hasExclamationToken: isRequired,
           hasQuestionToken: !isRequired,
           trailingTrivia: "\r\n",
@@ -123,7 +131,7 @@ export async function generateOutputTypeClassFromType(
 
         return {
           name: fieldInfo.name,
-          type: getFieldTSType(fieldInfo.outputType, dmmfDocument),
+          type: getFieldTSType(fieldInfo.outputType, dmmfDocument, false),
           trailingTrivia: "\r\n",
           decorators: [
             {
@@ -170,6 +178,7 @@ export async function generateInputTypeClassFromType(
   dirPath: string,
   inputType: DMMF.InputType,
   dmmfDocument: DmmfDocument,
+  options: GenerateCodeOptions,
 ): Promise<void> {
   const filePath = path.resolve(
     dirPath,
@@ -182,6 +191,11 @@ export async function generateInputTypeClassFromType(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
+  generatePrismaJsonTypeImport(
+    sourceFile,
+    options.relativePrismaRequirePath,
+    2,
+  );
   generateInputsImports(
     sourceFile,
     inputType.fields
@@ -225,7 +239,7 @@ export async function generateInputTypeClassFromType(
         const isOptional = !field.selectedInputType.isRequired;
         return {
           name: field.name,
-          type: getFieldTSType(field.selectedInputType, dmmfDocument),
+          type: getFieldTSType(field.selectedInputType, dmmfDocument, true),
           hasExclamationToken: !isOptional,
           hasQuestionToken: isOptional,
           trailingTrivia: "\r\n",
@@ -254,7 +268,7 @@ export async function generateInputTypeClassFromType(
       .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
         return {
           name: field.typeName,
-          type: getFieldTSType(field.selectedInputType, dmmfDocument),
+          type: getFieldTSType(field.selectedInputType, dmmfDocument, true),
           hasExclamationToken: field.selectedInputType.isRequired,
           hasQuestionToken: !field.selectedInputType.isRequired,
           trailingTrivia: "\r\n",
@@ -282,6 +296,7 @@ export async function generateInputTypeClassFromType(
         const fieldTSType = getFieldTSType(
           field.selectedInputType,
           dmmfDocument,
+          true,
         );
         return {
           name: field.typeName,

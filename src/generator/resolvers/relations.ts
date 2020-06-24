@@ -67,7 +67,7 @@ export default async function generateRelationsResolverClassesFromModel(
         it => it.name === field.name,
       )!;
       const fieldDocs = cleanDocsString(field.documentation);
-      const fieldType = getFieldTSType(field, dmmfDocument);
+      const fieldType = getFieldTSType(field, dmmfDocument, false);
 
       let argsTypeName: string | undefined;
       if (outputTypeField.args.length > 0) {

@@ -4,10 +4,10 @@ import { GenerateCodeOptions } from "../../src/generator/options";
 
 export async function generateCodeFromSchema(
   schema: string,
-  options: GenerateCodeOptions,
+  options: Omit<GenerateCodeOptions, "relativePrismaRequirePath">,
 ): Promise<void> {
-  await generateCode(
-    await getPrismaClientDmmfFromPrismaSchema(schema),
-    options,
-  );
+  await generateCode(await getPrismaClientDmmfFromPrismaSchema(schema), {
+    ...options,
+    relativePrismaRequirePath: "../../helpers/prisma-client-mock",
+  });
 }

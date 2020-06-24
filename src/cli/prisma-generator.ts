@@ -12,13 +12,16 @@ export async function generate(options: GeneratorOptions) {
   await asyncFs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);
 
-  const prismaClientDmmf = require(options.otherGenerators.find(
+  const prismaRequirePath = options.otherGenerators.find(
     it => it.provider === "prisma-client-js",
-  )!.output!).dmmf as PrismaDMMF.Document;
+  )!.output!;
+  const prismaClientDmmf = require(prismaRequirePath)
+    .dmmf as PrismaDMMF.Document;
 
   const config: GenerateCodeOptions = {
     ...options.generator.config,
     outputDirPath: outputDir,
+    relativePrismaRequirePath: path.relative(outputDir, prismaRequirePath),
   };
 
   if (config.emitDMMF) {

@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "../../../client";
 import { AggregatePatientCountArgs } from "./args/AggregatePatientCountArgs";
 
 @TypeGraphQL.ObjectType({

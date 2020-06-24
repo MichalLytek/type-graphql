@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "../../../client";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -10,11 +11,11 @@ export class JsonFilter {
     nullable: true,
     description: undefined
   })
-  equals?: object | undefined;
+  equals?: InputJsonValue | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  not?: object | undefined;
+  not?: InputJsonValue | undefined;
 }

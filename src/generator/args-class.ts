@@ -61,7 +61,7 @@ export default async function generateArgsTypeClassFromArgs(
 
       return {
         name: arg.typeName,
-        type: getFieldTSType(arg.selectedInputType, dmmfDocument),
+        type: getFieldTSType(arg.selectedInputType, dmmfDocument, true),
         hasExclamationToken: !isOptional,
         hasQuestionToken: isOptional,
         trailingTrivia: "\r\n",

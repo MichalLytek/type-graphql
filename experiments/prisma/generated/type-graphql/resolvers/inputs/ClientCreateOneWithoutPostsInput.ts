@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "../../../client";
 import { ClientCreateWithoutPostsInput } from "../inputs/ClientCreateWithoutPostsInput";
 import { ClientWhereUniqueInput } from "../inputs/ClientWhereUniqueInput";
 

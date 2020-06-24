@@ -3,6 +3,7 @@
 exports[`outputs should properly generate aggregate classes for renamed model: AggregateExample 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 import { AggregateExampleCountArgs } from \\"./args/AggregateExampleCountArgs\\";
 
 @TypeGraphQL.ObjectType({
@@ -95,6 +96,7 @@ exports[`outputs should properly generate args type classes for aggregate: outpu
 exports[`outputs should properly generate output type classes: AggregateSample 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 import { AggregateSampleCountArgs } from \\"./args/AggregateSampleCountArgs\\";
 
 @TypeGraphQL.ObjectType({
@@ -116,6 +118,7 @@ export class AggregateSample {
 exports[`outputs should properly generate output type classes: BatchPayload 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 
 @TypeGraphQL.ObjectType({
   isAbstract: true,

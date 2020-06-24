@@ -7,12 +7,13 @@ export function noop() {}
 export function getFieldTSType(
   typeInfo: DMMFTypeInfo,
   dmmfDocument: DmmfDocument,
+  isInputType: boolean,
   modelName?: string,
   typeName?: string,
 ) {
   let TSType: string;
   if (typeInfo.kind === "scalar") {
-    TSType = mapScalarToTSType(typeInfo.type);
+    TSType = mapScalarToTSType(typeInfo.type, isInputType);
   } else if (typeInfo.kind === "object") {
     if (dmmfDocument.isModelName(typeInfo.type)) {
       TSType = dmmfDocument.getModelTypeName(typeInfo.type)!;
@@ -42,7 +43,7 @@ export function getFieldTSType(
   return TSType;
 }
 
-export function mapScalarToTSType(scalar: string) {
+export function mapScalarToTSType(scalar: string, isInputType: boolean) {
   switch (scalar) {
     case "ID":
     case "UUID": {
@@ -62,7 +63,7 @@ export function mapScalarToTSType(scalar: string) {
       return "number";
     }
     case "Json":
-      return "object";
+      return isInputType ? "InputJsonValue" : "JsonValue";
     default:
       throw new Error(`Unrecognized scalar type: ${scalar}`);
   }

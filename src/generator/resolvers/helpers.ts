@@ -14,6 +14,7 @@ export function generateCrudResolverClassMethodDeclaration(
   const returnTSType = getFieldTSType(
     method.outputType,
     dmmfDocument,
+    false,
     mapping.model,
     typeName,
   );

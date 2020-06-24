@@ -27,6 +27,19 @@ export function generateGraphQLScalarImport(sourceFile: SourceFile) {
   });
 }
 
+export function generatePrismaJsonTypeImport(
+  sourceFile: SourceFile,
+  relativePrismaRequirePath: string,
+  level = 0,
+) {
+  sourceFile.addImportDeclaration({
+    moduleSpecifier:
+      (level === 0 ? "./" : "") +
+      path.posix.join(...Array(level).fill(".."), relativePrismaRequirePath),
+    namedImports: ["JsonValue", "InputJsonValue"],
+  });
+}
+
 export function generateArgsBarrelFile(
   sourceFile: SourceFile,
   argsTypeNames: string[],

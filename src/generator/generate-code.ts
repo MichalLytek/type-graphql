@@ -84,6 +84,7 @@ export default async function generateCode(
         baseDirPath,
         model,
         dmmfDocument,
+        options,
       ),
     ),
   );
@@ -113,6 +114,7 @@ export default async function generateCode(
         resolversDirPath,
         type,
         dmmfDocument,
+        options,
       ),
     ),
   );
@@ -158,6 +160,7 @@ export default async function generateCode(
         resolversDirPath,
         type,
         dmmfDocument,
+        options,
       ),
     ),
   );

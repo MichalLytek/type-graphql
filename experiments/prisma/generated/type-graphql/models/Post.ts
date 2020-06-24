@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "../../client";
 import { Client } from "../models/Client";
 import { PostKind } from "../enums/PostKind";
 
@@ -62,5 +63,5 @@ export class Post {
     nullable: false,
     description: undefined,
   })
-  metadata!: object;
+  metadata!: JsonValue;
 }
