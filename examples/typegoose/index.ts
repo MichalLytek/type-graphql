@@ -16,13 +16,13 @@ export interface Context {
   user: User;
 }
 
-// replace with your value if needed
-const MONGO_HOST = "192.168.99.100";
+// replace with your values if needed
+const MONGO_DB_URL = "mongodb://localhost:27017/type-graphql";
 
 async function bootstrap() {
   try {
     // create mongoose connection
-    const mongoose = await connect(`mongodb://${MONGO_HOST}:27017/type-graphql`);
+    const mongoose = await connect(MONGO_DB_URL);
 
     // clean and seed database with some data
     await mongoose.connection.db.dropDatabase();
