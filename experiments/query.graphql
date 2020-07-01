@@ -40,11 +40,7 @@ mutation AddClient {
 }
 
 query MyFindClients {
-  customFindClientsWithArgs(where:{
-    accountBalance:{
-      gte: 10
-    }
-  }) {
+  customFindClientsWithArgs(where: { accountBalance: { gte: 10 } }) {
     id
     email
     accountBalance
@@ -133,5 +129,20 @@ query GetMovie {
 query CountBravoPatients {
   countBravoPatients: aggregatePatient {
     count(where: { lastName: { contains: "Bravo" } })
+  }
+}
+
+query FilterPostsByJson {
+  onWikiLeaks: posts(
+    where: { metadata: { equals: { publishedOnWikiLeaks: true } } }
+  ) {
+    uuid
+    title
+  }
+  notPublishedAndOthers: posts(
+    where: { metadata: { not: { publishedOnWikiLeaks: false } } }
+  ) {
+    uuid
+    title
   }
 }
