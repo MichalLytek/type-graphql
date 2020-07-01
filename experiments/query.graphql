@@ -40,7 +40,7 @@ mutation AddClient {
 }
 
 query MyFindClients {
-  customFindClients(where:{
+  customFindClientsWithArgs(where:{
     accountBalance:{
       gte: 10
     }
