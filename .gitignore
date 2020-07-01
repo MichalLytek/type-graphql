@@ -5,3 +5,6 @@ package
 tests/artifacts
 coverage
 .env
+## prisma engine binary
+*.exe
+*.x
