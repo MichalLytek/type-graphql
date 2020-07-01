@@ -13,7 +13,7 @@ export default async function generate(
     dmmf,
     {
       outputDirPath: outputTSFilePath,
-      relativePrismaRequirePath: "../client",
+      relativePrismaOutputPath: "../client",
     },
     console.log,
   );

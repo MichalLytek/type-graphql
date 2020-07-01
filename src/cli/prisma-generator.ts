@@ -6,22 +6,25 @@ import path from "path";
 import generateCode from "../generator/generate-code";
 import removeDir from "../utils/removeDir";
 import { GenerateCodeOptions } from "../generator/options";
+import { toUnixPath } from "../generator/helpers";
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = options.generator.output!;
   await asyncFs.mkdir(outputDir, { recursive: true });
   await removeDir(outputDir, true);
 
-  const prismaRequirePath = options.otherGenerators.find(
+  const prismaClientPath = options.otherGenerators.find(
     it => it.provider === "prisma-client-js",
   )!.output!;
-  const prismaClientDmmf = require(prismaRequirePath)
+  const prismaClientDmmf = require(prismaClientPath)
     .dmmf as PrismaDMMF.Document;
 
   const config: GenerateCodeOptions = {
     ...options.generator.config,
     outputDirPath: outputDir,
-    relativePrismaRequirePath: path.relative(outputDir, prismaRequirePath),
+    relativePrismaOutputPath: toUnixPath(
+      path.relative(outputDir, prismaClientPath),
+    ),
   };
 
   if (config.emitDMMF) {

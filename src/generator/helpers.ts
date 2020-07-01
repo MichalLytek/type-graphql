@@ -198,3 +198,7 @@ export function cleanDocsString(
   cleanedDocs = cleanedDocs.split("\\n").join("");
   return cleanedDocs;
 }
+
+export function toUnixPath(maybeWindowsPath: string) {
+  return maybeWindowsPath.split("\\").join("/");
+}
