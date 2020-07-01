@@ -318,14 +318,14 @@ export declare class PrismaClient<
   get user(): UserDelegate;
 
   /**
-   * `prisma.post`: Exposes CRUD operations for the **Post** model.
+   * `prisma.post`: Exposes CRUD operations for the **post** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Posts
     * const posts = await prisma.post.findMany()
     * ```
     */
-  get post(): PostDelegate;
+  get post(): postDelegate;
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
@@ -423,12 +423,12 @@ export type UserSelect = {
   age?: boolean
   balance?: boolean
   amount?: boolean
-  posts?: boolean | FindManyPostArgs
+  posts?: boolean | FindManypostArgs
   role?: boolean
 }
 
 export type UserInclude = {
-  posts?: boolean | FindManyPostArgs
+  posts?: boolean | FindManypostArgs
 }
 
 export type UserGetPayload<
@@ -443,14 +443,14 @@ export type UserGetPayload<
     ? User  & {
       [P in TrueKeys<S['include']>]:
       P extends 'posts'
-      ? Array<PostGetPayload<S['include'][P]>> : never
+      ? Array<postGetPayload<S['include'][P]>> : never
     }
   : 'select' extends U
     ? {
       [P in TrueKeys<S['select']>]:P extends keyof User ? User[P]
 : 
       P extends 'posts'
-      ? Array<PostGetPayload<S['select'][P]>> : never
+      ? Array<postGetPayload<S['select'][P]>> : never
     }
   : User
 : User
@@ -618,7 +618,7 @@ export declare class Prisma__UserClient<T> implements Promise<T> {
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-  posts<T extends FindManyPostArgs = {}>(args?: Subset<T, FindManyPostArgs>): CheckSelect<T, Promise<Array<Post>>, Promise<Array<PostGetPayload<T>>>>;
+  posts<T extends FindManypostArgs = {}>(args?: Subset<T, FindManypostArgs>): CheckSelect<T, Promise<Array<post>>, Promise<Array<postGetPayload<T>>>>;
 
   private get _document();
   /**
@@ -821,10 +821,10 @@ export type UserArgs = {
 
 
 /**
- * Model Post
+ * Model post
  */
 
-export type Post = {
+export type post = {
   uuid: string
   createdAt: Date
   updatedAt: Date
@@ -836,7 +836,7 @@ export type Post = {
   metadata: JsonValue
 }
 
-export type PostSelect = {
+export type postSelect = {
   uuid?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -849,39 +849,39 @@ export type PostSelect = {
   metadata?: boolean
 }
 
-export type PostInclude = {
+export type postInclude = {
   author?: boolean | UserArgs
 }
 
-export type PostGetPayload<
-  S extends boolean | null | undefined | PostArgs,
+export type postGetPayload<
+  S extends boolean | null | undefined | postArgs,
   U = keyof S
 > = S extends true
-  ? Post
+  ? post
   : S extends undefined
   ? never
-  : S extends PostArgs | FindManyPostArgs
+  : S extends postArgs | FindManypostArgs
   ? 'include' extends U
-    ? Post  & {
+    ? post  & {
       [P in TrueKeys<S['include']>]:
       P extends 'author'
       ? UserGetPayload<S['include'][P]> : never
     }
   : 'select' extends U
     ? {
-      [P in TrueKeys<S['select']>]:P extends keyof Post ? Post[P]
+      [P in TrueKeys<S['select']>]:P extends keyof post ? post[P]
 : 
       P extends 'author'
       ? UserGetPayload<S['select'][P]> : never
     }
-  : Post
-: Post
+  : post
+: post
 
 
-export interface PostDelegate {
+export interface postDelegate {
   /**
    * Find zero or one Post.
-   * @param {FindOnePostArgs} args - Arguments to find a Post
+   * @param {FindOnepostArgs} args - Arguments to find a Post
    * @example
    * // Get one Post
    * const post = await prisma.post.findOne({
@@ -890,12 +890,12 @@ export interface PostDelegate {
    *   }
    * })
   **/
-  findOne<T extends FindOnePostArgs>(
-    args: Subset<T, FindOnePostArgs>
-  ): CheckSelect<T, Prisma__PostClient<Post | null>, Prisma__PostClient<PostGetPayload<T> | null>>
+  findOne<T extends FindOnepostArgs>(
+    args: Subset<T, FindOnepostArgs>
+  ): CheckSelect<T, Prisma__postClient<post | null>, Prisma__postClient<postGetPayload<T> | null>>
   /**
    * Find zero or more Posts.
-   * @param {FindManyPostArgs=} args - Arguments to filter and select certain fields only.
+   * @param {FindManypostArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Posts
    * const posts = await prisma.post.findMany()
@@ -907,12 +907,12 @@ export interface PostDelegate {
    * const postWithUuidOnly = await prisma.post.findMany({ select: { uuid: true } })
    * 
   **/
-  findMany<T extends FindManyPostArgs>(
-    args?: Subset<T, FindManyPostArgs>
-  ): CheckSelect<T, Promise<Array<Post>>, Promise<Array<PostGetPayload<T>>>>
+  findMany<T extends FindManypostArgs>(
+    args?: Subset<T, FindManypostArgs>
+  ): CheckSelect<T, Promise<Array<post>>, Promise<Array<postGetPayload<T>>>>
   /**
    * Create a Post.
-   * @param {PostCreateArgs} args - Arguments to create a Post.
+   * @param {postCreateArgs} args - Arguments to create a Post.
    * @example
    * // Create one Post
    * const Post = await prisma.post.create({
@@ -922,12 +922,12 @@ export interface PostDelegate {
    * })
    * 
   **/
-  create<T extends PostCreateArgs>(
-    args: Subset<T, PostCreateArgs>
-  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
+  create<T extends postCreateArgs>(
+    args: Subset<T, postCreateArgs>
+  ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
   /**
    * Delete a Post.
-   * @param {PostDeleteArgs} args - Arguments to delete one Post.
+   * @param {postDeleteArgs} args - Arguments to delete one Post.
    * @example
    * // Delete one Post
    * const Post = await prisma.post.delete({
@@ -937,12 +937,12 @@ export interface PostDelegate {
    * })
    * 
   **/
-  delete<T extends PostDeleteArgs>(
-    args: Subset<T, PostDeleteArgs>
-  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
+  delete<T extends postDeleteArgs>(
+    args: Subset<T, postDeleteArgs>
+  ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
   /**
    * Update one Post.
-   * @param {PostUpdateArgs} args - Arguments to update one Post.
+   * @param {postUpdateArgs} args - Arguments to update one Post.
    * @example
    * // Update one Post
    * const post = await prisma.post.update({
@@ -955,12 +955,12 @@ export interface PostDelegate {
    * })
    * 
   **/
-  update<T extends PostUpdateArgs>(
-    args: Subset<T, PostUpdateArgs>
-  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
+  update<T extends postUpdateArgs>(
+    args: Subset<T, postUpdateArgs>
+  ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
   /**
    * Delete zero or more Posts.
-   * @param {PostDeleteManyArgs} args - Arguments to filter Posts to delete.
+   * @param {postDeleteManyArgs} args - Arguments to filter Posts to delete.
    * @example
    * // Delete a few Posts
    * const { count } = await prisma.post.deleteMany({
@@ -970,12 +970,12 @@ export interface PostDelegate {
    * })
    * 
   **/
-  deleteMany<T extends PostDeleteManyArgs>(
-    args: Subset<T, PostDeleteManyArgs>
+  deleteMany<T extends postDeleteManyArgs>(
+    args: Subset<T, postDeleteManyArgs>
   ): Promise<BatchPayload>
   /**
    * Update zero or more Posts.
-   * @param {PostUpdateManyArgs} args - Arguments to update one or more rows.
+   * @param {postUpdateManyArgs} args - Arguments to update one or more rows.
    * @example
    * // Update many Posts
    * const post = await prisma.post.updateMany({
@@ -988,12 +988,12 @@ export interface PostDelegate {
    * })
    * 
   **/
-  updateMany<T extends PostUpdateManyArgs>(
-    args: Subset<T, PostUpdateManyArgs>
+  updateMany<T extends postUpdateManyArgs>(
+    args: Subset<T, postUpdateManyArgs>
   ): Promise<BatchPayload>
   /**
    * Create or update one Post.
-   * @param {PostUpsertArgs} args - Arguments to update or create a Post.
+   * @param {postUpsertArgs} args - Arguments to update or create a Post.
    * @example
    * // Update or create a Post
    * const post = await prisma.post.upsert({
@@ -1008,22 +1008,22 @@ export interface PostDelegate {
    *   }
    * })
   **/
-  upsert<T extends PostUpsertArgs>(
-    args: Subset<T, PostUpsertArgs>
-  ): CheckSelect<T, Prisma__PostClient<Post>, Prisma__PostClient<PostGetPayload<T>>>
+  upsert<T extends postUpsertArgs>(
+    args: Subset<T, postUpsertArgs>
+  ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
   /**
    * 
    */
-  count(args?: Omit<FindManyPostArgs, 'select' | 'include'>): Promise<number>
+  count(args?: Omit<FindManypostArgs, 'select' | 'include'>): Promise<number>
 }
 
 /**
- * The delegate class that acts as a "Promise-like" for Post.
+ * The delegate class that acts as a "Promise-like" for post.
  * Why is this prefixed with `Prisma__`?
  * Because we want to prevent naming conflicts as mentioned in 
  * https://github.com/prisma/prisma-client-js/issues/707
  */
-export declare class Prisma__PostClient<T> implements Promise<T> {
+export declare class Prisma__postClient<T> implements Promise<T> {
   private readonly _dmmf;
   private readonly _fetcher;
   private readonly _queryType;
@@ -1068,176 +1068,176 @@ export declare class Prisma__PostClient<T> implements Promise<T> {
 // Custom InputTypes
 
 /**
- * Post findOne
+ * post findOne
  */
-export type FindOnePostArgs = {
+export type FindOnepostArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * Filter, which Post to fetch.
+   * Filter, which post to fetch.
   **/
-  where: PostWhereUniqueInput
+  where: postWhereUniqueInput
 }
 
 
 /**
- * Post findMany
+ * post findMany
  */
-export type FindManyPostArgs = {
+export type FindManypostArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * Filter, which Posts to fetch.
+   * Filter, which posts to fetch.
   **/
-  where?: PostWhereInput
+  where?: postWhereInput
   /**
-   * Determine the order of the Posts to fetch.
+   * Determine the order of the posts to fetch.
   **/
-  orderBy?: PostOrderByInput
+  orderBy?: postOrderByInput
   /**
-   * Sets the position for listing Posts.
+   * Sets the position for listing posts.
   **/
-  cursor?: PostWhereUniqueInput
+  cursor?: postWhereUniqueInput
   /**
-   * The number of Posts to fetch. If negative number, it will take Posts before the `cursor`.
+   * The number of posts to fetch. If negative number, it will take posts before the `cursor`.
   **/
   take?: number
   /**
-   * Skip the first `n` Posts.
+   * Skip the first `n` posts.
   **/
   skip?: number
 }
 
 
 /**
- * Post create
+ * post create
  */
-export type PostCreateArgs = {
+export type postCreateArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * The data needed to create a Post.
+   * The data needed to create a post.
   **/
-  data: PostCreateInput
+  data: postCreateInput
 }
 
 
 /**
- * Post update
+ * post update
  */
-export type PostUpdateArgs = {
+export type postUpdateArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * The data needed to update a Post.
+   * The data needed to update a post.
   **/
-  data: PostUpdateInput
+  data: postUpdateInput
   /**
-   * Choose, which Post to update.
+   * Choose, which post to update.
   **/
-  where: PostWhereUniqueInput
+  where: postWhereUniqueInput
 }
 
 
 /**
- * Post updateMany
+ * post updateMany
  */
-export type PostUpdateManyArgs = {
-  data: PostUpdateManyMutationInput
-  where?: PostWhereInput
+export type postUpdateManyArgs = {
+  data: postUpdateManyMutationInput
+  where?: postWhereInput
 }
 
 
 /**
- * Post upsert
+ * post upsert
  */
-export type PostUpsertArgs = {
+export type postUpsertArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * The filter to search for the Post to update in case it exists.
+   * The filter to search for the post to update in case it exists.
   **/
-  where: PostWhereUniqueInput
+  where: postWhereUniqueInput
   /**
-   * In case the Post found by the `where` argument doesn't exist, create a new Post with this data.
+   * In case the post found by the `where` argument doesn't exist, create a new post with this data.
   **/
-  create: PostCreateInput
+  create: postCreateInput
   /**
-   * In case the Post was found with the provided `where` argument, update it with this data.
+   * In case the post was found with the provided `where` argument, update it with this data.
   **/
-  update: PostUpdateInput
+  update: postUpdateInput
 }
 
 
 /**
- * Post delete
+ * post delete
  */
-export type PostDeleteArgs = {
+export type postDeleteArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
   /**
-   * Filter which Post to delete.
+   * Filter which post to delete.
   **/
-  where: PostWhereUniqueInput
+  where: postWhereUniqueInput
 }
 
 
 /**
- * Post deleteMany
+ * post deleteMany
  */
-export type PostDeleteManyArgs = {
-  where?: PostWhereInput
+export type postDeleteManyArgs = {
+  where?: postWhereInput
 }
 
 
 /**
- * Post without action
+ * post without action
  */
-export type PostArgs = {
+export type postArgs = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the post
   **/
-  select?: PostSelect | null
+  select?: postSelect | null
   /**
    * Choose, which related nodes to fetch as well.
   **/
-  include?: PostInclude | null
+  include?: postInclude | null
 }
 
 
@@ -2807,7 +2807,7 @@ export type DirectorArgs = {
  */
 
 
-export type PostWhereInput = {
+export type postWhereInput = {
   uuid?: string | UUIDFilter
   createdAt?: Date | string | DateTimeFilter
   updatedAt?: Date | string | DateTimeFilter
@@ -2817,9 +2817,9 @@ export type PostWhereInput = {
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
   metadata?: JsonFilter
-  AND?: Enumerable<PostWhereInput>
-  OR?: Array<PostWhereInput>
-  NOT?: Enumerable<PostWhereInput>
+  AND?: Enumerable<postWhereInput>
+  OR?: Array<postWhereInput>
+  NOT?: Enumerable<postWhereInput>
   author?: UserWhereInput | null
 }
 
@@ -2830,7 +2830,7 @@ export type UserWhereInput = {
   age?: number | IntFilter
   balance?: number | FloatFilter
   amount?: number | FloatFilter
-  posts?: PostFilter | null
+  posts?: postFilter | null
   role?: Role | RoleFilter
   AND?: Enumerable<UserWhereInput>
   OR?: Array<UserWhereInput>
@@ -2842,7 +2842,7 @@ export type UserWhereUniqueInput = {
   email?: string
 }
 
-export type PostWhereUniqueInput = {
+export type postWhereUniqueInput = {
   uuid?: string
 }
 
@@ -2915,7 +2915,7 @@ export type DirectorWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput
 }
 
-export type PostCreateWithoutAuthorInput = {
+export type postCreateWithoutAuthorInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2926,9 +2926,9 @@ export type PostCreateWithoutAuthorInput = {
   metadata: InputJsonValue
 }
 
-export type PostCreateManyWithoutAuthorInput = {
-  create?: Enumerable<PostCreateWithoutAuthorInput>
-  connect?: Enumerable<PostWhereUniqueInput>
+export type postCreateManyWithoutAuthorInput = {
+  create?: Enumerable<postCreateWithoutAuthorInput>
+  connect?: Enumerable<postWhereUniqueInput>
 }
 
 export type UserCreateInput = {
@@ -2938,10 +2938,10 @@ export type UserCreateInput = {
   balance: number
   amount: number
   role: Role
-  posts?: PostCreateManyWithoutAuthorInput | null
+  posts?: postCreateManyWithoutAuthorInput | null
 }
 
-export type PostUpdateWithoutAuthorDataInput = {
+export type postUpdateWithoutAuthorDataInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2952,12 +2952,12 @@ export type PostUpdateWithoutAuthorDataInput = {
   metadata?: InputJsonValue
 }
 
-export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
-  where: PostWhereUniqueInput
-  data: PostUpdateWithoutAuthorDataInput
+export type postUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: postWhereUniqueInput
+  data: postUpdateWithoutAuthorDataInput
 }
 
-export type PostScalarWhereInput = {
+export type postScalarWhereInput = {
   uuid?: string | UUIDFilter
   createdAt?: Date | string | DateTimeFilter
   updatedAt?: Date | string | DateTimeFilter
@@ -2967,12 +2967,12 @@ export type PostScalarWhereInput = {
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
   metadata?: JsonFilter
-  AND?: Enumerable<PostScalarWhereInput>
-  OR?: Array<PostScalarWhereInput>
-  NOT?: Enumerable<PostScalarWhereInput>
+  AND?: Enumerable<postScalarWhereInput>
+  OR?: Array<postScalarWhereInput>
+  NOT?: Enumerable<postScalarWhereInput>
 }
 
-export type PostUpdateManyDataInput = {
+export type postUpdateManyDataInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2983,27 +2983,27 @@ export type PostUpdateManyDataInput = {
   metadata?: InputJsonValue
 }
 
-export type PostUpdateManyWithWhereNestedInput = {
-  where: PostScalarWhereInput
-  data: PostUpdateManyDataInput
+export type postUpdateManyWithWhereNestedInput = {
+  where: postScalarWhereInput
+  data: postUpdateManyDataInput
 }
 
-export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
-  where: PostWhereUniqueInput
-  update: PostUpdateWithoutAuthorDataInput
-  create: PostCreateWithoutAuthorInput
+export type postUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: postWhereUniqueInput
+  update: postUpdateWithoutAuthorDataInput
+  create: postCreateWithoutAuthorInput
 }
 
-export type PostUpdateManyWithoutAuthorInput = {
-  create?: Enumerable<PostCreateWithoutAuthorInput>
-  connect?: Enumerable<PostWhereUniqueInput>
-  set?: Enumerable<PostWhereUniqueInput>
-  disconnect?: Enumerable<PostWhereUniqueInput>
-  delete?: Enumerable<PostWhereUniqueInput>
-  update?: Enumerable<PostUpdateWithWhereUniqueWithoutAuthorInput>
-  updateMany?: Enumerable<PostUpdateManyWithWhereNestedInput>
-  deleteMany?: Enumerable<PostScalarWhereInput>
-  upsert?: Enumerable<PostUpsertWithWhereUniqueWithoutAuthorInput>
+export type postUpdateManyWithoutAuthorInput = {
+  create?: Enumerable<postCreateWithoutAuthorInput>
+  connect?: Enumerable<postWhereUniqueInput>
+  set?: Enumerable<postWhereUniqueInput>
+  disconnect?: Enumerable<postWhereUniqueInput>
+  delete?: Enumerable<postWhereUniqueInput>
+  update?: Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
+  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput>
+  deleteMany?: Enumerable<postScalarWhereInput>
+  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
 }
 
 export type UserUpdateInput = {
@@ -3014,7 +3014,7 @@ export type UserUpdateInput = {
   balance?: number
   amount?: number
   role?: Role
-  posts?: PostUpdateManyWithoutAuthorInput
+  posts?: postUpdateManyWithoutAuthorInput
 }
 
 export type UserUpdateManyMutationInput = {
@@ -3041,7 +3041,7 @@ export type UserCreateOneWithoutPostsInput = {
   connect?: UserWhereUniqueInput
 }
 
-export type PostCreateInput = {
+export type postCreateInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3075,7 +3075,7 @@ export type UserUpdateOneRequiredWithoutPostsInput = {
   upsert?: UserUpsertWithoutPostsInput
 }
 
-export type PostUpdateInput = {
+export type postUpdateInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3087,7 +3087,7 @@ export type PostUpdateInput = {
   author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
-export type PostUpdateManyMutationInput = {
+export type postUpdateManyMutationInput = {
   uuid?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3338,10 +3338,10 @@ export type FloatFilter = {
   gte?: number
 }
 
-export type PostFilter = {
-  every?: PostWhereInput
-  some?: PostWhereInput
-  none?: PostWhereInput
+export type postFilter = {
+  every?: postWhereInput
+  some?: postWhereInput
+  none?: postWhereInput
 }
 
 export type RoleFilter = {
@@ -3367,7 +3367,7 @@ export type UserOrderByInput = {
   role?: OrderByArg | null
 }
 
-export type PostOrderByInput = {
+export type postOrderByInput = {
   uuid?: OrderByArg | null
   createdAt?: OrderByArg | null
   updatedAt?: OrderByArg | null

@@ -1,5 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`outputs should properly generate aggregate classes for model with lowercase name: AggregateExample 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { AggregateExampleCountArgs } from \\"./args/AggregateExampleCountArgs\\";
+
+@TypeGraphQL.ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class AggregateExample {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined
+  })
+  count(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: AggregateExampleCountArgs) {
+    return ctx.prisma.example.count(args);
+  }
+}
+"
+`;
+
+exports[`outputs should properly generate aggregate classes for model with lowercase name: AggregateExampleCountArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { ExampleOrderByInput } from \\"../../inputs/ExampleOrderByInput\\";
+import { ExampleWhereInput } from \\"../../inputs/ExampleWhereInput\\";
+import { ExampleWhereUniqueInput } from \\"../../inputs/ExampleWhereUniqueInput\\";
+
+@TypeGraphQL.ArgsType()
+export class AggregateExampleCountArgs {
+  @TypeGraphQL.Field(_type => ExampleWhereInput, { nullable: true })
+  where?: ExampleWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => ExampleOrderByInput, { nullable: true })
+  orderBy?: ExampleOrderByInput | undefined;
+
+  @TypeGraphQL.Field(_type => ExampleWhereUniqueInput, { nullable: true })
+  cursor?: ExampleWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+}
+"
+`;
+
+exports[`outputs should properly generate aggregate classes for model with lowercase name: outputs args index 1`] = `
+"export { AggregateExampleCountArgs } from \\"./AggregateExampleCountArgs\\";
+"
+`;
+
+exports[`outputs should properly generate aggregate classes for model with lowercase name: outputs index 1`] = `
+"export { AggregateExample } from \\"./AggregateExample\\";
+export { BatchPayload } from \\"./BatchPayload\\";
+export * from \\"./args\\";
+"
+`;
+
 exports[`outputs should properly generate aggregate classes for renamed model: AggregateExample 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";

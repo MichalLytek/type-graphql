@@ -99,4 +99,37 @@ describe("outputs", () => {
     expect(outputsIndexTSFile).toMatchSnapshot("outputs index");
     expect(outputsArgsIndexTSFile).toMatchSnapshot("outputs args index");
   });
+
+  it("should properly generate aggregate classes for model with lowercase name", async () => {
+    const schema = /* prisma */ `
+      model example {
+        intIdField    Int       @id @default(autoincrement())
+        stringField   String
+        floatField    Float
+        booleanField  Boolean
+        dateField     DateTime
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const aggregateExampleTSFile = await readGeneratedFile(
+      "/resolvers/outputs/AggregateExample.ts",
+    );
+    const aggregateExampleCountArgsTSFile = await readGeneratedFile(
+      "/resolvers/outputs/args/AggregateExampleCountArgs.ts",
+    );
+    const outputsIndexTSFile = await readGeneratedFile(
+      "/resolvers/outputs/index.ts",
+    );
+    const outputsArgsIndexTSFile = await readGeneratedFile(
+      "/resolvers/outputs/args/index.ts",
+    );
+
+    expect(aggregateExampleTSFile).toMatchSnapshot("AggregateExample");
+    expect(aggregateExampleCountArgsTSFile).toMatchSnapshot(
+      "AggregateExampleCountArgs",
+    );
+    expect(outputsIndexTSFile).toMatchSnapshot("outputs index");
+    expect(outputsArgsIndexTSFile).toMatchSnapshot("outputs args index");
+  });
 });

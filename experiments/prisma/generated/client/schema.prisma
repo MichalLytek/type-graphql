@@ -40,7 +40,7 @@ model User {
   balance Numeric
   amount  Float
   /// @TypeGraphQL.field("clientPosts")
-  posts   Post[]
+  posts   post[]
   role    Role
 }
 
@@ -49,7 +49,7 @@ enum PostKind {
   ADVERT
 }
 
-model Post {
+model post {
   uuid      String    @default(uuid()) @id
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

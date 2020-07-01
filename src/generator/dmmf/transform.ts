@@ -7,6 +7,7 @@ import {
   getModelNameFromInputType,
   getTypeGraphQLType,
   getFieldTSType,
+  pascalCase,
 } from "../helpers";
 import { DmmfDocument } from "./dmmf-document";
 import pluralize from "pluralize";
@@ -53,22 +54,15 @@ export function transformBareModel(model: PrismaDMMF.Model): DMMF.Model {
   const typeName = attributeArgs?.slice(1, -1);
   return {
     ...model,
-    typeName: typeName ?? model.name,
+    typeName: typeName ?? pascalCase(model.name),
     fields: [],
   };
 }
 
 function transformModelWithFields(dmmfDocument: DmmfDocument) {
   return (model: PrismaDMMF.Model): DMMF.Model => {
-    const attributeArgs = parseDocumentationAttributes(
-      model.documentation,
-      "type",
-      "model",
-    );
-    const typeName = attributeArgs?.slice(1, -1);
     return {
-      ...model,
-      typeName: typeName ?? model.name,
+      ...transformBareModel(model),
       fields: model.fields.map(transformField(dmmfDocument)),
     };
   };

@@ -25,7 +25,9 @@ export class DmmfDocument implements DMMF.Document {
   }
 
   getModelTypeName(modelName: string): string | undefined {
-    return this.models.find(it => it.name === modelName)?.typeName;
+    return this.models.find(
+      it => it.name.toLocaleLowerCase() === modelName.toLocaleLowerCase(),
+    )?.typeName;
   }
 
   isModelName(typeName: string): boolean {

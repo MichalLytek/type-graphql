@@ -43,7 +43,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "env(\"DATABASE_URL\")"
+      "value": "\"***\""
     },
     {
       "tag": "CreateModel",
@@ -142,7 +142,7 @@
       "tag": "CreateField",
       "model": "User",
       "field": "posts",
-      "type": "Post",
+      "type": "post",
       "arity": "List"
     },
     {
@@ -154,11 +154,11 @@
     },
     {
       "tag": "CreateModel",
-      "model": "Post"
+      "model": "post"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "uuid",
       "type": "String",
       "arity": "Required"
@@ -168,7 +168,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "uuid"
         },
         "directive": "default"
@@ -180,7 +180,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "uuid"
         },
         "directive": "default"
@@ -193,7 +193,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "uuid"
         },
         "directive": "id"
@@ -201,7 +201,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "createdAt",
       "type": "DateTime",
       "arity": "Required"
@@ -211,7 +211,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "createdAt"
         },
         "directive": "default"
@@ -223,7 +223,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "createdAt"
         },
         "directive": "default"
@@ -233,7 +233,7 @@
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "updatedAt",
       "type": "DateTime",
       "arity": "Required"
@@ -243,7 +243,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "updatedAt"
         },
         "directive": "updatedAt"
@@ -251,28 +251,28 @@
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "published",
       "type": "Boolean",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "title",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "content",
       "type": "String",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "author",
       "type": "User",
       "arity": "Required"
@@ -282,7 +282,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "author"
         },
         "directive": "relation"
@@ -294,7 +294,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "author"
         },
         "directive": "relation"
@@ -308,7 +308,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Post",
+          "model": "post",
           "field": "author"
         },
         "directive": "relation"
@@ -318,21 +318,21 @@
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "authorId",
       "type": "Int",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "kind",
       "type": "PostKind",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
-      "model": "Post",
+      "model": "post",
       "field": "metadata",
       "type": "Json",
       "arity": "Required"
