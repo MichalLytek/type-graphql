@@ -3692,13 +3692,6 @@
             "name": "metadata",
             "inputType": [
               {
-                "isList": false,
-                "isRequired": false,
-                "isNullable": false,
-                "kind": "scalar",
-                "type": "Json"
-              },
-              {
                 "type": "JsonFilter",
                 "isList": false,
                 "isRequired": false,
@@ -5150,13 +5143,6 @@
           {
             "name": "metadata",
             "inputType": [
-              {
-                "isList": false,
-                "isRequired": false,
-                "isNullable": false,
-                "kind": "scalar",
-                "type": "Json"
-              },
               {
                 "type": "JsonFilter",
                 "isList": false,

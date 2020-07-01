@@ -44,6 +44,8 @@ export interface PrismaClientOptions {
         engine?: {
             cwd?: string;
             binaryPath?: string;
+            endpoint?: string;
+            enableEngineDebugMode?: boolean;
         };
         measurePerformance?: boolean;
     };
@@ -94,9 +96,10 @@ export declare class PrismaClientFetcher {
     dataloader: Dataloader<{
         document: Document;
         runInTransaction?: boolean;
+        headers?: Record<string, string>;
     }>;
     constructor(prisma: any, enableDebug?: boolean, hooks?: any);
-    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, runInTransaction, }: {
+    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, runInTransaction, showColors, headers, }: {
         document: Document;
         dataPath: string[];
         rootField: string;
@@ -106,6 +109,8 @@ export declare class PrismaClientFetcher {
         callsite?: string;
         collectTimestamps?: CollectTimestamps;
         runInTransaction?: boolean;
+        showColors?: boolean;
+        headers?: Record<string, string>;
     }): Promise<any>;
     sanitizeMessage(message: any): any;
     unpack(document: any, data: any, path: any, rootField: any): any;

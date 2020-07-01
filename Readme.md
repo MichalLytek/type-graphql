@@ -19,7 +19,7 @@ npm i -D @prisma/cli
 npm i @prisma/client
 ```
 
-> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version at least `2.1.0`!
+> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version at least `2.1.3`!
 
 You also need to install the GraphQL JSON scalar library (to support the Prisma `Json` scalar):
 

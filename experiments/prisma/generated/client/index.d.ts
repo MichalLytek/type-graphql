@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.1.0
- * Query Engine version: 4440772035795a0424be62040e2295c56e5c6ad0
+ * Prisma Client JS version: 2.1.3
+ * Query Engine version: 363f5a521d6b06543e53d134652a0037a3096d41
  */
 export declare type PrismaVersion = {
   client: string
@@ -493,7 +493,7 @@ export interface UserDelegate {
    * @param {UserCreateArgs} args - Arguments to create a User.
    * @example
    * // Create one User
-   * const user = await prisma.user.create({
+   * const User = await prisma.user.create({
    *   data: {
    *     // ... data to create a User
    *   }
@@ -508,7 +508,7 @@ export interface UserDelegate {
    * @param {UserDeleteArgs} args - Arguments to delete one User.
    * @example
    * // Delete one User
-   * const user = await prisma.user.delete({
+   * const User = await prisma.user.delete({
    *   where: {
    *     // ... filter to delete one User
    *   }
@@ -915,7 +915,7 @@ export interface PostDelegate {
    * @param {PostCreateArgs} args - Arguments to create a Post.
    * @example
    * // Create one Post
-   * const user = await prisma.post.create({
+   * const Post = await prisma.post.create({
    *   data: {
    *     // ... data to create a Post
    *   }
@@ -930,7 +930,7 @@ export interface PostDelegate {
    * @param {PostDeleteArgs} args - Arguments to delete one Post.
    * @example
    * // Delete one Post
-   * const user = await prisma.post.delete({
+   * const Post = await prisma.post.delete({
    *   where: {
    *     // ... filter to delete one Post
    *   }
@@ -1315,7 +1315,7 @@ export interface CategoryDelegate {
    * @param {CategoryCreateArgs} args - Arguments to create a Category.
    * @example
    * // Create one Category
-   * const user = await prisma.category.create({
+   * const Category = await prisma.category.create({
    *   data: {
    *     // ... data to create a Category
    *   }
@@ -1330,7 +1330,7 @@ export interface CategoryDelegate {
    * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
    * @example
    * // Delete one Category
-   * const user = await prisma.category.delete({
+   * const Category = await prisma.category.delete({
    *   where: {
    *     // ... filter to delete one Category
    *   }
@@ -1686,7 +1686,7 @@ export interface PatientDelegate {
    * @param {PatientCreateArgs} args - Arguments to create a Patient.
    * @example
    * // Create one Patient
-   * const user = await prisma.patient.create({
+   * const Patient = await prisma.patient.create({
    *   data: {
    *     // ... data to create a Patient
    *   }
@@ -1701,7 +1701,7 @@ export interface PatientDelegate {
    * @param {PatientDeleteArgs} args - Arguments to delete one Patient.
    * @example
    * // Delete one Patient
-   * const user = await prisma.patient.delete({
+   * const Patient = await prisma.patient.delete({
    *   where: {
    *     // ... filter to delete one Patient
    *   }
@@ -2067,7 +2067,7 @@ export interface MovieDelegate {
    * @param {MovieCreateArgs} args - Arguments to create a Movie.
    * @example
    * // Create one Movie
-   * const user = await prisma.movie.create({
+   * const Movie = await prisma.movie.create({
    *   data: {
    *     // ... data to create a Movie
    *   }
@@ -2082,7 +2082,7 @@ export interface MovieDelegate {
    * @param {MovieDeleteArgs} args - Arguments to delete one Movie.
    * @example
    * // Delete one Movie
-   * const user = await prisma.movie.delete({
+   * const Movie = await prisma.movie.delete({
    *   where: {
    *     // ... filter to delete one Movie
    *   }
@@ -2475,7 +2475,7 @@ export interface DirectorDelegate {
    * @param {DirectorCreateArgs} args - Arguments to create a Director.
    * @example
    * // Create one Director
-   * const user = await prisma.director.create({
+   * const Director = await prisma.director.create({
    *   data: {
    *     // ... data to create a Director
    *   }
@@ -2490,7 +2490,7 @@ export interface DirectorDelegate {
    * @param {DirectorDeleteArgs} args - Arguments to delete one Director.
    * @example
    * // Delete one Director
-   * const user = await prisma.director.delete({
+   * const Director = await prisma.director.delete({
    *   where: {
    *     // ... filter to delete one Director
    *   }
@@ -2816,7 +2816,7 @@ export type PostWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: InputJsonValue | JsonFilter
+  metadata?: JsonFilter
   AND?: Enumerable<PostWhereInput>
   OR?: Array<PostWhereInput>
   NOT?: Enumerable<PostWhereInput>
@@ -2966,7 +2966,7 @@ export type PostScalarWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: InputJsonValue | JsonFilter
+  metadata?: JsonFilter
   AND?: Enumerable<PostScalarWhereInput>
   OR?: Array<PostScalarWhereInput>
   NOT?: Enumerable<PostScalarWhereInput>
