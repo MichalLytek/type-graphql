@@ -8,7 +8,7 @@ import {
 } from "ts-morph";
 import path from "path";
 
-import { camelCase, pascalCase } from "./helpers";
+import { camelCase } from "./helpers";
 import { outputsFolderName, inputsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -31,38 +31,12 @@ export async function generateOutputTypeClassFromType(
   dmmfDocument: DmmfDocument,
   options: GenerateCodeOptions,
 ) {
-  // TODO: make it more future-proof
-  const modelName = type.name.replace("Aggregate", "");
-  const typeName = !type.name.includes("Aggregate")
-    ? type.name
-    : `Aggregate${dmmfDocument.getModelTypeName(
-        type.name.replace("Aggregate", ""),
-      )}`;
-
   const fileDirPath = path.resolve(dirPath, outputsFolderName);
-  const filePath = path.resolve(fileDirPath, `${typeName}.ts`);
+  const filePath = path.resolve(fileDirPath, `${type.typeName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
-
-  const fieldsInfo = await Promise.all(
-    type.fields.map(async field => {
-      let argsTypeName: string | undefined;
-      if (field.args.length > 0) {
-        argsTypeName = await generateArgsTypeClassFromArgs(
-          project,
-          fileDirPath,
-          field.args,
-          `${typeName}${pascalCase(field.name)}`,
-          dmmfDocument,
-          2,
-        );
-      }
-      return { ...field, argsTypeName };
-    }),
-  );
-
-  const fieldArgsTypeNames = fieldsInfo
+  const fieldArgsTypeNames = type.fields
     .filter(it => it.argsTypeName)
     .map(it => it.argsTypeName!);
 
@@ -71,8 +45,24 @@ export async function generateOutputTypeClassFromType(
   generatePrismaJsonTypeImport(sourceFile, options.relativePrismaOutputPath, 2);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
 
+  // TODO: move to the root level
+  await Promise.all(
+    type.fields.map(async field => {
+      if (field.argsTypeName) {
+        await generateArgsTypeClassFromArgs(
+          project,
+          fileDirPath,
+          field.args,
+          field.argsTypeName,
+          dmmfDocument,
+          2,
+        );
+      }
+    }),
+  );
+
   sourceFile.addClass({
-    name: typeName,
+    name: type.typeName,
     isExported: true,
     decorators: [
       {
@@ -85,7 +75,7 @@ export async function generateOutputTypeClassFromType(
         ],
       },
     ],
-    properties: fieldsInfo
+    properties: type.fields
       .filter(it => it.args.length === 0)
       .map<OptionalKind<PropertyDeclarationStructure>>(field => {
         const isRequired = field.outputType.isRequired;
@@ -110,12 +100,12 @@ export async function generateOutputTypeClassFromType(
           ],
         };
       }),
-    methods: fieldsInfo
+    methods: type.fields
       // TODO: allow also for other fields args
       .filter(it => it.args.length > 0 && type.name.startsWith("Aggregate"))
       .map<OptionalKind<MethodDeclarationStructure>>(field => {
         const isRequired = field.outputType.isRequired;
-        const collectionName = camelCase(modelName);
+        const collectionName = camelCase(type.modelName);
 
         return {
           name: field.name,
@@ -154,15 +144,13 @@ export async function generateOutputTypeClassFromType(
   });
 
   await saveSourceFile(sourceFile);
-
-  return { typeName, fieldArgsTypeNames };
 }
 
 export async function generateInputTypeClassFromType(
   project: Project,
   dirPath: string,
   inputType: DMMF.InputType,
-  dmmfDocument: DmmfDocument,
+  _dmmfDocument: DmmfDocument,
   options: GenerateCodeOptions,
 ): Promise<void> {
   const filePath = path.resolve(

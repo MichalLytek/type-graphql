@@ -107,7 +107,7 @@ export default async function generateCode(
     // skip generating models and root resolvers
     type => !modelNames.includes(type.name) && !rootTypes.includes(type),
   );
-  const outputTypesInfo = await Promise.all(
+  await Promise.all(
     outputTypesToGenerate.map(type =>
       generateOutputTypeClassFromType(
         project,
@@ -118,9 +118,11 @@ export default async function generateCode(
       ),
     ),
   );
-  const argsTypesNames = outputTypesInfo
-    .map(it => it.fieldArgsTypeNames)
-    .reduce((a, b) => a.concat(b), []);
+  const argsTypesNames = outputTypesToGenerate
+    .map(it => it.fields)
+    .reduce((a, b) => a.concat(b), [])
+    .map(it => it.argsTypeName)
+    .filter(Boolean) as string[];
   const outputsArgsBarrelExportSourceFile = project.createSourceFile(
     path.resolve(
       baseDirPath,
@@ -147,7 +149,7 @@ export default async function generateCode(
   );
   generateOutputsBarrelFile(
     outputsBarrelExportSourceFile,
-    outputTypesInfo.map(it => it.typeName),
+    outputTypesToGenerate.map(it => it.typeName),
     argsTypesNames.length > 0,
   );
   await saveSourceFile(outputsBarrelExportSourceFile);

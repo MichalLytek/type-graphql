@@ -100,8 +100,11 @@ export declare namespace DMMF {
   }
   interface OutputType {
     name: string;
-    fields: SchemaField[];
+    fields: OutputSchemaField[];
     isEmbedded?: boolean;
+    // additional props
+    modelName: string;
+    typeName: string;
   }
   interface SchemaField {
     name: string;
@@ -116,6 +119,10 @@ export declare namespace DMMF {
     // additional props
     typeGraphQLType: string;
     fieldTSType: string;
+  }
+  // additional type
+  interface OutputSchemaField extends SchemaField {
+    argsTypeName: string | undefined;
   }
   interface InputType {
     name: string;

@@ -125,42 +125,60 @@ function transformInputType(dmmfDocument: DmmfDocument) {
 
 function transformOutputType(dmmfDocument: DmmfDocument) {
   return (outputType: PrismaDMMF.OutputType): DMMF.OutputType => {
+    // TODO: make it more future-proof
+    const modelName = outputType.name.replace("Aggregate", "");
+    const typeName = !outputType.name.includes("Aggregate")
+      ? outputType.name
+      : `Aggregate${dmmfDocument.getModelTypeName(
+          outputType.name.replace("Aggregate", ""),
+        )}`;
+
     return {
       ...outputType,
-      fields: outputType.fields.map<DMMF.SchemaField>(field => {
+      modelName,
+      typeName,
+      fields: outputType.fields.map<DMMF.OutputSchemaField>(field => {
         const outputType: DMMF.SchemaField["outputType"] = {
           ...field.outputType,
           type: field.outputType.type as string,
         };
         const fieldTSType = getFieldTSType(outputType, dmmfDocument, false);
         const typeGraphQLType = getTypeGraphQLType(outputType, dmmfDocument);
+        const args = field.args.map<DMMF.SchemaArg>(arg => {
+          const selectedInputType = selectInputTypeFromTypes(dmmfDocument)(
+            arg.inputType,
+          );
+          const typeGraphQLType = getTypeGraphQLType(
+            selectedInputType,
+            dmmfDocument,
+          );
+          const fieldTSType = getFieldTSType(
+            selectedInputType,
+            dmmfDocument,
+            true,
+          );
+
+          return {
+            ...arg,
+            selectedInputType,
+            fieldTSType,
+            typeGraphQLType,
+            // TODO: add proper mapping in the future if needed
+            typeName: arg.name,
+          };
+        });
+        const argsTypeName =
+          args.length > 0
+            ? `${typeName}${pascalCase(field.name)}Args`
+            : undefined;
+
         return {
           ...field,
           outputType,
           fieldTSType,
           typeGraphQLType,
-          args: field.args.map<DMMF.SchemaArg>(arg => {
-            const selectedInputType = selectInputTypeFromTypes(dmmfDocument)(
-              arg.inputType,
-            );
-            const typeGraphQLType = getTypeGraphQLType(
-              selectedInputType,
-              dmmfDocument,
-            );
-            const fieldTSType = getFieldTSType(
-              selectedInputType,
-              dmmfDocument,
-              true,
-            );
-            return {
-              ...arg,
-              selectedInputType,
-              fieldTSType,
-              typeGraphQLType,
-              // TODO: add proper mapping in the future if needed
-              typeName: arg.name,
-            };
-          }),
+          args,
+          argsTypeName,
         };
       }),
     };

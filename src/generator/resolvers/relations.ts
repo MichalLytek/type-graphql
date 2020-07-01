@@ -67,7 +67,7 @@ export default async function generateRelationsResolverClassesFromModel(
           project,
           resolverDirPath,
           outputTypeField.args,
-          model.typeName + pascalCase(field.name),
+          `${model.typeName}${pascalCase(field.name)}Args`,
           dmmfDocument,
         );
       }

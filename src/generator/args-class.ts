@@ -1,7 +1,6 @@
 import { PropertyDeclarationStructure, OptionalKind, Project } from "ts-morph";
 import path from "path";
 
-import { pascalCase } from "./helpers";
 import { argsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -16,14 +15,13 @@ import { DMMF } from "./dmmf/types";
 export default async function generateArgsTypeClassFromArgs(
   project: Project,
   generateDirPath: string,
-  args: DMMF.SchemaArg[],
-  methodName: string,
+  fields: DMMF.SchemaArg[],
+  argsTypeName: string,
   dmmfDocument: DmmfDocument,
   inputImportsLevel = 3,
 ) {
-  const name = `${pascalCase(methodName)}Args`;
   const dirPath = path.resolve(generateDirPath, argsFolderName);
-  const filePath = path.resolve(dirPath, `${name}.ts`);
+  const filePath = path.resolve(dirPath, `${argsTypeName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -32,7 +30,7 @@ export default async function generateArgsTypeClassFromArgs(
   generateGraphQLScalarImport(sourceFile);
   generateInputsImports(
     sourceFile,
-    args
+    fields
       .map(arg => arg.selectedInputType)
       .filter(argInputType => argInputType.kind === "object")
       .map(argInputType => argInputType.type),
@@ -40,7 +38,7 @@ export default async function generateArgsTypeClassFromArgs(
   );
   generateEnumsImports(
     sourceFile,
-    args
+    fields
       .map(field => field.selectedInputType)
       .filter(argType => argType.kind === "enum")
       .map(argType => argType.type as string),
@@ -48,7 +46,7 @@ export default async function generateArgsTypeClassFromArgs(
   );
 
   sourceFile.addClass({
-    name,
+    name: argsTypeName,
     isExported: true,
     decorators: [
       {
@@ -56,7 +54,7 @@ export default async function generateArgsTypeClassFromArgs(
         arguments: [],
       },
     ],
-    properties: args.map<OptionalKind<PropertyDeclarationStructure>>(arg => {
+    properties: fields.map<OptionalKind<PropertyDeclarationStructure>>(arg => {
       const isOptional = !arg.selectedInputType.isRequired;
 
       return {
@@ -79,5 +77,5 @@ export default async function generateArgsTypeClassFromArgs(
   });
 
   await saveSourceFile(sourceFile);
-  return name;
+  return argsTypeName;
 }

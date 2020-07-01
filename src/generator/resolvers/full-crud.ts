@@ -1,7 +1,7 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
 import path from "path";
 
-import { camelCase } from "../helpers";
+import { camelCase, pascalCase } from "../helpers";
 import { GeneratedResolverData } from "../types";
 import {
   baseKeys,
@@ -77,7 +77,9 @@ export default async function generateCrudResolverClassFromMapping(
           project,
           resolverDirPath,
           method.args,
-          `${action.kind}${dmmfDocument.getModelTypeName(mapping.model)}`,
+          `${pascalCase(
+            `${action.kind}${dmmfDocument.getModelTypeName(mapping.model)}`,
+          )}Args`,
           dmmfDocument,
         );
       }
