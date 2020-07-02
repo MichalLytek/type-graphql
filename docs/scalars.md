@@ -66,7 +66,7 @@ TypeGraphQL provides built-in scalars for the `Date` type. There are two version
 - timestamp based (`"timestamp"`) - `1518037458374`
 - ISO format (`"isoDate"`) - `"2018-02-07T21:04:39.573Z"`
 
-They are exported from the `type-graphql` package as `GraphQLISODateScalar` and `GraphQLTimestampScalar`.
+They are exported from the `type-graphql` package as `GraphQLISODateTime` and `GraphQLTimestamp`.
 
 By default, TypeGraphQL uses the ISO date format, however you can change it in the `buildSchema` options:
 
