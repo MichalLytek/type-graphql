@@ -40,6 +40,7 @@ So if you are looking for examples that are compatible with the version you use,
 - [Apollo federation](./apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
 - [Apollo client state](./apollo-client)
+- [GraphQL Modules](./graphql-modules)
 
 _\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
 

@@ -6,6 +6,7 @@ require("ts-node/register/transpile-only");
 // require("./examples/enums-and-unions/index.ts");
 // require("./examples/extensions/index.ts");
 // require("./examples/generic-types/index.ts");
+// require("./examples/graphql-modules/src/index.ts");
 // require("./examples/interfaces-inheritance/index.ts");
 // require("./examples/middlewares-custom-decorators/index.ts");
 // require("./examples/mixin-classes/index.ts");
