@@ -64,8 +64,16 @@
       "middlewares": {
         "title": "Middleware and guards"
       },
+      "nestjs": {
+        "title": "NestJS Integration",
+        "sidebar_label": "NestJS"
+      },
       "performance": {
         "title": "Performance"
+      },
+      "prisma": {
+        "title": "Prisma 2 Integration",
+        "sidebar_label": "Prisma 2"
       },
       "README": {
         "title": "README"
@@ -431,6 +439,22 @@
       "version-1.0.0-rc.2/version-1.0.0-rc.2-examples": {
         "title": "Examples",
         "sidebar_label": "List of examples"
+      },
+      "version-1.0.0-rc.3/version-1.0.0-rc.3-bootstrap": {
+        "title": "Bootstrapping"
+      },
+      "version-1.0.0-rc.3/version-1.0.0-rc.3-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-1.0.0-rc.3/version-1.0.0-rc.3-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-1.0.0-rc.3/version-1.0.0-rc.3-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-1.0.0-rc.3/version-1.0.0-rc.3-types-and-fields": {
+        "title": "Types and Fields"
       }
     },
     "links": {
@@ -446,6 +470,7 @@
       "Beginner guides": "Beginner guides",
       "Advanced guides": "Advanced guides",
       "Features": "Features",
+      "Integrations": "Integrations",
       "Others": "Others",
       "Examples": "Examples"
     }

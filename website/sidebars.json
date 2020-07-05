@@ -27,6 +27,7 @@
       "custom-decorators",
       "complexity"
     ],
+    "Integrations": ["prisma", "nestjs"],
     "Others": ["emit-schema", "performance", "browser-usage"]
   },
   "examples": {
