@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+- **Breaking Change**: update `graphql-js` peer dependency to `^15.2.0`
+
 ## v1.0.0-rc.3
 ### Features
 - **Breaking Change**: remove legacy array inference - now explicit array syntax (`[Item]`) is required
