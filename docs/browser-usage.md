@@ -36,3 +36,18 @@ However, in some TypeScript projects like the ones using Angular, which AoT comp
 ```
 
 Thanks to this, our bundle will be much lighter as we don't need to embed the whole TypeGraphQL library code in our app.
+
+## Next.js
+
+When using the shim with Next.js as a dedicated frontend server be aware that Next pre-renders on the server. This means that in development mode the `webpack: {}` config in `next.config.js` is skipped and full `type-graphql` is bundled. But you still need to handle some webpack rewiring for the client bundling which still happens with webpack both in development and in production mode.
+
+The easiest way is to accomplish this is in  `tsoconfig.json`—add following keys to `compilerOptions`:
+```
+    "baseUrl": ".",
+    "paths": {
+      "type-graphql": ["node_modules/type-graphql/dist/browser-shim"]
+    }
+```
+Then, `npm install -D tsconfig-paths` and enable it with `NODE_OPTIONS="-r tsconfig-paths/register"` in your environment variables setup.
+
+
