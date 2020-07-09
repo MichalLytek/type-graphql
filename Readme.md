@@ -19,7 +19,7 @@ npm i -D @prisma/cli
 npm i @prisma/client
 ```
 
-> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version at least `2.1.3`!
+> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version `~2.2.2`!
 
 You also need to install the GraphQL JSON scalar library (to support the Prisma `Json` scalar):
 
@@ -27,15 +27,30 @@ You also need to install the GraphQL JSON scalar library (to support the Prisma 
 npm i graphql-type-json
 ```
 
-Also, be aware that due to usage of some newer Node.js features, you also have to use **Node.js v10.12 or newer**.
+as well as the `graphql-fields` that is used to properly support the aggregations queries:
+
+```sh
+npm i graphql-fields @types/graphql-fields
+```
+
+Also, be aware that due to usage of some ES2019 and newer Node.js features, you also have to use **Node.js v12.4.0 or newer**.
 
 ## Configuration
 
-After installation, you need to update your `schema.prisma` file and add a new generator section below the `client` one:
+After installation, you need to update your `schema.prisma` file and enable the experimental feature called `aggregateApi`:
 
 ```prisma
 generator client {
-  provider = "prisma-client-js"
+  provider             = "prisma-client-js"
+  experimentalFeatures = ["aggregateApi"]
+}
+```
+
+and then add a new generator section below the `client` one:
+
+```prisma
+generator client {
+  // ...
 }
 
 generator typegraphql {

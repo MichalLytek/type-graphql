@@ -123,19 +123,21 @@ export default async function generateCode(
     .reduce((a, b) => a.concat(b), [])
     .map(it => it.argsTypeName)
     .filter(Boolean) as string[];
-  const outputsArgsBarrelExportSourceFile = project.createSourceFile(
-    path.resolve(
-      baseDirPath,
-      resolversFolderName,
-      outputsFolderName,
-      argsFolderName,
-      "index.ts",
-    ),
-    undefined,
-    { overwrite: true },
-  );
-  generateArgsBarrelFile(outputsArgsBarrelExportSourceFile, argsTypesNames);
-  await saveSourceFile(outputsArgsBarrelExportSourceFile);
+  if (argsTypesNames.length > 0) {
+    const outputsArgsBarrelExportSourceFile = project.createSourceFile(
+      path.resolve(
+        baseDirPath,
+        resolversFolderName,
+        outputsFolderName,
+        argsFolderName,
+        "index.ts",
+      ),
+      undefined,
+      { overwrite: true },
+    );
+    generateArgsBarrelFile(outputsArgsBarrelExportSourceFile, argsTypesNames);
+    await saveSourceFile(outputsArgsBarrelExportSourceFile);
+  }
 
   const outputsBarrelExportSourceFile = project.createSourceFile(
     path.resolve(

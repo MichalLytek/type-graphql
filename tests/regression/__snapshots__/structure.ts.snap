@@ -26,6 +26,7 @@ exports[`structure should generate proper folders and file names when model is r
         UpdateRenamedPostResolver.ts
         UpsertRenamedPostResolver.ts
         [args]
+          AggregateRenamedPostArgs.ts
           CreateRenamedPostArgs.ts
           DeleteManyRenamedPostArgs.ts
           DeleteRenamedPostArgs.ts
@@ -47,6 +48,7 @@ exports[`structure should generate proper folders and file names when model is r
         UpdateRenamedUserResolver.ts
         UpsertRenamedUserResolver.ts
         [args]
+          AggregateRenamedUserArgs.ts
           CreateRenamedUserArgs.ts
           DeleteManyRenamedUserArgs.ts
           DeleteRenamedUserArgs.ts
@@ -94,10 +96,6 @@ exports[`structure should generate proper folders and file names when model is r
       AggregateRenamedPost.ts
       AggregateRenamedUser.ts
       BatchPayload.ts
-      [args]
-        AggregateRenamedPostCountArgs.ts
-        AggregateRenamedUserCountArgs.ts
-        index.ts
       index.ts
     [relations]
       [RenamedPost]
@@ -137,6 +135,7 @@ exports[`structure should generate proper folders structure and file names for c
         UpdatePostResolver.ts
         UpsertPostResolver.ts
         [args]
+          AggregatePostArgs.ts
           CreatePostArgs.ts
           DeleteManyPostArgs.ts
           DeletePostArgs.ts
@@ -158,6 +157,7 @@ exports[`structure should generate proper folders structure and file names for c
         UpsertUserResolver.ts
         UserCrudResolver.ts
         [args]
+          AggregateUserArgs.ts
           CreateUserArgs.ts
           DeleteManyUserArgs.ts
           DeleteUserArgs.ts
@@ -205,10 +205,6 @@ exports[`structure should generate proper folders structure and file names for c
       AggregatePost.ts
       AggregateUser.ts
       BatchPayload.ts
-      [args]
-        AggregatePostCountArgs.ts
-        AggregateUserCountArgs.ts
-        index.ts
       index.ts
     [relations]
       [Post]

@@ -4,23 +4,31 @@
 # -----------------------------------------------
 
 type AggregateCategory {
-  count(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): Int!
+  avg: CategoryAvgAggregateOutputType
+  count: Int!
+  max: CategoryMaxAggregateOutputType
+  min: CategoryMinAggregateOutputType
+  sum: CategorySumAggregateOutputType
 }
 
 type AggregateClient {
-  count(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): Int!
+  avg: ClientAvgAggregateOutputType
+  count: Int!
+  max: ClientMaxAggregateOutputType
+  min: ClientMinAggregateOutputType
+  sum: ClientSumAggregateOutputType
 }
 
 type AggregateDirector {
-  count(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): Int!
+  count: Int!
 }
 
 type AggregateMovie {
-  count(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): Int!
+  count: Int!
 }
 
 type AggregatePatient {
-  count(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): Int!
+  count: Int!
 }
 
 type BatchPayload {
@@ -38,16 +46,32 @@ type Category {
   slug: String!
 }
 
+type CategoryAvgAggregateOutputType {
+  number: Float!
+}
+
 input CategoryCreateInput {
   name: String!
   number: Int!
   slug: String!
 }
 
+type CategoryMaxAggregateOutputType {
+  number: Int!
+}
+
+type CategoryMinAggregateOutputType {
+  number: Int!
+}
+
 input CategoryOrderByInput {
   name: OrderByArg
   number: OrderByArg
   slug: OrderByArg
+}
+
+type CategorySumAggregateOutputType {
+  number: Int!
 }
 
 input CategoryUpdateInput {
@@ -92,6 +116,13 @@ type Client {
   role: Role!
 }
 
+type ClientAvgAggregateOutputType {
+  age: Float!
+  amount: Float!
+  balance: Float!
+  id: Float!
+}
+
 input ClientCreateInput {
   accountBalance: Float!
   age: Int!
@@ -116,6 +147,20 @@ input ClientCreateWithoutPostsInput {
   role: Role!
 }
 
+type ClientMaxAggregateOutputType {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  id: Int!
+}
+
+type ClientMinAggregateOutputType {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  id: Int!
+}
+
 input ClientOrderByInput {
   accountBalance: OrderByArg
   age: OrderByArg
@@ -124,6 +169,13 @@ input ClientOrderByInput {
   firstName: OrderByArg
   id: OrderByArg
   role: OrderByArg
+}
+
+type ClientSumAggregateOutputType {
+  age: Int!
+  amount: Float!
+  balance: Float!
+  id: Int!
 }
 
 input ClientUpdateInput {
@@ -659,11 +711,11 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  aggregateCategory: AggregateCategory!
-  aggregateClient: AggregateClient!
-  aggregateDirector: AggregateDirector!
-  aggregateMovie: AggregateMovie!
-  aggregatePatient: AggregatePatient!
+  aggregateCategory(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): AggregateCategory!
+  aggregateClient(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): AggregateClient!
+  aggregateDirector(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): AggregateDirector!
+  aggregateMovie(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): AggregateMovie!
+  aggregatePatient(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): AggregatePatient!
   allClients: [Client!]!
   allPosts: [Post!]!
   categories(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): [Category!]!

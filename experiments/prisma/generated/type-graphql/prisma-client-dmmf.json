@@ -932,72 +932,315 @@
         ]
       },
       {
+        "name": "UserAvgAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "age",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserSumAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "age",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserMinAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "age",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserMaxAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "age",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
         "name": "AggregateUser",
         "fields": [
           {
             "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "UserWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "UserOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "UserWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "avg",
+            "args": [],
+            "outputType": {
+              "type": "UserAvgAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "sum",
+            "args": [],
+            "outputType": {
+              "type": "UserSumAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "min",
+            "args": [],
+            "outputType": {
+              "type": "UserMinAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "max",
+            "args": [],
+            "outputType": {
+              "type": "UserMaxAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PostAvgAggregateOutputType",
+        "fields": [
+          {
+            "name": "authorId",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PostSumAggregateOutputType",
+        "fields": [
+          {
+            "name": "authorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PostMinAggregateOutputType",
+        "fields": [
+          {
+            "name": "authorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PostMaxAggregateOutputType",
+        "fields": [
+          {
+            "name": "authorId",
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
@@ -1013,72 +1256,55 @@
         "fields": [
           {
             "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "postWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "postOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "postWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "avg",
+            "args": [],
+            "outputType": {
+              "type": "PostAvgAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "sum",
+            "args": [],
+            "outputType": {
+              "type": "PostSumAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "min",
+            "args": [],
+            "outputType": {
+              "type": "PostMinAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "max",
+            "args": [],
+            "outputType": {
+              "type": "PostMaxAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -1124,76 +1350,123 @@
         ]
       },
       {
-        "name": "AggregateCategory",
+        "name": "CategoryAvgAggregateOutputType",
         "fields": [
           {
-            "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "CategoryOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "CategoryWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "name": "number",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategorySumAggregateOutputType",
+        "fields": [
+          {
+            "name": "number",
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryMinAggregateOutputType",
+        "fields": [
+          {
+            "name": "number",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CategoryMaxAggregateOutputType",
+        "fields": [
+          {
+            "name": "number",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateCategory",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "avg",
+            "args": [],
+            "outputType": {
+              "type": "CategoryAvgAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "sum",
+            "args": [],
+            "outputType": {
+              "type": "CategorySumAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "min",
+            "args": [],
+            "outputType": {
+              "type": "CategoryMinAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "max",
+            "args": [],
+            "outputType": {
+              "type": "CategoryMaxAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -1243,68 +1516,7 @@
         "fields": [
           {
             "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "PatientWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "PatientOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "PatientWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
@@ -1468,68 +1680,7 @@
         "fields": [
           {
             "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "MovieWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "MovieOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "MovieWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
@@ -1545,68 +1696,7 @@
         "fields": [
           {
             "name": "count",
-            "args": [
-              {
-                "name": "where",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "orderBy",
-                "inputType": [
-                  {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
-                    "type": "DirectorOrderByInput",
-                    "kind": "object"
-                  }
-                ]
-              },
-              {
-                "name": "cursor",
-                "inputType": [
-                  {
-                    "type": "DirectorWhereUniqueInput",
-                    "kind": "object",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "take",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              },
-              {
-                "name": "skip",
-                "inputType": [
-                  {
-                    "type": "Int",
-                    "kind": "scalar",
-                    "isRequired": false,
-                    "isList": false,
-                    "isNullable": false
-                  }
-                ]
-              }
-            ],
+            "args": [],
             "outputType": {
               "type": "Int",
               "kind": "scalar",
@@ -1694,7 +1784,68 @@
           },
           {
             "name": "aggregateUser",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "UserWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "UserOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "UserWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregateUser",
               "kind": "object",
@@ -1801,7 +1952,68 @@
           },
           {
             "name": "aggregatepost",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "postWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "postOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "postWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregatePost",
               "kind": "object",
@@ -1908,7 +2120,68 @@
           },
           {
             "name": "aggregateCategory",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CategoryWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "CategoryOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CategoryWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregateCategory",
               "kind": "object",
@@ -2015,7 +2288,68 @@
           },
           {
             "name": "aggregatePatient",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "PatientWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "PatientOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "PatientWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregatePatient",
               "kind": "object",
@@ -2122,7 +2456,68 @@
           },
           {
             "name": "aggregateMovie",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "MovieWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "MovieOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "MovieWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregateMovie",
               "kind": "object",
@@ -2229,7 +2624,68 @@
           },
           {
             "name": "aggregateDirector",
-            "args": [],
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "isList": false,
+                    "isRequired": false,
+                    "isNullable": false,
+                    "type": "DirectorOrderByInput",
+                    "kind": "object"
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "DirectorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
             "outputType": {
               "type": "AggregateDirector",
               "kind": "object",
@@ -3692,6 +4148,13 @@
             "name": "metadata",
             "inputType": [
               {
+                "isList": false,
+                "isRequired": false,
+                "isNullable": false,
+                "kind": "scalar",
+                "type": "Json"
+              },
+              {
                 "type": "JsonFilter",
                 "isList": false,
                 "isRequired": false,
@@ -3966,6 +4429,7 @@
       },
       {
         "name": "UserWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "id",
@@ -3996,6 +4460,7 @@
       },
       {
         "name": "postWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "uuid",
@@ -4120,6 +4585,7 @@
       },
       {
         "name": "SlugNumberCompoundUniqueInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "slug",
@@ -4149,6 +4615,7 @@
       },
       {
         "name": "CategoryWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "slug_number",
@@ -4273,6 +4740,7 @@
       },
       {
         "name": "FirstNameLastNameCompoundUniqueInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -4302,6 +4770,7 @@
       },
       {
         "name": "PatientWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "firstName_lastName",
@@ -4539,6 +5008,7 @@
       },
       {
         "name": "DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "directorFirstName",
@@ -4580,6 +5050,7 @@
       },
       {
         "name": "MovieWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "directorFirstName_directorLastName_title",
@@ -4598,6 +5069,7 @@
       },
       {
         "name": "DirectorWhereUniqueInput",
+        "isOneOf": true,
         "fields": [
           {
             "name": "firstName_lastName",
@@ -4616,6 +5088,7 @@
       },
       {
         "name": "postCreateWithoutAuthorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -4717,6 +5190,7 @@
       },
       {
         "name": "postCreateManyWithoutAuthorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -4746,6 +5220,7 @@
       },
       {
         "name": "UserCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "email",
@@ -4835,6 +5310,7 @@
       },
       {
         "name": "postUpdateWithoutAuthorDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -4936,6 +5412,7 @@
       },
       {
         "name": "postUpdateWithWhereUniqueWithoutAuthorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -5144,6 +5621,13 @@
             "name": "metadata",
             "inputType": [
               {
+                "isList": false,
+                "isRequired": false,
+                "isNullable": false,
+                "kind": "scalar",
+                "type": "Json"
+              },
+              {
                 "type": "JsonFilter",
                 "isList": false,
                 "isRequired": false,
@@ -5198,6 +5682,7 @@
       },
       {
         "name": "postUpdateManyDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -5299,6 +5784,7 @@
       },
       {
         "name": "postUpdateManyWithWhereNestedInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -5328,6 +5814,7 @@
       },
       {
         "name": "postUpsertWithWhereUniqueWithoutAuthorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -5369,6 +5856,7 @@
       },
       {
         "name": "postUpdateManyWithoutAuthorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -5450,7 +5938,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": true,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           },
@@ -5482,6 +5970,7 @@
       },
       {
         "name": "UserUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "id",
@@ -5575,7 +6064,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5583,6 +6072,7 @@
       },
       {
         "name": "UserUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "id",
@@ -5672,6 +6162,7 @@
       },
       {
         "name": "UserCreateWithoutPostsInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "email",
@@ -5749,6 +6240,7 @@
       },
       {
         "name": "UserCreateOneWithoutPostsInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -5778,6 +6270,7 @@
       },
       {
         "name": "postCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -5891,6 +6384,7 @@
       },
       {
         "name": "UserUpdateWithoutPostsDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "id",
@@ -5980,6 +6474,7 @@
       },
       {
         "name": "UserUpsertWithoutPostsInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "update",
@@ -6009,6 +6504,7 @@
       },
       {
         "name": "UserUpdateOneRequiredWithoutPostsInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -6062,6 +6558,7 @@
       },
       {
         "name": "postUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -6167,7 +6664,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -6175,6 +6672,7 @@
       },
       {
         "name": "postUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "uuid",
@@ -6276,6 +6774,7 @@
       },
       {
         "name": "CategoryCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "name",
@@ -6317,6 +6816,7 @@
       },
       {
         "name": "CategoryUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "name",
@@ -6358,6 +6858,7 @@
       },
       {
         "name": "CategoryUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "name",
@@ -6399,6 +6900,7 @@
       },
       {
         "name": "PatientCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6440,6 +6942,7 @@
       },
       {
         "name": "PatientUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6481,6 +6984,7 @@
       },
       {
         "name": "PatientUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6522,6 +7026,7 @@
       },
       {
         "name": "DirectorCreateWithoutMoviesInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6551,6 +7056,7 @@
       },
       {
         "name": "DirectorCreateOneWithoutMoviesInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -6580,6 +7086,7 @@
       },
       {
         "name": "MovieCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -6609,6 +7116,7 @@
       },
       {
         "name": "DirectorUpdateWithoutMoviesDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6638,6 +7146,7 @@
       },
       {
         "name": "DirectorUpsertWithoutMoviesInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "update",
@@ -6667,6 +7176,7 @@
       },
       {
         "name": "DirectorUpdateOneRequiredWithoutMoviesInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -6720,6 +7230,7 @@
       },
       {
         "name": "MovieUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -6741,7 +7252,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -6749,6 +7260,7 @@
       },
       {
         "name": "MovieUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -6766,6 +7278,7 @@
       },
       {
         "name": "MovieCreateWithoutDirectorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -6783,6 +7296,7 @@
       },
       {
         "name": "MovieCreateManyWithoutDirectorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -6812,6 +7326,7 @@
       },
       {
         "name": "DirectorCreateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -6853,6 +7368,7 @@
       },
       {
         "name": "MovieUpdateWithoutDirectorDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -6870,6 +7386,7 @@
       },
       {
         "name": "MovieUpdateWithWhereUniqueWithoutDirectorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -7005,6 +7522,7 @@
       },
       {
         "name": "MovieUpdateManyDataInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "title",
@@ -7022,6 +7540,7 @@
       },
       {
         "name": "MovieUpdateManyWithWhereNestedInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -7051,6 +7570,7 @@
       },
       {
         "name": "MovieUpsertWithWhereUniqueWithoutDirectorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "where",
@@ -7092,6 +7612,7 @@
       },
       {
         "name": "MovieUpdateManyWithoutDirectorInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "create",
@@ -7173,7 +7694,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": true,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           },
@@ -7205,6 +7726,7 @@
       },
       {
         "name": "DirectorUpdateInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",
@@ -7238,7 +7760,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -7246,6 +7768,7 @@
       },
       {
         "name": "DirectorUpdateManyMutationInput",
+        "isOneOf": false,
         "fields": [
           {
             "name": "firstName",

@@ -127,11 +127,7 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
   return (outputType: PrismaDMMF.OutputType): DMMF.OutputType => {
     // TODO: make it more future-proof
     const modelName = outputType.name.replace("Aggregate", "");
-    const typeName = !outputType.name.includes("Aggregate")
-      ? outputType.name
-      : `Aggregate${dmmfDocument.getModelTypeName(
-          outputType.name.replace("Aggregate", ""),
-        )}`;
+    const typeName = getMappedOutputTypeName(dmmfDocument, outputType.name);
 
     return {
       ...outputType,
@@ -140,7 +136,10 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
       fields: outputType.fields.map<DMMF.OutputSchemaField>(field => {
         const outputType: DMMF.SchemaField["outputType"] = {
           ...field.outputType,
-          type: field.outputType.type as string,
+          type: getMappedOutputTypeName(
+            dmmfDocument,
+            field.outputType.type as string,
+          ),
         };
         const fieldTSType = getFieldTSType(outputType, dmmfDocument, false);
         const typeGraphQLType = getTypeGraphQLType(outputType, dmmfDocument);
@@ -183,6 +182,31 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
       }),
     };
   };
+}
+
+function getMappedOutputTypeName(
+  dmmfDocument: DmmfDocument,
+  outputTypeName: string,
+): string {
+  if (outputTypeName.startsWith("Aggregate")) {
+    return `Aggregate${dmmfDocument.getModelTypeName(
+      outputTypeName.replace("Aggregate", ""),
+    )}`;
+  }
+
+  const dedicatedTypeSuffix = [
+    "MinAggregateOutputType",
+    "MaxAggregateOutputType",
+    "AvgAggregateOutputType",
+    "SumAggregateOutputType",
+  ].find(type => outputTypeName.includes(type));
+  if (dedicatedTypeSuffix) {
+    const modelName = outputTypeName.replace(dedicatedTypeSuffix, "");
+    // console.log(outputTypeName, modelName, dedicatedTypeSuffix);
+    return `${dmmfDocument.getModelTypeName(modelName)}${dedicatedTypeSuffix}`;
+  }
+
+  return outputTypeName;
 }
 
 function transformMapping(

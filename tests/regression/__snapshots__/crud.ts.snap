@@ -161,6 +161,33 @@ export class UpsertUserResolver {
 "
 `;
 
+exports[`crud should properly generate args classes for every method of crud resolver: AggregateUserArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
+import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+
+@TypeGraphQL.ArgsType()
+export class AggregateUserArgs {
+  @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
+  cursor?: UserWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+}
+"
+`;
+
 exports[`crud should properly generate args classes for every method of crud resolver: CreateUserArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -241,7 +268,8 @@ export class FindOneUserArgs {
 `;
 
 exports[`crud should properly generate args classes for every method of crud resolver: Index 1`] = `
-"export { CreateUserArgs } from \\"./CreateUserArgs\\";
+"export { AggregateUserArgs } from \\"./AggregateUserArgs\\";
+export { CreateUserArgs } from \\"./CreateUserArgs\\";
 export { DeleteManyUserArgs } from \\"./DeleteManyUserArgs\\";
 export { DeleteUserArgs } from \\"./DeleteUserArgs\\";
 export { FindManyUserArgs } from \\"./FindManyUserArgs\\";
@@ -309,6 +337,9 @@ export class UpsertUserArgs {
 
 exports[`crud should properly generate resolver class for single prisma model: UserCrudResolver 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import graphqlFields from \\"graphql-fields\\";
+import { GraphQLResolveInfo } from \\"graphql\\";
+import { AggregateUserArgs } from \\"./args/AggregateUserArgs\\";
 import { CreateUserArgs } from \\"./args/CreateUserArgs\\";
 import { DeleteManyUserArgs } from \\"./args/DeleteManyUserArgs\\";
 import { DeleteUserArgs } from \\"./args/DeleteUserArgs\\";
@@ -391,8 +422,22 @@ export class UserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateUser(): Promise<AggregateUser> {
-    return new AggregateUser();
+  async aggregateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateUserArgs): Promise<AggregateUser> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.user.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }
 "
@@ -400,6 +445,9 @@ export class UserCrudResolver {
 
 exports[`crud should properly generate resolver class when cannot pluralize model name: StaffCrudResolver 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import graphqlFields from \\"graphql-fields\\";
+import { GraphQLResolveInfo } from \\"graphql\\";
+import { AggregateStaffArgs } from \\"./args/AggregateStaffArgs\\";
 import { CreateStaffArgs } from \\"./args/CreateStaffArgs\\";
 import { DeleteManyStaffArgs } from \\"./args/DeleteManyStaffArgs\\";
 import { DeleteStaffArgs } from \\"./args/DeleteStaffArgs\\";
@@ -482,8 +530,22 @@ export class StaffCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateStaff(): Promise<AggregateStaff> {
-    return new AggregateStaff();
+  async aggregateStaff(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateStaffArgs): Promise<AggregateStaff> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.staff.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }
 "
@@ -509,6 +571,9 @@ export class FindOneUserResolver {
 
 exports[`crud should properly generate resolver class when useOriginalMapping is used: UserCrudResolver 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import graphqlFields from \\"graphql-fields\\";
+import { GraphQLResolveInfo } from \\"graphql\\";
+import { AggregateUserArgs } from \\"./args/AggregateUserArgs\\";
 import { CreateUserArgs } from \\"./args/CreateUserArgs\\";
 import { DeleteManyUserArgs } from \\"./args/DeleteManyUserArgs\\";
 import { DeleteUserArgs } from \\"./args/DeleteUserArgs\\";
@@ -591,8 +656,22 @@ export class UserCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateUser(): Promise<AggregateUser> {
-    return new AggregateUser();
+  async aggregateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateUserArgs): Promise<AggregateUser> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.user.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }
 "
@@ -759,6 +838,33 @@ export class UpsertClientResolver {
 "
 `;
 
+exports[`crud when model is renamed should properly generate args classes for every method of crud resolver: AggregateClientArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { ClientOrderByInput } from \\"../../../inputs/ClientOrderByInput\\";
+import { ClientWhereInput } from \\"../../../inputs/ClientWhereInput\\";
+import { ClientWhereUniqueInput } from \\"../../../inputs/ClientWhereUniqueInput\\";
+
+@TypeGraphQL.ArgsType()
+export class AggregateClientArgs {
+  @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
+  where?: ClientWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => ClientOrderByInput, { nullable: true })
+  orderBy?: ClientOrderByInput | undefined;
+
+  @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
+  cursor?: ClientWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+}
+"
+`;
+
 exports[`crud when model is renamed should properly generate args classes for every method of crud resolver: CreateClientArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -839,7 +945,8 @@ export class FindOneClientArgs {
 `;
 
 exports[`crud when model is renamed should properly generate args classes for every method of crud resolver: Index 1`] = `
-"export { CreateClientArgs } from \\"./CreateClientArgs\\";
+"export { AggregateClientArgs } from \\"./AggregateClientArgs\\";
+export { CreateClientArgs } from \\"./CreateClientArgs\\";
 export { DeleteClientArgs } from \\"./DeleteClientArgs\\";
 export { DeleteManyClientArgs } from \\"./DeleteManyClientArgs\\";
 export { FindManyClientArgs } from \\"./FindManyClientArgs\\";
@@ -907,6 +1014,9 @@ export class UpsertClientArgs {
 
 exports[`crud when model is renamed should properly generate resolver class for single prisma model: ClientCrudResolver 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
+import graphqlFields from \\"graphql-fields\\";
+import { GraphQLResolveInfo } from \\"graphql\\";
+import { AggregateClientArgs } from \\"./args/AggregateClientArgs\\";
 import { CreateClientArgs } from \\"./args/CreateClientArgs\\";
 import { DeleteClientArgs } from \\"./args/DeleteClientArgs\\";
 import { DeleteManyClientArgs } from \\"./args/DeleteManyClientArgs\\";
@@ -989,8 +1099,22 @@ export class ClientCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateClient(): Promise<AggregateClient> {
-    return new AggregateClient();
+  async aggregateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateClientArgs): Promise<AggregateClient> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.user.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }
 "

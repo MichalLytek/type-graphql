@@ -8,6 +8,7 @@ import {
   generateArgsImports,
   generateModelsImports,
   generateOutputsImports,
+  generateGraphQLFieldsImport,
 } from "../imports";
 import saveSourceFile from "../../utils/saveSourceFile";
 import { generateCrudResolverClassMethodDeclaration } from "./helpers";
@@ -42,6 +43,9 @@ export default async function generateActionResolverClass(
   });
 
   generateTypeGraphQLImport(sourceFile);
+  if (action.kind === DMMF.ModelAction.aggregate) {
+    generateGraphQLFieldsImport(sourceFile);
+  }
   if (argsTypeName) {
     generateArgsImports(sourceFile, [argsTypeName], 0);
   }
@@ -58,15 +62,7 @@ export default async function generateActionResolverClass(
   );
   generateOutputsImports(
     sourceFile,
-    [outputTypeName]
-      .filter(name => !modelNames.includes(name))
-      .map(typeName =>
-        typeName.includes("Aggregate")
-          ? `Aggregate${dmmfDocument.getModelTypeName(
-              typeName.replace("Aggregate", ""),
-            )}`
-          : typeName,
-      ),
+    [outputTypeName].filter(name => !modelNames.includes(name)),
     2,
   );
 

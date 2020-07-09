@@ -111,8 +111,9 @@ describe("generator integration", () => {
   it("should be able to generate TypeGraphQL classes files without any type errors", async () => {
     const tsconfigContent = {
       compilerOptions: {
-        target: "es2018",
+        target: "es2019",
         module: "commonjs",
+        lib: ["es2019"],
         strict: true,
         skipLibCheck: true,
         esModuleInterop: true,

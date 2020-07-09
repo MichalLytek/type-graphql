@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.2.0
- * Query Engine version: 45c4da4dd3ccd6a322796b228bdf937c7ce884e8
+ * Prisma Client JS version: 2.2.2
+ * Query Engine version: a9e8c3d97ef2a0cf59256e6b26097f2a80f0a6a4
  */
 export declare type PrismaVersion = {
   client: string
@@ -416,6 +416,93 @@ export type User = {
 }
 
 
+export type AggregateUser = {
+  count: number
+  avg: UserAvgAggregateOutputType | null
+  sum: UserSumAggregateOutputType | null
+  min: UserMinAggregateOutputType | null
+  max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  id: number
+  age: number
+  balance: number
+  amount: number
+}
+
+export type UserSumAggregateOutputType = {
+  id: number
+  age: number
+  balance: number
+  amount: number
+}
+
+export type UserMinAggregateOutputType = {
+  id: number
+  age: number
+  balance: number
+  amount: number
+}
+
+export type UserMaxAggregateOutputType = {
+  id: number
+  age: number
+  balance: number
+  amount: number
+}
+
+
+export type UserAvgAggregateInputType = {
+  id?: true
+  age?: true
+  balance?: true
+  amount?: true
+}
+
+export type UserSumAggregateInputType = {
+  id?: true
+  age?: true
+  balance?: true
+  amount?: true
+}
+
+export type UserMinAggregateInputType = {
+  id?: true
+  age?: true
+  balance?: true
+  amount?: true
+}
+
+export type UserMaxAggregateInputType = {
+  id?: true
+  age?: true
+  balance?: true
+  amount?: true
+}
+
+export type AggregateUserArgs = {
+  where?: UserWhereInput
+  orderBy?: UserOrderByInput
+  cursor?: UserWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+  avg?: UserAvgAggregateInputType
+  sum?: UserSumAggregateInputType
+  min?: UserMinAggregateInputType
+  max?: UserMaxAggregateInputType
+}
+
+export type GetUserAggregateType<T extends AggregateUserArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetUserAggregateScalarType<T[P]>
+}
+
+export type GetUserAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof UserAvgAggregateOutputType ? UserAvgAggregateOutputType[P] : never
+}
+    
+    
 
 export type UserSelect = {
   id?: boolean
@@ -596,6 +683,11 @@ export interface UserDelegate {
   count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateUserArgs>(args: Subset<T, AggregateUserArgs>): Promise<GetUserAggregateType<T>>
+    
 }
 
 /**
@@ -840,6 +932,69 @@ export type post = {
 }
 
 
+export type AggregatePost = {
+  count: number
+  avg: PostAvgAggregateOutputType | null
+  sum: PostSumAggregateOutputType | null
+  min: PostMinAggregateOutputType | null
+  max: PostMaxAggregateOutputType | null
+}
+
+export type PostAvgAggregateOutputType = {
+  authorId: number
+}
+
+export type PostSumAggregateOutputType = {
+  authorId: number
+}
+
+export type PostMinAggregateOutputType = {
+  authorId: number
+}
+
+export type PostMaxAggregateOutputType = {
+  authorId: number
+}
+
+
+export type PostAvgAggregateInputType = {
+  authorId?: true
+}
+
+export type PostSumAggregateInputType = {
+  authorId?: true
+}
+
+export type PostMinAggregateInputType = {
+  authorId?: true
+}
+
+export type PostMaxAggregateInputType = {
+  authorId?: true
+}
+
+export type AggregatePostArgs = {
+  where?: postWhereInput
+  orderBy?: postOrderByInput
+  cursor?: postWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+  avg?: PostAvgAggregateInputType
+  sum?: PostSumAggregateInputType
+  min?: PostMinAggregateInputType
+  max?: PostMaxAggregateInputType
+}
+
+export type GetPostAggregateType<T extends AggregatePostArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetPostAggregateScalarType<T[P]>
+}
+
+export type GetPostAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof PostAvgAggregateOutputType ? PostAvgAggregateOutputType[P] : never
+}
+    
+    
 
 export type postSelect = {
   uuid?: boolean
@@ -1022,6 +1177,11 @@ export interface postDelegate {
   count(args?: Omit<FindManypostArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregatePostArgs>(args: Subset<T, AggregatePostArgs>): Promise<GetPostAggregateType<T>>
+    
 }
 
 /**
@@ -1260,6 +1420,69 @@ export type Category = {
 }
 
 
+export type AggregateCategory = {
+  count: number
+  avg: CategoryAvgAggregateOutputType | null
+  sum: CategorySumAggregateOutputType | null
+  min: CategoryMinAggregateOutputType | null
+  max: CategoryMaxAggregateOutputType | null
+}
+
+export type CategoryAvgAggregateOutputType = {
+  number: number
+}
+
+export type CategorySumAggregateOutputType = {
+  number: number
+}
+
+export type CategoryMinAggregateOutputType = {
+  number: number
+}
+
+export type CategoryMaxAggregateOutputType = {
+  number: number
+}
+
+
+export type CategoryAvgAggregateInputType = {
+  number?: true
+}
+
+export type CategorySumAggregateInputType = {
+  number?: true
+}
+
+export type CategoryMinAggregateInputType = {
+  number?: true
+}
+
+export type CategoryMaxAggregateInputType = {
+  number?: true
+}
+
+export type AggregateCategoryArgs = {
+  where?: CategoryWhereInput
+  orderBy?: CategoryOrderByInput
+  cursor?: CategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+  avg?: CategoryAvgAggregateInputType
+  sum?: CategorySumAggregateInputType
+  min?: CategoryMinAggregateInputType
+  max?: CategoryMaxAggregateInputType
+}
+
+export type GetCategoryAggregateType<T extends AggregateCategoryArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetCategoryAggregateScalarType<T[P]>
+}
+
+export type GetCategoryAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof CategoryAvgAggregateOutputType ? CategoryAvgAggregateOutputType[P] : never
+}
+    
+    
 
 export type CategorySelect = {
   name?: boolean
@@ -1426,6 +1649,11 @@ export interface CategoryDelegate {
   count(args?: Omit<FindManyCategoryArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateCategoryArgs>(args: Subset<T, AggregateCategoryArgs>): Promise<GetCategoryAggregateType<T>>
+    
 }
 
 /**
@@ -1635,6 +1863,28 @@ export type Patient = {
 }
 
 
+export type AggregatePatient = {
+  count: number
+}
+
+
+
+export type AggregatePatientArgs = {
+  where?: PatientWhereInput
+  orderBy?: PatientOrderByInput
+  cursor?: PatientWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+}
+
+export type GetPatientAggregateType<T extends AggregatePatientArgs> = {
+  [P in keyof T]: P extends 'count' ? number : never
+}
+
+
+    
+    
 
 export type PatientSelect = {
   firstName?: boolean
@@ -1801,6 +2051,11 @@ export interface PatientDelegate {
   count(args?: Omit<FindManyPatientArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregatePatientArgs>(args: Subset<T, AggregatePatientArgs>): Promise<GetPatientAggregateType<T>>
+    
 }
 
 /**
@@ -2010,6 +2265,28 @@ export type Movie = {
 }
 
 
+export type AggregateMovie = {
+  count: number
+}
+
+
+
+export type AggregateMovieArgs = {
+  where?: MovieWhereInput
+  orderBy?: MovieOrderByInput
+  cursor?: MovieWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+}
+
+export type GetMovieAggregateType<T extends AggregateMovieArgs> = {
+  [P in keyof T]: P extends 'count' ? number : never
+}
+
+
+    
+    
 
 export type MovieSelect = {
   directorFirstName?: boolean
@@ -2186,6 +2463,11 @@ export interface MovieDelegate {
   count(args?: Omit<FindManyMovieArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateMovieArgs>(args: Subset<T, AggregateMovieArgs>): Promise<GetMovieAggregateType<T>>
+    
 }
 
 /**
@@ -2423,6 +2705,28 @@ export type Director = {
 }
 
 
+export type AggregateDirector = {
+  count: number
+}
+
+
+
+export type AggregateDirectorArgs = {
+  where?: DirectorWhereInput
+  orderBy?: DirectorOrderByInput
+  cursor?: DirectorWhereUniqueInput
+  take?: number
+  skip?: number
+  count?: true
+}
+
+export type GetDirectorAggregateType<T extends AggregateDirectorArgs> = {
+  [P in keyof T]: P extends 'count' ? number : never
+}
+
+
+    
+    
 
 export type DirectorSelect = {
   firstName?: boolean
@@ -2598,6 +2902,11 @@ export interface DirectorDelegate {
   count(args?: Omit<FindManyDirectorArgs, 'select' | 'include'>): Promise<number>
 
 
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateDirectorArgs>(args: Subset<T, AggregateDirectorArgs>): Promise<GetDirectorAggregateType<T>>
+    
 }
 
 /**

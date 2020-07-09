@@ -146,3 +146,22 @@ query FilterPostsByJson {
     title
   }
 }
+
+query AggregateClient {
+  aggregateClient {
+    count
+    avg {
+      age
+    }
+    sum {
+      balance
+      amount
+    }
+    min {
+      age
+    }
+    max {
+      age
+    }
+  }
+}

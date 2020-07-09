@@ -8,6 +8,7 @@ function getDMMF(options: GetDMMFOptions): Promise<DMMF.Document> {
 
 export default async function getPrismaClientDmmfFromPrismaSchema(
   prismaSchema: string,
+  enableExperimental?: string[],
 ): Promise<DMMF.Document> {
-  return await getDMMF({ datamodel: prismaSchema });
+  return await getDMMF({ datamodel: prismaSchema, enableExperimental });
 }

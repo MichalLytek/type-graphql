@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
-import { DirectorOrderByInput } from "../../inputs/DirectorOrderByInput";
-import { DirectorWhereInput } from "../../inputs/DirectorWhereInput";
-import { DirectorWhereUniqueInput } from "../../inputs/DirectorWhereUniqueInput";
+import { DirectorOrderByInput } from "../../../inputs/DirectorOrderByInput";
+import { DirectorWhereInput } from "../../../inputs/DirectorWhereInput";
+import { DirectorWhereUniqueInput } from "../../../inputs/DirectorWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class AggregateDirectorCountArgs {
+export class AggregateDirectorArgs {
   @TypeGraphQL.Field(_type => DirectorWhereInput, { nullable: true })
   where?: DirectorWhereInput | undefined;
 

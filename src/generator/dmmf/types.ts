@@ -1,24 +1,24 @@
-export declare namespace DMMF {
-  interface Document {
+export namespace DMMF {
+  export interface Document {
     datamodel: Datamodel;
     schema: Schema;
     mappings: Mapping[];
   }
-  interface Enum {
+  export interface Enum {
     name: string;
     values: string[];
     dbName?: string | null;
     documentation?: string;
   }
-  interface Datamodel {
+  export interface Datamodel {
     models: Model[];
     enums: Enum[];
   }
-  interface UniqueIndex {
+  export interface UniqueIndex {
     name: string;
     fields: string[];
   }
-  interface Model {
+  export interface Model {
     name: string;
     isEmbedded: boolean;
     dbName: string | null;
@@ -31,8 +31,8 @@ export declare namespace DMMF {
     // additional props
     typeName: string;
   }
-  type FieldKind = "scalar" | "object" | "enum";
-  interface Field {
+  export type FieldKind = "scalar" | "object" | "enum";
+  export interface Field {
     kind: FieldKind;
     name: string;
     isRequired: boolean;
@@ -54,29 +54,29 @@ export declare namespace DMMF {
     typeGraphQLType: string;
     fieldTSType: string;
   }
-  interface FieldDefault {
+  export interface FieldDefault {
     name: string;
     args: any[];
   }
-  interface Schema {
+  export interface Schema {
     rootQueryType?: string;
     rootMutationType?: string;
     inputTypes: InputType[];
     outputTypes: OutputType[];
     enums: Enum[];
   }
-  interface Query {
+  export interface Query {
     name: string;
     args: SchemaArg[];
     output: QueryOutput;
   }
-  interface QueryOutput {
+  export interface QueryOutput {
     name: string;
     isRequired: boolean;
     isList: boolean;
   }
-  type ArgType = string | InputType | Enum;
-  interface SchemaArgInputType {
+  export type ArgType = string | InputType | Enum;
+  export interface SchemaArgInputType {
     isRequired: boolean;
     isNullable: boolean;
     isList: boolean;
@@ -86,7 +86,7 @@ export declare namespace DMMF {
     argType: ArgType;
     type: string;
   }
-  interface SchemaArg {
+  export interface SchemaArg {
     name: string;
     // inputType: SchemaArgInputType[];
     isRelationFilter?: boolean;
@@ -98,7 +98,7 @@ export declare namespace DMMF {
     typeGraphQLType: string;
     fieldTSType: string;
   }
-  interface OutputType {
+  export interface OutputType {
     name: string;
     fields: OutputSchemaField[];
     isEmbedded?: boolean;
@@ -106,7 +106,7 @@ export declare namespace DMMF {
     modelName: string;
     typeName: string;
   }
-  interface SchemaField {
+  export interface SchemaField {
     name: string;
     outputType: {
       // type: string | OutputType | Enum;
@@ -121,10 +121,10 @@ export declare namespace DMMF {
     fieldTSType: string;
   }
   // additional type
-  interface OutputSchemaField extends SchemaField {
+  export interface OutputSchemaField extends SchemaField {
     argsTypeName: string | undefined;
   }
-  interface InputType {
+  export interface InputType {
     name: string;
     isWhereType?: boolean;
     isOrderType?: boolean;
@@ -134,7 +134,7 @@ export declare namespace DMMF {
     // additional props
     typeName: string;
   }
-  interface Mapping {
+  export interface Mapping {
     model: string;
     plural: string;
     // findOne?: string | null;
@@ -151,13 +151,13 @@ export declare namespace DMMF {
     actions: Action[];
   }
   // additional type
-  interface Action {
+  export interface Action {
     name: string;
     fieldName: string;
     kind: ModelAction;
     operation: "Query" | "Mutation";
   }
-  enum ModelAction {
+  export enum ModelAction {
     findOne = "findOne",
     findMany = "findMany",
     create = "create",

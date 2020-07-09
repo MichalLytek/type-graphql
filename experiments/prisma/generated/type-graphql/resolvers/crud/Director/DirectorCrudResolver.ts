@@ -1,4 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
+import graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
+import { AggregateDirectorArgs } from "./args/AggregateDirectorArgs";
 import { CreateDirectorArgs } from "./args/CreateDirectorArgs";
 import { DeleteDirectorArgs } from "./args/DeleteDirectorArgs";
 import { DeleteManyDirectorArgs } from "./args/DeleteManyDirectorArgs";
@@ -81,7 +84,21 @@ export class DirectorCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateDirector(): Promise<AggregateDirector> {
-    return new AggregateDirector();
+  async aggregateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateDirectorArgs): Promise<AggregateDirector> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.director.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }

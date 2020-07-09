@@ -1,4 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
+import graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
+import { AggregatePostArgs } from "./args/AggregatePostArgs";
 import { CreatePostArgs } from "./args/CreatePostArgs";
 import { DeleteManyPostArgs } from "./args/DeleteManyPostArgs";
 import { DeletePostArgs } from "./args/DeletePostArgs";
@@ -81,7 +84,21 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregatePost(): Promise<AggregatePost> {
-    return new AggregatePost();
+  async aggregatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregatePostArgs): Promise<AggregatePost> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.post.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }

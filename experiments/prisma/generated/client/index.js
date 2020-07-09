@@ -16,12 +16,12 @@ const path = require('path')
 const debug = debugLib('prisma-client')
 
 /**
- * Prisma Client JS version: 2.2.0
- * Query Engine version: 45c4da4dd3ccd6a322796b228bdf937c7ce884e8
+ * Prisma Client JS version: 2.2.2
+ * Query Engine version: a9e8c3d97ef2a0cf59256e6b26097f2a80f0a6a4
  */
 exports.prismaVersion = {
-  client: "2.2.0",
-  engine: "45c4da4dd3ccd6a322796b228bdf937c7ce884e8"
+  client: "2.2.2",
+  engine: "a9e8c3d97ef2a0cf59256e6b26097f2a80f0a6a4"
 }
 
 exports.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -99,14 +99,16 @@ const config = {
       "windows",
       "debian-openssl-1.1.x"
     ],
-    "experimentalFeatures": [],
+    "experimentalFeatures": [
+      "aggregateApi"
+    ],
     "config": {},
     "isCustomOutput": true
   },
   "sqliteDatasourceOverrides": [],
   "relativePath": "../..",
-  "clientVersion": "2.2.0",
-  "engineVersion": "45c4da4dd3ccd6a322796b228bdf937c7ce884e8"
+  "clientVersion": "2.2.2",
+  "engineVersion": "a9e8c3d97ef2a0cf59256e6b26097f2a80f0a6a4"
 }
 config.document = dmmf
 config.dirname = __dirname

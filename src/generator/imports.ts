@@ -20,6 +20,17 @@ export function generateTypeGraphQLImport(sourceFile: SourceFile) {
   });
 }
 
+export function generateGraphQLFieldsImport(sourceFile: SourceFile) {
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: "graphql-fields",
+    defaultImport: "graphqlFields",
+  });
+  sourceFile.addImportDeclaration({
+    moduleSpecifier: "graphql",
+    namedImports: ["GraphQLResolveInfo"],
+  });
+}
+
 export function generateGraphQLScalarImport(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
     moduleSpecifier: "graphql-type-json",

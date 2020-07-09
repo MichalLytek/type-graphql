@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
-import { PostOrderByInput } from "../../inputs/PostOrderByInput";
-import { PostWhereInput } from "../../inputs/PostWhereInput";
-import { PostWhereUniqueInput } from "../../inputs/PostWhereUniqueInput";
+import { PostOrderByInput } from "../../../inputs/PostOrderByInput";
+import { PostWhereInput } from "../../../inputs/PostWhereInput";
+import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class AggregatePostCountArgs {
+export class AggregatePostArgs {
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
   where?: PostWhereInput | undefined;
 

@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
-import { MovieOrderByInput } from "../../inputs/MovieOrderByInput";
-import { MovieWhereInput } from "../../inputs/MovieWhereInput";
-import { MovieWhereUniqueInput } from "../../inputs/MovieWhereUniqueInput";
+import { MovieOrderByInput } from "../../../inputs/MovieOrderByInput";
+import { MovieWhereInput } from "../../../inputs/MovieWhereInput";
+import { MovieWhereUniqueInput } from "../../../inputs/MovieWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class AggregateMovieCountArgs {
+export class AggregateMovieArgs {
   @TypeGraphQL.Field(_type => MovieWhereInput, { nullable: true })
   where?: MovieWhereInput | undefined;
 

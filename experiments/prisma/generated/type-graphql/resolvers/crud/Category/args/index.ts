@@ -1,3 +1,4 @@
+export { AggregateCategoryArgs } from "./AggregateCategoryArgs";
 export { CreateCategoryArgs } from "./CreateCategoryArgs";
 export { DeleteCategoryArgs } from "./DeleteCategoryArgs";
 export { DeleteManyCategoryArgs } from "./DeleteManyCategoryArgs";

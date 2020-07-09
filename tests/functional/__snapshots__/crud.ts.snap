@@ -1,9 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`crud resolvers execution should properly call PrismaClient on \`aggregate\` action: aggregateUserCount call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`aggregate\` action with simple count field: aggregateUserCount mocked response 1`] = `
+Object {
+  "aggregateUser": Object {
+    "count": 5,
+  },
+}
+`;
+
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`aggregate\` action with simple count field: user.aggregate call args 1`] = `
 Array [
   Array [
-    AggregateUserCountArgs {
+    Object {
+      "count": true,
       "orderBy": UserOrderByInput {
         "intIdField": "desc",
       },
@@ -19,15 +28,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`aggregate\` action: aggregateUserCount mocked response 1`] = `
-Object {
-  "aggregateUser": Object {
-    "count": 5,
-  },
-}
-`;
-
-exports[`crud resolvers execution should properly call PrismaClient on \`create\` action: createUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`create\` action: createUser call args 1`] = `
 Array [
   Array [
     CreateUserArgs {
@@ -41,7 +42,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`create\` action: createUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`create\` action: createUser mocked response 1`] = `
 Object {
   "createUser": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
@@ -50,7 +51,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`delete\` action: deleteUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`delete\` action: deleteUser call args 1`] = `
 Array [
   Array [
     DeleteUserArgs {
@@ -62,7 +63,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`delete\` action: deleteUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`delete\` action: deleteUser mocked response 1`] = `
 Object {
   "deleteUser": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
@@ -71,7 +72,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`deleteMany\` action: deleteManyUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`deleteMany\` action: deleteManyUser call args 1`] = `
 Array [
   Array [
     DeleteManyUserArgs {
@@ -85,7 +86,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`deleteMany\` action: deleteManyUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`deleteMany\` action: deleteManyUser mocked response 1`] = `
 Object {
   "deleteManyUser": Object {
     "count": 3,
@@ -93,7 +94,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findMany\` action: findManyUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findMany\` action: findManyUser call args 1`] = `
 Array [
   Array [
     FindManyUserArgs {
@@ -112,7 +113,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findMany\` action: users mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findMany\` action: users mocked response 1`] = `
 Object {
   "users": Array [
     Object {
@@ -123,7 +124,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findOne\` action: findOneUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findOne\` action: findOneUser call args 1`] = `
 Array [
   Array [
     FindOneUserArgs {
@@ -135,7 +136,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`findOne\` action: user mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findOne\` action: user mocked response 1`] = `
 Object {
   "user": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
@@ -144,7 +145,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`update\` action: updateUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`update\` action: updateUser call args 1`] = `
 Array [
   Array [
     UpdateUserArgs {
@@ -159,7 +160,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`update\` action: updateUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`update\` action: updateUser mocked response 1`] = `
 Object {
   "updateUser": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
@@ -168,7 +169,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`updateMany\` action: updateManyUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`updateMany\` action: updateManyUser call args 1`] = `
 Array [
   Array [
     UpdateManyUserArgs {
@@ -185,7 +186,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`updateMany\` action: updateManyUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`updateMany\` action: updateManyUser mocked response 1`] = `
 Object {
   "updateManyUser": Object {
     "count": 3,
@@ -193,7 +194,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`upsert\` action: upsertUser call args 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`upsert\` action: upsertUser call args 1`] = `
 Array [
   Array [
     UpsertUserArgs {
@@ -213,7 +214,7 @@ Array [
 ]
 `;
 
-exports[`crud resolvers execution should properly call PrismaClient on \`upsert\` action: upsertUser mocked response 1`] = `
+exports[`crud resolvers execution with default settings should properly call PrismaClient on \`upsert\` action: upsertUser mocked response 1`] = `
 Object {
   "upsertUser": Object {
     "dateField": "2019-12-31T14:16:02.572Z",
@@ -222,4 +223,64 @@ Object {
     "uniqueStringField": "unique",
   },
 }
+`;
+
+exports[`crud resolvers execution with experimental aggregations api enabled should properly call PrismaClient on \`aggregate\` action with advanced operations: aggregateUser mocked response 1`] = `
+Object {
+  "aggregateUser": Object {
+    "avg": Object {
+      "floatField": 5,
+      "intField": 5,
+    },
+    "count": 2,
+    "max": Object {
+      "floatField": 10,
+      "intField": 10,
+    },
+    "min": Object {
+      "floatField": 0,
+      "intField": 0,
+    },
+    "sum": Object {
+      "floatField": 10,
+      "intField": 10,
+    },
+  },
+}
+`;
+
+exports[`crud resolvers execution with experimental aggregations api enabled should properly call PrismaClient on \`aggregate\` action with advanced operations: user.aggregate call args 1`] = `
+Array [
+  Array [
+    Object {
+      "avg": Object {
+        "floatField": true,
+        "intField": true,
+      },
+      "count": true,
+      "max": Object {
+        "floatField": true,
+        "intField": true,
+      },
+      "min": Object {
+        "floatField": true,
+        "intField": true,
+      },
+      "orderBy": UserOrderByInput {
+        "intField": "desc",
+      },
+      "skip": 1,
+      "sum": Object {
+        "floatField": true,
+        "intField": true,
+      },
+      "take": 1,
+      "where": UserWhereInput {
+        "floatField": IntFilter {
+          "lte": 50,
+        },
+      },
+    },
+  ],
+]
 `;

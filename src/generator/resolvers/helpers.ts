@@ -41,16 +41,21 @@ export function generateCrudResolverClassMethodDeclaration(
       },
     ],
     parameters: [
+      {
+        name: "ctx",
+        // TODO: import custom `ContextType`
+        type: "any",
+        decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
+      },
       ...(action.kind === "aggregate"
-        ? []
-        : [
+        ? [
             {
-              name: "ctx",
-              // TODO: import custom `ContextType`
-              type: "any",
-              decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
+              name: "info",
+              type: "GraphQLResolveInfo",
+              decorators: [{ name: "TypeGraphQL.Info", arguments: [] }],
             },
-          ]),
+          ]
+        : []),
       ...(!argsTypeName
         ? []
         : [
@@ -64,8 +69,20 @@ export function generateCrudResolverClassMethodDeclaration(
     statements:
       action.kind === "aggregate"
         ? [
-            // it will expose field resolvers automatically
-            `return new ${returnTSType}();`,
+            `function transformFields(fields: Record<string, any>): Record<string, any> {
+              return Object.fromEntries(
+                Object.entries(fields).map<[string, any]>(([key, value]) => {
+                  if (Object.keys(value).length === 0) {
+                    return [key, true];
+                  }
+                  return [key, transformFields(value)];
+                })
+              );
+            }`,
+            `return ctx.prisma.${collectionName}.${action.kind}({
+              ...args,
+              ...transformFields(graphqlFields(info as any)),
+            });`,
           ]
         : [
             `return ctx.prisma.${collectionName}.${action.kind}(${

@@ -1,4 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
+import graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
+import { AggregateCategoryArgs } from "./args/AggregateCategoryArgs";
 import { CreateCategoryArgs } from "./args/CreateCategoryArgs";
 import { DeleteCategoryArgs } from "./args/DeleteCategoryArgs";
 import { DeleteManyCategoryArgs } from "./args/DeleteManyCategoryArgs";
@@ -81,7 +84,21 @@ export class CategoryCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregateCategory(): Promise<AggregateCategory> {
-    return new AggregateCategory();
+  async aggregateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateCategoryArgs): Promise<AggregateCategory> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields).map<[string, any]>(([key, value]) => {
+          if (Object.keys(value).length === 0) {
+            return [key, true];
+          }
+          return [key, transformFields(value)];
+        })
+      );
+    }
+
+    return ctx.prisma.category.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }

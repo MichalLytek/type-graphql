@@ -1,3 +1,4 @@
+export { AggregateMovieArgs } from "./AggregateMovieArgs";
 export { CreateMovieArgs } from "./CreateMovieArgs";
 export { DeleteManyMovieArgs } from "./DeleteManyMovieArgs";
 export { DeleteMovieArgs } from "./DeleteMovieArgs";

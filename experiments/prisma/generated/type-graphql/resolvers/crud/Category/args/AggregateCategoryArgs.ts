@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
-import { CategoryOrderByInput } from "../../inputs/CategoryOrderByInput";
-import { CategoryWhereInput } from "../../inputs/CategoryWhereInput";
-import { CategoryWhereUniqueInput } from "../../inputs/CategoryWhereUniqueInput";
+import { CategoryOrderByInput } from "../../../inputs/CategoryOrderByInput";
+import { CategoryWhereInput } from "../../../inputs/CategoryWhereInput";
+import { CategoryWhereUniqueInput } from "../../../inputs/CategoryWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class AggregateCategoryCountArgs {
+export class AggregateCategoryArgs {
   @TypeGraphQL.Field(_type => CategoryWhereInput, { nullable: true })
   where?: CategoryWhereInput | undefined;
 

@@ -7,11 +7,19 @@ exports[`generator integration should be able to use generate TypeGraphQL classe
 # -----------------------------------------------
 
 type AggregatePost {
-  count(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): Int!
+  avg: PostAvgAggregateOutputType
+  count: Int!
+  max: PostMaxAggregateOutputType
+  min: PostMinAggregateOutputType
+  sum: PostSumAggregateOutputType
 }
 
 type AggregateUser {
-  count(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): Int!
+  avg: UserAvgAggregateOutputType
+  count: Int!
+  max: UserMaxAggregateOutputType
+  min: UserMinAggregateOutputType
+  sum: UserSumAggregateOutputType
 }
 
 type BatchPayload {
@@ -84,6 +92,10 @@ type Post {
   uuid: String!
 }
 
+type PostAvgAggregateOutputType {
+  authorId: Float!
+}
+
 input PostCreateInput {
   author: UserCreateOneWithoutPostsInput!
   color: Color!
@@ -108,6 +120,14 @@ input PostFilter {
   some: PostWhereInput
 }
 
+type PostMaxAggregateOutputType {
+  authorId: Int!
+}
+
+type PostMinAggregateOutputType {
+  authorId: Int!
+}
+
 input PostOrderByInput {
   authorId: OrderByArg
   color: OrderByArg
@@ -123,6 +143,10 @@ input PostScalarWhereInput {
   NOT: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   uuid: StringFilter
+}
+
+type PostSumAggregateOutputType {
+  authorId: Int!
 }
 
 input PostUpdateInput {
@@ -194,8 +218,8 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  aggregatePost: AggregatePost!
-  aggregateUser: AggregateUser!
+  aggregatePost(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): AggregatePost!
+  aggregateUser(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): AggregateUser!
   post(where: PostWhereUniqueInput!): Post
   posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
@@ -222,6 +246,10 @@ type User {
   posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
 }
 
+type UserAvgAggregateOutputType {
+  id: Float!
+}
+
 input UserCreateInput {
   name: String
   posts: PostCreateManyWithoutAuthorInput
@@ -236,9 +264,21 @@ input UserCreateWithoutPostsInput {
   name: String
 }
 
+type UserMaxAggregateOutputType {
+  id: Int!
+}
+
+type UserMinAggregateOutputType {
+  id: Int!
+}
+
 input UserOrderByInput {
   id: OrderByArg
   name: OrderByArg
+}
+
+type UserSumAggregateOutputType {
+  id: Int!
 }
 
 input UserUpdateInput {
@@ -310,6 +350,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
         UpdatePostResolver.ts
         UpsertPostResolver.ts
         [args]
+          AggregatePostArgs.ts
           CreatePostArgs.ts
           DeleteManyPostArgs.ts
           DeletePostArgs.ts
@@ -331,6 +372,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
         UpsertUserResolver.ts
         UserCrudResolver.ts
         [args]
+          AggregateUserArgs.ts
           CreateUserArgs.ts
           DeleteManyUserArgs.ts
           DeleteUserArgs.ts
@@ -378,10 +420,14 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       AggregatePost.ts
       AggregateUser.ts
       BatchPayload.ts
-      [args]
-        AggregatePostCountArgs.ts
-        AggregateUserCountArgs.ts
-        index.ts
+      PostAvgAggregateOutputType.ts
+      PostMaxAggregateOutputType.ts
+      PostMinAggregateOutputType.ts
+      PostSumAggregateOutputType.ts
+      UserAvgAggregateOutputType.ts
+      UserMaxAggregateOutputType.ts
+      UserMinAggregateOutputType.ts
+      UserSumAggregateOutputType.ts
       index.ts
     [relations]
       [Post]

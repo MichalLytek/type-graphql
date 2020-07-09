@@ -6,10 +6,10 @@ import { JsonValue, InputJsonValue } from "../../../client";
   isAbstract: true,
   description: undefined,
 })
-export class AggregateMovie {
+export class CategoryMaxAggregateOutputType {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
     description: undefined
   })
-  count!: number;
+  number!: number;
 }

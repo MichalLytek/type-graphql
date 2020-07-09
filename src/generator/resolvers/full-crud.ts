@@ -19,6 +19,7 @@ import {
   generateModelsImports,
   generateOutputsImports,
   generateArgsBarrelFile,
+  generateGraphQLFieldsImport,
 } from "../imports";
 import saveSourceFile from "../../utils/saveSourceFile";
 import generateActionResolverClass from "./separate-action";
@@ -52,6 +53,7 @@ export default async function generateCrudResolverClassFromMapping(
   });
 
   generateTypeGraphQLImport(sourceFile);
+  generateGraphQLFieldsImport(sourceFile);
 
   const methodsInfo = await Promise.all(
     mapping.actions.map(async action => {
@@ -129,15 +131,7 @@ export default async function generateCrudResolverClassFromMapping(
   );
   generateOutputsImports(
     sourceFile,
-    distinctOutputTypesNames
-      .filter(typeName => !modelNames.includes(typeName))
-      .map(typeName =>
-        typeName.includes("Aggregate")
-          ? `Aggregate${dmmfDocument.getModelTypeName(
-              typeName.replace("Aggregate", ""),
-            )}`
-          : typeName,
-      ),
+    distinctOutputTypesNames.filter(typeName => !modelNames.includes(typeName)),
     2,
   );
 

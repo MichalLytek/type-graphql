@@ -90,6 +90,9 @@ describe("crud", () => {
     `;
 
     await generateCodeFromSchema(schema, { outputDirPath });
+    const aggregateUserArgsTSFile = await readGeneratedFile(
+      "/resolvers/crud/User/args/AggregateUserArgs.ts",
+    );
     const createUserArgsTSFile = await readGeneratedFile(
       "/resolvers/crud/User/args/CreateUserArgs.ts",
     );
@@ -118,6 +121,7 @@ describe("crud", () => {
       "/resolvers/crud/User/args/index.ts",
     );
 
+    expect(aggregateUserArgsTSFile).toMatchSnapshot("AggregateUserArgs");
     expect(createUserArgsTSFile).toMatchSnapshot("CreateUserArgs");
     expect(deleteManyUserArgsTSFile).toMatchSnapshot("DeleteManyUserArgs");
     expect(deleteUserArgsTSFile).toMatchSnapshot("DeleteUserArgs");
@@ -216,6 +220,9 @@ describe("crud", () => {
       `;
 
       await generateCodeFromSchema(schema, { outputDirPath });
+      const aggregateClientArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/Client/args/AggregateClientArgs.ts",
+      );
       const createClientArgsTSFile = await readGeneratedFile(
         "/resolvers/crud/Client/args/CreateClientArgs.ts",
       );
@@ -244,6 +251,7 @@ describe("crud", () => {
         "/resolvers/crud/Client/args/index.ts",
       );
 
+      expect(aggregateClientArgsTSFile).toMatchSnapshot("AggregateClientArgs");
       expect(createClientArgsTSFile).toMatchSnapshot("CreateClientArgs");
       expect(deleteManyClientArgsTSFile).toMatchSnapshot(
         "DeleteManyClientArgs",
