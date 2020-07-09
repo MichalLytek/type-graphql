@@ -3,7 +3,6 @@ import { DatasourceOverwrite } from '@prisma/engine-core/dist/NodeEngine';
 import { Document } from './query';
 import { GeneratorConfig } from '@prisma/generator-helper/dist/types';
 import { Dataloader } from './Dataloader';
-import { InternalDatasource } from './utils/printDatasources';
 export declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
 export declare type Datasource = {
     url?: string;
@@ -45,19 +44,36 @@ export interface PrismaClientOptions {
             cwd?: string;
             binaryPath?: string;
             endpoint?: string;
-            enableEngineDebugMode?: boolean;
         };
         measurePerformance?: boolean;
     };
 }
+export declare type HookParams = {
+    query: string;
+    path: string[];
+    rootField?: string;
+    typeName?: string;
+    document: any;
+    clientMethod: string;
+    args: any;
+};
+export declare type HookPoint = 'all' | 'engine';
+export declare type EngineHookParams = {
+    document: Document;
+    runInTransaction?: boolean;
+};
+export declare type AllHookArgs = {
+    params: HookParams;
+    fetch: (params: HookParams) => Promise<any>;
+};
+export declare type EngineHookArgs = {
+    params: EngineHookParams;
+    fetch: (params: EngineHookParams) => Promise<any>;
+};
+export declare type AllHookCallback = (args: AllHookArgs) => Promise<any>;
+export declare type EngineHookCallback = (args: EngineHookArgs) => Promise<any>;
 export declare type Hooks = {
-    beforeRequest?: (options: {
-        query: string;
-        path: string[];
-        rootField?: string;
-        typeName?: string;
-        document: any;
-    }) => any;
+    beforeRequest?: (options: HookParams) => any;
 };
 export declare type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export declare type LogDefinition = {
@@ -84,7 +100,6 @@ export interface GetPrismaClientOptions {
     sqliteDatasourceOverrides?: DatasourceOverwrite[];
     relativePath: string;
     dirname: string;
-    internalDatasources: Omit<InternalDatasource, 'url'>[];
     clientVersion?: string;
     engineVersion?: string;
 }
@@ -96,10 +111,10 @@ export declare class PrismaClientFetcher {
     dataloader: Dataloader<{
         document: Document;
         runInTransaction?: boolean;
-        headers?: Record<string, string>;
     }>;
     constructor(prisma: any, enableDebug?: boolean, hooks?: any);
-    request({ document, dataPath, rootField, typeName, isList, callsite, collectTimestamps, clientMethod, runInTransaction, showColors, headers, }: {
+    private _request;
+    request(params: {
         document: Document;
         dataPath: string[];
         rootField: string;
@@ -110,7 +125,9 @@ export declare class PrismaClientFetcher {
         collectTimestamps?: CollectTimestamps;
         runInTransaction?: boolean;
         showColors?: boolean;
-        headers?: Record<string, string>;
+        engineHook?: EngineHookCallback;
+        allHook?: AllHookCallback;
+        args: any;
     }): Promise<any>;
     sanitizeMessage(message: any): any;
     unpack(document: any, data: any, path: any, rootField: any): any;

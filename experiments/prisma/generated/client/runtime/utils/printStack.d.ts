@@ -5,6 +5,7 @@ export interface ErrorArgs {
     showColors?: boolean;
     renderPathRelative?: boolean;
     printFullStack?: boolean;
+    isValidationError?: boolean;
 }
 export interface PrintStackResult {
     stack: string;
@@ -12,4 +13,4 @@ export interface PrintStackResult {
     lastErrorHeight: number;
     afterLines: string;
 }
-export declare const printStack: ({ callsite, originalMethod, onUs, showColors, renderPathRelative, printFullStack, }: ErrorArgs) => PrintStackResult;
+export declare const printStack: ({ callsite, originalMethod, onUs, showColors, renderPathRelative, printFullStack, isValidationError, }: ErrorArgs) => PrintStackResult;

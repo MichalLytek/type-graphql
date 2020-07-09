@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.1.3
- * Query Engine version: 363f5a521d6b06543e53d134652a0037a3096d41
+ * Prisma Client JS version: 2.2.0
+ * Query Engine version: 45c4da4dd3ccd6a322796b228bdf937c7ce884e8
  */
 export declare type PrismaVersion = {
   client: string
@@ -56,7 +56,6 @@ export declare interface JsonArray extends Array<JsonValue> {}
  * Matches any valid JSON value.
  */
 export declare type JsonValue = string | number | boolean | null | JsonObject | JsonArray
-
 
 /**
  * Same as JsonObject, but allows undefined
@@ -416,6 +415,8 @@ export type User = {
   role: Role
 }
 
+
+
 export type UserSelect = {
   id?: boolean
   email?: boolean
@@ -590,9 +591,11 @@ export interface UserDelegate {
     args: Subset<T, UserUpsertArgs>
   ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -836,6 +839,8 @@ export type post = {
   metadata: JsonValue
 }
 
+
+
 export type postSelect = {
   uuid?: boolean
   createdAt?: boolean
@@ -1012,9 +1017,11 @@ export interface postDelegate {
     args: Subset<T, postUpsertArgs>
   ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManypostArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -1252,6 +1259,8 @@ export type Category = {
   number: number
 }
 
+
+
 export type CategorySelect = {
   name?: boolean
   slug?: boolean
@@ -1412,9 +1421,11 @@ export interface CategoryDelegate {
     args: Subset<T, CategoryUpsertArgs>
   ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManyCategoryArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -1623,6 +1634,8 @@ export type Patient = {
   email: string
 }
 
+
+
 export type PatientSelect = {
   firstName?: boolean
   lastName?: boolean
@@ -1783,9 +1796,11 @@ export interface PatientDelegate {
     args: Subset<T, PatientUpsertArgs>
   ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManyPatientArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -1994,6 +2009,8 @@ export type Movie = {
   title: string
 }
 
+
+
 export type MovieSelect = {
   directorFirstName?: boolean
   directorLastName?: boolean
@@ -2164,9 +2181,11 @@ export interface MovieDelegate {
     args: Subset<T, MovieUpsertArgs>
   ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManyMovieArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -2403,6 +2422,8 @@ export type Director = {
   lastName: string
 }
 
+
+
 export type DirectorSelect = {
   firstName?: boolean
   lastName?: boolean
@@ -2572,9 +2593,11 @@ export interface DirectorDelegate {
     args: Subset<T, DirectorUpsertArgs>
   ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
   /**
-   * 
+   * Count
    */
   count(args?: Omit<FindManyDirectorArgs, 'select' | 'include'>): Promise<number>
+
+
 }
 
 /**
@@ -2816,7 +2839,7 @@ export type postWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: JsonFilter
+  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<postWhereInput>
   OR?: Array<postWhereInput>
   NOT?: Enumerable<postWhereInput>
@@ -2966,7 +2989,7 @@ export type postScalarWhereInput = {
   content?: string | NullableStringFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | NullablePostKindFilter | null
-  metadata?: JsonFilter
+  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<postScalarWhereInput>
   OR?: Array<postScalarWhereInput>
   NOT?: Enumerable<postScalarWhereInput>
@@ -3001,7 +3024,7 @@ export type postUpdateManyWithoutAuthorInput = {
   disconnect?: Enumerable<postWhereUniqueInput>
   delete?: Enumerable<postWhereUniqueInput>
   update?: Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
-  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput>
+  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
   deleteMany?: Enumerable<postScalarWhereInput>
   upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
 }
@@ -3014,7 +3037,7 @@ export type UserUpdateInput = {
   balance?: number
   amount?: number
   role?: Role
-  posts?: postUpdateManyWithoutAuthorInput
+  posts?: postUpdateManyWithoutAuthorInput | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -3084,7 +3107,7 @@ export type postUpdateInput = {
   content?: string | null
   kind?: PostKind | null
   metadata?: InputJsonValue
-  author?: UserUpdateOneRequiredWithoutPostsInput
+  author?: UserUpdateOneRequiredWithoutPostsInput | null
 }
 
 export type postUpdateManyMutationInput = {
@@ -3168,7 +3191,7 @@ export type DirectorUpdateOneRequiredWithoutMoviesInput = {
 
 export type MovieUpdateInput = {
   title?: string
-  director?: DirectorUpdateOneRequiredWithoutMoviesInput
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput | null
 }
 
 export type MovieUpdateManyMutationInput = {
@@ -3230,7 +3253,7 @@ export type MovieUpdateManyWithoutDirectorInput = {
   disconnect?: Enumerable<MovieWhereUniqueInput>
   delete?: Enumerable<MovieWhereUniqueInput>
   update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
-  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput>
+  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
   deleteMany?: Enumerable<MovieScalarWhereInput>
   upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
 }
@@ -3238,7 +3261,7 @@ export type MovieUpdateManyWithoutDirectorInput = {
 export type DirectorUpdateInput = {
   firstName?: string
   lastName?: string
-  movies?: MovieUpdateManyWithoutDirectorInput
+  movies?: MovieUpdateManyWithoutDirectorInput | null
 }
 
 export type DirectorUpdateManyMutationInput = {

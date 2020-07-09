@@ -3,4 +3,10 @@ export interface MissingItem {
     isRequired: boolean;
     type: string | object;
 }
-export declare function printJsonWithErrors(ast: object, keyPaths: string[], valuePaths: string[], missingItems?: MissingItem[]): any;
+export declare type PrintJsonWithErrorsArgs = {
+    ast: object;
+    keyPaths: string[];
+    valuePaths: string[];
+    missingItems: MissingItem[];
+};
+export declare function printJsonWithErrors({ ast, keyPaths, valuePaths, missingItems, }: PrintJsonWithErrorsArgs): any;

@@ -12,7 +12,8 @@ export declare type Datasource = string | {
 };
 export interface InternalDatasource {
     name: string;
-    connectorType: ConnectorType;
+    activeProvider: ConnectorType;
+    provider: ConnectorType[];
     url: EnvValue;
     config: any;
 }
@@ -20,5 +21,3 @@ export interface EnvValue {
     fromEnvVar: null | string;
     value: string;
 }
-export declare function printDatasources(dataSources: Dictionary<Datasource | undefined>, internalDatasources: InternalDatasource[]): string;
-export declare function printDatamodelObject(obj: any): string;
