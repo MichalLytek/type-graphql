@@ -42,5 +42,5 @@ export const GraphQLTimestamp: typeof src.GraphQLTimestamp = shim
   ? (dummyValue as any)
   : src.GraphQLTimestamp;
 
-export const buildSchema: typeof src.buildSchema | null = shim ? null : src.buildSchema;
-export const Directive: typeof src.Directive | null = shim ? null : src.Directive;
+export const buildSchema: typeof src.buildSchema = shim ? (dummyFn as any) : src.buildSchema;
+export const Directive: typeof src.Directive = shim ? (dummyDecorator() as any) : src.Directive;
