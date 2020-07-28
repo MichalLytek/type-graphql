@@ -43,12 +43,20 @@ export const GraphQLTimestamp: typeof src.GraphQLTimestamp = shim
   : src.GraphQLTimestamp;
 
 export const buildSchema: typeof src.buildSchema = shim ? (dummyFn as any) : src.buildSchema;
+export const buildSchemaSync: typeof src.buildSchemaSync = shim
+  ? (dummyFn as any)
+  : src.buildSchemaSync;
 export const Directive: typeof src.Directive = shim ? (dummyDecorator as any) : src.Directive;
 export const Extensions: typeof src.Extensions = shim ? (dummyDecorator as any) : src.Extensions;
 export const ArgumentValidationError: typeof src.ArgumentValidationError = shim
-  ? (dummyDecorator as any)
+  ? (dummyValue as any)
   : src.ArgumentValidationError;
+export const UnauthorizedError: typeof src.UnauthorizedError = shim
+  ? (dummyValue as any)
+  : src.UnauthorizedError;
+export const ForbiddenError: typeof src.ForbiddenError = shim
+  ? (dummyValue as any)
+  : src.ForbiddenError;
 export const createMethodDecorator: typeof src.createMethodDecorator = shim
-  ? (dummyDecorator as any)
+  ? (dummyFn as any)
   : src.createMethodDecorator;
-export const NextFn: typeof src.NextFn = shim ? (dummyDecorator as any) : src.NextFn;
