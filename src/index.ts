@@ -41,3 +41,6 @@ export const GraphQLISODateTime: typeof src.GraphQLISODateTime = shim
 export const GraphQLTimestamp: typeof src.GraphQLTimestamp = shim
   ? (dummyValue as any)
   : src.GraphQLTimestamp;
+
+export const buildSchema: typeof src.buildSchema | null = shim ? null : src.buildSchema;
+export const Directive: typeof src.Directive | null = shim ? null : src.Directive;
