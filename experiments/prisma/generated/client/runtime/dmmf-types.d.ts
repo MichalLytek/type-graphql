@@ -87,6 +87,7 @@ export declare namespace DMMF {
     interface OutputType {
         name: string;
         fields: SchemaField[];
+        fieldMap?: Record<string, SchemaField>;
         isEmbedded?: boolean;
     }
     interface SchemaField {
@@ -106,6 +107,7 @@ export declare namespace DMMF {
         atLeastOne?: boolean;
         atMostOne?: boolean;
         fields: SchemaArg[];
+        fieldMap?: Record<string, SchemaArg>;
     }
     interface Mapping {
         model: string;

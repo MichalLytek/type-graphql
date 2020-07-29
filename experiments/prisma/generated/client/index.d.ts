@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.2.2
- * Query Engine version: a9e8c3d97ef2a0cf59256e6b26097f2a80f0a6a4
+ * Prisma Client JS version: 2.3.0
+ * Query Engine version: e11114fa1ea826f9e7b4fa1ced34e78892fe8e0e
  */
 export declare type PrismaVersion = {
   client: string
@@ -116,7 +116,7 @@ declare class PrismaClientFetcher {
   private readonly debug;
   private readonly hooks?;
   constructor(prisma: PrismaClient<any, any>, debug?: boolean, hooks?: Hooks | undefined);
-  request<T>(document: any, dataPath?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string, collectTimestamps?: any): Promise<T>;
+  request<T>(document: any, dataPath?: string[], rootField?: string, typeName?: string, isList?: boolean, callsite?: string): Promise<T>;
   sanitizeMessage(message: string): string;
   protected unpack(document: any, data: any, path: string[], rootField?: string, isList?: boolean): any;
 }
@@ -194,6 +194,39 @@ export type LogEvent = {
   target: string
 }
 /* End Types for Logging */
+
+
+export type Action =
+  | 'findOne'
+  | 'findMany'
+  | 'create'
+  | 'update'
+  | 'updateMany'
+  | 'upsert'
+  | 'delete'
+  | 'deleteMany'
+  | 'executeRaw'
+  | 'queryRaw'
+  | 'aggregate'
+
+/**
+ * These options are being passed in to the middleware as "params"
+ */
+export type MiddlewareParams = {
+  model?: string
+  action: Action
+  args: any
+  dataPath: string[]
+  runInTransaction: boolean
+}
+
+/**
+ * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+ */
+export type Middleware<T = any> = (
+  params: MiddlewareParams,
+  next: (params: MiddlewareParams) => Promise<T>,
+) => Promise<T>
 
 // tested in getLogLevel.test.ts
 export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -277,6 +310,8 @@ export declare class PrismaClient<
    * Disconnect from the database
    */
   disconnect(): Promise<any>;
+
+  
 
   /**
    * Executes a raw query and returns the number of affected rows
@@ -709,7 +744,6 @@ export declare class Prisma__UserClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -1203,7 +1237,6 @@ export declare class Prisma__postClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -1675,7 +1708,6 @@ export declare class Prisma__CategoryClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -2077,7 +2109,6 @@ export declare class Prisma__PatientClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -2489,7 +2520,6 @@ export declare class Prisma__MovieClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -2928,7 +2958,6 @@ export declare class Prisma__DirectorClient<T> implements Promise<T> {
   private _isList;
   private _callsite;
   private _requestPromise?;
-  private _collectTimestamps?;
   constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
@@ -3339,7 +3368,6 @@ export type postUpdateManyWithoutAuthorInput = {
 }
 
 export type UserUpdateInput = {
-  id?: number
   email?: string
   name?: string | null
   age?: number
@@ -3350,7 +3378,6 @@ export type UserUpdateInput = {
 }
 
 export type UserUpdateManyMutationInput = {
-  id?: number
   email?: string
   name?: string | null
   age?: number
@@ -3386,7 +3413,6 @@ export type postCreateInput = {
 }
 
 export type UserUpdateWithoutPostsDataInput = {
-  id?: number
   email?: string
   name?: string | null
   age?: number

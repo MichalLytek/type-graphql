@@ -355,7 +355,7 @@ describe("crud resolvers execution", () => {
       `;
       await generateCodeFromSchema(prismaSchema, {
         outputDirPath,
-        enableExperimental: ["aggregations"],
+        enabledPreviewFeatures: ["aggregations"],
       });
       const { UserCrudResolver } = require(outputDirPath +
         "/resolvers/crud/User/UserCrudResolver.ts");

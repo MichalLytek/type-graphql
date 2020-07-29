@@ -19,7 +19,7 @@ npm i -D @prisma/cli
 npm i @prisma/client
 ```
 
-> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version `~2.2.2`!
+> `typegraphql-prisma` is designed to work with a selected version of `prisma` (or newer), so please make sure you use `@prisma/cli` and `@prisma/client` of version `~2.3.0`!
 
 You also need to install the GraphQL JSON scalar library (to support the Prisma `Json` scalar):
 
@@ -41,8 +41,8 @@ After installation, you need to update your `schema.prisma` file and enable the 
 
 ```prisma
 generator client {
-  provider             = "prisma-client-js"
-  experimentalFeatures = ["aggregateApi"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["aggregateApi"]
 }
 ```
 

@@ -2,11 +2,11 @@ import generateCode from "../../src/generator/generate-code";
 import getPrismaClientDmmfFromPrismaSchema from "./dmmf";
 import { GenerateCodeOptions } from "../../src/generator/options";
 
-type SupportedExperimentalFeatures = "aggregations";
+type SupportedPreviewFeatures = "aggregations";
 
 interface GenerateCodeFromSchemaOptions
   extends Omit<GenerateCodeOptions, "relativePrismaOutputPath"> {
-  enableExperimental?: SupportedExperimentalFeatures[];
+  enabledPreviewFeatures?: SupportedPreviewFeatures[];
 }
 
 export async function generateCodeFromSchema(
@@ -16,7 +16,7 @@ export async function generateCodeFromSchema(
   await generateCode(
     await getPrismaClientDmmfFromPrismaSchema(
       schema,
-      options.enableExperimental,
+      options.enabledPreviewFeatures,
     ),
     {
       ...options,

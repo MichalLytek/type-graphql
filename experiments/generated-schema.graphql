@@ -185,7 +185,6 @@ input ClientUpdateInput {
   clientPosts: PostUpdateManyWithoutAuthorInput
   email: String
   firstName: String
-  id: Int
   role: Role
 }
 
@@ -195,7 +194,6 @@ input ClientUpdateManyMutationInput {
   amount: Float
   email: String
   firstName: String
-  id: Int
   role: Role
 }
 

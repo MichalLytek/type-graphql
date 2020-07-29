@@ -5973,18 +5973,6 @@
         "isOneOf": false,
         "fields": [
           {
-            "name": "id",
-            "inputType": [
-              {
-                "type": "Int",
-                "kind": "scalar",
-                "isRequired": false,
-                "isList": false,
-                "isNullable": false
-              }
-            ]
-          },
-          {
             "name": "email",
             "inputType": [
               {
@@ -6074,18 +6062,6 @@
         "name": "UserUpdateManyMutationInput",
         "isOneOf": false,
         "fields": [
-          {
-            "name": "id",
-            "inputType": [
-              {
-                "type": "Int",
-                "kind": "scalar",
-                "isRequired": false,
-                "isList": false,
-                "isNullable": false
-              }
-            ]
-          },
           {
             "name": "email",
             "inputType": [
@@ -6386,18 +6362,6 @@
         "name": "UserUpdateWithoutPostsDataInput",
         "isOneOf": false,
         "fields": [
-          {
-            "name": "id",
-            "inputType": [
-              {
-                "type": "Int",
-                "kind": "scalar",
-                "isRequired": false,
-                "isList": false,
-                "isNullable": false
-              }
-            ]
-          },
           {
             "name": "email",
             "inputType": [

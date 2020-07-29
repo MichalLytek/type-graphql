@@ -2,7 +2,8 @@ import { DMMF } from '../dmmf-types';
 export interface Dictionary<T> {
     [key: string]: T;
 }
-export declare const keyBy: <T>(collection: T[], iteratee: (value: T) => string) => Dictionary<T>;
+export declare const keyBy: <T>(collection: T[], prop: string) => Dictionary<T>;
+export declare const keyBy2: <T>(collection1: T[], collection2: T[], prop: string) => Dictionary<T>;
 export declare const ScalarTypeTable: {
     String: boolean;
     Int: boolean;

@@ -104,7 +104,7 @@ describe("outputs", () => {
 
       await generateCodeFromSchema(schema, {
         outputDirPath,
-        enableExperimental: ["aggregations"],
+        enabledPreviewFeatures: ["aggregations"],
       });
       const avgAggregateTSFile = await readGeneratedFile(
         "/resolvers/outputs/SampleAvgAggregateOutputType.ts",

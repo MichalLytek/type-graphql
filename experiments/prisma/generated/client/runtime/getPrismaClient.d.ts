@@ -44,8 +44,8 @@ export interface PrismaClientOptions {
             cwd?: string;
             binaryPath?: string;
             endpoint?: string;
+            enableEngineDebugMode?: boolean;
         };
-        measurePerformance?: boolean;
     };
 }
 export declare type HookParams = {
@@ -57,8 +57,33 @@ export declare type HookParams = {
     clientMethod: string;
     args: any;
 };
+/**
+ * These options are being passed in to the middleware as "params"
+ */
+export declare type MiddlewareParams = {
+    model?: string;
+    action: Action;
+    args: any;
+    dataPath: string[];
+    runInTransaction: boolean;
+};
+/**
+ * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+ */
+export declare type Middleware<T = any> = (params: MiddlewareParams, next: (params: MiddlewareParams) => Promise<T>) => Promise<T>;
+export interface InternalRequestParams extends MiddlewareParams {
+    /**
+     * The original client method being called.
+     * Even though the rootField / operation can be changed,
+     * this method stays as it is, as it's what the user's
+     * code looks like
+     */
+    clientMethod: string;
+    callsite?: string;
+    headers?: Record<string, string>;
+}
 export declare type HookPoint = 'all' | 'engine';
-export declare type EngineHookParams = {
+export declare type EngineMiddlewareParams = {
     document: Document;
     runInTransaction?: boolean;
 };
@@ -66,12 +91,10 @@ export declare type AllHookArgs = {
     params: HookParams;
     fetch: (params: HookParams) => Promise<any>;
 };
-export declare type EngineHookArgs = {
-    params: EngineHookParams;
-    fetch: (params: EngineHookParams) => Promise<any>;
-};
-export declare type AllHookCallback = (args: AllHookArgs) => Promise<any>;
-export declare type EngineHookCallback = (args: EngineHookArgs) => Promise<any>;
+/**
+ * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+ */
+export declare type EngineMiddleware<T = any> = (params: EngineMiddlewareParams, next: (params: EngineMiddlewareParams) => Promise<T>) => Promise<T>;
 export declare type Hooks = {
     beforeRequest?: (options: HookParams) => any;
 };
@@ -103,6 +126,7 @@ export interface GetPrismaClientOptions {
     clientVersion?: string;
     engineVersion?: string;
 }
+export declare type Action = 'findOne' | 'findMany' | 'create' | 'update' | 'updateMany' | 'upsert' | 'delete' | 'deleteMany' | 'executeRaw' | 'queryRaw' | 'aggregate';
 export declare function getPrismaClient(config: GetPrismaClientOptions): any;
 export declare class PrismaClientFetcher {
     prisma: any;
@@ -111,10 +135,10 @@ export declare class PrismaClientFetcher {
     dataloader: Dataloader<{
         document: Document;
         runInTransaction?: boolean;
+        headers?: Record<string, string>;
     }>;
     constructor(prisma: any, enableDebug?: boolean, hooks?: any);
-    private _request;
-    request(params: {
+    request({ document, dataPath, rootField, typeName, isList, callsite, clientMethod, runInTransaction, showColors, engineHook, args, headers, }: {
         document: Document;
         dataPath: string[];
         rootField: string;
@@ -122,25 +146,13 @@ export declare class PrismaClientFetcher {
         isList: boolean;
         clientMethod: string;
         callsite?: string;
-        collectTimestamps?: CollectTimestamps;
         runInTransaction?: boolean;
         showColors?: boolean;
-        engineHook?: EngineHookCallback;
-        allHook?: AllHookCallback;
+        engineHook?: EngineMiddleware;
         args: any;
+        headers?: Record<string, string>;
     }): Promise<any>;
     sanitizeMessage(message: any): any;
     unpack(document: any, data: any, path: any, rootField: any): any;
 }
-declare class CollectTimestamps {
-    records: any[];
-    start: any;
-    additionalResults: any;
-    constructor(startName: any);
-    record(name: any): void;
-    elapsed(start: any, end: any): number;
-    addResults(results: any): void;
-    getResults(): any;
-}
 export declare function getOperation(action: DMMF.ModelAction): 'query' | 'mutation';
-export {};

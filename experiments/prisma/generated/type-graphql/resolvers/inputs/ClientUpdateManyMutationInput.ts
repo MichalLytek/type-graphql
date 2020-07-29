@@ -8,12 +8,6 @@ import { Role } from "../../enums/Role";
   description: undefined,
 })
 export class ClientUpdateManyMutationInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true,
-    description: undefined
-  })
-  id?: number | undefined;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined

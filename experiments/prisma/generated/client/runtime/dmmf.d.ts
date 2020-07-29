@@ -12,8 +12,9 @@ export declare class DMMFClass implements DMMF.Document {
     inputTypeMap: Dictionary<DMMF.InputType>;
     enumMap: Dictionary<DMMF.Enum>;
     modelMap: Dictionary<DMMF.Model>;
+    mappingsMap: Dictionary<DMMF.Mapping>;
+    rootFieldMap: Dictionary<DMMF.SchemaField>;
     constructor({ datamodel, schema, mappings }: DMMF.Document);
-    getField(fieldName: string): DMMF.SchemaField;
     protected outputTypeToMergedOutputType: (outputType: DMMF.OutputType) => DMMF.OutputType;
     protected resolveOutputTypes(types: DMMF.OutputType[]): void;
     protected resolveInputTypes(types: DMMF.InputType[]): void;
@@ -25,4 +26,6 @@ export declare class DMMFClass implements DMMF.Document {
     protected getModelMap(): Dictionary<DMMF.Model>;
     protected getMergedOutputTypeMap(): Dictionary<DMMF.OutputType>;
     protected getInputTypeMap(): Dictionary<DMMF.InputType>;
+    protected getMappingsMap(): Dictionary<DMMF.Mapping>;
+    protected getRootFieldMap(): Dictionary<DMMF.SchemaField>;
 }
