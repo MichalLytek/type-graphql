@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { PostCreateOrConnectWithoutUserInput } from "../inputs/PostCreateOrConnectWithoutUserInput";
 import { PostCreateWithoutAuthorInput } from "../inputs/PostCreateWithoutAuthorInput";
 import { PostScalarWhereInput } from "../inputs/PostScalarWhereInput";
 import { PostUpdateManyWithWhereNestedInput } from "../inputs/PostUpdateManyWithWhereNestedInput";
@@ -66,4 +67,10 @@ export class PostUpdateManyWithoutAuthorInput {
     description: undefined
   })
   upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [PostCreateOrConnectWithoutUserInput], {
+    nullable: true,
+    description: undefined
+  })
+  connectOrCreate?: PostCreateOrConnectWithoutUserInput[] | undefined;
 }

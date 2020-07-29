@@ -1,6 +1,150 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: AggregateUserArgs 1`] = `
+exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: UserCreateOneWithoutPostsFieldInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { UserCreateOrConnectWithoutPostInput } from \\"../inputs/UserCreateOrConnectWithoutPostInput\\";
+import { UserCreateWithoutPostsFieldInput } from \\"../inputs/UserCreateWithoutPostsFieldInput\\";
+import { UserWhereUniqueInput } from \\"../inputs/UserWhereUniqueInput\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserCreateOneWithoutPostsFieldInput {
+  @TypeGraphQL.Field(_type => UserCreateWithoutPostsFieldInput, {
+    nullable: true,
+    description: undefined
+  })
+  create?: UserCreateWithoutPostsFieldInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, {
+    nullable: true,
+    description: undefined
+  })
+  connect?: UserWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserCreateOrConnectWithoutPostInput, {
+    nullable: true,
+    description: undefined
+  })
+  connectOrCreate?: UserCreateOrConnectWithoutPostInput | undefined;
+}
+"
+`;
+
+exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: UserCreateOrConnectWithoutPostInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { UserCreateWithoutPostsFieldInput } from \\"../inputs/UserCreateWithoutPostsFieldInput\\";
+import { UserWhereUniqueInput } from \\"../inputs/UserWhereUniqueInput\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserCreateOrConnectWithoutPostInput {
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, {
+    nullable: false,
+    description: undefined
+  })
+  where!: UserWhereUniqueInput;
+
+  @TypeGraphQL.Field(_type => UserCreateWithoutPostsFieldInput, {
+    nullable: false,
+    description: undefined
+  })
+  create!: UserCreateWithoutPostsFieldInput;
+}
+"
+`;
+
+exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: UserUpdateOneRequiredWithoutPostsFieldInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { UserCreateOrConnectWithoutPostInput } from \\"../inputs/UserCreateOrConnectWithoutPostInput\\";
+import { UserCreateWithoutPostsFieldInput } from \\"../inputs/UserCreateWithoutPostsFieldInput\\";
+import { UserUpdateWithoutPostsFieldDataInput } from \\"../inputs/UserUpdateWithoutPostsFieldDataInput\\";
+import { UserUpsertWithoutPostsFieldInput } from \\"../inputs/UserUpsertWithoutPostsFieldInput\\";
+import { UserWhereUniqueInput } from \\"../inputs/UserWhereUniqueInput\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class UserUpdateOneRequiredWithoutPostsFieldInput {
+  @TypeGraphQL.Field(_type => UserCreateWithoutPostsFieldInput, {
+    nullable: true,
+    description: undefined
+  })
+  create?: UserCreateWithoutPostsFieldInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, {
+    nullable: true,
+    description: undefined
+  })
+  connect?: UserWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserUpdateWithoutPostsFieldDataInput, {
+    nullable: true,
+    description: undefined
+  })
+  update?: UserUpdateWithoutPostsFieldDataInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserUpsertWithoutPostsFieldInput, {
+    nullable: true,
+    description: undefined
+  })
+  upsert?: UserUpsertWithoutPostsFieldInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserCreateOrConnectWithoutPostInput, {
+    nullable: true,
+    description: undefined
+  })
+  connectOrCreate?: UserCreateOrConnectWithoutPostInput | undefined;
+}
+"
+`;
+
+exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: inputs index 1`] = `
+"export { IntFilter } from \\"./IntFilter\\";
+export { PostCreateInput } from \\"./PostCreateInput\\";
+export { PostCreateManyWithoutAuthorInput } from \\"./PostCreateManyWithoutAuthorInput\\";
+export { PostCreateOrConnectWithoutUserInput } from \\"./PostCreateOrConnectWithoutUserInput\\";
+export { PostCreateWithoutAuthorInput } from \\"./PostCreateWithoutAuthorInput\\";
+export { PostFilter } from \\"./PostFilter\\";
+export { PostOrderByInput } from \\"./PostOrderByInput\\";
+export { PostScalarWhereInput } from \\"./PostScalarWhereInput\\";
+export { PostUpdateInput } from \\"./PostUpdateInput\\";
+export { PostUpdateManyDataInput } from \\"./PostUpdateManyDataInput\\";
+export { PostUpdateManyMutationInput } from \\"./PostUpdateManyMutationInput\\";
+export { PostUpdateManyWithWhereNestedInput } from \\"./PostUpdateManyWithWhereNestedInput\\";
+export { PostUpdateManyWithoutAuthorInput } from \\"./PostUpdateManyWithoutAuthorInput\\";
+export { PostUpdateWithWhereUniqueWithoutAuthorInput } from \\"./PostUpdateWithWhereUniqueWithoutAuthorInput\\";
+export { PostUpdateWithoutAuthorDataInput } from \\"./PostUpdateWithoutAuthorDataInput\\";
+export { PostUpsertWithWhereUniqueWithoutAuthorInput } from \\"./PostUpsertWithWhereUniqueWithoutAuthorInput\\";
+export { PostWhereInput } from \\"./PostWhereInput\\";
+export { PostWhereUniqueInput } from \\"./PostWhereUniqueInput\\";
+export { StringFilter } from \\"./StringFilter\\";
+export { UserCreateInput } from \\"./UserCreateInput\\";
+export { UserCreateOneWithoutPostsFieldInput } from \\"./UserCreateOneWithoutPostsFieldInput\\";
+export { UserCreateOrConnectWithoutPostInput } from \\"./UserCreateOrConnectWithoutPostInput\\";
+export { UserCreateWithoutPostsFieldInput } from \\"./UserCreateWithoutPostsFieldInput\\";
+export { UserOrderByInput } from \\"./UserOrderByInput\\";
+export { UserUpdateInput } from \\"./UserUpdateInput\\";
+export { UserUpdateManyMutationInput } from \\"./UserUpdateManyMutationInput\\";
+export { UserUpdateOneRequiredWithoutPostsFieldInput } from \\"./UserUpdateOneRequiredWithoutPostsFieldInput\\";
+export { UserUpdateWithoutPostsFieldDataInput } from \\"./UserUpdateWithoutPostsFieldDataInput\\";
+export { UserUpsertWithoutPostsFieldInput } from \\"./UserUpsertWithoutPostsFieldInput\\";
+export { UserWhereInput } from \\"./UserWhereInput\\";
+export { UserWhereUniqueInput } from \\"./UserWhereUniqueInput\\";
+"
+`;
+
+exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: AggregateUserArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
@@ -31,7 +175,7 @@ export class AggregateUserArgs {
 "
 `;
 
-exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: FindManyUserArgs 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: FindManyUserArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
@@ -62,7 +206,7 @@ export class FindManyUserArgs {
 "
 `;
 
-exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: UserDistinctFieldEnum 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: UserDistinctFieldEnum 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 
 export enum UserDistinctFieldEnum {
@@ -78,7 +222,7 @@ TypeGraphQL.registerEnumType(UserDistinctFieldEnum, {
 "
 `;
 
-exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: enums index 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: enums index 1`] = `
 "export { OrderByArg } from \\"./OrderByArg\\";
 export { UserDistinctFieldEnum } from \\"./UserDistinctFieldEnum\\";
 "

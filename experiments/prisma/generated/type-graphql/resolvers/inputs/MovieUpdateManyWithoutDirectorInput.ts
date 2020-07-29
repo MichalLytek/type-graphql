@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { MovieCreateOrConnectWithoutDirectorInput } from "../inputs/MovieCreateOrConnectWithoutDirectorInput";
 import { MovieCreateWithoutDirectorInput } from "../inputs/MovieCreateWithoutDirectorInput";
 import { MovieScalarWhereInput } from "../inputs/MovieScalarWhereInput";
 import { MovieUpdateManyWithWhereNestedInput } from "../inputs/MovieUpdateManyWithWhereNestedInput";
@@ -66,4 +67,10 @@ export class MovieUpdateManyWithoutDirectorInput {
     description: undefined
   })
   upsert?: MovieUpsertWithWhereUniqueWithoutDirectorInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [MovieCreateOrConnectWithoutDirectorInput], {
+    nullable: true,
+    description: undefined
+  })
+  connectOrCreate?: MovieCreateOrConnectWithoutDirectorInput[] | undefined;
 }

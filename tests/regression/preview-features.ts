@@ -16,8 +16,8 @@ describe("preview features", () => {
     readGeneratedFile = createReadGeneratedFile(outputDirPath);
   });
 
-  describe("when distinct api is enabled", () => {
-    it("should properly generate args classes for every method of crud resolver", async () => {
+  describe("when `distinct` is enabled", () => {
+    it("should properly generate args classes and enums for model actions resolvers", async () => {
       const schema = /* prisma */ `
         model User {
           intIdField          Int      @id @default(autoincrement())
@@ -48,6 +48,52 @@ describe("preview features", () => {
         "UserDistinctFieldEnum",
       );
       expect(enumsIndexTSFile).toMatchSnapshot("enums index");
+    });
+  });
+
+  describe("when `connectOrCreate` is enabled", () => {
+    it("should properly generate input type classes for connectOrCreate", async () => {
+      const schema = /* prisma */ `
+        model User {
+          id          Int     @id @default(autoincrement())
+          name        String
+          postsField  Post[]
+        }
+        model Post {
+          id        Int     @id @default(autoincrement())
+          title     String
+          authorId  Int
+          author    User    @relation(fields: [authorId], references: [id])
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["connectOrCreate"],
+      });
+      const userUpdateOneRequiredWithoutPostsFieldInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/UserUpdateOneRequiredWithoutPostsFieldInput.ts",
+      );
+      const userCreateOrConnectWithoutpostInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/UserCreateOrConnectWithoutPostInput.ts",
+      );
+      const userCreateOneWithoutPostsFieldInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/UserCreateOneWithoutPostsFieldInput.ts",
+      );
+      const inputsIndexTSFile = await readGeneratedFile(
+        "/resolvers/inputs/index.ts",
+      );
+
+      expect(userUpdateOneRequiredWithoutPostsFieldInputTSFile).toMatchSnapshot(
+        "UserUpdateOneRequiredWithoutPostsFieldInput",
+      );
+      expect(userCreateOrConnectWithoutpostInputTSFile).toMatchSnapshot(
+        "UserCreateOrConnectWithoutPostInput",
+      );
+      expect(userCreateOneWithoutPostsFieldInputTSFile).toMatchSnapshot(
+        "UserCreateOneWithoutPostsFieldInput",
+      );
+      expect(inputsIndexTSFile).toMatchSnapshot("inputs index");
     });
   });
 });

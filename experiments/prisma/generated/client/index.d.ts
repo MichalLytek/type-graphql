@@ -3362,9 +3362,15 @@ export type postCreateWithoutAuthorInput = {
   metadata: InputJsonValue
 }
 
+export type postCreateOrConnectWithoutUserInput = {
+  where: postWhereUniqueInput
+  create: postCreateWithoutAuthorInput
+}
+
 export type postCreateManyWithoutAuthorInput = {
   create?: Enumerable<postCreateWithoutAuthorInput>
   connect?: Enumerable<postWhereUniqueInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type UserCreateInput = {
@@ -3440,6 +3446,7 @@ export type postUpdateManyWithoutAuthorInput = {
   updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
   deleteMany?: Enumerable<postScalarWhereInput>
   upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type UserUpdateInput = {
@@ -3470,9 +3477,15 @@ export type UserCreateWithoutPostsInput = {
   role: Role
 }
 
+export type UserCreateOrConnectWithoutpostInput = {
+  where: UserWhereUniqueInput
+  create: UserCreateWithoutPostsInput
+}
+
 export type UserCreateOneWithoutPostsInput = {
   create?: UserCreateWithoutPostsInput
   connect?: UserWhereUniqueInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
 }
 
 export type postCreateInput = {
@@ -3506,6 +3519,7 @@ export type UserUpdateOneRequiredWithoutPostsInput = {
   connect?: UserWhereUniqueInput
   update?: UserUpdateWithoutPostsDataInput
   upsert?: UserUpsertWithoutPostsInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
 }
 
 export type postUpdateInput = {
@@ -3572,9 +3586,15 @@ export type DirectorCreateWithoutMoviesInput = {
   lastName: string
 }
 
+export type DirectorCreateOrConnectWithoutMovieInput = {
+  where: DirectorWhereUniqueInput
+  create: DirectorCreateWithoutMoviesInput
+}
+
 export type DirectorCreateOneWithoutMoviesInput = {
   create?: DirectorCreateWithoutMoviesInput
   connect?: DirectorWhereUniqueInput
+  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
 }
 
 export type MovieCreateInput = {
@@ -3597,6 +3617,7 @@ export type DirectorUpdateOneRequiredWithoutMoviesInput = {
   connect?: DirectorWhereUniqueInput
   update?: DirectorUpdateWithoutMoviesDataInput
   upsert?: DirectorUpsertWithoutMoviesInput
+  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
 }
 
 export type MovieUpdateInput = {
@@ -3612,9 +3633,15 @@ export type MovieCreateWithoutDirectorInput = {
   title: string
 }
 
+export type MovieCreateOrConnectWithoutDirectorInput = {
+  where: MovieWhereUniqueInput
+  create: MovieCreateWithoutDirectorInput
+}
+
 export type MovieCreateManyWithoutDirectorInput = {
   create?: Enumerable<MovieCreateWithoutDirectorInput>
   connect?: Enumerable<MovieWhereUniqueInput>
+  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
 }
 
 export type DirectorCreateInput = {
@@ -3666,6 +3693,7 @@ export type MovieUpdateManyWithoutDirectorInput = {
   updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
   deleteMany?: Enumerable<MovieScalarWhereInput>
   upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
+  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
 }
 
 export type DirectorUpdateInput = {

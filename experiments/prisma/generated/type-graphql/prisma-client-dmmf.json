@@ -5414,6 +5414,36 @@
         ]
       },
       {
+        "name": "postCreateOrConnectWithoutUserInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "postWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "postCreateWithoutAuthorInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "postCreateManyWithoutAuthorInput",
         "isOneOf": false,
         "fields": [
@@ -5434,6 +5464,18 @@
             "inputType": [
               {
                 "type": "postWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "postCreateOrConnectWithoutUserInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": true,
@@ -6190,6 +6232,18 @@
                 "isNullable": false
               }
             ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "postCreateOrConnectWithoutUserInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
           }
         ]
       },
@@ -6440,6 +6494,36 @@
         ]
       },
       {
+        "name": "UserCreateOrConnectWithoutpostInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "UserWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "UserCreateWithoutPostsInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "UserCreateOneWithoutPostsInput",
         "isOneOf": false,
         "fields": [
@@ -6460,6 +6544,18 @@
             "inputType": [
               {
                 "type": "UserWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "UserCreateOrConnectWithoutpostInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
@@ -6736,6 +6832,18 @@
             "inputType": [
               {
                 "type": "UserUpsertWithoutPostsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "UserCreateOrConnectWithoutpostInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
@@ -7244,6 +7352,36 @@
         ]
       },
       {
+        "name": "DirectorCreateOrConnectWithoutMovieInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "DirectorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "DirectorCreateWithoutMoviesInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "DirectorCreateOneWithoutMoviesInput",
         "isOneOf": false,
         "fields": [
@@ -7264,6 +7402,18 @@
             "inputType": [
               {
                 "type": "DirectorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "DirectorCreateOrConnectWithoutMovieInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
@@ -7414,6 +7564,18 @@
                 "isNullable": false
               }
             ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "DirectorCreateOrConnectWithoutMovieInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
           }
         ]
       },
@@ -7484,6 +7646,36 @@
         ]
       },
       {
+        "name": "MovieCreateOrConnectWithoutDirectorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "MovieCreateWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "MovieCreateManyWithoutDirectorInput",
         "isOneOf": false,
         "fields": [
@@ -7504,6 +7696,18 @@
             "inputType": [
               {
                 "type": "MovieWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "MovieCreateOrConnectWithoutDirectorInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": true,
@@ -7904,6 +8108,18 @@
             "inputType": [
               {
                 "type": "MovieUpsertWithWhereUniqueWithoutDirectorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "MovieCreateOrConnectWithoutDirectorInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": true,

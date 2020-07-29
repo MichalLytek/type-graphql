@@ -168,3 +168,30 @@ query AggregateClient {
     }
   }
 }
+
+mutation ConnectOrCreateExample {
+  createPost(
+    data: {
+      title: "Test"
+      metadata: {}
+      published: true
+      author: {
+        connectOrCreate: {
+          where: { id: 1 }
+          create: {
+            email: "test1@test.test"
+            accountBalance: 0
+            role: ADMIN
+            amount: 0
+            age: 11
+          }
+        }
+      }
+    }
+  ) {
+    ...PostData
+    author {
+      ...ClientData
+    }
+  }
+}

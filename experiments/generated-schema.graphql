@@ -141,7 +141,13 @@ input ClientCreateInput {
 
 input ClientCreateOneWithoutPostsInput {
   connect: ClientWhereUniqueInput
+  connectOrCreate: ClientCreateOrConnectWithoutpostInput
   create: ClientCreateWithoutPostsInput
+}
+
+input ClientCreateOrConnectWithoutpostInput {
+  create: ClientCreateWithoutPostsInput!
+  where: ClientWhereUniqueInput!
 }
 
 input ClientCreateWithoutPostsInput {
@@ -252,7 +258,13 @@ input DirectorCreateInput {
 
 input DirectorCreateOneWithoutMoviesInput {
   connect: DirectorWhereUniqueInput
+  connectOrCreate: DirectorCreateOrConnectWithoutMovieInput
   create: DirectorCreateWithoutMoviesInput
+}
+
+input DirectorCreateOrConnectWithoutMovieInput {
+  create: DirectorCreateWithoutMoviesInput!
+  where: DirectorWhereUniqueInput!
 }
 
 input DirectorCreateWithoutMoviesInput {
@@ -289,6 +301,7 @@ input DirectorUpdateManyMutationInput {
 
 input DirectorUpdateOneRequiredWithoutMoviesInput {
   connect: DirectorWhereUniqueInput
+  connectOrCreate: DirectorCreateOrConnectWithoutMovieInput
   create: DirectorCreateWithoutMoviesInput
   update: DirectorUpdateWithoutMoviesDataInput
   upsert: DirectorUpsertWithoutMoviesInput
@@ -368,7 +381,13 @@ input MovieCreateInput {
 
 input MovieCreateManyWithoutDirectorInput {
   connect: [MovieWhereUniqueInput!]
+  connectOrCreate: [MovieCreateOrConnectWithoutDirectorInput!]
   create: [MovieCreateWithoutDirectorInput!]
+}
+
+input MovieCreateOrConnectWithoutDirectorInput {
+  create: MovieCreateWithoutDirectorInput!
+  where: MovieWhereUniqueInput!
 }
 
 input MovieCreateWithoutDirectorInput {
@@ -417,6 +436,7 @@ input MovieUpdateManyMutationInput {
 
 input MovieUpdateManyWithoutDirectorInput {
   connect: [MovieWhereUniqueInput!]
+  connectOrCreate: [MovieCreateOrConnectWithoutDirectorInput!]
   create: [MovieCreateWithoutDirectorInput!]
   delete: [MovieWhereUniqueInput!]
   deleteMany: [MovieScalarWhereInput!]
@@ -598,7 +618,13 @@ input PostCreateInput {
 
 input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
+  connectOrCreate: [PostCreateOrConnectWithoutUserInput!]
   create: [PostCreateWithoutAuthorInput!]
+}
+
+input PostCreateOrConnectWithoutUserInput {
+  create: PostCreateWithoutAuthorInput!
+  where: PostWhereUniqueInput!
 }
 
 input PostCreateWithoutAuthorInput {
@@ -686,6 +712,7 @@ input PostUpdateManyMutationInput {
 
 input PostUpdateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
+  connectOrCreate: [PostCreateOrConnectWithoutUserInput!]
   create: [PostCreateWithoutAuthorInput!]
   delete: [PostWhereUniqueInput!]
   deleteMany: [PostScalarWhereInput!]
