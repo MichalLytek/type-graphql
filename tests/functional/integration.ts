@@ -77,8 +77,9 @@ describe("generator integration", () => {
       "\n[type-graphql]\n" +
       stringifyDirectoryTrees(directoryStructure.children, 2);
 
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(prismaGenerateResult.stderr).toHaveLength(0);
+    expect(prismaGenerateResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
     expect(directoryStructureString).toMatchSnapshot("files structure");
   }, 60000);
 
@@ -107,8 +108,9 @@ describe("generator integration", () => {
       encoding: "utf8",
     });
 
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(prismaGenerateResult.stderr).toHaveLength(0);
+    expect(prismaGenerateResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
     expect(graphQLSchemaSDL).toMatchSnapshot("graphQLSchemaSDL");
   }, 60000);
 
@@ -144,10 +146,10 @@ describe("generator integration", () => {
       cwd: typegraphqlfolderPath,
     });
 
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(prismaGenerateResult.stderr).toHaveLength(0);
+    expect(prismaGenerateResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
     expect(tscResult.stdout).toHaveLength(0);
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
     expect(tscResult.stderr).toHaveLength(0);
   }, 60000);
 
@@ -156,8 +158,9 @@ describe("generator integration", () => {
       cwd: cwdDirPath,
     });
     // console.log(prismaGenerateResult);
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(prismaGenerateResult.stderr).toHaveLength(0);
+    expect(prismaGenerateResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
 
     // drop database before migrate
     const originalDatabaseUrl = process.env.TEST_DATABASE_URL!;
@@ -177,15 +180,17 @@ describe("generator integration", () => {
       { cwd: cwdDirPath },
     );
     // console.log(migrateSaveResult);
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(migrateSaveResult.stderr).toHaveLength(0);
+    expect(migrateSaveResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
 
     const migrateUpResult = await exec("npx prisma migrate up --experimental", {
       cwd: cwdDirPath,
     });
     // console.log(migrateUpResult);
-    // FIXME: restore the check when prisma fix the regression `Environment variables loaded from current directory`
-    // expect(migrateUpResult.stderr).toHaveLength(0);
+    expect(migrateUpResult.stderr).toEqual(
+      "\x1B[2mEnvironment variables loaded from current directory\x1B[22m\n",
+    );
 
     const { PrismaClient } = require(cwdDirPath + "/generated/client");
     const prisma = new PrismaClient();
