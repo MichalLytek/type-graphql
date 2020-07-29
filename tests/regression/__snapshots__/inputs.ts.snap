@@ -1533,3 +1533,48 @@ export class ExampleWhereUniqueInput {
 }
 "
 `;
+
+exports[`inputs when prisma client is generated into node_modules should properly generate prisma client imports in input type class files: SampleWhereInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"@prisma/client\\";
+import { IntFilter } from \\"../inputs/IntFilter\\";
+import { StringFilter } from \\"../inputs/StringFilter\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class SampleWhereInput {
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true,
+    description: undefined
+  })
+  idField?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  modelFieldName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  AND?: SampleWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  OR?: SampleWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => [SampleWhereInput], {
+    nullable: true,
+    description: undefined
+  })
+  NOT?: SampleWhereInput[] | undefined;
+}
+"
+`;

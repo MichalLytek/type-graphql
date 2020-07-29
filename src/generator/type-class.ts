@@ -43,7 +43,7 @@ export async function generateOutputTypeClassFromType(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
-  generatePrismaJsonTypeImport(sourceFile, options.relativePrismaOutputPath, 2);
+  generatePrismaJsonTypeImport(sourceFile, options, 2);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
   // generateInputsImports(
   //   sourceFile,
@@ -182,7 +182,7 @@ export async function generateInputTypeClassFromType(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
-  generatePrismaJsonTypeImport(sourceFile, options.relativePrismaOutputPath, 2);
+  generatePrismaJsonTypeImport(sourceFile, options, 2);
   generateInputsImports(
     sourceFile,
     inputType.fields

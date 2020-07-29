@@ -25,6 +25,9 @@ export async function generate(options: GeneratorOptions) {
     relativePrismaOutputPath: toUnixPath(
       path.relative(outputDir, prismaClientPath),
     ),
+    absolutePrismaOutputPath: prismaClientPath.includes("node_modules")
+      ? prismaClientPath.split("node_modules/")[1]
+      : undefined,
   };
 
   if (config.emitDMMF) {

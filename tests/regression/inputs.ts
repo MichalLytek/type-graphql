@@ -350,4 +350,25 @@ describe("inputs", () => {
     expect(sampleWhereInputTSFile).toMatchSnapshot("SampleWhereInput");
     expect(sampleOrderByInputTSFile).toMatchSnapshot("SampleOrderByInput");
   });
+
+  describe("when prisma client is generated into node_modules", () => {
+    it("should properly generate prisma client imports in input type class files", async () => {
+      const schema = /* prisma */ `
+      model Sample {
+        idField         Int     @id @default(autoincrement())
+        modelFieldName  String
+      }
+    `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        absolutePrismaOutputPath: "@prisma/client",
+      });
+      const sampleWhereInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/SampleWhereInput.ts",
+      );
+
+      expect(sampleWhereInputTSFile).toMatchSnapshot("SampleWhereInput");
+    });
+  });
 });

@@ -35,7 +35,7 @@ export default async function generateObjectTypeClassFromModel(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
-  generatePrismaJsonTypeImport(sourceFile, options.relativePrismaOutputPath, 1);
+  generatePrismaJsonTypeImport(sourceFile, options, 1);
   generateModelsImports(
     sourceFile,
     model.fields

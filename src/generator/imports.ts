@@ -12,6 +12,7 @@ import {
   relationsResolversFolderName,
 } from "./config";
 import { GeneratedResolverData } from "./types";
+import { GenerateCodeOptions } from "./options";
 
 export function generateTypeGraphQLImport(sourceFile: SourceFile) {
   sourceFile.addImportDeclaration({
@@ -40,13 +41,17 @@ export function generateGraphQLScalarImport(sourceFile: SourceFile) {
 
 export function generatePrismaJsonTypeImport(
   sourceFile: SourceFile,
-  relativePrismaRequirePath: string,
+  options: GenerateCodeOptions,
   level = 0,
 ) {
   sourceFile.addImportDeclaration({
     moduleSpecifier:
+      options.absolutePrismaOutputPath ??
       (level === 0 ? "./" : "") +
-      path.posix.join(...Array(level).fill(".."), relativePrismaRequirePath),
+        path.posix.join(
+          ...Array(level).fill(".."),
+          options.relativePrismaOutputPath,
+        ),
     namedImports: ["JsonValue", "InputJsonValue"],
   });
 }

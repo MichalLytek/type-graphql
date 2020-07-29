@@ -3,4 +3,5 @@ export interface GenerateCodeOptions {
   emitDMMF?: boolean;
   useOriginalMapping?: boolean;
   relativePrismaOutputPath: string;
+  absolutePrismaOutputPath?: string;
 }
