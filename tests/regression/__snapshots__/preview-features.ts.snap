@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: AggregateUserArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
+import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+import { UserDistinctFieldEnum } from \\"../../../../enums/UserDistinctFieldEnum\\";
+
+@TypeGraphQL.ArgsType()
+export class AggregateUserArgs {
+  @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
+  cursor?: UserWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [UserDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof UserDistinctFieldEnum> | undefined;
+}
+"
+`;
+
+exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: FindManyUserArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
+import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
+import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
+import { UserDistinctFieldEnum } from \\"../../../../enums/UserDistinctFieldEnum\\";
+
+@TypeGraphQL.ArgsType()
+export class FindManyUserArgs {
+  @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
+  where?: UserWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
+  orderBy?: UserOrderByInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
+  cursor?: UserWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [UserDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof UserDistinctFieldEnum> | undefined;
+}
+"
+`;
+
+exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: UserDistinctFieldEnum 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+
+export enum UserDistinctFieldEnum {
+  intIdField = \\"intIdField\\",
+  uniqueStringField = \\"uniqueStringField\\",
+  optionalFloatField = \\"optionalFloatField\\",
+  dateField = \\"dateField\\"
+}
+TypeGraphQL.registerEnumType(UserDistinctFieldEnum, {
+  name: \\"UserDistinctFieldEnum\\",
+  description: undefined,
+});
+"
+`;
+
+exports[`preview features when distinct api is enabled should properly generate args classes for every method of crud resolver: enums index 1`] = `
+"export { OrderByArg } from \\"./OrderByArg\\";
+export { UserDistinctFieldEnum } from \\"./UserDistinctFieldEnum\\";
+"
+`;

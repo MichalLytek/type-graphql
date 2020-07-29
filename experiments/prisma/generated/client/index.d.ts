@@ -435,6 +435,69 @@ export declare const PostKind: {
 export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
 
 
+export declare const UserDistinctFieldEnum: {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  age: 'age',
+  balance: 'balance',
+  amount: 'amount',
+  role: 'role'
+};
+
+export declare type UserDistinctFieldEnum = (typeof UserDistinctFieldEnum)[keyof typeof UserDistinctFieldEnum]
+
+
+export declare const PostDistinctFieldEnum: {
+  uuid: 'uuid',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  published: 'published',
+  title: 'title',
+  content: 'content',
+  authorId: 'authorId',
+  kind: 'kind',
+  metadata: 'metadata'
+};
+
+export declare type PostDistinctFieldEnum = (typeof PostDistinctFieldEnum)[keyof typeof PostDistinctFieldEnum]
+
+
+export declare const CategoryDistinctFieldEnum: {
+  name: 'name',
+  slug: 'slug',
+  number: 'number'
+};
+
+export declare type CategoryDistinctFieldEnum = (typeof CategoryDistinctFieldEnum)[keyof typeof CategoryDistinctFieldEnum]
+
+
+export declare const PatientDistinctFieldEnum: {
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email'
+};
+
+export declare type PatientDistinctFieldEnum = (typeof PatientDistinctFieldEnum)[keyof typeof PatientDistinctFieldEnum]
+
+
+export declare const MovieDistinctFieldEnum: {
+  directorFirstName: 'directorFirstName',
+  directorLastName: 'directorLastName',
+  title: 'title'
+};
+
+export declare type MovieDistinctFieldEnum = (typeof MovieDistinctFieldEnum)[keyof typeof MovieDistinctFieldEnum]
+
+
+export declare const DirectorDistinctFieldEnum: {
+  firstName: 'firstName',
+  lastName: 'lastName'
+};
+
+export declare type DirectorDistinctFieldEnum = (typeof DirectorDistinctFieldEnum)[keyof typeof DirectorDistinctFieldEnum]
+
+
 
 /**
  * Model User
@@ -522,6 +585,7 @@ export type AggregateUserArgs = {
   cursor?: UserWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<UserDistinctFieldEnum>
   count?: true
   avg?: UserAvgAggregateInputType
   sum?: UserSumAggregateInputType
@@ -825,6 +889,7 @@ export type FindManyUserArgs = {
    * Skip the first `n` Users.
   **/
   skip?: number
+  distinct?: Enumerable<UserDistinctFieldEnum>
 }
 
 
@@ -1013,6 +1078,7 @@ export type AggregatePostArgs = {
   cursor?: postWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<PostDistinctFieldEnum>
   count?: true
   avg?: PostAvgAggregateInputType
   sum?: PostSumAggregateInputType
@@ -1318,6 +1384,7 @@ export type FindManypostArgs = {
    * Skip the first `n` posts.
   **/
   skip?: number
+  distinct?: Enumerable<PostDistinctFieldEnum>
 }
 
 
@@ -1500,6 +1567,7 @@ export type AggregateCategoryArgs = {
   cursor?: CategoryWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<CategoryDistinctFieldEnum>
   count?: true
   avg?: CategoryAvgAggregateInputType
   sum?: CategorySumAggregateInputType
@@ -1780,6 +1848,7 @@ export type FindManyCategoryArgs = {
    * Skip the first `n` Categories.
   **/
   skip?: number
+  distinct?: Enumerable<CategoryDistinctFieldEnum>
 }
 
 
@@ -1907,6 +1976,7 @@ export type AggregatePatientArgs = {
   cursor?: PatientWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<PatientDistinctFieldEnum>
   count?: true
 }
 
@@ -2181,6 +2251,7 @@ export type FindManyPatientArgs = {
    * Skip the first `n` Patients.
   **/
   skip?: number
+  distinct?: Enumerable<PatientDistinctFieldEnum>
 }
 
 
@@ -2308,6 +2379,7 @@ export type AggregateMovieArgs = {
   cursor?: MovieWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<MovieDistinctFieldEnum>
   count?: true
 }
 
@@ -2601,6 +2673,7 @@ export type FindManyMovieArgs = {
    * Skip the first `n` Movies.
   **/
   skip?: number
+  distinct?: Enumerable<MovieDistinctFieldEnum>
 }
 
 
@@ -2747,6 +2820,7 @@ export type AggregateDirectorArgs = {
   cursor?: DirectorWhereUniqueInput
   take?: number
   skip?: number
+  distinct?: Enumerable<DirectorDistinctFieldEnum>
   count?: true
 }
 
@@ -3039,6 +3113,7 @@ export type FindManyDirectorArgs = {
    * Skip the first `n` Directors.
   **/
   skip?: number
+  distinct?: Enumerable<DirectorDistinctFieldEnum>
 }
 
 

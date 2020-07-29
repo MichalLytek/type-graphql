@@ -42,7 +42,7 @@ export default async function generateArgsTypeClassFromArgs(
       .map(field => field.selectedInputType)
       .filter(argType => argType.kind === "enum")
       .map(argType => argType.type as string),
-    3,
+    4,
   );
 
   sourceFile.addClass({

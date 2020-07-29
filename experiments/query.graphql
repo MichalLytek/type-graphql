@@ -54,6 +54,7 @@ query FindClients {
     where: {
       OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]
     }
+    distinct: [name]
   ) {
     ...ClientData
   }
@@ -127,8 +128,10 @@ query GetMovie {
 }
 
 query CountBravoPatients {
-  countBravoPatients: aggregatePatient {
-    count(where: { lastName: { contains: "Bravo" } })
+  countBravoPatients: aggregatePatient(
+    where: { lastName: { contains: "Bravo" } }
+  ) {
+    count
   }
 }
 

@@ -17,4 +17,10 @@ module.exports = {
   collectCoverage: false,
   coverageDirectory: "<rootDir>/coverage",
   collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/*.d.ts"],
+  modulePathIgnorePatterns: [
+    "<rootDir>/experiments",
+    "<rootDir>/lib",
+    "<rootDir>/package",
+    "<rootDir>/tests/artifacts",
+  ],
 };

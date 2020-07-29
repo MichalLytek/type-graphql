@@ -3,6 +3,7 @@ import GraphQLJSON from "graphql-type-json";
 import { PatientOrderByInput } from "../../../inputs/PatientOrderByInput";
 import { PatientWhereInput } from "../../../inputs/PatientWhereInput";
 import { PatientWhereUniqueInput } from "../../../inputs/PatientWhereUniqueInput";
+import { PatientDistinctFieldEnum } from "../../../../enums/PatientDistinctFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class AggregatePatientArgs {
@@ -20,4 +21,7 @@ export class AggregatePatientArgs {
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [PatientDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof PatientDistinctFieldEnum> | undefined;
 }

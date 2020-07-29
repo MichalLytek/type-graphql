@@ -7377,6 +7377,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PostDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8073,6 +8083,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "MovieDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8221,6 +8241,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "UserDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8281,6 +8311,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "UserDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -8367,6 +8407,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PostDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8427,6 +8477,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PostDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -8513,6 +8573,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "CategoryDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8573,6 +8643,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "CategoryDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -8659,6 +8739,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PatientDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8719,6 +8809,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PatientDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -8805,6 +8905,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "MovieDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -8865,6 +8975,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "MovieDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -8951,6 +9071,16 @@
                   "isList": false,
                   "isNullable": false
                 }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "DirectorDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
               }
             ],
             "outputType": {
@@ -9011,6 +9141,16 @@
                   "kind": "scalar",
                   "isRequired": false,
                   "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "DirectorDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
                   "isNullable": false
                 }
               }
@@ -10200,6 +10340,18 @@
         ]
       },
       {
+        "name": "UserDistinctFieldEnum",
+        "values": [
+          "id",
+          "email",
+          "name",
+          "age",
+          "balance",
+          "amount",
+          "role"
+        ]
+      },
+      {
         "name": "postOrderByInput",
         "values": [
           "uuid_ASC",
@@ -10223,6 +10375,20 @@
         ]
       },
       {
+        "name": "PostDistinctFieldEnum",
+        "values": [
+          "uuid",
+          "createdAt",
+          "updatedAt",
+          "published",
+          "title",
+          "content",
+          "authorId",
+          "kind",
+          "metadata"
+        ]
+      },
+      {
         "name": "CategoryOrderByInput",
         "values": [
           "name_ASC",
@@ -10231,6 +10397,14 @@
           "slug_DESC",
           "number_ASC",
           "number_DESC"
+        ]
+      },
+      {
+        "name": "CategoryDistinctFieldEnum",
+        "values": [
+          "name",
+          "slug",
+          "number"
         ]
       },
       {
@@ -10245,6 +10419,14 @@
         ]
       },
       {
+        "name": "PatientDistinctFieldEnum",
+        "values": [
+          "firstName",
+          "lastName",
+          "email"
+        ]
+      },
+      {
         "name": "MovieOrderByInput",
         "values": [
           "directorFirstName_ASC",
@@ -10256,12 +10438,27 @@
         ]
       },
       {
+        "name": "MovieDistinctFieldEnum",
+        "values": [
+          "directorFirstName",
+          "directorLastName",
+          "title"
+        ]
+      },
+      {
         "name": "DirectorOrderByInput",
         "values": [
           "firstName_ASC",
           "firstName_DESC",
           "lastName_ASC",
           "lastName_DESC"
+        ]
+      },
+      {
+        "name": "DirectorDistinctFieldEnum",
+        "values": [
+          "firstName",
+          "lastName"
         ]
       }
     ]

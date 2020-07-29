@@ -3,6 +3,7 @@ import GraphQLJSON from "graphql-type-json";
 import { PostOrderByInput } from "../../../inputs/PostOrderByInput";
 import { PostWhereInput } from "../../../inputs/PostWhereInput";
 import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
+import { PostDistinctFieldEnum } from "../../../../enums/PostDistinctFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class ClientPostsArgs {
@@ -20,4 +21,7 @@ export class ClientPostsArgs {
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [PostDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof PostDistinctFieldEnum> | undefined;
 }

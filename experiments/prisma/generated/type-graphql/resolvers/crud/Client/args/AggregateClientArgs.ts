@@ -3,6 +3,7 @@ import GraphQLJSON from "graphql-type-json";
 import { ClientOrderByInput } from "../../../inputs/ClientOrderByInput";
 import { ClientWhereInput } from "../../../inputs/ClientWhereInput";
 import { ClientWhereUniqueInput } from "../../../inputs/ClientWhereUniqueInput";
+import { UserDistinctFieldEnum } from "../../../../enums/UserDistinctFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class AggregateClientArgs {
@@ -20,4 +21,7 @@ export class AggregateClientArgs {
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
   skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [UserDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof UserDistinctFieldEnum> | undefined;
 }

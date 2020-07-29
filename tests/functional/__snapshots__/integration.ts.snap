@@ -282,13 +282,11 @@ type UserSumAggregateOutputType {
 }
 
 input UserUpdateInput {
-  id: Int
   name: String
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
-  id: Int
   name: String
 }
 
@@ -300,7 +298,6 @@ input UserUpdateOneRequiredWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsDataInput {
-  id: Int
   name: String
 }
 

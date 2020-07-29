@@ -56,6 +56,12 @@ input CategoryCreateInput {
   slug: String!
 }
 
+enum CategoryDistinctFieldEnum {
+  name
+  number
+  slug
+}
+
 type CategoryMaxAggregateOutputType {
   number: Int!
 }
@@ -104,7 +110,7 @@ type Client {
   accountBalance: Float!
   age: Int!
   amount: Float!
-  clientPosts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
+  clientPosts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
   email: String!
 
   """renamed field doc"""
@@ -235,7 +241,7 @@ input DateTimeFilter {
 type Director {
   firstName: String!
   lastName: String!
-  movies(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]
+  movies(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]
 }
 
 input DirectorCreateInput {
@@ -252,6 +258,11 @@ input DirectorCreateOneWithoutMoviesInput {
 input DirectorCreateWithoutMoviesInput {
   firstName: String!
   lastName: String!
+}
+
+enum DirectorDistinctFieldEnum {
+  firstName
+  lastName
 }
 
 input DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput {
@@ -362,6 +373,12 @@ input MovieCreateManyWithoutDirectorInput {
 
 input MovieCreateWithoutDirectorInput {
   title: String!
+}
+
+enum MovieDistinctFieldEnum {
+  directorFirstName
+  directorLastName
+  title
 }
 
 input MovieFilter {
@@ -517,6 +534,12 @@ input PatientCreateInput {
   lastName: String!
 }
 
+enum PatientDistinctFieldEnum {
+  email
+  firstName
+  lastName
+}
+
 input PatientOrderByInput {
   email: OrderByArg
   firstName: OrderByArg
@@ -587,6 +610,18 @@ input PostCreateWithoutAuthorInput {
   title: String!
   updatedAt: DateTime
   uuid: String
+}
+
+enum PostDistinctFieldEnum {
+  authorId
+  content
+  createdAt
+  kind
+  metadata
+  published
+  title
+  updatedAt
+  uuid
 }
 
 input PostFilter {
@@ -709,26 +744,26 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  aggregateCategory(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): AggregateCategory!
-  aggregateClient(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): AggregateClient!
-  aggregateDirector(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): AggregateDirector!
-  aggregateMovie(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): AggregateMovie!
-  aggregatePatient(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): AggregatePatient!
+  aggregateCategory(cursor: CategoryWhereUniqueInput, distinct: [CategoryDistinctFieldEnum!], orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): AggregateCategory!
+  aggregateClient(cursor: ClientWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): AggregateClient!
+  aggregateDirector(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): AggregateDirector!
+  aggregateMovie(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): AggregateMovie!
+  aggregatePatient(cursor: PatientWhereUniqueInput, distinct: [PatientDistinctFieldEnum!], orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): AggregatePatient!
   allClients: [Client!]!
   allPosts: [Post!]!
-  categories(cursor: CategoryWhereUniqueInput, orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): [Category!]!
+  categories(cursor: CategoryWhereUniqueInput, distinct: [CategoryDistinctFieldEnum!], orderBy: CategoryOrderByInput, skip: Int, take: Int, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
   client(where: ClientWhereUniqueInput!): Client
-  clients(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
-  customFindClientsWithArgs(cursor: ClientWhereUniqueInput, orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
+  clients(cursor: ClientWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
+  customFindClientsWithArgs(cursor: ClientWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: ClientOrderByInput, skip: Int, take: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
-  directors(cursor: DirectorWhereUniqueInput, orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
+  directors(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: DirectorOrderByInput, skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
   movie(where: MovieWhereUniqueInput!): Movie
-  movies(cursor: MovieWhereUniqueInput, orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]!
+  movies(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: MovieOrderByInput, skip: Int, take: Int, where: MovieWhereInput): [Movie!]!
   patient(where: PatientWhereUniqueInput!): Patient
-  patients(cursor: PatientWhereUniqueInput, orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): [Patient!]!
+  patients(cursor: PatientWhereUniqueInput, distinct: [PatientDistinctFieldEnum!], orderBy: PatientOrderByInput, skip: Int, take: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
-  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
 }
 
 """Role enum doc"""
@@ -761,6 +796,16 @@ input StringFilter {
   not: String
   notIn: [String!]
   startsWith: String
+}
+
+enum UserDistinctFieldEnum {
+  age
+  amount
+  balance
+  email
+  id
+  name
+  role
 }
 
 input UUIDFilter {
