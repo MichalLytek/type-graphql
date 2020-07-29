@@ -14,12 +14,14 @@ export class AggregateCategoryResolver {
   async aggregateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateCategoryArgs): Promise<AggregateCategory> {
     function transformFields(fields: Record<string, any>): Record<string, any> {
       return Object.fromEntries(
-        Object.entries(fields).map<[string, any]>(([key, value]) => {
-          if (Object.keys(value).length === 0) {
-            return [key, true];
-          }
-          return [key, transformFields(value)];
-        })
+        Object.entries(fields)
+          .filter(([key, value]) => !key.startsWith("_"))
+          .map<[string, any]>(([key, value]) => {
+            if (Object.keys(value).length === 0) {
+              return [key, true];
+            }
+            return [key, transformFields(value)];
+          }),
       );
     }
 

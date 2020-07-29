@@ -375,20 +375,25 @@ describe("crud resolvers execution", () => {
             orderBy: { intField: desc }
             where: { floatField: { lte: 50 } }
           ) {
+            __typename
             count
             min {
+              __typename
               intField
               floatField
             }
             max {
+              __typename
               intField
               floatField
             }
             sum {
+              __typename
               intField
               floatField
             }
             avg {
+              __typename
               intField
               floatField
             }

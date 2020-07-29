@@ -228,20 +228,25 @@ Object {
 exports[`crud resolvers execution with experimental aggregations api enabled should properly call PrismaClient on \`aggregate\` action with advanced operations: aggregateUser mocked response 1`] = `
 Object {
   "aggregateUser": Object {
+    "__typename": "AggregateUser",
     "avg": Object {
+      "__typename": "UserAvgAggregateOutputType",
       "floatField": 5,
       "intField": 5,
     },
     "count": 2,
     "max": Object {
+      "__typename": "UserMaxAggregateOutputType",
       "floatField": 10,
       "intField": 10,
     },
     "min": Object {
+      "__typename": "UserMinAggregateOutputType",
       "floatField": 0,
       "intField": 0,
     },
     "sum": Object {
+      "__typename": "UserSumAggregateOutputType",
       "floatField": 10,
       "intField": 10,
     },
