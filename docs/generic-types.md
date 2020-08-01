@@ -10,6 +10,8 @@ Hence TypeGraphQL also has support for describing generic GraphQL types.
 
 Unfortunately, the limited reflection capabilities of TypeScript don't allow for combining decorators with standard generic classes. To achieve behavior like that of generic types, we use the same class-creator pattern like the one described in the [Resolvers Inheritance](inheritance.md) docs.
 
+### Basic usage
+
 Start by defining a `PaginatedResponse` function that creates and returns a `PaginatedResponseClass`:
 
 ```typescript
@@ -96,6 +98,39 @@ class UserResolver {
   }
 }
 ```
+
+### Complex generic type values
+
+When we need to provide something different than a class (object type) for the field type, we need to enhance the parameter type signature and provide the needed types.
+
+Basically, the parameter that the `PaginatedResponse` function accepts is the value we can provide to `@Field` decorator.
+So if we want to return an array of strings as the `items` field, we need to add proper types to the function signature, like `GraphQLScalarType` or `String`:
+
+```typescript
+export default function PaginatedResponse<TItemsFieldValue>(
+  itemsFieldValue: ClassType<TItemsFieldValue> | GraphQLScalarType | String | Number | Boolean,
+) {
+  @ObjectType({ isAbstract: true })
+  abstract class PaginatedResponseClass {
+    @Field(type => [itemsFieldValue])
+    items: TItemsFieldValue[];
+
+    // ...other fields
+  }
+  return PaginatedResponseClass;
+}
+```
+
+And then provide a proper runtime value (like `String`) while creating a proper subtype of generic `PaginatedResponse` object type:
+
+```typescript
+@ObjectType()
+class PaginatedStringsResponse extends PaginatedResponse<string>(String) {
+  // ...
+}
+```
+
+### Types factory
 
 We can also create a generic class without using the `isAbstract` option or the `abstract` keyword.
 But types created with this kind of factory will be registered in the schema, so this way is not recommended to extend the types for adding fields.
