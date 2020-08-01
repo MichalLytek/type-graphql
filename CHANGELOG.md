@@ -2,7 +2,7 @@
 
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.2.0`
+- **Breaking Change**: update `graphql-js` peer dependency to `^15.3.0`
 
 ## v1.0.0-rc.3
 ### Features
