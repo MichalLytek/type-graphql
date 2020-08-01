@@ -25,7 +25,7 @@ export class GetAllArgs {
 }
 
 export function ResourceResolver<TResource extends Resource>(
-  ResourceCls: ClassType,
+  ResourceCls: ClassType<TResource>,
   resources: TResource[],
 ) {
   const resourceName = ResourceCls.name.toLocaleLowerCase();
