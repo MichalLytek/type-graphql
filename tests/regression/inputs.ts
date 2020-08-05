@@ -76,7 +76,6 @@ describe("inputs", () => {
     const nullableJsonFilterTSFile = await readGeneratedFile(
       "/resolvers/inputs/NullableJsonFilter.ts",
     );
-    const sortOrderTSFile = await readGeneratedFile("/enums/SortOrder.ts");
 
     expect(intFilterTSFile).toMatchSnapshot("IntFilter");
     expect(nullableIntFilterTSFile).toMatchSnapshot("NullableIntFilter");
@@ -94,7 +93,6 @@ describe("inputs", () => {
     );
     expect(jsonFilterTSFile).toMatchSnapshot("JsonFilter");
     expect(nullableJsonFilterTSFile).toMatchSnapshot("NullableJsonFilter");
-    expect(sortOrderTSFile).toMatchSnapshot("SortOrder");
   });
 
   it("should properly generate input type classes for filtering models by fields", async () => {

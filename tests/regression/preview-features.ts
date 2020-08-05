@@ -17,7 +17,7 @@ describe("preview features", () => {
   });
 
   describe("when `distinct` is enabled", () => {
-    it("should properly generate args classes and enums for model actions resolvers", async () => {
+    it("should properly generate args classes for model actions resolvers", async () => {
       const schema = /* prisma */ `
         model User {
           intIdField          Int      @id @default(autoincrement())
@@ -37,17 +37,93 @@ describe("preview features", () => {
       const findManyUserArgsTSFile = await readGeneratedFile(
         "/resolvers/crud/User/args/FindManyUserArgs.ts",
       );
-      const userDistinctFieldEnumTSFile = await readGeneratedFile(
-        "/enums/UserDistinctFieldEnum.ts",
-      );
-      const enumsIndexTSFile = await readGeneratedFile("/enums/index.ts");
 
       expect(aggregateUserArgsTSFile).toMatchSnapshot("AggregateUserArgs");
       expect(findManyUserArgsTSFile).toMatchSnapshot("FindManyUserArgs");
-      expect(userDistinctFieldEnumTSFile).toMatchSnapshot(
-        "UserDistinctFieldEnum",
+    });
+
+    it("should properly generate model distinct field enum", async () => {
+      const schema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        model SampleModel {
+          intIdField   Int     @id @default(autoincrement())
+          stringField  String  @unique
+          intField     Int
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["distinct"],
+      });
+      const sampleModelDistinctFieldEnumTSFile = await readGeneratedFile(
+        "/enums/SampleModelDistinctFieldEnum.ts",
+      );
+      const enumsIndexTSFile = await readGeneratedFile("/enums/index.ts");
+
+      expect(sampleModelDistinctFieldEnumTSFile).toMatchSnapshot(
+        "SampleModelDistinctFieldEnum",
       );
       expect(enumsIndexTSFile).toMatchSnapshot("enums index");
+    });
+
+    it("should properly generate model distinct enum when model is renamed", async () => {
+      const schema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        /// @@TypeGraphQL.type("ExampleModel")
+        model SampleModel {
+          intIdField   Int     @id @default(autoincrement())
+          stringField  String  @unique
+          intField     Int
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["distinct"],
+      });
+      const exampleModelDistinctFieldEnumTSFile = await readGeneratedFile(
+        "/enums/ExampleModelDistinctFieldEnum.ts",
+      );
+      const enumsIndexTSFile = await readGeneratedFile("/enums/index.ts");
+
+      expect(exampleModelDistinctFieldEnumTSFile).toMatchSnapshot(
+        "ExampleModelDistinctFieldEnum",
+      );
+      expect(enumsIndexTSFile).toMatchSnapshot("enums index");
+    });
+
+    it("should properly generate model distinct enum when model field is renamed", async () => {
+      const schema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        model SampleModel {
+          intIdField   Int     @id @default(autoincrement())
+          /// @TypeGraphQL.field("mappedFieldName")
+          stringField  String  @unique
+          intField     Int
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["distinct"],
+      });
+      const sampleModelDistinctFieldEnumTSFile = await readGeneratedFile(
+        "/enums/SampleModelDistinctFieldEnum.ts",
+      );
+
+      expect(sampleModelDistinctFieldEnumTSFile).toMatchSnapshot(
+        "SampleModelDistinctFieldEnum",
+      );
     });
   });
 

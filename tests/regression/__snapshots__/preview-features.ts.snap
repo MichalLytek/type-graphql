@@ -144,7 +144,7 @@ export { UserWhereUniqueInput } from \\"./UserWhereUniqueInput\\";
 "
 `;
 
-exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: AggregateUserArgs 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate args classes for model actions resolvers: AggregateUserArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
@@ -175,7 +175,7 @@ export class AggregateUserArgs {
 "
 `;
 
-exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: FindManyUserArgs 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate args classes for model actions resolvers: FindManyUserArgs 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
@@ -206,24 +206,59 @@ export class FindManyUserArgs {
 "
 `;
 
-exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: UserDistinctFieldEnum 1`] = `
+exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model field is renamed: SampleModelDistinctFieldEnum 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 
-export enum UserDistinctFieldEnum {
+export enum SampleModelDistinctFieldEnum {
   intIdField = \\"intIdField\\",
-  uniqueStringField = \\"uniqueStringField\\",
-  optionalFloatField = \\"optionalFloatField\\",
-  dateField = \\"dateField\\"
+  mappedFieldName = \\"stringField\\",
+  intField = \\"intField\\"
 }
-TypeGraphQL.registerEnumType(UserDistinctFieldEnum, {
-  name: \\"UserDistinctFieldEnum\\",
+TypeGraphQL.registerEnumType(SampleModelDistinctFieldEnum, {
+  name: \\"SampleModelDistinctFieldEnum\\",
   description: undefined,
 });
 "
 `;
 
-exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: enums index 1`] = `
-"export { SortOrder } from \\"./SortOrder\\";
-export { UserDistinctFieldEnum } from \\"./UserDistinctFieldEnum\\";
+exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model is renamed: ExampleModelDistinctFieldEnum 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+
+export enum ExampleModelDistinctFieldEnum {
+  intIdField = \\"intIdField\\",
+  stringField = \\"stringField\\",
+  intField = \\"intField\\"
+}
+TypeGraphQL.registerEnumType(ExampleModelDistinctFieldEnum, {
+  name: \\"ExampleModelDistinctFieldEnum\\",
+  description: undefined,
+});
+"
+`;
+
+exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model is renamed: enums index 1`] = `
+"export { SampleModelDistinctFieldEnum } from \\"./SampleModelDistinctFieldEnum\\";
+export { SortOrder } from \\"./SortOrder\\";
+"
+`;
+
+exports[`preview features when \`distinct\` is enabled should properly generate model distinct field enum: SampleModelDistinctFieldEnum 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+
+export enum SampleModelDistinctFieldEnum {
+  intIdField = \\"intIdField\\",
+  stringField = \\"stringField\\",
+  intField = \\"intField\\"
+}
+TypeGraphQL.registerEnumType(SampleModelDistinctFieldEnum, {
+  name: \\"SampleModelDistinctFieldEnum\\",
+  description: undefined,
+});
+"
+`;
+
+exports[`preview features when \`distinct\` is enabled should properly generate model distinct field enum: enums index 1`] = `
+"export { SampleModelDistinctFieldEnum } from \\"./SampleModelDistinctFieldEnum\\";
+export { SortOrder } from \\"./SortOrder\\";
 "
 `;

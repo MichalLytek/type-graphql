@@ -9,6 +9,9 @@ export namespace DMMF {
     values: string[];
     dbName?: string | null;
     documentation?: string;
+    // additional props
+    typeName: string;
+    valuesMap: Array<{ name: string; value: string }>;
   }
   export interface Datamodel {
     models: Model[];

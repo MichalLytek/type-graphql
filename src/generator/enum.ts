@@ -13,7 +13,7 @@ export default async function generateEnumFromDef(
   enumDef: DMMF.Enum,
 ) {
   const dirPath = path.resolve(baseDirPath, enumsFolderName);
-  const filePath = path.resolve(dirPath, `${enumDef.name}.ts`);
+  const filePath = path.resolve(dirPath, `${enumDef.typeName}.ts`);
   const sourceFile = project.createSourceFile(filePath, undefined, {
     overwrite: true,
   });
@@ -22,14 +22,14 @@ export default async function generateEnumFromDef(
   const documentation = cleanDocsString(enumDef.documentation);
   sourceFile.addEnum({
     isExported: true,
-    name: enumDef.name,
+    name: enumDef.typeName,
     ...(documentation && {
       docs: [{ description: documentation }],
     }),
-    members: enumDef.values.map<OptionalKind<EnumMemberStructure>>(
-      enumValue => ({
-        name: enumValue,
-        value: enumValue,
+    members: enumDef.valuesMap.map<OptionalKind<EnumMemberStructure>>(
+      ({ name, value }) => ({
+        name,
+        value,
         // TODO: add support for string enums (values)
         // TODO: add support for enum members docs
       }),
@@ -38,8 +38,8 @@ export default async function generateEnumFromDef(
 
   // TODO: refactor to AST
   sourceFile.addStatements([
-    `TypeGraphQL.registerEnumType(${enumDef.name}, {
-      name: "${enumDef.name}",
+    `TypeGraphQL.registerEnumType(${enumDef.typeName}, {
+      name: "${enumDef.typeName}",
       description: ${documentation ? `"${documentation}"` : "undefined"},
     });`,
   ]);

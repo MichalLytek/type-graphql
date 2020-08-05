@@ -869,20 +869,6 @@ export class NullableStringFilter {
 "
 `;
 
-exports[`inputs should properly generate input type classes for filtering scalar fields: SortOrder 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-
-export enum SortOrder {
-  asc = \\"asc\\",
-  desc = \\"desc\\"
-}
-TypeGraphQL.registerEnumType(SortOrder, {
-  name: \\"SortOrder\\",
-  description: undefined,
-});
-"
-`;
-
 exports[`inputs should properly generate input type classes for filtering scalar fields: StringFilter 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";

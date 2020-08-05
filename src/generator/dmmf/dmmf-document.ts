@@ -1,10 +1,11 @@
 import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
 import { DMMF } from "./types";
 import {
-  transformDatamodel,
   transformSchema,
   transformMappings,
   transformBareModel,
+  transformModelWithFields,
+  transformEnums,
 } from "./transform";
 import { GenerateCodeOptions } from "../options";
 
@@ -18,8 +19,15 @@ export class DmmfDocument implements DMMF.Document {
     { datamodel, schema, mappings }: PrismaDMMF.Document,
     options: GenerateCodeOptions,
   ) {
+    // transform bare model without fields
     this.models = datamodel.models.map(transformBareModel);
-    this.datamodel = transformDatamodel(datamodel, this);
+    // then transform once again to map the fields (it requires mapped model type names)
+    this.models = datamodel.models.map(transformModelWithFields(this));
+
+    this.datamodel = {
+      models: this.models,
+      enums: datamodel.enums.map(transformEnums(this)),
+    };
     this.schema = transformSchema(schema, this);
     this.mappings = transformMappings(mappings, this, options);
   }

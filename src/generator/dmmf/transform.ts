@@ -14,22 +14,12 @@ import pluralize from "pluralize";
 import { GenerateCodeOptions } from "../options";
 import { supportedQueryActions, supportedMutationActions } from "../config";
 
-export function transformDatamodel(
-  datamodel: PrismaDMMF.Datamodel,
-  dmmfDocument: DmmfDocument,
-): DMMF.Datamodel {
-  return {
-    enums: datamodel.enums,
-    models: datamodel.models.map(transformModelWithFields(dmmfDocument)),
-  };
-}
-
 export function transformSchema(
   datamodel: PrismaDMMF.Schema,
   dmmfDocument: DmmfDocument,
 ): DMMF.Schema {
   return {
-    enums: datamodel.enums,
+    enums: datamodel.enums.map(transformEnums(dmmfDocument)),
     inputTypes: datamodel.inputTypes.map(transformInputType(dmmfDocument)),
     outputTypes: datamodel.outputTypes.map(transformOutputType(dmmfDocument)),
     rootMutationType: datamodel.rootMutationType,
@@ -59,7 +49,7 @@ export function transformBareModel(model: PrismaDMMF.Model): DMMF.Model {
   };
 }
 
-function transformModelWithFields(dmmfDocument: DmmfDocument) {
+export function transformModelWithFields(dmmfDocument: DmmfDocument) {
   return (model: PrismaDMMF.Model): DMMF.Model => {
     return {
       ...transformBareModel(model),
@@ -282,4 +272,26 @@ function getMappedActionName(
 function getOperationKindName(actionName: string): string | undefined {
   if (supportedQueryActions.includes(actionName as any)) return "Query";
   if (supportedMutationActions.includes(actionName as any)) return "Mutation";
+}
+
+export function transformEnums(dmmfDocument: DmmfDocument) {
+  return (enumDef: PrismaDMMF.Enum): DMMF.Enum => {
+    const modelName = enumDef.name.includes("DistinctFieldEnum")
+      ? enumDef.name.replace("DistinctFieldEnum", "")
+      : undefined;
+    const typeName = modelName
+      ? `${dmmfDocument.getModelTypeName(modelName)}DistinctFieldEnum`
+      : enumDef.name;
+
+    return {
+      ...enumDef,
+      typeName,
+      valuesMap: enumDef.values.map(value => ({
+        value,
+        name:
+          (modelName && dmmfDocument.getModelFieldAlias(modelName, value)) ||
+          value,
+      })),
+    };
+  };
 }
