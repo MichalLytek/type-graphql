@@ -79,11 +79,6 @@ input NullableStringFilter {
   startsWith: String
 }
 
-enum OrderByArg {
-  asc
-  desc
-}
-
 type Post {
   author: User!
   authorId: Int!
@@ -129,10 +124,10 @@ type PostMinAggregateOutputType {
 }
 
 input PostOrderByInput {
-  authorId: OrderByArg
-  color: OrderByArg
-  content: OrderByArg
-  uuid: OrderByArg
+  authorId: SortOrder
+  color: SortOrder
+  content: SortOrder
+  uuid: SortOrder
 }
 
 input PostScalarWhereInput {
@@ -226,6 +221,11 @@ type Query {
   users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
+enum SortOrder {
+  asc
+  desc
+}
+
 input StringFilter {
   contains: String
   endsWith: String
@@ -273,8 +273,8 @@ type UserMinAggregateOutputType {
 }
 
 input UserOrderByInput {
-  id: OrderByArg
-  name: OrderByArg
+  id: SortOrder
+  name: SortOrder
 }
 
 type UserSumAggregateOutputType {
@@ -326,7 +326,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
 [type-graphql]
   [enums]
     Color.ts
-    OrderByArg.ts
+    SortOrder.ts
     index.ts
   index.ts
   [models]

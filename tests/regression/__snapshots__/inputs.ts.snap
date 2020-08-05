@@ -153,30 +153,30 @@ exports[`inputs should properly generate input type classes for filtering models
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { OrderByArg } from \\"../../enums/OrderByArg\\";
+import { SortOrder } from \\"../../enums/SortOrder\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class FirstModelOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  idField?: keyof typeof OrderByArg | undefined;
+  idField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  uniqueStringField?: keyof typeof OrderByArg | undefined;
+  uniqueStringField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  floatField?: keyof typeof OrderByArg | undefined;
+  floatField?: keyof typeof SortOrder | undefined;
 }
 "
 `;
@@ -869,6 +869,20 @@ export class NullableStringFilter {
 "
 `;
 
+exports[`inputs should properly generate input type classes for filtering scalar fields: SortOrder 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+
+export enum SortOrder {
+  asc = \\"asc\\",
+  desc = \\"desc\\"
+}
+TypeGraphQL.registerEnumType(SortOrder, {
+  name: \\"SortOrder\\",
+  description: undefined,
+});
+"
+`;
+
 exports[`inputs should properly generate input type classes for filtering scalar fields: StringFilter 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -952,30 +966,30 @@ exports[`inputs should properly generate input type classes for model with compo
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { OrderByArg } from \\"../../enums/OrderByArg\\";
+import { SortOrder } from \\"../../enums/SortOrder\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class DirectorOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  firstName?: keyof typeof OrderByArg | undefined;
+  firstName?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  lastName?: keyof typeof OrderByArg | undefined;
+  lastName?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  age?: keyof typeof OrderByArg | undefined;
+  age?: keyof typeof SortOrder | undefined;
 }
 "
 `;
@@ -1118,36 +1132,36 @@ exports[`inputs should properly generate input type classes for model with id ke
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { OrderByArg } from \\"../../enums/OrderByArg\\";
+import { SortOrder } from \\"../../enums/SortOrder\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class MovieOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  directorFirstName?: keyof typeof OrderByArg | undefined;
+  directorFirstName?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  directorLastName?: keyof typeof OrderByArg | undefined;
+  directorLastName?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  title?: keyof typeof OrderByArg | undefined;
+  title?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  rating?: keyof typeof OrderByArg | undefined;
+  rating?: keyof typeof SortOrder | undefined;
 }
 "
 `;
@@ -1297,22 +1311,22 @@ exports[`inputs should properly generate input type classes when model field is 
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { OrderByArg } from \\"../../enums/OrderByArg\\";
+import { SortOrder } from \\"../../enums/SortOrder\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class SampleOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  idField?: keyof typeof OrderByArg | undefined;
+  idField?: keyof typeof SortOrder | undefined;
 
-  modelFieldName?: keyof typeof OrderByArg | undefined;
+  modelFieldName?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
@@ -1320,7 +1334,7 @@ export class SampleOrderByInput {
     return this.modelFieldName;
   }
 
-  set mappedFieldName(modelFieldName: keyof typeof OrderByArg | undefined) {
+  set mappedFieldName(modelFieldName: keyof typeof SortOrder | undefined) {
     this.modelFieldName = modelFieldName;
   }
 }
@@ -1384,48 +1398,48 @@ exports[`inputs should properly generate input type classes when model is rename
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { OrderByArg } from \\"../../enums/OrderByArg\\";
+import { SortOrder } from \\"../../enums/SortOrder\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class ExampleOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  intIdField?: keyof typeof OrderByArg | undefined;
+  intIdField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  stringField?: keyof typeof OrderByArg | undefined;
+  stringField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  floatField?: keyof typeof OrderByArg | undefined;
+  floatField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  booleanField?: keyof typeof OrderByArg | undefined;
+  booleanField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  dateField?: keyof typeof OrderByArg | undefined;
+  dateField?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  otherId?: keyof typeof OrderByArg | undefined;
+  otherId?: keyof typeof SortOrder | undefined;
 }
 "
 `;

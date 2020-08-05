@@ -59,7 +59,7 @@ interface ArgOptions {
 }
 export declare class Arg {
     readonly key: string;
-    readonly value: ArgValue;
+    value: ArgValue;
     readonly error?: InvalidArgError;
     readonly hasError: boolean;
     readonly isEnum: boolean;

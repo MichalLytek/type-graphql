@@ -53,11 +53,6 @@ input ColorFilter {
   notIn: [Color!]
 }
 
-enum OrderByArg {
-  asc
-  desc
-}
-
 type Post {
   color: Color!
   content: String!
@@ -65,9 +60,9 @@ type Post {
 }
 
 input PostOrderByInput {
-  color: OrderByArg
-  content: OrderByArg
-  uuid: OrderByArg
+  color: SortOrder
+  content: SortOrder
+  uuid: SortOrder
 }
 
 input PostWhereInput {
@@ -85,6 +80,11 @@ input PostWhereUniqueInput {
 
 type Query {
   customFindManyPost(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
+}
+
+enum SortOrder {
+  asc
+  desc
 }
 
 input StringFilter {

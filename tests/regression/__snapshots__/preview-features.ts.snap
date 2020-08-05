@@ -223,7 +223,7 @@ TypeGraphQL.registerEnumType(UserDistinctFieldEnum, {
 `;
 
 exports[`preview features when \`distinct\` is enabled should properly generate args classes and enums for model actions resolvers: enums index 1`] = `
-"export { OrderByArg } from \\"./OrderByArg\\";
+"export { SortOrder } from \\"./SortOrder\\";
 export { UserDistinctFieldEnum } from \\"./UserDistinctFieldEnum\\";
 "
 `;

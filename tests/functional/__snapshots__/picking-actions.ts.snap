@@ -51,13 +51,13 @@ input NullableStringFilter {
   startsWith: String
 }
 
-enum OrderByArg {
-  asc
-  desc
-}
-
 type Query {
   users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
+}
+
+enum SortOrder {
+  asc
+  desc
 }
 
 input StringFilter {
@@ -88,10 +88,10 @@ input UserCreateInput {
 }
 
 input UserOrderByInput {
-  dateField: OrderByArg
-  intIdField: OrderByArg
-  optionalStringField: OrderByArg
-  uniqueStringField: OrderByArg
+  dateField: SortOrder
+  intIdField: SortOrder
+  optionalStringField: SortOrder
+  uniqueStringField: SortOrder
 }
 
 input UserWhereInput {

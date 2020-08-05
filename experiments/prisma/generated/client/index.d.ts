@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.3.0
- * Query Engine version: e11114fa1ea826f9e7b4fa1ced34e78892fe8e0e
+ * Prisma Client JS version: 2.4.0
+ * Query Engine version: 6c777331554df4c3e0a90dd841339c7b0619d0e1
  */
 export declare type PrismaVersion = {
   client: string
@@ -100,9 +100,15 @@ export declare type PromiseReturnType<T extends (...args: any) => Promise<any>> 
 
 export declare type Enumerable<T> = T | Array<T>;
 
-export declare type TrueKeys<T> = {
+export type RequiredKeys<T> = {
+  [K in keyof T]-?: {} extends Pick<T, K> ? never : K
+}[keyof T]
+
+export declare type TruthyKeys<T> = {
   [key in keyof T]: T[key] extends false | undefined | null ? never : key
 }[keyof T]
+
+export declare type TrueKeys<T> = TruthyKeys<Pick<T, RequiredKeys<T>>>
 
 /**
  * Subset
@@ -297,17 +303,26 @@ export declare class PrismaClient<
    * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
    */
   constructor(optionsArg?: T);
+  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
+  /**
+   * @deprecated renamed to `$on`
+   */
   on<V extends U>(eventType: V, callback: (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
   /**
    * Connect with the database
    */
-  connect(): Promise<void>;
+  $connect(): Promise<void>;
   /**
-   * @private
+   * @deprecated renamed to `$connect`
    */
-  private runDisconnect;
+  connect(): Promise<void>;
+
   /**
    * Disconnect from the database
+   */
+  $disconnect(): Promise<any>;
+  /**
+   * @deprecated renamed to `$disconnect`
    */
   disconnect(): Promise<any>;
 
@@ -325,6 +340,11 @@ export declare class PrismaClient<
   * 
   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
+  $executeRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<number>;
+
+  /**
+   * @deprecated renamed to `$executeRaw`
+   */
   executeRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<number>;
 
   /**
@@ -339,6 +359,11 @@ export declare class PrismaClient<
   * 
   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
   */
+  $queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
+ 
+  /**
+   * @deprecated renamed to `$executeRaw`
+   */
   queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
   /**
@@ -411,14 +436,6 @@ export declare class PrismaClient<
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-export declare const OrderByArg: {
-  asc: 'asc',
-  desc: 'desc'
-};
-
-export declare type OrderByArg = (typeof OrderByArg)[keyof typeof OrderByArg]
-
-
 export declare const Role: {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -433,6 +450,14 @@ export declare const PostKind: {
 };
 
 export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
+
+
+export declare const SortOrder: {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
 export declare const UserDistinctFieldEnum: {
@@ -3273,9 +3298,31 @@ export type UserWhereInput = {
   NOT?: Enumerable<UserWhereInput>
 }
 
+export type UserOrderByInput = {
+  id?: SortOrder
+  email?: SortOrder
+  name?: SortOrder
+  age?: SortOrder
+  balance?: SortOrder
+  amount?: SortOrder
+  role?: SortOrder
+}
+
 export type UserWhereUniqueInput = {
   id?: number
   email?: string
+}
+
+export type postOrderByInput = {
+  uuid?: SortOrder
+  createdAt?: SortOrder
+  updatedAt?: SortOrder
+  published?: SortOrder
+  title?: SortOrder
+  content?: SortOrder
+  authorId?: SortOrder
+  kind?: SortOrder
+  metadata?: SortOrder
 }
 
 export type postWhereUniqueInput = {
@@ -3289,6 +3336,12 @@ export type CategoryWhereInput = {
   AND?: Enumerable<CategoryWhereInput>
   OR?: Array<CategoryWhereInput>
   NOT?: Enumerable<CategoryWhereInput>
+}
+
+export type CategoryOrderByInput = {
+  name?: SortOrder
+  slug?: SortOrder
+  number?: SortOrder
 }
 
 export type SlugNumberCompoundUniqueInput = {
@@ -3307,6 +3360,12 @@ export type PatientWhereInput = {
   AND?: Enumerable<PatientWhereInput>
   OR?: Array<PatientWhereInput>
   NOT?: Enumerable<PatientWhereInput>
+}
+
+export type PatientOrderByInput = {
+  firstName?: SortOrder
+  lastName?: SortOrder
+  email?: SortOrder
 }
 
 export type FirstNameLastNameCompoundUniqueInput = {
@@ -3337,6 +3396,12 @@ export type MovieWhereInput = {
   director?: DirectorWhereInput | null
 }
 
+export type MovieOrderByInput = {
+  directorFirstName?: SortOrder
+  directorLastName?: SortOrder
+  title?: SortOrder
+}
+
 export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
   directorFirstName: string
   directorLastName: string
@@ -3345,6 +3410,11 @@ export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
 
 export type MovieWhereUniqueInput = {
   directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput
+}
+
+export type DirectorOrderByInput = {
+  firstName?: SortOrder
+  lastName?: SortOrder
 }
 
 export type DirectorWhereUniqueInput = {
@@ -3380,7 +3450,7 @@ export type UserCreateInput = {
   balance: number
   amount: number
   role: Role
-  posts?: postCreateManyWithoutAuthorInput | null
+  posts?: postCreateManyWithoutAuthorInput
 }
 
 export type postUpdateWithoutAuthorDataInput = {
@@ -3456,7 +3526,7 @@ export type UserUpdateInput = {
   balance?: number
   amount?: number
   role?: Role
-  posts?: postUpdateManyWithoutAuthorInput | null
+  posts?: postUpdateManyWithoutAuthorInput
 }
 
 export type UserUpdateManyMutationInput = {
@@ -3531,7 +3601,7 @@ export type postUpdateInput = {
   content?: string | null
   kind?: PostKind | null
   metadata?: InputJsonValue
-  author?: UserUpdateOneRequiredWithoutPostsInput | null
+  author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
 export type postUpdateManyMutationInput = {
@@ -3622,7 +3692,7 @@ export type DirectorUpdateOneRequiredWithoutMoviesInput = {
 
 export type MovieUpdateInput = {
   title?: string
-  director?: DirectorUpdateOneRequiredWithoutMoviesInput | null
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput
 }
 
 export type MovieUpdateManyMutationInput = {
@@ -3647,7 +3717,7 @@ export type MovieCreateManyWithoutDirectorInput = {
 export type DirectorCreateInput = {
   firstName: string
   lastName: string
-  movies?: MovieCreateManyWithoutDirectorInput | null
+  movies?: MovieCreateManyWithoutDirectorInput
 }
 
 export type MovieUpdateWithoutDirectorDataInput = {
@@ -3699,7 +3769,7 @@ export type MovieUpdateManyWithoutDirectorInput = {
 export type DirectorUpdateInput = {
   firstName?: string
   lastName?: string
-  movies?: MovieUpdateManyWithoutDirectorInput | null
+  movies?: MovieUpdateManyWithoutDirectorInput
 }
 
 export type DirectorUpdateManyMutationInput = {
@@ -3816,51 +3886,6 @@ export type MovieFilter = {
   every?: MovieWhereInput
   some?: MovieWhereInput
   none?: MovieWhereInput
-}
-
-export type UserOrderByInput = {
-  id?: OrderByArg | null
-  email?: OrderByArg | null
-  name?: OrderByArg | null
-  age?: OrderByArg | null
-  balance?: OrderByArg | null
-  amount?: OrderByArg | null
-  role?: OrderByArg | null
-}
-
-export type postOrderByInput = {
-  uuid?: OrderByArg | null
-  createdAt?: OrderByArg | null
-  updatedAt?: OrderByArg | null
-  published?: OrderByArg | null
-  title?: OrderByArg | null
-  content?: OrderByArg | null
-  authorId?: OrderByArg | null
-  kind?: OrderByArg | null
-  metadata?: OrderByArg | null
-}
-
-export type CategoryOrderByInput = {
-  name?: OrderByArg | null
-  slug?: OrderByArg | null
-  number?: OrderByArg | null
-}
-
-export type PatientOrderByInput = {
-  firstName?: OrderByArg | null
-  lastName?: OrderByArg | null
-  email?: OrderByArg | null
-}
-
-export type MovieOrderByInput = {
-  directorFirstName?: OrderByArg | null
-  directorLastName?: OrderByArg | null
-  title?: OrderByArg | null
-}
-
-export type DirectorOrderByInput = {
-  firstName?: OrderByArg | null
-  lastName?: OrderByArg | null
 }
 
 /**

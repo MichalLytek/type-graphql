@@ -640,13 +640,6 @@
   "schema": {
     "enums": [
       {
-        "name": "OrderByArg",
-        "values": [
-          "asc",
-          "desc"
-        ]
-      },
-      {
         "name": "Role",
         "values": [
           "USER",
@@ -658,6 +651,13 @@
         "values": [
           "BLOG",
           "ADVERT"
+        ]
+      },
+      {
+        "name": "SortOrder",
+        "values": [
+          "asc",
+          "desc"
         ]
       },
       {
@@ -922,11 +922,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "postOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -1640,11 +1640,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "MovieOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -1810,11 +1810,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "UserOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -1894,11 +1894,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "UserOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2002,11 +2002,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "postOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2086,11 +2086,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "postOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2194,11 +2194,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "CategoryOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2278,11 +2278,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "CategoryOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2386,11 +2386,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "PatientOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2470,11 +2470,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "PatientOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2578,11 +2578,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "MovieOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2662,11 +2662,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "MovieOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2770,11 +2770,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "DirectorOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -2854,11 +2854,11 @@
                 "name": "orderBy",
                 "inputType": [
                   {
-                    "isList": false,
-                    "isRequired": false,
-                    "isNullable": false,
                     "type": "DirectorOrderByInput",
-                    "kind": "object"
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
                   }
                 ]
               },
@@ -4653,6 +4653,97 @@
         "atLeastOne": false
       },
       {
+        "name": "UserOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "email",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "age",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "balance",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "amount",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "role",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
+      },
+      {
         "name": "UserWhereUniqueInput",
         "isOneOf": true,
         "fields": [
@@ -4682,6 +4773,121 @@
           }
         ],
         "atLeastOne": true
+      },
+      {
+        "name": "postOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "uuid",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "createdAt",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "updatedAt",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "published",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "content",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "authorId",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "kind",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "metadata",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
       },
       {
         "name": "postWhereUniqueInput",
@@ -4807,6 +5013,49 @@
         ],
         "isWhereType": true,
         "atLeastOne": false
+      },
+      {
+        "name": "CategoryOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "slug",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "number",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
       },
       {
         "name": "SlugNumberCompoundUniqueInput",
@@ -4962,6 +5211,49 @@
         ],
         "isWhereType": true,
         "atLeastOne": false
+      },
+      {
+        "name": "PatientOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "email",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
       },
       {
         "name": "FirstNameLastNameCompoundUniqueInput",
@@ -5232,6 +5524,49 @@
         "atLeastOne": false
       },
       {
+        "name": "MovieOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "directorFirstName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "directorLastName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
+      },
+      {
         "name": "DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput",
         "isOneOf": false,
         "fields": [
@@ -5291,6 +5626,37 @@
           }
         ],
         "atLeastOne": true
+      },
+      {
+        "name": "DirectorOrderByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "firstName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "lastName",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
       },
       {
         "name": "DirectorWhereUniqueInput",
@@ -5569,7 +5935,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -6331,7 +6697,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -6961,7 +7327,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -7603,7 +7969,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -7753,7 +8119,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -8165,7 +8531,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": true
+                "isNullable": false
               }
             ]
           }
@@ -9345,405 +9711,6 @@
           }
         ],
         "atLeastOne": false
-      },
-      {
-        "name": "UserOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "id",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "email",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "name",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "age",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "balance",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "amount",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "role",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
-      },
-      {
-        "name": "postOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "uuid",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "createdAt",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "updatedAt",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "published",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "title",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "content",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "authorId",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "kind",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "metadata",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
-      },
-      {
-        "name": "CategoryOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "name",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "slug",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "number",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
-      },
-      {
-        "name": "PatientOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "firstName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "lastName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "email",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
-      },
-      {
-        "name": "MovieOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "directorFirstName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "directorLastName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "title",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
-      },
-      {
-        "name": "DirectorOrderByInput",
-        "atLeastOne": true,
-        "atMostOne": true,
-        "isOrderType": true,
-        "fields": [
-          {
-            "name": "firstName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          },
-          {
-            "name": "lastName",
-            "inputType": [
-              {
-                "type": "OrderByArg",
-                "isList": false,
-                "isRequired": false,
-                "isNullable": true,
-                "kind": "enum"
-              }
-            ],
-            "isRelationFilter": false
-          }
-        ]
       }
     ]
   }

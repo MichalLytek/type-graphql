@@ -3,7 +3,7 @@ import { PrismaClient, PostKind } from "./prisma/generated/client";
 const prisma = new PrismaClient({});
 
 async function main() {
-  await prisma.connect();
+  await prisma.$connect();
 
   await prisma.post.deleteMany({});
   await prisma.user.deleteMany({});
@@ -151,5 +151,5 @@ async function main() {
 main()
   .catch(e => console.error(e))
   .finally(async () => {
-    await prisma.disconnect();
+    await prisma.$disconnect();
   });

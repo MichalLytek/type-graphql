@@ -1,9 +1,9 @@
 export { CategoryDistinctFieldEnum } from "./CategoryDistinctFieldEnum";
 export { DirectorDistinctFieldEnum } from "./DirectorDistinctFieldEnum";
 export { MovieDistinctFieldEnum } from "./MovieDistinctFieldEnum";
-export { OrderByArg } from "./OrderByArg";
 export { PatientDistinctFieldEnum } from "./PatientDistinctFieldEnum";
 export { PostDistinctFieldEnum } from "./PostDistinctFieldEnum";
 export { PostKind } from "./PostKind";
 export { Role } from "./Role";
+export { SortOrder } from "./SortOrder";
 export { UserDistinctFieldEnum } from "./UserDistinctFieldEnum";

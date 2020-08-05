@@ -1,64 +1,64 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { OrderByArg } from "../../enums/OrderByArg";
+import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class PostOrderByInput {
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  uuid?: keyof typeof OrderByArg | undefined;
+  uuid?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  createdAt?: keyof typeof OrderByArg | undefined;
+  createdAt?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: keyof typeof OrderByArg | undefined;
+  updatedAt?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  published?: keyof typeof OrderByArg | undefined;
+  published?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  title?: keyof typeof OrderByArg | undefined;
+  title?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  content?: keyof typeof OrderByArg | undefined;
+  content?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  authorId?: keyof typeof OrderByArg | undefined;
+  authorId?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof OrderByArg | undefined;
+  kind?: keyof typeof SortOrder | undefined;
 
-  @TypeGraphQL.Field(_type => OrderByArg, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  metadata?: keyof typeof OrderByArg | undefined;
+  metadata?: keyof typeof SortOrder | undefined;
 }

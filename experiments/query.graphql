@@ -60,6 +60,12 @@ query FindClients {
   }
 }
 
+query SortAllClients {
+  clients(orderBy: { firstName: asc, id: desc }) {
+    ...ClientData
+  }
+}
+
 fragment ClientData on Client {
   id
   email

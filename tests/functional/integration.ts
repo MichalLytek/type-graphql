@@ -249,7 +249,7 @@ describe("generator integration", () => {
     const { data, errors } = await graphql(graphQLSchema, query, null, {
       prisma,
     });
-    await prisma.disconnect();
+    await prisma.$disconnect();
 
     expect(errors).toBeUndefined();
     expect(data).toMatchSnapshot("graphql data");
