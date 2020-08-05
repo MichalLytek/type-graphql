@@ -2,13 +2,11 @@ import {
   PropertyDeclarationStructure,
   OptionalKind,
   Project,
-  MethodDeclarationStructure,
   GetAccessorDeclarationStructure,
   SetAccessorDeclarationStructure,
 } from "ts-morph";
 import path from "path";
 
-import { camelCase } from "./helpers";
 import { outputsFolderName, inputsFolderName } from "./config";
 import {
   generateTypeGraphQLImport,
@@ -45,13 +43,6 @@ export async function generateOutputTypeClassFromType(
   generateGraphQLScalarImport(sourceFile);
   generatePrismaJsonTypeImport(sourceFile, options, 2);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
-  // generateInputsImports(
-  //   sourceFile,
-  //   inputType.fields
-  //     .filter(field => field.selectedInputType.kind === "object")
-  //     .map(field => field.selectedInputType.type)
-  //     .filter(fieldType => fieldType !== inputType.typeName),
-  // );
   generateOutputsImports(
     sourceFile,
     type.fields
@@ -76,9 +67,6 @@ export async function generateOutputTypeClassFromType(
     }),
   );
 
-  // const propertyFields = type.name.includes("Aggregate") ? [] : type.fields;
-  // const methodFields = type.name.includes("Aggregate") ? type.fields : [];
-
   sourceFile.addClass({
     name: type.typeName,
     isExported: true,
@@ -93,7 +81,6 @@ export async function generateOutputTypeClassFromType(
         ],
       },
     ],
-    // properties: propertyFields.map<OptionalKind<PropertyDeclarationStructure>>(
     properties: type.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
         const isRequired = field.outputType.isRequired;
@@ -119,46 +106,6 @@ export async function generateOutputTypeClassFromType(
         };
       },
     ),
-    // methods: methodFields
-    //   // TODO: allow also for other fields args
-    //   .map<OptionalKind<MethodDeclarationStructure>>(field => {
-    //     const isRequired = field.outputType.isRequired;
-    //     const collectionName = camelCase(type.modelName);
-
-    //     return {
-    //       name: field.name,
-    //       type: field.fieldTSType,
-    //       trailingTrivia: "\r\n",
-    //       decorators: [
-    //         {
-    //           name: "TypeGraphQL.Field",
-    //           arguments: [
-    //             `_type => ${field.typeGraphQLType}`,
-    //             `{
-    //               nullable: ${!isRequired},
-    //               description: undefined
-    //             }`,
-    //           ],
-    //         },
-    //       ],
-    //       parameters: [
-    //         {
-    //           name: "ctx",
-    //           // TODO: import custom `ContextType`
-    //           type: "any",
-    //           decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
-    //         },
-    //         {
-    //           name: "args",
-    //           type: field.argsTypeName,
-    //           decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
-    //         },
-    //       ],
-    //       statements: [
-    //         `return ctx.prisma.${collectionName}.${field.name}(args);`,
-    //       ],
-    //     };
-    //   }),
   });
 
   await saveSourceFile(sourceFile);
