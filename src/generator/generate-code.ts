@@ -251,7 +251,6 @@ export default async function generateCode(
         baseDirPath,
         mapping,
         model,
-        rootTypes,
         modelNames,
         options,
         dmmfDocument,

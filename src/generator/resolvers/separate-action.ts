@@ -20,10 +20,6 @@ export default async function generateActionResolverClass(
   baseDirPath: string,
   model: DMMF.Model,
   action: DMMF.Action,
-  method: DMMF.SchemaField,
-  outputTypeName: string,
-  argsTypeName: string | undefined,
-  collectionName: string,
   modelNames: string[],
   mapping: DMMF.Mapping,
   dmmfDocument: DmmfDocument,
@@ -46,12 +42,12 @@ export default async function generateActionResolverClass(
   if (action.kind === DMMF.ModelAction.aggregate) {
     generateGraphQLFieldsImport(sourceFile);
   }
-  if (argsTypeName) {
-    generateArgsImports(sourceFile, [argsTypeName], 0);
+  if (action.argsTypeName) {
+    generateArgsImports(sourceFile, [action.argsTypeName], 0);
   }
   generateModelsImports(
     sourceFile,
-    [model.name, outputTypeName]
+    [model.name, action.outputTypeName]
       .filter(name => modelNames.includes(name))
       .map(typeName =>
         dmmfDocument.isModelName(typeName)
@@ -62,7 +58,7 @@ export default async function generateActionResolverClass(
   );
   generateOutputsImports(
     sourceFile,
-    [outputTypeName].filter(name => !modelNames.includes(name)),
+    [action.outputTypeName].filter(name => !modelNames.includes(name)),
     2,
   );
 
@@ -79,9 +75,6 @@ export default async function generateActionResolverClass(
       generateCrudResolverClassMethodDeclaration(
         action,
         model.typeName,
-        method,
-        argsTypeName,
-        collectionName,
         dmmfDocument,
         mapping,
       ),

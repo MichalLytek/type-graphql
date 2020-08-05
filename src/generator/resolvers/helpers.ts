@@ -5,14 +5,11 @@ import { DMMF } from "../dmmf/types";
 export function generateCrudResolverClassMethodDeclaration(
   action: DMMF.Action,
   typeName: string,
-  method: DMMF.SchemaField,
-  argsTypeName: string | undefined,
-  collectionName: string,
   dmmfDocument: DmmfDocument,
   mapping: DMMF.Mapping,
 ) {
   const returnTSType = getFieldTSType(
-    method.outputType,
+    action.method.outputType,
     dmmfDocument,
     false,
     mapping.model,
@@ -28,13 +25,13 @@ export function generateCrudResolverClassMethodDeclaration(
         name: `TypeGraphQL.${action.operation}`,
         arguments: [
           `_returns => ${getTypeGraphQLType(
-            method.outputType,
+            action.method.outputType,
             dmmfDocument,
             mapping.model,
             typeName,
           )}`,
           `{
-            nullable: ${!method.outputType.isRequired},
+            nullable: ${!action.method.outputType.isRequired},
             description: undefined
           }`,
         ],
@@ -56,12 +53,12 @@ export function generateCrudResolverClassMethodDeclaration(
             },
           ]
         : []),
-      ...(!argsTypeName
+      ...(!action.argsTypeName
         ? []
         : [
             {
               name: "args",
-              type: argsTypeName,
+              type: action.argsTypeName,
               decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
             },
           ]),
@@ -81,14 +78,14 @@ export function generateCrudResolverClassMethodDeclaration(
                   }),
               );
             }`,
-            `return ctx.prisma.${collectionName}.${action.kind}({
+            `return ctx.prisma.${mapping.collectionName}.${action.kind}({
               ...args,
               ...transformFields(graphqlFields(info as any)),
             });`,
           ]
         : [
-            `return ctx.prisma.${collectionName}.${action.kind}(${
-              argsTypeName ? "args" : ""
+            `return ctx.prisma.${mapping.collectionName}.${action.kind}(${
+              action.argsTypeName ? "args" : ""
             });`,
           ],
   };

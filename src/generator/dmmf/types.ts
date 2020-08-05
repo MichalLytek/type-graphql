@@ -156,6 +156,7 @@ export namespace DMMF {
 
     // additional props
     actions: Action[];
+    collectionName: string;
   }
   // additional type
   export interface Action {
@@ -163,6 +164,9 @@ export namespace DMMF {
     fieldName: string;
     kind: ModelAction;
     operation: "Query" | "Mutation";
+    method: OutputSchemaField;
+    argsTypeName: string | undefined;
+    outputTypeName: string;
   }
   export enum ModelAction {
     findOne = "findOne",
