@@ -33,6 +33,7 @@ import {
 import saveSourceFile from "../utils/saveSourceFile";
 import { GenerateCodeOptions } from "./options";
 import { DmmfDocument } from "./dmmf/dmmf-document";
+import generateArgsTypeClassFromArgs from "./args-class";
 
 export default async function generateCode(
   dmmf: PrismaDMMF.Document,
@@ -107,6 +108,10 @@ export default async function generateCode(
     // skip generating models and root resolvers
     type => !modelNames.includes(type.name) && !rootTypes.includes(type),
   );
+  const outputTypesFieldsArgsToGenerate = outputTypesToGenerate
+    .map(it => it.fields)
+    .reduce((a, b) => a.concat(b), [])
+    .filter(it => it.argsTypeName);
   await Promise.all(
     outputTypesToGenerate.map(type =>
       generateOutputTypeClassFromType(
@@ -118,27 +123,6 @@ export default async function generateCode(
       ),
     ),
   );
-  const argsTypesNames = outputTypesToGenerate
-    .map(it => it.fields)
-    .reduce((a, b) => a.concat(b), [])
-    .map(it => it.argsTypeName)
-    .filter(Boolean) as string[];
-  if (argsTypesNames.length > 0) {
-    const outputsArgsBarrelExportSourceFile = project.createSourceFile(
-      path.resolve(
-        baseDirPath,
-        resolversFolderName,
-        outputsFolderName,
-        argsFolderName,
-        "index.ts",
-      ),
-      undefined,
-      { overwrite: true },
-    );
-    generateArgsBarrelFile(outputsArgsBarrelExportSourceFile, argsTypesNames);
-    await saveSourceFile(outputsArgsBarrelExportSourceFile);
-  }
-
   const outputsBarrelExportSourceFile = project.createSourceFile(
     path.resolve(
       baseDirPath,
@@ -152,9 +136,41 @@ export default async function generateCode(
   generateOutputsBarrelFile(
     outputsBarrelExportSourceFile,
     outputTypesToGenerate.map(it => it.typeName),
-    argsTypesNames.length > 0,
+    outputTypesFieldsArgsToGenerate.length > 0,
   );
   await saveSourceFile(outputsBarrelExportSourceFile);
+
+  if (outputTypesFieldsArgsToGenerate.length > 0) {
+    log("Generating output types args...");
+    await Promise.all(
+      outputTypesFieldsArgsToGenerate.map(async field => {
+        await generateArgsTypeClassFromArgs(
+          project,
+          path.resolve(resolversDirPath, outputsFolderName),
+          field.args,
+          field.argsTypeName!,
+          dmmfDocument,
+          2,
+        );
+      }),
+    );
+    const outputsArgsBarrelExportSourceFile = project.createSourceFile(
+      path.resolve(
+        baseDirPath,
+        resolversFolderName,
+        outputsFolderName,
+        argsFolderName,
+        "index.ts",
+      ),
+      undefined,
+      { overwrite: true },
+    );
+    generateArgsBarrelFile(
+      outputsArgsBarrelExportSourceFile,
+      outputTypesFieldsArgsToGenerate.map(it => it.argsTypeName!),
+    );
+    await saveSourceFile(outputsArgsBarrelExportSourceFile);
+  }
 
   log("Generating input types...");
   await Promise.all(

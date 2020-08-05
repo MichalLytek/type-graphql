@@ -19,12 +19,11 @@ export default async function generateEnumFromDef(
   });
   generateTypeGraphQLImport(sourceFile);
 
-  const documentation = cleanDocsString(enumDef.documentation);
   sourceFile.addEnum({
     isExported: true,
     name: enumDef.typeName,
-    ...(documentation && {
-      docs: [{ description: documentation }],
+    ...(enumDef.docs && {
+      docs: [{ description: enumDef.docs }],
     }),
     members: enumDef.valuesMap.map<OptionalKind<EnumMemberStructure>>(
       ({ name, value }) => ({
@@ -40,7 +39,7 @@ export default async function generateEnumFromDef(
   sourceFile.addStatements([
     `TypeGraphQL.registerEnumType(${enumDef.typeName}, {
       name: "${enumDef.typeName}",
-      description: ${documentation ? `"${documentation}"` : "undefined"},
+      description: ${enumDef.docs ? `"${enumDef.docs}"` : "undefined"},
     });`,
   ]);
 

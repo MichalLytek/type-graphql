@@ -59,7 +59,6 @@ export default async function generateRelationsResolverClassesFromModel(
       const outputTypeField = outputType.fields.find(
         it => it.name === field.name,
       )!;
-      const fieldDocs = cleanDocsString(field.documentation);
 
       let argsTypeName: string | undefined;
       if (outputTypeField.args.length > 0) {
@@ -71,7 +70,7 @@ export default async function generateRelationsResolverClassesFromModel(
           dmmfDocument,
         );
       }
-      return { field, fieldDocs, argsTypeName };
+      return { field, fieldDocs: field.docs, argsTypeName };
     }),
   );
   const argTypeNames = methodsInfo

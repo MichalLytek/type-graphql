@@ -8,6 +8,7 @@ import {
   getTypeGraphQLType,
   getFieldTSType,
   pascalCase,
+  cleanDocsString,
 } from "../helpers";
 import { DmmfDocument } from "./dmmf-document";
 import pluralize from "pluralize";
@@ -46,6 +47,7 @@ export function transformBareModel(model: PrismaDMMF.Model): DMMF.Model {
     ...model,
     typeName: typeName ?? pascalCase(model.name),
     fields: [],
+    docs: cleanDocsString(model.documentation),
   };
 }
 
@@ -73,6 +75,7 @@ function transformField(dmmfDocument: DmmfDocument) {
       typeFieldAlias,
       fieldTSType,
       typeGraphQLType,
+      docs: cleanDocsString(field.documentation),
     };
   };
 }
@@ -107,6 +110,7 @@ function transformInputType(dmmfDocument: DmmfDocument) {
           typeName,
           typeGraphQLType,
           fieldTSType,
+          hasMappedName: field.name !== typeName,
         };
       }),
     };
@@ -154,6 +158,7 @@ function transformOutputType(dmmfDocument: DmmfDocument) {
             typeGraphQLType,
             // TODO: add proper mapping in the future if needed
             typeName: arg.name,
+            hasMappedName: arg.name !== typeName,
           };
         });
         const argsTypeName =
@@ -285,6 +290,7 @@ export function transformEnums(dmmfDocument: DmmfDocument) {
 
     return {
       ...enumDef,
+      docs: cleanDocsString(enumDef.documentation),
       typeName,
       valuesMap: enumDef.values.map(value => ({
         value,

@@ -6,11 +6,12 @@ export namespace DMMF {
   }
   export interface Enum {
     name: string;
-    values: string[];
+    // values: string[];
     dbName?: string | null;
-    documentation?: string;
+    // documentation?: string;
     // additional props
     typeName: string;
+    docs?: string;
     valuesMap: Array<{ name: string; value: string }>;
   }
   export interface Datamodel {
@@ -28,11 +29,12 @@ export namespace DMMF {
     fields: Field[];
     uniqueFields: string[][];
     uniqueIndexes: UniqueIndex[];
-    documentation?: string;
+    // documentation?: string;
     idFields: string[];
     // [key: string]: any;
     // additional props
     typeName: string;
+    docs: string | undefined;
   }
   export type FieldKind = "scalar" | "object" | "enum";
   export interface Field {
@@ -50,12 +52,13 @@ export namespace DMMF {
     relationToFields?: any[];
     relationOnDelete?: string;
     relationName?: string;
-    documentation?: string;
+    // documentation?: string;
     // [key: string]: any;
     // additional props
     typeFieldAlias?: string;
     typeGraphQLType: string;
     fieldTSType: string;
+    docs: string | undefined;
   }
   export interface FieldDefault {
     name: string;
@@ -100,6 +103,7 @@ export namespace DMMF {
     typeName: string;
     typeGraphQLType: string;
     fieldTSType: string;
+    hasMappedName: boolean;
   }
   export interface OutputType {
     name: string;

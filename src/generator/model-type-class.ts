@@ -6,7 +6,6 @@ import {
 } from "ts-morph";
 import path from "path";
 
-import { cleanDocsString } from "./helpers";
 import {
   generateTypeGraphQLImport,
   generateModelsImports,
@@ -54,8 +53,6 @@ export default async function generateObjectTypeClassFromModel(
       .map(field => field.type),
   );
 
-  const modelDocs = cleanDocsString(model.documentation);
-
   sourceFile.addClass({
     name: model.typeName,
     isExported: true,
@@ -65,7 +62,7 @@ export default async function generateObjectTypeClassFromModel(
         arguments: [
           `{
             isAbstract: true,
-            description: ${modelDocs ? `"${modelDocs}"` : "undefined"},
+            description: ${model.docs ? `"${model.docs}"` : "undefined"},
           }`,
         ],
       },
@@ -73,7 +70,6 @@ export default async function generateObjectTypeClassFromModel(
     properties: model.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
         const isOptional = !!field.relationName || !field.isRequired;
-        const fieldDocs = cleanDocsString(field.documentation);
 
         return {
           name: field.name,
@@ -92,15 +88,15 @@ export default async function generateObjectTypeClassFromModel(
                       `{
                         nullable: ${isOptional},
                         description: ${
-                          fieldDocs ? `"${fieldDocs}"` : "undefined"
+                          field.docs ? `"${field.docs}"` : "undefined"
                         },
                       }`,
                     ],
                   },
                 ]),
           ],
-          ...(fieldDocs && {
-            docs: [{ description: fieldDocs }],
+          ...(field.docs && {
+            docs: [{ description: field.docs }],
           }),
         };
       },
@@ -108,8 +104,6 @@ export default async function generateObjectTypeClassFromModel(
     getAccessors: model.fields
       .filter(field => field.typeFieldAlias && !field.relationName)
       .map<OptionalKind<GetAccessorDeclarationStructure>>(field => {
-        const fieldDocs = cleanDocsString(field.documentation);
-
         return {
           name: field.typeFieldAlias!,
           returnType: field.fieldTSType,
@@ -121,19 +115,19 @@ export default async function generateObjectTypeClassFromModel(
                 `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!field.isRequired},
-                  description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
+                  description: ${field.docs ? `"${field.docs}"` : "undefined"},
                 }`,
               ],
             },
           ],
           statements: [`return this.${field.name};`],
-          ...(fieldDocs && {
-            docs: [{ description: fieldDocs }],
+          ...(field.docs && {
+            docs: [{ description: field.docs }],
           }),
         };
       }),
-    ...(modelDocs && {
-      docs: [{ description: modelDocs }],
+    ...(model.docs && {
+      docs: [{ description: model.docs }],
     }),
   });
 
