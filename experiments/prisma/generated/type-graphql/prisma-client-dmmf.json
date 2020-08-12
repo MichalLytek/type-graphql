@@ -925,7 +925,7 @@
                     "type": "postOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -1643,7 +1643,7 @@
                     "type": "MovieOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -1813,7 +1813,7 @@
                     "type": "UserOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -1897,7 +1897,7 @@
                     "type": "UserOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2005,7 +2005,7 @@
                     "type": "postOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2089,7 +2089,7 @@
                     "type": "postOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2197,7 +2197,7 @@
                     "type": "CategoryOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2281,7 +2281,7 @@
                     "type": "CategoryOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2389,7 +2389,7 @@
                     "type": "PatientOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2473,7 +2473,7 @@
                     "type": "PatientOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2581,7 +2581,7 @@
                     "type": "MovieOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2665,7 +2665,7 @@
                     "type": "MovieOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2773,7 +2773,7 @@
                     "type": "DirectorOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -2857,7 +2857,7 @@
                     "type": "DirectorOrderByInput",
                     "kind": "object",
                     "isRequired": false,
-                    "isList": false,
+                    "isList": true,
                     "isNullable": false
                   }
                 ]
@@ -4654,7 +4654,7 @@
       },
       {
         "name": "UserOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "id",
@@ -4776,7 +4776,7 @@
       },
       {
         "name": "postOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "uuid",
@@ -5016,7 +5016,7 @@
       },
       {
         "name": "CategoryOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "name",
@@ -5214,7 +5214,7 @@
       },
       {
         "name": "PatientOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "firstName",
@@ -5525,7 +5525,7 @@
       },
       {
         "name": "MovieOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "directorFirstName",
@@ -5629,7 +5629,7 @@
       },
       {
         "name": "DirectorOrderByInput",
-        "isOneOf": false,
+        "isOneOf": true,
         "fields": [
           {
             "name": "firstName",

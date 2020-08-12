@@ -13,6 +13,7 @@ export class DmmfDocument implements DMMF.Document {
   private models: DMMF.Model[];
   datamodel: DMMF.Datamodel;
   schema: DMMF.Schema;
+  enums: DMMF.Enum[];
   mappings: DMMF.Mapping[];
 
   constructor(
@@ -28,7 +29,11 @@ export class DmmfDocument implements DMMF.Document {
       models: this.models,
       enums: datamodel.enums.map(transformEnums(this)),
     };
-    this.schema = transformSchema(schema, this);
+    this.enums = schema.enums.map(transformEnums(this));
+    this.schema = {
+      ...transformSchema(schema, this),
+      enums: this.enums,
+    };
     this.mappings = transformMappings(mappings, this, options);
   }
 

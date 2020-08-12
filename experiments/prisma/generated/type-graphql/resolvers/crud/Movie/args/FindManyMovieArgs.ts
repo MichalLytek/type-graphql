@@ -10,8 +10,8 @@ export class FindManyMovieArgs {
   @TypeGraphQL.Field(_type => MovieWhereInput, { nullable: true })
   where?: MovieWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => MovieOrderByInput, { nullable: true })
-  orderBy?: MovieOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [MovieOrderByInput], { nullable: true })
+  orderBy?: MovieOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => MovieWhereUniqueInput, { nullable: true })
   cursor?: MovieWhereUniqueInput | undefined;

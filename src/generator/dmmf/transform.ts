@@ -18,9 +18,8 @@ import { supportedQueryActions, supportedMutationActions } from "../config";
 export function transformSchema(
   datamodel: PrismaDMMF.Schema,
   dmmfDocument: DmmfDocument,
-): DMMF.Schema {
+): Omit<DMMF.Schema, "enums"> {
   return {
-    enums: datamodel.enums.map(transformEnums(dmmfDocument)),
     inputTypes: datamodel.inputTypes.map(transformInputType(dmmfDocument)),
     outputTypes: datamodel.outputTypes.map(transformOutputType(dmmfDocument)),
     rootMutationType: datamodel.rootMutationType,
@@ -260,14 +259,19 @@ function selectInputTypeFromTypes(dmmfDocument: DmmfDocument) {
       inputTypes.find(it => it.kind === "object") ||
       inputTypes.find(it => it.kind === "enum") ||
       inputTypes[0];
-    const inputType = selectedInputType.type as string;
+
+    let inputType = selectedInputType.type as string;
+    if (selectedInputType.kind === "enum") {
+      const enumDef = dmmfDocument.enums.find(it => it.name === inputType)!;
+      inputType = enumDef.typeName;
+    } else if (selectedInputType.kind === "object") {
+      inputType = getInputTypeName(inputType, dmmfDocument);
+    }
+
     return {
       ...selectedInputType,
       argType: selectedInputType.type as DMMF.ArgType, // input type mapping
-      type:
-        selectedInputType.kind === "object"
-          ? getInputTypeName(inputType, dmmfDocument)
-          : inputType,
+      type: inputType,
     };
   };
 }

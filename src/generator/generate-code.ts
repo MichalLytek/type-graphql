@@ -50,7 +50,7 @@ export default async function generateCode(
 
   log("Generating enums...");
   const datamodelEnumNames = dmmfDocument.datamodel.enums.map(
-    enumDef => enumDef.name,
+    enumDef => enumDef.typeName,
   );
   await Promise.all(
     dmmfDocument.datamodel.enums.map(enumDef =>
@@ -60,13 +60,13 @@ export default async function generateCode(
   await Promise.all(
     dmmfDocument.schema.enums
       // skip enums from datamodel
-      .filter(enumDef => !datamodelEnumNames.includes(enumDef.name))
+      .filter(enumDef => !datamodelEnumNames.includes(enumDef.typeName))
       .map(enumDef => generateEnumFromDef(project, baseDirPath, enumDef)),
   );
   const emittedEnumNames = [
     ...new Set([
-      ...dmmfDocument.schema.enums.map(it => it.name),
-      ...dmmfDocument.datamodel.enums.map(it => it.name),
+      ...dmmfDocument.schema.enums.map(it => it.typeName),
+      ...dmmfDocument.datamodel.enums.map(it => it.typeName),
     ]),
   ];
   const enumsBarrelExportSourceFile = project.createSourceFile(

@@ -1,4 +1,5 @@
 export { CategoryDistinctFieldEnum } from "./CategoryDistinctFieldEnum";
+export { ClientDistinctFieldEnum } from "./ClientDistinctFieldEnum";
 export { DirectorDistinctFieldEnum } from "./DirectorDistinctFieldEnum";
 export { MovieDistinctFieldEnum } from "./MovieDistinctFieldEnum";
 export { PatientDistinctFieldEnum } from "./PatientDistinctFieldEnum";
@@ -6,4 +7,3 @@ export { PostDistinctFieldEnum } from "./PostDistinctFieldEnum";
 export { PostKind } from "./PostKind";
 export { Role } from "./Role";
 export { SortOrder } from "./SortOrder";
-export { UserDistinctFieldEnum } from "./UserDistinctFieldEnum";

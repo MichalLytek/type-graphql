@@ -19,9 +19,11 @@ exports[`custom resolvers execution should be possible to use generated inputs, 
 Array [
   Array [
     FindManyPostArgs {
-      "orderBy": PostOrderByInput {
-        "color": "desc",
-      },
+      "orderBy": Array [
+        PostOrderByInput {
+          "color": "desc",
+        },
+      ],
       "skip": 1,
       "take": 1,
       "where": PostWhereInput {
@@ -79,7 +81,7 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  customFindManyPost(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  customFindManyPost(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
 }
 
 enum SortOrder {

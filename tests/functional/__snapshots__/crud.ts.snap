@@ -13,9 +13,11 @@ Array [
   Array [
     Object {
       "count": true,
-      "orderBy": UserOrderByInput {
-        "intIdField": "desc",
-      },
+      "orderBy": Array [
+        UserOrderByInput {
+          "intIdField": "desc",
+        },
+      ],
       "skip": 1,
       "take": 1,
       "where": UserWhereInput {
@@ -98,9 +100,11 @@ exports[`crud resolvers execution with default settings should properly call Pri
 Array [
   Array [
     FindManyUserArgs {
-      "orderBy": UserOrderByInput {
-        "intIdField": "desc",
-      },
+      "orderBy": Array [
+        UserOrderByInput {
+          "intIdField": "desc",
+        },
+      ],
       "skip": 1,
       "take": 1,
       "where": UserWhereInput {
@@ -271,9 +275,11 @@ Array [
         "floatField": true,
         "intField": true,
       },
-      "orderBy": UserOrderByInput {
-        "intField": "desc",
-      },
+      "orderBy": Array [
+        UserOrderByInput {
+          "intField": "desc",
+        },
+      ],
       "skip": 1,
       "sum": Object {
         "floatField": true,

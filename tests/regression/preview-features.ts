@@ -127,6 +127,35 @@ describe("preview features", () => {
     });
   });
 
+  describe("when both distinct and aggregations features are enabled", () => {
+    it("should properly generate distinct enum arg field and import when model is renamed", async () => {
+      const schema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        /// @@TypeGraphQL.type("ExampleModel")
+        model SampleModel {
+          intIdField   Int     @id @default(autoincrement())
+          stringField  String  @unique
+          intField     Int
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["distinct", "aggregations"],
+      });
+      const aggregateExampleModelArgsTSFile = await readGeneratedFile(
+        "/resolvers/crud/ExampleModel/args/AggregateExampleModelArgs.ts",
+      );
+
+      expect(aggregateExampleModelArgsTSFile).toMatchSnapshot(
+        "AggregateExampleModelArgs",
+      );
+    });
+  });
+
   describe("when `connectOrCreate` is enabled", () => {
     it("should properly generate input type classes for connectOrCreate", async () => {
       const schema = /* prisma */ `

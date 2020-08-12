@@ -52,7 +52,7 @@ input NullableStringFilter {
 }
 
 type Query {
-  users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
+  users(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 enum SortOrder {

@@ -54,14 +54,14 @@ query FindClients {
     where: {
       OR: [{ email: { contains: "test3" } }, { role: { equals: ADMIN } }]
     }
-    distinct: [name]
+    distinct: [firstName]
   ) {
     ...ClientData
   }
 }
 
 query SortAllClients {
-  clients(orderBy: { firstName: asc, id: desc }) {
+  clients(orderBy: [{ firstName: asc }, { id: desc }]) {
     ...ClientData
   }
 }

@@ -173,8 +173,8 @@ export class AggregateUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
   where?: UserWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
-  orderBy?: UserOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
+  orderBy?: UserOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
   cursor?: UserWhereUniqueInput | undefined;
@@ -239,8 +239,8 @@ export class FindManyUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
   where?: UserWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
-  orderBy?: UserOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
+  orderBy?: UserOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
   cursor?: UserWhereUniqueInput | undefined;
@@ -856,8 +856,8 @@ export class AggregateClientArgs {
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
   where?: ClientWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => ClientOrderByInput, { nullable: true })
-  orderBy?: ClientOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [ClientOrderByInput], { nullable: true })
+  orderBy?: ClientOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
   cursor?: ClientWhereUniqueInput | undefined;
@@ -922,8 +922,8 @@ export class FindManyClientArgs {
   @TypeGraphQL.Field(_type => ClientWhereInput, { nullable: true })
   where?: ClientWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => ClientOrderByInput, { nullable: true })
-  orderBy?: ClientOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [ClientOrderByInput], { nullable: true })
+  orderBy?: ClientOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => ClientWhereUniqueInput, { nullable: true })
   cursor?: ClientWhereUniqueInput | undefined;

@@ -10,8 +10,8 @@ export class FindManyPatientArgs {
   @TypeGraphQL.Field(_type => PatientWhereInput, { nullable: true })
   where?: PatientWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => PatientOrderByInput, { nullable: true })
-  orderBy?: PatientOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [PatientOrderByInput], { nullable: true })
+  orderBy?: PatientOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => PatientWhereUniqueInput, { nullable: true })
   cursor?: PatientWhereUniqueInput | undefined;

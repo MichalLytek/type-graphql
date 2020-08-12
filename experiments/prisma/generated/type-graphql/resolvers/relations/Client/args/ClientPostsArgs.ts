@@ -10,8 +10,8 @@ export class ClientPostsArgs {
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
   where?: PostWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => PostOrderByInput, { nullable: true })
-  orderBy?: PostOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [PostOrderByInput], { nullable: true })
+  orderBy?: PostOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => PostWhereUniqueInput, { nullable: true })
   cursor?: PostWhereUniqueInput | undefined;

@@ -157,8 +157,8 @@ export class AggregateUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
   where?: UserWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
-  orderBy?: UserOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
+  orderBy?: UserOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
   cursor?: UserWhereUniqueInput | undefined;
@@ -188,8 +188,8 @@ export class FindManyUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
   where?: UserWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserOrderByInput, { nullable: true })
-  orderBy?: UserOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
+  orderBy?: UserOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
   cursor?: UserWhereUniqueInput | undefined;
@@ -237,7 +237,7 @@ TypeGraphQL.registerEnumType(ExampleModelDistinctFieldEnum, {
 `;
 
 exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model is renamed: enums index 1`] = `
-"export { SampleModelDistinctFieldEnum } from \\"./SampleModelDistinctFieldEnum\\";
+"export { ExampleModelDistinctFieldEnum } from \\"./ExampleModelDistinctFieldEnum\\";
 export { SortOrder } from \\"./SortOrder\\";
 "
 `;
@@ -260,5 +260,36 @@ TypeGraphQL.registerEnumType(SampleModelDistinctFieldEnum, {
 exports[`preview features when \`distinct\` is enabled should properly generate model distinct field enum: enums index 1`] = `
 "export { SampleModelDistinctFieldEnum } from \\"./SampleModelDistinctFieldEnum\\";
 export { SortOrder } from \\"./SortOrder\\";
+"
+`;
+
+exports[`preview features when both distinct and aggregations features are enabled should properly generate distinct enum arg field and import when model is renamed: AggregateExampleModelArgs 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { ExampleModelOrderByInput } from \\"../../../inputs/ExampleModelOrderByInput\\";
+import { ExampleModelWhereInput } from \\"../../../inputs/ExampleModelWhereInput\\";
+import { ExampleModelWhereUniqueInput } from \\"../../../inputs/ExampleModelWhereUniqueInput\\";
+import { ExampleModelDistinctFieldEnum } from \\"../../../../enums/ExampleModelDistinctFieldEnum\\";
+
+@TypeGraphQL.ArgsType()
+export class AggregateExampleModelArgs {
+  @TypeGraphQL.Field(_type => ExampleModelWhereInput, { nullable: true })
+  where?: ExampleModelWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => [ExampleModelOrderByInput], { nullable: true })
+  orderBy?: ExampleModelOrderByInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => ExampleModelWhereUniqueInput, { nullable: true })
+  cursor?: ExampleModelWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
+  skip?: number | undefined;
+
+  @TypeGraphQL.Field(_type => [ExampleModelDistinctFieldEnum], { nullable: true })
+  distinct?: Array<keyof typeof ExampleModelDistinctFieldEnum> | undefined;
+}
 "
 `;

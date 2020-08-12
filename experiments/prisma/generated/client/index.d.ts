@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.4.0
- * Query Engine version: 6c777331554df4c3e0a90dd841339c7b0619d0e1
+ * Prisma Client JS version: 2.4.1
+ * Query Engine version: 195d4bdc2d16132977f4ba7a8ca312f7906cb086
  */
 export declare type PrismaVersion = {
   client: string
@@ -606,7 +606,7 @@ export type UserMaxAggregateInputType = {
 
 export type AggregateUserArgs = {
   where?: UserWhereInput
-  orderBy?: UserOrderByInput
+  orderBy?: Enumerable<UserOrderByInput>
   cursor?: UserWhereUniqueInput
   take?: number
   skip?: number
@@ -901,7 +901,7 @@ export type FindManyUserArgs = {
   /**
    * Determine the order of the Users to fetch.
   **/
-  orderBy?: UserOrderByInput
+  orderBy?: Enumerable<UserOrderByInput>
   /**
    * Sets the position for listing Users.
   **/
@@ -1099,7 +1099,7 @@ export type PostMaxAggregateInputType = {
 
 export type AggregatePostArgs = {
   where?: postWhereInput
-  orderBy?: postOrderByInput
+  orderBy?: Enumerable<postOrderByInput>
   cursor?: postWhereUniqueInput
   take?: number
   skip?: number
@@ -1396,7 +1396,7 @@ export type FindManypostArgs = {
   /**
    * Determine the order of the posts to fetch.
   **/
-  orderBy?: postOrderByInput
+  orderBy?: Enumerable<postOrderByInput>
   /**
    * Sets the position for listing posts.
   **/
@@ -1588,7 +1588,7 @@ export type CategoryMaxAggregateInputType = {
 
 export type AggregateCategoryArgs = {
   where?: CategoryWhereInput
-  orderBy?: CategoryOrderByInput
+  orderBy?: Enumerable<CategoryOrderByInput>
   cursor?: CategoryWhereUniqueInput
   take?: number
   skip?: number
@@ -1860,7 +1860,7 @@ export type FindManyCategoryArgs = {
   /**
    * Determine the order of the Categories to fetch.
   **/
-  orderBy?: CategoryOrderByInput
+  orderBy?: Enumerable<CategoryOrderByInput>
   /**
    * Sets the position for listing Categories.
   **/
@@ -1997,7 +1997,7 @@ export type AggregatePatient = {
 
 export type AggregatePatientArgs = {
   where?: PatientWhereInput
-  orderBy?: PatientOrderByInput
+  orderBy?: Enumerable<PatientOrderByInput>
   cursor?: PatientWhereUniqueInput
   take?: number
   skip?: number
@@ -2263,7 +2263,7 @@ export type FindManyPatientArgs = {
   /**
    * Determine the order of the Patients to fetch.
   **/
-  orderBy?: PatientOrderByInput
+  orderBy?: Enumerable<PatientOrderByInput>
   /**
    * Sets the position for listing Patients.
   **/
@@ -2400,7 +2400,7 @@ export type AggregateMovie = {
 
 export type AggregateMovieArgs = {
   where?: MovieWhereInput
-  orderBy?: MovieOrderByInput
+  orderBy?: Enumerable<MovieOrderByInput>
   cursor?: MovieWhereUniqueInput
   take?: number
   skip?: number
@@ -2685,7 +2685,7 @@ export type FindManyMovieArgs = {
   /**
    * Determine the order of the Movies to fetch.
   **/
-  orderBy?: MovieOrderByInput
+  orderBy?: Enumerable<MovieOrderByInput>
   /**
    * Sets the position for listing Movies.
   **/
@@ -2841,7 +2841,7 @@ export type AggregateDirector = {
 
 export type AggregateDirectorArgs = {
   where?: DirectorWhereInput
-  orderBy?: DirectorOrderByInput
+  orderBy?: Enumerable<DirectorOrderByInput>
   cursor?: DirectorWhereUniqueInput
   take?: number
   skip?: number
@@ -3125,7 +3125,7 @@ export type FindManyDirectorArgs = {
   /**
    * Determine the order of the Directors to fetch.
   **/
-  orderBy?: DirectorOrderByInput
+  orderBy?: Enumerable<DirectorOrderByInput>
   /**
    * Sets the position for listing Directors.
   **/

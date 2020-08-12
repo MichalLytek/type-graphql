@@ -10,8 +10,8 @@ export class AggregateCategoryArgs {
   @TypeGraphQL.Field(_type => CategoryWhereInput, { nullable: true })
   where?: CategoryWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => CategoryOrderByInput, { nullable: true })
-  orderBy?: CategoryOrderByInput | undefined;
+  @TypeGraphQL.Field(_type => [CategoryOrderByInput], { nullable: true })
+  orderBy?: CategoryOrderByInput[] | undefined;
 
   @TypeGraphQL.Field(_type => CategoryWhereUniqueInput, { nullable: true })
   cursor?: CategoryWhereUniqueInput | undefined;
