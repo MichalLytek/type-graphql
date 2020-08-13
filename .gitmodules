@@ -1,0 +1,3 @@
+[submodule "examples/mikro-orm-basic-usage"]
+	path = examples/mikro-orm-basic-usage
+	url = https://github.com/driescroons/mikro-orm-graphql-example
