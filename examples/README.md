@@ -36,6 +36,7 @@ So if you are looking for examples that are compatible with the version you use,
 
 - [TypeORM (manual, synchronous) \*](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
+- [MikroOrm \*](https://github.com/driescroons/mikro-orm-graphql-example)
 - [Typegoose](./typegoose)
 - [Apollo federation](./apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
