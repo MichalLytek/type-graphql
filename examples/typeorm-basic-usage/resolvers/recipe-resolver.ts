@@ -66,7 +66,7 @@ export class RecipeResolver {
   ratings(@Root() recipe: Recipe) {
     return this.ratingsRepository.find({
       cache: 1000,
-      where: { recipeId: recipe.id },
+      where: { recipe: { id: recipe.id } },
     });
   }
 

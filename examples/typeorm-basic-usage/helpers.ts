@@ -1,4 +1,4 @@
-import { getRepository, Column, ColumnOptions } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { Recipe } from "./entities/recipe";
 import { Rate } from "./entities/rate";
@@ -43,8 +43,4 @@ export async function seedDatabase() {
   return {
     defaultUser,
   };
-}
-
-export function RelationColumn(options?: ColumnOptions) {
-  return Column({ nullable: true, ...options });
 }
