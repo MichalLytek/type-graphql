@@ -73,7 +73,7 @@
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   publicField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   complexField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -91,7 +91,7 @@ You can use it with <code>express-graphql</code> like <a href="https://github.co
     plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
       <span class="token punctuation">{</span>
         <span class="token function-variable function">requestDidStart</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-          <span class="token function">didResolveOperation</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> request<span class="token punctuation">,</span> document <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">didResolveOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span> request<span class="token punctuation">,</span> document <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token comment">/**
              * This provides GraphQL query analysis to be able to react on complex queries to your GraphQL server.
              * This can be used to protect your GraphQL servers against resource exhaustion and DoS attacks.

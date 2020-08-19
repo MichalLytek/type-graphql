@@ -73,7 +73,7 @@
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> complexity<span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   publicField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function-variable function">complexity</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> args<span class="token punctuation">,</span> childComplexity <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> childComplexity <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   complexField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -88,7 +88,7 @@ Complexity can be passed as an option to any <code>@Field</code>, <code>@FieldRe
   port<span class="token operator">:</span> <span class="token number">4000</span><span class="token punctuation">,</span>
   endpoint<span class="token operator">:</span> <span class="token string">"/graphql"</span><span class="token punctuation">,</span>
   playground<span class="token operator">:</span> <span class="token string">"/playground"</span><span class="token punctuation">,</span>
-  <span class="token function-variable function">validationRules</span><span class="token operator">:</span> <span class="token parameter">req</span> <span class="token operator">=></span> <span class="token punctuation">[</span>
+  <span class="token function-variable function">validationRules</span><span class="token operator">:</span> req <span class="token operator">=></span> <span class="token punctuation">[</span>
     <span class="token function">queryComplexity</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
       <span class="token comment">// The maximum allowed query complexity, queries above this threshold will be rejected</span>
       maximumComplexity<span class="token operator">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
@@ -98,7 +98,7 @@ Complexity can be passed as an option to any <code>@Field</code>, <code>@FieldRe
       <span class="token comment">// Optional callback function to retrieve the determined query complexity</span>
       <span class="token comment">// Will be invoked whether the query is rejected or not</span>
       <span class="token comment">// This can be used for logging or to implement rate limiting</span>
-      <span class="token function-variable function">onComplete</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">complexity<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token function-variable function">onComplete</span><span class="token operator">:</span> <span class="token punctuation">(</span>complexity<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
         <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Query Complexity:"</span><span class="token punctuation">,</span> complexity<span class="token punctuation">)</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
       estimators<span class="token operator">:</span> <span class="token punctuation">[</span>
@@ -115,7 +115,7 @@ Complexity can be passed as an option to any <code>@Field</code>, <code>@FieldRe
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Start the server</span>
-server<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>serverOptions<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> port<span class="token punctuation">,</span> playground <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+server<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>serverOptions<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> port<span class="token punctuation">,</span> playground <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
     <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server is running, GraphQL Playground available at http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>playground<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
   <span class="token punctuation">)</span><span class="token punctuation">;</span>

@@ -117,8 +117,8 @@ By default the roles are of type <code>string</code> but they can easily be chan
 <p>Authorized users (regardless of their roles) will be able to read data from the <code>publicQuery</code> and the <code>authedQuery</code> queries, but will receive an error when trying to perform the <code>adminMutation</code> when their roles don't include <code>ADMIN</code> or <code>MODERATOR</code>.</p>
 <p>Next, we need to create our auth checker function. Its implementation may depend on our business logic:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> customAuthChecker<span class="token operator">:</span> AuthChecker<span class="token operator">&lt;</span>ContextType<span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">(</span>
-  <span class="token parameter"><span class="token punctuation">{</span> root<span class="token punctuation">,</span> args<span class="token punctuation">,</span> context<span class="token punctuation">,</span> info <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  roles<span class="token punctuation">,</span></span>
+  <span class="token punctuation">{</span> root<span class="token punctuation">,</span> args<span class="token punctuation">,</span> context<span class="token punctuation">,</span> info <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  roles<span class="token punctuation">,</span>
 <span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token comment">// here we can read the user from context</span>
   <span class="token comment">// and check his permission in the db against the `roles` argument</span>
@@ -162,7 +162,7 @@ Here's an example using <code>apollo-server-express</code>:</p>
 <span class="token comment">// Create a GraphQL server</span>
 <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   schema<span class="token punctuation">,</span>
-  <span class="token function-variable function">context</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> req <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">context</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> req <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token punctuation">{</span>
       req<span class="token punctuation">,</span>
       user<span class="token operator">:</span> req<span class="token punctuation">.</span>user<span class="token punctuation">,</span> <span class="token comment">// `req.user` comes from `express-jwt`</span>

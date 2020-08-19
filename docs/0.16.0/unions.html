@@ -80,7 +80,7 @@
   @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token parameter"><span class="token keyword">type</span></span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">=></span> Int<span class="token punctuation">)</span>
   age<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -97,7 +97,7 @@ Notice, that due to TypeScript's reflection limitation, you have to explicitly u
 For TS compile-time type safety you can also use <code>typeof SearchResultUnion</code> which is equal to type <code>Movie | Actor</code>.</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">SearchResolver</span> <span class="token punctuation">{</span>
-  @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token parameter">returns</span> <span class="token operator">=></span> <span class="token punctuation">[</span>SearchResultUnion<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  @<span class="token function">Query</span><span class="token punctuation">(</span>returns <span class="token operator">=></span> <span class="token punctuation">[</span>SearchResultUnion<span class="token punctuation">]</span><span class="token punctuation">)</span>
   <span class="token keyword">async</span> <span class="token function">search</span><span class="token punctuation">(</span>
     @<span class="token function">Arg</span><span class="token punctuation">(</span><span class="token string">"phrase"</span><span class="token punctuation">)</span> phrase<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
   <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token keyword">typeof</span> SearchResultUnion<span class="token operator">>></span> <span class="token punctuation">{</span>
