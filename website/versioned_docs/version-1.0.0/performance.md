@@ -1,6 +1,6 @@
 ---
 title: Performance
-id: version-1.0.0-rc.1-performance
+id: version-1.0.0-performance
 original_id: performance
 ---
 

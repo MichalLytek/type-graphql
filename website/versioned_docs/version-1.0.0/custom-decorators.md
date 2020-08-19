@@ -1,6 +1,6 @@
 ---
 title: Custom decorators
-id: version-1.0.0-rc.1-custom-decorators
+id: version-1.0.0-custom-decorators
 original_id: custom-decorators
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Bootstrapping
-id: version-1.0.0-rc.3-bootstrap
+id: version-1.0.0-bootstrap
 original_id: bootstrap
 ---
 

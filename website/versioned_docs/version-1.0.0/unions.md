@@ -1,6 +1,6 @@
 ---
 title: Unions
-id: version-1.0.0-rc.1-unions
+id: version-1.0.0-unions
 original_id: unions
 ---
 

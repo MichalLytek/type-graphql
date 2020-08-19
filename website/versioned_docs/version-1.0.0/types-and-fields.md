@@ -1,6 +1,6 @@
 ---
 title: Types and Fields
-id: version-1.0.0-rc.1-types-and-fields
+id: version-1.0.0-types-and-fields
 original_id: types-and-fields
 ---
 
@@ -49,12 +49,8 @@ class Recipe {
 }
 ```
 
-For simple types (like `string` or `boolean`) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like `Array` or `Promise`). So to declare the `Rate[]` type, we have two options available:
-
-- `@Field(type => [Rate])` (recommended, explicit `[ ]` syntax for Array types)
-- `@Field(itemType => Rate)` (`array` is inferred from reflection - also works but is prone to errors)
-
-For nested arrays however, the explicit `[ ]` notation is required to determine the depth of the array. `@Field(type => [[Int]])` would tell the compiler we expect an integer array of depth 2.
+For simple types (like `string` or `boolean`) this is all that's needed but due to a limitation in TypeScript's reflection, we need to provide info about generic types (like `Array` or `Promise`). So to declare the `Rate[]` type, we have to use the explicit `[ ]` syntax for array types - `@Field(type => [Rate])`.
+For nested arrays, we just use the explicit `[ ]` notation to determine the depth of the array, e.g. `@Field(type => [[Int]])` would tell the compiler we expect an integer array of depth 2.
 
 Why use function syntax and not a simple `{ type: Rate }` config object? Because, by using function syntax we solve the problem of circular dependencies (e.g. Post <--> User), so it was adopted as a convention. You can use the shorthand syntax `@Field(() => Rate)` if you want to save some keystrokes but it might be less readable for others.
 
@@ -127,3 +123,5 @@ As we can see, for the `id` property of `Recipe` we passed `type => ID` and for 
 Also the `user` property doesn't have a `@Field()` decorator - this way we can hide some properties of our data model. In this case, we need to store the `user` field of the `Rate` object to the database in order to prevent multiple rates, but we don't want to make it publicly accessible.
 
 Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
+
+Be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of object type classes under the hood by itself.

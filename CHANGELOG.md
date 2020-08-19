@@ -1,32 +1,17 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.3.0`
-- update `graphql-query-complexity` dependency to `^0.7.0`
 
-## v1.0.0-rc.3
-### Features
-- **Breaking Change**: remove legacy array inference - now explicit array syntax (`[Item]`) is required
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.1.0`
-- update deps to newest major versions (`tslib`, `graphql-query-complexity`)
-
-## v1.0.0-rc.2
-### Features
-- expose `createResolversMap` utility that generates apollo-like resolvers object
-- support IoC containers which `.get()` method returns a `Promise` of resolver instance
-### Fixes
-- properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
-- skip transforming empty array items into input classes
-
-## v1.0.0-rc.1
+## v1.0.0
 ### Features
 - **Breaking Change**: emit in schema only types actually used by provided resolvers classes (#415)
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.0.0`
-- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.5.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
+- **Breaking Change**: update `graphql-js` peer dependency to `^15.3.0`
+- **Breaking Change**: update `graphql-query-complexity` dependency to `^0.7.0` and drop support for `fieldConfigEstimator` (use `fieldExtensionsEstimator` instead)
 - **Breaking Change**: introduce `sortedSchema` option in `PrintSchemaOptions` and emit sorted schema file by default
 - **Breaking Change**: make `class-validator` a peer dependency of version `>=0.12.0` that needs to be installed manually (#366)
 - **Breaking Change**: remove `CannotDetermineTypeError` and make other error messages more detailed and specific
+- **Breaking Change**: remove legacy array inference - now explicit array syntax (`[Item]`) is required
 - update `TypeResolver` interface to match with `GraphQLTypeResolver` from `graphql-js`
 - add basic support for directives with `@Directive()` decorator (#369)
 - add possibility to tune up the performance and disable auth & middlewares stack for simple field resolvers (#479)
@@ -35,10 +20,13 @@
 - add support for defining arguments and implementing resolvers for interface types fields (#579)
 - add `{ autoRegisterImplementations: false }` option to prevent automatic emitting in schema all the object types that implements used interface type (#595)
 - allow interfaces to implement other interfaces (#602)
+- expose `createResolversMap` utility that generates apollo-like resolvers object
+- support IoC containers which `.get()` method returns a `Promise` of resolver instance
+- update deps to newest major versions (`tslib`, `graphql-query-complexity`)
 ### Fixes
 - **Breaking Change**: stop returning null for `GraphQLTimestamp` and `GraphQLISODateTime` scalars when returned value is not a `Date` instance - now it throws explicit error instead
+- **Breaking Change**: fix transforming and validating nested inputs and arrays (#462)
 - refactor union types function syntax handling to prevent possible errors with circular refs
-- fix transforming and validating nested inputs and arrays (#462)
 - remove duplicated entries for resolver classes that use inheritance (#499)
 - fix using `name` option on interface fields (#567)
 - fix not calling `authChecker` during subscribe phase for subscriptions (#578)
@@ -47,6 +35,8 @@
 - fix calling field resolver without providing resolver class to `buildSchema`
 - fix generated TS union type for union type of object type classes extending themselves (#587)
 - fix using shared union and interface types in multiple schemas when `resolveType` is used
+- properly inherit directives while extending `@InputType` or `@ObjectType` classes (#626)
+- skip transforming empty array items into input classes
 ### Others
 - **Breaking Change**: change build config to ES2018 - drop support for Node.js < 10.3
 - **Breaking Change**: remove deprecated `DepreciationOptions` interface

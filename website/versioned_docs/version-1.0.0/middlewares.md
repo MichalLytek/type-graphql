@@ -1,6 +1,6 @@
 ---
 title: Middleware and guards
-id: version-1.0.0-rc.1-middlewares
+id: version-1.0.0-middlewares
 original_id: middlewares
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Browser usage
-id: version-1.0.0-rc.3-browser-usage
+id: version-1.0.0-browser-usage
 original_id: browser-usage
 ---
 

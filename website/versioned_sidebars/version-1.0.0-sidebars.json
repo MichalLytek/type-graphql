@@ -1,0 +1,52 @@
+{
+  "version-1.0.0-docs": {
+    "Introduction": [
+      "version-1.0.0-introduction"
+    ],
+    "Beginner guides": [
+      "version-1.0.0-installation",
+      "version-1.0.0-getting-started",
+      "version-1.0.0-types-and-fields",
+      "version-1.0.0-resolvers",
+      "version-1.0.0-bootstrap"
+    ],
+    "Advanced guides": [
+      "version-1.0.0-scalars",
+      "version-1.0.0-enums",
+      "version-1.0.0-unions",
+      "version-1.0.0-interfaces",
+      "version-1.0.0-subscriptions",
+      "version-1.0.0-directives",
+      "version-1.0.0-extensions"
+    ],
+    "Features": [
+      "version-1.0.0-dependency-injection",
+      "version-1.0.0-authorization",
+      "version-1.0.0-validation",
+      "version-1.0.0-inheritance",
+      "version-1.0.0-generic-types",
+      "version-1.0.0-middlewares",
+      "version-1.0.0-custom-decorators",
+      "version-1.0.0-complexity"
+    ],
+    "Integrations": [
+      "version-1.0.0-prisma",
+      "version-1.0.0-nestjs"
+    ],
+    "Others": [
+      "version-1.0.0-emit-schema",
+      "version-1.0.0-performance",
+      "version-1.0.0-browser-usage"
+    ]
+  },
+  "version-1.0.0-examples": {
+    "Examples": [
+      "version-1.0.0-examples"
+    ]
+  },
+  "version-1.0.0-others": {
+    "Others": [
+      "version-1.0.0-faq"
+    ]
+  }
+}

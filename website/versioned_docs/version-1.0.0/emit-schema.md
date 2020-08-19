@@ -1,6 +1,6 @@
 ---
 title: Emitting the schema SDL
-id: version-1.0.0-rc.1-emit-schema
+id: version-1.0.0-emit-schema
 original_id: emit-schema
 ---
 

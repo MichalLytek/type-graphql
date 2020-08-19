@@ -1,6 +1,6 @@
 ---
 title: Subscriptions
-id: version-1.0.0-rc.1-subscriptions
+id: version-1.0.0-subscriptions
 original_id: subscriptions
 ---
 

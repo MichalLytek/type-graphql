@@ -1,6 +1,6 @@
 ---
 title: Query complexity
-id: version-1.0.0-rc.1-complexity
+id: version-1.0.0-complexity
 original_id: complexity
 ---
 

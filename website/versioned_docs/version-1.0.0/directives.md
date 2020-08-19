@@ -1,6 +1,6 @@
 ---
 title: Directives
-id: version-1.0.0-rc.1-directives
+id: version-1.0.0-directives
 original_id: directives
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Extensions
-id: version-1.0.0-rc.1-extensions
+id: version-1.0.0-extensions
 original_id: extensions
 ---
 

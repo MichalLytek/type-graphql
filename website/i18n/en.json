@@ -374,87 +374,78 @@
       "version-0.17.6/version-0.17.6-custom-decorators": {
         "title": "Custom decorators"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-bootstrap": {
+      "version-1.0.0/version-1.0.0-bootstrap": {
         "title": "Bootstrapping"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-browser-usage": {
+      "version-1.0.0/version-1.0.0-browser-usage": {
         "title": "Browser usage"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-complexity": {
+      "version-1.0.0/version-1.0.0-complexity": {
         "title": "Query complexity"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-custom-decorators": {
+      "version-1.0.0/version-1.0.0-custom-decorators": {
         "title": "Custom decorators"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-dependency-injection": {
+      "version-1.0.0/version-1.0.0-dependency-injection": {
         "title": "Dependency injection"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-directives": {
+      "version-1.0.0/version-1.0.0-directives": {
         "title": "Directives"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-emit-schema": {
+      "version-1.0.0/version-1.0.0-emit-schema": {
         "title": "Emitting the schema SDL"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-examples": {
+      "version-1.0.0/version-1.0.0-examples": {
         "title": "Examples",
         "sidebar_label": "List of examples"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-extensions": {
+      "version-1.0.0/version-1.0.0-extensions": {
         "title": "Extensions"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-generic-types": {
+      "version-1.0.0/version-1.0.0-generic-types": {
         "title": "Generic Types"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-getting-started": {
+      "version-1.0.0/version-1.0.0-getting-started": {
         "title": "Getting started"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-installation": {
+      "version-1.0.0/version-1.0.0-installation": {
         "title": "Installation"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-interfaces": {
+      "version-1.0.0/version-1.0.0-interfaces": {
         "title": "Interfaces"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-middlewares": {
+      "version-1.0.0/version-1.0.0-middlewares": {
         "title": "Middleware and guards"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-performance": {
+      "version-1.0.0/version-1.0.0-nestjs": {
+        "title": "NestJS Integration",
+        "sidebar_label": "NestJS"
+      },
+      "version-1.0.0/version-1.0.0-performance": {
         "title": "Performance"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-resolvers": {
+      "version-1.0.0/version-1.0.0-prisma": {
+        "title": "Prisma 2 Integration",
+        "sidebar_label": "Prisma 2"
+      },
+      "version-1.0.0/version-1.0.0-resolvers": {
         "title": "Resolvers"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-subscriptions": {
+      "version-1.0.0/version-1.0.0-scalars": {
+        "title": "Scalars"
+      },
+      "version-1.0.0/version-1.0.0-subscriptions": {
         "title": "Subscriptions"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-types-and-fields": {
+      "version-1.0.0/version-1.0.0-types-and-fields": {
         "title": "Types and Fields"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-unions": {
+      "version-1.0.0/version-1.0.0-unions": {
         "title": "Unions"
       },
-      "version-1.0.0-rc.1/version-1.0.0-rc.1-validation": {
+      "version-1.0.0/version-1.0.0-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
-      },
-      "version-1.0.0-rc.2/version-1.0.0-rc.2-examples": {
-        "title": "Examples",
-        "sidebar_label": "List of examples"
-      },
-      "version-1.0.0-rc.3/version-1.0.0-rc.3-bootstrap": {
-        "title": "Bootstrapping"
-      },
-      "version-1.0.0-rc.3/version-1.0.0-rc.3-browser-usage": {
-        "title": "Browser usage"
-      },
-      "version-1.0.0-rc.3/version-1.0.0-rc.3-examples": {
-        "title": "Examples",
-        "sidebar_label": "List of examples"
-      },
-      "version-1.0.0-rc.3/version-1.0.0-rc.3-resolvers": {
-        "title": "Resolvers"
-      },
-      "version-1.0.0-rc.3/version-1.0.0-rc.3-types-and-fields": {
-        "title": "Types and Fields"
       }
     },
     "links": {

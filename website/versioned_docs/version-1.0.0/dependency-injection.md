@@ -1,6 +1,6 @@
 ---
 title: Dependency injection
-id: version-1.0.0-rc.1-dependency-injection
+id: version-1.0.0-dependency-injection
 original_id: dependency-injection
 ---
 

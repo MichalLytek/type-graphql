@@ -1,6 +1,6 @@
 ---
 title: Installation
-id: version-1.0.0-rc.1-installation
+id: version-1.0.0-installation
 original_id: installation
 ---
 
