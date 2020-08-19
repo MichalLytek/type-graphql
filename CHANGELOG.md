@@ -3,6 +3,7 @@
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.3.0`
+- update `graphql-query-complexity` dependency to `^0.7.0`
 
 ## v1.0.0-rc.3
 ### Features
