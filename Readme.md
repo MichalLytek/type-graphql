@@ -45,7 +45,7 @@ generator client {
 }
 
 generator typegraphql {
-  provider = "node node_modules/typegraphql-prisma/generator.js"
+  provider = "typegraphql-prisma"
 }
 ```
 
@@ -53,7 +53,7 @@ Then after running `npx prisma generate`, this will emit the generated TypeGraph
 
 ```prisma
 generator typegraphql {
-  provider = "node node_modules/typegraphql-prisma/generator.js"
+  provider = "typegraphql-prisma"
   output   = "../prisma/generated/type-graphql"
 }
 ```
