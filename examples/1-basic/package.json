@@ -6,17 +6,17 @@
     "seed": "ts-node --transpile-only ./prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "2.0.0",
-    "apollo-server": "^2.14.3",
-    "graphql": "^15.1.0",
+    "@prisma/client": "~2.5.0",
+    "apollo-server": "^2.16.1",
+    "graphql": "^15.3.0",
     "reflect-metadata": "^0.1.13",
-    "type-graphql": "1.0.0-rc.2"
+    "type-graphql": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.13",
-    "@prisma/cli": "2.0.0",
+    "@types/node": "^14.6.0",
+    "@prisma/cli": "~2.5.0",
     "ts-node": "^8.10.2",
-    "typegraphql-prisma": "0.3.0",
-    "typescript": "^3.9.5"
+    "typegraphql-prisma": "0.5.0",
+    "typescript": "^3.9.7"
   }
 }

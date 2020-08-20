@@ -1,13 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
-import { NestedStringFilter } from "../inputs/NestedStringFilter";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class StringFilter {
+export class NestedStringFilter {
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined

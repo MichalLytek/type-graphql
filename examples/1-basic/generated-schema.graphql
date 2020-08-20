@@ -4,20 +4,20 @@
 # -----------------------------------------------
 
 type AggregatePost {
-  count(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): Int!
+  count: Int!
 }
 
 type AggregateUser {
-  count(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): Int!
+  count: Int!
 }
 
 type BatchPayload {
   count: Int!
 }
 
-input BooleanFilter {
+input BoolFilter {
   equals: Boolean
-  not: Boolean
+  not: NestedBoolFilter
 }
 
 """
@@ -32,7 +32,7 @@ input DateTimeFilter {
   in: [DateTime!]
   lt: DateTime
   lte: DateTime
-  not: DateTime
+  not: NestedDateTimeFilter
   notIn: [DateTime!]
 }
 
@@ -51,7 +51,23 @@ type Mutation {
   upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
-input NullableStringFilter {
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input NestedStringFilter {
   contains: String
   endsWith: String
   equals: String
@@ -60,14 +76,23 @@ input NullableStringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
   notIn: [String!]
   startsWith: String
 }
 
-enum OrderByArg {
-  asc
-  desc
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 type Post {
@@ -105,31 +130,41 @@ input PostCreateWithoutAuthorInput {
   updatedAt: DateTime
 }
 
-input PostFilter {
+enum PostDistinctFieldEnum {
+  authorId
+  content
+  createdAt
+  id
+  published
+  title
+  updatedAt
+}
+
+input PostListRelationFilter {
   every: PostWhereInput
   none: PostWhereInput
   some: PostWhereInput
 }
 
 input PostOrderByInput {
-  authorId: OrderByArg
-  content: OrderByArg
-  createdAt: OrderByArg
-  id: OrderByArg
-  published: OrderByArg
-  title: OrderByArg
-  updatedAt: OrderByArg
+  authorId: SortOrder
+  content: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  published: SortOrder
+  title: SortOrder
+  updatedAt: SortOrder
 }
 
 input PostScalarWhereInput {
   AND: [PostScalarWhereInput!]
-  authorId: NullableStringFilter
-  content: NullableStringFilter
+  authorId: StringNullableFilter
+  content: StringNullableFilter
   createdAt: DateTimeFilter
   id: StringFilter
   NOT: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
-  published: BooleanFilter
+  published: BoolFilter
   title: StringFilter
   updatedAt: DateTimeFilter
 }
@@ -202,13 +237,13 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 input PostWhereInput {
   AND: [PostWhereInput!]
   author: UserWhereInput
-  authorId: NullableStringFilter
-  content: NullableStringFilter
+  authorId: StringNullableFilter
+  content: StringNullableFilter
   createdAt: DateTimeFilter
   id: StringFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
-  published: BooleanFilter
+  published: BoolFilter
   title: StringFilter
   updatedAt: DateTimeFilter
 }
@@ -218,13 +253,18 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  aggregatePost: AggregatePost!
-  aggregateUser: AggregateUser!
+  aggregatePost(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): AggregatePost!
+  aggregateUser(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
   bestUser: User
   post(where: PostWhereUniqueInput!): Post
-  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
-  users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
+  users(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
+}
+
+enum SortOrder {
+  asc
+  desc
 }
 
 input StringFilter {
@@ -236,7 +276,21 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -246,7 +300,7 @@ type User {
   favoritePost: Post
   id: String!
   name: String
-  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
+  posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]
 }
 
 input UserCreateInput {
@@ -267,10 +321,16 @@ input UserCreateWithoutPostsInput {
   name: String
 }
 
+enum UserDistinctFieldEnum {
+  email
+  id
+  name
+}
+
 input UserOrderByInput {
-  email: OrderByArg
-  id: OrderByArg
-  name: OrderByArg
+  email: SortOrder
+  id: SortOrder
+  name: SortOrder
 }
 
 input UserUpdateInput {
@@ -310,10 +370,10 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   email: StringFilter
   id: StringFilter
-  name: NullableStringFilter
+  name: StringNullableFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  posts: PostFilter
+  posts: PostListRelationFilter
 }
 
 input UserWhereUniqueInput {

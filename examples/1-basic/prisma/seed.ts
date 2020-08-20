@@ -3,8 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.$connect();
+
   await prisma.post.deleteMany({});
   await prisma.user.deleteMany({});
+
   const user1 = await prisma.user.create({
     data: {
       email: "alice@prisma.io",
@@ -52,5 +55,5 @@ async function main() {
 main()
   .catch(e => console.error(e))
   .finally(async () => {
-    await prisma.disconnect();
+    await prisma.$disconnect();
   });

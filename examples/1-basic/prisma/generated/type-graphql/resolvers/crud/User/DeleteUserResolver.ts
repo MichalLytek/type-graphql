@@ -8,7 +8,7 @@ export class DeleteUserResolver {
     nullable: true,
     description: undefined
   })
-  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | null | undefined> {
+  async deleteUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteUserArgs): Promise<User | undefined> {
     return ctx.prisma.user.delete(args);
   }
 }

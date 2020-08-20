@@ -1,9 +1,10 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
-import { BooleanFilter } from "../inputs/BooleanFilter";
+import { JsonValue, InputJsonValue } from "@prisma/client";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { NullableStringFilter } from "../inputs/NullableStringFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { UserWhereInput } from "../inputs/UserWhereInput";
 
 @TypeGraphQL.InputType({
@@ -11,69 +12,69 @@ import { UserWhereInput } from "../inputs/UserWhereInput";
   description: undefined,
 })
 export class PostWhereInput {
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  id?: StringFilter | null | undefined;
+  AND?: PostWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  createdAt?: DateTimeFilter | null | undefined;
+  OR?: PostWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => [PostWhereInput], {
     nullable: true,
     description: undefined
   })
-  updatedAt?: DateTimeFilter | null | undefined;
-
-  @TypeGraphQL.Field(_type => BooleanFilter, {
-    nullable: true,
-    description: undefined
-  })
-  published?: BooleanFilter | null | undefined;
+  NOT?: PostWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  title?: StringFilter | null | undefined;
+  id?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFilter, {
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  content?: NullableStringFilter | null | undefined;
+  createdAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFilter, {
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true,
     description: undefined
   })
-  authorId?: NullableStringFilter | null | undefined;
+  updatedAt?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => [PostWhereInput], {
+  @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true,
     description: undefined
   })
-  AND?: PostWhereInput[] | null | undefined;
+  published?: BoolFilter | undefined;
 
-  @TypeGraphQL.Field(_type => [PostWhereInput], {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
     description: undefined
   })
-  OR?: PostWhereInput[] | null | undefined;
+  title?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => [PostWhereInput], {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true,
     description: undefined
   })
-  NOT?: PostWhereInput[] | null | undefined;
+  content?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserWhereInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserWhereInput | null | undefined;
+  author?: UserWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true,
+    description: undefined
+  })
+  authorId?: StringNullableFilter | undefined;
 }

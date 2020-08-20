@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "@prisma/client";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -10,17 +11,17 @@ export class UserUpdateManyMutationInput {
     nullable: true,
     description: undefined
   })
-  id?: string | null | undefined;
+  id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  email?: string | null | undefined;
+  email?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  name?: string | null | undefined;
+  name?: string | undefined;
 }

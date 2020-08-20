@@ -6,7 +6,7 @@ import { PostWhereUniqueInput } from "../../../inputs/PostWhereUniqueInput";
 import { PostDistinctFieldEnum } from "../../../../enums/PostDistinctFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class UserPostsArgs {
+export class AggregatePostArgs {
   @TypeGraphQL.Field(_type => PostWhereInput, { nullable: true })
   where?: PostWhereInput | undefined;
 

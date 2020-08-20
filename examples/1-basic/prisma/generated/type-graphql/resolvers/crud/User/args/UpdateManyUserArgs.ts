@@ -9,5 +9,5 @@ export class UpdateManyUserArgs {
   data!: UserUpdateManyMutationInput;
 
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | null | undefined;
+  where?: UserWhereInput | undefined;
 }

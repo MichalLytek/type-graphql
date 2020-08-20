@@ -1,13 +1,12 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
-import { NestedDateTimeFilter } from "../inputs/NestedDateTimeFilter";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class DateTimeFilter {
+export class NestedDateTimeFilter {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined

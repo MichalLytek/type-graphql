@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "@prisma/client";
 import { UserUpdateOneWithoutPostsInput } from "../inputs/UserUpdateOneWithoutPostsInput";
 
 @TypeGraphQL.InputType({
@@ -11,41 +12,41 @@ export class PostUpdateInput {
     nullable: true,
     description: undefined
   })
-  id?: string | null | undefined;
+  id?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  createdAt?: Date | null | undefined;
+  createdAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: Date | null | undefined;
+  updatedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  published?: boolean | null | undefined;
+  published?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  title?: string | null | undefined;
+  title?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
-  content?: string | null | undefined;
+  content?: string | undefined;
 
   @TypeGraphQL.Field(_type => UserUpdateOneWithoutPostsInput, {
     nullable: true,
     description: undefined
   })
-  author?: UserUpdateOneWithoutPostsInput | null | undefined;
+  author?: UserUpdateOneWithoutPostsInput | undefined;
 }

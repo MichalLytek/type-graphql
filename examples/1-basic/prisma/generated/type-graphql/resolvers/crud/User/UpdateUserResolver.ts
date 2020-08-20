@@ -8,7 +8,7 @@ export class UpdateUserResolver {
     nullable: true,
     description: undefined
   })
-  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | null | undefined> {
+  async updateUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateUserArgs): Promise<User | undefined> {
     return ctx.prisma.user.update(args);
   }
 }

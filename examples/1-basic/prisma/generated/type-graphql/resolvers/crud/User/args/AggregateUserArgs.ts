@@ -6,7 +6,7 @@ import { UserWhereUniqueInput } from "../../../inputs/UserWhereUniqueInput";
 import { UserDistinctFieldEnum } from "../../../../enums/UserDistinctFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class FindManyUserArgs {
+export class AggregateUserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
   where?: UserWhereInput | undefined;
 

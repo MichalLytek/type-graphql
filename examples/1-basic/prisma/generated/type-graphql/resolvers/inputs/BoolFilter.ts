@@ -1,27 +1,22 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "@prisma/client";
+import { NestedBoolFilter } from "../inputs/NestedBoolFilter";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class UserCreateWithoutPostsInput {
-  @TypeGraphQL.Field(_type => String, {
+export class BoolFilter {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  id?: string | undefined;
+  equals?: boolean | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false,
-    description: undefined
-  })
-  email!: string;
-
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => NestedBoolFilter, {
     nullable: true,
     description: undefined
   })
-  name?: string | undefined;
+  not?: NestedBoolFilter | undefined;
 }
