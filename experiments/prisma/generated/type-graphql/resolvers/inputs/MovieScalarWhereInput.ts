@@ -8,24 +8,6 @@ import { StringFilter } from "../inputs/StringFilter";
   description: undefined,
 })
 export class MovieScalarWhereInput {
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  directorFirstName?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  directorLastName?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  title?: StringFilter | undefined;
-
   @TypeGraphQL.Field(_type => [MovieScalarWhereInput], {
     nullable: true,
     description: undefined
@@ -43,4 +25,22 @@ export class MovieScalarWhereInput {
     description: undefined
   })
   NOT?: MovieScalarWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  directorFirstName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  directorLastName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  title?: StringFilter | undefined;
 }

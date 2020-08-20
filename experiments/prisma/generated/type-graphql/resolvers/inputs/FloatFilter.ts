@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { NestedFloatFilter } from "../inputs/NestedFloatFilter";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -12,12 +13,6 @@ export class FloatFilter {
     description: undefined
   })
   equals?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true,
-    description: undefined
-  })
-  not?: number | undefined;
 
   @TypeGraphQL.Field(_type => [TypeGraphQL.Float], {
     nullable: true,
@@ -54,4 +49,10 @@ export class FloatFilter {
     description: undefined
   })
   gte?: number | undefined;
+
+  @TypeGraphQL.Field(_type => NestedFloatFilter, {
+    nullable: true,
+    description: undefined
+  })
+  not?: NestedFloatFilter | undefined;
 }

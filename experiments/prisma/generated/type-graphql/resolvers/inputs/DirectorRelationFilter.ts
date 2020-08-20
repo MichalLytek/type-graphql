@@ -1,22 +1,22 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { NestedJsonFilter } from "../inputs/NestedJsonFilter";
+import { DirectorWhereInput } from "../inputs/DirectorWhereInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class JsonFilter {
-  @TypeGraphQL.Field(_type => GraphQLJSON, {
+export class DirectorRelationFilter {
+  @TypeGraphQL.Field(_type => DirectorWhereInput, {
     nullable: true,
     description: undefined
   })
-  equals?: InputJsonValue | undefined;
+  is?: DirectorWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => NestedJsonFilter, {
+  @TypeGraphQL.Field(_type => DirectorWhereInput, {
     nullable: true,
     description: undefined
   })
-  not?: NestedJsonFilter | undefined;
+  isNot?: DirectorWhereInput | undefined;
 }

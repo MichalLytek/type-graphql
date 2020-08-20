@@ -8,24 +8,6 @@ import { StringFilter } from "../inputs/StringFilter";
   description: undefined,
 })
 export class PatientWhereInput {
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  firstName?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  lastName?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  email?: StringFilter | undefined;
-
   @TypeGraphQL.Field(_type => [PatientWhereInput], {
     nullable: true,
     description: undefined
@@ -43,4 +25,22 @@ export class PatientWhereInput {
     description: undefined
   })
   NOT?: PatientWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  firstName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  lastName?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  email?: StringFilter | undefined;
 }

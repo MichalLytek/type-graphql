@@ -16,6 +16,11 @@ describe("crud resolvers execution", () => {
 
   it("should properly resolve aliased field values from prisma model values", async () => {
     const prismaSchema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime
@@ -59,6 +64,11 @@ describe("crud resolvers execution", () => {
 
   it("should properly map aliased input field values to prisma input values", async () => {
     const prismaSchema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime

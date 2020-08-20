@@ -6,18 +6,12 @@ import { JsonValue, InputJsonValue } from "../../../client";
   isAbstract: true,
   description: undefined,
 })
-export class NullableStringFilter {
+export class NestedStringNullableFilter {
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })
   equals?: string | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true,
-    description: undefined
-  })
-  not?: string | undefined;
 
   @TypeGraphQL.Field(_type => [String], {
     nullable: true,
@@ -72,4 +66,10 @@ export class NullableStringFilter {
     description: undefined
   })
   endsWith?: string | undefined;
+
+  @TypeGraphQL.Field(_type => NestedStringNullableFilter, {
+    nullable: true,
+    description: undefined
+  })
+  not?: NestedStringNullableFilter | undefined;
 }

@@ -1,8 +1,8 @@
 ![integration logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/prisma/img/integration.png)
 
-# TypeGraphQL & Prisma 2.0 integration
+# TypeGraphQL & Prisma 2 integration
 
-Prisma 2.0 generator to emit TypeGraphQL type classes and resolvers
+Prisma 2 generator to emit TypeGraphQL type classes and resolvers
 
 ## Installation
 
@@ -37,16 +37,7 @@ Also, be aware that due to usage of some ES2019 and newer Node.js features, you 
 
 ## Configuration
 
-After installation, you need to update your `schema.prisma` file and enable the experimental feature called `aggregateApi`:
-
-```prisma
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["aggregateApi"]
-}
-```
-
-and then add a new generator section below the `client` one:
+After installation, you need to update your `schema.prisma` file and then add a new generator section below the `client` one:
 
 ```prisma
 generator client {

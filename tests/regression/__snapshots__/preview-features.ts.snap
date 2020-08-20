@@ -111,11 +111,13 @@ export class UserUpdateOneRequiredWithoutPostsFieldInput {
 
 exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: inputs index 1`] = `
 "export { IntFilter } from \\"./IntFilter\\";
+export { NestedIntFilter } from \\"./NestedIntFilter\\";
+export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { PostCreateInput } from \\"./PostCreateInput\\";
 export { PostCreateManyWithoutAuthorInput } from \\"./PostCreateManyWithoutAuthorInput\\";
 export { PostCreateOrConnectWithoutUserInput } from \\"./PostCreateOrConnectWithoutUserInput\\";
 export { PostCreateWithoutAuthorInput } from \\"./PostCreateWithoutAuthorInput\\";
-export { PostFilter } from \\"./PostFilter\\";
+export { PostListRelationFilter } from \\"./PostListRelationFilter\\";
 export { PostOrderByInput } from \\"./PostOrderByInput\\";
 export { PostScalarWhereInput } from \\"./PostScalarWhereInput\\";
 export { PostUpdateInput } from \\"./PostUpdateInput\\";
@@ -134,6 +136,7 @@ export { UserCreateOneWithoutPostsFieldInput } from \\"./UserCreateOneWithoutPos
 export { UserCreateOrConnectWithoutPostInput } from \\"./UserCreateOrConnectWithoutPostInput\\";
 export { UserCreateWithoutPostsFieldInput } from \\"./UserCreateWithoutPostsFieldInput\\";
 export { UserOrderByInput } from \\"./UserOrderByInput\\";
+export { UserRelationFilter } from \\"./UserRelationFilter\\";
 export { UserUpdateInput } from \\"./UserUpdateInput\\";
 export { UserUpdateManyMutationInput } from \\"./UserUpdateManyMutationInput\\";
 export { UserUpdateOneRequiredWithoutPostsFieldInput } from \\"./UserUpdateOneRequiredWithoutPostsFieldInput\\";
@@ -141,155 +144,5 @@ export { UserUpdateWithoutPostsFieldDataInput } from \\"./UserUpdateWithoutPosts
 export { UserUpsertWithoutPostsFieldInput } from \\"./UserUpsertWithoutPostsFieldInput\\";
 export { UserWhereInput } from \\"./UserWhereInput\\";
 export { UserWhereUniqueInput } from \\"./UserWhereUniqueInput\\";
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate args classes for model actions resolvers: AggregateUserArgs 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-import GraphQLJSON from \\"graphql-type-json\\";
-import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
-import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
-import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
-import { UserDistinctFieldEnum } from \\"../../../../enums/UserDistinctFieldEnum\\";
-
-@TypeGraphQL.ArgsType()
-export class AggregateUserArgs {
-  @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | undefined;
-
-  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
-  orderBy?: UserOrderByInput[] | undefined;
-
-  @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
-  cursor?: UserWhereUniqueInput | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | undefined;
-
-  @TypeGraphQL.Field(_type => [UserDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof UserDistinctFieldEnum> | undefined;
-}
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate args classes for model actions resolvers: FindManyUserArgs 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-import GraphQLJSON from \\"graphql-type-json\\";
-import { UserOrderByInput } from \\"../../../inputs/UserOrderByInput\\";
-import { UserWhereInput } from \\"../../../inputs/UserWhereInput\\";
-import { UserWhereUniqueInput } from \\"../../../inputs/UserWhereUniqueInput\\";
-import { UserDistinctFieldEnum } from \\"../../../../enums/UserDistinctFieldEnum\\";
-
-@TypeGraphQL.ArgsType()
-export class FindManyUserArgs {
-  @TypeGraphQL.Field(_type => UserWhereInput, { nullable: true })
-  where?: UserWhereInput | undefined;
-
-  @TypeGraphQL.Field(_type => [UserOrderByInput], { nullable: true })
-  orderBy?: UserOrderByInput[] | undefined;
-
-  @TypeGraphQL.Field(_type => UserWhereUniqueInput, { nullable: true })
-  cursor?: UserWhereUniqueInput | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | undefined;
-
-  @TypeGraphQL.Field(_type => [UserDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof UserDistinctFieldEnum> | undefined;
-}
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model field is renamed: SampleModelDistinctFieldEnum 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-
-export enum SampleModelDistinctFieldEnum {
-  intIdField = \\"intIdField\\",
-  mappedFieldName = \\"stringField\\",
-  intField = \\"intField\\"
-}
-TypeGraphQL.registerEnumType(SampleModelDistinctFieldEnum, {
-  name: \\"SampleModelDistinctFieldEnum\\",
-  description: undefined,
-});
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model is renamed: ExampleModelDistinctFieldEnum 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-
-export enum ExampleModelDistinctFieldEnum {
-  intIdField = \\"intIdField\\",
-  stringField = \\"stringField\\",
-  intField = \\"intField\\"
-}
-TypeGraphQL.registerEnumType(ExampleModelDistinctFieldEnum, {
-  name: \\"ExampleModelDistinctFieldEnum\\",
-  description: undefined,
-});
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate model distinct enum when model is renamed: enums index 1`] = `
-"export { ExampleModelDistinctFieldEnum } from \\"./ExampleModelDistinctFieldEnum\\";
-export { SortOrder } from \\"./SortOrder\\";
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate model distinct field enum: SampleModelDistinctFieldEnum 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-
-export enum SampleModelDistinctFieldEnum {
-  intIdField = \\"intIdField\\",
-  stringField = \\"stringField\\",
-  intField = \\"intField\\"
-}
-TypeGraphQL.registerEnumType(SampleModelDistinctFieldEnum, {
-  name: \\"SampleModelDistinctFieldEnum\\",
-  description: undefined,
-});
-"
-`;
-
-exports[`preview features when \`distinct\` is enabled should properly generate model distinct field enum: enums index 1`] = `
-"export { SampleModelDistinctFieldEnum } from \\"./SampleModelDistinctFieldEnum\\";
-export { SortOrder } from \\"./SortOrder\\";
-"
-`;
-
-exports[`preview features when both distinct and aggregations features are enabled should properly generate distinct enum arg field and import when model is renamed: AggregateExampleModelArgs 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-import GraphQLJSON from \\"graphql-type-json\\";
-import { ExampleModelOrderByInput } from \\"../../../inputs/ExampleModelOrderByInput\\";
-import { ExampleModelWhereInput } from \\"../../../inputs/ExampleModelWhereInput\\";
-import { ExampleModelWhereUniqueInput } from \\"../../../inputs/ExampleModelWhereUniqueInput\\";
-import { ExampleModelDistinctFieldEnum } from \\"../../../../enums/ExampleModelDistinctFieldEnum\\";
-
-@TypeGraphQL.ArgsType()
-export class AggregateExampleModelArgs {
-  @TypeGraphQL.Field(_type => ExampleModelWhereInput, { nullable: true })
-  where?: ExampleModelWhereInput | undefined;
-
-  @TypeGraphQL.Field(_type => [ExampleModelOrderByInput], { nullable: true })
-  orderBy?: ExampleModelOrderByInput[] | undefined;
-
-  @TypeGraphQL.Field(_type => ExampleModelWhereUniqueInput, { nullable: true })
-  cursor?: ExampleModelWhereUniqueInput | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  take?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, { nullable: true })
-  skip?: number | undefined;
-
-  @TypeGraphQL.Field(_type => [ExampleModelDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof ExampleModelDistinctFieldEnum> | undefined;
-}
 "
 `;

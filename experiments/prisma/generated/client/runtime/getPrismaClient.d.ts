@@ -40,6 +40,7 @@ export interface PrismaClientOptions {
     __internal?: {
         debug?: boolean;
         hooks?: Hooks;
+        useUds?: boolean;
         engine?: {
             cwd?: string;
             binaryPath?: string;

@@ -574,6 +574,1088 @@
     "rootMutationType": "Mutation",
     "inputTypes": [
       {
+        "name": "NestedIntFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedIntFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "IntFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedIntFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedStringFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "startsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "endsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedStringFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "StringFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "startsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "endsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedStringFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedStringNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "startsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "endsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedStringNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "StringNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "contains",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "startsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "endsWith",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedStringNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedFloatFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedFloatFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "FloatFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedFloatFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedDateTimeFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedDateTimeFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "DateTimeFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedDateTimeFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedBoolFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Boolean",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedBoolFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "BoolFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Boolean",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedBoolFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "is",
+            "inputType": {
+              "type": "UserWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "isNot",
+            "inputType": {
+              "type": "UserWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedEnumPostKindNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedEnumPostKindNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "EnumPostKindNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedEnumPostKindNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedJsonFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedJsonFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "JsonFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedJsonFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
         "name": "postWhereInput",
         "isOneOf": false,
         "fields": [
@@ -610,138 +1692,8 @@
           {
             "name": "uuid",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -750,78 +1702,8 @@
           {
             "name": "createdAt",
             "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_not",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_not_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_lt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_lte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_gt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_gte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
+              "type": "DateTimeFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -830,78 +1712,8 @@
           {
             "name": "updatedAt",
             "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_not",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_not_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_lt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_lte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_gt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_gte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
+              "type": "DateTimeFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -910,18 +1722,8 @@
           {
             "name": "published",
             "inputType": {
-              "type": "Boolean",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "published_not",
-            "inputType": {
-              "type": "Boolean",
-              "kind": "scalar",
+              "type": "BoolFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -930,138 +1732,8 @@
           {
             "name": "title",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1070,278 +1742,8 @@
           {
             "name": "content",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "authorId",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_not",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_not_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "kind",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_not",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_in",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_not_in",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "metadata",
-            "inputType": {
-              "type": "Json",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "metadata_not",
-            "inputType": {
-              "type": "Json",
-              "kind": "scalar",
+              "type": "StringNullableFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1350,11 +1752,149 @@
           {
             "name": "author",
             "inputType": {
-              "type": "UserWhereInput",
+              "type": "UserRelationFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": true
+              "isNullable": false
+            }
+          },
+          {
+            "name": "authorId",
+            "inputType": {
+              "type": "IntFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "kind",
+            "inputType": {
+              "type": "EnumPostKindNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "JsonFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "PostListRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "every",
+            "inputType": {
+              "type": "postWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "some",
+            "inputType": {
+              "type": "postWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "none",
+            "inputType": {
+              "type": "postWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedEnumRoleFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Role",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Role",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedEnumRoleFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "EnumRoleFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Role",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Role",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedEnumRoleFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           }
         ]
@@ -1396,78 +1936,8 @@
           {
             "name": "id",
             "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_not",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_not_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "id_gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
+              "type": "IntFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1476,138 +1946,8 @@
           {
             "name": "email",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1616,218 +1956,18 @@
           {
             "name": "name",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringNullableFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "name_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
+              "isNullable": false
             }
           },
           {
             "name": "age",
             "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_not",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_not_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "age_gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
+              "type": "IntFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1836,78 +1976,8 @@
           {
             "name": "balance",
             "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_not",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_in",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_not_in",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_lt",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_lte",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_gt",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "balance_gte",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
+              "type": "FloatFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1916,78 +1986,18 @@
           {
             "name": "amount",
             "inputType": {
-              "type": "Float",
-              "kind": "scalar",
+              "type": "FloatFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
             }
           },
           {
-            "name": "amount_not",
+            "name": "posts",
             "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_in",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_not_in",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_lt",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_lte",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_gt",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "amount_gte",
-            "inputType": {
-              "type": "Float",
-              "kind": "scalar",
+              "type": "PostListRelationFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -1996,67 +2006,7 @@
           {
             "name": "role",
             "inputType": {
-              "type": "Role",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "role_not",
-            "inputType": {
-              "type": "Role",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "role_in",
-            "inputType": {
-              "type": "Role",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "role_not_in",
-            "inputType": {
-              "type": "Role",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "posts_every",
-            "inputType": {
-              "type": "postWhereInput",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "posts_some",
-            "inputType": {
-              "type": "postWhereInput",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "posts_none",
-            "inputType": {
-              "type": "postWhereInput",
+              "type": "EnumRoleFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -2316,138 +2266,8 @@
           {
             "name": "name",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "name_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -2456,138 +2276,8 @@
           {
             "name": "slug",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "slug_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -2596,78 +2286,8 @@
           {
             "name": "number",
             "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_not",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_not_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "number_gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
+              "type": "IntFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -2790,138 +2410,8 @@
           {
             "name": "firstName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -2930,138 +2420,8 @@
           {
             "name": "lastName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -3070,138 +2430,8 @@
           {
             "name": "email",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "email_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -3288,6 +2518,42 @@
         ]
       },
       {
+        "name": "MovieListRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "every",
+            "inputType": {
+              "type": "MovieWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "some",
+            "inputType": {
+              "type": "MovieWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "none",
+            "inputType": {
+              "type": "MovieWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
         "name": "DirectorWhereInput",
         "isOneOf": false,
         "fields": [
@@ -3324,138 +2590,8 @@
           {
             "name": "firstName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "firstName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -3464,147 +2600,7 @@
           {
             "name": "lastName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "lastName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "movies_every",
-            "inputType": {
-              "type": "MovieWhereInput",
+              "type": "StringFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -3612,23 +2608,39 @@
             }
           },
           {
-            "name": "movies_some",
+            "name": "movies",
             "inputType": {
-              "type": "MovieWhereInput",
+              "type": "MovieListRelationFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
             }
-          },
+          }
+        ]
+      },
+      {
+        "name": "DirectorRelationFilter",
+        "isOneOf": false,
+        "fields": [
           {
-            "name": "movies_none",
+            "name": "is",
             "inputType": {
-              "type": "MovieWhereInput",
+              "type": "DirectorWhereInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": false
+              "isNullable": true
+            }
+          },
+          {
+            "name": "isNot",
+            "inputType": {
+              "type": "DirectorWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
             }
           }
         ]
@@ -3670,138 +2682,8 @@
           {
             "name": "directorFirstName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -3810,278 +2692,8 @@
           {
             "name": "directorLastName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -4090,11 +2702,21 @@
           {
             "name": "director",
             "inputType": {
-              "type": "DirectorWhereInput",
+              "type": "DirectorRelationFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": true
+              "isNullable": false
+            }
+          },
+          {
+            "name": "title",
+            "inputType": {
+              "type": "StringFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
             }
           }
         ]
@@ -4602,138 +3224,8 @@
           {
             "name": "uuid",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "uuid_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -4742,78 +3234,8 @@
           {
             "name": "createdAt",
             "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_not",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_not_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_lt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_lte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_gt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "createdAt_gte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
+              "type": "DateTimeFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -4822,78 +3244,8 @@
           {
             "name": "updatedAt",
             "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_not",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_not_in",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_lt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_lte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_gt",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "updatedAt_gte",
-            "inputType": {
-              "type": "DateTime",
-              "kind": "scalar",
+              "type": "DateTimeFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -4902,18 +3254,8 @@
           {
             "name": "published",
             "inputType": {
-              "type": "Boolean",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "published_not",
-            "inputType": {
-              "type": "Boolean",
-              "kind": "scalar",
+              "type": "BoolFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -4922,138 +3264,8 @@
           {
             "name": "title",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -5062,218 +3274,18 @@
           {
             "name": "content",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringNullableFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "content_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
+              "isNullable": false
             }
           },
           {
             "name": "authorId",
             "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_not",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_not_in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "authorId_gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
+              "type": "IntFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -5282,58 +3294,18 @@
           {
             "name": "kind",
             "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_not",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_in",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "kind_not_in",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "metadata",
-            "inputType": {
-              "type": "Json",
-              "kind": "scalar",
+              "type": "EnumPostKindNullableFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
             }
           },
           {
-            "name": "metadata_not",
+            "name": "metadata",
             "inputType": {
-              "type": "Json",
-              "kind": "scalar",
+              "type": "JsonFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -6964,138 +4936,8 @@
           {
             "name": "directorFirstName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorFirstName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -7104,138 +4946,8 @@
           {
             "name": "directorLastName",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "directorLastName_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -7244,138 +4956,8 @@
           {
             "name": "title",
             "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_in",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_lte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gt",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_gte",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_contains",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_starts_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "title_not_ends_with",
-            "inputType": {
-              "type": "String",
-              "kind": "scalar",
+              "type": "StringFilter",
+              "kind": "object",
               "isRequired": false,
               "isList": false,
               "isNullable": false
@@ -10797,17 +8379,17 @@
     ],
     "enums": [
       {
-        "name": "Role",
-        "values": [
-          "USER",
-          "ADMIN"
-        ]
-      },
-      {
         "name": "PostKind",
         "values": [
           "BLOG",
           "ADVERT"
+        ]
+      },
+      {
+        "name": "Role",
+        "values": [
+          "USER",
+          "ADMIN"
         ]
       },
       {

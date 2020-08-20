@@ -7,18 +7,12 @@ import { PostKind } from "../../enums/PostKind";
   isAbstract: true,
   description: undefined,
 })
-export class NullablePostKindFilter {
+export class NestedEnumPostKindNullableFilter {
   @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
   equals?: keyof typeof PostKind | undefined;
-
-  @TypeGraphQL.Field(_type => PostKind, {
-    nullable: true,
-    description: undefined
-  })
-  not?: keyof typeof PostKind | undefined;
 
   @TypeGraphQL.Field(_type => [PostKind], {
     nullable: true,
@@ -31,4 +25,10 @@ export class NullablePostKindFilter {
     description: undefined
   })
   notIn?: Array<keyof typeof PostKind> | undefined;
+
+  @TypeGraphQL.Field(_type => NestedEnumPostKindNullableFilter, {
+    nullable: true,
+    description: undefined
+  })
+  not?: NestedEnumPostKindNullableFilter | undefined;
 }

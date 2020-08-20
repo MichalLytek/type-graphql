@@ -1,22 +1,21 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { NestedJsonFilter } from "../inputs/NestedJsonFilter";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class JsonFilter {
-  @TypeGraphQL.Field(_type => GraphQLJSON, {
+export class NestedBoolFilter {
+  @TypeGraphQL.Field(_type => Boolean, {
     nullable: true,
     description: undefined
   })
-  equals?: InputJsonValue | undefined;
+  equals?: boolean | undefined;
 
-  @TypeGraphQL.Field(_type => NestedJsonFilter, {
+  @TypeGraphQL.Field(_type => NestedBoolFilter, {
     nullable: true,
     description: undefined
   })
-  not?: NestedJsonFilter | undefined;
+  not?: NestedBoolFilter | undefined;
 }

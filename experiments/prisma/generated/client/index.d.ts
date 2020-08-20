@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.4.1
- * Query Engine version: 195d4bdc2d16132977f4ba7a8ca312f7906cb086
+ * Prisma Client JS version: 2.5.0
+ * Query Engine version: 9a670138b1db276001d785a2adcba1584c869d24
  */
 export declare type PrismaVersion = {
   client: string
@@ -326,7 +326,10 @@ export declare class PrismaClient<
    */
   disconnect(): Promise<any>;
 
-  
+  /**
+   * Add a middleware
+   */
+  $use(cb: Middleware): void
 
   /**
    * Executes a raw query and returns the number of affected rows
@@ -436,20 +439,20 @@ export declare class PrismaClient<
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-export declare const Role: {
-  USER: 'USER',
-  ADMIN: 'ADMIN'
-};
-
-export declare type Role = (typeof Role)[keyof typeof Role]
-
-
 export declare const PostKind: {
   BLOG: 'BLOG',
   ADVERT: 'ADVERT'
 };
 
 export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
+
+
+export declare const Role: {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+export declare type Role = (typeof Role)[keyof typeof Role]
 
 
 export declare const SortOrder: {
@@ -806,12 +809,10 @@ export interface UserDelegate {
    */
   count(args?: Omit<FindManyUserArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregateUserArgs>(args: Subset<T, AggregateUserArgs>): Promise<GetUserAggregateType<T>>
-    
 }
 
 /**
@@ -1301,12 +1302,10 @@ export interface postDelegate {
    */
   count(args?: Omit<FindManypostArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregatePostArgs>(args: Subset<T, AggregatePostArgs>): Promise<GetPostAggregateType<T>>
-    
 }
 
 /**
@@ -1774,12 +1773,10 @@ export interface CategoryDelegate {
    */
   count(args?: Omit<FindManyCategoryArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregateCategoryArgs>(args: Subset<T, AggregateCategoryArgs>): Promise<GetCategoryAggregateType<T>>
-    
 }
 
 /**
@@ -2177,12 +2174,10 @@ export interface PatientDelegate {
    */
   count(args?: Omit<FindManyPatientArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregatePatientArgs>(args: Subset<T, AggregatePatientArgs>): Promise<GetPatientAggregateType<T>>
-    
 }
 
 /**
@@ -2590,12 +2585,10 @@ export interface MovieDelegate {
    */
   count(args?: Omit<FindManyMovieArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregateMovieArgs>(args: Subset<T, AggregateMovieArgs>): Promise<GetMovieAggregateType<T>>
-    
 }
 
 /**
@@ -3030,12 +3023,10 @@ export interface DirectorDelegate {
    */
   count(args?: Omit<FindManyDirectorArgs, 'select' | 'include'>): Promise<number>
 
-
   /**
    * Aggregate
    */
   aggregate<T extends AggregateDirectorArgs>(args: Subset<T, AggregateDirectorArgs>): Promise<GetDirectorAggregateType<T>>
-    
 }
 
 /**
@@ -3268,34 +3259,215 @@ export type DirectorArgs = {
  */
 
 
+export type NestedIntFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: NestedIntFilter
+}
+
+export type IntFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: number | NestedIntFilter
+}
+
+export type NestedStringFilter = {
+  equals?: string
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: NestedStringFilter
+}
+
+export type StringFilter = {
+  equals?: string
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: string | NestedStringFilter
+}
+
+export type NestedStringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string | null
+  lte?: string | null
+  gt?: string | null
+  gte?: string | null
+  contains?: string | null
+  startsWith?: string | null
+  endsWith?: string | null
+  not?: NestedStringNullableFilter
+}
+
+export type StringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string | null
+  lte?: string | null
+  gt?: string | null
+  gte?: string | null
+  contains?: string | null
+  startsWith?: string | null
+  endsWith?: string | null
+  not?: string | NestedStringNullableFilter | null
+}
+
+export type NestedFloatFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: NestedFloatFilter
+}
+
+export type FloatFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: number | NestedFloatFilter
+}
+
+export type NestedDateTimeFilter = {
+  equals?: Date | string
+  in?: Enumerable<Date | string>
+  notIn?: Enumerable<Date | string>
+  lt?: Date | string
+  lte?: Date | string
+  gt?: Date | string
+  gte?: Date | string
+  not?: NestedDateTimeFilter
+}
+
+export type DateTimeFilter = {
+  equals?: Date | string
+  in?: Enumerable<Date | string>
+  notIn?: Enumerable<Date | string>
+  lt?: Date | string
+  lte?: Date | string
+  gt?: Date | string
+  gte?: Date | string
+  not?: Date | string | NestedDateTimeFilter
+}
+
+export type NestedBoolFilter = {
+  equals?: boolean
+  not?: NestedBoolFilter
+}
+
+export type BoolFilter = {
+  equals?: boolean
+  not?: boolean | NestedBoolFilter
+}
+
+export type UserRelationFilter = {
+  is?: UserWhereInput | null
+  isNot?: UserWhereInput | null
+}
+
+export type NestedEnumPostKindNullableFilter = {
+  equals?: PostKind | null
+  in?: Enumerable<PostKind> | null
+  notIn?: Enumerable<PostKind> | null
+  not?: NestedEnumPostKindNullableFilter
+}
+
+export type EnumPostKindNullableFilter = {
+  equals?: PostKind | null
+  in?: Enumerable<PostKind> | null
+  notIn?: Enumerable<PostKind> | null
+  not?: PostKind | NestedEnumPostKindNullableFilter | null
+}
+
+export type NestedJsonFilter = {
+  equals?: InputJsonValue
+  not?: NestedJsonFilter
+}
+
+export type JsonFilter = {
+  equals?: InputJsonValue
+  not?: InputJsonValue | NestedJsonFilter
+}
+
 export type postWhereInput = {
-  uuid?: string | UUIDFilter
-  createdAt?: Date | string | DateTimeFilter
-  updatedAt?: Date | string | DateTimeFilter
-  published?: boolean | BooleanFilter
-  title?: string | StringFilter
-  content?: string | NullableStringFilter | null
-  authorId?: number | IntFilter
-  kind?: PostKind | NullablePostKindFilter | null
-  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<postWhereInput>
   OR?: Array<postWhereInput>
   NOT?: Enumerable<postWhereInput>
+  uuid?: string | StringFilter
+  createdAt?: Date | string | DateTimeFilter
+  updatedAt?: Date | string | DateTimeFilter
+  published?: boolean | BoolFilter
+  title?: string | StringFilter
+  content?: string | StringNullableFilter | null
   author?: UserWhereInput | null
+  authorId?: number | IntFilter
+  kind?: PostKind | EnumPostKindNullableFilter | null
+  metadata?: InputJsonValue | JsonFilter
+}
+
+export type PostListRelationFilter = {
+  every?: postWhereInput
+  some?: postWhereInput
+  none?: postWhereInput
+}
+
+export type NestedEnumRoleFilter = {
+  equals?: Role
+  in?: Enumerable<Role>
+  notIn?: Enumerable<Role>
+  not?: NestedEnumRoleFilter
+}
+
+export type EnumRoleFilter = {
+  equals?: Role
+  in?: Enumerable<Role>
+  notIn?: Enumerable<Role>
+  not?: Role | NestedEnumRoleFilter
 }
 
 export type UserWhereInput = {
-  id?: number | IntFilter
-  email?: string | StringFilter
-  name?: string | NullableStringFilter | null
-  age?: number | IntFilter
-  balance?: number | FloatFilter
-  amount?: number | FloatFilter
-  posts?: postFilter | null
-  role?: Role | RoleFilter
   AND?: Enumerable<UserWhereInput>
   OR?: Array<UserWhereInput>
   NOT?: Enumerable<UserWhereInput>
+  id?: number | IntFilter
+  email?: string | StringFilter
+  name?: string | StringNullableFilter | null
+  age?: number | IntFilter
+  balance?: number | FloatFilter
+  amount?: number | FloatFilter
+  posts?: PostListRelationFilter
+  role?: Role | EnumRoleFilter
 }
 
 export type UserOrderByInput = {
@@ -3330,12 +3502,12 @@ export type postWhereUniqueInput = {
 }
 
 export type CategoryWhereInput = {
-  name?: string | StringFilter
-  slug?: string | StringFilter
-  number?: number | IntFilter
   AND?: Enumerable<CategoryWhereInput>
   OR?: Array<CategoryWhereInput>
   NOT?: Enumerable<CategoryWhereInput>
+  name?: string | StringFilter
+  slug?: string | StringFilter
+  number?: number | IntFilter
 }
 
 export type CategoryOrderByInput = {
@@ -3354,12 +3526,12 @@ export type CategoryWhereUniqueInput = {
 }
 
 export type PatientWhereInput = {
-  firstName?: string | StringFilter
-  lastName?: string | StringFilter
-  email?: string | StringFilter
   AND?: Enumerable<PatientWhereInput>
   OR?: Array<PatientWhereInput>
   NOT?: Enumerable<PatientWhereInput>
+  firstName?: string | StringFilter
+  lastName?: string | StringFilter
+  email?: string | StringFilter
 }
 
 export type PatientOrderByInput = {
@@ -3377,23 +3549,34 @@ export type PatientWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput
 }
 
+export type MovieListRelationFilter = {
+  every?: MovieWhereInput
+  some?: MovieWhereInput
+  none?: MovieWhereInput
+}
+
 export type DirectorWhereInput = {
-  firstName?: string | StringFilter
-  lastName?: string | StringFilter
-  movies?: MovieFilter | null
   AND?: Enumerable<DirectorWhereInput>
   OR?: Array<DirectorWhereInput>
   NOT?: Enumerable<DirectorWhereInput>
+  firstName?: string | StringFilter
+  lastName?: string | StringFilter
+  movies?: MovieListRelationFilter
+}
+
+export type DirectorRelationFilter = {
+  is?: DirectorWhereInput | null
+  isNot?: DirectorWhereInput | null
 }
 
 export type MovieWhereInput = {
-  directorFirstName?: string | StringFilter
-  directorLastName?: string | StringFilter
-  title?: string | StringFilter
   AND?: Enumerable<MovieWhereInput>
   OR?: Array<MovieWhereInput>
   NOT?: Enumerable<MovieWhereInput>
+  directorFirstName?: string | StringFilter
+  directorLastName?: string | StringFilter
   director?: DirectorWhereInput | null
+  title?: string | StringFilter
 }
 
 export type MovieOrderByInput = {
@@ -3470,18 +3653,18 @@ export type postUpdateWithWhereUniqueWithoutAuthorInput = {
 }
 
 export type postScalarWhereInput = {
-  uuid?: string | UUIDFilter
-  createdAt?: Date | string | DateTimeFilter
-  updatedAt?: Date | string | DateTimeFilter
-  published?: boolean | BooleanFilter
-  title?: string | StringFilter
-  content?: string | NullableStringFilter | null
-  authorId?: number | IntFilter
-  kind?: PostKind | NullablePostKindFilter | null
-  metadata?: InputJsonValue | JsonFilter
   AND?: Enumerable<postScalarWhereInput>
   OR?: Array<postScalarWhereInput>
   NOT?: Enumerable<postScalarWhereInput>
+  uuid?: string | StringFilter
+  createdAt?: Date | string | DateTimeFilter
+  updatedAt?: Date | string | DateTimeFilter
+  published?: boolean | BoolFilter
+  title?: string | StringFilter
+  content?: string | StringNullableFilter | null
+  authorId?: number | IntFilter
+  kind?: PostKind | EnumPostKindNullableFilter | null
+  metadata?: InputJsonValue | JsonFilter
 }
 
 export type postUpdateManyDataInput = {
@@ -3730,12 +3913,12 @@ export type MovieUpdateWithWhereUniqueWithoutDirectorInput = {
 }
 
 export type MovieScalarWhereInput = {
-  directorFirstName?: string | StringFilter
-  directorLastName?: string | StringFilter
-  title?: string | StringFilter
   AND?: Enumerable<MovieScalarWhereInput>
   OR?: Array<MovieScalarWhereInput>
   NOT?: Enumerable<MovieScalarWhereInput>
+  directorFirstName?: string | StringFilter
+  directorLastName?: string | StringFilter
+  title?: string | StringFilter
 }
 
 export type MovieUpdateManyDataInput = {
@@ -3775,117 +3958,6 @@ export type DirectorUpdateInput = {
 export type DirectorUpdateManyMutationInput = {
   firstName?: string
   lastName?: string
-}
-
-export type UUIDFilter = {
-  equals?: string
-  not?: string | UUIDFilter
-  in?: Enumerable<string>
-  notIn?: Enumerable<string>
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-}
-
-export type DateTimeFilter = {
-  equals?: Date | string
-  not?: Date | string | DateTimeFilter
-  in?: Enumerable<Date | string>
-  notIn?: Enumerable<Date | string>
-  lt?: Date | string
-  lte?: Date | string
-  gt?: Date | string
-  gte?: Date | string
-}
-
-export type BooleanFilter = {
-  equals?: boolean
-  not?: boolean | BooleanFilter
-}
-
-export type StringFilter = {
-  equals?: string
-  not?: string | StringFilter
-  in?: Enumerable<string>
-  notIn?: Enumerable<string>
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-}
-
-export type NullableStringFilter = {
-  equals?: string | null
-  not?: string | null | NullableStringFilter
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
-}
-
-export type IntFilter = {
-  equals?: number
-  not?: number | IntFilter
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-}
-
-export type NullablePostKindFilter = {
-  equals?: PostKind | null
-  not?: PostKind | null | NullablePostKindFilter
-  in?: Enumerable<PostKind> | null
-  notIn?: Enumerable<PostKind> | null
-}
-
-export type JsonFilter = {
-  equals?: InputJsonValue
-  not?: InputJsonValue | JsonFilter
-}
-
-export type FloatFilter = {
-  equals?: number
-  not?: number | FloatFilter
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-}
-
-export type postFilter = {
-  every?: postWhereInput
-  some?: postWhereInput
-  none?: postWhereInput
-}
-
-export type RoleFilter = {
-  equals?: Role
-  not?: Role | RoleFilter
-  in?: Enumerable<Role>
-  notIn?: Enumerable<Role>
-}
-
-export type MovieFilter = {
-  every?: MovieWhereInput
-  some?: MovieWhereInput
-  none?: MovieWhereInput
 }
 
 /**

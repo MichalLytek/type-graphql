@@ -48,17 +48,44 @@ enum Color {
   RED
 }
 
-input ColorFilter {
+input EnumColorFilter {
   equals: Color
   in: [Color!]
-  not: Color
+  not: NestedEnumColorFilter
   notIn: [Color!]
+}
+
+input NestedEnumColorFilter {
+  equals: Color
+  in: [Color!]
+  not: NestedEnumColorFilter
+  notIn: [Color!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 type Post {
   color: Color!
   content: String!
   uuid: String!
+}
+
+enum PostDistinctFieldEnum {
+  color
+  content
+  uuid
 }
 
 input PostOrderByInput {
@@ -69,7 +96,7 @@ input PostOrderByInput {
 
 input PostWhereInput {
   AND: [PostWhereInput!]
-  color: ColorFilter
+  color: EnumColorFilter
   content: StringFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -81,7 +108,7 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  customFindManyPost(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  customFindManyPost(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
 }
 
 enum SortOrder {
@@ -98,7 +125,7 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
   notIn: [String!]
   startsWith: String
 }

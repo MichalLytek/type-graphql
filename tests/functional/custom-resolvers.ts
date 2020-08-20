@@ -13,6 +13,11 @@ describe("custom resolvers execution", () => {
     outputDirPath = generateArtifactsDirPath("functional-custom-resolvers");
     await fs.mkdir(outputDirPath, { recursive: true });
     const prismaSchema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       enum Color {
         RED
         GREEN

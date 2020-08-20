@@ -1,24 +1,19 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { NestedEnumRoleFilter } from "../inputs/NestedEnumRoleFilter";
 import { Role } from "../../enums/Role";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class RoleFilter {
+export class EnumRoleFilter {
   @TypeGraphQL.Field(_type => Role, {
     nullable: true,
     description: undefined
   })
   equals?: keyof typeof Role | undefined;
-
-  @TypeGraphQL.Field(_type => Role, {
-    nullable: true,
-    description: undefined
-  })
-  not?: keyof typeof Role | undefined;
 
   @TypeGraphQL.Field(_type => [Role], {
     nullable: true,
@@ -31,4 +26,10 @@ export class RoleFilter {
     description: undefined
   })
   notIn?: Array<keyof typeof Role> | undefined;
+
+  @TypeGraphQL.Field(_type => NestedEnumRoleFilter, {
+    nullable: true,
+    description: undefined
+  })
+  not?: NestedEnumRoleFilter | undefined;
 }

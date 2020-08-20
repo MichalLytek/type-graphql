@@ -10,11 +10,15 @@ describe("crud resolvers execution", () => {
   let outputDirPath: string;
   let graphQLSchema: GraphQLSchema;
 
-  describe("with default settings", () => {
+  describe("basic operations", () => {
     beforeAll(async () => {
       outputDirPath = generateArtifactsDirPath("functional-crud");
       await fs.mkdir(outputDirPath, { recursive: true });
       const prismaSchema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique
@@ -310,6 +314,33 @@ describe("crud resolvers execution", () => {
         "upsertUser call args",
       );
     });
+  });
+
+  describe("aggregations", () => {
+    beforeAll(async () => {
+      outputDirPath = generateArtifactsDirPath("functional-crud");
+      await fs.mkdir(outputDirPath, { recursive: true });
+      const prismaSchema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+
+        model User {
+          idField     Int  @id @default(autoincrement())
+          intField    Int
+          floatField  Int
+        }
+      `;
+      await generateCodeFromSchema(prismaSchema, { outputDirPath });
+      const { UserCrudResolver } = require(outputDirPath +
+        "/resolvers/crud/User/UserCrudResolver.ts");
+
+      graphQLSchema = await buildSchema({
+        resolvers: [UserCrudResolver],
+        validate: false,
+      });
+    });
 
     it("should properly call PrismaClient on `aggregate` action with simple count field", async () => {
       const document = /* graphql */ `
@@ -317,8 +348,8 @@ describe("crud resolvers execution", () => {
           aggregateUser(
             take: 1
             skip: 1
-            orderBy: { intIdField: desc }
-            where: { dateField: { lte: "2019-12-31T19:16:02.572Z" } }
+            orderBy: { intField: desc }
+            where: { floatField: { lte: 50 } }
           ) {
             count
           }
@@ -339,31 +370,6 @@ describe("crud resolvers execution", () => {
       expect(prismaMock.user.aggregate.mock.calls).toMatchSnapshot(
         "user.aggregate call args",
       );
-    });
-  });
-
-  describe("with experimental aggregations api enabled", () => {
-    beforeAll(async () => {
-      outputDirPath = generateArtifactsDirPath("functional-crud");
-      await fs.mkdir(outputDirPath, { recursive: true });
-      const prismaSchema = /* prisma */ `
-        model User {
-          idField     Int  @id @default(autoincrement())
-          intField    Int
-          floatField  Int
-        }
-      `;
-      await generateCodeFromSchema(prismaSchema, {
-        outputDirPath,
-        enabledPreviewFeatures: ["aggregations"],
-      });
-      const { UserCrudResolver } = require(outputDirPath +
-        "/resolvers/crud/User/UserCrudResolver.ts");
-
-      graphQLSchema = await buildSchema({
-        resolvers: [UserCrudResolver],
-        validate: false,
-      });
     });
 
     it("should properly call PrismaClient on `aggregate` action with advanced operations", async () => {

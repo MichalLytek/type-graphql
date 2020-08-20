@@ -32,10 +32,10 @@ enum Color {
   RED
 }
 
-input ColorFilter {
+input EnumColorFilter {
   equals: Color
   in: [Color!]
-  not: Color
+  not: NestedEnumColorFilter
   notIn: [Color!]
 }
 
@@ -46,7 +46,7 @@ input IntFilter {
   in: [Int!]
   lt: Int
   lte: Int
-  not: Int
+  not: NestedIntFilter
   notIn: [Int!]
 }
 
@@ -65,7 +65,25 @@ type Mutation {
   upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
-input NullableStringFilter {
+input NestedEnumColorFilter {
+  equals: Color
+  in: [Color!]
+  not: NestedEnumColorFilter
+  notIn: [Color!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
   contains: String
   endsWith: String
   equals: String
@@ -74,7 +92,21 @@ input NullableStringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -109,7 +141,14 @@ input PostCreateWithoutAuthorInput {
   uuid: String
 }
 
-input PostFilter {
+enum PostDistinctFieldEnum {
+  authorId
+  color
+  content
+  uuid
+}
+
+input PostListRelationFilter {
   every: PostWhereInput
   none: PostWhereInput
   some: PostWhereInput
@@ -133,7 +172,7 @@ input PostOrderByInput {
 input PostScalarWhereInput {
   AND: [PostScalarWhereInput!]
   authorId: IntFilter
-  color: ColorFilter
+  color: EnumColorFilter
   content: StringFilter
   NOT: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
@@ -201,7 +240,7 @@ input PostWhereInput {
   AND: [PostWhereInput!]
   author: UserWhereInput
   authorId: IntFilter
-  color: ColorFilter
+  color: EnumColorFilter
   content: StringFilter
   NOT: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -213,12 +252,12 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  aggregatePost(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): AggregatePost!
-  aggregateUser(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): AggregateUser!
+  aggregatePost(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): AggregatePost!
+  aggregateUser(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
   post(where: PostWhereUniqueInput!): Post
-  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
-  users(cursor: UserWhereUniqueInput, orderBy: UserOrderByInput, skip: Int, take: Int, where: UserWhereInput): [User!]!
+  users(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 enum SortOrder {
@@ -235,7 +274,21 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
-  not: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -243,7 +296,7 @@ input StringFilter {
 type User {
   id: Int!
   name: String
-  posts(cursor: PostWhereUniqueInput, orderBy: PostOrderByInput, skip: Int, take: Int, where: PostWhereInput): [Post!]
+  posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]
 }
 
 type UserAvgAggregateOutputType {
@@ -262,6 +315,11 @@ input UserCreateOneWithoutPostsInput {
 
 input UserCreateWithoutPostsInput {
   name: String
+}
+
+enum UserDistinctFieldEnum {
+  id
+  name
 }
 
 type UserMaxAggregateOutputType {
@@ -309,10 +367,10 @@ input UserUpsertWithoutPostsInput {
 input UserWhereInput {
   AND: [UserWhereInput!]
   id: IntFilter
-  name: NullableStringFilter
+  name: StringNullableFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  posts: PostFilter
+  posts: PostListRelationFilter
 }
 
 input UserWhereUniqueInput {
@@ -326,7 +384,9 @@ exports[`generator integration should generates TypeGraphQL classes files to out
 [type-graphql]
   [enums]
     Color.ts
+    PostDistinctFieldEnum.ts
     SortOrder.ts
+    UserDistinctFieldEnum.ts
     index.ts
   index.ts
   [models]
@@ -381,13 +441,16 @@ exports[`generator integration should generates TypeGraphQL classes files to out
           index.ts
       index.ts
     [inputs]
-      ColorFilter.ts
+      EnumColorFilter.ts
       IntFilter.ts
-      NullableStringFilter.ts
+      NestedEnumColorFilter.ts
+      NestedIntFilter.ts
+      NestedStringFilter.ts
+      NestedStringNullableFilter.ts
       PostCreateInput.ts
       PostCreateManyWithoutAuthorInput.ts
       PostCreateWithoutAuthorInput.ts
-      PostFilter.ts
+      PostListRelationFilter.ts
       PostOrderByInput.ts
       PostScalarWhereInput.ts
       PostUpdateInput.ts
@@ -401,10 +464,12 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       PostWhereInput.ts
       PostWhereUniqueInput.ts
       StringFilter.ts
+      StringNullableFilter.ts
       UserCreateInput.ts
       UserCreateOneWithoutPostsInput.ts
       UserCreateWithoutPostsInput.ts
       UserOrderByInput.ts
+      UserRelationFilter.ts
       UserUpdateInput.ts
       UserUpdateManyMutationInput.ts
       UserUpdateOneRequiredWithoutPostsInput.ts

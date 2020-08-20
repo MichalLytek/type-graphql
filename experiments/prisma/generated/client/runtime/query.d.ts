@@ -43,7 +43,7 @@ export declare class Field {
     };
 }
 export declare class Args {
-    readonly args: Arg[];
+    args: Arg[];
     readonly hasInvalidArg: boolean;
     constructor(args?: Arg[]);
     toString(): string;

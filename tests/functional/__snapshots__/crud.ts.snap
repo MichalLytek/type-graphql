@@ -1,235 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`aggregate\` action with simple count field: aggregateUserCount mocked response 1`] = `
-Object {
-  "aggregateUser": Object {
-    "count": 5,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`aggregate\` action with simple count field: user.aggregate call args 1`] = `
-Array [
-  Array [
-    Object {
-      "count": true,
-      "orderBy": Array [
-        UserOrderByInput {
-          "intIdField": "desc",
-        },
-      ],
-      "skip": 1,
-      "take": 1,
-      "where": UserWhereInput {
-        "dateField": DateTimeFilter {
-          "lte": 2019-12-31T19:16:02.572Z,
-        },
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`create\` action: createUser call args 1`] = `
-Array [
-  Array [
-    CreateUserArgs {
-      "data": UserCreateInput {
-        "dateField": 2019-12-31T14:16:02.572Z,
-        "optionalStringField": "optional",
-        "uniqueStringField": "unique",
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`create\` action: createUser mocked response 1`] = `
-Object {
-  "createUser": Object {
-    "dateField": "2019-12-31T14:16:02.572Z",
-    "intIdField": 1,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`delete\` action: deleteUser call args 1`] = `
-Array [
-  Array [
-    DeleteUserArgs {
-      "where": UserWhereUniqueInput {
-        "uniqueStringField": "unique",
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`delete\` action: deleteUser mocked response 1`] = `
-Object {
-  "deleteUser": Object {
-    "dateField": "2019-12-31T14:16:02.572Z",
-    "intIdField": 1,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`deleteMany\` action: deleteManyUser call args 1`] = `
-Array [
-  Array [
-    DeleteManyUserArgs {
-      "where": UserWhereInput {
-        "dateField": DateTimeFilter {
-          "lte": 2019-12-31T19:16:02.572Z,
-        },
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`deleteMany\` action: deleteManyUser mocked response 1`] = `
-Object {
-  "deleteManyUser": Object {
-    "count": 3,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findMany\` action: findManyUser call args 1`] = `
-Array [
-  Array [
-    FindManyUserArgs {
-      "orderBy": Array [
-        UserOrderByInput {
-          "intIdField": "desc",
-        },
-      ],
-      "skip": 1,
-      "take": 1,
-      "where": UserWhereInput {
-        "dateField": DateTimeFilter {
-          "lte": 2019-12-31T19:16:02.572Z,
-        },
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findMany\` action: users mocked response 1`] = `
-Object {
-  "users": Array [
-    Object {
-      "dateField": "2019-12-31T14:16:02.572Z",
-      "intIdField": 1,
-    },
-  ],
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findOne\` action: findOneUser call args 1`] = `
-Array [
-  Array [
-    FindOneUserArgs {
-      "where": UserWhereUniqueInput {
-        "uniqueStringField": "uniqueValue",
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`findOne\` action: user mocked response 1`] = `
-Object {
-  "user": Object {
-    "dateField": "2019-12-31T14:16:02.572Z",
-    "intIdField": 1,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`update\` action: updateUser call args 1`] = `
-Array [
-  Array [
-    UpdateUserArgs {
-      "data": UserUpdateInput {
-        "dateField": 2019-12-31T14:16:02.572Z,
-      },
-      "where": UserWhereUniqueInput {
-        "uniqueStringField": "unique",
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`update\` action: updateUser mocked response 1`] = `
-Object {
-  "updateUser": Object {
-    "dateField": "2019-12-31T14:16:02.572Z",
-    "intIdField": 1,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`updateMany\` action: updateManyUser call args 1`] = `
-Array [
-  Array [
-    UpdateManyUserArgs {
-      "data": UserUpdateManyMutationInput {
-        "optionalStringField": null,
-      },
-      "where": UserWhereInput {
-        "dateField": DateTimeFilter {
-          "lte": 2019-12-31T19:16:02.572Z,
-        },
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`updateMany\` action: updateManyUser mocked response 1`] = `
-Object {
-  "updateManyUser": Object {
-    "count": 3,
-  },
-}
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`upsert\` action: upsertUser call args 1`] = `
-Array [
-  Array [
-    UpsertUserArgs {
-      "create": UserCreateInput {
-        "dateField": 2019-12-31T14:16:02.572Z,
-        "optionalStringField": "optional",
-        "uniqueStringField": "unique",
-      },
-      "update": UserUpdateInput {
-        "optionalStringField": null,
-      },
-      "where": UserWhereUniqueInput {
-        "uniqueStringField": "unique",
-      },
-    },
-  ],
-]
-`;
-
-exports[`crud resolvers execution with default settings should properly call PrismaClient on \`upsert\` action: upsertUser mocked response 1`] = `
-Object {
-  "upsertUser": Object {
-    "dateField": "2019-12-31T14:16:02.572Z",
-    "intIdField": 1,
-    "optionalStringField": "optional",
-    "uniqueStringField": "unique",
-  },
-}
-`;
-
-exports[`crud resolvers execution with experimental aggregations api enabled should properly call PrismaClient on \`aggregate\` action with advanced operations: aggregateUser mocked response 1`] = `
+exports[`crud resolvers execution aggregations should properly call PrismaClient on \`aggregate\` action with advanced operations: aggregateUser mocked response 1`] = `
 Object {
   "aggregateUser": Object {
     "__typename": "AggregateUser",
@@ -258,7 +29,7 @@ Object {
 }
 `;
 
-exports[`crud resolvers execution with experimental aggregations api enabled should properly call PrismaClient on \`aggregate\` action with advanced operations: user.aggregate call args 1`] = `
+exports[`crud resolvers execution aggregations should properly call PrismaClient on \`aggregate\` action with advanced operations: user.aggregate call args 1`] = `
 Array [
   Array [
     Object {
@@ -294,4 +65,233 @@ Array [
     },
   ],
 ]
+`;
+
+exports[`crud resolvers execution aggregations should properly call PrismaClient on \`aggregate\` action with simple count field: aggregateUserCount mocked response 1`] = `
+Object {
+  "aggregateUser": Object {
+    "count": 5,
+  },
+}
+`;
+
+exports[`crud resolvers execution aggregations should properly call PrismaClient on \`aggregate\` action with simple count field: user.aggregate call args 1`] = `
+Array [
+  Array [
+    Object {
+      "count": true,
+      "orderBy": Array [
+        UserOrderByInput {
+          "intField": "desc",
+        },
+      ],
+      "skip": 1,
+      "take": 1,
+      "where": UserWhereInput {
+        "floatField": IntFilter {
+          "lte": 50,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`create\` action: createUser call args 1`] = `
+Array [
+  Array [
+    CreateUserArgs {
+      "data": UserCreateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+        "optionalStringField": "optional",
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`create\` action: createUser mocked response 1`] = `
+Object {
+  "createUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`delete\` action: deleteUser call args 1`] = `
+Array [
+  Array [
+    DeleteUserArgs {
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`delete\` action: deleteUser mocked response 1`] = `
+Object {
+  "deleteUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`deleteMany\` action: deleteManyUser call args 1`] = `
+Array [
+  Array [
+    DeleteManyUserArgs {
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`deleteMany\` action: deleteManyUser mocked response 1`] = `
+Object {
+  "deleteManyUser": Object {
+    "count": 3,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`findMany\` action: findManyUser call args 1`] = `
+Array [
+  Array [
+    FindManyUserArgs {
+      "orderBy": Array [
+        UserOrderByInput {
+          "intIdField": "desc",
+        },
+      ],
+      "skip": 1,
+      "take": 1,
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`findMany\` action: users mocked response 1`] = `
+Object {
+  "users": Array [
+    Object {
+      "dateField": "2019-12-31T14:16:02.572Z",
+      "intIdField": 1,
+    },
+  ],
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`findOne\` action: findOneUser call args 1`] = `
+Array [
+  Array [
+    FindOneUserArgs {
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "uniqueValue",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`findOne\` action: user mocked response 1`] = `
+Object {
+  "user": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`update\` action: updateUser call args 1`] = `
+Array [
+  Array [
+    UpdateUserArgs {
+      "data": UserUpdateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+      },
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`update\` action: updateUser mocked response 1`] = `
+Object {
+  "updateUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`updateMany\` action: updateManyUser call args 1`] = `
+Array [
+  Array [
+    UpdateManyUserArgs {
+      "data": UserUpdateManyMutationInput {
+        "optionalStringField": null,
+      },
+      "where": UserWhereInput {
+        "dateField": DateTimeFilter {
+          "lte": 2019-12-31T19:16:02.572Z,
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`updateMany\` action: updateManyUser mocked response 1`] = `
+Object {
+  "updateManyUser": Object {
+    "count": 3,
+  },
+}
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`upsert\` action: upsertUser call args 1`] = `
+Array [
+  Array [
+    UpsertUserArgs {
+      "create": UserCreateInput {
+        "dateField": 2019-12-31T14:16:02.572Z,
+        "optionalStringField": "optional",
+        "uniqueStringField": "unique",
+      },
+      "update": UserUpdateInput {
+        "optionalStringField": null,
+      },
+      "where": UserWhereUniqueInput {
+        "uniqueStringField": "unique",
+      },
+    },
+  ],
+]
+`;
+
+exports[`crud resolvers execution basic operations should properly call PrismaClient on \`upsert\` action: upsertUser mocked response 1`] = `
+Object {
+  "upsertUser": Object {
+    "dateField": "2019-12-31T14:16:02.572Z",
+    "intIdField": 1,
+    "optionalStringField": "optional",
+    "uniqueStringField": "unique",
+  },
+}
 `;

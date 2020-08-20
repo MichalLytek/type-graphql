@@ -6,16 +6,16 @@ import { JsonValue, InputJsonValue } from "../../../client";
   isAbstract: true,
   description: undefined,
 })
-export class BooleanFilter {
-  @TypeGraphQL.Field(_type => Boolean, {
+export class NestedJsonFilter {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  equals?: boolean | undefined;
+  equals?: InputJsonValue | undefined;
 
-  @TypeGraphQL.Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => NestedJsonFilter, {
     nullable: true,
     description: undefined
   })
-  not?: boolean | undefined;
+  not?: NestedJsonFilter | undefined;
 }

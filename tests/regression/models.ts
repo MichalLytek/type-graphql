@@ -42,6 +42,11 @@ describe("models", () => {
 
   it("should properly generate object type class for prisma model with enum and alias fields types", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       type Numeric = Float
 
       enum Sample {
@@ -63,6 +68,11 @@ describe("models", () => {
 
   it("should properly generate object type classes for prisma models with cyclic relations", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id     Int    @id @default(autoincrement())
         posts  Post[]
@@ -84,6 +94,11 @@ describe("models", () => {
 
   it("should properly generate object type classes for prisma models with self relations", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model Service {
         id            Int       @default(autoincrement()) @id
         name          String
@@ -101,6 +116,11 @@ describe("models", () => {
 
   it("should properly generate object type class for prisma model with descriptions", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       /// User model doc
       model User {
         id           Int    @id @default(autoincrement())
@@ -125,6 +145,11 @@ describe("models", () => {
 
   it("should properly generate object type classes for prisma models with cyclic relations when models are renamed", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       /// @@TypeGraphQL.type("Client")
       model User {
         id     Int    @id @default(autoincrement())
@@ -148,6 +173,11 @@ describe("models", () => {
 
   it("should properly generate object type class for prisma model with renamed fields", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id           Int       @id @default(autoincrement())
         dateOfBirth  DateTime

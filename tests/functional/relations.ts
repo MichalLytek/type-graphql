@@ -15,6 +15,11 @@ describe("relations resolvers execution", () => {
       outputDirPath = generateArtifactsDirPath("functional-relations");
       await fs.mkdir(outputDirPath, { recursive: true });
       const prismaSchema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+
         enum Color {
           RED
           GREEN
@@ -226,6 +231,11 @@ describe("relations resolvers execution", () => {
       outputDirPath = generateArtifactsDirPath("functional-relations");
       await fs.mkdir(outputDirPath, { recursive: true });
       const prismaSchema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+
         enum Color {
           RED
           GREEN

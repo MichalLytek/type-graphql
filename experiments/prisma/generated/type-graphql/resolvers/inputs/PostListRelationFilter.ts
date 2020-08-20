@@ -7,7 +7,7 @@ import { PostWhereInput } from "../inputs/PostWhereInput";
   isAbstract: true,
   description: undefined,
 })
-export class PostFilter {
+export class PostListRelationFilter {
   @TypeGraphQL.Field(_type => PostWhereInput, {
     nullable: true,
     description: undefined

@@ -66,6 +66,21 @@ query SortAllClients {
   }
 }
 
+query FindClientsWithEmptyBalance {
+  clients(where: { accountBalance: { equals: 0 } }) {
+    ...ClientData
+  }
+}
+
+query FindPostsOfAdmins {
+  posts(where: { author: { role: { equals: ADMIN } } }) {
+    ...PostData
+    author {
+      ...ClientData
+    }
+  }
+}
+
 fragment ClientData on Client {
   id
   email
@@ -145,14 +160,12 @@ query FilterPostsByJson {
   onWikiLeaks: posts(
     where: { metadata: { equals: { publishedOnWikiLeaks: true } } }
   ) {
-    uuid
-    title
+    ...PostData
   }
   notPublishedAndOthers: posts(
-    where: { metadata: { not: { publishedOnWikiLeaks: false } } }
+    where: { metadata: { not: { equals: { publishedOnWikiLeaks: false } } } }
   ) {
-    uuid
-    title
+    ...PostData
   }
 }
 

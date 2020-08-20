@@ -12,6 +12,10 @@ describe("picking prisma actions", () => {
     outputDirPath = generateArtifactsDirPath("functional-picking-actions");
     await fs.mkdir(outputDirPath, { recursive: true });
     const prismaSchema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
       model User {
         intIdField          Int     @id @default(autoincrement())
         uniqueStringField   String  @unique

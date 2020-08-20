@@ -18,6 +18,11 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate resolvers classes for prisma models with cyclic relations", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id     Int    @id @default(autoincrement())
         posts  Post[]
@@ -44,16 +49,21 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate resolver class for single relation resolvers", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id       Int      @id @default(autoincrement())
         name     String
-        address  Address?  
+        address  Address?
       }
       model Address {
         uuid      String  @id @default(cuid())
         content   String
         user      User    @relation(fields: [userId], references: [id])
-        userId    Int     
+        userId    Int
       }
     `;
 
@@ -68,15 +78,20 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate resolver and args class for array relation resolvers", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id     Int     @id @default(autoincrement())
-        posts  Post[]  
+        posts  Post[]
       }
       model Post {
         uuid      String  @id @default(cuid())
         content   String
         author    User    @relation(fields: [authorId], references: [id])
-        authorId  Int     
+        authorId  Int
       }
     `;
 
@@ -96,20 +111,25 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate relation resolver class for model with unique fields", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model Movie {
         directorFirstName String
         directorLastName  String
         director          Director @relation(fields: [directorFirstName, directorLastName], references: [firstName, lastName])
         title             String
-      
+
         @@id([directorFirstName, directorLastName, title])
       }
-      
+
       model Director {
         firstName String
         lastName  String
         movies    Movie[]
-      
+
         @@id([firstName, lastName])
       }
     `;
@@ -126,20 +146,25 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate relation resolver class for model with multi id keys with relation", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model Movie {
         directorFirstName String
         directorLastName  String
         director          Director @relation(fields: [directorFirstName, directorLastName], references: [firstName, lastName])
         title             String
-      
+
         @@id([directorFirstName, directorLastName, title])
       }
-      
+
       model Director {
         firstName String
         lastName  String
         movies    Movie[]
-      
+
         @@id([firstName, lastName])
       }
     `;
@@ -157,6 +182,11 @@ describe("relations resolvers generation", () => {
 
   it("should properly generate relation resolvers classes for models with renamed relation fields", async () => {
     const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+
       model User {
         id     Int    @id @default(autoincrement())
         /// @TypeGraphQL.field("userPosts")

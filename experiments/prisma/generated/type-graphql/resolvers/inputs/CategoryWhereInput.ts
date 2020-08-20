@@ -9,24 +9,6 @@ import { StringFilter } from "../inputs/StringFilter";
   description: undefined,
 })
 export class CategoryWhereInput {
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  name?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true,
-    description: undefined
-  })
-  slug?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true,
-    description: undefined
-  })
-  number?: IntFilter | undefined;
-
   @TypeGraphQL.Field(_type => [CategoryWhereInput], {
     nullable: true,
     description: undefined
@@ -44,4 +26,22 @@ export class CategoryWhereInput {
     description: undefined
   })
   NOT?: CategoryWhereInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  name?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  slug?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true,
+    description: undefined
+  })
+  number?: IntFilter | undefined;
 }

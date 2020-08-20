@@ -7,7 +7,7 @@ import { MovieWhereInput } from "../inputs/MovieWhereInput";
   isAbstract: true,
   description: undefined,
 })
-export class MovieFilter {
+export class MovieListRelationFilter {
   @TypeGraphQL.Field(_type => MovieWhereInput, {
     nullable: true,
     description: undefined
