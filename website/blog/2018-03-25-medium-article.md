@@ -2,7 +2,7 @@
 title: GraphQL + TypeScript = TypeGraphQL
 author: Michał Lytek
 authorURL: https://github.com/MichalLytek
-authorImage: /img/author.jpg
+authorImageURL: /img/author.jpg
 ---
 
 We all love GraphQL! It’s so great and solves many problems that we have with REST API, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of pain.
