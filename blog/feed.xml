@@ -4,7 +4,7 @@
         <title>TypeGraphQL Blog</title>
         <link>https://typegraphql.com/blog</link>
         <description>The best place to stay up-to-date with the latest TypeGraphQL news and events.</description>
-        <lastBuildDate>Sun, 25 Mar 2018 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 19 Aug 2020 06:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,25 @@
             <link>https://typegraphql.com/blog</link>
         </image>
         <copyright>Copyright © 2020 Michał Lytek</copyright>
+        <item>
+            <title><![CDATA[Announcing TypeGraphQL 1.0 🚀]]></title>
+            <link>https://typegraphql.com/blog/2020/08/19/devto-article.html</link>
+            <guid>https://typegraphql.com/blog/2020/08/19/devto-article.html</guid>
+            <pubDate>Wed, 19 Aug 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>It's finally happening! Over two years after the <a href="http://localhost:3000/blog/2018/03/25/medium-article.html">initial announcement</a>, <a href="https://typegraphql.com/">TypeGraphQL</a> is now ready for its first stable release - <code>v1.0.0</code> 🎉</p>
+<p>It was a really long journey that started in 31st of January 2018 with <a href="https://www.npmjs.com/package/type-graphql/v/0.1.0">releasing <code>v0.1.0</code></a> and which contained 650+ commits, 85+ merged PRs and <a href="https://github.com/MichalLytek/type-graphql">4.9k+ stars on GitHub</a>.</p>
+<p>This post is focused mostly on presenting new features and describing changes in the newest stable release. Well, then, without further ado... let's take a look what the TypeGraphQL 1.0 brings us!</p>
+<ul>
+<li><a href="#performance">Performance</a></li>
+<li><a href="#isolation">Schema isolation</a></li>
+<li><a href="#directives-extensions">Directives and extensions</a></li>
+<li><a href="#interfaces">Resolvers and arguments for interface fields</a></li>
+<li><a href="#errors">More descriptive errors messages</a></li>
+<li><a href="#transforming">Transforming nested inputs and arrays</a></li>
+<li><a href="#others">...and others 👀</a></li>
+</ul>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[GraphQL + TypeScript = TypeGraphQL]]></title>
             <link>https://typegraphql.com/blog/2018/03/25/medium-article.html</link>
