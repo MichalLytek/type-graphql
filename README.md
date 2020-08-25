@@ -180,14 +180,9 @@ It doesn't have a large company that sits behind - its ongoing development is po
 [![](https://opencollective.com/typegraphql/sponsors.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 [![](https://opencollective.com/typegraphql/backers.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 
-### Contribution
+### Want to help?
 
-If you have any questions, you can [ask on gitter](https://gitter.im/type-graphql/Lobby).
-If you find a bug, please report it as an issue on GitHub.
+Want to file a bug, contribute some code, or improve documentation? Great! Please read our
+guidelines for [contributing][contributing] and then check out one of our [help wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).
 
-If you want to add a new big feature, please create a proposal first, where we can discuss the idea and implementation details. This will prevent wasted time if the PR be rejected.
-
-PRs are welcome, but first check, test and build your code before committing it.
-
-- Use commit rules: For more information checkout this [commit rule guide](https://gist.github.com/stephenparish/9941e89d80e2bc58a153).
-- [Allowing changes to a pull request branch created from a fork](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/)
+[contributing]: https://github.com/MichalLytek/type-graphql/blob/master/CONTRIBUTING.md
