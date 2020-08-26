@@ -4288,7 +4288,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -4397,7 +4397,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -4535,7 +4535,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -4680,7 +4680,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -4818,7 +4818,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -4963,7 +4963,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5065,7 +5065,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5174,7 +5174,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5276,7 +5276,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5385,7 +5385,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5415,7 +5415,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5452,7 +5452,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5536,7 +5536,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5597,7 +5597,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5627,7 +5627,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5664,7 +5664,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -5892,13 +5892,6 @@
             "name": "metadata",
             "inputType": [
               {
-                "type": "Json",
-                "kind": "scalar",
-                "isRequired": false,
-                "isList": false,
-                "isNullable": false
-              },
-              {
                 "type": "JsonFilter",
                 "kind": "object",
                 "isRequired": false,
@@ -6000,7 +5993,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -6061,7 +6054,7 @@
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
-                "isNullable": false
+                "isNullable": true
               }
             ]
           }
@@ -7938,13 +7931,6 @@
           {
             "name": "metadata",
             "inputType": [
-              {
-                "type": "Json",
-                "kind": "scalar",
-                "isRequired": false,
-                "isList": false,
-                "isNullable": false
-              },
               {
                 "type": "JsonFilter",
                 "kind": "object",

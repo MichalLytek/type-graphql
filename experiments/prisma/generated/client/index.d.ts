@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.5.0
- * Query Engine version: 9a670138b1db276001d785a2adcba1584c869d24
+ * Prisma Client JS version: 2.6.0-dev.35
+ * Query Engine version: 4207c64a590fe98ef0e456b5f49e99ea4f7f0ce0
  */
 export declare type PrismaVersion = {
   client: string
@@ -184,7 +184,9 @@ export type LogDefinition = {
 }
 
 export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-export type GetEvents<T extends Array<LogLevel | LogDefinition>> = GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]> 
+export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+  GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+  : never
 
 export type QueryEvent = {
   timestamp: Date
@@ -202,7 +204,7 @@ export type LogEvent = {
 /* End Types for Logging */
 
 
-export type Action =
+export type PrismaAction =
   | 'findOne'
   | 'findMany'
   | 'create'
@@ -220,7 +222,7 @@ export type Action =
  */
 export type MiddlewareParams = {
   model?: string
-  action: Action
+  action: PrismaAction
   args: any
   dataPath: string[]
   runInTransaction: boolean
@@ -249,11 +251,11 @@ export declare function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLe
  * ```
  *
  * 
- * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
+ * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
  */
 export declare class PrismaClient<
   T extends PrismaClientOptions = PrismaClientOptions,
-  U = keyof T extends 'log' ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never
+  U = 'log' extends keyof T ? T['log'] extends Array<LogLevel | LogDefinition> ? GetEvents<T['log']> : never : never
 > {
   /**
    * @private
@@ -300,7 +302,7 @@ export declare class PrismaClient<
    * ```
    *
    * 
-   * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md).
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
   constructor(optionsArg?: T);
   $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? QueryEvent : LogEvent) => void): void;
@@ -341,7 +343,7 @@ export declare class PrismaClient<
    * const result = await prisma.executeRaw('UPDATE User SET cool = $1 WHERE id = $2 ;', true, 1)
   * ```
   * 
-  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
+  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
   */
   $executeRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<number>;
 
@@ -360,7 +362,7 @@ export declare class PrismaClient<
    * const result = await prisma.queryRaw('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'ema.il')
   * ```
   * 
-  * Read more in our [docs](https://github.com/prisma/prisma/blob/master/docs/prisma-client-js/api.md#raw-database-access).
+  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
   */
   $queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
  
@@ -3267,7 +3269,7 @@ export type NestedIntFilter = {
   lte?: number
   gt?: number
   gte?: number
-  not?: NestedIntFilter
+  not?: NestedIntFilter | null
 }
 
 export type IntFilter = {
@@ -3292,7 +3294,7 @@ export type NestedStringFilter = {
   contains?: string
   startsWith?: string
   endsWith?: string
-  not?: NestedStringFilter
+  not?: NestedStringFilter | null
 }
 
 export type StringFilter = {
@@ -3320,7 +3322,7 @@ export type NestedStringNullableFilter = {
   contains?: string | null
   startsWith?: string | null
   endsWith?: string | null
-  not?: NestedStringNullableFilter
+  not?: NestedStringNullableFilter | null
 }
 
 export type StringNullableFilter = {
@@ -3345,7 +3347,7 @@ export type NestedFloatFilter = {
   lte?: number
   gt?: number
   gte?: number
-  not?: NestedFloatFilter
+  not?: NestedFloatFilter | null
 }
 
 export type FloatFilter = {
@@ -3367,7 +3369,7 @@ export type NestedDateTimeFilter = {
   lte?: Date | string
   gt?: Date | string
   gte?: Date | string
-  not?: NestedDateTimeFilter
+  not?: NestedDateTimeFilter | null
 }
 
 export type DateTimeFilter = {
@@ -3383,7 +3385,7 @@ export type DateTimeFilter = {
 
 export type NestedBoolFilter = {
   equals?: boolean
-  not?: NestedBoolFilter
+  not?: NestedBoolFilter | null
 }
 
 export type BoolFilter = {
@@ -3400,7 +3402,7 @@ export type NestedEnumPostKindNullableFilter = {
   equals?: PostKind | null
   in?: Enumerable<PostKind> | null
   notIn?: Enumerable<PostKind> | null
-  not?: NestedEnumPostKindNullableFilter
+  not?: NestedEnumPostKindNullableFilter | null
 }
 
 export type EnumPostKindNullableFilter = {
@@ -3412,7 +3414,7 @@ export type EnumPostKindNullableFilter = {
 
 export type NestedJsonFilter = {
   equals?: InputJsonValue
-  not?: NestedJsonFilter
+  not?: NestedJsonFilter | null
 }
 
 export type JsonFilter = {
@@ -3433,7 +3435,7 @@ export type postWhereInput = {
   author?: UserWhereInput | null
   authorId?: number | IntFilter
   kind?: PostKind | EnumPostKindNullableFilter | null
-  metadata?: InputJsonValue | JsonFilter
+  metadata?: JsonFilter
 }
 
 export type PostListRelationFilter = {
@@ -3446,7 +3448,7 @@ export type NestedEnumRoleFilter = {
   equals?: Role
   in?: Enumerable<Role>
   notIn?: Enumerable<Role>
-  not?: NestedEnumRoleFilter
+  not?: NestedEnumRoleFilter | null
 }
 
 export type EnumRoleFilter = {
@@ -3664,7 +3666,7 @@ export type postScalarWhereInput = {
   content?: string | StringNullableFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | EnumPostKindNullableFilter | null
-  metadata?: InputJsonValue | JsonFilter
+  metadata?: JsonFilter
 }
 
 export type postUpdateManyDataInput = {
