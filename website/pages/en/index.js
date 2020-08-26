@@ -215,7 +215,7 @@ const InteroperableSection = props => (
         {
           title: "Interoperable",
           content:
-            "Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like [TypeORM](https://github.com/typeorm/typeorm), [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) or [Typegoose](https://github.com/szokodiakos/typegoose).<br><br>This allows you to define both the GraphQL type and the entity in a single class - no need to jump between multiple files to add or rename some properties.",
+            "Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like [TypeORM](https://github.com/typeorm/typeorm), [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) or [Typegoose](https://github.com/typegoose/typegoose).<br><br>This allows you to define both the GraphQL type and the entity in a single class - no need to jump between multiple files to add or rename some properties.",
         },
       ]}
     />
