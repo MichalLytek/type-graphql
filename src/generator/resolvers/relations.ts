@@ -1,20 +1,13 @@
 import { OptionalKind, MethodDeclarationStructure, Project } from "ts-morph";
 import path from "path";
 
-import { camelCase, pascalCase, cleanDocsString } from "../helpers";
-import generateArgsTypeClassFromArgs from "../args-class";
-import {
-  resolversFolderName,
-  relationsResolversFolderName,
-  argsFolderName,
-} from "../config";
+import { camelCase } from "../helpers";
+import { resolversFolderName, relationsResolversFolderName } from "../config";
 import {
   generateTypeGraphQLImport,
   generateArgsImports,
   generateModelsImports,
-  generateArgsBarrelFile,
 } from "../imports";
-import { GeneratedResolverData } from "../types";
 import saveSourceFile from "../../utils/saveSourceFile";
 import { DmmfDocument } from "../dmmf/dmmf-document";
 import { DMMF } from "../dmmf/types";
@@ -22,14 +15,10 @@ import { DMMF } from "../dmmf/types";
 export default async function generateRelationsResolverClassesFromModel(
   project: Project,
   baseDirPath: string,
-  model: DMMF.Model,
-  mapping: DMMF.Mapping,
-  outputType: DMMF.OutputType,
   dmmfDocument: DmmfDocument,
-): Promise<GeneratedResolverData> {
-  const resolverName = `${model.typeName}RelationsResolver`;
+  { model, relationFields, resolverName }: DMMF.RelationModel,
+) {
   const rootArgName = camelCase(model.typeName);
-  const relationFields = model.fields.filter(field => field.relationName);
   const singleIdField = model.fields.find(field => field.isId);
   const singleUniqueField = model.fields.find(field => field.isUnique);
   const singleFilterField = singleIdField ?? singleUniqueField;
@@ -54,39 +43,6 @@ export default async function generateRelationsResolverClassesFromModel(
     overwrite: true,
   });
 
-  const methodsInfo = await Promise.all(
-    relationFields.map(async field => {
-      const outputTypeField = outputType.fields.find(
-        it => it.name === field.name,
-      )!;
-
-      let argsTypeName: string | undefined;
-      if (outputTypeField.args.length > 0) {
-        argsTypeName = await generateArgsTypeClassFromArgs(
-          project,
-          resolverDirPath,
-          outputTypeField.args,
-          `${model.typeName}${pascalCase(field.name)}Args`,
-          dmmfDocument,
-        );
-      }
-      return { field, fieldDocs: field.docs, argsTypeName };
-    }),
-  );
-  const argTypeNames = methodsInfo
-    .filter(it => it.argsTypeName !== undefined)
-    .map(it => it.argsTypeName!);
-
-  const barrelExportSourceFile = project.createSourceFile(
-    path.resolve(resolverDirPath, argsFolderName, "index.ts"),
-    undefined,
-    { overwrite: true },
-  );
-  if (argTypeNames.length) {
-    generateArgsBarrelFile(barrelExportSourceFile, argTypeNames);
-    await saveSourceFile(barrelExportSourceFile);
-  }
-
   generateTypeGraphQLImport(sourceFile);
   generateModelsImports(
     sourceFile,
@@ -97,6 +53,10 @@ export default async function generateRelationsResolverClassesFromModel(
     ),
     3,
   );
+
+  const argTypeNames = relationFields
+    .filter(it => it.argsTypeName !== undefined)
+    .map(it => it.argsTypeName!);
   generateArgsImports(sourceFile, argTypeNames, 0);
 
   sourceFile.addClass({
@@ -108,8 +68,8 @@ export default async function generateRelationsResolverClassesFromModel(
         arguments: [`_of => ${model.typeName}`],
       },
     ],
-    methods: methodsInfo.map<OptionalKind<MethodDeclarationStructure>>(
-      ({ field, fieldDocs, argsTypeName }) => {
+    methods: relationFields.map<OptionalKind<MethodDeclarationStructure>>(
+      field => {
         let whereConditionString: string = "";
         // TODO: refactor to AST
         if (singleFilterField) {
@@ -142,7 +102,7 @@ export default async function generateRelationsResolverClassesFromModel(
                 `_type => ${field.typeGraphQLType}`,
                 `{
                   nullable: ${!field.isRequired},
-                  description: ${fieldDocs ? `"${fieldDocs}"` : "undefined"},
+                  description: ${field.docs ? `"${field.docs}"` : "undefined"},
                 }`,
               ],
             },
@@ -159,12 +119,12 @@ export default async function generateRelationsResolverClassesFromModel(
               type: "any",
               decorators: [{ name: "TypeGraphQL.Ctx", arguments: [] }],
             },
-            ...(!argsTypeName
+            ...(!field.argsTypeName
               ? []
               : [
                   {
                     name: "args",
-                    type: argsTypeName,
+                    type: field.argsTypeName,
                     decorators: [{ name: "TypeGraphQL.Args", arguments: [] }],
                   },
                 ]),
@@ -173,7 +133,7 @@ export default async function generateRelationsResolverClassesFromModel(
           statements: [
             `return ctx.prisma.${camelCase(model.name)}.findOne({
               where: {${whereConditionString}},
-            }).${field.name}(${argsTypeName ? "args" : "{}"});`,
+            }).${field.name}(${field.argsTypeName ? "args" : "{}"});`,
           ],
         };
       },
@@ -181,5 +141,4 @@ export default async function generateRelationsResolverClassesFromModel(
   });
 
   await saveSourceFile(sourceFile);
-  return { modelName: model.typeName, resolverName, argTypeNames };
 }

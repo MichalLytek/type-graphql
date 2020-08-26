@@ -1,11 +1,11 @@
-import { DMMFTypeInfo } from "./types";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import { modelAttributeRegex, fieldAttributeRegex } from "./dmmf/helpers";
+import { DMMF } from "./dmmf/types";
 
 export function noop() {}
 
 export function getFieldTSType(
-  typeInfo: DMMFTypeInfo,
+  typeInfo: DMMF.TypeInfo,
   dmmfDocument: DmmfDocument,
   isInputType: boolean,
   modelName?: string,
@@ -70,7 +70,7 @@ export function mapScalarToTSType(scalar: string, isInputType: boolean) {
 }
 
 export function getTypeGraphQLType(
-  typeInfo: DMMFTypeInfo,
+  typeInfo: DMMF.TypeInfo,
   dmmfDocument: DmmfDocument,
   modelName?: string,
   typeName?: string,

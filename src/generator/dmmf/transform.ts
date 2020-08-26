@@ -208,10 +208,10 @@ function transformMapping(
 ) {
   return (mapping: PrismaDMMF.Mapping): DMMF.Mapping => {
     const { model, plural, ...availableActions } = mapping;
+    const modelTypeName = dmmfDocument.getModelTypeName(model) ?? model;
     const actions = Object.entries(availableActions).map<DMMF.Action>(
       ([modelAction, fieldName]) => {
         const kind = modelAction as DMMF.ModelAction;
-        const modelName = dmmfDocument.getModelTypeName(model) ?? model;
         const actionOutputType = dmmfDocument.schema.outputTypes.find(type =>
           type.fields.some(field => field.name === fieldName),
         );
@@ -230,23 +230,29 @@ function transformMapping(
               )}Args`
             : undefined;
         const outputTypeName = method.outputType.type as string;
+        const actionResolverName = `${pascalCase(
+          kind,
+        )}${modelTypeName}Resolver`;
 
         return {
-          name: getMappedActionName(kind, modelName, options),
+          name: getMappedActionName(kind, modelTypeName, options),
           fieldName,
           kind: kind,
           operation: getOperationKindName(kind)!,
           method,
           argsTypeName,
           outputTypeName,
+          actionResolverName,
         };
       },
     );
+    const resolverName = `${modelTypeName}CrudResolver`;
     return {
       model,
       plural,
       actions,
       collectionName: camelCase(mapping.model),
+      resolverName,
     };
   };
 }
@@ -328,6 +334,39 @@ export function transformEnums(dmmfDocument: DmmfDocument) {
           (modelName && dmmfDocument.getModelFieldAlias(modelName, value)) ||
           value,
       })),
+    };
+  };
+}
+
+export function generateRelationModel(dmmfDocument: DmmfDocument) {
+  return (model: DMMF.Model): DMMF.RelationModel => {
+    const outputType = dmmfDocument.schema.outputTypes.find(
+      type => type.name === model.name,
+    )!;
+    const resolverName = `${model.typeName}RelationsResolver`;
+    const relationFields = model.fields
+      .filter(field => field.relationName)
+      .map<DMMF.RelationField>(field => {
+        const outputTypeField = outputType.fields.find(
+          it => it.name === field.name,
+        )!;
+        const argsTypeName =
+          outputTypeField.args.length > 0
+            ? `${model.typeName}${pascalCase(field.name)}Args`
+            : undefined;
+
+        return {
+          ...field,
+          outputTypeField,
+          argsTypeName,
+        };
+      });
+
+    return {
+      model,
+      outputType,
+      relationFields,
+      resolverName,
     };
   };
 }

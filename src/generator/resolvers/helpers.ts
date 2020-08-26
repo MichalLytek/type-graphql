@@ -1,3 +1,5 @@
+import { OptionalKind, MethodDeclarationStructure } from "ts-morph";
+
 import { getFieldTSType, getTypeGraphQLType } from "../helpers";
 import { DmmfDocument } from "../dmmf/dmmf-document";
 import { DMMF } from "../dmmf/types";
@@ -7,7 +9,8 @@ export function generateCrudResolverClassMethodDeclaration(
   typeName: string,
   dmmfDocument: DmmfDocument,
   mapping: DMMF.Mapping,
-) {
+): OptionalKind<MethodDeclarationStructure> {
+  // TODO: move to DMMF transform step
   const returnTSType = getFieldTSType(
     action.method.outputType,
     dmmfDocument,

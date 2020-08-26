@@ -17,14 +17,12 @@ import { modelsFolderName } from "./config";
 import saveSourceFile from "../utils/saveSourceFile";
 import { DMMF } from "./dmmf/types";
 import { DmmfDocument } from "./dmmf/dmmf-document";
-import { GenerateCodeOptions } from "./options";
 
 export default async function generateObjectTypeClassFromModel(
   project: Project,
   baseDirPath: string,
   model: DMMF.Model,
   dmmfDocument: DmmfDocument,
-  options: GenerateCodeOptions,
 ) {
   const dirPath = path.resolve(baseDirPath, modelsFolderName);
   const filePath = path.resolve(dirPath, `${model.typeName}.ts`);
@@ -34,7 +32,7 @@ export default async function generateObjectTypeClassFromModel(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
-  generatePrismaJsonTypeImport(sourceFile, options, 1);
+  generatePrismaJsonTypeImport(sourceFile, dmmfDocument.options, 1);
   generateModelsImports(
     sourceFile,
     model.fields

@@ -115,17 +115,25 @@ export namespace DMMF {
   }
   export interface SchemaField {
     name: string;
-    outputType: {
-      // type: string | OutputType | Enum;
-      type: string;
-      isList: boolean;
-      isRequired: boolean;
-      kind: FieldKind;
-    };
+    // outputType: {
+    //   type: string | OutputType | Enum;
+    //   isList: boolean;
+    //   isRequired: boolean;
+    //   kind: FieldKind;
+    // };
+    outputType: TypeInfo;
     args: SchemaArg[];
     // additional props
     typeGraphQLType: string;
     fieldTSType: string;
+  }
+  // named subtype of SchemaField->outputType
+  export interface TypeInfo {
+    // type: string | OutputType | Enum;
+    type: string;
+    isList: boolean;
+    isRequired: boolean;
+    kind: FieldKind;
   }
   // additional type
   export interface OutputSchemaField extends SchemaField {
@@ -157,6 +165,7 @@ export namespace DMMF {
     // additional props
     actions: Action[];
     collectionName: string;
+    resolverName: string;
   }
   // additional type
   export interface Action {
@@ -167,6 +176,7 @@ export namespace DMMF {
     method: OutputSchemaField;
     argsTypeName: string | undefined;
     outputTypeName: string;
+    actionResolverName: string;
   }
   export enum ModelAction {
     findOne = "findOne",
@@ -179,6 +189,18 @@ export namespace DMMF {
     deleteMany = "deleteMany",
     // additional props
     aggregate = "aggregate",
+  }
+  // additional type
+  export interface RelationModel {
+    model: Model;
+    outputType: OutputType;
+    relationFields: RelationField[];
+    resolverName: string;
+  }
+  // additional type
+  export interface RelationField extends Field {
+    outputTypeField: OutputSchemaField;
+    argsTypeName: string | undefined;
   }
 }
 export interface BaseField {

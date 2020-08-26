@@ -27,7 +27,6 @@ export async function generateOutputTypeClassFromType(
   dirPath: string,
   type: DMMF.OutputType,
   dmmfDocument: DmmfDocument,
-  options: GenerateCodeOptions,
 ) {
   const fileDirPath = path.resolve(dirPath, outputsFolderName);
   const filePath = path.resolve(fileDirPath, `${type.typeName}.ts`);
@@ -40,7 +39,7 @@ export async function generateOutputTypeClassFromType(
 
   generateTypeGraphQLImport(sourceFile);
   generateGraphQLScalarImport(sourceFile);
-  generatePrismaJsonTypeImport(sourceFile, options, 2);
+  generatePrismaJsonTypeImport(sourceFile, dmmfDocument.options, 2);
   generateArgsImports(sourceFile, fieldArgsTypeNames, 0);
   generateOutputsImports(
     sourceFile,

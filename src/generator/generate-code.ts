@@ -34,6 +34,7 @@ import saveSourceFile from "../utils/saveSourceFile";
 import { GenerateCodeOptions } from "./options";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import generateArgsTypeClassFromArgs from "./args-class";
+import generateActionResolverClass from "./resolvers/separate-action";
 
 export default async function generateCode(
   dmmf: PrismaDMMF.Document,
@@ -85,7 +86,6 @@ export default async function generateCode(
         baseDirPath,
         model,
         dmmfDocument,
-        options,
       ),
     ),
   );
@@ -119,7 +119,6 @@ export default async function generateCode(
         resolversDirPath,
         type,
         dmmfDocument,
-        options,
       ),
     ),
   );
@@ -200,28 +199,18 @@ export default async function generateCode(
   );
   await saveSourceFile(inputsBarrelExportSourceFile);
 
-  log("Generating relation resolvers...");
-  const relationResolversData = await Promise.all(
-    dmmfDocument.datamodel.models
-      .filter(model => model.fields.some(field => field.relationName))
-      .map(model => {
-        const outputType = dmmfDocument.schema.outputTypes.find(
-          type => type.name === model.name,
-        )!;
-        const mapping = dmmfDocument.mappings.find(
-          it => it.model === model.name,
-        )!;
-        return generateRelationsResolverClassesFromModel(
+  if (dmmfDocument.relationModels.length > 0) {
+    log("Generating relation resolvers...");
+    await Promise.all(
+      dmmfDocument.relationModels.map(relationModel =>
+        generateRelationsResolverClassesFromModel(
           project,
           baseDirPath,
-          model,
-          mapping,
-          outputType,
           dmmfDocument,
-        );
-      }),
-  );
-  if (relationResolversData.length > 0) {
+          relationModel,
+        ),
+      ),
+    );
     const relationResolversBarrelExportSourceFile = project.createSourceFile(
       path.resolve(
         baseDirPath,
@@ -235,27 +224,89 @@ export default async function generateCode(
     generateResolversBarrelFile(
       "relations",
       relationResolversBarrelExportSourceFile,
-      relationResolversData,
+      dmmfDocument.relationModels.map(relationModel => ({
+        resolverName: relationModel.resolverName,
+        modelName: relationModel.model.typeName,
+        hasSomeArgs: relationModel.relationFields.some(
+          field => field.argsTypeName !== undefined,
+        ),
+      })),
     );
     await saveSourceFile(relationResolversBarrelExportSourceFile);
+
+    log("Generating relation resolver args...");
+    await Promise.all(
+      dmmfDocument.relationModels.map(async relationModelData => {
+        const resolverDirPath = path.resolve(
+          baseDirPath,
+          resolversFolderName,
+          relationsResolversFolderName,
+          relationModelData.model.typeName,
+        );
+        await Promise.all(
+          relationModelData.relationFields
+            .filter(field => field.argsTypeName)
+            .map(async field => {
+              await generateArgsTypeClassFromArgs(
+                project,
+                resolverDirPath,
+                field.outputTypeField.args,
+                field.argsTypeName!,
+                dmmfDocument,
+              );
+            }),
+        );
+        const argTypeNames = relationModelData.relationFields
+          .filter(it => it.argsTypeName !== undefined)
+          .map(it => it.argsTypeName!);
+
+        if (argTypeNames.length) {
+          const barrelExportSourceFile = project.createSourceFile(
+            path.resolve(resolverDirPath, argsFolderName, "index.ts"),
+            undefined,
+            { overwrite: true },
+          );
+          generateArgsBarrelFile(barrelExportSourceFile, argTypeNames);
+          await saveSourceFile(barrelExportSourceFile);
+        }
+      }),
+    );
   }
 
   log("Generating crud resolvers...");
-  const crudResolversData = await Promise.all(
-    dmmfDocument.mappings.map(mapping => {
+  await Promise.all(
+    dmmfDocument.mappings.map(async mapping => {
       const model = dmmfDocument.datamodel.models.find(
         model => model.name === mapping.model,
       )!;
-      return generateCrudResolverClassFromMapping(
+      await generateCrudResolverClassFromMapping(
         project,
         baseDirPath,
         mapping,
         model,
-        modelNames,
-        options,
         dmmfDocument,
       );
     }),
+  );
+  await Promise.all(
+    dmmfDocument.mappings.map(
+      async mapping =>
+        await Promise.all(
+          mapping.actions.map(async action => {
+            const model = dmmfDocument.datamodel.models.find(
+              model => model.name === mapping.model,
+            )!;
+            await generateActionResolverClass(
+              project,
+              baseDirPath,
+              model,
+              action,
+              mapping,
+              dmmfDocument,
+            );
+          }),
+        ),
+    ),
   );
   const crudResolversBarrelExportSourceFile = project.createSourceFile(
     path.resolve(
@@ -270,9 +321,63 @@ export default async function generateCode(
   generateResolversBarrelFile(
     "crud",
     crudResolversBarrelExportSourceFile,
-    crudResolversData,
+    dmmfDocument.mappings.map(mapping => {
+      const model = dmmfDocument.datamodel.models.find(
+        model => model.name === mapping.model,
+      )!;
+      return {
+        modelName: model.typeName,
+        resolverName: mapping.resolverName,
+        actionResolverNames: mapping.actions.map(it => it.actionResolverName),
+        hasSomeArgs: mapping.actions.some(
+          action => action.argsTypeName !== undefined,
+        ),
+      };
+    }),
   );
   await saveSourceFile(crudResolversBarrelExportSourceFile);
+
+  log("Generating crud resolvers args...");
+  await Promise.all(
+    dmmfDocument.mappings.map(async mapping => {
+      const actionsWithArgs = mapping.actions.filter(
+        it => it.argsTypeName !== undefined,
+      );
+
+      if (actionsWithArgs.length) {
+        const model = dmmfDocument.datamodel.models.find(
+          model => model.name === mapping.model,
+        )!;
+        const resolverDirPath = path.resolve(
+          baseDirPath,
+          resolversFolderName,
+          crudResolversFolderName,
+          model.typeName,
+        );
+        await Promise.all(
+          actionsWithArgs.map(async action => {
+            await generateArgsTypeClassFromArgs(
+              project,
+              resolverDirPath,
+              action.method.args,
+              action.argsTypeName!,
+              dmmfDocument,
+            );
+          }),
+        );
+        const barrelExportSourceFile = project.createSourceFile(
+          path.resolve(resolverDirPath, argsFolderName, "index.ts"),
+          undefined,
+          { overwrite: true },
+        );
+        generateArgsBarrelFile(
+          barrelExportSourceFile,
+          actionsWithArgs.map(it => it.argsTypeName!),
+        );
+        await saveSourceFile(barrelExportSourceFile);
+      }
+    }),
+  );
 
   log("Generating index file");
   const indexSourceFile = project.createSourceFile(
@@ -280,6 +385,6 @@ export default async function generateCode(
     undefined,
     { overwrite: true },
   );
-  generateIndexFile(indexSourceFile, relationResolversData.length > 0);
+  generateIndexFile(indexSourceFile, dmmfDocument.relationModels.length > 0);
   await saveSourceFile(indexSourceFile);
 }

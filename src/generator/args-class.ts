@@ -77,5 +77,4 @@ export default async function generateArgsTypeClassFromArgs(
   });
 
   await saveSourceFile(sourceFile);
-  return argsTypeName;
 }

@@ -1,7 +1,6 @@
 import { Project } from "ts-morph";
 import path from "path";
 
-import { pascalCase } from "../helpers";
 import { resolversFolderName, crudResolversFolderName } from "../config";
 import {
   generateTypeGraphQLImport,
@@ -20,23 +19,20 @@ export default async function generateActionResolverClass(
   baseDirPath: string,
   model: DMMF.Model,
   action: DMMF.Action,
-  modelNames: string[],
   mapping: DMMF.Mapping,
   dmmfDocument: DmmfDocument,
-): Promise<string> {
-  const actionResolverName = `${pascalCase(action.kind)}${
-    model.typeName
-  }Resolver`;
-  const resolverDirPath = path.resolve(
-    baseDirPath,
-    resolversFolderName,
-    crudResolversFolderName,
-    model.typeName,
+) {
+  const sourceFile = project.createSourceFile(
+    path.resolve(
+      baseDirPath,
+      resolversFolderName,
+      crudResolversFolderName,
+      model.typeName,
+      `${action.actionResolverName}.ts`,
+    ),
+    undefined,
+    { overwrite: true },
   );
-  const filePath = path.resolve(resolverDirPath, `${actionResolverName}.ts`);
-  const sourceFile = project.createSourceFile(filePath, undefined, {
-    overwrite: true,
-  });
 
   generateTypeGraphQLImport(sourceFile);
   if (action.kind === DMMF.ModelAction.aggregate) {
@@ -48,22 +44,20 @@ export default async function generateActionResolverClass(
   generateModelsImports(
     sourceFile,
     [model.name, action.outputTypeName]
-      .filter(name => modelNames.includes(name))
-      .map(typeName =>
-        dmmfDocument.isModelName(typeName)
-          ? dmmfDocument.getModelTypeName(typeName)!
-          : typeName,
-      ),
+      .filter(typeName => dmmfDocument.isModelName(typeName))
+      .map(typeName => dmmfDocument.getModelTypeName(typeName)!),
     3,
   );
   generateOutputsImports(
     sourceFile,
-    [action.outputTypeName].filter(name => !modelNames.includes(name)),
+    [action.outputTypeName].filter(
+      typeName => !dmmfDocument.isModelName(typeName),
+    ),
     2,
   );
 
   sourceFile.addClass({
-    name: actionResolverName,
+    name: action.actionResolverName,
     isExported: true,
     decorators: [
       {
@@ -82,5 +76,4 @@ export default async function generateActionResolverClass(
   });
 
   await saveSourceFile(sourceFile);
-  return actionResolverName;
 }

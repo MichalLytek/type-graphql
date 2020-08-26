@@ -11,7 +11,7 @@ import {
   crudResolversFolderName,
   relationsResolversFolderName,
 } from "./config";
-import { GeneratedResolverData } from "./types";
+import { GenerateMappingData } from "./types";
 import { GenerateCodeOptions } from "./options";
 
 export function generateTypeGraphQLImport(sourceFile: SourceFile) {
@@ -153,14 +153,19 @@ export function generateIndexFile(
 export function generateResolversBarrelFile(
   type: "crud" | "relations",
   sourceFile: SourceFile,
-  relationResolversData: GeneratedResolverData[],
+  resolversData: GenerateMappingData[],
 ) {
-  relationResolversData
+  resolversData
     .sort((a, b) =>
       a.modelName > b.modelName ? 1 : a.modelName < b.modelName ? -1 : 0,
     )
     .forEach(
-      ({ modelName, resolverName, actionResolverNames, argTypeNames }) => {
+      ({
+        modelName,
+        resolverName,
+        actionResolverNames,
+        hasSomeArgs: hasArgs,
+      }) => {
         sourceFile.addExportDeclaration({
           moduleSpecifier: `./${modelName}/${resolverName}`,
           namedExports: [resolverName],
@@ -173,7 +178,7 @@ export function generateResolversBarrelFile(
             });
           });
         }
-        if (argTypeNames.length) {
+        if (hasArgs) {
           sourceFile.addExportDeclaration({
             moduleSpecifier: `./${modelName}/args`,
           });
