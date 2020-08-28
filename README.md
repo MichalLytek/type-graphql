@@ -155,9 +155,9 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Gold Sponsors 🏆
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/blue_receipt.gif" width="450">](http://career.bluereceipt.co/) |
-| :---: |
-| [**BlueReceipt**](http://career.bluereceipt.co/) |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/blue_receipt.gif" width="450">](http://career.bluereceipt.co/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/ecad.png" width="200">](https://www.ecadlabs.com/) |
+| :---: | :---: |
+| [**BlueReceipt**](http://career.bluereceipt.co/) | [**ECAD Labs**](https://www.ecadlabs.com/) |
 
 > Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/gold-sponsors-8340) and getting a premium technical support from our core contributors.
 
