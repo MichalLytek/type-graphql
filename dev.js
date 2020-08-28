@@ -9,6 +9,7 @@ require("ts-node/register/transpile-only");
 // require("./examples/graphql-modules/src/index.ts");
 // require("./examples/interfaces-inheritance/index.ts");
 // require("./examples/middlewares-custom-decorators/index.ts");
+// require("./examples/mikro-orm/index.ts");
 // require("./examples/mixin-classes/index.ts");
 // require("./examples/query-complexity/index.ts");
 // require("./examples/redis-subscriptions/index.ts");

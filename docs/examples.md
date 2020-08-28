@@ -36,6 +36,7 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
 
 - [TypeORM (manual, synchronous) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-lazy-relations)
+- [MikroORM](https://github.com/MichalLytek/type-graphql/tree/master/examples/mikro-orm)
 - [Typegoose](https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose)
 - [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-engine)

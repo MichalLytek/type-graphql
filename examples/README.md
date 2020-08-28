@@ -5,7 +5,7 @@ This folder consist of simple examples showing how to use different `TypeGraphQL
 All examples has a `examples.gql` file with sample queries/mutations/subscriptions that you can execute.
 
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
-So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
+> So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
 
 ## Basics
 
@@ -36,6 +36,7 @@ So if you are looking for examples that are compatible with the version you use,
 
 - [TypeORM (manual, synchronous) \*](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
+- [MikroORM](./mikro-orm)
 - [Typegoose](./typegoose)
 - [Apollo federation](./apollo-federation)
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)

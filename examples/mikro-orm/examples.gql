@@ -1,0 +1,60 @@
+query GetRecipes {
+  recipes {
+    id
+    title
+    author {
+      email
+    }
+    ratings {
+      value
+    }
+  }
+}
+
+query GetRecipe {
+  recipe(recipeId: 1) {
+    id
+    title
+    ratings {
+      value
+      user {
+        nickname
+      }
+      date
+    }
+    author {
+      id
+      nickname
+      email
+    }
+  }
+}
+
+mutation AddRecipe {
+  addRecipe(recipe: {
+    title: "New Recipe"
+  }) {
+    id
+    ratings {
+      value
+    }
+    author {
+      nickname
+    }
+  }
+}
+
+mutation RateRecipe {
+  rate(rate: {
+    recipeId: 3
+    value: 4
+  }) {
+    id
+    ratings {
+      value
+      user {
+        email
+      }
+    }
+  }
+}
