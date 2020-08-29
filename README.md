@@ -180,7 +180,7 @@ It doesn't have a large company that sits behind - its ongoing development is po
 [![](https://opencollective.com/typegraphql/sponsors.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 [![](https://opencollective.com/typegraphql/backers.svg?width=890&button=false)](https://opencollective.com/typegraphql#contributors)
 
-### Want to help?
+## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Great! Please read our
 guidelines for [contributing][contributing] and then check out one of our [help wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).
