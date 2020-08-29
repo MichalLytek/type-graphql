@@ -21,11 +21,12 @@ If you would like to chat about the question in real-time, you can reach out via
 ## <a name="issue"></a> Found a Bug?
 
 If you find a bug in the source code, you can help us by [submitting an issue](#submit-issue) to our [GitHub Repository][github].
-Even better, you can [submit a Pull Request](#submit-pr) with a fix.
+Even better, you can [submit a Pull Request](#submit-pr) with a failing test case that reproduces the issue.
 
 ## <a name="feature"></a> Missing a Feature?
 
 You can _request_ a new feature by [submitting an issue](#submit-issue) to our GitHub Repository.
+
 If you would like to _implement_ a new feature, please consider the size of the change in order to determine the right steps to proceed:
 
 - For a **Major Feature**, first open an issue and outline your proposal so that it can be discussed.
@@ -80,7 +81,8 @@ Before you submit your Pull Request (PR) consider the following guidelines:
    git push origin my-fix-branch
    ```
 
-10. In GitHub, send a pull request to `type-graphql:master`. Make sure to [allow edits from maintainers][allow-maintainer-edits].
+10. In GitHub, send a pull request to `type-graphql:master`.
+Make sure to [allow edits from maintainers][allow-maintainer-edits].
 
 If we ask for changes via code reviews then:
 
@@ -127,11 +129,13 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
-- All features or bug fixes **must be tested** by one or more unit tests.
+- All features or bug fixes **must be covered by tests**.
+
+- The code must pass type checking and fullfil all the TSLint rules.
 
 ## <a name="commit"></a> Commit Message Guidelines
 
-For more information checkout this [commit rule guide](https://gist.github.com/stephenparish/9941e89d80e2bc58a153).
+For more information checkout this [commit rules guide](https://www.conventionalcommits.org/en/v1.0.0/).
 
 [github]: https://github.com/MichalLytek/type-graphql
 [gitter]: https://gitter.im/type-graphql/Lobby
