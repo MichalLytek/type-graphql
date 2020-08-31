@@ -3,11 +3,9 @@ import path from "path";
 
 import { generateTypeGraphQLImport } from "./imports";
 import { enumsFolderName } from "./config";
-import saveSourceFile from "../utils/saveSourceFile";
 import { DMMF } from "./dmmf/types";
-import { cleanDocsString } from "./helpers";
 
-export default async function generateEnumFromDef(
+export default function generateEnumFromDef(
   project: Project,
   baseDirPath: string,
   enumDef: DMMF.Enum,
@@ -42,6 +40,4 @@ export default async function generateEnumFromDef(
       description: ${enumDef.docs ? `"${enumDef.docs}"` : "undefined"},
     });`,
   ]);
-
-  await saveSourceFile(sourceFile);
 }

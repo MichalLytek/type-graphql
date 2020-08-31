@@ -14,11 +14,10 @@ import {
   generatePrismaJsonTypeImport,
 } from "./imports";
 import { modelsFolderName } from "./config";
-import saveSourceFile from "../utils/saveSourceFile";
 import { DMMF } from "./dmmf/types";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 
-export default async function generateObjectTypeClassFromModel(
+export default function generateObjectTypeClassFromModel(
   project: Project,
   baseDirPath: string,
   model: DMMF.Model,
@@ -128,6 +127,4 @@ export default async function generateObjectTypeClassFromModel(
       docs: [{ description: model.docs }],
     }),
   });
-
-  await saveSourceFile(sourceFile);
 }

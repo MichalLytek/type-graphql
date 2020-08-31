@@ -9,12 +9,11 @@ import {
   generateOutputsImports,
   generateGraphQLFieldsImport,
 } from "../imports";
-import saveSourceFile from "../../utils/saveSourceFile";
 import { generateCrudResolverClassMethodDeclaration } from "./helpers";
 import { DmmfDocument } from "../dmmf/dmmf-document";
 import { DMMF } from "../dmmf/types";
 
-export default async function generateActionResolverClass(
+export default function generateActionResolverClass(
   project: Project,
   baseDirPath: string,
   model: DMMF.Model,
@@ -74,6 +73,4 @@ export default async function generateActionResolverClass(
       ),
     ],
   });
-
-  await saveSourceFile(sourceFile);
 }

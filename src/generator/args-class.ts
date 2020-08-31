@@ -8,11 +8,10 @@ import {
   generateEnumsImports,
   generateGraphQLScalarImport,
 } from "./imports";
-import saveSourceFile from "../utils/saveSourceFile";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import { DMMF } from "./dmmf/types";
 
-export default async function generateArgsTypeClassFromArgs(
+export default function generateArgsTypeClassFromArgs(
   project: Project,
   generateDirPath: string,
   fields: DMMF.SchemaArg[],
@@ -75,6 +74,4 @@ export default async function generateArgsTypeClassFromArgs(
       };
     }),
   });
-
-  await saveSourceFile(sourceFile);
 }

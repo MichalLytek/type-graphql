@@ -8,11 +8,10 @@ import {
   generateArgsImports,
   generateModelsImports,
 } from "../imports";
-import saveSourceFile from "../../utils/saveSourceFile";
 import { DmmfDocument } from "../dmmf/dmmf-document";
 import { DMMF } from "../dmmf/types";
 
-export default async function generateRelationsResolverClassesFromModel(
+export default function generateRelationsResolverClassesFromModel(
   project: Project,
   baseDirPath: string,
   dmmfDocument: DmmfDocument,
@@ -139,6 +138,4 @@ export default async function generateRelationsResolverClassesFromModel(
       },
     ),
   });
-
-  await saveSourceFile(sourceFile);
 }

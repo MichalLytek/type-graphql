@@ -17,12 +17,11 @@ import {
   generatePrismaJsonTypeImport,
   generateOutputsImports,
 } from "./imports";
-import saveSourceFile from "../utils/saveSourceFile";
 import { DmmfDocument } from "./dmmf/dmmf-document";
 import { DMMF } from "./dmmf/types";
 import { GenerateCodeOptions } from "./options";
 
-export async function generateOutputTypeClassFromType(
+export function generateOutputTypeClassFromType(
   project: Project,
   dirPath: string,
   type: DMMF.OutputType,
@@ -89,17 +88,15 @@ export async function generateOutputTypeClassFromType(
       },
     ),
   });
-
-  await saveSourceFile(sourceFile);
 }
 
-export async function generateInputTypeClassFromType(
+export function generateInputTypeClassFromType(
   project: Project,
   dirPath: string,
   inputType: DMMF.InputType,
   _dmmfDocument: DmmfDocument,
   options: GenerateCodeOptions,
-): Promise<void> {
+) {
   const filePath = path.resolve(
     dirPath,
     inputsFolderName,
@@ -208,6 +205,4 @@ export async function generateInputTypeClassFromType(
       };
     }),
   });
-
-  await saveSourceFile(sourceFile);
 }
