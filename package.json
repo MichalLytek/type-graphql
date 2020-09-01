@@ -1,6 +1,6 @@
 {
   "name": "typegraphql-prisma",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "scripts": {
     "build": "tsc",
     "check:type": "tsc --noEmit",
