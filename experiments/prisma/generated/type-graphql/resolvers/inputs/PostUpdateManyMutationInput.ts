@@ -1,54 +1,58 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { PostKind } from "../../enums/PostKind";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
+import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { NullableEnumPostKindFieldUpdateOperationsInput } from "../inputs/NullableEnumPostKindFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class PostUpdateManyMutationInput {
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  uuid?: string | undefined;
+  uuid?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => Date, {
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  createdAt?: Date | undefined;
+  createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => Date, {
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  updatedAt?: Date | undefined;
+  updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => Boolean, {
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  published?: boolean | undefined;
+  published?: BoolFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  title?: string | undefined;
+  title?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  content?: string | undefined;
+  content?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => PostKind, {
+  @TypeGraphQL.Field(_type => NullableEnumPostKindFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof PostKind | undefined;
+  kind?: NullableEnumPostKindFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,

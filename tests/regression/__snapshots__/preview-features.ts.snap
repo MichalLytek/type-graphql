@@ -1,5 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`preview features when \`atomicNumberOperations\` is enabled should properly generate number input type classes for atomic number operations on update: FloatFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class FloatFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  set?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  increment?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  decrement?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  multiply?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  divide?: number | undefined;
+}
+"
+`;
+
+exports[`preview features when \`atomicNumberOperations\` is enabled should properly generate number input type classes for atomic number operations on update: IntFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class IntFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  set?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  increment?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  decrement?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  multiply?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  divide?: number | undefined;
+}
+"
+`;
+
 exports[`preview features when \`connectOrCreate\` is enabled should properly generate input type classes for connectOrCreate: UserCreateOneWithoutPostsFieldInput 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -130,6 +216,7 @@ export { PostUpdateWithoutAuthorDataInput } from \\"./PostUpdateWithoutAuthorDat
 export { PostUpsertWithWhereUniqueWithoutAuthorInput } from \\"./PostUpsertWithWhereUniqueWithoutAuthorInput\\";
 export { PostWhereInput } from \\"./PostWhereInput\\";
 export { PostWhereUniqueInput } from \\"./PostWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 export { UserCreateInput } from \\"./UserCreateInput\\";
 export { UserCreateOneWithoutPostsFieldInput } from \\"./UserCreateOneWithoutPostsFieldInput\\";

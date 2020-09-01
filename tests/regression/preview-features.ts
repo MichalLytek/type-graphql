@@ -66,4 +66,48 @@ describe("preview features", () => {
       expect(inputsIndexTSFile).toMatchSnapshot("inputs index");
     });
   });
+
+  describe("when `atomicNumberOperations` is enabled", () => {
+    it("should properly generate number input type classes for atomic number operations on update", async () => {
+      const schema = /* prisma */ `
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        model SampleModel {
+          intIdField            Int     @id @default(autoincrement())
+          stringField           String  @unique
+          optionalStringField   String?
+          intField              Int
+          optionalIntField      Int?
+          floatField            Float
+          optionalFloatField    Float?
+          booleanField          Boolean
+          optionalBooleanField  Boolean?
+          dateField             DateTime
+          optionalDateField     DateTime?
+          jsonField             Json
+          optionalJsonField     Json?
+        }
+      `;
+
+      await generateCodeFromSchema(schema, {
+        outputDirPath,
+        enabledPreviewFeatures: ["atomicNumberOperations"],
+      });
+      const intFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/IntFieldUpdateOperationsInput.ts",
+      );
+      const floatFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+        "/resolvers/inputs/FloatFieldUpdateOperationsInput.ts",
+      );
+
+      expect(intFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+        "IntFieldUpdateOperationsInput",
+      );
+      expect(floatFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+        "FloatFieldUpdateOperationsInput",
+      );
+    });
+  });
 });

@@ -221,7 +221,9 @@ Array [
   Array [
     UpdateUserArgs {
       "data": UserUpdateInput {
-        "dateField": 2019-12-31T14:16:02.572Z,
+        "dateField": DateTimeFieldUpdateOperationsInput {
+          "set": 2019-12-31T14:16:02.572Z,
+        },
       },
       "where": UserWhereUniqueInput {
         "uniqueStringField": "unique",

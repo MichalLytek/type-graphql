@@ -1,16 +1,15 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class MovieUpdateWithoutDirectorDataInput {
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+export class JsonFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  title?: StringFieldUpdateOperationsInput | undefined;
+  set?: InputJsonValue | undefined;
 }

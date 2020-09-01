@@ -35,6 +35,10 @@ type BatchPayload {
   count: Int!
 }
 
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
 input BoolFilter {
   equals: Boolean
   not: NestedBoolFilter
@@ -81,15 +85,15 @@ type CategorySumAggregateOutputType {
 }
 
 input CategoryUpdateInput {
-  name: String
-  number: Int
-  slug: String
+  name: StringFieldUpdateOperationsInput
+  number: IntFieldUpdateOperationsInput
+  slug: StringFieldUpdateOperationsInput
 }
 
 input CategoryUpdateManyMutationInput {
-  name: String
-  number: Int
-  slug: String
+  name: StringFieldUpdateOperationsInput
+  number: IntFieldUpdateOperationsInput
+  slug: StringFieldUpdateOperationsInput
 }
 
 input CategoryWhereInput {
@@ -201,22 +205,22 @@ type ClientSumAggregateOutputType {
 }
 
 input ClientUpdateInput {
-  accountBalance: Float
-  age: Int
-  amount: Float
+  accountBalance: FloatFieldUpdateOperationsInput
+  age: IntFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
   clientPosts: PostUpdateManyWithoutAuthorInput
-  email: String
-  firstName: String
-  role: Role
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
 }
 
 input ClientUpdateManyMutationInput {
-  accountBalance: Float
-  age: Int
-  amount: Float
-  email: String
-  firstName: String
-  role: Role
+  accountBalance: FloatFieldUpdateOperationsInput
+  age: IntFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
 }
 
 input ClientWhereInput {
@@ -242,6 +246,10 @@ input ClientWhereUniqueInput {
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
 
 input DateTimeFilter {
   equals: DateTime
@@ -299,14 +307,14 @@ input DirectorOrderByInput {
 }
 
 input DirectorUpdateInput {
-  firstName: String
-  lastName: String
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
   movies: MovieUpdateManyWithoutDirectorInput
 }
 
 input DirectorUpdateManyMutationInput {
-  firstName: String
-  lastName: String
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
 }
 
 input DirectorUpdateOneRequiredWithoutMoviesInput {
@@ -318,8 +326,8 @@ input DirectorUpdateOneRequiredWithoutMoviesInput {
 }
 
 input DirectorUpdateWithoutMoviesDataInput {
-  firstName: String
-  lastName: String
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
 }
 
 input DirectorUpsertWithoutMoviesInput {
@@ -347,6 +355,10 @@ input EnumPostKindNullableFilter {
   notIn: [PostKind!]
 }
 
+input EnumRoleFieldUpdateOperationsInput {
+  set: Role
+}
+
 input EnumRoleFilter {
   equals: Role
   in: [Role!]
@@ -359,6 +371,14 @@ input FirstNameLastNameCompoundUniqueInput {
   lastName: String!
 }
 
+input FloatFieldUpdateOperationsInput {
+  decrement: Float
+  divide: Float
+  increment: Float
+  multiply: Float
+  set: Float
+}
+
 input FloatFilter {
   equals: Float
   gt: Float
@@ -368,6 +388,14 @@ input FloatFilter {
   lte: Float
   not: NestedFloatFilter
   notIn: [Float!]
+}
+
+input IntFieldUpdateOperationsInput {
+  decrement: Int
+  divide: Int
+  increment: Int
+  multiply: Int
+  set: Int
 }
 
 input IntFilter {
@@ -385,6 +413,10 @@ input IntFilter {
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+input JsonFieldUpdateOperationsInput {
+  set: JSON
+}
 
 input JsonFilter {
   equals: JSON
@@ -447,15 +479,15 @@ input MovieScalarWhereInput {
 
 input MovieUpdateInput {
   director: DirectorUpdateOneRequiredWithoutMoviesInput
-  title: String
+  title: StringFieldUpdateOperationsInput
 }
 
 input MovieUpdateManyDataInput {
-  title: String
+  title: StringFieldUpdateOperationsInput
 }
 
 input MovieUpdateManyMutationInput {
-  title: String
+  title: StringFieldUpdateOperationsInput
 }
 
 input MovieUpdateManyWithoutDirectorInput {
@@ -477,7 +509,7 @@ input MovieUpdateManyWithWhereNestedInput {
 }
 
 input MovieUpdateWithoutDirectorDataInput {
-  title: String
+  title: StringFieldUpdateOperationsInput
 }
 
 input MovieUpdateWithWhereUniqueWithoutDirectorInput {
@@ -625,6 +657,14 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+input NullableEnumPostKindFieldUpdateOperationsInput {
+  set: PostKind
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
 type Patient {
   email: String!
   firstName: String!
@@ -650,15 +690,15 @@ input PatientOrderByInput {
 }
 
 input PatientUpdateInput {
-  email: String
-  firstName: String
-  lastName: String
+  email: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
 }
 
 input PatientUpdateManyMutationInput {
-  email: String
-  firstName: String
-  lastName: String
+  email: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
 }
 
 input PatientWhereInput {
@@ -772,25 +812,25 @@ input PostScalarWhereInput {
 }
 
 input PostUpdateManyDataInput {
-  content: String
-  createdAt: DateTime
-  kind: PostKind
-  metadata: JSON
-  published: Boolean
-  title: String
-  updatedAt: DateTime
-  uuid: String
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  kind: NullableEnumPostKindFieldUpdateOperationsInput
+  metadata: JsonFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateManyMutationInput {
-  content: String
-  createdAt: DateTime
-  kind: PostKind
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  kind: NullableEnumPostKindFieldUpdateOperationsInput
   metadata: JSON
-  published: Boolean
-  title: String
-  updatedAt: DateTime
-  uuid: String
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -812,14 +852,14 @@ input PostUpdateManyWithWhereNestedInput {
 }
 
 input PostUpdateWithoutAuthorDataInput {
-  content: String
-  createdAt: DateTime
-  kind: PostKind
-  metadata: JSON
-  published: Boolean
-  title: String
-  updatedAt: DateTime
-  uuid: String
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  kind: NullableEnumPostKindFieldUpdateOperationsInput
+  metadata: JsonFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -890,6 +930,10 @@ input SlugNumberCompoundUniqueInput {
 enum SortOrder {
   asc
   desc
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
 }
 
 input StringFilter {

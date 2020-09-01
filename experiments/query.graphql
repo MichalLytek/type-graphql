@@ -214,3 +214,12 @@ mutation ConnectOrCreateExample {
     }
   }
 }
+
+mutation AtomicNumberOperations {
+  updateClient(
+    data: { accountBalance: { increment: 100 } }
+    where: { email: "test1@test.test" }
+  ) {
+    ...ClientData
+  }
+}

@@ -1,45 +1,49 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { EnumRoleFieldUpdateOperationsInput } from "../inputs/EnumRoleFieldUpdateOperationsInput";
+import { FloatFieldUpdateOperationsInput } from "../inputs/FloatFieldUpdateOperationsInput";
+import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PostUpdateManyWithoutAuthorInput } from "../inputs/PostUpdateManyWithoutAuthorInput";
-import { Role } from "../../enums/Role";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
 export class ClientUpdateInput {
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  email?: string | undefined;
+  email?: StringFieldUpdateOperationsInput | undefined;
 
-  name?: string | undefined;
+  name?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  age?: number | undefined;
+  age?: IntFieldUpdateOperationsInput | undefined;
 
-  balance?: number | undefined;
+  balance?: FloatFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  amount?: number | undefined;
+  amount?: FloatFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => Role, {
+  @TypeGraphQL.Field(_type => EnumRoleFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
-  role?: keyof typeof Role | undefined;
+  role?: EnumRoleFieldUpdateOperationsInput | undefined;
 
   posts?: PostUpdateManyWithoutAuthorInput | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
@@ -47,11 +51,11 @@ export class ClientUpdateInput {
     return this.name;
   }
 
-  set firstName(name: string | undefined) {
+  set firstName(name: NullableStringFieldUpdateOperationsInput | undefined) {
     this.name = name;
   }
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
   })
@@ -59,7 +63,7 @@ export class ClientUpdateInput {
     return this.balance;
   }
 
-  set accountBalance(balance: number | undefined) {
+  set accountBalance(balance: FloatFieldUpdateOperationsInput | undefined) {
     this.balance = balance;
   }
 

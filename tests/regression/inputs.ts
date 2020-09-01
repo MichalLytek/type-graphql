@@ -99,6 +99,97 @@ describe("inputs", () => {
     expect(indexTSFile).toMatchSnapshot("index");
   });
 
+  it("should properly generate input type classes for updating scalar fields", async () => {
+    const schema = /* prisma */ `
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+      enum Color {
+        RED
+        GREEN
+        BLUE
+      }
+      model SampleModel {
+        intIdField            Int     @id @default(autoincrement())
+        stringField           String  @unique
+        optionalStringField   String?
+        intField              Int
+        optionalIntField      Int?
+        floatField            Float
+        optionalFloatField    Float?
+        booleanField          Boolean
+        optionalBooleanField  Boolean?
+        dateField             DateTime
+        optionalDateField     DateTime?
+        jsonField             Json
+        optionalJsonField     Json?
+        enumField             Color
+        optionalEnumField     Color?
+      }
+    `;
+
+    await generateCodeFromSchema(schema, { outputDirPath });
+    const sampleModelUpdateInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/SampleModelUpdateInput.ts",
+    );
+    const sampleModelUpdateManyMutationInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/SampleModelUpdateManyMutationInput.ts",
+    );
+    const boolFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/BoolFieldUpdateOperationsInput.ts",
+    );
+    const dateTimeFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/DateTimeFieldUpdateOperationsInput.ts",
+    );
+    const floatFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/FloatFieldUpdateOperationsInput.ts",
+    );
+    const intFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/IntFieldUpdateOperationsInput.ts",
+    );
+    const jsonFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/JsonFieldUpdateOperationsInput.ts",
+    );
+    const stringFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/StringFieldUpdateOperationsInput.ts",
+    );
+    const enumColorFieldUpdateOperationsInputTSFile = await readGeneratedFile(
+      "/resolvers/inputs/EnumColorFieldUpdateOperationsInput.ts",
+    );
+
+    const indexTSFile = await readGeneratedFile("/resolvers/inputs/index.ts");
+
+    expect(sampleModelUpdateInputTSFile).toMatchSnapshot(
+      "SampleModelUpdateInput",
+    );
+    expect(sampleModelUpdateManyMutationInputTSFile).toMatchSnapshot(
+      "SampleModelUpdateManyMutationInput",
+    );
+    expect(boolFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "BoolFieldUpdateOperationsInput",
+    );
+    expect(dateTimeFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "DateTimeFieldUpdateOperationsInput",
+    );
+    expect(floatFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "FloatFieldUpdateOperationsInput",
+    );
+    expect(intFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "IntFieldUpdateOperationsInput",
+    );
+    expect(jsonFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "JSONFieldUpdateOperationsInput",
+    );
+    expect(stringFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "StringFieldUpdateOperationsInput",
+    );
+    expect(enumColorFieldUpdateOperationsInputTSFile).toMatchSnapshot(
+      "EnumColorFieldUpdateOperationsInput",
+    );
+    expect(indexTSFile).toMatchSnapshot("index");
+  });
+
   it("should properly generate input type classes for filtering models by fields", async () => {
     const schema = /* prisma */ `
       datasource db {

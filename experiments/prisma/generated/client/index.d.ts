@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.6.0-dev.35
- * Query Engine version: 4207c64a590fe98ef0e456b5f49e99ea4f7f0ce0
+ * Prisma Client JS version: 2.6.0
+ * Query Engine version: 650b5d0348ec38ae61e1e7db69bb54808418ede4
  */
 export declare type PrismaVersion = {
   client: string
@@ -441,30 +441,6 @@ export declare class PrismaClient<
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-export declare const PostKind: {
-  BLOG: 'BLOG',
-  ADVERT: 'ADVERT'
-};
-
-export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
-
-
-export declare const Role: {
-  USER: 'USER',
-  ADMIN: 'ADMIN'
-};
-
-export declare type Role = (typeof Role)[keyof typeof Role]
-
-
-export declare const SortOrder: {
-  asc: 'asc',
-  desc: 'desc'
-};
-
-export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
 export declare const UserDistinctFieldEnum: {
   id: 'id',
   email: 'email',
@@ -526,6 +502,30 @@ export declare const DirectorDistinctFieldEnum: {
 };
 
 export declare type DirectorDistinctFieldEnum = (typeof DirectorDistinctFieldEnum)[keyof typeof DirectorDistinctFieldEnum]
+
+
+export declare const SortOrder: {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export declare const Role: {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+export declare type Role = (typeof Role)[keyof typeof Role]
+
+
+export declare const PostKind: {
+  BLOG: 'BLOG',
+  ADVERT: 'ADVERT'
+};
+
+export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
 
 
 
@@ -3261,203 +3261,6 @@ export type DirectorArgs = {
  */
 
 
-export type NestedIntFilter = {
-  equals?: number
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-  not?: NestedIntFilter | null
-}
-
-export type IntFilter = {
-  equals?: number
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-  not?: number | NestedIntFilter
-}
-
-export type NestedStringFilter = {
-  equals?: string
-  in?: Enumerable<string>
-  notIn?: Enumerable<string>
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-  not?: NestedStringFilter | null
-}
-
-export type StringFilter = {
-  equals?: string
-  in?: Enumerable<string>
-  notIn?: Enumerable<string>
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-  not?: string | NestedStringFilter
-}
-
-export type NestedStringNullableFilter = {
-  equals?: string | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
-  not?: NestedStringNullableFilter | null
-}
-
-export type StringNullableFilter = {
-  equals?: string | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
-  not?: string | NestedStringNullableFilter | null
-}
-
-export type NestedFloatFilter = {
-  equals?: number
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-  not?: NestedFloatFilter | null
-}
-
-export type FloatFilter = {
-  equals?: number
-  in?: Enumerable<number>
-  notIn?: Enumerable<number>
-  lt?: number
-  lte?: number
-  gt?: number
-  gte?: number
-  not?: number | NestedFloatFilter
-}
-
-export type NestedDateTimeFilter = {
-  equals?: Date | string
-  in?: Enumerable<Date | string>
-  notIn?: Enumerable<Date | string>
-  lt?: Date | string
-  lte?: Date | string
-  gt?: Date | string
-  gte?: Date | string
-  not?: NestedDateTimeFilter | null
-}
-
-export type DateTimeFilter = {
-  equals?: Date | string
-  in?: Enumerable<Date | string>
-  notIn?: Enumerable<Date | string>
-  lt?: Date | string
-  lte?: Date | string
-  gt?: Date | string
-  gte?: Date | string
-  not?: Date | string | NestedDateTimeFilter
-}
-
-export type NestedBoolFilter = {
-  equals?: boolean
-  not?: NestedBoolFilter | null
-}
-
-export type BoolFilter = {
-  equals?: boolean
-  not?: boolean | NestedBoolFilter
-}
-
-export type UserRelationFilter = {
-  is?: UserWhereInput | null
-  isNot?: UserWhereInput | null
-}
-
-export type NestedEnumPostKindNullableFilter = {
-  equals?: PostKind | null
-  in?: Enumerable<PostKind> | null
-  notIn?: Enumerable<PostKind> | null
-  not?: NestedEnumPostKindNullableFilter | null
-}
-
-export type EnumPostKindNullableFilter = {
-  equals?: PostKind | null
-  in?: Enumerable<PostKind> | null
-  notIn?: Enumerable<PostKind> | null
-  not?: PostKind | NestedEnumPostKindNullableFilter | null
-}
-
-export type NestedJsonFilter = {
-  equals?: InputJsonValue
-  not?: NestedJsonFilter | null
-}
-
-export type JsonFilter = {
-  equals?: InputJsonValue
-  not?: InputJsonValue | NestedJsonFilter
-}
-
-export type postWhereInput = {
-  AND?: Enumerable<postWhereInput>
-  OR?: Array<postWhereInput>
-  NOT?: Enumerable<postWhereInput>
-  uuid?: string | StringFilter
-  createdAt?: Date | string | DateTimeFilter
-  updatedAt?: Date | string | DateTimeFilter
-  published?: boolean | BoolFilter
-  title?: string | StringFilter
-  content?: string | StringNullableFilter | null
-  author?: UserWhereInput | null
-  authorId?: number | IntFilter
-  kind?: PostKind | EnumPostKindNullableFilter | null
-  metadata?: JsonFilter
-}
-
-export type PostListRelationFilter = {
-  every?: postWhereInput
-  some?: postWhereInput
-  none?: postWhereInput
-}
-
-export type NestedEnumRoleFilter = {
-  equals?: Role
-  in?: Enumerable<Role>
-  notIn?: Enumerable<Role>
-  not?: NestedEnumRoleFilter | null
-}
-
-export type EnumRoleFilter = {
-  equals?: Role
-  in?: Enumerable<Role>
-  notIn?: Enumerable<Role>
-  not?: Role | NestedEnumRoleFilter
-}
-
 export type UserWhereInput = {
   AND?: Enumerable<UserWhereInput>
   OR?: Array<UserWhereInput>
@@ -3485,6 +3288,22 @@ export type UserOrderByInput = {
 export type UserWhereUniqueInput = {
   id?: number
   email?: string
+}
+
+export type postWhereInput = {
+  AND?: Enumerable<postWhereInput>
+  OR?: Array<postWhereInput>
+  NOT?: Enumerable<postWhereInput>
+  uuid?: string | StringFilter
+  createdAt?: Date | string | DateTimeFilter
+  updatedAt?: Date | string | DateTimeFilter
+  published?: boolean | BoolFilter
+  title?: string | StringFilter
+  content?: string | StringNullableFilter | null
+  author?: UserWhereInput | null
+  authorId?: number | IntFilter
+  kind?: PostKind | EnumPostKindNullableFilter | null
+  metadata?: JsonFilter
 }
 
 export type postOrderByInput = {
@@ -3518,11 +3337,6 @@ export type CategoryOrderByInput = {
   number?: SortOrder
 }
 
-export type SlugNumberCompoundUniqueInput = {
-  slug: string
-  number: number
-}
-
 export type CategoryWhereUniqueInput = {
   slug_number?: SlugNumberCompoundUniqueInput
 }
@@ -3542,33 +3356,8 @@ export type PatientOrderByInput = {
   email?: SortOrder
 }
 
-export type FirstNameLastNameCompoundUniqueInput = {
-  firstName: string
-  lastName: string
-}
-
 export type PatientWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput
-}
-
-export type MovieListRelationFilter = {
-  every?: MovieWhereInput
-  some?: MovieWhereInput
-  none?: MovieWhereInput
-}
-
-export type DirectorWhereInput = {
-  AND?: Enumerable<DirectorWhereInput>
-  OR?: Array<DirectorWhereInput>
-  NOT?: Enumerable<DirectorWhereInput>
-  firstName?: string | StringFilter
-  lastName?: string | StringFilter
-  movies?: MovieListRelationFilter
-}
-
-export type DirectorRelationFilter = {
-  is?: DirectorWhereInput | null
-  isNot?: DirectorWhereInput | null
 }
 
 export type MovieWhereInput = {
@@ -3587,14 +3376,17 @@ export type MovieOrderByInput = {
   title?: SortOrder
 }
 
-export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
-  directorFirstName: string
-  directorLastName: string
-  title: string
-}
-
 export type MovieWhereUniqueInput = {
   directorFirstName_directorLastName_title?: DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput
+}
+
+export type DirectorWhereInput = {
+  AND?: Enumerable<DirectorWhereInput>
+  OR?: Array<DirectorWhereInput>
+  NOT?: Enumerable<DirectorWhereInput>
+  firstName?: string | StringFilter
+  lastName?: string | StringFilter
+  movies?: MovieListRelationFilter
 }
 
 export type DirectorOrderByInput = {
@@ -3604,6 +3396,455 @@ export type DirectorOrderByInput = {
 
 export type DirectorWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput
+}
+
+export type UserCreateInput = {
+  email: string
+  name?: string | null
+  age: number
+  balance: number
+  amount: number
+  role: Role
+  posts?: postCreateManyWithoutAuthorInput
+}
+
+export type UserUpdateInput = {
+  email?: string | StringFieldUpdateOperationsInput
+  name?: string | NullableStringFieldUpdateOperationsInput | null
+  age?: number | IntFieldUpdateOperationsInput
+  balance?: number | FloatFieldUpdateOperationsInput
+  amount?: number | FloatFieldUpdateOperationsInput
+  role?: Role | EnumRoleFieldUpdateOperationsInput
+  posts?: postUpdateManyWithoutAuthorInput
+}
+
+export type UserUpdateManyMutationInput = {
+  email?: string | StringFieldUpdateOperationsInput
+  name?: string | NullableStringFieldUpdateOperationsInput | null
+  age?: number | IntFieldUpdateOperationsInput
+  balance?: number | FloatFieldUpdateOperationsInput
+  amount?: number | FloatFieldUpdateOperationsInput
+  role?: Role | EnumRoleFieldUpdateOperationsInput
+}
+
+export type postCreateInput = {
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published: boolean
+  title: string
+  content?: string | null
+  kind?: PostKind | null
+  metadata: InputJsonValue
+  author: UserCreateOneWithoutPostsInput
+}
+
+export type postUpdateInput = {
+  uuid?: string | StringFieldUpdateOperationsInput
+  createdAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  published?: boolean | BoolFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
+  content?: string | NullableStringFieldUpdateOperationsInput | null
+  kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
+  metadata?: InputJsonValue
+  author?: UserUpdateOneRequiredWithoutPostsInput
+}
+
+export type postUpdateManyMutationInput = {
+  uuid?: string | StringFieldUpdateOperationsInput
+  createdAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  published?: boolean | BoolFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
+  content?: string | NullableStringFieldUpdateOperationsInput | null
+  kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
+  metadata?: InputJsonValue
+}
+
+export type CategoryCreateInput = {
+  name: string
+  slug: string
+  number: number
+}
+
+export type CategoryUpdateInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  slug?: string | StringFieldUpdateOperationsInput
+  number?: number | IntFieldUpdateOperationsInput
+}
+
+export type CategoryUpdateManyMutationInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  slug?: string | StringFieldUpdateOperationsInput
+  number?: number | IntFieldUpdateOperationsInput
+}
+
+export type PatientCreateInput = {
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export type PatientUpdateInput = {
+  firstName?: string | StringFieldUpdateOperationsInput
+  lastName?: string | StringFieldUpdateOperationsInput
+  email?: string | StringFieldUpdateOperationsInput
+}
+
+export type PatientUpdateManyMutationInput = {
+  firstName?: string | StringFieldUpdateOperationsInput
+  lastName?: string | StringFieldUpdateOperationsInput
+  email?: string | StringFieldUpdateOperationsInput
+}
+
+export type MovieCreateInput = {
+  title: string
+  director: DirectorCreateOneWithoutMoviesInput
+}
+
+export type MovieUpdateInput = {
+  title?: string | StringFieldUpdateOperationsInput
+  director?: DirectorUpdateOneRequiredWithoutMoviesInput
+}
+
+export type MovieUpdateManyMutationInput = {
+  title?: string | StringFieldUpdateOperationsInput
+}
+
+export type DirectorCreateInput = {
+  firstName: string
+  lastName: string
+  movies?: MovieCreateManyWithoutDirectorInput
+}
+
+export type DirectorUpdateInput = {
+  firstName?: string | StringFieldUpdateOperationsInput
+  lastName?: string | StringFieldUpdateOperationsInput
+  movies?: MovieUpdateManyWithoutDirectorInput
+}
+
+export type DirectorUpdateManyMutationInput = {
+  firstName?: string | StringFieldUpdateOperationsInput
+  lastName?: string | StringFieldUpdateOperationsInput
+}
+
+export type IntFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: number | NestedIntFilter
+}
+
+export type StringFilter = {
+  equals?: string
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: string | NestedStringFilter
+}
+
+export type StringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string | null
+  lte?: string | null
+  gt?: string | null
+  gte?: string | null
+  contains?: string | null
+  startsWith?: string | null
+  endsWith?: string | null
+  not?: string | NestedStringNullableFilter | null
+}
+
+export type FloatFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: number | NestedFloatFilter
+}
+
+export type PostListRelationFilter = {
+  every?: postWhereInput
+  some?: postWhereInput
+  none?: postWhereInput
+}
+
+export type EnumRoleFilter = {
+  equals?: Role
+  in?: Enumerable<Role>
+  notIn?: Enumerable<Role>
+  not?: Role | NestedEnumRoleFilter
+}
+
+export type DateTimeFilter = {
+  equals?: Date | string
+  in?: Enumerable<Date | string>
+  notIn?: Enumerable<Date | string>
+  lt?: Date | string
+  lte?: Date | string
+  gt?: Date | string
+  gte?: Date | string
+  not?: Date | string | NestedDateTimeFilter
+}
+
+export type BoolFilter = {
+  equals?: boolean
+  not?: boolean | NestedBoolFilter
+}
+
+export type UserRelationFilter = {
+  is?: UserWhereInput | null
+  isNot?: UserWhereInput | null
+}
+
+export type EnumPostKindNullableFilter = {
+  equals?: PostKind | null
+  in?: Enumerable<PostKind> | null
+  notIn?: Enumerable<PostKind> | null
+  not?: PostKind | NestedEnumPostKindNullableFilter | null
+}
+
+export type JsonFilter = {
+  equals?: InputJsonValue
+  not?: InputJsonValue | NestedJsonFilter
+}
+
+export type SlugNumberCompoundUniqueInput = {
+  slug: string
+  number: number
+}
+
+export type FirstNameLastNameCompoundUniqueInput = {
+  firstName: string
+  lastName: string
+}
+
+export type DirectorRelationFilter = {
+  is?: DirectorWhereInput | null
+  isNot?: DirectorWhereInput | null
+}
+
+export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
+  directorFirstName: string
+  directorLastName: string
+  title: string
+}
+
+export type MovieListRelationFilter = {
+  every?: MovieWhereInput
+  some?: MovieWhereInput
+  none?: MovieWhereInput
+}
+
+export type postCreateManyWithoutAuthorInput = {
+  create?: Enumerable<postCreateWithoutAuthorInput>
+  connect?: Enumerable<postWhereUniqueInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+}
+
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type EnumRoleFieldUpdateOperationsInput = {
+  set?: Role
+}
+
+export type postUpdateManyWithoutAuthorInput = {
+  create?: Enumerable<postCreateWithoutAuthorInput>
+  connect?: Enumerable<postWhereUniqueInput>
+  set?: Enumerable<postWhereUniqueInput>
+  disconnect?: Enumerable<postWhereUniqueInput>
+  delete?: Enumerable<postWhereUniqueInput>
+  update?: Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
+  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<postScalarWhereInput>
+  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+}
+
+export type UserCreateOneWithoutPostsInput = {
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableEnumPostKindFieldUpdateOperationsInput = {
+  set?: PostKind | null
+}
+
+export type JsonFieldUpdateOperationsInput = {
+  set?: InputJsonValue
+}
+
+export type UserUpdateOneRequiredWithoutPostsInput = {
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+  update?: UserUpdateWithoutPostsDataInput
+  upsert?: UserUpsertWithoutPostsInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
+}
+
+export type DirectorCreateOneWithoutMoviesInput = {
+  create?: DirectorCreateWithoutMoviesInput
+  connect?: DirectorWhereUniqueInput
+  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
+}
+
+export type DirectorUpdateOneRequiredWithoutMoviesInput = {
+  create?: DirectorCreateWithoutMoviesInput
+  connect?: DirectorWhereUniqueInput
+  update?: DirectorUpdateWithoutMoviesDataInput
+  upsert?: DirectorUpsertWithoutMoviesInput
+  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
+}
+
+export type MovieCreateManyWithoutDirectorInput = {
+  create?: Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: Enumerable<MovieWhereUniqueInput>
+  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
+}
+
+export type MovieUpdateManyWithoutDirectorInput = {
+  create?: Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: Enumerable<MovieWhereUniqueInput>
+  set?: Enumerable<MovieWhereUniqueInput>
+  disconnect?: Enumerable<MovieWhereUniqueInput>
+  delete?: Enumerable<MovieWhereUniqueInput>
+  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
+  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<MovieScalarWhereInput>
+  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
+  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
+}
+
+export type NestedIntFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: NestedIntFilter | null
+}
+
+export type NestedStringFilter = {
+  equals?: string
+  in?: Enumerable<string>
+  notIn?: Enumerable<string>
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: NestedStringFilter | null
+}
+
+export type NestedStringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string | null
+  lte?: string | null
+  gt?: string | null
+  gte?: string | null
+  contains?: string | null
+  startsWith?: string | null
+  endsWith?: string | null
+  not?: NestedStringNullableFilter | null
+}
+
+export type NestedFloatFilter = {
+  equals?: number
+  in?: Enumerable<number>
+  notIn?: Enumerable<number>
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: NestedFloatFilter | null
+}
+
+export type NestedEnumRoleFilter = {
+  equals?: Role
+  in?: Enumerable<Role>
+  notIn?: Enumerable<Role>
+  not?: NestedEnumRoleFilter | null
+}
+
+export type NestedDateTimeFilter = {
+  equals?: Date | string
+  in?: Enumerable<Date | string>
+  notIn?: Enumerable<Date | string>
+  lt?: Date | string
+  lte?: Date | string
+  gt?: Date | string
+  gte?: Date | string
+  not?: NestedDateTimeFilter | null
+}
+
+export type NestedBoolFilter = {
+  equals?: boolean
+  not?: NestedBoolFilter | null
+}
+
+export type NestedEnumPostKindNullableFilter = {
+  equals?: PostKind | null
+  in?: Enumerable<PostKind> | null
+  notIn?: Enumerable<PostKind> | null
+  not?: NestedEnumPostKindNullableFilter | null
+}
+
+export type NestedJsonFilter = {
+  equals?: InputJsonValue
+  not?: NestedJsonFilter | null
 }
 
 export type postCreateWithoutAuthorInput = {
@@ -3622,36 +3863,14 @@ export type postCreateOrConnectWithoutUserInput = {
   create: postCreateWithoutAuthorInput
 }
 
-export type postCreateManyWithoutAuthorInput = {
-  create?: Enumerable<postCreateWithoutAuthorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
-}
-
-export type UserCreateInput = {
-  email: string
-  name?: string | null
-  age: number
-  balance: number
-  amount: number
-  role: Role
-  posts?: postCreateManyWithoutAuthorInput
-}
-
-export type postUpdateWithoutAuthorDataInput = {
-  uuid?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  published?: boolean
-  title?: string
-  content?: string | null
-  kind?: PostKind | null
-  metadata?: InputJsonValue
-}
-
 export type postUpdateWithWhereUniqueWithoutAuthorInput = {
   where: postWhereUniqueInput
   data: postUpdateWithoutAuthorDataInput
+}
+
+export type postUpdateManyWithWhereNestedInput = {
+  where: postScalarWhereInput
+  data: postUpdateManyDataInput
 }
 
 export type postScalarWhereInput = {
@@ -3669,58 +3888,10 @@ export type postScalarWhereInput = {
   metadata?: JsonFilter
 }
 
-export type postUpdateManyDataInput = {
-  uuid?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  published?: boolean
-  title?: string
-  content?: string | null
-  kind?: PostKind | null
-  metadata?: InputJsonValue
-}
-
-export type postUpdateManyWithWhereNestedInput = {
-  where: postScalarWhereInput
-  data: postUpdateManyDataInput
-}
-
 export type postUpsertWithWhereUniqueWithoutAuthorInput = {
   where: postWhereUniqueInput
   update: postUpdateWithoutAuthorDataInput
   create: postCreateWithoutAuthorInput
-}
-
-export type postUpdateManyWithoutAuthorInput = {
-  create?: Enumerable<postCreateWithoutAuthorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  set?: Enumerable<postWhereUniqueInput>
-  disconnect?: Enumerable<postWhereUniqueInput>
-  delete?: Enumerable<postWhereUniqueInput>
-  update?: Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
-  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<postScalarWhereInput>
-  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
-}
-
-export type UserUpdateInput = {
-  email?: string
-  name?: string | null
-  age?: number
-  balance?: number
-  amount?: number
-  role?: Role
-  posts?: postUpdateManyWithoutAuthorInput
-}
-
-export type UserUpdateManyMutationInput = {
-  email?: string
-  name?: string | null
-  age?: number
-  balance?: number
-  amount?: number
-  role?: Role
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -3737,103 +3908,18 @@ export type UserCreateOrConnectWithoutpostInput = {
   create: UserCreateWithoutPostsInput
 }
 
-export type UserCreateOneWithoutPostsInput = {
-  create?: UserCreateWithoutPostsInput
-  connect?: UserWhereUniqueInput
-  connectOrCreate?: UserCreateOrConnectWithoutpostInput
-}
-
-export type postCreateInput = {
-  uuid?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  published: boolean
-  title: string
-  content?: string | null
-  kind?: PostKind | null
-  metadata: InputJsonValue
-  author: UserCreateOneWithoutPostsInput
-}
-
 export type UserUpdateWithoutPostsDataInput = {
-  email?: string
-  name?: string | null
-  age?: number
-  balance?: number
-  amount?: number
-  role?: Role
+  email?: StringFieldUpdateOperationsInput
+  name?: NullableStringFieldUpdateOperationsInput
+  age?: IntFieldUpdateOperationsInput
+  balance?: FloatFieldUpdateOperationsInput
+  amount?: FloatFieldUpdateOperationsInput
+  role?: EnumRoleFieldUpdateOperationsInput
 }
 
 export type UserUpsertWithoutPostsInput = {
   update: UserUpdateWithoutPostsDataInput
   create: UserCreateWithoutPostsInput
-}
-
-export type UserUpdateOneRequiredWithoutPostsInput = {
-  create?: UserCreateWithoutPostsInput
-  connect?: UserWhereUniqueInput
-  update?: UserUpdateWithoutPostsDataInput
-  upsert?: UserUpsertWithoutPostsInput
-  connectOrCreate?: UserCreateOrConnectWithoutpostInput
-}
-
-export type postUpdateInput = {
-  uuid?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  published?: boolean
-  title?: string
-  content?: string | null
-  kind?: PostKind | null
-  metadata?: InputJsonValue
-  author?: UserUpdateOneRequiredWithoutPostsInput
-}
-
-export type postUpdateManyMutationInput = {
-  uuid?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  published?: boolean
-  title?: string
-  content?: string | null
-  kind?: PostKind | null
-  metadata?: InputJsonValue
-}
-
-export type CategoryCreateInput = {
-  name: string
-  slug: string
-  number: number
-}
-
-export type CategoryUpdateInput = {
-  name?: string
-  slug?: string
-  number?: number
-}
-
-export type CategoryUpdateManyMutationInput = {
-  name?: string
-  slug?: string
-  number?: number
-}
-
-export type PatientCreateInput = {
-  firstName: string
-  lastName: string
-  email: string
-}
-
-export type PatientUpdateInput = {
-  firstName?: string
-  lastName?: string
-  email?: string
-}
-
-export type PatientUpdateManyMutationInput = {
-  firstName?: string
-  lastName?: string
-  email?: string
 }
 
 export type DirectorCreateWithoutMoviesInput = {
@@ -3846,42 +3932,14 @@ export type DirectorCreateOrConnectWithoutMovieInput = {
   create: DirectorCreateWithoutMoviesInput
 }
 
-export type DirectorCreateOneWithoutMoviesInput = {
-  create?: DirectorCreateWithoutMoviesInput
-  connect?: DirectorWhereUniqueInput
-  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
-}
-
-export type MovieCreateInput = {
-  title: string
-  director: DirectorCreateOneWithoutMoviesInput
-}
-
 export type DirectorUpdateWithoutMoviesDataInput = {
-  firstName?: string
-  lastName?: string
+  firstName?: StringFieldUpdateOperationsInput
+  lastName?: StringFieldUpdateOperationsInput
 }
 
 export type DirectorUpsertWithoutMoviesInput = {
   update: DirectorUpdateWithoutMoviesDataInput
   create: DirectorCreateWithoutMoviesInput
-}
-
-export type DirectorUpdateOneRequiredWithoutMoviesInput = {
-  create?: DirectorCreateWithoutMoviesInput
-  connect?: DirectorWhereUniqueInput
-  update?: DirectorUpdateWithoutMoviesDataInput
-  upsert?: DirectorUpsertWithoutMoviesInput
-  connectOrCreate?: DirectorCreateOrConnectWithoutMovieInput
-}
-
-export type MovieUpdateInput = {
-  title?: string
-  director?: DirectorUpdateOneRequiredWithoutMoviesInput
-}
-
-export type MovieUpdateManyMutationInput = {
-  title?: string
 }
 
 export type MovieCreateWithoutDirectorInput = {
@@ -3893,25 +3951,14 @@ export type MovieCreateOrConnectWithoutDirectorInput = {
   create: MovieCreateWithoutDirectorInput
 }
 
-export type MovieCreateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput>
-  connect?: Enumerable<MovieWhereUniqueInput>
-  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
-}
-
-export type DirectorCreateInput = {
-  firstName: string
-  lastName: string
-  movies?: MovieCreateManyWithoutDirectorInput
-}
-
-export type MovieUpdateWithoutDirectorDataInput = {
-  title?: string
-}
-
 export type MovieUpdateWithWhereUniqueWithoutDirectorInput = {
   where: MovieWhereUniqueInput
   data: MovieUpdateWithoutDirectorDataInput
+}
+
+export type MovieUpdateManyWithWhereNestedInput = {
+  where: MovieScalarWhereInput
+  data: MovieUpdateManyDataInput
 }
 
 export type MovieScalarWhereInput = {
@@ -3923,43 +3970,40 @@ export type MovieScalarWhereInput = {
   title?: string | StringFilter
 }
 
-export type MovieUpdateManyDataInput = {
-  title?: string
-}
-
-export type MovieUpdateManyWithWhereNestedInput = {
-  where: MovieScalarWhereInput
-  data: MovieUpdateManyDataInput
-}
-
 export type MovieUpsertWithWhereUniqueWithoutDirectorInput = {
   where: MovieWhereUniqueInput
   update: MovieUpdateWithoutDirectorDataInput
   create: MovieCreateWithoutDirectorInput
 }
 
-export type MovieUpdateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput>
-  connect?: Enumerable<MovieWhereUniqueInput>
-  set?: Enumerable<MovieWhereUniqueInput>
-  disconnect?: Enumerable<MovieWhereUniqueInput>
-  delete?: Enumerable<MovieWhereUniqueInput>
-  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
-  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<MovieScalarWhereInput>
-  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
-  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
+export type postUpdateWithoutAuthorDataInput = {
+  uuid?: StringFieldUpdateOperationsInput
+  createdAt?: DateTimeFieldUpdateOperationsInput
+  updatedAt?: DateTimeFieldUpdateOperationsInput
+  published?: BoolFieldUpdateOperationsInput
+  title?: StringFieldUpdateOperationsInput
+  content?: NullableStringFieldUpdateOperationsInput
+  kind?: NullableEnumPostKindFieldUpdateOperationsInput
+  metadata?: JsonFieldUpdateOperationsInput
 }
 
-export type DirectorUpdateInput = {
-  firstName?: string
-  lastName?: string
-  movies?: MovieUpdateManyWithoutDirectorInput
+export type postUpdateManyDataInput = {
+  uuid?: StringFieldUpdateOperationsInput
+  createdAt?: DateTimeFieldUpdateOperationsInput
+  updatedAt?: DateTimeFieldUpdateOperationsInput
+  published?: BoolFieldUpdateOperationsInput
+  title?: StringFieldUpdateOperationsInput
+  content?: NullableStringFieldUpdateOperationsInput
+  kind?: NullableEnumPostKindFieldUpdateOperationsInput
+  metadata?: JsonFieldUpdateOperationsInput
 }
 
-export type DirectorUpdateManyMutationInput = {
-  firstName?: string
-  lastName?: string
+export type MovieUpdateWithoutDirectorDataInput = {
+  title?: StringFieldUpdateOperationsInput
+}
+
+export type MovieUpdateManyDataInput = {
+  title?: StringFieldUpdateOperationsInput
 }
 
 /**

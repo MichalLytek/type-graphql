@@ -1,3 +1,4 @@
+export { BoolFieldUpdateOperationsInput } from "./BoolFieldUpdateOperationsInput";
 export { BoolFilter } from "./BoolFilter";
 export { CategoryCreateInput } from "./CategoryCreateInput";
 export { CategoryOrderByInput } from "./CategoryOrderByInput";
@@ -18,6 +19,7 @@ export { ClientUpdateWithoutPostsDataInput } from "./ClientUpdateWithoutPostsDat
 export { ClientUpsertWithoutPostsInput } from "./ClientUpsertWithoutPostsInput";
 export { ClientWhereInput } from "./ClientWhereInput";
 export { ClientWhereUniqueInput } from "./ClientWhereUniqueInput";
+export { DateTimeFieldUpdateOperationsInput } from "./DateTimeFieldUpdateOperationsInput";
 export { DateTimeFilter } from "./DateTimeFilter";
 export { DirectorCreateInput } from "./DirectorCreateInput";
 export { DirectorCreateOneWithoutMoviesInput } from "./DirectorCreateOneWithoutMoviesInput";
@@ -34,10 +36,14 @@ export { DirectorUpsertWithoutMoviesInput } from "./DirectorUpsertWithoutMoviesI
 export { DirectorWhereInput } from "./DirectorWhereInput";
 export { DirectorWhereUniqueInput } from "./DirectorWhereUniqueInput";
 export { EnumPostKindNullableFilter } from "./EnumPostKindNullableFilter";
+export { EnumRoleFieldUpdateOperationsInput } from "./EnumRoleFieldUpdateOperationsInput";
 export { EnumRoleFilter } from "./EnumRoleFilter";
 export { FirstNameLastNameCompoundUniqueInput } from "./FirstNameLastNameCompoundUniqueInput";
+export { FloatFieldUpdateOperationsInput } from "./FloatFieldUpdateOperationsInput";
 export { FloatFilter } from "./FloatFilter";
+export { IntFieldUpdateOperationsInput } from "./IntFieldUpdateOperationsInput";
 export { IntFilter } from "./IntFilter";
+export { JsonFieldUpdateOperationsInput } from "./JsonFieldUpdateOperationsInput";
 export { JsonFilter } from "./JsonFilter";
 export { MovieCreateInput } from "./MovieCreateInput";
 export { MovieCreateManyWithoutDirectorInput } from "./MovieCreateManyWithoutDirectorInput";
@@ -65,6 +71,8 @@ export { NestedIntFilter } from "./NestedIntFilter";
 export { NestedJsonFilter } from "./NestedJsonFilter";
 export { NestedStringFilter } from "./NestedStringFilter";
 export { NestedStringNullableFilter } from "./NestedStringNullableFilter";
+export { NullableEnumPostKindFieldUpdateOperationsInput } from "./NullableEnumPostKindFieldUpdateOperationsInput";
+export { NullableStringFieldUpdateOperationsInput } from "./NullableStringFieldUpdateOperationsInput";
 export { PatientCreateInput } from "./PatientCreateInput";
 export { PatientOrderByInput } from "./PatientOrderByInput";
 export { PatientUpdateInput } from "./PatientUpdateInput";
@@ -89,5 +97,6 @@ export { PostUpsertWithWhereUniqueWithoutAuthorInput } from "./PostUpsertWithWhe
 export { PostWhereInput } from "./PostWhereInput";
 export { PostWhereUniqueInput } from "./PostWhereUniqueInput";
 export { SlugNumberCompoundUniqueInput } from "./SlugNumberCompoundUniqueInput";
+export { StringFieldUpdateOperationsInput } from "./StringFieldUpdateOperationsInput";
 export { StringFilter } from "./StringFilter";
 export { StringNullableFilter } from "./StringNullableFilter";

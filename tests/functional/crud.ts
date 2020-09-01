@@ -174,7 +174,9 @@ describe("crud resolvers execution", () => {
         mutation {
           updateUser(
             data: {
-              dateField: "2019-12-31T14:16:02.572Z",
+              dateField: {
+                set: "2019-12-31T14:16:02.572Z",
+              }
             }
             where: {
               uniqueStringField: "unique"

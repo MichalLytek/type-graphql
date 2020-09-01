@@ -105,6 +105,8 @@ export declare namespace DMMF {
         name: string;
         isWhereType?: boolean;
         isOrderType?: boolean;
+        isUpdateType?: boolean;
+        isUpdateOperationType?: boolean;
         atLeastOne?: boolean;
         atMostOne?: boolean;
         isOneOf?: boolean;

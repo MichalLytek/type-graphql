@@ -112,6 +112,8 @@ exports[`structure should generate *.js and *.d.ts files when emitTranspiledCode
       index.d.ts
       index.js
     [inputs]
+      EnumColorFieldUpdateOperationsInput.d.ts
+      EnumColorFieldUpdateOperationsInput.js
       EnumColorFilter.d.ts
       EnumColorFilter.js
       IntFilter.d.ts
@@ -124,6 +126,8 @@ exports[`structure should generate *.js and *.d.ts files when emitTranspiledCode
       NestedStringFilter.js
       NestedStringNullableFilter.d.ts
       NestedStringNullableFilter.js
+      NullableStringFieldUpdateOperationsInput.d.ts
+      NullableStringFieldUpdateOperationsInput.js
       PostCreateInput.d.ts
       PostCreateInput.js
       PostCreateManyWithoutAuthorInput.d.ts
@@ -156,6 +160,8 @@ exports[`structure should generate *.js and *.d.ts files when emitTranspiledCode
       PostWhereInput.js
       PostWhereUniqueInput.d.ts
       PostWhereUniqueInput.js
+      StringFieldUpdateOperationsInput.d.ts
+      StringFieldUpdateOperationsInput.js
       StringFilter.d.ts
       StringFilter.js
       StringNullableFilter.d.ts
@@ -290,12 +296,14 @@ exports[`structure should generate proper folders and file names when model is r
           index.ts
       index.ts
     [inputs]
+      EnumColorFieldUpdateOperationsInput.ts
       EnumColorFilter.ts
       IntFilter.ts
       NestedEnumColorFilter.ts
       NestedIntFilter.ts
       NestedStringFilter.ts
       NestedStringNullableFilter.ts
+      NullableStringFieldUpdateOperationsInput.ts
       RenamedPostCreateInput.ts
       RenamedPostCreateManyWithoutAuthorInput.ts
       RenamedPostCreateWithoutAuthorInput.ts
@@ -324,6 +332,7 @@ exports[`structure should generate proper folders and file names when model is r
       RenamedUserUpsertWithoutPostsInput.ts
       RenamedUserWhereInput.ts
       RenamedUserWhereUniqueInput.ts
+      StringFieldUpdateOperationsInput.ts
       StringFilter.ts
       StringNullableFilter.ts
       index.ts
@@ -414,12 +423,14 @@ exports[`structure should generate proper folders structure and file names for c
           index.ts
       index.ts
     [inputs]
+      EnumColorFieldUpdateOperationsInput.ts
       EnumColorFilter.ts
       IntFilter.ts
       NestedEnumColorFilter.ts
       NestedIntFilter.ts
       NestedStringFilter.ts
       NestedStringNullableFilter.ts
+      NullableStringFieldUpdateOperationsInput.ts
       PostCreateInput.ts
       PostCreateManyWithoutAuthorInput.ts
       PostCreateWithoutAuthorInput.ts
@@ -436,6 +447,7 @@ exports[`structure should generate proper folders structure and file names for c
       PostUpsertWithWhereUniqueWithoutAuthorInput.ts
       PostWhereInput.ts
       PostWhereUniqueInput.ts
+      StringFieldUpdateOperationsInput.ts
       StringFilter.ts
       StringNullableFilter.ts
       UserCreateInput.ts

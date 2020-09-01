@@ -58,14 +58,14 @@ interface ArgOptions {
     schemaArg?: DMMF.SchemaArg;
 }
 export declare class Arg {
-    readonly key: string;
+    key: string;
     value: ArgValue;
-    readonly error?: InvalidArgError;
-    readonly hasError: boolean;
-    readonly isEnum: boolean;
-    readonly schemaArg?: DMMF.SchemaArg;
-    readonly argType?: DMMF.ArgType;
-    readonly isNullable: boolean;
+    error?: InvalidArgError;
+    hasError: boolean;
+    isEnum: boolean;
+    schemaArg?: DMMF.SchemaArg;
+    argType?: DMMF.ArgType;
+    isNullable: boolean;
     constructor({ key, value, argType, isEnum, error, schemaArg, }: ArgOptions);
     _toString(value: ArgValue, key: string): string | undefined;
     toString(): string;

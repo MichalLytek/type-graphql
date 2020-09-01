@@ -78,7 +78,8 @@ export class NestedEnumColorFilter {
 `;
 
 exports[`inputs should properly generate input type class for filtering by enums values: index 1`] = `
-"export { EnumColorFilter } from \\"./EnumColorFilter\\";
+"export { EnumColorFieldUpdateOperationsInput } from \\"./EnumColorFieldUpdateOperationsInput\\";
+export { EnumColorFilter } from \\"./EnumColorFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedEnumColorFilter } from \\"./NestedEnumColorFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
@@ -203,10 +204,15 @@ export class SampleModelWhereUniqueInput {
 `;
 
 exports[`inputs should properly generate input type classes for filtering models by fields: index 1`] = `
-"export { BoolFilter } from \\"./BoolFilter\\";
+"export { BoolFieldUpdateOperationsInput } from \\"./BoolFieldUpdateOperationsInput\\";
+export { BoolFilter } from \\"./BoolFilter\\";
+export { DateTimeFieldUpdateOperationsInput } from \\"./DateTimeFieldUpdateOperationsInput\\";
 export { DateTimeFilter } from \\"./DateTimeFilter\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
+export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
+export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
 export { JsonFilter } from \\"./JsonFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
 export { NestedDateTimeFilter } from \\"./NestedDateTimeFilter\\";
@@ -215,12 +221,14 @@ export { NestedIntFilter } from \\"./NestedIntFilter\\";
 export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
+export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
 export { SampleModelCreateInput } from \\"./SampleModelCreateInput\\";
 export { SampleModelOrderByInput } from \\"./SampleModelOrderByInput\\";
 export { SampleModelUpdateInput } from \\"./SampleModelUpdateInput\\";
 export { SampleModelUpdateManyMutationInput } from \\"./SampleModelUpdateManyMutationInput\\";
 export { SampleModelWhereInput } from \\"./SampleModelWhereInput\\";
 export { SampleModelWhereUniqueInput } from \\"./SampleModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 export { StringNullableFilter } from \\"./StringNullableFilter\\";
 "
@@ -411,6 +419,7 @@ export { FirstModelUpdateWithoutSecondModelsFieldDataInput } from \\"./FirstMode
 export { FirstModelUpsertWithWhereUniqueWithoutSecondModelsFieldInput } from \\"./FirstModelUpsertWithWhereUniqueWithoutSecondModelsFieldInput\\";
 export { FirstModelWhereInput } from \\"./FirstModelWhereInput\\";
 export { FirstModelWhereUniqueInput } from \\"./FirstModelWhereUniqueInput\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
@@ -432,6 +441,7 @@ export { SecondModelUpdateWithoutFirstModelsFieldDataInput } from \\"./SecondMod
 export { SecondModelUpsertWithWhereUniqueWithoutFirstModelsFieldInput } from \\"./SecondModelUpsertWithWhereUniqueWithoutFirstModelsFieldInput\\";
 export { SecondModelWhereInput } from \\"./SecondModelWhereInput\\";
 export { SecondModelWhereUniqueInput } from \\"./SecondModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -809,6 +819,7 @@ export { FirstModelUpdateWithoutSecondModelsFieldDataInput } from \\"./FirstMode
 export { FirstModelUpsertWithoutSecondModelsFieldInput } from \\"./FirstModelUpsertWithoutSecondModelsFieldInput\\";
 export { FirstModelWhereInput } from \\"./FirstModelWhereInput\\";
 export { FirstModelWhereUniqueInput } from \\"./FirstModelWhereUniqueInput\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
@@ -830,6 +841,7 @@ export { SecondModelUpdateWithoutFirstModelFieldDataInput } from \\"./SecondMode
 export { SecondModelUpsertWithWhereUniqueWithoutFirstModelFieldInput } from \\"./SecondModelUpsertWithWhereUniqueWithoutFirstModelFieldInput\\";
 export { SecondModelWhereInput } from \\"./SecondModelWhereInput\\";
 export { SecondModelWhereUniqueInput } from \\"./SecondModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -1545,14 +1557,19 @@ export class StringNullableFilter {
 `;
 
 exports[`inputs should properly generate input type classes for filtering scalar fields: index 1`] = `
-"export { BoolFilter } from \\"./BoolFilter\\";
+"export { BoolFieldUpdateOperationsInput } from \\"./BoolFieldUpdateOperationsInput\\";
+export { BoolFilter } from \\"./BoolFilter\\";
 export { BoolNullableFilter } from \\"./BoolNullableFilter\\";
+export { DateTimeFieldUpdateOperationsInput } from \\"./DateTimeFieldUpdateOperationsInput\\";
 export { DateTimeFilter } from \\"./DateTimeFilter\\";
 export { DateTimeNullableFilter } from \\"./DateTimeNullableFilter\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
 export { FloatNullableFilter } from \\"./FloatNullableFilter\\";
+export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { IntNullableFilter } from \\"./IntNullableFilter\\";
+export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
 export { JsonFilter } from \\"./JsonFilter\\";
 export { JsonNullableFilter } from \\"./JsonNullableFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
@@ -1567,12 +1584,19 @@ export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
 export { NestedJsonNullableFilter } from \\"./NestedJsonNullableFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
+export { NullableBoolFieldUpdateOperationsInput } from \\"./NullableBoolFieldUpdateOperationsInput\\";
+export { NullableDateTimeFieldUpdateOperationsInput } from \\"./NullableDateTimeFieldUpdateOperationsInput\\";
+export { NullableFloatFieldUpdateOperationsInput } from \\"./NullableFloatFieldUpdateOperationsInput\\";
+export { NullableIntFieldUpdateOperationsInput } from \\"./NullableIntFieldUpdateOperationsInput\\";
+export { NullableJsonFieldUpdateOperationsInput } from \\"./NullableJsonFieldUpdateOperationsInput\\";
+export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
 export { SampleModelCreateInput } from \\"./SampleModelCreateInput\\";
 export { SampleModelOrderByInput } from \\"./SampleModelOrderByInput\\";
 export { SampleModelUpdateInput } from \\"./SampleModelUpdateInput\\";
 export { SampleModelUpdateManyMutationInput } from \\"./SampleModelUpdateManyMutationInput\\";
 export { SampleModelWhereInput } from \\"./SampleModelWhereInput\\";
 export { SampleModelWhereUniqueInput } from \\"./SampleModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 export { StringNullableFilter } from \\"./StringNullableFilter\\";
 "
@@ -1728,7 +1752,9 @@ export { DirectorUpsertWithoutMoviesInput } from \\"./DirectorUpsertWithoutMovie
 export { DirectorWhereInput } from \\"./DirectorWhereInput\\";
 export { DirectorWhereUniqueInput } from \\"./DirectorWhereUniqueInput\\";
 export { FirstNameLastNameCompoundUniqueInput } from \\"./FirstNameLastNameCompoundUniqueInput\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
+export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { MovieCreateInput } from \\"./MovieCreateInput\\";
 export { MovieCreateManyWithoutDirectorInput } from \\"./MovieCreateManyWithoutDirectorInput\\";
@@ -1749,6 +1775,7 @@ export { MovieWhereUniqueInput } from \\"./MovieWhereUniqueInput\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -1978,7 +2005,9 @@ export { DirectorUpsertWithoutMoviesInput } from \\"./DirectorUpsertWithoutMovie
 export { DirectorWhereInput } from \\"./DirectorWhereInput\\";
 export { DirectorWhereUniqueInput } from \\"./DirectorWhereUniqueInput\\";
 export { FirstNameLastNameCompoundUniqueInput } from \\"./FirstNameLastNameCompoundUniqueInput\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
+export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { MovieCreateInput } from \\"./MovieCreateInput\\";
 export { MovieCreateManyWithoutDirectorInput } from \\"./MovieCreateManyWithoutDirectorInput\\";
@@ -1999,7 +2028,412 @@ export { MovieWhereUniqueInput } from \\"./MovieWhereUniqueInput\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: BoolFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class BoolFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true,
+    description: undefined
+  })
+  set?: boolean | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: DateTimeFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class DateTimeFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true,
+    description: undefined
+  })
+  set?: Date | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: EnumColorFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { Color } from \\"../../enums/Color\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class EnumColorFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => Color, {
+    nullable: true,
+    description: undefined
+  })
+  set?: keyof typeof Color | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: FloatFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class FloatFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true,
+    description: undefined
+  })
+  set?: number | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: IntFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class IntFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  set?: number | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: JSONFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class JsonFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  set?: InputJsonValue | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: SampleModelUpdateInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { BoolFieldUpdateOperationsInput } from \\"../inputs/BoolFieldUpdateOperationsInput\\";
+import { DateTimeFieldUpdateOperationsInput } from \\"../inputs/DateTimeFieldUpdateOperationsInput\\";
+import { EnumColorFieldUpdateOperationsInput } from \\"../inputs/EnumColorFieldUpdateOperationsInput\\";
+import { FloatFieldUpdateOperationsInput } from \\"../inputs/FloatFieldUpdateOperationsInput\\";
+import { IntFieldUpdateOperationsInput } from \\"../inputs/IntFieldUpdateOperationsInput\\";
+import { NullableBoolFieldUpdateOperationsInput } from \\"../inputs/NullableBoolFieldUpdateOperationsInput\\";
+import { NullableDateTimeFieldUpdateOperationsInput } from \\"../inputs/NullableDateTimeFieldUpdateOperationsInput\\";
+import { NullableEnumColorFieldUpdateOperationsInput } from \\"../inputs/NullableEnumColorFieldUpdateOperationsInput\\";
+import { NullableFloatFieldUpdateOperationsInput } from \\"../inputs/NullableFloatFieldUpdateOperationsInput\\";
+import { NullableIntFieldUpdateOperationsInput } from \\"../inputs/NullableIntFieldUpdateOperationsInput\\";
+import { NullableStringFieldUpdateOperationsInput } from \\"../inputs/NullableStringFieldUpdateOperationsInput\\";
+import { StringFieldUpdateOperationsInput } from \\"../inputs/StringFieldUpdateOperationsInput\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class SampleModelUpdateInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  stringField?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalStringField?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  intField?: IntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalIntField?: NullableIntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  floatField?: FloatFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableFloatFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalFloatField?: NullableFloatFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  booleanField?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableBoolFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalBooleanField?: NullableBoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  dateField?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalDateField?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  jsonField?: InputJsonValue | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  optionalJsonField?: InputJsonValue | undefined;
+
+  @TypeGraphQL.Field(_type => EnumColorFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  enumField?: EnumColorFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableEnumColorFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalEnumField?: NullableEnumColorFieldUpdateOperationsInput | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: SampleModelUpdateManyMutationInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+import { BoolFieldUpdateOperationsInput } from \\"../inputs/BoolFieldUpdateOperationsInput\\";
+import { DateTimeFieldUpdateOperationsInput } from \\"../inputs/DateTimeFieldUpdateOperationsInput\\";
+import { EnumColorFieldUpdateOperationsInput } from \\"../inputs/EnumColorFieldUpdateOperationsInput\\";
+import { FloatFieldUpdateOperationsInput } from \\"../inputs/FloatFieldUpdateOperationsInput\\";
+import { IntFieldUpdateOperationsInput } from \\"../inputs/IntFieldUpdateOperationsInput\\";
+import { NullableBoolFieldUpdateOperationsInput } from \\"../inputs/NullableBoolFieldUpdateOperationsInput\\";
+import { NullableDateTimeFieldUpdateOperationsInput } from \\"../inputs/NullableDateTimeFieldUpdateOperationsInput\\";
+import { NullableEnumColorFieldUpdateOperationsInput } from \\"../inputs/NullableEnumColorFieldUpdateOperationsInput\\";
+import { NullableFloatFieldUpdateOperationsInput } from \\"../inputs/NullableFloatFieldUpdateOperationsInput\\";
+import { NullableIntFieldUpdateOperationsInput } from \\"../inputs/NullableIntFieldUpdateOperationsInput\\";
+import { NullableStringFieldUpdateOperationsInput } from \\"../inputs/NullableStringFieldUpdateOperationsInput\\";
+import { StringFieldUpdateOperationsInput } from \\"../inputs/StringFieldUpdateOperationsInput\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class SampleModelUpdateManyMutationInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  stringField?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalStringField?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  intField?: IntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalIntField?: NullableIntFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  floatField?: FloatFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableFloatFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalFloatField?: NullableFloatFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  booleanField?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableBoolFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalBooleanField?: NullableBoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  dateField?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalDateField?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  jsonField?: InputJsonValue | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
+    nullable: true,
+    description: undefined
+  })
+  optionalJsonField?: InputJsonValue | undefined;
+
+  @TypeGraphQL.Field(_type => EnumColorFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  enumField?: EnumColorFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableEnumColorFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  optionalEnumField?: NullableEnumColorFieldUpdateOperationsInput | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: StringFieldUpdateOperationsInput 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.InputType({
+  isAbstract: true,
+  description: undefined,
+})
+export class StringFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true,
+    description: undefined
+  })
+  set?: string | undefined;
+}
+"
+`;
+
+exports[`inputs should properly generate input type classes for updating scalar fields: index 1`] = `
+"export { BoolFieldUpdateOperationsInput } from \\"./BoolFieldUpdateOperationsInput\\";
+export { BoolFilter } from \\"./BoolFilter\\";
+export { BoolNullableFilter } from \\"./BoolNullableFilter\\";
+export { DateTimeFieldUpdateOperationsInput } from \\"./DateTimeFieldUpdateOperationsInput\\";
+export { DateTimeFilter } from \\"./DateTimeFilter\\";
+export { DateTimeNullableFilter } from \\"./DateTimeNullableFilter\\";
+export { EnumColorFieldUpdateOperationsInput } from \\"./EnumColorFieldUpdateOperationsInput\\";
+export { EnumColorFilter } from \\"./EnumColorFilter\\";
+export { EnumColorNullableFilter } from \\"./EnumColorNullableFilter\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
+export { FloatFilter } from \\"./FloatFilter\\";
+export { FloatNullableFilter } from \\"./FloatNullableFilter\\";
+export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
+export { IntFilter } from \\"./IntFilter\\";
+export { IntNullableFilter } from \\"./IntNullableFilter\\";
+export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
+export { JsonFilter } from \\"./JsonFilter\\";
+export { JsonNullableFilter } from \\"./JsonNullableFilter\\";
+export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
+export { NestedBoolNullableFilter } from \\"./NestedBoolNullableFilter\\";
+export { NestedDateTimeFilter } from \\"./NestedDateTimeFilter\\";
+export { NestedDateTimeNullableFilter } from \\"./NestedDateTimeNullableFilter\\";
+export { NestedEnumColorFilter } from \\"./NestedEnumColorFilter\\";
+export { NestedEnumColorNullableFilter } from \\"./NestedEnumColorNullableFilter\\";
+export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
+export { NestedFloatNullableFilter } from \\"./NestedFloatNullableFilter\\";
+export { NestedIntFilter } from \\"./NestedIntFilter\\";
+export { NestedIntNullableFilter } from \\"./NestedIntNullableFilter\\";
+export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
+export { NestedJsonNullableFilter } from \\"./NestedJsonNullableFilter\\";
+export { NestedStringFilter } from \\"./NestedStringFilter\\";
+export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
+export { NullableBoolFieldUpdateOperationsInput } from \\"./NullableBoolFieldUpdateOperationsInput\\";
+export { NullableDateTimeFieldUpdateOperationsInput } from \\"./NullableDateTimeFieldUpdateOperationsInput\\";
+export { NullableEnumColorFieldUpdateOperationsInput } from \\"./NullableEnumColorFieldUpdateOperationsInput\\";
+export { NullableFloatFieldUpdateOperationsInput } from \\"./NullableFloatFieldUpdateOperationsInput\\";
+export { NullableIntFieldUpdateOperationsInput } from \\"./NullableIntFieldUpdateOperationsInput\\";
+export { NullableJsonFieldUpdateOperationsInput } from \\"./NullableJsonFieldUpdateOperationsInput\\";
+export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
+export { SampleModelCreateInput } from \\"./SampleModelCreateInput\\";
+export { SampleModelOrderByInput } from \\"./SampleModelOrderByInput\\";
+export { SampleModelUpdateInput } from \\"./SampleModelUpdateInput\\";
+export { SampleModelUpdateManyMutationInput } from \\"./SampleModelUpdateManyMutationInput\\";
+export { SampleModelWhereInput } from \\"./SampleModelWhereInput\\";
+export { SampleModelWhereUniqueInput } from \\"./SampleModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
+export { StringFilter } from \\"./StringFilter\\";
+export { StringNullableFilter } from \\"./StringNullableFilter\\";
 "
 `;
 
@@ -2100,6 +2534,7 @@ export { SampleUpdateInput } from \\"./SampleUpdateInput\\";
 export { SampleUpdateManyMutationInput } from \\"./SampleUpdateManyMutationInput\\";
 export { SampleWhereInput } from \\"./SampleWhereInput\\";
 export { SampleWhereUniqueInput } from \\"./SampleWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -2273,7 +2708,8 @@ export class RenamedFirstModelWhereUniqueInput {
 `;
 
 exports[`inputs when model is renamed should properly generate input type classes for filtering models by many to many relation fields: index 1`] = `
-"export { FloatFilter } from \\"./FloatFilter\\";
+"export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
+export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
@@ -2310,6 +2746,7 @@ export { RenamedSecondModelUpdateWithoutFirstModelsFieldDataInput } from \\"./Re
 export { RenamedSecondModelUpsertWithWhereUniqueWithoutFirstModelsFieldInput } from \\"./RenamedSecondModelUpsertWithWhereUniqueWithoutFirstModelsFieldInput\\";
 export { RenamedSecondModelWhereInput } from \\"./RenamedSecondModelWhereInput\\";
 export { RenamedSecondModelWhereUniqueInput } from \\"./RenamedSecondModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -2675,7 +3112,8 @@ export class RenamedSecondModelWhereUniqueInput {
 `;
 
 exports[`inputs when model is renamed should properly generate input type classes for filtering models by one to many relation fields: index 1`] = `
-"export { FloatFilter } from \\"./FloatFilter\\";
+"export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
+export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
@@ -2708,6 +3146,7 @@ export { RenamedSecondModelUpdateWithoutFirstModelFieldDataInput } from \\"./Ren
 export { RenamedSecondModelUpsertWithWhereUniqueWithoutFirstModelFieldInput } from \\"./RenamedSecondModelUpsertWithWhereUniqueWithoutFirstModelFieldInput\\";
 export { RenamedSecondModelWhereInput } from \\"./RenamedSecondModelWhereInput\\";
 export { RenamedSecondModelWhereUniqueInput } from \\"./RenamedSecondModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -2867,7 +3306,9 @@ export class ExampleWhereUniqueInput {
 `;
 
 exports[`inputs when model is renamed should properly generate input type classes when model is renamed: index 1`] = `
-"export { BoolFilter } from \\"./BoolFilter\\";
+"export { BoolFieldUpdateOperationsInput } from \\"./BoolFieldUpdateOperationsInput\\";
+export { BoolFilter } from \\"./BoolFilter\\";
+export { DateTimeFieldUpdateOperationsInput } from \\"./DateTimeFieldUpdateOperationsInput\\";
 export { DateTimeFilter } from \\"./DateTimeFilter\\";
 export { ExampleCreateInput } from \\"./ExampleCreateInput\\";
 export { ExampleCreateManyWithoutOtherInput } from \\"./ExampleCreateManyWithoutOtherInput\\";
@@ -2885,6 +3326,7 @@ export { ExampleUpdateWithoutOtherDataInput } from \\"./ExampleUpdateWithoutOthe
 export { ExampleUpsertWithWhereUniqueWithoutOtherInput } from \\"./ExampleUpsertWithWhereUniqueWithoutOtherInput\\";
 export { ExampleWhereInput } from \\"./ExampleWhereInput\\";
 export { ExampleWhereUniqueInput } from \\"./ExampleWhereUniqueInput\\";
+export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsInput\\";
 export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
@@ -2904,6 +3346,7 @@ export { OtherModelUpdateWithoutSampleModelDataInput } from \\"./OtherModelUpdat
 export { OtherModelUpsertWithoutSampleModelInput } from \\"./OtherModelUpsertWithoutSampleModelInput\\";
 export { OtherModelWhereInput } from \\"./OtherModelWhereInput\\";
 export { OtherModelWhereUniqueInput } from \\"./OtherModelWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;
@@ -2963,6 +3406,7 @@ export { SampleUpdateInput } from \\"./SampleUpdateInput\\";
 export { SampleUpdateManyMutationInput } from \\"./SampleUpdateManyMutationInput\\";
 export { SampleWhereInput } from \\"./SampleWhereInput\\";
 export { SampleWhereUniqueInput } from \\"./SampleWhereUniqueInput\\";
+export { StringFieldUpdateOperationsInput } from \\"./StringFieldUpdateOperationsInput\\";
 export { StringFilter } from \\"./StringFilter\\";
 "
 `;

@@ -1,16 +1,16 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { PostKind } from "../../enums/PostKind";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class MovieUpdateWithoutDirectorDataInput {
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+export class NullableEnumPostKindFieldUpdateOperationsInput {
+  @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined
   })
-  title?: StringFieldUpdateOperationsInput | undefined;
+  set?: keyof typeof PostKind | undefined;
 }
