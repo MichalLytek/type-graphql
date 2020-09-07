@@ -13,7 +13,7 @@ To make use of the prisma integration, first you need to add a new generator to 
 
 ```sh
 generator typegraphql {
-  provider = "node node_modules/typegraphql-prisma/generator.js"
+  provider = "typegraphql-prisma"
   output   = "../src/generated/typegraphql-prisma"
 }
 ```
