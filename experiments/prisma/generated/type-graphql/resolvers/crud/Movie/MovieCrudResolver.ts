@@ -20,7 +20,7 @@ export class MovieCrudResolver {
     nullable: true,
     description: undefined
   })
-  async movie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneMovieArgs): Promise<Movie | undefined> {
+  async movie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class MovieCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteMovieArgs): Promise<Movie | undefined> {
+  async deleteMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class MovieCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateMovieArgs): Promise<Movie | undefined> {
+  async updateMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.update(args);
   }
 

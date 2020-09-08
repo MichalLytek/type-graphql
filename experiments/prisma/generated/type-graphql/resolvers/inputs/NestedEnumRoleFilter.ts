@@ -12,19 +12,19 @@ export class NestedEnumRoleFilter {
     nullable: true,
     description: undefined
   })
-  equals?: keyof typeof Role | undefined;
+  equals?: typeof Role[keyof typeof Role] | undefined;
 
   @TypeGraphQL.Field(_type => [Role], {
     nullable: true,
     description: undefined
   })
-  in?: Array<keyof typeof Role> | undefined;
+  in?: Array<typeof Role[keyof typeof Role]> | undefined;
 
   @TypeGraphQL.Field(_type => [Role], {
     nullable: true,
     description: undefined
   })
-  notIn?: Array<keyof typeof Role> | undefined;
+  notIn?: Array<typeof Role[keyof typeof Role]> | undefined;
 
   @TypeGraphQL.Field(_type => NestedEnumRoleFilter, {
     nullable: true,

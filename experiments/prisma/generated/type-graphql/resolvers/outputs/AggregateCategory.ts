@@ -21,23 +21,23 @@ export class AggregateCategory {
     nullable: true,
     description: undefined
   })
-  avg?: CategoryAvgAggregateOutputType | undefined;
+  avg!: CategoryAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => CategorySumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: CategorySumAggregateOutputType | undefined;
+  sum!: CategorySumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => CategoryMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: CategoryMinAggregateOutputType | undefined;
+  min!: CategoryMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => CategoryMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: CategoryMaxAggregateOutputType | undefined;
+  max!: CategoryMaxAggregateOutputType | null;
 }

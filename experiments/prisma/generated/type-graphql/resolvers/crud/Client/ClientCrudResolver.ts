@@ -20,7 +20,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async client(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | undefined> {
+  async client(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneClientArgs): Promise<Client | null> {
     return ctx.prisma.user.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | undefined> {
+  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null> {
     return ctx.prisma.user.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class ClientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | undefined> {
+  async updateClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateClientArgs): Promise<Client | null> {
     return ctx.prisma.user.update(args);
   }
 

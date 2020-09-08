@@ -8,7 +8,7 @@ export class DeleteClientResolver {
     nullable: true,
     description: undefined
   })
-  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | undefined> {
+  async deleteClient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteClientArgs): Promise<Client | null> {
     return ctx.prisma.user.delete(args);
   }
 }

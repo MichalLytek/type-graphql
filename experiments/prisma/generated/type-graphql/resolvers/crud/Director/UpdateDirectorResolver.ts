@@ -8,7 +8,7 @@ export class UpdateDirectorResolver {
     nullable: true,
     description: undefined
   })
-  async updateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateDirectorArgs): Promise<Director | undefined> {
+  async updateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.update(args);
   }
 }

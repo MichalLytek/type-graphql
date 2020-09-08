@@ -34,7 +34,7 @@ export class ClientCreateWithoutPostsInput {
     nullable: false,
     description: undefined
   })
-  role!: keyof typeof Role;
+  role!: typeof Role[keyof typeof Role];
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,

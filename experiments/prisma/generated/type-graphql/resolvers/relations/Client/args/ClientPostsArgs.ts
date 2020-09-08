@@ -23,5 +23,5 @@ export class ClientPostsArgs {
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [PostDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof PostDistinctFieldEnum> | undefined;
+  distinct?: Array<typeof PostDistinctFieldEnum[keyof typeof PostDistinctFieldEnum]> | undefined;
 }

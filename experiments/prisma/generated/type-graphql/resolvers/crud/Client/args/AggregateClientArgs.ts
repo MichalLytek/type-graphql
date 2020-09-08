@@ -23,5 +23,5 @@ export class AggregateClientArgs {
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [ClientDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof ClientDistinctFieldEnum> | undefined;
+  distinct?: Array<typeof ClientDistinctFieldEnum[keyof typeof ClientDistinctFieldEnum]> | undefined;
 }

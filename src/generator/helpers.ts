@@ -24,7 +24,7 @@ export function getFieldTSType(
           : typeInfo.type.replace(modelName, typeName);
     }
   } else if (typeInfo.kind === "enum") {
-    TSType = `keyof typeof ${typeInfo.type}`;
+    TSType = `typeof ${typeInfo.type}[keyof typeof ${typeInfo.type}]`;
   } else {
     throw new Error(`Unsupported field type kind: ${typeInfo.kind}`);
   }
@@ -36,9 +36,11 @@ export function getFieldTSType(
     }
   }
   if (!typeInfo.isRequired) {
-    // FIXME: use properly null for output and undefined for input
-    // TSType += " | null | undefined";
-    TSType += " | undefined";
+    if (isInputType) {
+      TSType += " | undefined";
+    } else {
+      TSType += " | null";
+    }
   }
   return TSType;
 }

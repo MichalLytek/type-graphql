@@ -69,8 +69,7 @@ export function generateOutputTypeClassFromType(
         return {
           name: field.name,
           type: field.fieldTSType,
-          hasExclamationToken: isRequired,
-          hasQuestionToken: !isRequired,
+          hasExclamationToken: true,
           trailingTrivia: "\r\n",
           decorators: [
             {

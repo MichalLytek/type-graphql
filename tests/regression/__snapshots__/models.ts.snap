@@ -32,7 +32,7 @@ export class User {
   intField!: number;
 
   /** relation doc */
-  posts?: Post[] | undefined;
+  posts?: Post[] | null;
 }
 "
 `;
@@ -63,7 +63,7 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  optionalStringField?: string | undefined;
+  optionalStringField?: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -125,7 +125,7 @@ export class User {
     nullable: false,
     description: undefined,
   })
-  enumField!: keyof typeof Sample;
+  enumField!: typeof Sample[keyof typeof Sample];
 }
 "
 `;
@@ -156,9 +156,9 @@ export class User {
   /** renamed field docs */
   name!: string;
 
-  balance?: number | undefined;
+  balance!: number | null;
 
-  posts?: Post[] | undefined;
+  posts?: Post[] | null;
 
   /** renamed field docs */
   @TypeGraphQL.Field(_type => String, {
@@ -173,8 +173,8 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  get accountBalance(): number | undefined {
-    return this.balance;
+  get accountBalance(): number | null {
+    return this.balance ?? null;
   }
 }
 "
@@ -225,7 +225,7 @@ export class Client {
   })
   id!: number;
 
-  posts?: Article[] | undefined;
+  posts?: Article[] | null;
 }
 "
 `;
@@ -275,7 +275,7 @@ export class User {
   })
   id!: number;
 
-  posts?: Post[] | undefined;
+  posts?: Post[] | null;
 }
 "
 `;
@@ -302,15 +302,15 @@ export class Service {
   })
   name!: string;
 
-  sourceService?: Service | undefined;
+  sourceService?: Service | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true,
     description: undefined,
   })
-  sourceId?: number | undefined;
+  sourceId?: number | null;
 
-  services?: Service[] | undefined;
+  services?: Service[] | null;
 }
 "
 `;

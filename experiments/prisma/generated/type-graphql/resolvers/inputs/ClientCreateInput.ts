@@ -35,7 +35,7 @@ export class ClientCreateInput {
     nullable: false,
     description: undefined
   })
-  role!: keyof typeof Role;
+  role!: typeof Role[keyof typeof Role];
 
   posts?: PostCreateManyWithoutAuthorInput | undefined;
 

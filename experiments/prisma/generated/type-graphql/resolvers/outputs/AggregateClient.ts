@@ -21,23 +21,23 @@ export class AggregateClient {
     nullable: true,
     description: undefined
   })
-  avg?: ClientAvgAggregateOutputType | undefined;
+  avg!: ClientAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ClientSumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: ClientSumAggregateOutputType | undefined;
+  sum!: ClientSumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ClientMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: ClientMinAggregateOutputType | undefined;
+  min!: ClientMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ClientMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: ClientMaxAggregateOutputType | undefined;
+  max!: ClientMaxAggregateOutputType | null;
 }

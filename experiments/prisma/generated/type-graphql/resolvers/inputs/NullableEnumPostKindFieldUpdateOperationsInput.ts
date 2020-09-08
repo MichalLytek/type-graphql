@@ -12,5 +12,5 @@ export class NullableEnumPostKindFieldUpdateOperationsInput {
     nullable: true,
     description: undefined
   })
-  set?: keyof typeof PostKind | undefined;
+  set?: typeof PostKind[keyof typeof PostKind] | undefined;
 }

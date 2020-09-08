@@ -23,5 +23,5 @@ export class FindManyCategoryArgs {
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [CategoryDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof CategoryDistinctFieldEnum> | undefined;
+  distinct?: Array<typeof CategoryDistinctFieldEnum[keyof typeof CategoryDistinctFieldEnum]> | undefined;
 }

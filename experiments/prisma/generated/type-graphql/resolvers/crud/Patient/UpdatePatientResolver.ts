@@ -8,7 +8,7 @@ export class UpdatePatientResolver {
     nullable: true,
     description: undefined
   })
-  async updatePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePatientArgs): Promise<Patient | undefined> {
+  async updatePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.update(args);
   }
 }

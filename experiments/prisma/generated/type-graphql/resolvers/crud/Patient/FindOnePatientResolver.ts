@@ -8,7 +8,7 @@ export class FindOnePatientResolver {
     nullable: true,
     description: undefined
   })
-  async patient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePatientArgs): Promise<Patient | undefined> {
+  async patient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.findOne(args);
   }
 }

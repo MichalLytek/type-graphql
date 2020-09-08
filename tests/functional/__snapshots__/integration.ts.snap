@@ -32,6 +32,10 @@ enum Color {
   RED
 }
 
+input EnumColorFieldUpdateOperationsInput {
+  set: Color
+}
+
 input EnumColorFilter {
   equals: Color
   in: [Color!]
@@ -111,6 +115,10 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
 type Post {
   author: User!
   authorId: Int!
@@ -185,21 +193,21 @@ type PostSumAggregateOutputType {
 
 input PostUpdateInput {
   author: UserUpdateOneRequiredWithoutPostsInput
-  color: Color
-  content: String
-  uuid: String
+  color: EnumColorFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateManyDataInput {
-  color: Color
-  content: String
-  uuid: String
+  color: EnumColorFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateManyMutationInput {
-  color: Color
-  content: String
-  uuid: String
+  color: EnumColorFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -220,9 +228,9 @@ input PostUpdateManyWithWhereNestedInput {
 }
 
 input PostUpdateWithoutAuthorDataInput {
-  color: Color
-  content: String
-  uuid: String
+  color: EnumColorFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -263,6 +271,10 @@ type Query {
 enum SortOrder {
   asc
   desc
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
 }
 
 input StringFilter {
@@ -340,12 +352,12 @@ type UserSumAggregateOutputType {
 }
 
 input UserUpdateInput {
-  name: String
+  name: NullableStringFieldUpdateOperationsInput
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
-  name: String
+  name: NullableStringFieldUpdateOperationsInput
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -356,7 +368,7 @@ input UserUpdateOneRequiredWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsDataInput {
-  name: String
+  name: NullableStringFieldUpdateOperationsInput
 }
 
 input UserUpsertWithoutPostsInput {
@@ -441,12 +453,14 @@ exports[`generator integration should generates TypeGraphQL classes files to out
           index.ts
       index.ts
     [inputs]
+      EnumColorFieldUpdateOperationsInput.ts
       EnumColorFilter.ts
       IntFilter.ts
       NestedEnumColorFilter.ts
       NestedIntFilter.ts
       NestedStringFilter.ts
       NestedStringNullableFilter.ts
+      NullableStringFieldUpdateOperationsInput.ts
       PostCreateInput.ts
       PostCreateManyWithoutAuthorInput.ts
       PostCreateWithoutAuthorInput.ts
@@ -463,6 +477,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
       PostUpsertWithWhereUniqueWithoutAuthorInput.ts
       PostWhereInput.ts
       PostWhereUniqueInput.ts
+      StringFieldUpdateOperationsInput.ts
       StringFilter.ts
       StringNullableFilter.ts
       UserCreateInput.ts

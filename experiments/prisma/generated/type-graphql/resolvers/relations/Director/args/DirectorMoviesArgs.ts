@@ -23,5 +23,5 @@ export class DirectorMoviesArgs {
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [MovieDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof MovieDistinctFieldEnum> | undefined;
+  distinct?: Array<typeof MovieDistinctFieldEnum[keyof typeof MovieDistinctFieldEnum]> | undefined;
 }

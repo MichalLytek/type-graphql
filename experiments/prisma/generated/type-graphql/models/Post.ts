@@ -43,7 +43,7 @@ export class Post {
     nullable: true,
     description: undefined,
   })
-  content?: string | undefined;
+  content?: string | null;
 
   author?: Client;
 
@@ -57,7 +57,7 @@ export class Post {
     nullable: true,
     description: undefined,
   })
-  kind?: keyof typeof PostKind | undefined;
+  kind?: typeof PostKind[keyof typeof PostKind] | null;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: false,

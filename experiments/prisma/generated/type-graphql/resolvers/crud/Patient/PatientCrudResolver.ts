@@ -20,7 +20,7 @@ export class PatientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async patient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePatientArgs): Promise<Patient | undefined> {
+  async patient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class PatientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deletePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePatientArgs): Promise<Patient | undefined> {
+  async deletePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class PatientCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updatePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePatientArgs): Promise<Patient | undefined> {
+  async updatePatient(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePatientArgs): Promise<Patient | null> {
     return ctx.prisma.patient.update(args);
   }
 

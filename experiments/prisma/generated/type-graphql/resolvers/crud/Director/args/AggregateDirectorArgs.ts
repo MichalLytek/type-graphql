@@ -23,5 +23,5 @@ export class AggregateDirectorArgs {
   skip?: number | undefined;
 
   @TypeGraphQL.Field(_type => [DirectorDistinctFieldEnum], { nullable: true })
-  distinct?: Array<keyof typeof DirectorDistinctFieldEnum> | undefined;
+  distinct?: Array<typeof DirectorDistinctFieldEnum[keyof typeof DirectorDistinctFieldEnum]> | undefined;
 }

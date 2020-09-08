@@ -8,7 +8,7 @@ export class DeleteMovieResolver {
     nullable: true,
     description: undefined
   })
-  async deleteMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteMovieArgs): Promise<Movie | undefined> {
+  async deleteMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.delete(args);
   }
 }

@@ -8,7 +8,7 @@ export class DeleteCategoryResolver {
     nullable: true,
     description: undefined
   })
-  async deleteCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteCategoryArgs): Promise<Category | undefined> {
+  async deleteCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.delete(args);
   }
 }

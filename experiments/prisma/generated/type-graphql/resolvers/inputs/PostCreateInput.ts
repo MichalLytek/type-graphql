@@ -49,7 +49,7 @@ export class PostCreateInput {
     nullable: true,
     description: undefined
   })
-  kind?: keyof typeof PostKind | undefined;
+  kind?: typeof PostKind[keyof typeof PostKind] | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: false,

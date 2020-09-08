@@ -24,25 +24,25 @@ export class AggregateExample {
     nullable: true,
     description: undefined
   })
-  avg?: ExampleAvgAggregateOutputType | undefined;
+  avg!: ExampleAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleSumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: ExampleSumAggregateOutputType | undefined;
+  sum!: ExampleSumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: ExampleMinAggregateOutputType | undefined;
+  min!: ExampleMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: ExampleMaxAggregateOutputType | undefined;
+  max!: ExampleMaxAggregateOutputType | null;
 }
 "
 `;
@@ -181,25 +181,25 @@ export class AggregateExample {
     nullable: true,
     description: undefined
   })
-  avg?: ExampleAvgAggregateOutputType | undefined;
+  avg!: ExampleAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleSumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: ExampleSumAggregateOutputType | undefined;
+  sum!: ExampleSumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: ExampleMinAggregateOutputType | undefined;
+  min!: ExampleMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => ExampleMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: ExampleMaxAggregateOutputType | undefined;
+  max!: ExampleMaxAggregateOutputType | null;
 }
 "
 `;
@@ -338,25 +338,25 @@ export class AggregateSample {
     nullable: true,
     description: undefined
   })
-  avg?: SampleAvgAggregateOutputType | undefined;
+  avg!: SampleAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => SampleSumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: SampleSumAggregateOutputType | undefined;
+  sum!: SampleSumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => SampleMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: SampleMinAggregateOutputType | undefined;
+  min!: SampleMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => SampleMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: SampleMaxAggregateOutputType | undefined;
+  max!: SampleMaxAggregateOutputType | null;
 }
 "
 `;

@@ -20,7 +20,7 @@ export class CategoryCrudResolver {
     nullable: true,
     description: undefined
   })
-  async category(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneCategoryArgs): Promise<Category | undefined> {
+  async category(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class CategoryCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteCategoryArgs): Promise<Category | undefined> {
+  async deleteCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class CategoryCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateCategoryArgs): Promise<Category | undefined> {
+  async updateCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.update(args);
   }
 

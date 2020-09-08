@@ -8,7 +8,7 @@ export class DeleteDirectorResolver {
     nullable: true,
     description: undefined
   })
-  async deleteDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteDirectorArgs): Promise<Director | undefined> {
+  async deleteDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.delete(args);
   }
 }

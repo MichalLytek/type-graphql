@@ -20,7 +20,7 @@ export class DirectorCrudResolver {
     nullable: true,
     description: undefined
   })
-  async director(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneDirectorArgs): Promise<Director | undefined> {
+  async director(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class DirectorCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deleteDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteDirectorArgs): Promise<Director | undefined> {
+  async deleteDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeleteDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class DirectorCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateDirectorArgs): Promise<Director | undefined> {
+  async updateDirector(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdateDirectorArgs): Promise<Director | null> {
     return ctx.prisma.director.update(args);
   }
 

@@ -24,7 +24,7 @@ export class Client {
   email!: string;
 
   /** renamed field doc */
-  name?: string | undefined;
+  name!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false,
@@ -40,21 +40,21 @@ export class Client {
   })
   amount!: number;
 
-  posts?: Post[] | undefined;
+  posts?: Post[] | null;
 
   @TypeGraphQL.Field(_type => Role, {
     nullable: false,
     description: undefined,
   })
-  role!: keyof typeof Role;
+  role!: typeof Role[keyof typeof Role];
 
   /** renamed field doc */
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: "renamed field doc",
   })
-  get firstName(): string | undefined {
-    return this.name;
+  get firstName(): string | null {
+    return this.name ?? null;
   }
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {

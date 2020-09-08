@@ -66,7 +66,9 @@ export default function generateObjectTypeClassFromModel(
     ],
     properties: model.fields.map<OptionalKind<PropertyDeclarationStructure>>(
       field => {
-        const isOptional = !!field.relationName || !field.isRequired;
+        const isOptional =
+          !!field.relationName ||
+          (!field.isRequired && field.typeFieldAlias === undefined);
 
         return {
           name: field.name,
@@ -117,7 +119,11 @@ export default function generateObjectTypeClassFromModel(
               ],
             },
           ],
-          statements: [`return this.${field.name};`],
+          statements: [
+            field.isRequired
+              ? `return this.${field.name};`
+              : `return this.${field.name} ?? null;`,
+          ],
           ...(field.docs && {
             docs: [{ description: field.docs }],
           }),

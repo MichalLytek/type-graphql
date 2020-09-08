@@ -21,23 +21,23 @@ export class AggregatePost {
     nullable: true,
     description: undefined
   })
-  avg?: PostAvgAggregateOutputType | undefined;
+  avg!: PostAvgAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => PostSumAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  sum?: PostSumAggregateOutputType | undefined;
+  sum!: PostSumAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => PostMinAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  min?: PostMinAggregateOutputType | undefined;
+  min!: PostMinAggregateOutputType | null;
 
   @TypeGraphQL.Field(_type => PostMaxAggregateOutputType, {
     nullable: true,
     description: undefined
   })
-  max?: PostMaxAggregateOutputType | undefined;
+  max!: PostMaxAggregateOutputType | null;
 }

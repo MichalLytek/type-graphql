@@ -8,7 +8,7 @@ export class DeletePostResolver {
     nullable: true,
     description: undefined
   })
-  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | undefined> {
+  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | null> {
     return ctx.prisma.post.delete(args);
   }
 }
