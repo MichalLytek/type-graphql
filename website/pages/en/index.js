@@ -248,7 +248,7 @@ const CollectiveSection = props => (
       <div className="wrapper">
         <h3 className="title">Gold Sponsors 🏆</h3>
         <div className="tiles">
-          <a href="https://career.bluereceipt.co/">
+          <a href="http://career.bluereceipt.co/">
             <img
               src={imgUrl("blue_receipt.gif")}
               style={{ width: 450, filter: "brightness(0.975)" }}
