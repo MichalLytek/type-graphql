@@ -985,7 +985,7 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
           const error = err as CannotDetermineGraphQLTypeError;
           expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Does the value used as its TS type or explicit type is decorated with a proper decorator or is it a proper output value?"`,
+            `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper output value?"`,
           );
         }
       });
@@ -1015,7 +1015,7 @@ describe("Resolvers", () => {
           expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
           const error = err as CannotDetermineGraphQLTypeError;
           expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Does the value used as its TS type or explicit type is decorated with a proper decorator or is it a proper input value?"`,
+            `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper input value?"`,
           );
         }
       });
