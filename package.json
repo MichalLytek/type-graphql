@@ -89,5 +89,6 @@
     "**/*.{js,json}": [
       "prettier --write"
     ]
-  }
+  },
+  "private": true
 }
