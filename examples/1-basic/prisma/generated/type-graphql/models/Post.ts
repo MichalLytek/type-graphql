@@ -42,13 +42,13 @@ export class Post {
     nullable: true,
     description: undefined,
   })
-  content?: string | undefined;
+  content?: string | null;
 
-  author?: User | undefined;
+  author?: User | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined,
   })
-  authorId?: string | undefined;
+  authorId?: string | null;
 }

@@ -15,6 +15,10 @@ type BatchPayload {
   count: Int!
 }
 
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
 input BoolFilter {
   equals: Boolean
   not: NestedBoolFilter
@@ -24,6 +28,10 @@ input BoolFilter {
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
 
 input DateTimeFilter {
   equals: DateTime
@@ -93,6 +101,10 @@ input NestedStringNullableFilter {
   not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
 }
 
 type Post {
@@ -171,30 +183,30 @@ input PostScalarWhereInput {
 
 input PostUpdateInput {
   author: UserUpdateOneWithoutPostsInput
-  content: String
-  createdAt: DateTime
-  id: String
-  published: Boolean
-  title: String
-  updatedAt: DateTime
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input PostUpdateManyDataInput {
-  content: String
-  createdAt: DateTime
-  id: String
-  published: Boolean
-  title: String
-  updatedAt: DateTime
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input PostUpdateManyMutationInput {
-  content: String
-  createdAt: DateTime
-  id: String
-  published: Boolean
-  title: String
-  updatedAt: DateTime
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -215,12 +227,12 @@ input PostUpdateManyWithWhereNestedInput {
 }
 
 input PostUpdateWithoutAuthorDataInput {
-  content: String
-  createdAt: DateTime
-  id: String
-  published: Boolean
-  title: String
-  updatedAt: DateTime
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -265,6 +277,10 @@ type Query {
 enum SortOrder {
   asc
   desc
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
 }
 
 input StringFilter {
@@ -334,16 +350,16 @@ input UserOrderByInput {
 }
 
 input UserUpdateInput {
-  email: String
-  id: String
-  name: String
+  email: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
-  email: String
-  id: String
-  name: String
+  email: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
 }
 
 input UserUpdateOneWithoutPostsInput {
@@ -356,9 +372,9 @@ input UserUpdateOneWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsDataInput {
-  email: String
-  id: String
-  name: String
+  email: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
 }
 
 input UserUpsertWithoutPostsInput {

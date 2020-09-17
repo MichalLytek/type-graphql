@@ -1,9 +1,12 @@
+export { BoolFieldUpdateOperationsInput } from "./BoolFieldUpdateOperationsInput";
 export { BoolFilter } from "./BoolFilter";
+export { DateTimeFieldUpdateOperationsInput } from "./DateTimeFieldUpdateOperationsInput";
 export { DateTimeFilter } from "./DateTimeFilter";
 export { NestedBoolFilter } from "./NestedBoolFilter";
 export { NestedDateTimeFilter } from "./NestedDateTimeFilter";
 export { NestedStringFilter } from "./NestedStringFilter";
 export { NestedStringNullableFilter } from "./NestedStringNullableFilter";
+export { NullableStringFieldUpdateOperationsInput } from "./NullableStringFieldUpdateOperationsInput";
 export { PostCreateInput } from "./PostCreateInput";
 export { PostCreateManyWithoutAuthorInput } from "./PostCreateManyWithoutAuthorInput";
 export { PostCreateWithoutAuthorInput } from "./PostCreateWithoutAuthorInput";
@@ -20,6 +23,7 @@ export { PostUpdateWithoutAuthorDataInput } from "./PostUpdateWithoutAuthorDataI
 export { PostUpsertWithWhereUniqueWithoutAuthorInput } from "./PostUpsertWithWhereUniqueWithoutAuthorInput";
 export { PostWhereInput } from "./PostWhereInput";
 export { PostWhereUniqueInput } from "./PostWhereUniqueInput";
+export { StringFieldUpdateOperationsInput } from "./StringFieldUpdateOperationsInput";
 export { StringFilter } from "./StringFilter";
 export { StringNullableFilter } from "./StringNullableFilter";
 export { UserCreateInput } from "./UserCreateInput";

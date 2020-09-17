@@ -20,7 +20,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async post(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePostArgs): Promise<Post | undefined> {
+  async post(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.prisma.post.findOne(args);
   }
 
@@ -44,7 +44,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | undefined> {
+  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | null> {
     return ctx.prisma.post.delete(args);
   }
 
@@ -52,7 +52,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | undefined> {
+  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | null> {
     return ctx.prisma.post.update(args);
   }
 

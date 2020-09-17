@@ -24,7 +24,7 @@ export class User {
     nullable: true,
     description: undefined,
   })
-  name?: string | undefined;
+  name?: string | null;
 
-  posts?: Post[] | undefined;
+  posts?: Post[] | null;
 }

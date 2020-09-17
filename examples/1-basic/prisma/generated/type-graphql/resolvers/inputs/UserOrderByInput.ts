@@ -12,17 +12,17 @@ export class UserOrderByInput {
     nullable: true,
     description: undefined
   })
-  id?: keyof typeof SortOrder | undefined;
+  id?: typeof SortOrder[keyof typeof SortOrder] | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  email?: keyof typeof SortOrder | undefined;
+  email?: typeof SortOrder[keyof typeof SortOrder] | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true,
     description: undefined
   })
-  name?: keyof typeof SortOrder | undefined;
+  name?: typeof SortOrder[keyof typeof SortOrder] | undefined;
 }
