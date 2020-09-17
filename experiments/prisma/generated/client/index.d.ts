@@ -430,6 +430,26 @@ export declare class PrismaClient<
     * ```
     */
   get director(): DirectorDelegate;
+
+  /**
+   * `prisma.problem`: Exposes CRUD operations for the **Problem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Problems
+    * const problems = await prisma.problem.findMany()
+    * ```
+    */
+  get problem(): ProblemDelegate;
+
+  /**
+   * `prisma.creator`: Exposes CRUD operations for the **Creator** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Creators
+    * const creators = await prisma.creator.findMany()
+    * ```
+    */
+  get creator(): CreatorDelegate;
 }
 
 
@@ -502,6 +522,23 @@ export declare const DirectorDistinctFieldEnum: {
 };
 
 export declare type DirectorDistinctFieldEnum = (typeof DirectorDistinctFieldEnum)[keyof typeof DirectorDistinctFieldEnum]
+
+
+export declare const ProblemDistinctFieldEnum: {
+  id: 'id',
+  problemText: 'problemText',
+  creatorId: 'creatorId'
+};
+
+export declare type ProblemDistinctFieldEnum = (typeof ProblemDistinctFieldEnum)[keyof typeof ProblemDistinctFieldEnum]
+
+
+export declare const CreatorDistinctFieldEnum: {
+  id: 'id',
+  name: 'name'
+};
+
+export declare type CreatorDistinctFieldEnum = (typeof CreatorDistinctFieldEnum)[keyof typeof CreatorDistinctFieldEnum]
 
 
 export declare const SortOrder: {
@@ -3257,6 +3294,990 @@ export type DirectorArgs = {
 
 
 /**
+ * Model Problem
+ */
+
+export type Problem = {
+  id: number
+  problemText: string
+  creatorId: number | null
+}
+
+
+export type AggregateProblem = {
+  count: number
+  avg: ProblemAvgAggregateOutputType | null
+  sum: ProblemSumAggregateOutputType | null
+  min: ProblemMinAggregateOutputType | null
+  max: ProblemMaxAggregateOutputType | null
+}
+
+export type ProblemAvgAggregateOutputType = {
+  id: number
+  creatorId: number
+}
+
+export type ProblemSumAggregateOutputType = {
+  id: number
+  creatorId: number | null
+}
+
+export type ProblemMinAggregateOutputType = {
+  id: number
+  creatorId: number | null
+}
+
+export type ProblemMaxAggregateOutputType = {
+  id: number
+  creatorId: number | null
+}
+
+
+export type ProblemAvgAggregateInputType = {
+  id?: true
+  creatorId?: true
+}
+
+export type ProblemSumAggregateInputType = {
+  id?: true
+  creatorId?: true
+}
+
+export type ProblemMinAggregateInputType = {
+  id?: true
+  creatorId?: true
+}
+
+export type ProblemMaxAggregateInputType = {
+  id?: true
+  creatorId?: true
+}
+
+export type AggregateProblemArgs = {
+  where?: ProblemWhereInput
+  orderBy?: Enumerable<ProblemOrderByInput>
+  cursor?: ProblemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<ProblemDistinctFieldEnum>
+  count?: true
+  avg?: ProblemAvgAggregateInputType
+  sum?: ProblemSumAggregateInputType
+  min?: ProblemMinAggregateInputType
+  max?: ProblemMaxAggregateInputType
+}
+
+export type GetProblemAggregateType<T extends AggregateProblemArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetProblemAggregateScalarType<T[P]>
+}
+
+export type GetProblemAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof ProblemAvgAggregateOutputType ? ProblemAvgAggregateOutputType[P] : never
+}
+    
+    
+
+export type ProblemSelect = {
+  id?: boolean
+  problemText?: boolean
+  likedBy?: boolean | FindManyCreatorArgs
+  creator?: boolean | CreatorArgs
+  creatorId?: boolean
+}
+
+export type ProblemInclude = {
+  likedBy?: boolean | FindManyCreatorArgs
+  creator?: boolean | CreatorArgs
+}
+
+export type ProblemGetPayload<
+  S extends boolean | null | undefined | ProblemArgs,
+  U = keyof S
+> = S extends true
+  ? Problem
+  : S extends undefined
+  ? never
+  : S extends ProblemArgs | FindManyProblemArgs
+  ? 'include' extends U
+    ? Problem  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'likedBy'
+      ? Array<CreatorGetPayload<S['include'][P]>> :
+      P extends 'creator'
+      ? CreatorGetPayload<S['include'][P]> | null : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof Problem ? Problem[P]
+: 
+      P extends 'likedBy'
+      ? Array<CreatorGetPayload<S['select'][P]>> :
+      P extends 'creator'
+      ? CreatorGetPayload<S['select'][P]> | null : never
+    }
+  : Problem
+: Problem
+
+
+export interface ProblemDelegate {
+  /**
+   * Find zero or one Problem.
+   * @param {FindOneProblemArgs} args - Arguments to find a Problem
+   * @example
+   * // Get one Problem
+   * const problem = await prisma.problem.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneProblemArgs>(
+    args: Subset<T, FindOneProblemArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem | null>, Prisma__ProblemClient<ProblemGetPayload<T> | null>>
+  /**
+   * Find zero or more Problems.
+   * @param {FindManyProblemArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Problems
+   * const problems = await prisma.problem.findMany()
+   * 
+   * // Get first 10 Problems
+   * const problems = await prisma.problem.findMany({ take: 10 })
+   * 
+   * // Only select the `id`
+   * const problemWithIdOnly = await prisma.problem.findMany({ select: { id: true } })
+   * 
+  **/
+  findMany<T extends FindManyProblemArgs>(
+    args?: Subset<T, FindManyProblemArgs>
+  ): CheckSelect<T, Promise<Array<Problem>>, Promise<Array<ProblemGetPayload<T>>>>
+  /**
+   * Create a Problem.
+   * @param {ProblemCreateArgs} args - Arguments to create a Problem.
+   * @example
+   * // Create one Problem
+   * const Problem = await prisma.problem.create({
+   *   data: {
+   *     // ... data to create a Problem
+   *   }
+   * })
+   * 
+  **/
+  create<T extends ProblemCreateArgs>(
+    args: Subset<T, ProblemCreateArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem>, Prisma__ProblemClient<ProblemGetPayload<T>>>
+  /**
+   * Delete a Problem.
+   * @param {ProblemDeleteArgs} args - Arguments to delete one Problem.
+   * @example
+   * // Delete one Problem
+   * const Problem = await prisma.problem.delete({
+   *   where: {
+   *     // ... filter to delete one Problem
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends ProblemDeleteArgs>(
+    args: Subset<T, ProblemDeleteArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem>, Prisma__ProblemClient<ProblemGetPayload<T>>>
+  /**
+   * Update one Problem.
+   * @param {ProblemUpdateArgs} args - Arguments to update one Problem.
+   * @example
+   * // Update one Problem
+   * const problem = await prisma.problem.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends ProblemUpdateArgs>(
+    args: Subset<T, ProblemUpdateArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem>, Prisma__ProblemClient<ProblemGetPayload<T>>>
+  /**
+   * Delete zero or more Problems.
+   * @param {ProblemDeleteManyArgs} args - Arguments to filter Problems to delete.
+   * @example
+   * // Delete a few Problems
+   * const { count } = await prisma.problem.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends ProblemDeleteManyArgs>(
+    args: Subset<T, ProblemDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Problems.
+   * @param {ProblemUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Problems
+   * const problem = await prisma.problem.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends ProblemUpdateManyArgs>(
+    args: Subset<T, ProblemUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Problem.
+   * @param {ProblemUpsertArgs} args - Arguments to update or create a Problem.
+   * @example
+   * // Update or create a Problem
+   * const problem = await prisma.problem.upsert({
+   *   create: {
+   *     // ... data to create a Problem
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Problem we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends ProblemUpsertArgs>(
+    args: Subset<T, ProblemUpsertArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem>, Prisma__ProblemClient<ProblemGetPayload<T>>>
+  /**
+   * Count
+   */
+  count(args?: Omit<FindManyProblemArgs, 'select' | 'include'>): Promise<number>
+
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateProblemArgs>(args: Subset<T, AggregateProblemArgs>): Promise<GetProblemAggregateType<T>>
+}
+
+/**
+ * The delegate class that acts as a "Promise-like" for Problem.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__ProblemClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  likedBy<T extends FindManyCreatorArgs = {}>(args?: Subset<T, FindManyCreatorArgs>): CheckSelect<T, Promise<Array<Creator>>, Promise<Array<CreatorGetPayload<T>>>>;
+
+  creator<T extends CreatorArgs = {}>(args?: Subset<T, CreatorArgs>): CheckSelect<T, Prisma__CreatorClient<Creator | null>, Prisma__CreatorClient<CreatorGetPayload<T> | null>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Problem findOne
+ */
+export type FindOneProblemArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * Filter, which Problem to fetch.
+  **/
+  where: ProblemWhereUniqueInput
+}
+
+
+/**
+ * Problem findMany
+ */
+export type FindManyProblemArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * Filter, which Problems to fetch.
+  **/
+  where?: ProblemWhereInput
+  /**
+   * Determine the order of the Problems to fetch.
+  **/
+  orderBy?: Enumerable<ProblemOrderByInput>
+  /**
+   * Sets the position for listing Problems.
+  **/
+  cursor?: ProblemWhereUniqueInput
+  /**
+   * The number of Problems to fetch. If negative number, it will take Problems before the `cursor`.
+  **/
+  take?: number
+  /**
+   * Skip the first `n` Problems.
+  **/
+  skip?: number
+  distinct?: Enumerable<ProblemDistinctFieldEnum>
+}
+
+
+/**
+ * Problem create
+ */
+export type ProblemCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * The data needed to create a Problem.
+  **/
+  data: ProblemCreateInput
+}
+
+
+/**
+ * Problem update
+ */
+export type ProblemUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * The data needed to update a Problem.
+  **/
+  data: ProblemUpdateInput
+  /**
+   * Choose, which Problem to update.
+  **/
+  where: ProblemWhereUniqueInput
+}
+
+
+/**
+ * Problem updateMany
+ */
+export type ProblemUpdateManyArgs = {
+  data: ProblemUpdateManyMutationInput
+  where?: ProblemWhereInput
+}
+
+
+/**
+ * Problem upsert
+ */
+export type ProblemUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * The filter to search for the Problem to update in case it exists.
+  **/
+  where: ProblemWhereUniqueInput
+  /**
+   * In case the Problem found by the `where` argument doesn't exist, create a new Problem with this data.
+  **/
+  create: ProblemCreateInput
+  /**
+   * In case the Problem was found with the provided `where` argument, update it with this data.
+  **/
+  update: ProblemUpdateInput
+}
+
+
+/**
+ * Problem delete
+ */
+export type ProblemDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * Filter which Problem to delete.
+  **/
+  where: ProblemWhereUniqueInput
+}
+
+
+/**
+ * Problem deleteMany
+ */
+export type ProblemDeleteManyArgs = {
+  where?: ProblemWhereInput
+}
+
+
+/**
+ * Problem without action
+ */
+export type ProblemArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+}
+
+
+
+/**
+ * Model Creator
+ */
+
+export type Creator = {
+  id: number
+  name: string
+}
+
+
+export type AggregateCreator = {
+  count: number
+  avg: CreatorAvgAggregateOutputType | null
+  sum: CreatorSumAggregateOutputType | null
+  min: CreatorMinAggregateOutputType | null
+  max: CreatorMaxAggregateOutputType | null
+}
+
+export type CreatorAvgAggregateOutputType = {
+  id: number
+}
+
+export type CreatorSumAggregateOutputType = {
+  id: number
+}
+
+export type CreatorMinAggregateOutputType = {
+  id: number
+}
+
+export type CreatorMaxAggregateOutputType = {
+  id: number
+}
+
+
+export type CreatorAvgAggregateInputType = {
+  id?: true
+}
+
+export type CreatorSumAggregateInputType = {
+  id?: true
+}
+
+export type CreatorMinAggregateInputType = {
+  id?: true
+}
+
+export type CreatorMaxAggregateInputType = {
+  id?: true
+}
+
+export type AggregateCreatorArgs = {
+  where?: CreatorWhereInput
+  orderBy?: Enumerable<CreatorOrderByInput>
+  cursor?: CreatorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<CreatorDistinctFieldEnum>
+  count?: true
+  avg?: CreatorAvgAggregateInputType
+  sum?: CreatorSumAggregateInputType
+  min?: CreatorMinAggregateInputType
+  max?: CreatorMaxAggregateInputType
+}
+
+export type GetCreatorAggregateType<T extends AggregateCreatorArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetCreatorAggregateScalarType<T[P]>
+}
+
+export type GetCreatorAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof CreatorAvgAggregateOutputType ? CreatorAvgAggregateOutputType[P] : never
+}
+    
+    
+
+export type CreatorSelect = {
+  id?: boolean
+  name?: boolean
+  likes?: boolean | FindManyProblemArgs
+  problems?: boolean | FindManyProblemArgs
+}
+
+export type CreatorInclude = {
+  likes?: boolean | FindManyProblemArgs
+  problems?: boolean | FindManyProblemArgs
+}
+
+export type CreatorGetPayload<
+  S extends boolean | null | undefined | CreatorArgs,
+  U = keyof S
+> = S extends true
+  ? Creator
+  : S extends undefined
+  ? never
+  : S extends CreatorArgs | FindManyCreatorArgs
+  ? 'include' extends U
+    ? Creator  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'likes'
+      ? Array<ProblemGetPayload<S['include'][P]>> :
+      P extends 'problems'
+      ? Array<ProblemGetPayload<S['include'][P]>> : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof Creator ? Creator[P]
+: 
+      P extends 'likes'
+      ? Array<ProblemGetPayload<S['select'][P]>> :
+      P extends 'problems'
+      ? Array<ProblemGetPayload<S['select'][P]>> : never
+    }
+  : Creator
+: Creator
+
+
+export interface CreatorDelegate {
+  /**
+   * Find zero or one Creator.
+   * @param {FindOneCreatorArgs} args - Arguments to find a Creator
+   * @example
+   * // Get one Creator
+   * const creator = await prisma.creator.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneCreatorArgs>(
+    args: Subset<T, FindOneCreatorArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator | null>, Prisma__CreatorClient<CreatorGetPayload<T> | null>>
+  /**
+   * Find zero or more Creators.
+   * @param {FindManyCreatorArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all Creators
+   * const creators = await prisma.creator.findMany()
+   * 
+   * // Get first 10 Creators
+   * const creators = await prisma.creator.findMany({ take: 10 })
+   * 
+   * // Only select the `id`
+   * const creatorWithIdOnly = await prisma.creator.findMany({ select: { id: true } })
+   * 
+  **/
+  findMany<T extends FindManyCreatorArgs>(
+    args?: Subset<T, FindManyCreatorArgs>
+  ): CheckSelect<T, Promise<Array<Creator>>, Promise<Array<CreatorGetPayload<T>>>>
+  /**
+   * Create a Creator.
+   * @param {CreatorCreateArgs} args - Arguments to create a Creator.
+   * @example
+   * // Create one Creator
+   * const Creator = await prisma.creator.create({
+   *   data: {
+   *     // ... data to create a Creator
+   *   }
+   * })
+   * 
+  **/
+  create<T extends CreatorCreateArgs>(
+    args: Subset<T, CreatorCreateArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator>, Prisma__CreatorClient<CreatorGetPayload<T>>>
+  /**
+   * Delete a Creator.
+   * @param {CreatorDeleteArgs} args - Arguments to delete one Creator.
+   * @example
+   * // Delete one Creator
+   * const Creator = await prisma.creator.delete({
+   *   where: {
+   *     // ... filter to delete one Creator
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends CreatorDeleteArgs>(
+    args: Subset<T, CreatorDeleteArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator>, Prisma__CreatorClient<CreatorGetPayload<T>>>
+  /**
+   * Update one Creator.
+   * @param {CreatorUpdateArgs} args - Arguments to update one Creator.
+   * @example
+   * // Update one Creator
+   * const creator = await prisma.creator.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends CreatorUpdateArgs>(
+    args: Subset<T, CreatorUpdateArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator>, Prisma__CreatorClient<CreatorGetPayload<T>>>
+  /**
+   * Delete zero or more Creators.
+   * @param {CreatorDeleteManyArgs} args - Arguments to filter Creators to delete.
+   * @example
+   * // Delete a few Creators
+   * const { count } = await prisma.creator.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends CreatorDeleteManyArgs>(
+    args: Subset<T, CreatorDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more Creators.
+   * @param {CreatorUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many Creators
+   * const creator = await prisma.creator.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends CreatorUpdateManyArgs>(
+    args: Subset<T, CreatorUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one Creator.
+   * @param {CreatorUpsertArgs} args - Arguments to update or create a Creator.
+   * @example
+   * // Update or create a Creator
+   * const creator = await prisma.creator.upsert({
+   *   create: {
+   *     // ... data to create a Creator
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the Creator we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends CreatorUpsertArgs>(
+    args: Subset<T, CreatorUpsertArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator>, Prisma__CreatorClient<CreatorGetPayload<T>>>
+  /**
+   * Count
+   */
+  count(args?: Omit<FindManyCreatorArgs, 'select' | 'include'>): Promise<number>
+
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateCreatorArgs>(args: Subset<T, AggregateCreatorArgs>): Promise<GetCreatorAggregateType<T>>
+}
+
+/**
+ * The delegate class that acts as a "Promise-like" for Creator.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__CreatorClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  likes<T extends FindManyProblemArgs = {}>(args?: Subset<T, FindManyProblemArgs>): CheckSelect<T, Promise<Array<Problem>>, Promise<Array<ProblemGetPayload<T>>>>;
+
+  problems<T extends FindManyProblemArgs = {}>(args?: Subset<T, FindManyProblemArgs>): CheckSelect<T, Promise<Array<Problem>>, Promise<Array<ProblemGetPayload<T>>>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * Creator findOne
+ */
+export type FindOneCreatorArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * Filter, which Creator to fetch.
+  **/
+  where: CreatorWhereUniqueInput
+}
+
+
+/**
+ * Creator findMany
+ */
+export type FindManyCreatorArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * Filter, which Creators to fetch.
+  **/
+  where?: CreatorWhereInput
+  /**
+   * Determine the order of the Creators to fetch.
+  **/
+  orderBy?: Enumerable<CreatorOrderByInput>
+  /**
+   * Sets the position for listing Creators.
+  **/
+  cursor?: CreatorWhereUniqueInput
+  /**
+   * The number of Creators to fetch. If negative number, it will take Creators before the `cursor`.
+  **/
+  take?: number
+  /**
+   * Skip the first `n` Creators.
+  **/
+  skip?: number
+  distinct?: Enumerable<CreatorDistinctFieldEnum>
+}
+
+
+/**
+ * Creator create
+ */
+export type CreatorCreateArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * The data needed to create a Creator.
+  **/
+  data: CreatorCreateInput
+}
+
+
+/**
+ * Creator update
+ */
+export type CreatorUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * The data needed to update a Creator.
+  **/
+  data: CreatorUpdateInput
+  /**
+   * Choose, which Creator to update.
+  **/
+  where: CreatorWhereUniqueInput
+}
+
+
+/**
+ * Creator updateMany
+ */
+export type CreatorUpdateManyArgs = {
+  data: CreatorUpdateManyMutationInput
+  where?: CreatorWhereInput
+}
+
+
+/**
+ * Creator upsert
+ */
+export type CreatorUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * The filter to search for the Creator to update in case it exists.
+  **/
+  where: CreatorWhereUniqueInput
+  /**
+   * In case the Creator found by the `where` argument doesn't exist, create a new Creator with this data.
+  **/
+  create: CreatorCreateInput
+  /**
+   * In case the Creator was found with the provided `where` argument, update it with this data.
+  **/
+  update: CreatorUpdateInput
+}
+
+
+/**
+ * Creator delete
+ */
+export type CreatorDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * Filter which Creator to delete.
+  **/
+  where: CreatorWhereUniqueInput
+}
+
+
+/**
+ * Creator deleteMany
+ */
+export type CreatorDeleteManyArgs = {
+  where?: CreatorWhereInput
+}
+
+
+/**
+ * Creator without action
+ */
+export type CreatorArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+}
+
+
+
+/**
  * Deep Input Types
  */
 
@@ -3398,6 +4419,46 @@ export type DirectorWhereUniqueInput = {
   firstName_lastName?: FirstNameLastNameCompoundUniqueInput
 }
 
+export type ProblemWhereInput = {
+  AND?: Enumerable<ProblemWhereInput>
+  OR?: Array<ProblemWhereInput>
+  NOT?: Enumerable<ProblemWhereInput>
+  id?: number | IntFilter
+  problemText?: string | StringFilter
+  likedBy?: CreatorListRelationFilter
+  creator?: CreatorWhereInput | null
+  creatorId?: number | IntNullableFilter | null
+}
+
+export type ProblemOrderByInput = {
+  id?: SortOrder
+  problemText?: SortOrder
+  creatorId?: SortOrder
+}
+
+export type ProblemWhereUniqueInput = {
+  id?: number
+}
+
+export type CreatorWhereInput = {
+  AND?: Enumerable<CreatorWhereInput>
+  OR?: Array<CreatorWhereInput>
+  NOT?: Enumerable<CreatorWhereInput>
+  id?: number | IntFilter
+  name?: string | StringFilter
+  likes?: ProblemListRelationFilter
+  problems?: ProblemListRelationFilter
+}
+
+export type CreatorOrderByInput = {
+  id?: SortOrder
+  name?: SortOrder
+}
+
+export type CreatorWhereUniqueInput = {
+  id?: number
+}
+
 export type UserCreateInput = {
   email: string
   name?: string | null
@@ -3529,6 +4590,38 @@ export type DirectorUpdateManyMutationInput = {
   lastName?: string | StringFieldUpdateOperationsInput
 }
 
+export type ProblemCreateInput = {
+  problemText: string
+  likedBy?: CreatorCreateManyWithoutLikesInput
+  creator?: CreatorCreateOneWithoutProblemsInput
+}
+
+export type ProblemUpdateInput = {
+  problemText?: string | StringFieldUpdateOperationsInput
+  likedBy?: CreatorUpdateManyWithoutLikesInput
+  creator?: CreatorUpdateOneWithoutProblemsInput
+}
+
+export type ProblemUpdateManyMutationInput = {
+  problemText?: string | StringFieldUpdateOperationsInput
+}
+
+export type CreatorCreateInput = {
+  name: string
+  likes?: ProblemCreateManyWithoutLikedByInput
+  problems?: ProblemCreateManyWithoutCreatorInput
+}
+
+export type CreatorUpdateInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  likes?: ProblemUpdateManyWithoutLikedByInput
+  problems?: ProblemUpdateManyWithoutCreatorInput
+}
+
+export type CreatorUpdateManyMutationInput = {
+  name?: string | StringFieldUpdateOperationsInput
+}
+
 export type IntFilter = {
   equals?: number
   in?: Enumerable<number>
@@ -3652,6 +4745,34 @@ export type MovieListRelationFilter = {
   none?: MovieWhereInput
 }
 
+export type CreatorListRelationFilter = {
+  every?: CreatorWhereInput
+  some?: CreatorWhereInput
+  none?: CreatorWhereInput
+}
+
+export type CreatorRelationFilter = {
+  is?: CreatorWhereInput | null
+  isNot?: CreatorWhereInput | null
+}
+
+export type IntNullableFilter = {
+  equals?: number | null
+  in?: Enumerable<number> | null
+  notIn?: Enumerable<number> | null
+  lt?: number | null
+  lte?: number | null
+  gt?: number | null
+  gte?: number | null
+  not?: number | NestedIntNullableFilter | null
+}
+
+export type ProblemListRelationFilter = {
+  every?: ProblemWhereInput
+  some?: ProblemWhereInput
+  none?: ProblemWhereInput
+}
+
 export type postCreateManyWithoutAuthorInput = {
   create?: Enumerable<postCreateWithoutAuthorInput>
   connect?: Enumerable<postWhereUniqueInput>
@@ -3762,6 +4883,79 @@ export type MovieUpdateManyWithoutDirectorInput = {
   connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
 }
 
+export type CreatorCreateManyWithoutLikesInput = {
+  create?: Enumerable<CreatorCreateWithoutLikesInput>
+  connect?: Enumerable<CreatorWhereUniqueInput>
+  connectOrCreate?: Enumerable<CreatorCreateOrConnectWithoutProblemInput>
+}
+
+export type CreatorCreateOneWithoutProblemsInput = {
+  create?: CreatorCreateWithoutProblemsInput
+  connect?: CreatorWhereUniqueInput
+  connectOrCreate?: CreatorCreateOrConnectWithoutProblemInput
+}
+
+export type CreatorUpdateManyWithoutLikesInput = {
+  create?: Enumerable<CreatorCreateWithoutLikesInput>
+  connect?: Enumerable<CreatorWhereUniqueInput>
+  set?: Enumerable<CreatorWhereUniqueInput>
+  disconnect?: Enumerable<CreatorWhereUniqueInput>
+  delete?: Enumerable<CreatorWhereUniqueInput>
+  update?: Enumerable<CreatorUpdateWithWhereUniqueWithoutLikesInput>
+  updateMany?: Enumerable<CreatorUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<CreatorScalarWhereInput>
+  upsert?: Enumerable<CreatorUpsertWithWhereUniqueWithoutLikesInput>
+  connectOrCreate?: Enumerable<CreatorCreateOrConnectWithoutProblemInput>
+}
+
+export type CreatorUpdateOneWithoutProblemsInput = {
+  create?: CreatorCreateWithoutProblemsInput
+  connect?: CreatorWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: CreatorUpdateWithoutProblemsDataInput
+  upsert?: CreatorUpsertWithoutProblemsInput
+  connectOrCreate?: CreatorCreateOrConnectWithoutProblemInput
+}
+
+export type ProblemCreateManyWithoutLikedByInput = {
+  create?: Enumerable<ProblemCreateWithoutLikedByInput>
+  connect?: Enumerable<ProblemWhereUniqueInput>
+  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+}
+
+export type ProblemCreateManyWithoutCreatorInput = {
+  create?: Enumerable<ProblemCreateWithoutCreatorInput>
+  connect?: Enumerable<ProblemWhereUniqueInput>
+  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+}
+
+export type ProblemUpdateManyWithoutLikedByInput = {
+  create?: Enumerable<ProblemCreateWithoutLikedByInput>
+  connect?: Enumerable<ProblemWhereUniqueInput>
+  set?: Enumerable<ProblemWhereUniqueInput>
+  disconnect?: Enumerable<ProblemWhereUniqueInput>
+  delete?: Enumerable<ProblemWhereUniqueInput>
+  update?: Enumerable<ProblemUpdateWithWhereUniqueWithoutLikedByInput>
+  updateMany?: Enumerable<ProblemUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<ProblemScalarWhereInput>
+  upsert?: Enumerable<ProblemUpsertWithWhereUniqueWithoutLikedByInput>
+  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+}
+
+export type ProblemUpdateManyWithoutCreatorInput = {
+  create?: Enumerable<ProblemCreateWithoutCreatorInput>
+  connect?: Enumerable<ProblemWhereUniqueInput>
+  set?: Enumerable<ProblemWhereUniqueInput>
+  disconnect?: Enumerable<ProblemWhereUniqueInput>
+  delete?: Enumerable<ProblemWhereUniqueInput>
+  update?: Enumerable<ProblemUpdateWithWhereUniqueWithoutCreatorInput>
+  updateMany?: Enumerable<ProblemUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<ProblemScalarWhereInput>
+  upsert?: Enumerable<ProblemUpsertWithWhereUniqueWithoutCreatorInput>
+  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+}
+
 export type NestedIntFilter = {
   equals?: number
   in?: Enumerable<number>
@@ -3845,6 +5039,17 @@ export type NestedEnumPostKindNullableFilter = {
 export type NestedJsonFilter = {
   equals?: InputJsonValue
   not?: NestedJsonFilter | null
+}
+
+export type NestedIntNullableFilter = {
+  equals?: number | null
+  in?: Enumerable<number> | null
+  notIn?: Enumerable<number> | null
+  lt?: number | null
+  lte?: number | null
+  gt?: number | null
+  gte?: number | null
+  not?: NestedIntNullableFilter | null
 }
 
 export type postCreateWithoutAuthorInput = {
@@ -3976,6 +5181,106 @@ export type MovieUpsertWithWhereUniqueWithoutDirectorInput = {
   create: MovieCreateWithoutDirectorInput
 }
 
+export type CreatorCreateWithoutLikesInput = {
+  name: string
+  problems?: ProblemCreateManyWithoutCreatorInput
+}
+
+export type CreatorCreateOrConnectWithoutProblemInput = {
+  where: CreatorWhereUniqueInput
+  create: CreatorCreateWithoutLikesInput
+}
+
+export type CreatorCreateWithoutProblemsInput = {
+  name: string
+  likes?: ProblemCreateManyWithoutLikedByInput
+}
+
+export type CreatorUpdateWithWhereUniqueWithoutLikesInput = {
+  where: CreatorWhereUniqueInput
+  data: CreatorUpdateWithoutLikesDataInput
+}
+
+export type CreatorUpdateManyWithWhereNestedInput = {
+  where: CreatorScalarWhereInput
+  data: CreatorUpdateManyDataInput
+}
+
+export type CreatorScalarWhereInput = {
+  AND?: Enumerable<CreatorScalarWhereInput>
+  OR?: Array<CreatorScalarWhereInput>
+  NOT?: Enumerable<CreatorScalarWhereInput>
+  id?: number | IntFilter
+  name?: string | StringFilter
+}
+
+export type CreatorUpsertWithWhereUniqueWithoutLikesInput = {
+  where: CreatorWhereUniqueInput
+  update: CreatorUpdateWithoutLikesDataInput
+  create: CreatorCreateWithoutLikesInput
+}
+
+export type CreatorUpdateWithoutProblemsDataInput = {
+  name?: StringFieldUpdateOperationsInput
+  likes?: ProblemUpdateManyWithoutLikedByInput
+}
+
+export type CreatorUpsertWithoutProblemsInput = {
+  update: CreatorUpdateWithoutProblemsDataInput
+  create: CreatorCreateWithoutProblemsInput
+}
+
+export type ProblemCreateWithoutLikedByInput = {
+  problemText: string
+  creator?: CreatorCreateOneWithoutProblemsInput
+}
+
+export type ProblemCreateOrConnectWithoutCreatorInput = {
+  where: ProblemWhereUniqueInput
+  create: ProblemCreateWithoutLikedByInput
+}
+
+export type ProblemCreateWithoutCreatorInput = {
+  problemText: string
+  likedBy?: CreatorCreateManyWithoutLikesInput
+}
+
+export type ProblemUpdateWithWhereUniqueWithoutLikedByInput = {
+  where: ProblemWhereUniqueInput
+  data: ProblemUpdateWithoutLikedByDataInput
+}
+
+export type ProblemUpdateManyWithWhereNestedInput = {
+  where: ProblemScalarWhereInput
+  data: ProblemUpdateManyDataInput
+}
+
+export type ProblemScalarWhereInput = {
+  AND?: Enumerable<ProblemScalarWhereInput>
+  OR?: Array<ProblemScalarWhereInput>
+  NOT?: Enumerable<ProblemScalarWhereInput>
+  id?: number | IntFilter
+  problemText?: string | StringFilter
+  creatorId?: number | IntNullableFilter | null
+}
+
+export type ProblemUpsertWithWhereUniqueWithoutLikedByInput = {
+  where: ProblemWhereUniqueInput
+  update: ProblemUpdateWithoutLikedByDataInput
+  create: ProblemCreateWithoutLikedByInput
+}
+
+export type ProblemUpdateWithWhereUniqueWithoutCreatorInput = {
+  where: ProblemWhereUniqueInput
+  data: ProblemUpdateWithoutCreatorDataInput
+}
+
+export type ProblemUpsertWithWhereUniqueWithoutCreatorInput = {
+  where: ProblemWhereUniqueInput
+  update: ProblemUpdateWithoutCreatorDataInput
+  create: ProblemCreateWithoutCreatorInput
+}
+
 export type postUpdateWithoutAuthorDataInput = {
   uuid?: StringFieldUpdateOperationsInput
   createdAt?: DateTimeFieldUpdateOperationsInput
@@ -4004,6 +5309,29 @@ export type MovieUpdateWithoutDirectorDataInput = {
 
 export type MovieUpdateManyDataInput = {
   title?: StringFieldUpdateOperationsInput
+}
+
+export type CreatorUpdateWithoutLikesDataInput = {
+  name?: StringFieldUpdateOperationsInput
+  problems?: ProblemUpdateManyWithoutCreatorInput
+}
+
+export type CreatorUpdateManyDataInput = {
+  name?: StringFieldUpdateOperationsInput
+}
+
+export type ProblemUpdateWithoutLikedByDataInput = {
+  problemText?: StringFieldUpdateOperationsInput
+  creator?: CreatorUpdateOneWithoutProblemsInput
+}
+
+export type ProblemUpdateManyDataInput = {
+  problemText?: StringFieldUpdateOperationsInput
+}
+
+export type ProblemUpdateWithoutCreatorDataInput = {
+  problemText?: StringFieldUpdateOperationsInput
+  likedBy?: CreatorUpdateManyWithoutLikesInput
 }
 
 /**

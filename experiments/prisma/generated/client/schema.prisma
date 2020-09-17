@@ -95,3 +95,18 @@ model Director {
 
   @@id([firstName, lastName])
 }
+
+model Problem {
+  id          Int       @default(autoincrement()) @id
+  problemText String
+  likedBy     Creator[]
+  creator     Creator?  @relation(name: "creator", fields: [creatorId], references: [id])
+  creatorId   Int?
+}
+
+model Creator {
+  id       Int       @default(autoincrement()) @id
+  name     String
+  likes    Problem[]
+  problems Problem[] @relation("creator")
+}

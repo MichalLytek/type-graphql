@@ -554,6 +554,177 @@
         ],
         "uniqueFields": [],
         "uniqueIndexes": []
+      },
+      {
+        "name": "Problem",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "id",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": true,
+            "isReadOnly": false,
+            "type": "Int",
+            "hasDefaultValue": true,
+            "default": {
+              "name": "autoincrement",
+              "args": []
+            },
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "problemText",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "String",
+            "hasDefaultValue": false,
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "likedBy",
+            "kind": "object",
+            "isList": true,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Creator",
+            "hasDefaultValue": false,
+            "relationName": "CreatorToProblem",
+            "relationFromFields": [],
+            "relationToFields": [
+              "id"
+            ],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "creator",
+            "kind": "object",
+            "isList": false,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Creator",
+            "hasDefaultValue": false,
+            "relationName": "creator",
+            "relationFromFields": [
+              "creatorId"
+            ],
+            "relationToFields": [
+              "id"
+            ],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "creatorId",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": true,
+            "type": "Int",
+            "hasDefaultValue": false,
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [],
+        "uniqueFields": [],
+        "uniqueIndexes": []
+      },
+      {
+        "name": "Creator",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "id",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": true,
+            "isReadOnly": false,
+            "type": "Int",
+            "hasDefaultValue": true,
+            "default": {
+              "name": "autoincrement",
+              "args": []
+            },
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "name",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "String",
+            "hasDefaultValue": false,
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "likes",
+            "kind": "object",
+            "isList": true,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Problem",
+            "hasDefaultValue": false,
+            "relationName": "CreatorToProblem",
+            "relationFromFields": [],
+            "relationToFields": [
+              "id"
+            ],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          },
+          {
+            "name": "problems",
+            "kind": "object",
+            "isList": true,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "Problem",
+            "hasDefaultValue": false,
+            "relationName": "creator",
+            "relationFromFields": [],
+            "relationToFields": [],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [],
+        "uniqueFields": [],
+        "uniqueIndexes": []
       }
     ]
   },
@@ -635,6 +806,32 @@
       "updateMany": "updateManyDirector",
       "upsert": "upsertOneDirector",
       "aggregate": "aggregateDirector"
+    },
+    {
+      "model": "Problem",
+      "plural": "problems",
+      "findOne": "findOneProblem",
+      "findMany": "findManyProblem",
+      "create": "createOneProblem",
+      "delete": "deleteOneProblem",
+      "update": "updateOneProblem",
+      "deleteMany": "deleteManyProblem",
+      "updateMany": "updateManyProblem",
+      "upsert": "upsertOneProblem",
+      "aggregate": "aggregateProblem"
+    },
+    {
+      "model": "Creator",
+      "plural": "creators",
+      "findOne": "findOneCreator",
+      "findMany": "findManyCreator",
+      "create": "createOneCreator",
+      "delete": "deleteOneCreator",
+      "update": "updateOneCreator",
+      "deleteMany": "deleteManyCreator",
+      "updateMany": "updateManyCreator",
+      "upsert": "upsertOneCreator",
+      "aggregate": "aggregateCreator"
     }
   ],
   "schema": {
@@ -694,6 +891,21 @@
         "values": [
           "firstName",
           "lastName"
+        ]
+      },
+      {
+        "name": "ProblemDistinctFieldEnum",
+        "values": [
+          "id",
+          "problemText",
+          "creatorId"
+        ]
+      },
+      {
+        "name": "CreatorDistinctFieldEnum",
+        "values": [
+          "id",
+          "name"
         ]
       },
       {
@@ -1873,6 +2085,390 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "findManyProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "ProblemOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "ProblemDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "aggregateProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "ProblemOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "ProblemDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "AggregateProblem",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "findOneProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "findManyCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "CreatorOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "CreatorDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": true,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "aggregateCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "CreatorOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "CreatorDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "AggregateCreator",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "findOneCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -3032,6 +3628,390 @@
             }
           },
           {
+            "name": "createOneProblem",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "ProblemCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "deleteOneProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updateOneProblem",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "ProblemUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "upsertOneProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "create",
+                "inputType": [
+                  {
+                    "type": "ProblemCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "update",
+                "inputType": [
+                  {
+                    "type": "ProblemUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updateManyProblem",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "ProblemUpdateManyMutationInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "deleteManyProblem",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "createOneCreator",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "CreatorCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "deleteOneCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updateOneCreator",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "CreatorUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "upsertOneCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "create",
+                "inputType": [
+                  {
+                    "type": "CreatorCreateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "update",
+                "inputType": [
+                  {
+                    "type": "CreatorUpdateInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updateManyCreator",
+            "args": [
+              {
+                "name": "data",
+                "inputType": [
+                  {
+                    "type": "CreatorUpdateManyMutationInput",
+                    "kind": "object",
+                    "isRequired": true,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "deleteManyCreator",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "BatchPayload",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "executeRaw",
             "args": [
               {
@@ -3851,6 +4831,454 @@
         ]
       },
       {
+        "name": "Problem",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "problemText",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "likedBy",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "CreatorOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "CreatorWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "CreatorDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creator",
+            "args": [],
+            "outputType": {
+              "type": "Creator",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creatorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateProblem",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "avg",
+            "args": [],
+            "outputType": {
+              "type": "ProblemAvgAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "sum",
+            "args": [],
+            "outputType": {
+              "type": "ProblemSumAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "min",
+            "args": [],
+            "outputType": {
+              "type": "ProblemMinAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "max",
+            "args": [],
+            "outputType": {
+              "type": "ProblemMaxAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "Creator",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "name",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "likes",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "ProblemOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "ProblemDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "problems",
+            "args": [
+              {
+                "name": "where",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "orderBy",
+                "inputType": [
+                  {
+                    "type": "ProblemOrderByInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "cursor",
+                "inputType": [
+                  {
+                    "type": "ProblemWhereUniqueInput",
+                    "kind": "object",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "take",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "skip",
+                "inputType": [
+                  {
+                    "type": "Int",
+                    "kind": "scalar",
+                    "isRequired": false,
+                    "isList": false,
+                    "isNullable": false
+                  }
+                ]
+              },
+              {
+                "name": "distinct",
+                "inputType": [
+                  {
+                    "type": "ProblemDistinctFieldEnum",
+                    "kind": "enum",
+                    "isRequired": false,
+                    "isList": true,
+                    "isNullable": false
+                  }
+                ]
+              }
+            ],
+            "outputType": {
+              "type": "Problem",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "AggregateCreator",
+        "fields": [
+          {
+            "name": "count",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "avg",
+            "args": [],
+            "outputType": {
+              "type": "CreatorAvgAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "sum",
+            "args": [],
+            "outputType": {
+              "type": "CreatorSumAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "min",
+            "args": [],
+            "outputType": {
+              "type": "CreatorMinAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "max",
+            "args": [],
+            "outputType": {
+              "type": "CreatorMaxAggregateOutputType",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
         "name": "BatchPayload",
         "fields": [
           {
@@ -4179,6 +5607,178 @@
         "fields": [
           {
             "name": "number",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "ProblemAvgAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creatorId",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "ProblemSumAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creatorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "ProblemMinAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creatorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "ProblemMaxAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "creatorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CreatorAvgAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CreatorSumAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CreatorMinAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "CreatorMaxAggregateOutputType",
+        "fields": [
+          {
+            "name": "id",
             "args": [],
             "outputType": {
               "type": "Int",
@@ -5508,6 +7108,354 @@
               {
                 "type": "FirstNameLastNameCompoundUniqueInput",
                 "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "atLeastOne": true
+      },
+      {
+        "name": "ProblemWhereInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "IntFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likedBy",
+            "inputType": [
+              {
+                "type": "CreatorListRelationFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creator",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "creatorId",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
+              {
+                "type": "IntNullableFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "isList": false,
+                "isNullable": true,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "null"
+              }
+            ]
+          }
+        ],
+        "isWhereType": true
+      },
+      {
+        "name": "ProblemOrderByInput",
+        "isOneOf": true,
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creatorId",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
+      },
+      {
+        "name": "ProblemWhereUniqueInput",
+        "isOneOf": true,
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "atLeastOne": true
+      },
+      {
+        "name": "CreatorWhereInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "IntFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likes",
+            "inputType": [
+              {
+                "type": "ProblemListRelationFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problems",
+            "inputType": [
+              {
+                "type": "ProblemListRelationFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isWhereType": true
+      },
+      {
+        "name": "CreatorOrderByInput",
+        "isOneOf": true,
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "SortOrder",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isOrderType": true
+      },
+      {
+        "name": "CreatorWhereUniqueInput",
+        "isOneOf": true,
+        "fields": [
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
                 "isRequired": false,
                 "isList": false,
                 "isNullable": false
@@ -6870,6 +8818,242 @@
         "isUpdateType": true
       },
       {
+        "name": "ProblemCreateInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likedBy",
+            "inputType": [
+              {
+                "type": "CreatorCreateManyWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creator",
+            "inputType": [
+              {
+                "type": "CreatorCreateOneWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likedBy",
+            "inputType": [
+              {
+                "type": "CreatorUpdateManyWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creator",
+            "inputType": [
+              {
+                "type": "CreatorUpdateOneWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isUpdateType": true
+      },
+      {
+        "name": "ProblemUpdateManyMutationInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isUpdateType": true
+      },
+      {
+        "name": "CreatorCreateInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likes",
+            "inputType": [
+              {
+                "type": "ProblemCreateManyWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problems",
+            "inputType": [
+              {
+                "type": "ProblemCreateManyWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likes",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problems",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isUpdateType": true
+      },
+      {
+        "name": "CreatorUpdateManyMutationInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isUpdateType": true
+      },
+      {
         "name": "IntFilter",
         "isOneOf": false,
         "fields": [
@@ -7929,6 +10113,229 @@
         ]
       },
       {
+        "name": "CreatorListRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "every",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "some",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "none",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "is",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "isNot",
+            "inputType": [
+              {
+                "type": "CreatorWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "IntNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "in",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "notIn",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "lt",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "lte",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "gt",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "gte",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "not",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
+              {
+                "type": "NestedIntNullableFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemListRelationFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "every",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "some",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "none",
+            "inputType": [
+              {
+                "type": "ProblemWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "postCreateManyWithoutAuthorInput",
         "isOneOf": false,
         "fields": [
@@ -8748,6 +11155,642 @@
         ]
       },
       {
+        "name": "CreatorCreateManyWithoutLikesInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "CreatorCreateOrConnectWithoutProblemInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorCreateOneWithoutProblemsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "CreatorCreateOrConnectWithoutProblemInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateManyWithoutLikesInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "set",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "disconnect",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "delete",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "CreatorUpdateWithWhereUniqueWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "updateMany",
+            "inputType": [
+              {
+                "type": "CreatorUpdateManyWithWhereNestedInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "deleteMany",
+            "inputType": [
+              {
+                "type": "CreatorScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "CreatorUpsertWithWhereUniqueWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "CreatorCreateOrConnectWithoutProblemInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateOneWithoutProblemsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "disconnect",
+            "inputType": [
+              {
+                "type": "Boolean",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "delete",
+            "inputType": [
+              {
+                "type": "Boolean",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "CreatorUpdateWithoutProblemsDataInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "CreatorUpsertWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "CreatorCreateOrConnectWithoutProblemInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemCreateManyWithoutLikedByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "ProblemCreateOrConnectWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemCreateManyWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "ProblemCreateOrConnectWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateManyWithoutLikedByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "set",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "disconnect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "delete",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithWhereUniqueWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "updateMany",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithWhereNestedInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "deleteMany",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "ProblemUpsertWithWhereUniqueWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "ProblemCreateOrConnectWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateManyWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "set",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "disconnect",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "delete",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithWhereUniqueWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "updateMany",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithWhereNestedInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "deleteMany",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "upsert",
+            "inputType": [
+              {
+                "type": "ProblemUpsertWithWhereUniqueWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": [
+              {
+                "type": "ProblemCreateOrConnectWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "NestedIntFilter",
         "isOneOf": false,
         "fields": [
@@ -9488,6 +12531,108 @@
             "inputType": [
               {
                 "type": "NestedJsonFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "NestedIntNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "in",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "notIn",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "lt",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "lte",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "gt",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "gte",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              }
+            ]
+          },
+          {
+            "name": "not",
+            "inputType": [
+              {
+                "type": "NestedIntNullableFilter",
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,
@@ -10539,6 +13684,710 @@
         ]
       },
       {
+        "name": "CreatorCreateWithoutLikesInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problems",
+            "inputType": [
+              {
+                "type": "ProblemCreateManyWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorCreateOrConnectWithoutProblemInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutLikesInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorCreateWithoutProblemsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likes",
+            "inputType": [
+              {
+                "type": "ProblemCreateManyWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateWithWhereUniqueWithoutLikesInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "CreatorUpdateWithoutLikesDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateManyWithWhereNestedInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "CreatorScalarWhereInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "CreatorUpdateManyDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorScalarWhereInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "CreatorScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "CreatorScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "CreatorScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "IntFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isWhereType": true
+      },
+      {
+        "name": "CreatorUpsertWithWhereUniqueWithoutLikesInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "CreatorWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "CreatorUpdateWithoutLikesDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutLikesInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateWithoutProblemsDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likes",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpsertWithoutProblemsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "CreatorUpdateWithoutProblemsDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "CreatorCreateWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemCreateWithoutLikedByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creator",
+            "inputType": [
+              {
+                "type": "CreatorCreateOneWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemCreateOrConnectWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemCreateWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likedBy",
+            "inputType": [
+              {
+                "type": "CreatorCreateManyWithoutLikesInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateWithWhereUniqueWithoutLikedByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithoutLikedByDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateManyWithWhereNestedInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemScalarWhereInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "AND",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "OR",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "NOT",
+            "inputType": [
+              {
+                "type": "ProblemScalarWhereInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": true,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "id",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "IntFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creatorId",
+            "inputType": [
+              {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
+              {
+                "type": "IntNullableFilter",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "isList": false,
+                "isNullable": true,
+                "isRequired": false,
+                "kind": "scalar",
+                "type": "null"
+              }
+            ]
+          }
+        ],
+        "isWhereType": true
+      },
+      {
+        "name": "ProblemUpsertWithWhereUniqueWithoutLikedByInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithoutLikedByDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutLikedByInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateWithWhereUniqueWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "data",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithoutCreatorDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpsertWithWhereUniqueWithoutCreatorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": [
+              {
+                "type": "ProblemWhereUniqueInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "update",
+            "inputType": [
+              {
+                "type": "ProblemUpdateWithoutCreatorDataInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "create",
+            "inputType": [
+              {
+                "type": "ProblemCreateWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": true,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "postUpdateWithoutAuthorDataInput",
         "isOneOf": false,
         "fields": [
@@ -10769,6 +14618,132 @@
             "inputType": [
               {
                 "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateWithoutLikesDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "problems",
+            "inputType": [
+              {
+                "type": "ProblemUpdateManyWithoutCreatorInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CreatorUpdateManyDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "name",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateWithoutLikedByDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "creator",
+            "inputType": [
+              {
+                "type": "CreatorUpdateOneWithoutProblemsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateManyDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ProblemUpdateWithoutCreatorDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "problemText",
+            "inputType": [
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          },
+          {
+            "name": "likedBy",
+            "inputType": [
+              {
+                "type": "CreatorUpdateManyWithoutLikesInput",
                 "kind": "object",
                 "isRequired": false,
                 "isList": false,

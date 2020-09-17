@@ -30,9 +30,13 @@ import {
   DirectorRelationsResolver,
   MovieRelationsResolver,
   FindManyClientArgs,
+  ProblemRelationsResolver,
+  CreatorRelationsResolver,
 } from "./prisma/generated/type-graphql";
 import { PrismaClient } from "./prisma/generated/client";
 import * as Prisma from "./prisma/generated/client";
+import { ProblemCrudResolver } from "./prisma/generated/type-graphql/resolvers/crud/Problem/ProblemCrudResolver";
+import { CreatorCrudResolver } from "./prisma/generated/type-graphql/resolvers/crud/Creator/CreatorCrudResolver";
 
 interface Context {
   prisma: PrismaClient;
@@ -85,6 +89,10 @@ async function main() {
       MovieRelationsResolver,
       DirectorCrudResolver,
       DirectorRelationsResolver,
+      ProblemCrudResolver,
+      CreatorCrudResolver,
+      ProblemRelationsResolver,
+      CreatorRelationsResolver,
     ],
     validate: false,
     emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),

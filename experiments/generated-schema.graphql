@@ -19,6 +19,14 @@ type AggregateClient {
   sum: ClientSumAggregateOutputType
 }
 
+type AggregateCreator {
+  avg: CreatorAvgAggregateOutputType
+  count: Int!
+  max: CreatorMaxAggregateOutputType
+  min: CreatorMinAggregateOutputType
+  sum: CreatorSumAggregateOutputType
+}
+
 type AggregateDirector {
   count: Int!
 }
@@ -29,6 +37,14 @@ type AggregateMovie {
 
 type AggregatePatient {
   count: Int!
+}
+
+type AggregateProblem {
+  avg: ProblemAvgAggregateOutputType
+  count: Int!
+  max: ProblemMaxAggregateOutputType
+  min: ProblemMinAggregateOutputType
+  sum: ProblemSumAggregateOutputType
 }
 
 type BatchPayload {
@@ -242,6 +258,168 @@ input ClientWhereUniqueInput {
   id: Int
 }
 
+type Creator {
+  id: Int!
+  likes(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): [Problem!]
+  name: String!
+  problems(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): [Problem!]
+}
+
+type CreatorAvgAggregateOutputType {
+  id: Float!
+}
+
+input CreatorCreateInput {
+  likes: ProblemCreateManyWithoutLikedByInput
+  name: String!
+  problems: ProblemCreateManyWithoutCreatorInput
+}
+
+input CreatorCreateManyWithoutLikesInput {
+  connect: [CreatorWhereUniqueInput!]
+  connectOrCreate: [CreatorCreateOrConnectWithoutProblemInput!]
+  create: [CreatorCreateWithoutLikesInput!]
+}
+
+input CreatorCreateOneWithoutProblemsInput {
+  connect: CreatorWhereUniqueInput
+  connectOrCreate: CreatorCreateOrConnectWithoutProblemInput
+  create: CreatorCreateWithoutProblemsInput
+}
+
+input CreatorCreateOrConnectWithoutProblemInput {
+  create: CreatorCreateWithoutLikesInput!
+  where: CreatorWhereUniqueInput!
+}
+
+input CreatorCreateWithoutLikesInput {
+  name: String!
+  problems: ProblemCreateManyWithoutCreatorInput
+}
+
+input CreatorCreateWithoutProblemsInput {
+  likes: ProblemCreateManyWithoutLikedByInput
+  name: String!
+}
+
+enum CreatorDistinctFieldEnum {
+  id
+  name
+}
+
+input CreatorListRelationFilter {
+  every: CreatorWhereInput
+  none: CreatorWhereInput
+  some: CreatorWhereInput
+}
+
+type CreatorMaxAggregateOutputType {
+  id: Int!
+}
+
+type CreatorMinAggregateOutputType {
+  id: Int!
+}
+
+input CreatorOrderByInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input CreatorScalarWhereInput {
+  AND: [CreatorScalarWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  NOT: [CreatorScalarWhereInput!]
+  OR: [CreatorScalarWhereInput!]
+}
+
+type CreatorSumAggregateOutputType {
+  id: Int!
+}
+
+input CreatorUpdateInput {
+  likes: ProblemUpdateManyWithoutLikedByInput
+  name: StringFieldUpdateOperationsInput
+  problems: ProblemUpdateManyWithoutCreatorInput
+}
+
+input CreatorUpdateManyDataInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input CreatorUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input CreatorUpdateManyWithoutLikesInput {
+  connect: [CreatorWhereUniqueInput!]
+  connectOrCreate: [CreatorCreateOrConnectWithoutProblemInput!]
+  create: [CreatorCreateWithoutLikesInput!]
+  delete: [CreatorWhereUniqueInput!]
+  deleteMany: [CreatorScalarWhereInput!]
+  disconnect: [CreatorWhereUniqueInput!]
+  set: [CreatorWhereUniqueInput!]
+  update: [CreatorUpdateWithWhereUniqueWithoutLikesInput!]
+  updateMany: [CreatorUpdateManyWithWhereNestedInput!]
+  upsert: [CreatorUpsertWithWhereUniqueWithoutLikesInput!]
+}
+
+input CreatorUpdateManyWithWhereNestedInput {
+  data: CreatorUpdateManyDataInput!
+  where: CreatorScalarWhereInput!
+}
+
+input CreatorUpdateOneWithoutProblemsInput {
+  connect: CreatorWhereUniqueInput
+  connectOrCreate: CreatorCreateOrConnectWithoutProblemInput
+  create: CreatorCreateWithoutProblemsInput
+  delete: Boolean
+  disconnect: Boolean
+  update: CreatorUpdateWithoutProblemsDataInput
+  upsert: CreatorUpsertWithoutProblemsInput
+}
+
+input CreatorUpdateWithoutLikesDataInput {
+  name: StringFieldUpdateOperationsInput
+  problems: ProblemUpdateManyWithoutCreatorInput
+}
+
+input CreatorUpdateWithoutProblemsDataInput {
+  likes: ProblemUpdateManyWithoutLikedByInput
+  name: StringFieldUpdateOperationsInput
+}
+
+input CreatorUpdateWithWhereUniqueWithoutLikesInput {
+  data: CreatorUpdateWithoutLikesDataInput!
+  where: CreatorWhereUniqueInput!
+}
+
+input CreatorUpsertWithoutProblemsInput {
+  create: CreatorCreateWithoutProblemsInput!
+  update: CreatorUpdateWithoutProblemsDataInput!
+}
+
+input CreatorUpsertWithWhereUniqueWithoutLikesInput {
+  create: CreatorCreateWithoutLikesInput!
+  update: CreatorUpdateWithoutLikesDataInput!
+  where: CreatorWhereUniqueInput!
+}
+
+input CreatorWhereInput {
+  AND: [CreatorWhereInput!]
+  id: IntFilter
+  likes: ProblemListRelationFilter
+  name: StringFilter
+  NOT: [CreatorWhereInput!]
+  OR: [CreatorWhereInput!]
+  problems: ProblemListRelationFilter
+}
+
+input CreatorWhereUniqueInput {
+  id: Int
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -409,6 +587,17 @@ input IntFilter {
   notIn: [Int!]
 }
 
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -540,36 +729,48 @@ input MovieWhereUniqueInput {
 type Mutation {
   createCategory(data: CategoryCreateInput!): Category!
   createClient(data: ClientCreateInput!): Client!
+  createCreator(data: CreatorCreateInput!): Creator!
   createDirector(data: DirectorCreateInput!): Director!
   createMovie(data: MovieCreateInput!): Movie!
   createPatient(data: PatientCreateInput!): Patient!
   createPost(data: PostCreateInput!): Post!
+  createProblem(data: ProblemCreateInput!): Problem!
   deleteCategory(where: CategoryWhereUniqueInput!): Category
   deleteClient(where: ClientWhereUniqueInput!): Client
+  deleteCreator(where: CreatorWhereUniqueInput!): Creator
   deleteDirector(where: DirectorWhereUniqueInput!): Director
   deleteManyCategory(where: CategoryWhereInput): BatchPayload!
   deleteManyClient(where: ClientWhereInput): BatchPayload!
+  deleteManyCreator(where: CreatorWhereInput): BatchPayload!
   deleteManyDirector(where: DirectorWhereInput): BatchPayload!
   deleteManyMovie(where: MovieWhereInput): BatchPayload!
   deleteManyPatient(where: PatientWhereInput): BatchPayload!
+  deleteManyProblem(where: ProblemWhereInput): BatchPayload!
   deleteMovie(where: MovieWhereUniqueInput!): Movie
   deletePatient(where: PatientWhereUniqueInput!): Patient
+  deleteProblem(where: ProblemWhereUniqueInput!): Problem
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
   updateClient(data: ClientUpdateInput!, where: ClientWhereUniqueInput!): Client
+  updateCreator(data: CreatorUpdateInput!, where: CreatorWhereUniqueInput!): Creator
   updateDirector(data: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director
   updateManyCategory(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
   updateManyClient(data: ClientUpdateManyMutationInput!, where: ClientWhereInput): BatchPayload!
+  updateManyCreator(data: CreatorUpdateManyMutationInput!, where: CreatorWhereInput): BatchPayload!
   updateManyDirector(data: DirectorUpdateManyMutationInput!, where: DirectorWhereInput): BatchPayload!
   updateManyMovie(data: MovieUpdateManyMutationInput!, where: MovieWhereInput): BatchPayload!
   updateManyPatient(data: PatientUpdateManyMutationInput!, where: PatientWhereInput): BatchPayload!
   updateManyPost(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+  updateManyProblem(data: ProblemUpdateManyMutationInput!, where: ProblemWhereInput): BatchPayload!
   updateMovie(data: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie
   updatePatient(data: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient
+  updateProblem(data: ProblemUpdateInput!, where: ProblemWhereUniqueInput!): Problem
   upsertCategory(create: CategoryCreateInput!, update: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
   upsertClient(create: ClientCreateInput!, update: ClientUpdateInput!, where: ClientWhereUniqueInput!): Client!
+  upsertCreator(create: CreatorCreateInput!, update: CreatorUpdateInput!, where: CreatorWhereUniqueInput!): Creator!
   upsertDirector(create: DirectorCreateInput!, update: DirectorUpdateInput!, where: DirectorWhereUniqueInput!): Director!
   upsertMovie(create: MovieCreateInput!, update: MovieUpdateInput!, where: MovieWhereUniqueInput!): Movie!
   upsertPatient(create: PatientCreateInput!, update: PatientUpdateInput!, where: PatientWhereUniqueInput!): Patient!
+  upsertProblem(create: ProblemCreateInput!, update: ProblemUpdateInput!, where: ProblemWhereUniqueInput!): Problem!
 }
 
 input NestedBoolFilter {
@@ -621,6 +822,17 @@ input NestedIntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -893,18 +1105,202 @@ input PostWhereUniqueInput {
   uuid: String
 }
 
+type Problem {
+  creator: Creator
+  creatorId: Int
+  id: Int!
+  likedBy(cursor: CreatorWhereUniqueInput, distinct: [CreatorDistinctFieldEnum!], orderBy: [CreatorOrderByInput!], skip: Int, take: Int, where: CreatorWhereInput): [Creator!]
+  problemText: String!
+}
+
+type ProblemAvgAggregateOutputType {
+  creatorId: Float!
+  id: Float!
+}
+
+input ProblemCreateInput {
+  creator: CreatorCreateOneWithoutProblemsInput
+  likedBy: CreatorCreateManyWithoutLikesInput
+  problemText: String!
+}
+
+input ProblemCreateManyWithoutCreatorInput {
+  connect: [ProblemWhereUniqueInput!]
+  connectOrCreate: [ProblemCreateOrConnectWithoutCreatorInput!]
+  create: [ProblemCreateWithoutCreatorInput!]
+}
+
+input ProblemCreateManyWithoutLikedByInput {
+  connect: [ProblemWhereUniqueInput!]
+  connectOrCreate: [ProblemCreateOrConnectWithoutCreatorInput!]
+  create: [ProblemCreateWithoutLikedByInput!]
+}
+
+input ProblemCreateOrConnectWithoutCreatorInput {
+  create: ProblemCreateWithoutLikedByInput!
+  where: ProblemWhereUniqueInput!
+}
+
+input ProblemCreateWithoutCreatorInput {
+  likedBy: CreatorCreateManyWithoutLikesInput
+  problemText: String!
+}
+
+input ProblemCreateWithoutLikedByInput {
+  creator: CreatorCreateOneWithoutProblemsInput
+  problemText: String!
+}
+
+enum ProblemDistinctFieldEnum {
+  creatorId
+  id
+  problemText
+}
+
+input ProblemListRelationFilter {
+  every: ProblemWhereInput
+  none: ProblemWhereInput
+  some: ProblemWhereInput
+}
+
+type ProblemMaxAggregateOutputType {
+  creatorId: Int
+  id: Int!
+}
+
+type ProblemMinAggregateOutputType {
+  creatorId: Int
+  id: Int!
+}
+
+input ProblemOrderByInput {
+  creatorId: SortOrder
+  id: SortOrder
+  problemText: SortOrder
+}
+
+input ProblemScalarWhereInput {
+  AND: [ProblemScalarWhereInput!]
+  creatorId: IntNullableFilter
+  id: IntFilter
+  NOT: [ProblemScalarWhereInput!]
+  OR: [ProblemScalarWhereInput!]
+  problemText: StringFilter
+}
+
+type ProblemSumAggregateOutputType {
+  creatorId: Int
+  id: Int!
+}
+
+input ProblemUpdateInput {
+  creator: CreatorUpdateOneWithoutProblemsInput
+  likedBy: CreatorUpdateManyWithoutLikesInput
+  problemText: StringFieldUpdateOperationsInput
+}
+
+input ProblemUpdateManyDataInput {
+  problemText: StringFieldUpdateOperationsInput
+}
+
+input ProblemUpdateManyMutationInput {
+  problemText: StringFieldUpdateOperationsInput
+}
+
+input ProblemUpdateManyWithoutCreatorInput {
+  connect: [ProblemWhereUniqueInput!]
+  connectOrCreate: [ProblemCreateOrConnectWithoutCreatorInput!]
+  create: [ProblemCreateWithoutCreatorInput!]
+  delete: [ProblemWhereUniqueInput!]
+  deleteMany: [ProblemScalarWhereInput!]
+  disconnect: [ProblemWhereUniqueInput!]
+  set: [ProblemWhereUniqueInput!]
+  update: [ProblemUpdateWithWhereUniqueWithoutCreatorInput!]
+  updateMany: [ProblemUpdateManyWithWhereNestedInput!]
+  upsert: [ProblemUpsertWithWhereUniqueWithoutCreatorInput!]
+}
+
+input ProblemUpdateManyWithoutLikedByInput {
+  connect: [ProblemWhereUniqueInput!]
+  connectOrCreate: [ProblemCreateOrConnectWithoutCreatorInput!]
+  create: [ProblemCreateWithoutLikedByInput!]
+  delete: [ProblemWhereUniqueInput!]
+  deleteMany: [ProblemScalarWhereInput!]
+  disconnect: [ProblemWhereUniqueInput!]
+  set: [ProblemWhereUniqueInput!]
+  update: [ProblemUpdateWithWhereUniqueWithoutLikedByInput!]
+  updateMany: [ProblemUpdateManyWithWhereNestedInput!]
+  upsert: [ProblemUpsertWithWhereUniqueWithoutLikedByInput!]
+}
+
+input ProblemUpdateManyWithWhereNestedInput {
+  data: ProblemUpdateManyDataInput!
+  where: ProblemScalarWhereInput!
+}
+
+input ProblemUpdateWithoutCreatorDataInput {
+  likedBy: CreatorUpdateManyWithoutLikesInput
+  problemText: StringFieldUpdateOperationsInput
+}
+
+input ProblemUpdateWithoutLikedByDataInput {
+  creator: CreatorUpdateOneWithoutProblemsInput
+  problemText: StringFieldUpdateOperationsInput
+}
+
+input ProblemUpdateWithWhereUniqueWithoutCreatorInput {
+  data: ProblemUpdateWithoutCreatorDataInput!
+  where: ProblemWhereUniqueInput!
+}
+
+input ProblemUpdateWithWhereUniqueWithoutLikedByInput {
+  data: ProblemUpdateWithoutLikedByDataInput!
+  where: ProblemWhereUniqueInput!
+}
+
+input ProblemUpsertWithWhereUniqueWithoutCreatorInput {
+  create: ProblemCreateWithoutCreatorInput!
+  update: ProblemUpdateWithoutCreatorDataInput!
+  where: ProblemWhereUniqueInput!
+}
+
+input ProblemUpsertWithWhereUniqueWithoutLikedByInput {
+  create: ProblemCreateWithoutLikedByInput!
+  update: ProblemUpdateWithoutLikedByDataInput!
+  where: ProblemWhereUniqueInput!
+}
+
+input ProblemWhereInput {
+  AND: [ProblemWhereInput!]
+  creator: CreatorWhereInput
+  creatorId: IntNullableFilter
+  id: IntFilter
+  likedBy: CreatorListRelationFilter
+  NOT: [ProblemWhereInput!]
+  OR: [ProblemWhereInput!]
+  problemText: StringFilter
+}
+
+input ProblemWhereUniqueInput {
+  id: Int
+}
+
 type Query {
   aggregateCategory(cursor: CategoryWhereUniqueInput, distinct: [CategoryDistinctFieldEnum!], orderBy: [CategoryOrderByInput!], skip: Int, take: Int, where: CategoryWhereInput): AggregateCategory!
   aggregateClient(cursor: ClientWhereUniqueInput, distinct: [ClientDistinctFieldEnum!], orderBy: [ClientOrderByInput!], skip: Int, take: Int, where: ClientWhereInput): AggregateClient!
+  aggregateCreator(cursor: CreatorWhereUniqueInput, distinct: [CreatorDistinctFieldEnum!], orderBy: [CreatorOrderByInput!], skip: Int, take: Int, where: CreatorWhereInput): AggregateCreator!
   aggregateDirector(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: [DirectorOrderByInput!], skip: Int, take: Int, where: DirectorWhereInput): AggregateDirector!
   aggregateMovie(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: [MovieOrderByInput!], skip: Int, take: Int, where: MovieWhereInput): AggregateMovie!
   aggregatePatient(cursor: PatientWhereUniqueInput, distinct: [PatientDistinctFieldEnum!], orderBy: [PatientOrderByInput!], skip: Int, take: Int, where: PatientWhereInput): AggregatePatient!
+  aggregateProblem(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): AggregateProblem!
   allClients: [Client!]!
   allPosts: [Post!]!
   categories(cursor: CategoryWhereUniqueInput, distinct: [CategoryDistinctFieldEnum!], orderBy: [CategoryOrderByInput!], skip: Int, take: Int, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
   client(where: ClientWhereUniqueInput!): Client
   clients(cursor: ClientWhereUniqueInput, distinct: [ClientDistinctFieldEnum!], orderBy: [ClientOrderByInput!], skip: Int, take: Int, where: ClientWhereInput): [Client!]!
+  creator(where: CreatorWhereUniqueInput!): Creator
+  creators(cursor: CreatorWhereUniqueInput, distinct: [CreatorDistinctFieldEnum!], orderBy: [CreatorOrderByInput!], skip: Int, take: Int, where: CreatorWhereInput): [Creator!]!
   customFindClientsWithArgs(cursor: ClientWhereUniqueInput, distinct: [ClientDistinctFieldEnum!], orderBy: [ClientOrderByInput!], skip: Int, take: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
   directors(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: [DirectorOrderByInput!], skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
@@ -914,6 +1310,8 @@ type Query {
   patients(cursor: PatientWhereUniqueInput, distinct: [PatientDistinctFieldEnum!], orderBy: [PatientOrderByInput!], skip: Int, take: Int, where: PatientWhereInput): [Patient!]!
   post(where: PostWhereUniqueInput!): Post
   posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  problem(where: ProblemWhereUniqueInput!): Problem
+  problems(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): [Problem!]!
 }
 
 """Role enum doc"""
