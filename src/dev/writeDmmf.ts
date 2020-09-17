@@ -1,5 +1,5 @@
 import { getDMMF } from "@prisma/client/runtime";
-import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime";
 import fs from "fs";
 
 import { getDatamodel } from "./getDatamodel";

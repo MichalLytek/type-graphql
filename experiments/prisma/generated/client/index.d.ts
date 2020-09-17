@@ -25,8 +25,8 @@ export { PrismaClientValidationError }
 export { sql, empty, join, raw }
 
 /**
- * Prisma Client JS version: 2.6.0
- * Query Engine version: 650b5d0348ec38ae61e1e7db69bb54808418ede4
+ * Prisma Client JS version: 2.7.1
+ * Query Engine version: 5c2ad460cf4fe8c9330e6640b266c046542c8b6a
  */
 export declare type PrismaVersion = {
   client: string
@@ -367,7 +367,7 @@ export declare class PrismaClient<
   $queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
  
   /**
-   * @deprecated renamed to `$executeRaw`
+   * @deprecated renamed to `$queryRaw`
    */
   queryRaw<T = any>(query: string | TemplateStringsArray, ...values: any[]): Promise<T>;
 
@@ -5114,12 +5114,12 @@ export type UserCreateOrConnectWithoutpostInput = {
 }
 
 export type UserUpdateWithoutPostsDataInput = {
-  email?: StringFieldUpdateOperationsInput
-  name?: NullableStringFieldUpdateOperationsInput
-  age?: IntFieldUpdateOperationsInput
-  balance?: FloatFieldUpdateOperationsInput
-  amount?: FloatFieldUpdateOperationsInput
-  role?: EnumRoleFieldUpdateOperationsInput
+  email?: string | StringFieldUpdateOperationsInput
+  name?: string | NullableStringFieldUpdateOperationsInput | null
+  age?: number | IntFieldUpdateOperationsInput
+  balance?: number | FloatFieldUpdateOperationsInput
+  amount?: number | FloatFieldUpdateOperationsInput
+  role?: Role | EnumRoleFieldUpdateOperationsInput
 }
 
 export type UserUpsertWithoutPostsInput = {
@@ -5138,8 +5138,8 @@ export type DirectorCreateOrConnectWithoutMovieInput = {
 }
 
 export type DirectorUpdateWithoutMoviesDataInput = {
-  firstName?: StringFieldUpdateOperationsInput
-  lastName?: StringFieldUpdateOperationsInput
+  firstName?: string | StringFieldUpdateOperationsInput
+  lastName?: string | StringFieldUpdateOperationsInput
 }
 
 export type DirectorUpsertWithoutMoviesInput = {
@@ -5221,7 +5221,7 @@ export type CreatorUpsertWithWhereUniqueWithoutLikesInput = {
 }
 
 export type CreatorUpdateWithoutProblemsDataInput = {
-  name?: StringFieldUpdateOperationsInput
+  name?: string | StringFieldUpdateOperationsInput
   likes?: ProblemUpdateManyWithoutLikedByInput
 }
 
@@ -5282,55 +5282,55 @@ export type ProblemUpsertWithWhereUniqueWithoutCreatorInput = {
 }
 
 export type postUpdateWithoutAuthorDataInput = {
-  uuid?: StringFieldUpdateOperationsInput
-  createdAt?: DateTimeFieldUpdateOperationsInput
-  updatedAt?: DateTimeFieldUpdateOperationsInput
-  published?: BoolFieldUpdateOperationsInput
-  title?: StringFieldUpdateOperationsInput
-  content?: NullableStringFieldUpdateOperationsInput
-  kind?: NullableEnumPostKindFieldUpdateOperationsInput
-  metadata?: JsonFieldUpdateOperationsInput
+  uuid?: string | StringFieldUpdateOperationsInput
+  createdAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  published?: boolean | BoolFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
+  content?: string | NullableStringFieldUpdateOperationsInput | null
+  kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
+  metadata?: InputJsonValue
 }
 
 export type postUpdateManyDataInput = {
-  uuid?: StringFieldUpdateOperationsInput
-  createdAt?: DateTimeFieldUpdateOperationsInput
-  updatedAt?: DateTimeFieldUpdateOperationsInput
-  published?: BoolFieldUpdateOperationsInput
-  title?: StringFieldUpdateOperationsInput
-  content?: NullableStringFieldUpdateOperationsInput
-  kind?: NullableEnumPostKindFieldUpdateOperationsInput
-  metadata?: JsonFieldUpdateOperationsInput
+  uuid?: string | StringFieldUpdateOperationsInput
+  createdAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  published?: boolean | BoolFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
+  content?: string | NullableStringFieldUpdateOperationsInput | null
+  kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
+  metadata?: InputJsonValue
 }
 
 export type MovieUpdateWithoutDirectorDataInput = {
-  title?: StringFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
 }
 
 export type MovieUpdateManyDataInput = {
-  title?: StringFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
 }
 
 export type CreatorUpdateWithoutLikesDataInput = {
-  name?: StringFieldUpdateOperationsInput
+  name?: string | StringFieldUpdateOperationsInput
   problems?: ProblemUpdateManyWithoutCreatorInput
 }
 
 export type CreatorUpdateManyDataInput = {
-  name?: StringFieldUpdateOperationsInput
+  name?: string | StringFieldUpdateOperationsInput
 }
 
 export type ProblemUpdateWithoutLikedByDataInput = {
-  problemText?: StringFieldUpdateOperationsInput
+  problemText?: string | StringFieldUpdateOperationsInput
   creator?: CreatorUpdateOneWithoutProblemsInput
 }
 
 export type ProblemUpdateManyDataInput = {
-  problemText?: StringFieldUpdateOperationsInput
+  problemText?: string | StringFieldUpdateOperationsInput
 }
 
 export type ProblemUpdateWithoutCreatorDataInput = {
-  problemText?: StringFieldUpdateOperationsInput
+  problemText?: string | StringFieldUpdateOperationsInput
   likedBy?: CreatorUpdateManyWithoutLikesInput
 }
 

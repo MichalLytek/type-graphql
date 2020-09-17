@@ -3,7 +3,6 @@ import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { JsonFieldUpdateOperationsInput } from "../inputs/JsonFieldUpdateOperationsInput";
 import { NullableEnumPostKindFieldUpdateOperationsInput } from "../inputs/NullableEnumPostKindFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
@@ -55,9 +54,9 @@ export class PostUpdateWithoutAuthorDataInput {
   })
   kind?: NullableEnumPostKindFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => JsonFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  metadata?: JsonFieldUpdateOperationsInput | undefined;
+  metadata?: InputJsonValue | undefined;
 }

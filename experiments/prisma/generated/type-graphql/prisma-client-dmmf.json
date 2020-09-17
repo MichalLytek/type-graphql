@@ -13213,6 +13213,13 @@
             "name": "email",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13224,6 +13231,13 @@
           {
             "name": "name",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
               {
                 "type": "NullableStringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -13237,6 +13251,13 @@
             "name": "age",
             "inputType": [
               {
+                "type": "Int",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "IntFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13248,6 +13269,13 @@
           {
             "name": "balance",
             "inputType": [
+              {
+                "type": "Float",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "FloatFieldUpdateOperationsInput",
                 "kind": "object",
@@ -13261,6 +13289,13 @@
             "name": "amount",
             "inputType": [
               {
+                "type": "Float",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "FloatFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13273,6 +13308,13 @@
             "name": "role",
             "inputType": [
               {
+                "type": "Role",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "EnumRoleFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13281,7 +13323,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "UserUpsertWithoutPostsInput",
@@ -13381,6 +13424,13 @@
             "name": "firstName",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13393,6 +13443,13 @@
             "name": "lastName",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13401,7 +13458,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "DirectorUpsertWithoutMoviesInput",
@@ -13964,6 +14022,13 @@
             "name": "name",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -13984,7 +14049,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "CreatorUpsertWithoutProblemsInput",
@@ -14395,6 +14461,13 @@
             "name": "uuid",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14406,6 +14479,13 @@
           {
             "name": "createdAt",
             "inputType": [
+              {
+                "type": "DateTime",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "DateTimeFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14419,6 +14499,13 @@
             "name": "updatedAt",
             "inputType": [
               {
+                "type": "DateTime",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "DateTimeFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14430,6 +14517,13 @@
           {
             "name": "published",
             "inputType": [
+              {
+                "type": "Boolean",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "BoolFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14443,6 +14537,13 @@
             "name": "title",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14454,6 +14555,13 @@
           {
             "name": "content",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
               {
                 "type": "NullableStringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14467,6 +14575,13 @@
             "name": "kind",
             "inputType": [
               {
+                "type": "PostKind",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
+              {
                 "type": "NullableEnumPostKindFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14479,15 +14594,16 @@
             "name": "metadata",
             "inputType": [
               {
-                "type": "JsonFieldUpdateOperationsInput",
-                "kind": "object",
+                "type": "Json",
+                "kind": "scalar",
                 "isRequired": false,
                 "isList": false,
                 "isNullable": false
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "postUpdateManyDataInput",
@@ -14497,6 +14613,13 @@
             "name": "uuid",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14508,6 +14631,13 @@
           {
             "name": "createdAt",
             "inputType": [
+              {
+                "type": "DateTime",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "DateTimeFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14521,6 +14651,13 @@
             "name": "updatedAt",
             "inputType": [
               {
+                "type": "DateTime",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "DateTimeFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14532,6 +14669,13 @@
           {
             "name": "published",
             "inputType": [
+              {
+                "type": "Boolean",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "BoolFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14545,6 +14689,13 @@
             "name": "title",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14556,6 +14707,13 @@
           {
             "name": "content",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
               {
                 "type": "NullableStringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14569,6 +14727,13 @@
             "name": "kind",
             "inputType": [
               {
+                "type": "PostKind",
+                "kind": "enum",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": true
+              },
+              {
                 "type": "NullableEnumPostKindFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14581,15 +14746,16 @@
             "name": "metadata",
             "inputType": [
               {
-                "type": "JsonFieldUpdateOperationsInput",
-                "kind": "object",
+                "type": "Json",
+                "kind": "scalar",
                 "isRequired": false,
                 "isList": false,
                 "isNullable": false
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "MovieUpdateWithoutDirectorDataInput",
@@ -14599,23 +14765,12 @@
             "name": "title",
             "inputType": [
               {
-                "type": "StringFieldUpdateOperationsInput",
-                "kind": "object",
+                "type": "String",
+                "kind": "scalar",
                 "isRequired": false,
                 "isList": false,
                 "isNullable": false
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "MovieUpdateManyDataInput",
-        "isOneOf": false,
-        "fields": [
-          {
-            "name": "title",
-            "inputType": [
+              },
               {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14625,7 +14780,34 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
+      },
+      {
+        "name": "MovieUpdateManyDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "title",
+            "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
+                "type": "StringFieldUpdateOperationsInput",
+                "kind": "object",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              }
+            ]
+          }
+        ],
+        "isUpdateType": true
       },
       {
         "name": "CreatorUpdateWithoutLikesDataInput",
@@ -14634,6 +14816,13 @@
           {
             "name": "name",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14655,7 +14844,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "CreatorUpdateManyDataInput",
@@ -14665,6 +14855,13 @@
             "name": "name",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14673,7 +14870,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "ProblemUpdateWithoutLikedByDataInput",
@@ -14682,6 +14880,13 @@
           {
             "name": "problemText",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14703,7 +14908,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "ProblemUpdateManyDataInput",
@@ -14713,6 +14919,13 @@
             "name": "problemText",
             "inputType": [
               {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
+              {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
                 "isRequired": false,
@@ -14721,7 +14934,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       },
       {
         "name": "ProblemUpdateWithoutCreatorDataInput",
@@ -14730,6 +14944,13 @@
           {
             "name": "problemText",
             "inputType": [
+              {
+                "type": "String",
+                "kind": "scalar",
+                "isRequired": false,
+                "isList": false,
+                "isNullable": false
+              },
               {
                 "type": "StringFieldUpdateOperationsInput",
                 "kind": "object",
@@ -14751,7 +14972,8 @@
               }
             ]
           }
-        ]
+        ],
+        "isUpdateType": true
       }
     ]
   }

@@ -1,4 +1,4 @@
-import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime";
 import { Project, ScriptTarget, ModuleKind, CompilerOptions } from "ts-morph";
 import path from "path";
 

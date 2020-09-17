@@ -1,4 +1,4 @@
-import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime";
 import { DMMF } from "./types";
 import { parseDocumentationAttributes } from "./helpers";
 import {

@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@prisma/generator-helper";
-import { DMMF as PrismaDMMF } from "@prisma/client/runtime/dmmf-types";
+import { DMMF as PrismaDMMF } from "@prisma/client/runtime";
 import { promises as asyncFs } from "fs";
 import path from "path";
 
