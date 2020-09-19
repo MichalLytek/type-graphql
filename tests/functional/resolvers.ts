@@ -2027,6 +2027,79 @@ describe("Resolvers", () => {
         resolvedField: "resolvedField",
       });
     });
+
+    it("should not emit field in schema if resolver class is not provided to `buildSchema`", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleObject {
+          return { sampleField: "sampleField" };
+        }
+      }
+      @Resolver(of => SampleObject)
+      class SampleObjectResolver {
+        @FieldResolver()
+        resolvedField(): string {
+          return "SampleObjectResolver resolvedField";
+        }
+      }
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [SampleResolver],
+      });
+      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+
+      expect(sampleObjectType.fields).toHaveLength(1);
+      expect(sampleObjectType.fields[0].name).toEqual("sampleField");
+    });
+
+    it("should emit field in schema if resolver class is not provided to `buildSchema` but is in inheritance chain", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField: string;
+      }
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleObject {
+          return { sampleField: "sampleField" };
+        }
+      }
+      function createResolver() {
+        @Resolver(of => SampleObject)
+        class SampleObjectResolver {
+          @FieldResolver()
+          resolvedField(): string {
+            return "SampleObjectResolver resolvedField";
+          }
+        }
+        return SampleObjectResolver;
+      }
+      class ChildResolver extends createResolver() {}
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [SampleResolver, ChildResolver],
+      });
+      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+
+      expect(sampleObjectType.fields).toHaveLength(2);
+    });
   });
 
   describe("Inheritance", () => {

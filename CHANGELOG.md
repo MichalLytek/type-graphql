@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- don't include in schema the fields declared as `@FieldResolver` when that resolvers classes aren't provided in `resolvers` array
 
 ## v1.0.0
 ### Features

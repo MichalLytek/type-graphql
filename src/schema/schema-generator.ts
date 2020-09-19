@@ -125,7 +125,7 @@ export abstract class SchemaGenerator {
   static generateFromMetadataSync(options: SchemaGeneratorOptions): GraphQLSchema {
     this.checkForErrors(options);
     BuildContext.create(options);
-    getMetadataStorage().build();
+    getMetadataStorage().build(options);
     this.buildTypesInfo(options.resolvers);
 
     const orphanedTypes = options.orphanedTypes || (options.resolvers ? [] : undefined);
@@ -296,17 +296,18 @@ export abstract class SchemaGenerator {
 
             let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
+                const fieldResolvers = getMetadataStorage().fieldResolvers;
                 const filteredFieldResolversMetadata = !resolvers
-                  ? getMetadataStorage().fieldResolvers
-                  : getMetadataStorage().fieldResolvers.filter(
+                  ? fieldResolvers
+                  : fieldResolvers.filter(
                       it => it.kind === "internal" || resolvers.includes(it.target),
                     );
                 const fieldResolverMetadata = filteredFieldResolversMetadata.find(
-                  resolver =>
-                    resolver.getObjectType!() === field.target &&
-                    resolver.methodName === field.name &&
-                    (resolver.resolverClassMetadata === undefined ||
-                      resolver.resolverClassMetadata.isAbstract === false),
+                  it =>
+                    it.getObjectType!() === field.target &&
+                    it.methodName === field.name &&
+                    (it.resolverClassMetadata === undefined ||
+                      it.resolverClassMetadata.isAbstract === false),
                 );
                 const type = this.getGraphQLOutputType(
                   field.target,

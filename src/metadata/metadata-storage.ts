@@ -27,6 +27,7 @@ import {
 import { ObjectClassMetadata } from "./definitions/object-class-metdata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
 import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
+import { SchemaGeneratorOptions } from "../schema/schema-generator";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
@@ -119,7 +120,7 @@ export class MetadataStorage {
     this.fieldExtensions.push(definition);
   }
 
-  build() {
+  build(options: SchemaGeneratorOptions) {
     // TODO: disable next build attempts
 
     this.classDirectives.reverse();
@@ -132,7 +133,7 @@ export class MetadataStorage {
     this.buildClassMetadata(this.argumentTypes);
     this.buildClassMetadata(this.interfaceTypes);
 
-    this.buildFieldResolverMetadata(this.fieldResolvers);
+    this.buildFieldResolverMetadata(this.fieldResolvers, options);
 
     this.buildResolversMetadata(this.queries);
     this.buildResolversMetadata(this.mutations);
@@ -219,7 +220,10 @@ export class MetadataStorage {
     });
   }
 
-  private buildFieldResolverMetadata(definitions: FieldResolverMetadata[]) {
+  private buildFieldResolverMetadata(
+    definitions: FieldResolverMetadata[],
+    options: SchemaGeneratorOptions,
+  ) {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName);
@@ -245,26 +249,33 @@ export class MetadataStorage {
 
         const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!;
         if (!typeField) {
+          const shouldCollectFieldMetadata =
+            !options.resolvers ||
+            options.resolvers.some(
+              resolverCls => resolverCls === def.target || def.target.isPrototypeOf(resolverCls),
+            );
           if (!def.getType || !def.typeOptions) {
             throw new NoExplicitTypeError(def.target.name, def.methodName);
           }
-          const fieldMetadata: FieldMetadata = {
-            name: def.methodName,
-            schemaName: def.schemaName,
-            getType: def.getType!,
-            target: typeClass,
-            typeOptions: def.typeOptions!,
-            deprecationReason: def.deprecationReason,
-            description: def.description,
-            complexity: def.complexity,
-            roles: def.roles!,
-            middlewares: def.middlewares!,
-            params: def.params!,
-            directives: def.directives,
-            extensions: def.extensions,
-          };
-          this.collectClassFieldMetadata(fieldMetadata);
-          typeMetadata.fields!.push(fieldMetadata);
+          if (shouldCollectFieldMetadata) {
+            const fieldMetadata: FieldMetadata = {
+              name: def.methodName,
+              schemaName: def.schemaName,
+              getType: def.getType!,
+              target: typeClass,
+              typeOptions: def.typeOptions!,
+              deprecationReason: def.deprecationReason,
+              description: def.description,
+              complexity: def.complexity,
+              roles: def.roles!,
+              middlewares: def.middlewares!,
+              params: def.params!,
+              directives: def.directives,
+              extensions: def.extensions,
+            };
+            this.collectClassFieldMetadata(fieldMetadata);
+            typeMetadata.fields!.push(fieldMetadata);
+          }
         } else {
           typeField.complexity = def.complexity;
           if (typeField.params!.length === 0) {
