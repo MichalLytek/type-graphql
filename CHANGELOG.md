@@ -6,6 +6,7 @@
 - allow passing custom validation function as `validate` option to `buildSchema`
 ### Fixes
 - don't include in schema the fields declared as `@FieldResolver` when that resolvers classes aren't provided in `resolvers` array
+- fix grammar in `CannotDetermineGraphQLTypeError` error message
 
 ## v1.0.0
 ### Features

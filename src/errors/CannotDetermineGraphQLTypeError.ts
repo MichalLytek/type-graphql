@@ -14,8 +14,8 @@ export class CannotDetermineGraphQLTypeError extends Error {
     }
     errorMessage +=
       `'${propertyKey}' of '${typeName}' class. ` +
-      `Does the value used as its TS type or explicit type is decorated with a proper decorator ` +
-      `or is it a proper ${typeKind} value?`;
+      `Is the value, that is used as its TS type or explicit type, decorated with a proper ` +
+      `decorator or is it a proper ${typeKind} value?`;
 
     super(errorMessage);
     Object.setPrototypeOf(this, new.target.prototype);
