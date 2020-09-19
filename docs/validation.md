@@ -7,11 +7,17 @@ sidebar_label: Validation
 
 The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
-That's why TypeGraphQL has built-in support for argument and input validation by using the [`class-validator`](https://github.com/typestack/class-validator) library! We can use the awesomeness of decorators to easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters).
+That's why TypeGraphQL has built-in support for argument and input validation.
+By default, we can use the [`class-validator`](https://github.com/typestack/class-validator) library and easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters) thanks to the awesomeness of decorators.
 
-## How to use
+We can also use other libraries or our own custom solution, as described in [custom validators](#custom-validators) section.
 
-First we decorate the input/arguments class with the appropriate decorators from `class-validator`. So we take this:
+## `class-validator`
+
+### How to use
+
+First we decorate the input/arguments class with the appropriate decorators from `class-validator`.
+So we take this:
 
 ```typescript
 @InputType()
@@ -100,7 +106,7 @@ GraphQL will also check whether the fields have correct types (String, Int, Floa
 
 However, when using nested input or arrays, we always have to use [`@ValidateNested()` decorator](https://github.com/typestack/class-validator#validating-nested-objects) or [`{ each: true }` option](https://github.com/typestack/class-validator#validating-arrays) to make nested validation work properly.
 
-## Response to the Client
+### Response to the Client
 
 When a client sends incorrect data to the server:
 
@@ -167,12 +173,47 @@ By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md)
 
 Of course we can also create our own custom implementation of the `formatError` function provided in the `ApolloServer` config options which will transform the `GraphQLError` with a `ValidationError` array in the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
 
-## Caveats
+### Example
+
+To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+
+### Caveats
 
 Even if we don't use the validation feature (and we have provided `{ validate: false }` option to `buildSchema`), we still need to have `class-validator` installed as a dev dependency in order to compile our app without errors using `tsc`.
 
 An alternative solution that allows to completely get rid off big `class-validator` from our project's `node_modules` folder is to suppress the `error TS2307: Cannot find module 'class-validator'` TS error by providing `"skipLibCheck": true` setting in `tsconfig.json`.
 
-## Example
+## Custom validator
 
-To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+We can also use other libraries than `class-validator` together with TypeGraphQL.
+
+To integrate it, all we need to do is to provide a custom function as `validate` option in `buildSchema`.
+It receives two parameters:
+
+- `argValue` which is the injected value of `@Arg()` or `@Args()`
+- `argType` which is a runtime type information (e.g. `String` or `RecipeInput`).
+
+The `validate` function can be async and should return nothing (`void`) when validation passes or throw an error when validation fails.
+So be aware of this while trying to wrap another library in `validate` function for TypeGraphQL.
+
+Example using [decorators library for Joi validators (`joiful`)](https://github.com/joiful-ts/joiful):
+
+```ts
+const schema = await buildSchema({
+  // ...other options
+  validate: argValue => {
+    // call joiful validate
+    const { error } = joiful.validate(argValue);
+    if (error) {
+      // throw error on failed validation
+      throw error;
+    }
+  },
+});
+```
+
+> Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.
+
+### Example
+
+To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation).
