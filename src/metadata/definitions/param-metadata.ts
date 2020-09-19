@@ -1,7 +1,6 @@
-import type { ValidatorOptions } from "class-validator";
-
 import { TypeValueThunk, TypeOptions } from "../../decorators/types";
 import { ResolverData } from "../../interfaces";
+import { ValidateSettings } from "../../schema/build-context";
 
 export interface BasicParamMetadata {
   target: Function;
@@ -27,7 +26,7 @@ export interface RootParamMetadata extends BasicParamMetadata {
 export interface CommonArgMetadata extends BasicParamMetadata {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-  validate: boolean | ValidatorOptions | undefined;
+  validate: ValidateSettings | undefined;
 }
 export interface ArgParamMetadata extends CommonArgMetadata {
   kind: "arg";

@@ -16,6 +16,7 @@ import {
   Args,
   ArgsType,
 } from "../../src";
+import { TypeValue } from "../../src/decorators/types";
 
 describe("Validation", () => {
   describe("Functional", () => {
@@ -569,5 +570,91 @@ describe("Validation", () => {
       expect(localArgsData).toBeUndefined();
       expect(error.validationErrors[0].target).toBeUndefined();
     });
+  });
+});
+
+describe("Custom validation", () => {
+  let schema: GraphQLSchema;
+  const document = /* graphql */ `
+    query {
+      sampleQuery(sampleField: "sampleFieldValue")
+    }
+  `;
+  let sampleArgsCls: Function;
+  let sampleResolverCls: Function;
+
+  let validateArgs: Array<object | undefined> = [];
+  let validateTypes: TypeValue[] = [];
+  let sampleQueryArgs: any[] = [];
+
+  beforeAll(async () => {
+    getMetadataStorage().clear();
+
+    @ArgsType()
+    class SampleArgs {
+      @Field()
+      sampleField!: string;
+    }
+    sampleArgsCls = SampleArgs;
+    @Resolver()
+    class SampleResolver {
+      @Query(returns => Boolean)
+      sampleQuery(@Args() args: SampleArgs) {
+        sampleQueryArgs.push(args);
+        return true;
+      }
+    }
+    sampleResolverCls = SampleResolver;
+  });
+
+  beforeEach(() => {
+    validateArgs = [];
+    validateTypes = [];
+    sampleQueryArgs = [];
+  });
+
+  it("should call `validate` function provided in option with proper params", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validate: (arg, type) => {
+        validateArgs.push(arg);
+        validateTypes.push(type);
+      },
+    });
+
+    await graphql(schema, document);
+
+    expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+    expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
+    expect(validateTypes).toEqual([sampleArgsCls]);
+  });
+
+  it("should inject validated arg as resolver param", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validate: () => {
+        // do nothing
+      },
+    });
+
+    await graphql(schema, document);
+
+    expect(sampleQueryArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+  });
+
+  it("should rethrow wrapped error when error thrown in `validate`", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validate: () => {
+        throw new Error("Test validate error");
+      },
+    });
+
+    const result = await graphql(schema, document);
+
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors![0].message).toEqual("Test validate error");
+    expect(result.data).toBeNull();
+    expect(sampleQueryArgs).toHaveLength(0);
   });
 });

@@ -5,6 +5,7 @@ import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
 import { AuthChecker, AuthMode } from "../interfaces";
 import { Middleware } from "../interfaces/Middleware";
 import { ContainerType, ContainerGetter, IOCContainer } from "../utils/container";
+import { ValidatorFn } from "../interfaces/ValidatorFn";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 
@@ -13,14 +14,17 @@ export interface ScalarsTypeMap {
   scalar: GraphQLScalarType;
 }
 
+export type ValidateSettings = boolean | ValidatorOptions | ValidatorFn<object>;
+
 export interface BuildContextOptions {
   dateScalarMode?: DateScalarMode;
   scalarsMap?: ScalarsTypeMap[];
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
-   * You can also directly pass validator options to enable validator with a given options.
+   * You can directly pass validator options to enable validator with a given options.
+   * Also, you can provide your own validation function to check the args.
    */
-  validate?: boolean | ValidatorOptions;
+  validate?: ValidateSettings;
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
@@ -35,7 +39,7 @@ export interface BuildContextOptions {
 export abstract class BuildContext {
   static dateScalarMode: DateScalarMode;
   static scalarsMaps: ScalarsTypeMap[];
-  static validate: boolean | ValidatorOptions;
+  static validate: ValidateSettings;
   static authChecker?: AuthChecker<any, any>;
   static authMode: AuthMode;
   static pubSub: PubSubEngine;

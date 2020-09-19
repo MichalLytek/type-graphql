@@ -1,15 +1,23 @@
 import type { ValidatorOptions } from "class-validator";
+import { TypeValue } from "../decorators/types";
 
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
+import { ValidateSettings } from "../schema/build-context";
 
-export async function validateArg<T extends Object>(
-  arg: T | undefined,
-  globalValidate: boolean | ValidatorOptions,
-  argValidate?: boolean | ValidatorOptions,
+export async function validateArg<T extends object>(
+  argValue: T | undefined,
+  argType: TypeValue,
+  globalValidate: ValidateSettings,
+  argValidate: ValidateSettings | undefined,
 ): Promise<T | undefined> {
   const validate = argValidate !== undefined ? argValidate : globalValidate;
-  if (validate === false || arg == null || typeof arg !== "object") {
-    return arg;
+  if (validate === false || argValue == null || typeof argValue !== "object") {
+    return argValue;
+  }
+
+  if (typeof validate === "function") {
+    await validate(argValue, argType);
+    return argValue;
   }
 
   const validatorOptions: ValidatorOptions = Object.assign(
@@ -23,12 +31,12 @@ export async function validateArg<T extends Object>(
 
   const { validateOrReject } = await import("class-validator");
   try {
-    if (Array.isArray(arg)) {
-      await Promise.all(arg.map(argItem => validateOrReject(argItem, validatorOptions)));
+    if (Array.isArray(argValue)) {
+      await Promise.all(argValue.map(argItem => validateOrReject(argItem, validatorOptions)));
     } else {
-      await validateOrReject(arg, validatorOptions);
+      await validateOrReject(argValue, validatorOptions);
     }
-    return arg;
+    return argValue;
   } catch (err) {
     throw new ArgumentValidationError(err);
   }

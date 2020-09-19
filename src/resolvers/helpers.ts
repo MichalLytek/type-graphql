@@ -1,5 +1,4 @@
 import { PubSubEngine } from "graphql-subscriptions";
-import type { ValidatorOptions } from "class-validator";
 
 import { ParamMetadata } from "../metadata/definitions";
 import { convertToType } from "../helpers/types";
@@ -10,11 +9,12 @@ import { IOCContainer } from "../utils/container";
 import { AuthMiddleware } from "../helpers/auth-middleware";
 import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
 import isPromiseLike from "../utils/isPromiseLike";
+import { ValidateSettings } from "../schema/build-context";
 
 export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
-  globalValidate: boolean | ValidatorOptions,
+  globalValidate: ValidateSettings,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
@@ -24,12 +24,14 @@ export function getParams(
         case "args":
           return validateArg(
             convertArgsToInstance(paramInfo, resolverData.args),
+            paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
           );
         case "arg":
           return validateArg(
             convertArgToInstance(paramInfo, resolverData.args),
+            paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
           );

@@ -1,5 +1,4 @@
 import { GraphQLScalarType } from "graphql";
-import type { ValidatorOptions } from "class-validator";
 
 import {
   ResolverFilterData,
@@ -8,6 +7,7 @@ import {
   Complexity,
   TypeResolver,
 } from "../interfaces";
+import { ValidateSettings } from "../schema/build-context";
 
 export interface RecursiveArray<TValue> extends Array<RecursiveArray<TValue> | TValue> {}
 
@@ -45,7 +45,7 @@ export interface DeprecationOptions {
   deprecationReason?: string;
 }
 export interface ValidateOptions {
-  validate?: boolean | ValidatorOptions;
+  validate?: ValidateSettings;
 }
 export interface ComplexityOptions {
   complexity?: Complexity;
