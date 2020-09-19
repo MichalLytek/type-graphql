@@ -25,6 +25,7 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
   - [Scoped containers](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container)
 - [Authorization](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization)
 - [Validation](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation)
+  - [Custom validation](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation)
 - [Types inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
 - [Resolvers inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance)
 - [Generic types](https://github.com/MichalLytek/type-graphql/tree/master/examples/generic-types)

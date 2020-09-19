@@ -25,6 +25,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
   - [Scoped containers](./using-scoped-container)
 - [Authorization](./authorization)
 - [Validation](./automatic-validation)
+  - [Custom validation](./custom-validation)
 - [Types inheritance](./interfaces-inheritance)
 - [Resolvers inheritance](./resolvers-inheritance)
 - [Generic types](./generic-types)

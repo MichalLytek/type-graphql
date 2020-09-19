@@ -63,6 +63,7 @@
     "husky": "^4.2.5",
     "ioredis": "^4.17.3",
     "jest": "^26.4.0",
+    "joiful": "^2.0.1",
     "lint-staged": "^10.2.11",
     "mikro-orm": "^3.6.15",
     "mongoose": "^5.10.0",
