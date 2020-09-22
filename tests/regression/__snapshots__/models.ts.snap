@@ -130,6 +130,39 @@ export class User {
 "
 `;
 
+exports[`models should properly generate object type class for prisma model with omitted field: User 1`] = `
+"import * as TypeGraphQL from \\"type-graphql\\";
+import GraphQLJSON from \\"graphql-type-json\\";
+import { JsonValue, InputJsonValue } from \\"../../../helpers/prisma-client-mock\\";
+
+@TypeGraphQL.ObjectType({
+  isAbstract: true,
+  description: undefined,
+})
+export class User {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false,
+    description: undefined,
+  })
+  id!: number;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false,
+    description: undefined,
+  })
+  dateOfBirth!: Date;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false,
+    description: undefined,
+  })
+  name!: string;
+
+  balance?: number | null;
+}
+"
+`;
+
 exports[`models should properly generate object type class for prisma model with renamed fields: User 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";

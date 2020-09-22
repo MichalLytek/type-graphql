@@ -71,7 +71,7 @@ describe("outputs", () => {
         url      = env("DATABASE_URL")
       }
 
-      /// @@TypeGraphQL.type("Example")
+      /// @@TypeGraphQL.type(name: "Example")
       model Sample {
         intIdField    Int       @id @default(autoincrement())
         stringField   String

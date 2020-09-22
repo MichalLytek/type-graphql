@@ -122,7 +122,7 @@ describe("enums", () => {
         provider = "postgresql"
         url      = env("DATABASE_URL")
       }
-      /// @@TypeGraphQL.type("ExampleModel")
+      /// @@TypeGraphQL.type(name: "ExampleModel")
       model SampleModel {
         intIdField   Int     @id @default(autoincrement())
         stringField  String  @unique
@@ -150,7 +150,7 @@ describe("enums", () => {
       }
       model SampleModel {
         intIdField   Int     @id @default(autoincrement())
-        /// @TypeGraphQL.field("mappedFieldName")
+        /// @TypeGraphQL.field(name: "mappedFieldName")
         stringField  String  @unique
         intField     Int
       }

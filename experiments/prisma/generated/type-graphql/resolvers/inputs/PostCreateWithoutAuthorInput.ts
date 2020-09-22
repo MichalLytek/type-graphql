@@ -39,6 +39,12 @@ export class PostCreateWithoutAuthorInput {
   title!: string;
 
   @TypeGraphQL.Field(_type => String, {
+    nullable: false,
+    description: undefined
+  })
+  subtitle!: string;
+
+  @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined
   })

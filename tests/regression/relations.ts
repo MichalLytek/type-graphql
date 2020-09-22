@@ -189,13 +189,13 @@ describe("relations resolvers generation", () => {
 
       model User {
         id     Int    @id @default(autoincrement())
-        /// @TypeGraphQL.field("userPosts")
+        /// @TypeGraphQL.field(name: "userPosts")
         posts  Post[]
       }
       model Post {
         uuid      String  @id @default(cuid())
         /// author field doc
-        /// @TypeGraphQL.field("postAuthor")
+        /// @TypeGraphQL.field(name: "postAuthor")
         author    User?   @relation(fields: [authorId], references: [id])
         authorId  Int?
       }

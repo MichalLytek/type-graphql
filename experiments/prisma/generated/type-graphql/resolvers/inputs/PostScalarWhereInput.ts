@@ -62,6 +62,12 @@ export class PostScalarWhereInput {
   })
   title?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true,
+    description: undefined
+  })
+  subtitle?: StringFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true,
     description: undefined

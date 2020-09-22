@@ -36,15 +36,14 @@ export function transformMappings(
 }
 
 export function transformBareModel(model: PrismaDMMF.Model): DMMF.Model {
-  const attributeArgs = parseDocumentationAttributes(
+  const attributeArgs = parseDocumentationAttributes<{ name: string }>(
     model.documentation,
     "type",
     "model",
   );
-  const typeName = attributeArgs?.slice(1, -1);
   return {
     ...model,
-    typeName: typeName ?? pascalCase(model.name),
+    typeName: attributeArgs.name ?? pascalCase(model.name),
     fields: [],
     docs: cleanDocsString(model.documentation),
   };
@@ -61,20 +60,24 @@ export function transformModelWithFields(dmmfDocument: DmmfDocument) {
 
 function transformField(dmmfDocument: DmmfDocument) {
   return (field: PrismaDMMF.Field): DMMF.Field => {
-    const attributeArgs = parseDocumentationAttributes(
+    const attributeArgs = parseDocumentationAttributes<{ name: string }>(
       field.documentation,
       "field",
       "field",
     );
-    const typeFieldAlias = attributeArgs?.slice(1, -1);
     const fieldTSType = getFieldTSType(field, dmmfDocument, false);
     const typeGraphQLType = getTypeGraphQLType(field, dmmfDocument);
+    const { output = false, input = false } = parseDocumentationAttributes<{
+      output: boolean;
+      input: boolean;
+    }>(field.documentation, "omit", "field");
     return {
       ...field,
-      typeFieldAlias,
+      typeFieldAlias: attributeArgs.name,
       fieldTSType,
       typeGraphQLType,
       docs: cleanDocsString(field.documentation),
+      isOmitted: { output, input },
     };
   };
 }

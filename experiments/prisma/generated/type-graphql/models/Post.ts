@@ -39,6 +39,8 @@ export class Post {
   })
   title!: string;
 
+  subtitle?: string;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true,
     description: undefined,

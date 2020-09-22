@@ -218,7 +218,7 @@ describe("crud", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type(name: "Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique
@@ -245,7 +245,7 @@ describe("crud", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type(name: "Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique
@@ -309,7 +309,7 @@ describe("crud", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("Client")
+        /// @@TypeGraphQL.type(name: "Client")
         model User {
           intIdField          Int     @id @default(autoincrement())
           uniqueStringField   String  @unique

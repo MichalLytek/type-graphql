@@ -512,7 +512,7 @@ describe("inputs", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("Example")
+        /// @@TypeGraphQL.type(name: "Example")
         model SampleModel {
           intIdField    Int       @id @default(autoincrement())
           stringField   String    @unique
@@ -556,14 +556,14 @@ describe("inputs", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("RenamedFirstModel")
+        /// @@TypeGraphQL.type(name: "RenamedFirstModel")
         model FirstModel {
           idField            Int            @id @default(autoincrement())
           uniqueStringField  String         @unique
           floatField         Float
           secondModelsField  SecondModel[]
         }
-        /// @@TypeGraphQL.type("RenamedSecondModel")
+        /// @@TypeGraphQL.type(name: "RenamedSecondModel")
         model SecondModel {
           idField            Int           @id @default(autoincrement())
           uniqueStringField  String        @unique
@@ -609,14 +609,14 @@ describe("inputs", () => {
           url      = env("DATABASE_URL")
         }
 
-        /// @@TypeGraphQL.type("RenamedFirstModel")
+        /// @@TypeGraphQL.type(name: "RenamedFirstModel")
         model FirstModel {
           idField            Int            @id @default(autoincrement())
           uniqueStringField  String         @unique
           floatField         Float
           secondModelsField  SecondModel[]
         }
-        /// @@TypeGraphQL.type("RenamedSecondModel")
+        /// @@TypeGraphQL.type(name: "RenamedSecondModel")
         model SecondModel {
           idField            Int          @id @default(autoincrement())
           uniqueStringField  String       @unique
@@ -696,7 +696,7 @@ describe("inputs", () => {
 
       model Sample {
         idField         Int     @id @default(autoincrement())
-        /// @TypeGraphQL.field("mappedFieldName")
+        /// @TypeGraphQL.field(name: "mappedFieldName")
         modelFieldName  String
       }
     `;

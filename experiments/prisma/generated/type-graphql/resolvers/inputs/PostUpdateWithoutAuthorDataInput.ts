@@ -42,6 +42,12 @@ export class PostUpdateWithoutAuthorDataInput {
   })
   title?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true,
+    description: undefined
+  })
+  subtitle?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined

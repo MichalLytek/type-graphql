@@ -480,6 +480,7 @@ export declare const PostDistinctFieldEnum: {
   updatedAt: 'updatedAt',
   published: 'published',
   title: 'title',
+  subtitle: 'subtitle',
   content: 'content',
   authorId: 'authorId',
   kind: 'kind',
@@ -1089,6 +1090,7 @@ export type post = {
   updatedAt: Date
   published: boolean
   title: string
+  subtitle: string
   content: string | null
   authorId: number
   kind: PostKind | null
@@ -1167,6 +1169,7 @@ export type postSelect = {
   updatedAt?: boolean
   published?: boolean
   title?: boolean
+  subtitle?: boolean
   content?: boolean
   author?: boolean | UserArgs
   authorId?: boolean
@@ -4320,6 +4323,7 @@ export type postWhereInput = {
   updatedAt?: Date | string | DateTimeFilter
   published?: boolean | BoolFilter
   title?: string | StringFilter
+  subtitle?: string | StringFilter
   content?: string | StringNullableFilter | null
   author?: UserWhereInput | null
   authorId?: number | IntFilter
@@ -4333,6 +4337,7 @@ export type postOrderByInput = {
   updatedAt?: SortOrder
   published?: SortOrder
   title?: SortOrder
+  subtitle?: SortOrder
   content?: SortOrder
   authorId?: SortOrder
   kind?: SortOrder
@@ -4494,6 +4499,7 @@ export type postCreateInput = {
   updatedAt?: Date | string
   published: boolean
   title: string
+  subtitle: string
   content?: string | null
   kind?: PostKind | null
   metadata: InputJsonValue
@@ -4506,6 +4512,7 @@ export type postUpdateInput = {
   updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
   published?: boolean | BoolFieldUpdateOperationsInput
   title?: string | StringFieldUpdateOperationsInput
+  subtitle?: string | StringFieldUpdateOperationsInput
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
@@ -4518,6 +4525,7 @@ export type postUpdateManyMutationInput = {
   updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
   published?: boolean | BoolFieldUpdateOperationsInput
   title?: string | StringFieldUpdateOperationsInput
+  subtitle?: string | StringFieldUpdateOperationsInput
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
@@ -5058,6 +5066,7 @@ export type postCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   published: boolean
   title: string
+  subtitle: string
   content?: string | null
   kind?: PostKind | null
   metadata: InputJsonValue
@@ -5087,6 +5096,7 @@ export type postScalarWhereInput = {
   updatedAt?: Date | string | DateTimeFilter
   published?: boolean | BoolFilter
   title?: string | StringFilter
+  subtitle?: string | StringFilter
   content?: string | StringNullableFilter | null
   authorId?: number | IntFilter
   kind?: PostKind | EnumPostKindNullableFilter | null
@@ -5287,6 +5297,7 @@ export type postUpdateWithoutAuthorDataInput = {
   updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
   published?: boolean | BoolFieldUpdateOperationsInput
   title?: string | StringFieldUpdateOperationsInput
+  subtitle?: string | StringFieldUpdateOperationsInput
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
@@ -5298,6 +5309,7 @@ export type postUpdateManyDataInput = {
   updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
   published?: boolean | BoolFieldUpdateOperationsInput
   title?: string | StringFieldUpdateOperationsInput
+  subtitle?: string | StringFieldUpdateOperationsInput
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue

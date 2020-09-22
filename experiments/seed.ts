@@ -22,6 +22,7 @@ async function main() {
         create: [
           {
             title: "Post title 1",
+            subtitle: "Post subtitle 2",
             content: "Content 1",
             kind: PostKind.BLOG,
             createdAt: new Date("2019-08-16"),
@@ -33,6 +34,7 @@ async function main() {
           },
           {
             title: "Post title 2",
+            subtitle: "Post subtitle 2",
             content: "Content 2",
             kind: PostKind.ADVERT,
             createdAt: new Date("2019-08-17"),
@@ -57,6 +59,7 @@ async function main() {
         create: [
           {
             title: "Post title 3",
+            subtitle: "Post subtitle 3",
             content: "Content 3",
             kind: PostKind.BLOG,
             createdAt: new Date("2019-08-16"),
@@ -68,6 +71,7 @@ async function main() {
           },
           {
             title: "Post title 4",
+            subtitle: "Post subtitle 4",
             content: "Content 4",
             kind: PostKind.ADVERT,
             createdAt: new Date("2019-08-17"),
@@ -78,6 +82,7 @@ async function main() {
           },
           {
             title: "Post title 5",
+            subtitle: "Post subtitle 5",
             content: "Content 5",
             kind: PostKind.BLOG,
             createdAt: new Date("2019-08-16"),

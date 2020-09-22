@@ -89,7 +89,7 @@ model User {
   name  String?
   posts Post[]
 }
-````
+```
 
 It will generate a `User` class in the output folder, with TypeGraphQL decorators, and an enum - you can import them and use normally as a type or an explicit type in your resolvers:
 
@@ -249,7 +249,7 @@ You can also change the name of the model types exposed in GraphQL Schema.
 To achieve this, just put the `@@TypeGraphQL.type` doc line above the model definition in `schema.prisma` file, e.g:
 
 ```prisma
-/// @@TypeGraphQL.type("Client")
+/// @@TypeGraphQL.type(name: "Client")
 model User {
   id     Int     @default(autoincrement()) @id
   email  String  @unique
@@ -273,7 +273,7 @@ To achieve this, just put the `@TypeGraphQL.field` doc line above the model fiel
 ```prisma
 model User {
   id     Int     @default(autoincrement()) @id
-  /// @TypeGraphQL.field("emailAddress")
+  /// @TypeGraphQL.field(name: "emailAddress")
   email  String  @unique
   posts  Post[]
 }
@@ -301,6 +301,43 @@ input UserCreateInput {
 ```
 
 The emitted input type classes automatically map the provided renamed field values from GraphQL query into proper Prisma input properties out of the box.
+
+#### Hiding Prisma model field in GraphQL schema
+
+Sometimes you may want to not expose some fields in GraphQL schema.
+To achieve this, just put the `@TypeGraphQL.omit` doc line above the model field definition in `schema.prisma` file, e.g:
+
+```prisma
+model User {
+  id        Int     @default(autoincrement()) @id
+  email     String  @unique
+  /// @TypeGraphQL.omit(output: true)
+  password  String
+  posts     Post[]
+}
+```
+
+Thanks to that, the field won't show up in the GraphQL schema representation:
+
+```graphql
+type User {
+  id: Int!
+  email: String!
+  posts: [Post!]!
+}
+```
+
+However, the prisma model field will be still visible in all input types, like `UserWhereInput` or `UserCreateInput`:
+
+```graphql
+input UserCreateInput {
+  email: String!
+  password: String!
+  posts: PostCreateManyWithoutAuthorInput!
+}
+```
+
+This behavior is temporary and will be improved soon by introducing `input: true` option to `@TypeGraphQL.omit`.
 
 ## Examples
 

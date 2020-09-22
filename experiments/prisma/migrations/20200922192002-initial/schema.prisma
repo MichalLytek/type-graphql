@@ -27,20 +27,20 @@ enum Role {
 
 // User model comment
 /// User model doc
-/// @@TypeGraphQL.type("Client")
+/// @@TypeGraphQL.type(name: "Client")
 model User {
   // User model field comment
   /// User model field doc
   id      Int     @default(autoincrement()) @id
   email   String  @unique
   /// renamed field doc
-  /// @TypeGraphQL.field("firstName")
+  /// @TypeGraphQL.field(name: "firstName")
   name    String?
   age     Int
-  /// @TypeGraphQL.field("accountBalance")
+  /// @TypeGraphQL.field(name: "accountBalance")
   balance Numeric
   amount  Float
-  /// @TypeGraphQL.field("clientPosts")
+  /// @TypeGraphQL.field(name: "clientPosts")
   posts   post[]
   role    Role
 }
@@ -56,6 +56,8 @@ model post {
   updatedAt DateTime  @updatedAt
   published Boolean
   title     String
+  /// @TypeGraphQL.omit(output: true)
+  subtitle  String
   content   String?
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int

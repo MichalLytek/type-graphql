@@ -80,7 +80,7 @@
             "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "renamed field doc\n@TypeGraphQL.field(\"firstName\")"
+            "documentation": "renamed field doc\n@TypeGraphQL.field(name: \"firstName\")"
           },
           {
             "name": "age",
@@ -107,7 +107,7 @@
             "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "@TypeGraphQL.field(\"accountBalance\")"
+            "documentation": "@TypeGraphQL.field(name: \"accountBalance\")"
           },
           {
             "name": "amount",
@@ -138,7 +138,7 @@
             "relationOnDelete": "NONE",
             "isGenerated": false,
             "isUpdatedAt": false,
-            "documentation": "@TypeGraphQL.field(\"clientPosts\")"
+            "documentation": "@TypeGraphQL.field(name: \"clientPosts\")"
           },
           {
             "name": "role",
@@ -155,7 +155,7 @@
           }
         ],
         "isGenerated": false,
-        "documentation": "User model doc\n@@TypeGraphQL.type(\"Client\")",
+        "documentation": "User model doc\n@@TypeGraphQL.type(name: \"Client\")",
         "idFields": [],
         "uniqueFields": [],
         "uniqueIndexes": []
@@ -237,6 +237,20 @@
             "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
+          },
+          {
+            "name": "subtitle",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "String",
+            "hasDefaultValue": false,
+            "isGenerated": false,
+            "isUpdatedAt": false,
+            "documentation": "@TypeGraphQL.omit(output: true)"
           },
           {
             "name": "content",
@@ -1047,6 +1061,16 @@
             }
           },
           {
+            "name": "subtitle",
+            "inputType": {
+              "type": "StringFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "inputType": {
               "type": "StringNullableFilter",
@@ -1144,6 +1168,16 @@
           },
           {
             "name": "title",
+            "inputType": {
+              "type": "SortOrder",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
             "inputType": {
               "type": "SortOrder",
               "kind": "enum",
@@ -2211,6 +2245,16 @@
             }
           },
           {
+            "name": "subtitle",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "inputType": {
               "type": "String",
@@ -2307,6 +2351,16 @@
             }
           },
           {
+            "name": "subtitle",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "inputType": {
               "type": "NullableStringFieldUpdateOperationsInput",
@@ -2394,6 +2448,16 @@
           },
           {
             "name": "title",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
             "inputType": {
               "type": "StringFieldUpdateOperationsInput",
               "kind": "object",
@@ -5867,6 +5931,16 @@
             }
           },
           {
+            "name": "subtitle",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "inputType": {
               "type": "String",
@@ -6052,6 +6126,16 @@
           },
           {
             "name": "title",
+            "inputType": {
+              "type": "StringFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
             "inputType": {
               "type": "StringFilter",
               "kind": "object",
@@ -7245,6 +7329,16 @@
             }
           },
           {
+            "name": "subtitle",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "inputType": {
               "type": "NullableStringFieldUpdateOperationsInput",
@@ -7322,6 +7416,16 @@
           },
           {
             "name": "title",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
             "inputType": {
               "type": "StringFieldUpdateOperationsInput",
               "kind": "object",
@@ -10557,6 +10661,17 @@
             }
           },
           {
+            "name": "subtitle",
+            "args": [],
+            "outputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "content",
             "args": [],
             "outputType": {
@@ -11951,6 +12066,7 @@
           "updatedAt",
           "published",
           "title",
+          "subtitle",
           "content",
           "authorId",
           "kind",

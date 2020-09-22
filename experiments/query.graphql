@@ -29,7 +29,7 @@ mutation AddClient {
     data: {
       age: 50
       amount: 123
-      accountBalance: 0
+      accountBalance: 50
       email: "test3@test3.test3"
       firstName: "Test"
       role: USER
@@ -192,6 +192,7 @@ mutation ConnectOrCreateExample {
   createPost(
     data: {
       title: "Test"
+      subtitle: "Test test"
       metadata: {}
       published: true
       author: {
