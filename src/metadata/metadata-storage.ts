@@ -331,7 +331,8 @@ export class MetadataStorage {
     return storedExtensions
       .filter(
         entry =>
-          entry.target === target && (!("fieldName" in entry) || entry.fieldName === fieldName),
+          (entry.target === target || entry.target.isPrototypeOf(target)) &&
+          (!("fieldName" in entry) || entry.fieldName === fieldName),
       )
       .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
   }

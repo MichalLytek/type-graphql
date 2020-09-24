@@ -1,7 +1,6 @@
 import {
   GraphQLInputObjectType,
   GraphQLInputFieldConfigMap,
-  GraphQLInputFieldConfig,
   GraphQLObjectType,
   GraphQLInterfaceType,
   GraphQLFieldConfigMap,
@@ -41,6 +40,7 @@ export function getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQL
         resolve: superField.resolve,
         description: superField.description,
         deprecationReason: superField.deprecationReason,
+        extensions: superField.extensions,
       };
       return fieldsMap;
     },

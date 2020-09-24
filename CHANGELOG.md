@@ -7,6 +7,7 @@
 ### Fixes
 - don't include in schema the fields declared as `@FieldResolver` when that resolvers classes aren't provided in `resolvers` array
 - fix grammar in `CannotDetermineGraphQLTypeError` error message
+- properly inherit extensions from parent class and its fields
 
 ## v1.0.0
 ### Features

@@ -264,5 +264,62 @@ describe("Extensions", () => {
         expect(fields.fieldResolverWithExtensions.extensions).toEqual({ some: "extension" });
       });
     });
+
+    describe("Inheritance", () => {
+      beforeAll(async () => {
+        getMetadataStorage().clear();
+
+        @ObjectType()
+        @Extensions({ parentClass: true })
+        class Parent {
+          @Field()
+          @Extensions({ parentField: true })
+          parentField!: string;
+        }
+        @Extensions({ childClass: true })
+        @ObjectType()
+        class Child extends Parent {
+          @Field()
+          @Extensions({ childField: true })
+          childField!: string;
+        }
+        @Resolver()
+        class SampleResolver {
+          @Query()
+          sampleQuery(): Child {
+            return {} as Child;
+          }
+        }
+
+        schema = await buildSchema({
+          resolvers: [SampleResolver],
+          orphanedTypes: [Parent],
+        });
+      });
+
+      it("should inherit object type extensions from parent object type class", () => {
+        const childObjectType = schema.getType("Child") as GraphQLObjectType;
+
+        expect(childObjectType.extensions).toEqual({
+          parentClass: true,
+          childClass: true,
+        });
+      });
+
+      it("should not get object type extensions from child object type class", () => {
+        const parentObjectType = schema.getType("Parent") as GraphQLObjectType;
+
+        expect(parentObjectType.extensions).toEqual({
+          parentClass: true,
+        });
+      });
+
+      it("should inherit object type field extensions from parent object type field", () => {
+        const childObjectType = schema.getType("Child") as GraphQLObjectType;
+        const childObjectTypeParentField = childObjectType.getFields().parentField;
+
+        expect(childObjectTypeParentField.extensions).toEqual({ parentField: true });
+      });
+    });
   });
 });
