@@ -8,7 +8,7 @@ export class FindOneUserResolver {
     nullable: true,
     description: undefined
   })
-  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null | undefined> {
+  async user(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneUserArgs): Promise<User | null> {
     return ctx.prisma.user.findOne(args);
   }
 }

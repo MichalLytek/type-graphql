@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
+import { JsonValue, InputJsonValue } from "@prisma/client";
 import { UserCreateWithoutPostsInput } from "../inputs/UserCreateWithoutPostsInput";
 import { UserUpdateWithoutPostsDataInput } from "../inputs/UserUpdateWithoutPostsDataInput";
 

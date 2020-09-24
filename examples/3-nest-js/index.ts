@@ -53,6 +53,8 @@ async function main() {
     imports: [
       // use the TypeGraphQLModule to expose Prisma by GraphQL
       TypeGraphQLModule.forRoot({
+        playground: true,
+        introspection: true,
         path: "/",
         emitSchemaFile: path.resolve(__dirname, "./generated-schema.graphql"),
         validate: false,

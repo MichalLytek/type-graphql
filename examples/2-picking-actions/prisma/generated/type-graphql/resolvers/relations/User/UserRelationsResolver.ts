@@ -9,7 +9,7 @@ export class UserRelationsResolver {
     nullable: true,
     description: undefined,
   })
-  async posts(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserPostsArgs): Promise<Post[] | null | undefined> {
+  async posts(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserPostsArgs): Promise<Post[] | null> {
     return ctx.prisma.user.findOne({
       where: {
         id: user.id,

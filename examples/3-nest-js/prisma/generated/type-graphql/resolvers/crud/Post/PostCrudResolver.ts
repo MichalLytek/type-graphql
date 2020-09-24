@@ -1,4 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
+import graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
+import { AggregatePostArgs } from "./args/AggregatePostArgs";
 import { CreatePostArgs } from "./args/CreatePostArgs";
 import { DeleteManyPostArgs } from "./args/DeleteManyPostArgs";
 import { DeletePostArgs } from "./args/DeletePostArgs";
@@ -17,7 +20,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async post(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePostArgs): Promise<Post | null | undefined> {
+  async post(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.prisma.post.findOne(args);
   }
 
@@ -41,7 +44,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | null | undefined> {
+  async deletePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: DeletePostArgs): Promise<Post | null> {
     return ctx.prisma.post.delete(args);
   }
 
@@ -49,7 +52,7 @@ export class PostCrudResolver {
     nullable: true,
     description: undefined
   })
-  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | null | undefined> {
+  async updatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UpdatePostArgs): Promise<Post | null> {
     return ctx.prisma.post.update(args);
   }
 
@@ -81,7 +84,23 @@ export class PostCrudResolver {
     nullable: false,
     description: undefined
   })
-  async aggregatePost(): Promise<AggregatePost> {
-    return new AggregatePost();
+  async aggregatePost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregatePostArgs): Promise<AggregatePost> {
+    function transformFields(fields: Record<string, any>): Record<string, any> {
+      return Object.fromEntries(
+        Object.entries(fields)
+          .filter(([key, value]) => !key.startsWith("_"))
+          .map<[string, any]>(([key, value]) => {
+            if (Object.keys(value).length === 0) {
+              return [key, true];
+            }
+            return [key, transformFields(value)];
+          }),
+      );
+    }
+
+    return ctx.prisma.post.aggregate({
+      ...args,
+      ...transformFields(graphqlFields(info as any)),
+    });
   }
 }

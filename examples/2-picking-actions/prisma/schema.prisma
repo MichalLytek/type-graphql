@@ -8,7 +8,7 @@ generator client {
 }
 
 generator typegraphql {
-  provider = "node node_modules/typegraphql-prisma/generator.js"
+  provider = "typegraphql-prisma"
   output   = "../prisma/generated/type-graphql"
 }
 
