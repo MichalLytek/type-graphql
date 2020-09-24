@@ -1,15 +1,4 @@
-import {
-  Resolver,
-  Query,
-  FieldResolver,
-  Arg,
-  Root,
-  Mutation,
-  Float,
-  Int,
-  ResolverInterface,
-} from "../../src";
-import { plainToClass } from "class-transformer";
+import { Resolver, Query, Arg } from "../../src";
 
 import { Recipe } from "./recipe-type";
 import { createRecipeSamples } from "./recipe-samples";

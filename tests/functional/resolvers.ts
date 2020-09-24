@@ -19,7 +19,6 @@ import {
   GraphQLError,
 } from "graphql";
 import * as path from "path";
-import { plainToClass } from "class-transformer";
 import { fieldExtensionsEstimator, simpleEstimator } from "graphql-query-complexity";
 import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
 

@@ -1,5 +1,3 @@
-import { plainToClass } from "class-transformer";
-
 import { Recipe } from "./recipe-type";
 
 export const sampleRecipes = [
@@ -23,5 +21,5 @@ export const sampleRecipes = [
 ];
 
 function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return plainToClass(Recipe, recipeData);
+  return Object.assign(new Recipe(), recipeData);
 }

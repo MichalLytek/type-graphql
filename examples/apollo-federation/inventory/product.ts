@@ -1,7 +1,6 @@
 import { ObjectType, Directive, Field } from "../../../src";
 
 import { inventory } from "./data";
-import { plainToClass } from "class-transformer";
 
 @ObjectType()
 @Directive("@extends")
@@ -32,7 +31,7 @@ export async function resolveProductReference(
     return;
   }
 
-  return plainToClass(Product, {
+  return Object.assign(new Product(), {
     ...reference,
     ...found,
   });

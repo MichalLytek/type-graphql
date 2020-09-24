@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Arg, Extensions } from "../../src";
+import { Resolver, Query, Mutation, Arg } from "../../src";
 
 import { LogMessage } from "./log-message.decorator";
 import { Recipe } from "./recipe.type";
-import { createRecipe, sampleRecipes } from "./helpers/recipe";
+import { sampleRecipes } from "./helpers/recipe";
 
 @Resolver()
 export class ExampleResolver {
@@ -18,7 +18,7 @@ export class ExampleResolver {
     @Arg("title") title: string,
     @Arg("description", { nullable: true }) description?: string,
   ): Recipe {
-    const newRecipe = createRecipe({
+    const newRecipe = Object.assign(new Recipe(), {
       title,
       description,
       ratings: [],

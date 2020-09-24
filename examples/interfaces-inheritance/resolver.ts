@@ -1,5 +1,4 @@
 import { Resolver, Query, Arg, Mutation } from "../../src";
-import { plainToClass } from "class-transformer";
 
 import { getId, calculateAge } from "./helpers";
 import { Student } from "./student/student.type";
@@ -22,7 +21,7 @@ export class MultiResolver {
   @Mutation()
   addStudent(@Arg("input") input: StudentInput): Student {
     // be sure to create real instances of classes
-    const student = plainToClass(Student, {
+    const student = Object.assign(new Student(), {
       id: getId(),
       name: input.name,
       universityName: input.universityName,
@@ -34,7 +33,7 @@ export class MultiResolver {
 
   @Mutation()
   addEmployee(@Arg("input") input: EmployeeInput): Employee {
-    const employee = plainToClass(Employee, {
+    const employee = Object.assign(new Employee(), {
       id: getId(),
       name: input.name,
       companyName: input.companyName,

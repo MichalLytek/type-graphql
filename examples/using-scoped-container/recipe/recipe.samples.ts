@@ -1,4 +1,3 @@
-import { plainToClass } from "class-transformer";
 import Container from "typedi";
 
 import { Recipe } from "./recipe.type";
@@ -24,7 +23,7 @@ export const sampleRecipes = [
 ];
 
 function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return plainToClass(Recipe, recipeData);
+  return Object.assign(new Recipe(), recipeData);
 }
 
 export function setSamplesInContainer() {

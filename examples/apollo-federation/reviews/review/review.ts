@@ -1,4 +1,3 @@
-import { Type } from "class-transformer";
 import { Directive, ObjectType, Field, ID } from "../../../../src";
 
 import User from "../user/user";
@@ -13,12 +12,10 @@ export default class Review {
   @Field()
   body: string;
 
-  @Type(() => User)
   @Directive(`@provides(fields: "username")`)
   @Field()
   author: User;
 
-  @Type(() => Product)
   @Field()
   product: Product;
 }

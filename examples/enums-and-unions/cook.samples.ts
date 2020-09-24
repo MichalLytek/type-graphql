@@ -1,5 +1,3 @@
-import { plainToClass } from "class-transformer";
-
 import { Cook } from "./cook.type";
 
 export const sampleCooks = [
@@ -14,5 +12,5 @@ export const sampleCooks = [
 ];
 
 function createCook(cookData: Partial<Cook>): Cook {
-  return plainToClass(Cook, cookData);
+  return Object.assign(new Cook(), cookData);
 }

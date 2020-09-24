@@ -5,11 +5,9 @@ import {
   Arg,
   Root,
   Mutation,
-  Float,
   Int,
   ResolverInterface,
 } from "../../src";
-import { plainToClass } from "class-transformer";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
@@ -31,7 +29,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
 
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("recipe") recipeInput: RecipeInput): Promise<Recipe> {
-    const recipe = plainToClass(Recipe, {
+    const recipe = Object.assign(new Recipe(), {
       description: recipeInput.description,
       title: recipeInput.title,
       ratings: [],

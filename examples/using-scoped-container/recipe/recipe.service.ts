@@ -1,5 +1,4 @@
 import { Service, Inject } from "typedi";
-import { plainToClass } from "class-transformer";
 
 import { Recipe } from "./recipe.type";
 import { RecipeInput } from "./recipe.input";
@@ -29,7 +28,7 @@ export class RecipeService {
   }
 
   private createRecipe(recipeData: Partial<Recipe>): Recipe {
-    const recipe = plainToClass(Recipe, {
+    const recipe = Object.assign(new Recipe(), {
       ...recipeData,
       id: this.getId(),
     });
