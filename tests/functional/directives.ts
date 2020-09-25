@@ -227,6 +227,7 @@ describe("Directives", () => {
 
       schema = await buildSchema({
         resolvers: [SampleResolver, SampleObjectTypeResolver, SubSampleResolver],
+        validate: false,
       });
 
       SchemaDirectiveVisitor.visitSchemaDirectives(schema, {

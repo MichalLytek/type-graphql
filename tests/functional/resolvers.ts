@@ -1451,6 +1451,7 @@ describe("Resolvers", () => {
 
       schema = await buildSchema({
         resolvers: [SampleResolver],
+        validate: false,
       });
     });
 
@@ -1938,6 +1939,7 @@ describe("Resolvers", () => {
 
       const schema = buildSchemaSync({
         resolvers: [SampleResolver],
+        validate: false,
       });
       const query = `
         query {
@@ -2016,7 +2018,10 @@ describe("Resolvers", () => {
           }
         }
       `;
-      const schema = await buildSchema({ resolvers: [SampleResolver] });
+      const schema = await buildSchema({
+        resolvers: [SampleResolver],
+        validate: false,
+      });
 
       const result = await graphql(schema, query);
 

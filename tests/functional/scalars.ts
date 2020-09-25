@@ -318,6 +318,7 @@ describe("Scalars", () => {
         localSchema = await buildSchema({
           resolvers: [sampleResolver],
           dateScalarMode: "isoDate",
+          validate: false,
         });
       });
 
@@ -485,6 +486,7 @@ describe("Scalars", () => {
         localSchema = await buildSchema({
           resolvers: [sampleResolver],
           dateScalarMode: "timestamp",
+          validate: false,
         });
       });
 
