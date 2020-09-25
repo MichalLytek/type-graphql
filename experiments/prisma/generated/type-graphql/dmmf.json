@@ -132,7 +132,7 @@
             "isReadOnly": false,
             "type": "post",
             "hasDefaultValue": false,
-            "relationName": "UserTopost",
+            "relationName": "posts",
             "relationFromFields": [],
             "relationToFields": [],
             "relationOnDelete": "NONE",
@@ -152,6 +152,24 @@
             "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
+          },
+          {
+            "name": "editorPosts",
+            "kind": "object",
+            "isList": true,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "post",
+            "hasDefaultValue": false,
+            "relationName": "editorPosts",
+            "relationFromFields": [],
+            "relationToFields": [],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false,
+            "documentation": "@TypeGraphQL.omit(output: true)"
           }
         ],
         "isGenerated": false,
@@ -275,7 +293,7 @@
             "isReadOnly": false,
             "type": "User",
             "hasDefaultValue": false,
-            "relationName": "UserTopost",
+            "relationName": "posts",
             "relationFromFields": [
               "authorId"
             ],
@@ -298,6 +316,42 @@
             "hasDefaultValue": false,
             "isGenerated": false,
             "isUpdatedAt": false
+          },
+          {
+            "name": "editor",
+            "kind": "object",
+            "isList": false,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": false,
+            "type": "User",
+            "hasDefaultValue": false,
+            "relationName": "editorPosts",
+            "relationFromFields": [
+              "editorId"
+            ],
+            "relationToFields": [
+              "id"
+            ],
+            "relationOnDelete": "NONE",
+            "isGenerated": false,
+            "isUpdatedAt": false,
+            "documentation": "@TypeGraphQL.omit(output: true)"
+          },
+          {
+            "name": "editorId",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": false,
+            "isUnique": false,
+            "isId": false,
+            "isReadOnly": true,
+            "type": "Int",
+            "hasDefaultValue": false,
+            "isGenerated": false,
+            "isUpdatedAt": false,
+            "documentation": "@TypeGraphQL.omit(output: true)"
           },
           {
             "name": "kind",
@@ -871,6 +925,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorPosts",
+            "inputType": {
+              "type": "PostListRelationFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -1101,6 +1165,26 @@
             }
           },
           {
+            "name": "editor",
+            "inputType": {
+              "type": "UserRelationFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorId",
+            "inputType": {
+              "type": "IntNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "kind",
             "inputType": {
               "type": "EnumPostKindNullableFilter",
@@ -1198,6 +1282,16 @@
           },
           {
             "name": "authorId",
+            "inputType": {
+              "type": "SortOrder",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorId",
             "inputType": {
               "type": "SortOrder",
               "kind": "enum",
@@ -2045,6 +2139,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorPosts",
+            "inputType": {
+              "type": "postCreateManyWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -2116,6 +2220,16 @@
             "name": "posts",
             "inputType": {
               "type": "postUpdateManyWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorPosts",
+            "inputType": {
+              "type": "postUpdateManyWithoutEditorInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -2293,6 +2407,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editor",
+            "inputType": {
+              "type": "UserCreateOneWithoutEditorPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -2394,6 +2518,16 @@
             "name": "author",
             "inputType": {
               "type": "UserUpdateOneRequiredWithoutPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editor",
+            "inputType": {
+              "type": "UserUpdateOneWithoutEditorPostsInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -3621,6 +3755,82 @@
         ]
       },
       {
+        "name": "IntNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "lte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gt",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "gte",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedIntNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          }
+        ]
+      },
+      {
         "name": "EnumPostKindNullableFilter",
         "isOneOf": false,
         "fields": [
@@ -3895,82 +4105,6 @@
         ]
       },
       {
-        "name": "IntNullableFilter",
-        "isOneOf": false,
-        "fields": [
-          {
-            "name": "equals",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "in",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "lt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "lte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "gt",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "gte",
-            "inputType": {
-              "type": "Int",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "not",
-            "inputType": {
-              "type": "NestedIntNullableFilter",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          }
-        ]
-      },
-      {
         "name": "ProblemListRelationFilter",
         "isOneOf": false,
         "fields": [
@@ -4014,6 +4148,42 @@
             "name": "create",
             "inputType": {
               "type": "postCreateWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connect",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": {
+              "type": "postCreateOrConnectWithoutUserInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "postCreateManyWithoutEditorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": {
+              "type": "postCreateWithoutEditorInput",
               "kind": "object",
               "isRequired": false,
               "isList": true,
@@ -4309,6 +4479,112 @@
         ]
       },
       {
+        "name": "postUpdateManyWithoutEditorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": {
+              "type": "postCreateWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connect",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "set",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "disconnect",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "delete",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "update",
+            "inputType": {
+              "type": "postUpdateWithWhereUniqueWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updateMany",
+            "inputType": {
+              "type": "postUpdateManyWithWhereNestedInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "deleteMany",
+            "inputType": {
+              "type": "postScalarWhereInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "upsert",
+            "inputType": {
+              "type": "postUpsertWithWhereUniqueWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": {
+              "type": "postCreateOrConnectWithoutUserInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
         "name": "UserCreateOneWithoutPostsInput",
         "isOneOf": false,
         "fields": [
@@ -4316,6 +4592,42 @@
             "name": "create",
             "inputType": {
               "type": "UserCreateWithoutPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connect",
+            "inputType": {
+              "type": "UserWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": {
+              "type": "UserCreateOrConnectWithoutpostInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserCreateOneWithoutEditorPostsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": {
+              "type": "UserCreateWithoutEditorPostsInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -4446,6 +4758,82 @@
             "name": "upsert",
             "inputType": {
               "type": "UserUpsertWithoutPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connectOrCreate",
+            "inputType": {
+              "type": "UserCreateOrConnectWithoutpostInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserUpdateOneWithoutEditorPostsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "create",
+            "inputType": {
+              "type": "UserCreateWithoutEditorPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "connect",
+            "inputType": {
+              "type": "UserWhereUniqueInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "disconnect",
+            "inputType": {
+              "type": "Boolean",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "delete",
+            "inputType": {
+              "type": "Boolean",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "update",
+            "inputType": {
+              "type": "UserUpdateWithoutEditorPostsDataInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "upsert",
+            "inputType": {
+              "type": "UserUpsertWithoutEditorPostsInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -5739,68 +6127,6 @@
         ]
       },
       {
-        "name": "NestedEnumPostKindNullableFilter",
-        "isOneOf": false,
-        "fields": [
-          {
-            "name": "equals",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "in",
-            "inputType": {
-              "type": "PostKind",
-              "kind": "enum",
-              "isRequired": false,
-              "isList": true,
-              "isNullable": true
-            }
-          },
-          {
-            "name": "not",
-            "inputType": {
-              "type": "NestedEnumPostKindNullableFilter",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          }
-        ]
-      },
-      {
-        "name": "NestedJsonFilter",
-        "isOneOf": false,
-        "fields": [
-          {
-            "name": "equals",
-            "inputType": {
-              "type": "Json",
-              "kind": "scalar",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": false
-            }
-          },
-          {
-            "name": "not",
-            "inputType": {
-              "type": "NestedJsonFilter",
-              "kind": "object",
-              "isRequired": false,
-              "isList": false,
-              "isNullable": true
-            }
-          }
-        ]
-      },
-      {
         "name": "NestedIntNullableFilter",
         "isOneOf": false,
         "fields": [
@@ -5868,6 +6194,68 @@
             "name": "not",
             "inputType": {
               "type": "NestedIntNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedEnumPostKindNullableFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "in",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedEnumPostKindNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "NestedJsonFilter",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "equals",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "not",
+            "inputType": {
+              "type": "NestedJsonFilter",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -5969,6 +6357,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editor",
+            "inputType": {
+              "type": "UserCreateOneWithoutEditorPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -5990,6 +6388,112 @@
             "name": "create",
             "inputType": {
               "type": "postCreateWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "postCreateWithoutEditorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "uuid",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "createdAt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updatedAt",
+            "inputType": {
+              "type": "DateTime",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "published",
+            "inputType": {
+              "type": "Boolean",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "title",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "content",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "kind",
+            "inputType": {
+              "type": "PostKind",
+              "kind": "enum",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "Json",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "author",
+            "inputType": {
+              "type": "UserCreateOneWithoutPostsInput",
               "kind": "object",
               "isRequired": true,
               "isList": false,
@@ -6165,6 +6669,16 @@
             }
           },
           {
+            "name": "editorId",
+            "inputType": {
+              "type": "IntNullableFilter",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
             "name": "kind",
             "inputType": {
               "type": "EnumPostKindNullableFilter",
@@ -6214,6 +6728,68 @@
             "name": "create",
             "inputType": {
               "type": "postCreateWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "postUpdateWithWhereUniqueWithoutEditorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "data",
+            "inputType": {
+              "type": "postUpdateWithoutEditorDataInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "postUpsertWithWhereUniqueWithoutEditorInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "where",
+            "inputType": {
+              "type": "postWhereUniqueInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "update",
+            "inputType": {
+              "type": "postUpdateWithoutEditorDataInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "create",
+            "inputType": {
+              "type": "postCreateWithoutEditorInput",
               "kind": "object",
               "isRequired": true,
               "isList": false,
@@ -6285,6 +6861,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorPosts",
+            "inputType": {
+              "type": "postCreateManyWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -6308,6 +6894,82 @@
               "type": "UserCreateWithoutPostsInput",
               "kind": "object",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserCreateWithoutEditorPostsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "email",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "name",
+            "inputType": {
+              "type": "String",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": true
+            }
+          },
+          {
+            "name": "age",
+            "inputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "inputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "role",
+            "inputType": {
+              "type": "Role",
+              "kind": "enum",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "posts",
+            "inputType": {
+              "type": "postCreateManyWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -6377,6 +7039,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorPosts",
+            "inputType": {
+              "type": "postUpdateManyWithoutEditorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -6398,6 +7070,108 @@
             "name": "create",
             "inputType": {
               "type": "UserCreateWithoutPostsInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserUpdateWithoutEditorPostsDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "email",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "name",
+            "inputType": {
+              "type": "NullableStringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "age",
+            "inputType": {
+              "type": "IntFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "balance",
+            "inputType": {
+              "type": "FloatFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "amount",
+            "inputType": {
+              "type": "FloatFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "role",
+            "inputType": {
+              "type": "EnumRoleFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "posts",
+            "inputType": {
+              "type": "postUpdateManyWithoutAuthorInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "UserUpsertWithoutEditorPostsInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "update",
+            "inputType": {
+              "type": "UserUpdateWithoutEditorPostsDataInput",
+              "kind": "object",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "create",
+            "inputType": {
+              "type": "UserCreateWithoutEditorPostsInput",
               "kind": "object",
               "isRequired": true,
               "isList": false,
@@ -7367,6 +8141,16 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editor",
+            "inputType": {
+              "type": "UserUpdateOneWithoutEditorPostsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -7458,6 +8242,112 @@
             "name": "metadata",
             "inputType": {
               "type": "JsonFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          }
+        ]
+      },
+      {
+        "name": "postUpdateWithoutEditorDataInput",
+        "isOneOf": false,
+        "fields": [
+          {
+            "name": "uuid",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "createdAt",
+            "inputType": {
+              "type": "DateTimeFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "updatedAt",
+            "inputType": {
+              "type": "DateTimeFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "published",
+            "inputType": {
+              "type": "BoolFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "title",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "subtitle",
+            "inputType": {
+              "type": "StringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "content",
+            "inputType": {
+              "type": "NullableStringFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "kind",
+            "inputType": {
+              "type": "NullableEnumPostKindFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "metadata",
+            "inputType": {
+              "type": "JsonFieldUpdateOperationsInput",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "author",
+            "inputType": {
+              "type": "UserUpdateOneRequiredWithoutPostsInput",
               "kind": "object",
               "isRequired": false,
               "isList": false,
@@ -10539,6 +11429,78 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorPosts",
+            "args": [
+              {
+                "name": "where",
+                "inputType": {
+                  "type": "postWhereInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "orderBy",
+                "inputType": {
+                  "type": "postOrderByInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "cursor",
+                "inputType": {
+                  "type": "postWhereUniqueInput",
+                  "kind": "object",
+                  "isRequired": false,
+                  "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "take",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "skip",
+                "inputType": {
+                  "type": "Int",
+                  "kind": "scalar",
+                  "isRequired": false,
+                  "isList": false,
+                  "isNullable": false
+                }
+              },
+              {
+                "name": "distinct",
+                "inputType": {
+                  "type": "PostDistinctFieldEnum",
+                  "kind": "enum",
+                  "isRequired": false,
+                  "isList": true,
+                  "isNullable": false
+                }
+              }
+            ],
+            "outputType": {
+              "type": "post",
+              "kind": "object",
+              "isRequired": false,
+              "isList": true,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -10700,6 +11662,28 @@
               "type": "Int",
               "kind": "scalar",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editor",
+            "args": [],
+            "outputType": {
+              "type": "User",
+              "kind": "object",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -11757,6 +12741,17 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorId",
+            "args": [],
+            "outputType": {
+              "type": "Float",
+              "kind": "scalar",
+              "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -11770,6 +12765,17 @@
               "type": "Int",
               "kind": "scalar",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -11789,6 +12795,17 @@
               "isList": false,
               "isNullable": false
             }
+          },
+          {
+            "name": "editorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
+              "isList": false,
+              "isNullable": false
+            }
           }
         ]
       },
@@ -11802,6 +12819,17 @@
               "type": "Int",
               "kind": "scalar",
               "isRequired": true,
+              "isList": false,
+              "isNullable": false
+            }
+          },
+          {
+            "name": "editorId",
+            "args": [],
+            "outputType": {
+              "type": "Int",
+              "kind": "scalar",
+              "isRequired": false,
               "isList": false,
               "isNullable": false
             }
@@ -12069,6 +13097,7 @@
           "subtitle",
           "content",
           "authorId",
+          "editorId",
           "kind",
           "metadata"
         ]

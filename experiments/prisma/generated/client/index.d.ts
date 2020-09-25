@@ -483,6 +483,7 @@ export declare const PostDistinctFieldEnum: {
   subtitle: 'subtitle',
   content: 'content',
   authorId: 'authorId',
+  editorId: 'editorId',
   kind: 'kind',
   metadata: 'metadata'
 };
@@ -680,10 +681,12 @@ export type UserSelect = {
   amount?: boolean
   posts?: boolean | FindManypostArgs
   role?: boolean
+  editorPosts?: boolean | FindManypostArgs
 }
 
 export type UserInclude = {
   posts?: boolean | FindManypostArgs
+  editorPosts?: boolean | FindManypostArgs
 }
 
 export type UserGetPayload<
@@ -698,6 +701,8 @@ export type UserGetPayload<
     ? User  & {
       [P in TrueKeys<S['include']>]:
       P extends 'posts'
+      ? Array<postGetPayload<S['include'][P]>> :
+      P extends 'editorPosts'
       ? Array<postGetPayload<S['include'][P]>> : never
     }
   : 'select' extends U
@@ -705,6 +710,8 @@ export type UserGetPayload<
       [P in TrueKeys<S['select']>]:P extends keyof User ? User[P]
 : 
       P extends 'posts'
+      ? Array<postGetPayload<S['select'][P]>> :
+      P extends 'editorPosts'
       ? Array<postGetPayload<S['select'][P]>> : never
     }
   : User
@@ -878,6 +885,8 @@ export declare class Prisma__UserClient<T> implements Promise<T> {
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
   posts<T extends FindManypostArgs = {}>(args?: Subset<T, FindManypostArgs>): CheckSelect<T, Promise<Array<post>>, Promise<Array<postGetPayload<T>>>>;
+
+  editorPosts<T extends FindManypostArgs = {}>(args?: Subset<T, FindManypostArgs>): CheckSelect<T, Promise<Array<post>>, Promise<Array<postGetPayload<T>>>>;
 
   private get _document();
   /**
@@ -1093,6 +1102,7 @@ export type post = {
   subtitle: string
   content: string | null
   authorId: number
+  editorId: number | null
   kind: PostKind | null
   metadata: JsonValue
 }
@@ -1108,35 +1118,43 @@ export type AggregatePost = {
 
 export type PostAvgAggregateOutputType = {
   authorId: number
+  editorId: number
 }
 
 export type PostSumAggregateOutputType = {
   authorId: number
+  editorId: number | null
 }
 
 export type PostMinAggregateOutputType = {
   authorId: number
+  editorId: number | null
 }
 
 export type PostMaxAggregateOutputType = {
   authorId: number
+  editorId: number | null
 }
 
 
 export type PostAvgAggregateInputType = {
   authorId?: true
+  editorId?: true
 }
 
 export type PostSumAggregateInputType = {
   authorId?: true
+  editorId?: true
 }
 
 export type PostMinAggregateInputType = {
   authorId?: true
+  editorId?: true
 }
 
 export type PostMaxAggregateInputType = {
   authorId?: true
+  editorId?: true
 }
 
 export type AggregatePostArgs = {
@@ -1173,12 +1191,15 @@ export type postSelect = {
   content?: boolean
   author?: boolean | UserArgs
   authorId?: boolean
+  editor?: boolean | UserArgs
+  editorId?: boolean
   kind?: boolean
   metadata?: boolean
 }
 
 export type postInclude = {
   author?: boolean | UserArgs
+  editor?: boolean | UserArgs
 }
 
 export type postGetPayload<
@@ -1193,14 +1214,18 @@ export type postGetPayload<
     ? post  & {
       [P in TrueKeys<S['include']>]:
       P extends 'author'
-      ? UserGetPayload<S['include'][P]> : never
+      ? UserGetPayload<S['include'][P]> :
+      P extends 'editor'
+      ? UserGetPayload<S['include'][P]> | null : never
     }
   : 'select' extends U
     ? {
       [P in TrueKeys<S['select']>]:P extends keyof post ? post[P]
 : 
       P extends 'author'
-      ? UserGetPayload<S['select'][P]> : never
+      ? UserGetPayload<S['select'][P]> :
+      P extends 'editor'
+      ? UserGetPayload<S['select'][P]> | null : never
     }
   : post
 : post
@@ -1373,6 +1398,8 @@ export declare class Prisma__postClient<T> implements Promise<T> {
   readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
   author<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null>, Prisma__UserClient<UserGetPayload<T> | null>>;
+
+  editor<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null>, Prisma__UserClient<UserGetPayload<T> | null>>;
 
   private get _document();
   /**
@@ -4297,6 +4324,7 @@ export type UserWhereInput = {
   amount?: number | FloatFilter
   posts?: PostListRelationFilter
   role?: Role | EnumRoleFilter
+  editorPosts?: PostListRelationFilter
 }
 
 export type UserOrderByInput = {
@@ -4327,6 +4355,8 @@ export type postWhereInput = {
   content?: string | StringNullableFilter | null
   author?: UserWhereInput | null
   authorId?: number | IntFilter
+  editor?: UserWhereInput | null
+  editorId?: number | IntNullableFilter | null
   kind?: PostKind | EnumPostKindNullableFilter | null
   metadata?: JsonFilter
 }
@@ -4340,6 +4370,7 @@ export type postOrderByInput = {
   subtitle?: SortOrder
   content?: SortOrder
   authorId?: SortOrder
+  editorId?: SortOrder
   kind?: SortOrder
   metadata?: SortOrder
 }
@@ -4472,6 +4503,7 @@ export type UserCreateInput = {
   amount: number
   role: Role
   posts?: postCreateManyWithoutAuthorInput
+  editorPosts?: postCreateManyWithoutEditorInput
 }
 
 export type UserUpdateInput = {
@@ -4482,6 +4514,7 @@ export type UserUpdateInput = {
   amount?: number | FloatFieldUpdateOperationsInput
   role?: Role | EnumRoleFieldUpdateOperationsInput
   posts?: postUpdateManyWithoutAuthorInput
+  editorPosts?: postUpdateManyWithoutEditorInput
 }
 
 export type UserUpdateManyMutationInput = {
@@ -4504,6 +4537,7 @@ export type postCreateInput = {
   kind?: PostKind | null
   metadata: InputJsonValue
   author: UserCreateOneWithoutPostsInput
+  editor?: UserCreateOneWithoutEditorPostsInput
 }
 
 export type postUpdateInput = {
@@ -4517,6 +4551,7 @@ export type postUpdateInput = {
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
   author?: UserUpdateOneRequiredWithoutPostsInput
+  editor?: UserUpdateOneWithoutEditorPostsInput
 }
 
 export type postUpdateManyMutationInput = {
@@ -4714,6 +4749,17 @@ export type UserRelationFilter = {
   isNot?: UserWhereInput | null
 }
 
+export type IntNullableFilter = {
+  equals?: number | null
+  in?: Enumerable<number> | null
+  notIn?: Enumerable<number> | null
+  lt?: number | null
+  lte?: number | null
+  gt?: number | null
+  gte?: number | null
+  not?: number | NestedIntNullableFilter | null
+}
+
 export type EnumPostKindNullableFilter = {
   equals?: PostKind | null
   in?: Enumerable<PostKind> | null
@@ -4764,17 +4810,6 @@ export type CreatorRelationFilter = {
   isNot?: CreatorWhereInput | null
 }
 
-export type IntNullableFilter = {
-  equals?: number | null
-  in?: Enumerable<number> | null
-  notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
-  not?: number | NestedIntNullableFilter | null
-}
-
 export type ProblemListRelationFilter = {
   every?: ProblemWhereInput
   some?: ProblemWhereInput
@@ -4783,6 +4818,12 @@ export type ProblemListRelationFilter = {
 
 export type postCreateManyWithoutAuthorInput = {
   create?: Enumerable<postCreateWithoutAuthorInput>
+  connect?: Enumerable<postWhereUniqueInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+}
+
+export type postCreateManyWithoutEditorInput = {
+  create?: Enumerable<postCreateWithoutEditorInput>
   connect?: Enumerable<postWhereUniqueInput>
   connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
 }
@@ -4828,8 +4869,27 @@ export type postUpdateManyWithoutAuthorInput = {
   connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
+export type postUpdateManyWithoutEditorInput = {
+  create?: Enumerable<postCreateWithoutEditorInput>
+  connect?: Enumerable<postWhereUniqueInput>
+  set?: Enumerable<postWhereUniqueInput>
+  disconnect?: Enumerable<postWhereUniqueInput>
+  delete?: Enumerable<postWhereUniqueInput>
+  update?: Enumerable<postUpdateWithWhereUniqueWithoutEditorInput>
+  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
+  deleteMany?: Enumerable<postScalarWhereInput>
+  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutEditorInput>
+  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+}
+
 export type UserCreateOneWithoutPostsInput = {
   create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
+}
+
+export type UserCreateOneWithoutEditorPostsInput = {
+  create?: UserCreateWithoutEditorPostsInput
   connect?: UserWhereUniqueInput
   connectOrCreate?: UserCreateOrConnectWithoutpostInput
 }
@@ -4855,6 +4915,16 @@ export type UserUpdateOneRequiredWithoutPostsInput = {
   connect?: UserWhereUniqueInput
   update?: UserUpdateWithoutPostsDataInput
   upsert?: UserUpsertWithoutPostsInput
+  connectOrCreate?: UserCreateOrConnectWithoutpostInput
+}
+
+export type UserUpdateOneWithoutEditorPostsInput = {
+  create?: UserCreateWithoutEditorPostsInput
+  connect?: UserWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: UserUpdateWithoutEditorPostsDataInput
+  upsert?: UserUpsertWithoutEditorPostsInput
   connectOrCreate?: UserCreateOrConnectWithoutpostInput
 }
 
@@ -5037,6 +5107,17 @@ export type NestedBoolFilter = {
   not?: NestedBoolFilter | null
 }
 
+export type NestedIntNullableFilter = {
+  equals?: number | null
+  in?: Enumerable<number> | null
+  notIn?: Enumerable<number> | null
+  lt?: number | null
+  lte?: number | null
+  gt?: number | null
+  gte?: number | null
+  not?: NestedIntNullableFilter | null
+}
+
 export type NestedEnumPostKindNullableFilter = {
   equals?: PostKind | null
   in?: Enumerable<PostKind> | null
@@ -5049,17 +5130,6 @@ export type NestedJsonFilter = {
   not?: NestedJsonFilter | null
 }
 
-export type NestedIntNullableFilter = {
-  equals?: number | null
-  in?: Enumerable<number> | null
-  notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
-  not?: NestedIntNullableFilter | null
-}
-
 export type postCreateWithoutAuthorInput = {
   uuid?: string
   createdAt?: Date | string
@@ -5070,11 +5140,25 @@ export type postCreateWithoutAuthorInput = {
   content?: string | null
   kind?: PostKind | null
   metadata: InputJsonValue
+  editor?: UserCreateOneWithoutEditorPostsInput
 }
 
 export type postCreateOrConnectWithoutUserInput = {
   where: postWhereUniqueInput
   create: postCreateWithoutAuthorInput
+}
+
+export type postCreateWithoutEditorInput = {
+  uuid?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  published: boolean
+  title: string
+  subtitle: string
+  content?: string | null
+  kind?: PostKind | null
+  metadata: InputJsonValue
+  author: UserCreateOneWithoutPostsInput
 }
 
 export type postUpdateWithWhereUniqueWithoutAuthorInput = {
@@ -5099,6 +5183,7 @@ export type postScalarWhereInput = {
   subtitle?: string | StringFilter
   content?: string | StringNullableFilter | null
   authorId?: number | IntFilter
+  editorId?: number | IntNullableFilter | null
   kind?: PostKind | EnumPostKindNullableFilter | null
   metadata?: JsonFilter
 }
@@ -5109,6 +5194,17 @@ export type postUpsertWithWhereUniqueWithoutAuthorInput = {
   create: postCreateWithoutAuthorInput
 }
 
+export type postUpdateWithWhereUniqueWithoutEditorInput = {
+  where: postWhereUniqueInput
+  data: postUpdateWithoutEditorDataInput
+}
+
+export type postUpsertWithWhereUniqueWithoutEditorInput = {
+  where: postWhereUniqueInput
+  update: postUpdateWithoutEditorDataInput
+  create: postCreateWithoutEditorInput
+}
+
 export type UserCreateWithoutPostsInput = {
   email: string
   name?: string | null
@@ -5116,11 +5212,22 @@ export type UserCreateWithoutPostsInput = {
   balance: number
   amount: number
   role: Role
+  editorPosts?: postCreateManyWithoutEditorInput
 }
 
 export type UserCreateOrConnectWithoutpostInput = {
   where: UserWhereUniqueInput
   create: UserCreateWithoutPostsInput
+}
+
+export type UserCreateWithoutEditorPostsInput = {
+  email: string
+  name?: string | null
+  age: number
+  balance: number
+  amount: number
+  role: Role
+  posts?: postCreateManyWithoutAuthorInput
 }
 
 export type UserUpdateWithoutPostsDataInput = {
@@ -5130,11 +5237,27 @@ export type UserUpdateWithoutPostsDataInput = {
   balance?: number | FloatFieldUpdateOperationsInput
   amount?: number | FloatFieldUpdateOperationsInput
   role?: Role | EnumRoleFieldUpdateOperationsInput
+  editorPosts?: postUpdateManyWithoutEditorInput
 }
 
 export type UserUpsertWithoutPostsInput = {
   update: UserUpdateWithoutPostsDataInput
   create: UserCreateWithoutPostsInput
+}
+
+export type UserUpdateWithoutEditorPostsDataInput = {
+  email?: string | StringFieldUpdateOperationsInput
+  name?: string | NullableStringFieldUpdateOperationsInput | null
+  age?: number | IntFieldUpdateOperationsInput
+  balance?: number | FloatFieldUpdateOperationsInput
+  amount?: number | FloatFieldUpdateOperationsInput
+  role?: Role | EnumRoleFieldUpdateOperationsInput
+  posts?: postUpdateManyWithoutAuthorInput
+}
+
+export type UserUpsertWithoutEditorPostsInput = {
+  update: UserUpdateWithoutEditorPostsDataInput
+  create: UserCreateWithoutEditorPostsInput
 }
 
 export type DirectorCreateWithoutMoviesInput = {
@@ -5301,6 +5424,7 @@ export type postUpdateWithoutAuthorDataInput = {
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
+  editor?: UserUpdateOneWithoutEditorPostsInput
 }
 
 export type postUpdateManyDataInput = {
@@ -5313,6 +5437,19 @@ export type postUpdateManyDataInput = {
   content?: string | NullableStringFieldUpdateOperationsInput | null
   kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
   metadata?: InputJsonValue
+}
+
+export type postUpdateWithoutEditorDataInput = {
+  uuid?: string | StringFieldUpdateOperationsInput
+  createdAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  updatedAt?: Date | string | DateTimeFieldUpdateOperationsInput
+  published?: boolean | BoolFieldUpdateOperationsInput
+  title?: string | StringFieldUpdateOperationsInput
+  subtitle?: string | StringFieldUpdateOperationsInput
+  content?: string | NullableStringFieldUpdateOperationsInput | null
+  kind?: PostKind | NullableEnumPostKindFieldUpdateOperationsInput | null
+  metadata?: InputJsonValue
+  author?: UserUpdateOneRequiredWithoutPostsInput
 }
 
 export type MovieUpdateWithoutDirectorDataInput = {

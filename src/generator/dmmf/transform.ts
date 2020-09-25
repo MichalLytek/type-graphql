@@ -348,7 +348,7 @@ export function generateRelationModel(dmmfDocument: DmmfDocument) {
     )!;
     const resolverName = `${model.typeName}RelationsResolver`;
     const relationFields = model.fields
-      .filter(field => field.relationName)
+      .filter(field => field.relationName && !field.isOmitted.output)
       .map<DMMF.RelationField>(field => {
         const outputTypeField = outputType.fields.find(
           it => it.name === field.name,

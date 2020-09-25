@@ -67,6 +67,12 @@ export class ClientWhereInput {
   })
   role?: EnumRoleFilter | undefined;
 
+  @TypeGraphQL.Field(_type => PostListRelationFilter, {
+    nullable: true,
+    description: undefined
+  })
+  editorPosts?: PostListRelationFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true,
     description: undefined

@@ -31,18 +31,20 @@ enum Role {
 model User {
   // User model field comment
   /// User model field doc
-  id      Int     @default(autoincrement()) @id
-  email   String  @unique
+  id          Int     @default(autoincrement()) @id
+  email       String  @unique
   /// renamed field doc
   /// @TypeGraphQL.field(name: "firstName")
-  name    String?
-  age     Int
+  name        String?
+  age         Int
   /// @TypeGraphQL.field(name: "accountBalance")
-  balance Numeric
-  amount  Float
+  balance     Numeric
+  amount      Float
   /// @TypeGraphQL.field(name: "clientPosts")
-  posts   post[]
-  role    Role
+  posts       post[]  @relation("posts")
+  role        Role
+  /// @TypeGraphQL.omit(output: true)
+  editorPosts post[]  @relation("editorPosts")
 }
 
 enum PostKind {
@@ -59,8 +61,12 @@ model post {
   /// @TypeGraphQL.omit(output: true)
   subtitle  String
   content   String?
-  author    User      @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id], name: "posts")
   authorId  Int
+  /// @TypeGraphQL.omit(output: true)
+  editor    User?      @relation(fields: [editorId], references: [id], name: "editorPosts")
+  /// @TypeGraphQL.omit(output: true)
+  editorId  Int?
   kind      PostKind?
   metadata  Json
 }

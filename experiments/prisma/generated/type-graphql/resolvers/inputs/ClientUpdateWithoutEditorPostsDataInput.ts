@@ -6,14 +6,13 @@ import { FloatFieldUpdateOperationsInput } from "../inputs/FloatFieldUpdateOpera
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PostUpdateManyWithoutAuthorInput } from "../inputs/PostUpdateManyWithoutAuthorInput";
-import { PostUpdateManyWithoutEditorInput } from "../inputs/PostUpdateManyWithoutEditorInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
   description: undefined,
 })
-export class ClientUpdateInput {
+export class ClientUpdateWithoutEditorPostsDataInput {
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true,
     description: undefined
@@ -43,12 +42,6 @@ export class ClientUpdateInput {
   role?: EnumRoleFieldUpdateOperationsInput | undefined;
 
   posts?: PostUpdateManyWithoutAuthorInput | undefined;
-
-  @TypeGraphQL.Field(_type => PostUpdateManyWithoutEditorInput, {
-    nullable: true,
-    description: undefined
-  })
-  editorPosts?: PostUpdateManyWithoutEditorInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true,

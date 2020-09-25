@@ -9,6 +9,7 @@ export enum PostDistinctFieldEnum {
   subtitle = "subtitle",
   content = "content",
   authorId = "authorId",
+  editorId = "editorId",
   kind = "kind",
   metadata = "metadata"
 }

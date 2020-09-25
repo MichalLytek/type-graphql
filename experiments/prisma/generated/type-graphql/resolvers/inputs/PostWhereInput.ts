@@ -6,6 +6,7 @@ import { ClientWhereInput } from "../inputs/ClientWhereInput";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumPostKindNullableFilter } from "../inputs/EnumPostKindNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { JsonFilter } from "../inputs/JsonFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -86,6 +87,18 @@ export class PostWhereInput {
     description: undefined
   })
   authorId?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ClientWhereInput, {
+    nullable: true,
+    description: undefined
+  })
+  editor?: ClientWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true,
+    description: undefined
+  })
+  editorId?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumPostKindNullableFilter, {
     nullable: true,

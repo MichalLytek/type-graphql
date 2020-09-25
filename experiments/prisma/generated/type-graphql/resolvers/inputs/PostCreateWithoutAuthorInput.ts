@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
+import { ClientCreateOneWithoutEditorPostsInput } from "../inputs/ClientCreateOneWithoutEditorPostsInput";
 import { PostKind } from "../../enums/PostKind";
 
 @TypeGraphQL.InputType({
@@ -61,4 +62,10 @@ export class PostCreateWithoutAuthorInput {
     description: undefined
   })
   metadata!: InputJsonValue;
+
+  @TypeGraphQL.Field(_type => ClientCreateOneWithoutEditorPostsInput, {
+    nullable: true,
+    description: undefined
+  })
+  editor?: ClientCreateOneWithoutEditorPostsInput | undefined;
 }

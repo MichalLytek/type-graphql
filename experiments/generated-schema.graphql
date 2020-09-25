@@ -154,9 +154,16 @@ input ClientCreateInput {
   age: Int!
   amount: Float!
   clientPosts: PostCreateManyWithoutAuthorInput
+  editorPosts: PostCreateManyWithoutEditorInput
   email: String!
   firstName: String
   role: Role!
+}
+
+input ClientCreateOneWithoutEditorPostsInput {
+  connect: ClientWhereUniqueInput
+  connectOrCreate: ClientCreateOrConnectWithoutpostInput
+  create: ClientCreateWithoutEditorPostsInput
 }
 
 input ClientCreateOneWithoutPostsInput {
@@ -170,10 +177,21 @@ input ClientCreateOrConnectWithoutpostInput {
   where: ClientWhereUniqueInput!
 }
 
+input ClientCreateWithoutEditorPostsInput {
+  accountBalance: Float!
+  age: Int!
+  amount: Float!
+  clientPosts: PostCreateManyWithoutAuthorInput
+  email: String!
+  firstName: String
+  role: Role!
+}
+
 input ClientCreateWithoutPostsInput {
   accountBalance: Float!
   age: Int!
   amount: Float!
+  editorPosts: PostCreateManyWithoutEditorInput
   email: String!
   firstName: String
   role: Role!
@@ -225,6 +243,7 @@ input ClientUpdateInput {
   age: IntFieldUpdateOperationsInput
   amount: FloatFieldUpdateOperationsInput
   clientPosts: PostUpdateManyWithoutAuthorInput
+  editorPosts: PostUpdateManyWithoutEditorInput
   email: StringFieldUpdateOperationsInput
   firstName: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -239,12 +258,61 @@ input ClientUpdateManyMutationInput {
   role: EnumRoleFieldUpdateOperationsInput
 }
 
+input ClientUpdateOneRequiredWithoutPostsInput {
+  connect: ClientWhereUniqueInput
+  connectOrCreate: ClientCreateOrConnectWithoutpostInput
+  create: ClientCreateWithoutPostsInput
+  update: ClientUpdateWithoutPostsDataInput
+  upsert: ClientUpsertWithoutPostsInput
+}
+
+input ClientUpdateOneWithoutEditorPostsInput {
+  connect: ClientWhereUniqueInput
+  connectOrCreate: ClientCreateOrConnectWithoutpostInput
+  create: ClientCreateWithoutEditorPostsInput
+  delete: Boolean
+  disconnect: Boolean
+  update: ClientUpdateWithoutEditorPostsDataInput
+  upsert: ClientUpsertWithoutEditorPostsInput
+}
+
+input ClientUpdateWithoutEditorPostsDataInput {
+  accountBalance: FloatFieldUpdateOperationsInput
+  age: IntFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  clientPosts: PostUpdateManyWithoutAuthorInput
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
+}
+
+input ClientUpdateWithoutPostsDataInput {
+  accountBalance: FloatFieldUpdateOperationsInput
+  age: IntFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  editorPosts: PostUpdateManyWithoutEditorInput
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
+}
+
+input ClientUpsertWithoutEditorPostsInput {
+  create: ClientCreateWithoutEditorPostsInput!
+  update: ClientUpdateWithoutEditorPostsDataInput!
+}
+
+input ClientUpsertWithoutPostsInput {
+  create: ClientCreateWithoutPostsInput!
+  update: ClientUpdateWithoutPostsDataInput!
+}
+
 input ClientWhereInput {
   accountBalance: FloatFilter
   age: IntFilter
   amount: FloatFilter
   AND: [ClientWhereInput!]
   clientPosts: PostListRelationFilter
+  editorPosts: PostListRelationFilter
   email: StringFilter
   firstName: StringNullableFilter
   id: IntFilter
@@ -939,6 +1007,7 @@ input PostCreateInput {
   author: ClientCreateOneWithoutPostsInput!
   content: String
   createdAt: DateTime
+  editor: ClientCreateOneWithoutEditorPostsInput
   kind: PostKind
   metadata: JSON!
   published: Boolean!
@@ -954,12 +1023,32 @@ input PostCreateManyWithoutAuthorInput {
   create: [PostCreateWithoutAuthorInput!]
 }
 
+input PostCreateManyWithoutEditorInput {
+  connect: [PostWhereUniqueInput!]
+  connectOrCreate: [PostCreateOrConnectWithoutUserInput!]
+  create: [PostCreateWithoutEditorInput!]
+}
+
 input PostCreateOrConnectWithoutUserInput {
   create: PostCreateWithoutAuthorInput!
   where: PostWhereUniqueInput!
 }
 
 input PostCreateWithoutAuthorInput {
+  content: String
+  createdAt: DateTime
+  editor: ClientCreateOneWithoutEditorPostsInput
+  kind: PostKind
+  metadata: JSON!
+  published: Boolean!
+  subtitle: String!
+  title: String!
+  updatedAt: DateTime
+  uuid: String
+}
+
+input PostCreateWithoutEditorInput {
+  author: ClientCreateOneWithoutPostsInput!
   content: String
   createdAt: DateTime
   kind: PostKind
@@ -975,6 +1064,7 @@ enum PostDistinctFieldEnum {
   authorId
   content
   createdAt
+  editorId
   kind
   metadata
   published
@@ -999,6 +1089,7 @@ input PostOrderByInput {
   authorId: SortOrder
   content: SortOrder
   createdAt: SortOrder
+  editorId: SortOrder
   kind: SortOrder
   metadata: SortOrder
   published: SortOrder
@@ -1013,6 +1104,7 @@ input PostScalarWhereInput {
   authorId: IntFilter
   content: StringNullableFilter
   createdAt: DateTimeFilter
+  editorId: IntNullableFilter
   kind: EnumPostKindNullableFilter
   metadata: JsonFilter
   NOT: [PostScalarWhereInput!]
@@ -1061,12 +1153,39 @@ input PostUpdateManyWithoutAuthorInput {
   upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
+input PostUpdateManyWithoutEditorInput {
+  connect: [PostWhereUniqueInput!]
+  connectOrCreate: [PostCreateOrConnectWithoutUserInput!]
+  create: [PostCreateWithoutEditorInput!]
+  delete: [PostWhereUniqueInput!]
+  deleteMany: [PostScalarWhereInput!]
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  update: [PostUpdateWithWhereUniqueWithoutEditorInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutEditorInput!]
+}
+
 input PostUpdateManyWithWhereNestedInput {
   data: PostUpdateManyDataInput!
   where: PostScalarWhereInput!
 }
 
 input PostUpdateWithoutAuthorDataInput {
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  editor: ClientUpdateOneWithoutEditorPostsInput
+  kind: NullableEnumPostKindFieldUpdateOperationsInput
+  metadata: JSON
+  published: BoolFieldUpdateOperationsInput
+  subtitle: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  uuid: StringFieldUpdateOperationsInput
+}
+
+input PostUpdateWithoutEditorDataInput {
+  author: ClientUpdateOneRequiredWithoutPostsInput
   content: NullableStringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
   kind: NullableEnumPostKindFieldUpdateOperationsInput
@@ -1083,9 +1202,20 @@ input PostUpdateWithWhereUniqueWithoutAuthorInput {
   where: PostWhereUniqueInput!
 }
 
+input PostUpdateWithWhereUniqueWithoutEditorInput {
+  data: PostUpdateWithoutEditorDataInput!
+  where: PostWhereUniqueInput!
+}
+
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
   create: PostCreateWithoutAuthorInput!
   update: PostUpdateWithoutAuthorDataInput!
+  where: PostWhereUniqueInput!
+}
+
+input PostUpsertWithWhereUniqueWithoutEditorInput {
+  create: PostCreateWithoutEditorInput!
+  update: PostUpdateWithoutEditorDataInput!
   where: PostWhereUniqueInput!
 }
 
@@ -1095,6 +1225,8 @@ input PostWhereInput {
   authorId: IntFilter
   content: StringNullableFilter
   createdAt: DateTimeFilter
+  editor: ClientWhereInput
+  editorId: IntNullableFilter
   kind: EnumPostKindNullableFilter
   metadata: JsonFilter
   NOT: [PostWhereInput!]

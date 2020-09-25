@@ -12,4 +12,10 @@ export class PostMaxAggregateOutputType {
     description: undefined
   })
   authorId!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true,
+    description: undefined
+  })
+  editorId!: number | null;
 }

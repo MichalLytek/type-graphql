@@ -55,6 +55,10 @@ export class Post {
   })
   authorId!: number;
 
+  editor?: Client | null;
+
+  editorId?: number | null;
+
   @TypeGraphQL.Field(_type => PostKind, {
     nullable: true,
     description: undefined,

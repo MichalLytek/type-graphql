@@ -60,6 +60,12 @@ export class PostOrderByInput {
     nullable: true,
     description: undefined
   })
+  editorId?: typeof SortOrder[keyof typeof SortOrder] | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true,
+    description: undefined
+  })
   kind?: typeof SortOrder[keyof typeof SortOrder] | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

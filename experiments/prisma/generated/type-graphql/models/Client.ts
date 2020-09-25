@@ -48,6 +48,8 @@ export class Client {
   })
   role!: typeof Role[keyof typeof Role];
 
+  editorPosts?: Post[] | null;
+
   /** renamed field doc */
   @TypeGraphQL.Field(_type => String, {
     nullable: true,

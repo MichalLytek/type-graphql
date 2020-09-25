@@ -1,0 +1,143 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "editorPosts",
+      "type": "post",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "editorPosts"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "editorPosts"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"editorPosts\""
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "posts"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "posts"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"posts\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "post",
+      "field": "editor",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "post",
+          "field": "editor"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "post",
+          "field": "editor"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[editorId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "post",
+          "field": "editor"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "post",
+          "field": "editor"
+        },
+        "directive": "relation"
+      },
+      "argument": "name",
+      "value": "\"editorPosts\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "post",
+      "field": "editorId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "post",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "name",
+      "value": "\"posts\""
+    }
+  ]
+}

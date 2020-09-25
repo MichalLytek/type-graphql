@@ -5,6 +5,7 @@ import { EnumRoleFieldUpdateOperationsInput } from "../inputs/EnumRoleFieldUpdat
 import { FloatFieldUpdateOperationsInput } from "../inputs/FloatFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { PostUpdateManyWithoutEditorInput } from "../inputs/PostUpdateManyWithoutEditorInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType({
@@ -39,6 +40,12 @@ export class ClientUpdateWithoutPostsDataInput {
     description: undefined
   })
   role?: EnumRoleFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => PostUpdateManyWithoutEditorInput, {
+    nullable: true,
+    description: undefined
+  })
+  editorPosts?: PostUpdateManyWithoutEditorInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true,
