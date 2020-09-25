@@ -1,4 +1,4 @@
-import { GraphQLFloat, GraphQLID, GraphQLInt, GraphQLScalarType } from "graphql";
+import { GraphQLFloat, GraphQLID, GraphQLInt } from "graphql";
 
 export const Int = GraphQLInt;
 export const Float = GraphQLFloat;

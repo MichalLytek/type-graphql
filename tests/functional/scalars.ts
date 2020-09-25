@@ -260,6 +260,9 @@ describe("Scalars", () => {
       class DateInput {
         @Field(type => Date)
         date: any;
+
+        @Field(type => Date, { nullable: true })
+        nullableDate?: any;
       }
 
       @Resolver()
@@ -269,6 +272,11 @@ describe("Scalars", () => {
           return new Date();
         }
 
+        @Query(returns => Date, { nullable: true })
+        nullableReturnDate(): Date | null {
+          return null;
+        }
+
         @Query(returns => Date)
         returnStringAsDate(): any {
           return new Date().toISOString();
@@ -276,6 +284,15 @@ describe("Scalars", () => {
 
         @Query()
         argDate(@Arg("date", type => Date) date: any): boolean {
+          localArgDate = date;
+          return true;
+        }
+
+        @Query()
+        nullableArgDate(
+          @Arg("date", type => Date, { nullable: true })
+          date: any,
+        ): boolean {
           localArgDate = date;
           return true;
         }
@@ -317,6 +334,17 @@ describe("Scalars", () => {
         expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
       });
 
+      it("should not fail while serializing null", async () => {
+        const query = `query {
+          nullableReturnDate
+        }`;
+
+        const result = await graphql(localSchema, query);
+
+        expect(result.errors).toBeUndefined();
+        expect(result.data!.nullableReturnDate).toBeNull();
+      });
+
       it("should throw error when unable to serialize value as date", async () => {
         const query = `query {
           returnStringAsDate
@@ -326,7 +354,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain(`Unable to serialize value`);
-        expect(errors![0].message).toContain(`it's not instance of 'Date'`);
+        expect(errors![0].message).toContain(`it's not an instance of 'Date'`);
       });
 
       it("should properly parse date from arg", async () => {
@@ -339,6 +367,29 @@ describe("Scalars", () => {
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
 
+      it("should fail while providing wrong value type as date arg", async () => {
+        const query = `query {
+          argDate(date: true)
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
+        );
+      });
+
+      it("should not fail while parsing null date arg", async () => {
+        const query = `query {
+          nullableArgDate(date: null)
+        }`;
+
+        await graphql(localSchema, query);
+
+        expect(localArgDate).toBeNull();
+      });
+
       it("should properly parse date from input", async () => {
         const now = new Date();
         const query = `query {
@@ -347,6 +398,30 @@ describe("Scalars", () => {
         await graphql(localSchema, query);
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should fail while providing wrong value type as date input", async () => {
+        const query = `query {
+          inputDate(input: { date: true })
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
+        );
+      });
+
+      it("should not fail while parsing null from date input", async () => {
+        const now = new Date();
+        const query = `query {
+          inputDate(input: { date: "${now.toISOString()}", nullableDate: null })
+        }`;
+
+        const result = await graphql(localSchema, query);
+
+        expect(result.errors).toBeUndefined();
       });
 
       it("should properly parse date from variable", async () => {
@@ -363,6 +438,43 @@ describe("Scalars", () => {
         });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should fail while providing wrong value type for as date variable", async () => {
+        const query = `query DateQuery($date: DateTime!) {
+          inputDate(input: {date: $date})
+        }`;
+
+        const { errors } = await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: true,
+          },
+        });
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Variable \\"$date\\" got invalid value true; Expected type \\"DateTime\\". Unable to parse value 'true' as GraphQLISODateTime scalar supports only string values"`,
+        );
+      });
+
+      it("should not fail while parsing null from date variable", async () => {
+        const now = new Date();
+        const query = `query DateQuery($date: DateTime!, $nullableDate: DateTime) {
+          inputDate(input: {date: $date, nullableDate: $nullableDate})
+        }`;
+
+        const result = await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: now.toISOString(),
+            nullableDate: null,
+          },
+        });
+
+        expect(result.errors).toBeUndefined();
       });
     });
 
@@ -389,6 +501,17 @@ describe("Scalars", () => {
         expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
       });
 
+      it("should not fail while serializing null", async () => {
+        const query = `query {
+          nullableReturnDate
+        }`;
+
+        const result = await graphql(localSchema, query);
+
+        expect(result.errors).toBeUndefined();
+        expect(result.data!.nullableReturnDate).toBeNull();
+      });
+
       it("should throw error when unable to serialize value as date", async () => {
         const query = `query {
           returnStringAsDate
@@ -398,7 +521,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain(`Unable to serialize value`);
-        expect(errors![0].message).toContain(`it's not instance of 'Date'`);
+        expect(errors![0].message).toContain(`it's not an instance of 'Date'`);
       });
 
       it("should properly parse date from arg", async () => {
@@ -411,6 +534,29 @@ describe("Scalars", () => {
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
 
+      it("should fail while providing wrong value type as date arg", async () => {
+        const query = `query {
+          argDate(date: true)
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
+        );
+      });
+
+      it("should not fail while parsing null date arg", async () => {
+        const query = `query {
+          nullableArgDate(date: null)
+        }`;
+
+        await graphql(localSchema, query);
+
+        expect(localArgDate).toBeNull();
+      });
+
       it("should properly parse date from input", async () => {
         const now = new Date();
         const query = `query {
@@ -419,6 +565,30 @@ describe("Scalars", () => {
         await graphql(localSchema, query);
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should fail while providing wrong value type as date input", async () => {
+        const query = `query {
+          inputDate(input: { date: true })
+        }`;
+
+        const { errors } = await graphql(localSchema, query);
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
+        );
+      });
+
+      it("should not fail while parsing null from date input", async () => {
+        const now = new Date();
+        const query = `query {
+          inputDate(input: { date: ${now.getTime()}, nullableDate: null })
+        }`;
+
+        const result = await graphql(localSchema, query);
+
+        expect(result.errors).toBeUndefined();
       });
 
       it("should properly parse date from variable", async () => {
@@ -435,6 +605,43 @@ describe("Scalars", () => {
         });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
+      });
+
+      it("should fail while providing wrong value type for as date variable", async () => {
+        const query = `query DateQuery($date: Timestamp!) {
+          inputDate(input: {date: $date})
+        }`;
+
+        const { errors } = await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: true,
+          },
+        });
+
+        expect(errors).toHaveLength(1);
+        expect(errors![0].message).toMatchInlineSnapshot(
+          `"Variable \\"$date\\" got invalid value true; Expected type \\"Timestamp\\". Unable to parse value 'true' as GraphQLTimestamp scalar supports only number values"`,
+        );
+      });
+
+      it("should not fail while parsing null from date variable", async () => {
+        const now = new Date();
+        const query = `query DateQuery($date: Timestamp!, $nullableDate: Timestamp) {
+          inputDate(input: {date: $date, nullableDate: $nullableDate})
+        }`;
+
+        const result = await graphql({
+          schema: localSchema,
+          source: query,
+          variableValues: {
+            date: now.getTime(),
+            nullableDate: null,
+          },
+        });
+
+        expect(result.errors).toBeUndefined();
       });
     });
   });

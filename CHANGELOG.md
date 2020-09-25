@@ -5,6 +5,7 @@
 ### Features
 - allow passing custom validation function as `validate` option to `buildSchema`
 ### Fixes
+- **Breaking Change**: throw error when wrong type of value provided as arg or input for `GraphQLISODateTime` and `GraphQLTimestamp` scalars
 - don't include in schema the fields declared as `@FieldResolver` when that resolvers classes aren't provided in `resolvers` array
 - fix grammar in `CannotDetermineGraphQLTypeError` error message
 - properly inherit extensions from parent class and its fields

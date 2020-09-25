@@ -102,17 +102,26 @@ import { ObjectId } from "mongodb";
 export const ObjectIdScalar = new GraphQLScalarType({
   name: "ObjectId",
   description: "Mongo object id scalar type",
-  parseValue(value: string) {
-    return new ObjectId(value); // value from the client input variables
-  },
-  serialize(value: ObjectId) {
+  serialize(value: unknown): string {
+    // check the type of received value
+    if (!(value instanceof ObjectId)) {
+      throw new Error("ObjectIdScalar can only serialize ObjectId values");
+    }
     return value.toHexString(); // value sent to the client
   },
-  parseLiteral(ast) {
-    if (ast.kind === Kind.STRING) {
-      return new ObjectId(ast.value); // value from the client query
+  parseValue(value: unknown): ObjectId {
+    // check the type of received value
+    if (typeof value !== "string") {
+      throw new Error("ObjectIdScalar can only parse string values");
     }
-    return null;
+    return new ObjectId(value); // value from the client input variables
+  },
+  parseLiteral(ast): ObjectId {
+    // check the type of received value
+    if (ast.kind !== Kind.STRING) {
+      throw new Error("ObjectIdScalar can only parse string values");
+    }
+    return new ObjectId(ast.value); // value from the client query
   },
 });
 ```
