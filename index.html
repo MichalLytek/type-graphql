@@ -52,7 +52,7 @@
 
   @<span class="token function">FieldResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">ratings</span><span class="token punctuation">(</span>@<span class="token function">Root</span><span class="token punctuation">(</span><span class="token punctuation">)</span> recipe<span class="token operator">:</span> Recipe<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ratingsRepository<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span> recipeId<span class="token operator">:</span> recipe<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>rateRepository<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span> recipeId<span class="token operator">:</span> recipe<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
