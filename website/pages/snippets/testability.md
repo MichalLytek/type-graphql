@@ -19,7 +19,7 @@ export class RecipeResolver {
 
   @FieldResolver()
   ratings(@Root() recipe: Recipe) {
-    return this.ratingsRepository.find({ recipeId: recipe.id });
+    return this.rateRepository.find({ recipeId: recipe.id });
   }
 }
 ```
