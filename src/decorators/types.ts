@@ -71,9 +71,9 @@ export type AdvancedOptions = BasicOptions &
 export interface EnumConfig<TEnum extends object> {
   name: string;
   description?: string;
-  fieldsConfig?: EnumFieldsConfig<TEnum>;
+  valuesConfig?: EnumValuesConfig<TEnum>;
 }
-export type EnumFieldsConfig<TEnum extends object> = Partial<
+export type EnumValuesConfig<TEnum extends object> = Partial<
   Record<keyof TEnum, DescriptionOptions & DeprecationOptions>
 >;
 

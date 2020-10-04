@@ -46,7 +46,7 @@ describe("Enums", () => {
     }
     registerEnumType(AdvancedEnum, {
       name: "AdvancedEnum",
-      fieldsConfig: {
+      valuesConfig: {
         DescriptionProperty: { description: "One field description" },
         DeprecationProperty: { deprecationReason: "Two field deprecation reason" },
       },

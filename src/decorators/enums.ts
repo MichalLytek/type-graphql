@@ -9,6 +9,6 @@ export function registerEnumType<TEnum extends object>(
     enumObj,
     name: enumConfig.name,
     description: enumConfig.description,
-    fieldsConfig: enumConfig.fieldsConfig || {},
+    valuesConfig: enumConfig.valuesConfig || {},
   });
 }
