@@ -227,8 +227,11 @@ export abstract class SchemaGenerator {
           name: enumMetadata.name,
           description: enumMetadata.description,
           values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
+            const fieldConfig = enumMetadata.fieldsConfig[enumKey] || {};
             enumConfig[enumKey] = {
               value: enumMap[enumKey],
+              description: fieldConfig.description,
+              deprecationReason: fieldConfig.deprecationReason,
             };
             return enumConfig;
           }, {}),
