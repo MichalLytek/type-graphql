@@ -40,6 +40,18 @@ describe("Enums", () => {
     }
     registerEnumType(StringEnum, { name: "StringEnum", description: "custom string enum" });
 
+    enum AdvancedEnum {
+      DescriptionProperty = "DescriptionProperty",
+      DeprecationProperty = "DeprecationProperty",
+    }
+    registerEnumType(AdvancedEnum, {
+      name: "AdvancedEnum",
+      fieldsConfig: {
+        DescriptionProperty: { description: "One field description" },
+        DeprecationProperty: { deprecationReason: "Two field deprecation reason" },
+      },
+    });
+
     @InputType()
     class NumberEnumInput {
       @Field(type => NumberEnum)
@@ -61,6 +73,11 @@ describe("Enums", () => {
       @Query(returns => StringEnum)
       getStringEnumValue(@Arg("input") input: StringEnumInput): StringEnum {
         return StringEnum.Two;
+      }
+
+      @Query(returns => AdvancedEnum)
+      getAdvancedEnumValue(): AdvancedEnum {
+        return AdvancedEnum.DescriptionProperty;
       }
 
       @Query()
@@ -157,6 +174,33 @@ describe("Enums", () => {
       expect(stringEnumType.enumValues[0].name).toEqual("One");
       expect(stringEnumType.enumValues[1].name).toEqual("Two");
       expect(stringEnumType.enumValues[2].name).toEqual("Three");
+    });
+
+    it("should generate correct enum descriptions", async () => {
+      const advancedEnumType = schemaIntrospection.types.find(
+        type => type.kind === "ENUM" && type.name === "AdvancedEnum",
+      ) as IntrospectionEnumType;
+
+      expect(advancedEnumType.name).toEqual("AdvancedEnum");
+      expect(advancedEnumType.kind).toEqual(TypeKind.ENUM);
+      expect(advancedEnumType.enumValues).toHaveLength(2);
+      expect(advancedEnumType.enumValues[0].name).toEqual("DescriptionProperty");
+      expect(advancedEnumType.enumValues[0].description).toEqual("One field description");
+    });
+
+    it("should generate correct enum deprecation reason", async () => {
+      const advancedEnumType = schemaIntrospection.types.find(
+        type => type.kind === "ENUM" && type.name === "AdvancedEnum",
+      ) as IntrospectionEnumType;
+
+      expect(advancedEnumType.name).toEqual("AdvancedEnum");
+      expect(advancedEnumType.kind).toEqual(TypeKind.ENUM);
+      expect(advancedEnumType.enumValues).toHaveLength(2);
+      expect(advancedEnumType.enumValues[1].name).toEqual("DeprecationProperty");
+      expect(advancedEnumType.enumValues[1].isDeprecated).toEqual(true);
+      expect(advancedEnumType.enumValues[1].deprecationReason).toEqual(
+        "Two field deprecation reason",
+      );
     });
   });
 
