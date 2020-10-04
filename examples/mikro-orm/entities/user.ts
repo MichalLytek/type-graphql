@@ -1,4 +1,4 @@
-import { PrimaryKey, Property, Entity } from "mikro-orm";
+import { PrimaryKey, Property, Entity } from "@mikro-orm/core";
 import { Field, ID, ObjectType } from "../../../src";
 
 @ObjectType()

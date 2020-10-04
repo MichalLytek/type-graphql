@@ -1,4 +1,4 @@
-import { PrimaryKey, Property, ManyToOne, OneToMany, Collection, Entity } from "mikro-orm";
+import { PrimaryKey, Property, ManyToOne, OneToMany, Collection, Entity } from "@mikro-orm/core";
 import { Field, ID, ObjectType } from "../../../src";
 
 import { Rate } from "./rate";

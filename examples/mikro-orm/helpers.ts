@@ -1,4 +1,4 @@
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 import { Recipe } from "./entities/recipe";
 import { Rate } from "./entities/rate";
@@ -24,7 +24,7 @@ export async function seedDatabase(em: EntityManager) {
     em.create(Rate, { value: 3, user: defaultUser }),
     em.create(Rate, { value: 4, user: defaultUser }),
   );
-  await em.persist(recipe1);
+  em.persist(recipe1);
 
   const recipe2 = em.create(Recipe, {
     title: "Recipe 2",
@@ -34,7 +34,7 @@ export async function seedDatabase(em: EntityManager) {
     em.create(Rate, { value: 2, user: defaultUser }),
     em.create(Rate, { value: 4, user: defaultUser }),
   );
-  await em.persist(recipe2);
+  em.persist(recipe2);
 
   await em.flush();
   return { defaultUser };

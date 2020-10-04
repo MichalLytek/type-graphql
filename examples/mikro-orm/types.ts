@@ -1,4 +1,4 @@
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 import { User } from "./entities/user";
 
