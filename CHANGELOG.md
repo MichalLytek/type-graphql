@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - allow passing custom validation function as `validate` option to `buildSchema`
+- support defining deprecation reason and description of enum members (#714)
 ### Fixes
 - **Breaking Change**: throw error when wrong type of value provided as arg or input for `GraphQLISODateTime` and `GraphQLTimestamp` scalars
 - don't include in schema the fields declared as `@FieldResolver` when that resolvers classes aren't provided in `resolvers` array

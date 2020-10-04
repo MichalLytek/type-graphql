@@ -28,7 +28,7 @@ enum Direction {
 }
 ```
 
-To tell TypeGraphQL about our enum, we would ideally mark the enums with the `@GraphQLEnumType()` decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
+To tell TypeGraphQL about our enum, we would ideally mark the enums with the `@EnumType()` decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
 
 ```typescript
 import { registerEnumType } from "type-graphql";
@@ -37,6 +37,46 @@ registerEnumType(Direction, {
   name: "Direction", // this one is mandatory
   description: "The basic directions", // this one is optional
 });
+```
+
+In case we need to provide additional GraphQL-related config for values, like description or deprecation reason, we can use `valuesConfig` property and put the data inside it, e.g.:
+
+```typescript
+enum Direction {
+  UP = "UP",
+  DOWN = "DOWN",
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+  SIDEWAYS = "SIDEWAYS",
+}
+
+registerEnumType(Direction, {
+  name: "Direction",
+  description: "The basic directions",
+  valuesConfig: {
+    SIDEWAYS: {
+      deprecationReason: "Replaced with Left or Right",
+    },
+    RIGHT: {
+      description: "The other left",
+    },
+  },
+});
+```
+
+This way, the additional info will be emitted in the GraphQL schema:
+
+```graphql
+enum Direction {
+  UP
+  DOWN
+  LEFT
+  """
+  The other left
+  """
+  RIGHT
+  SIDEWAYS @deprecated(reason: "Replaced with Left or Right")
+}
 ```
 
 ## Using enum
