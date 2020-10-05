@@ -231,6 +231,11 @@ input ClientOrderByInput {
   role: SortOrder
 }
 
+input ClientRelationFilter {
+  is: ClientWhereInput
+  isNot: ClientWhereInput
+}
+
 type ClientSumAggregateOutputType {
   age: Int!
   amount: Float!
@@ -394,6 +399,11 @@ input CreatorOrderByInput {
   name: SortOrder
 }
 
+input CreatorRelationFilter {
+  is: CreatorWhereInput
+  isNot: CreatorWhereInput
+}
+
 input CreatorScalarWhereInput {
   AND: [CreatorScalarWhereInput!]
   id: IntFilter
@@ -552,6 +562,11 @@ input DirectorOrderByInput {
   lastName: SortOrder
 }
 
+input DirectorRelationFilter {
+  is: DirectorWhereInput
+  isNot: DirectorWhereInput
+}
+
 input DirectorUpdateInput {
   firstName: StringFieldUpdateOperationsInput
   lastName: StringFieldUpdateOperationsInput
@@ -673,7 +688,7 @@ scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/fi
 
 input JsonFilter {
   equals: JSON
-  not: NestedJsonFilter
+  not: JSON
 }
 
 type Movie {
@@ -778,7 +793,7 @@ input MovieUpsertWithWhereUniqueWithoutDirectorInput {
 
 input MovieWhereInput {
   AND: [MovieWhereInput!]
-  director: DirectorWhereInput
+  director: DirectorRelationFilter
   directorFirstName: StringFilter
   directorLastName: StringFilter
   NOT: [MovieWhereInput!]
@@ -898,11 +913,6 @@ input NestedIntNullableFilter {
   lte: Int
   not: NestedIntNullableFilter
   notIn: [Int!]
-}
-
-input NestedJsonFilter {
-  equals: JSON
-  not: NestedJsonFilter
 }
 
 input NestedStringFilter {
@@ -1221,11 +1231,11 @@ input PostUpsertWithWhereUniqueWithoutEditorInput {
 
 input PostWhereInput {
   AND: [PostWhereInput!]
-  author: ClientWhereInput
+  author: ClientRelationFilter
   authorId: IntFilter
   content: StringNullableFilter
   createdAt: DateTimeFilter
-  editor: ClientWhereInput
+  editor: ClientRelationFilter
   editorId: IntNullableFilter
   kind: EnumPostKindNullableFilter
   metadata: JsonFilter
@@ -1251,7 +1261,7 @@ type Problem {
 }
 
 type ProblemAvgAggregateOutputType {
-  creatorId: Float!
+  creatorId: Float
   id: Float!
 }
 
@@ -1409,7 +1419,7 @@ input ProblemUpsertWithWhereUniqueWithoutLikedByInput {
 
 input ProblemWhereInput {
   AND: [ProblemWhereInput!]
-  creator: CreatorWhereInput
+  creator: CreatorRelationFilter
   creatorId: IntNullableFilter
   id: IntFilter
   likedBy: CreatorListRelationFilter
@@ -1441,6 +1451,13 @@ type Query {
   customFindClientsWithArgs(cursor: ClientWhereUniqueInput, distinct: [ClientDistinctFieldEnum!], orderBy: [ClientOrderByInput!], skip: Int, take: Int, where: ClientWhereInput): [Client!]!
   director(where: DirectorWhereUniqueInput!): Director
   directors(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: [DirectorOrderByInput!], skip: Int, take: Int, where: DirectorWhereInput): [Director!]!
+  findFirstCategory(cursor: CategoryWhereUniqueInput, distinct: [CategoryDistinctFieldEnum!], orderBy: [CategoryOrderByInput!], skip: Int, take: Int, where: CategoryWhereInput): Category
+  findFirstClient(cursor: ClientWhereUniqueInput, distinct: [ClientDistinctFieldEnum!], orderBy: [ClientOrderByInput!], skip: Int, take: Int, where: ClientWhereInput): Client
+  findFirstCreator(cursor: CreatorWhereUniqueInput, distinct: [CreatorDistinctFieldEnum!], orderBy: [CreatorOrderByInput!], skip: Int, take: Int, where: CreatorWhereInput): Creator
+  findFirstDirector(cursor: DirectorWhereUniqueInput, distinct: [DirectorDistinctFieldEnum!], orderBy: [DirectorOrderByInput!], skip: Int, take: Int, where: DirectorWhereInput): Director
+  findFirstMovie(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: [MovieOrderByInput!], skip: Int, take: Int, where: MovieWhereInput): Movie
+  findFirstPatient(cursor: PatientWhereUniqueInput, distinct: [PatientDistinctFieldEnum!], orderBy: [PatientOrderByInput!], skip: Int, take: Int, where: PatientWhereInput): Patient
+  findFirstProblem(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): Problem
   movie(where: MovieWhereUniqueInput!): Movie
   movies(cursor: MovieWhereUniqueInput, distinct: [MovieDistinctFieldEnum!], orderBy: [MovieOrderByInput!], skip: Int, take: Int, where: MovieWhereInput): [Movie!]!
   patient(where: PatientWhereUniqueInput!): Patient
@@ -1449,6 +1466,11 @@ type Query {
   posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
   problem(where: ProblemWhereUniqueInput!): Problem
   problems(cursor: ProblemWhereUniqueInput, distinct: [ProblemDistinctFieldEnum!], orderBy: [ProblemOrderByInput!], skip: Int, take: Int, where: ProblemWhereInput): [Problem!]!
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 """Role enum doc"""
@@ -1480,6 +1502,7 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
+  mode: QueryMode
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
@@ -1494,6 +1517,7 @@ input StringNullableFilter {
   in: [String!]
   lt: String
   lte: String
+  mode: QueryMode
   not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String

@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
 import { BoolFilter } from "../inputs/BoolFilter";
-import { ClientWhereInput } from "../inputs/ClientWhereInput";
+import { ClientRelationFilter } from "../inputs/ClientRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumPostKindNullableFilter } from "../inputs/EnumPostKindNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -76,11 +76,11 @@ export class PostWhereInput {
   })
   content?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => ClientWhereInput, {
+  @TypeGraphQL.Field(_type => ClientRelationFilter, {
     nullable: true,
     description: undefined
   })
-  author?: ClientWhereInput | undefined;
+  author?: ClientRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,
@@ -88,11 +88,11 @@ export class PostWhereInput {
   })
   authorId?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => ClientWhereInput, {
+  @TypeGraphQL.Field(_type => ClientRelationFilter, {
     nullable: true,
     description: undefined
   })
-  editor?: ClientWhereInput | undefined;
+  editor?: ClientRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true,

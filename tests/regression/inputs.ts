@@ -76,9 +76,6 @@ describe("inputs", () => {
     const jsonFilterTSFile = await readGeneratedFile(
       "/resolvers/inputs/JsonFilter.ts",
     );
-    const nestedJsonFilterTSFile = await readGeneratedFile(
-      "/resolvers/inputs/NestedJsonFilter.ts",
-    );
     const indexTSFile = await readGeneratedFile("/resolvers/inputs/index.ts");
 
     expect(intFilterTSFile).toMatchSnapshot("IntFilter");
@@ -95,7 +92,6 @@ describe("inputs", () => {
     expect(dateTimeFilterTSFile).toMatchSnapshot("DateTimeFilter");
     expect(nestedDateTimeFilterTSFile).toMatchSnapshot("NestedDateTimeFilter");
     expect(jsonFilterTSFile).toMatchSnapshot("JsonFilter");
-    expect(nestedJsonFilterTSFile).toMatchSnapshot("NestedJsonFilter");
     expect(indexTSFile).toMatchSnapshot("index");
   });
 
@@ -148,9 +144,6 @@ describe("inputs", () => {
     const intFieldUpdateOperationsInputTSFile = await readGeneratedFile(
       "/resolvers/inputs/IntFieldUpdateOperationsInput.ts",
     );
-    const jsonFieldUpdateOperationsInputTSFile = await readGeneratedFile(
-      "/resolvers/inputs/JsonFieldUpdateOperationsInput.ts",
-    );
     const stringFieldUpdateOperationsInputTSFile = await readGeneratedFile(
       "/resolvers/inputs/StringFieldUpdateOperationsInput.ts",
     );
@@ -177,9 +170,6 @@ describe("inputs", () => {
     );
     expect(intFieldUpdateOperationsInputTSFile).toMatchSnapshot(
       "IntFieldUpdateOperationsInput",
-    );
-    expect(jsonFieldUpdateOperationsInputTSFile).toMatchSnapshot(
-      "JSONFieldUpdateOperationsInput",
     );
     expect(stringFieldUpdateOperationsInputTSFile).toMatchSnapshot(
       "StringFieldUpdateOperationsInput",

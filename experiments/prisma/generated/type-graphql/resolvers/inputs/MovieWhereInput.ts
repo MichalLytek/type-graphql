@@ -1,7 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
-import { DirectorWhereInput } from "../inputs/DirectorWhereInput";
+import { DirectorRelationFilter } from "../inputs/DirectorRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType({
@@ -39,11 +39,11 @@ export class MovieWhereInput {
   })
   directorLastName?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DirectorWhereInput, {
+  @TypeGraphQL.Field(_type => DirectorRelationFilter, {
     nullable: true,
     description: undefined
   })
-  director?: DirectorWhereInput | undefined;
+  director?: DirectorRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,

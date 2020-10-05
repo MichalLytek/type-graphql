@@ -5,6 +5,7 @@ import { AggregatePostArgs } from "./args/AggregatePostArgs";
 import { CreatePostArgs } from "./args/CreatePostArgs";
 import { DeleteManyPostArgs } from "./args/DeleteManyPostArgs";
 import { DeletePostArgs } from "./args/DeletePostArgs";
+import { FindFirstPostArgs } from "./args/FindFirstPostArgs";
 import { FindManyPostArgs } from "./args/FindManyPostArgs";
 import { FindOnePostArgs } from "./args/FindOnePostArgs";
 import { UpdateManyPostArgs } from "./args/UpdateManyPostArgs";
@@ -22,6 +23,14 @@ export class PostCrudResolver {
   })
   async post(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOnePostArgs): Promise<Post | null> {
     return ctx.prisma.post.findOne(args);
+  }
+
+  @TypeGraphQL.Query(_returns => Post, {
+    nullable: true,
+    description: undefined
+  })
+  async findFirstPost(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindFirstPostArgs): Promise<Post | null> {
+    return ctx.prisma.post.findFirst(args);
   }
 
   @TypeGraphQL.Query(_returns => [Post], {

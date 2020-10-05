@@ -59,7 +59,7 @@ describe("enums", () => {
     expect(enumsIndexTSFile).toMatchSnapshot("enums index");
   });
 
-  it("should properly generate sort order enum", async () => {
+  it("should properly generate standard prisma enums", async () => {
     const schema = /* prisma */ `
       datasource db {
         provider = "postgresql"
@@ -85,9 +85,11 @@ describe("enums", () => {
 
     await generateCodeFromSchema(schema, { outputDirPath });
     const sortOrderTSFile = await readGeneratedFile("/enums/SortOrder.ts");
+    const queryModeTSFile = await readGeneratedFile("/enums/QueryMode.ts");
     const enumsIndexTSFile = await readGeneratedFile("/enums/index.ts");
 
     expect(sortOrderTSFile).toMatchSnapshot("SortOrder");
+    expect(queryModeTSFile).toMatchSnapshot("QueryMode");
     expect(enumsIndexTSFile).toMatchSnapshot("enums index");
   });
 

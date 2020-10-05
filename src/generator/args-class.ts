@@ -54,20 +54,18 @@ export default function generateArgsTypeClassFromArgs(
       },
     ],
     properties: fields.map<OptionalKind<PropertyDeclarationStructure>>(arg => {
-      const isOptional = !arg.selectedInputType.isRequired;
-
       return {
         name: arg.typeName,
         type: arg.fieldTSType,
-        hasExclamationToken: !isOptional,
-        hasQuestionToken: isOptional,
+        hasExclamationToken: arg.isRequired,
+        hasQuestionToken: !arg.isRequired,
         trailingTrivia: "\r\n",
         decorators: [
           {
             name: "TypeGraphQL.Field",
             arguments: [
               `_type => ${arg.typeGraphQLType}`,
-              `{ nullable: ${isOptional} }`,
+              `{ nullable: ${!arg.isRequired} }`,
             ],
           },
         ],

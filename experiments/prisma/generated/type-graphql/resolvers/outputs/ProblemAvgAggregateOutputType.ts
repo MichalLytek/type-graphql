@@ -14,8 +14,8 @@ export class ProblemAvgAggregateOutputType {
   id!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: false,
+    nullable: true,
     description: undefined
   })
-  creatorId!: number;
+  creatorId!: number | null;
 }

@@ -246,7 +246,7 @@ input PostUpsertWithWhereUniqueWithoutAuthorInput {
 
 input PostWhereInput {
   AND: [PostWhereInput!]
-  author: UserWhereInput
+  author: UserRelationFilter
   authorId: IntFilter
   color: EnumColorFilter
   content: StringFilter
@@ -262,10 +262,17 @@ input PostWhereUniqueInput {
 type Query {
   aggregatePost(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): AggregatePost!
   aggregateUser(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
+  findFirstPost(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): Post
+  findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): User
   post(where: PostWhereUniqueInput!): Post
   posts(cursor: PostWhereUniqueInput, distinct: [PostDistinctFieldEnum!], orderBy: [PostOrderByInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
   user(where: UserWhereUniqueInput!): User
   users(cursor: UserWhereUniqueInput, distinct: [UserDistinctFieldEnum!], orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 enum SortOrder {
@@ -286,6 +293,7 @@ input StringFilter {
   in: [String!]
   lt: String
   lte: String
+  mode: QueryMode
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
@@ -300,6 +308,7 @@ input StringNullableFilter {
   in: [String!]
   lt: String
   lte: String
+  mode: QueryMode
   not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
@@ -345,6 +354,11 @@ type UserMinAggregateOutputType {
 input UserOrderByInput {
   id: SortOrder
   name: SortOrder
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
 }
 
 type UserSumAggregateOutputType {
@@ -397,6 +411,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
   [enums]
     Color.ts
     PostDistinctFieldEnum.ts
+    QueryMode.ts
     SortOrder.ts
     UserDistinctFieldEnum.ts
     index.ts
@@ -412,6 +427,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
         CreatePostResolver.ts
         DeleteManyPostResolver.ts
         DeletePostResolver.ts
+        FindFirstPostResolver.ts
         FindManyPostResolver.ts
         FindOnePostResolver.ts
         PostCrudResolver.ts
@@ -423,6 +439,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
           CreatePostArgs.ts
           DeleteManyPostArgs.ts
           DeletePostArgs.ts
+          FindFirstPostArgs.ts
           FindManyPostArgs.ts
           FindOnePostArgs.ts
           UpdateManyPostArgs.ts
@@ -434,6 +451,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
         CreateUserResolver.ts
         DeleteManyUserResolver.ts
         DeleteUserResolver.ts
+        FindFirstUserResolver.ts
         FindManyUserResolver.ts
         FindOneUserResolver.ts
         UpdateManyUserResolver.ts
@@ -445,6 +463,7 @@ exports[`generator integration should generates TypeGraphQL classes files to out
           CreateUserArgs.ts
           DeleteManyUserArgs.ts
           DeleteUserArgs.ts
+          FindFirstUserArgs.ts
           FindManyUserArgs.ts
           FindOneUserArgs.ts
           UpdateManyUserArgs.ts

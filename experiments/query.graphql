@@ -73,7 +73,7 @@ query FindClientsWithEmptyBalance {
 }
 
 query FindPostsOfAdmins {
-  posts(where: { author: { role: { equals: ADMIN } } }) {
+  posts(where: { author: { is: { role: { equals: ADMIN } } } }) {
     ...PostData
     author {
       ...ClientData
@@ -163,7 +163,7 @@ query FilterPostsByJson {
     ...PostData
   }
   notPublishedAndOthers: posts(
-    where: { metadata: { not: { equals: { publishedOnWikiLeaks: false } } } }
+    where: { metadata: { not: { publishedOnWikiLeaks: false } } }
   ) {
     ...PostData
   }

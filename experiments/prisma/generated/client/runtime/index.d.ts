@@ -7,15 +7,23 @@ declare namespace DMMF {
         schema: Schema;
         mappings: Mapping[];
     }
-    interface Enum {
+    interface DatamodelEnum {
         name: string;
-        values: string[];
+        values: EnumValue[];
         dbName?: string | null;
         documentation?: string;
     }
+    interface SchemaEnum {
+        name: string;
+        values: string[];
+    }
+    interface EnumValue {
+        name: string;
+        dbName: string | null;
+    }
     interface Datamodel {
         models: Model[];
-        enums: Enum[];
+        enums: DatamodelEnum[];
     }
     interface uniqueIndex {
         name: string;
@@ -42,7 +50,7 @@ declare namespace DMMF {
         isUnique: boolean;
         isId: boolean;
         type: string;
-        dbNames: string[] | null;
+        dbNames?: string[] | null;
         isGenerated: boolean;
         hasDefaultValue: boolean;
         default?: FieldDefault | string | boolean | number;
@@ -61,7 +69,7 @@ declare namespace DMMF {
         rootMutationType?: string;
         inputTypes: InputType[];
         outputTypes: OutputType[];
-        enums: Enum[];
+        enums: SchemaEnum[];
     }
     interface Query {
         name: string;
@@ -73,20 +81,18 @@ declare namespace DMMF {
         isRequired: boolean;
         isList: boolean;
     }
-    type ArgType = string | InputType | Enum;
+    type ArgType = string | InputType | SchemaEnum;
     interface SchemaArgInputType {
-        isRequired: boolean;
-        isNullable: boolean;
         isList: boolean;
         type: ArgType;
         kind: FieldKind;
     }
     interface SchemaArg {
         name: string;
-        inputType: SchemaArgInputType[];
-        isRelationFilter?: boolean;
-        nullEqualsUndefined?: boolean;
         comment?: string;
+        isNullable: boolean;
+        isRequired: boolean;
+        inputTypes: SchemaArgInputType[];
     }
     interface OutputType {
         name: string;
@@ -96,23 +102,21 @@ declare namespace DMMF {
     }
     interface SchemaField {
         name: string;
+        isRequired: boolean;
+        isNullable?: boolean;
         outputType: {
-            type: string | OutputType | Enum;
+            type: string | OutputType | SchemaEnum;
             isList: boolean;
-            isRequired: boolean;
             kind: FieldKind;
         };
         args: SchemaArg[];
     }
     interface InputType {
         name: string;
-        isWhereType?: boolean;
-        isOrderType?: boolean;
-        isUpdateType?: boolean;
-        isUpdateOperationType?: boolean;
-        atLeastOne?: boolean;
-        atMostOne?: boolean;
-        isOneOf?: boolean;
+        constraints: {
+            maxNumFields: number | null;
+            minNumFields: number | null;
+        };
         fields: SchemaArg[];
         fieldMap?: Record<string, SchemaArg>;
     }
@@ -120,6 +124,7 @@ declare namespace DMMF {
         model: string;
         plural: string;
         findOne?: string | null;
+        findFirst?: string | null;
         findMany?: string | null;
         create?: string | null;
         update?: string | null;
@@ -131,6 +136,7 @@ declare namespace DMMF {
     }
     enum ModelAction {
         findOne = "findOne",
+        findFirst = "findFirst",
         findMany = "findMany",
         create = "create",
         update = "update",
@@ -141,7 +147,34 @@ declare namespace DMMF {
     }
 }
 
-interface Dictionary<T> {
+declare type Dictionary<T> = {
+    [key: string]: T;
+};
+interface GeneratorConfig {
+    name: string;
+    output: string | null;
+    isCustomOutput?: boolean;
+    provider: string;
+    config: Dictionary<string>;
+    binaryTargets: string[];
+    previewFeatures: string[];
+}
+interface EnvValue {
+    fromEnvVar: null | string;
+    value: string;
+}
+declare type ConnectorType = 'mysql' | 'mongo' | 'sqlite' | 'postgresql' | 'sqlserver';
+interface DataSource {
+    name: string;
+    activeProvider: ConnectorType;
+    provider: ConnectorType[];
+    url: EnvValue;
+    config: {
+        [key: string]: string;
+    };
+}
+
+interface Dictionary$1<T> {
     [key: string]: T;
 }
 
@@ -152,27 +185,27 @@ declare class DMMFClass implements DMMF.Document {
     queryType: DMMF.OutputType;
     mutationType: DMMF.OutputType;
     outputTypes: DMMF.OutputType[];
-    outputTypeMap: Dictionary<DMMF.OutputType>;
+    outputTypeMap: Dictionary$1<DMMF.OutputType>;
     inputTypes: DMMF.InputType[];
-    inputTypeMap: Dictionary<DMMF.InputType>;
-    enumMap: Dictionary<DMMF.Enum>;
-    modelMap: Dictionary<DMMF.Model>;
-    mappingsMap: Dictionary<DMMF.Mapping>;
-    rootFieldMap: Dictionary<DMMF.SchemaField>;
+    inputTypeMap: Dictionary$1<DMMF.InputType>;
+    enumMap: Dictionary$1<DMMF.SchemaEnum>;
+    modelMap: Dictionary$1<DMMF.Model>;
+    mappingsMap: Dictionary$1<DMMF.Mapping>;
+    rootFieldMap: Dictionary$1<DMMF.SchemaField>;
     constructor({ datamodel, schema, mappings }: DMMF.Document);
     protected outputTypeToMergedOutputType: (outputType: DMMF.OutputType) => DMMF.OutputType;
     protected resolveOutputTypes(types: DMMF.OutputType[]): void;
     protected resolveInputTypes(types: DMMF.InputType[]): void;
-    protected resolveFieldArgumentTypes(types: DMMF.OutputType[], inputTypeMap: Dictionary<DMMF.InputType>): void;
+    protected resolveFieldArgumentTypes(types: DMMF.OutputType[], inputTypeMap: Dictionary$1<DMMF.InputType>): void;
     protected getQueryType(): DMMF.OutputType;
     protected getMutationType(): DMMF.OutputType;
     protected getOutputTypes(): DMMF.OutputType[];
-    protected getEnumMap(): Dictionary<DMMF.Enum>;
-    protected getModelMap(): Dictionary<DMMF.Model>;
-    protected getMergedOutputTypeMap(): Dictionary<DMMF.OutputType>;
-    protected getInputTypeMap(): Dictionary<DMMF.InputType>;
-    protected getMappingsMap(): Dictionary<DMMF.Mapping>;
-    protected getRootFieldMap(): Dictionary<DMMF.SchemaField>;
+    protected getEnumMap(): Dictionary$1<DMMF.SchemaEnum>;
+    protected getModelMap(): Dictionary$1<DMMF.Model>;
+    protected getMergedOutputTypeMap(): Dictionary$1<DMMF.OutputType>;
+    protected getInputTypeMap(): Dictionary$1<DMMF.InputType>;
+    protected getMappingsMap(): Dictionary$1<DMMF.Mapping>;
+    protected getRootFieldMap(): Dictionary$1<DMMF.SchemaField>;
 }
 
 interface ArgError {
@@ -236,7 +269,7 @@ interface InvalidArgNameError {
 interface MissingArgError {
     type: 'missingArg';
     missingName: string;
-    missingType: DMMF.SchemaArgInputType[];
+    missingArg: DMMF.SchemaArg;
     atLeastOne: boolean;
     atMostOne: boolean;
 }
@@ -356,7 +389,7 @@ interface DocumentInput {
     rootField: string;
     select?: any;
 }
-declare function makeDocument({ dmmf, rootTypeName, rootField, select, }: DocumentInput): any;
+declare function makeDocument({ dmmf, rootTypeName, rootField, select, }: DocumentInput): Document;
 declare function transformDocument(document: Document): Document;
 interface UnpackOptions {
     document: Document;
@@ -439,46 +472,23 @@ declare type LogFields = {
 declare class PrismaClientKnownRequestError extends Error {
     code: string;
     meta?: object;
-    constructor(message: string, code: string, meta?: any);
+    clientVersion: string;
+    constructor(message: string, code: string, clientVersion: string, meta?: any);
 }
 declare class PrismaClientUnknownRequestError extends Error {
-    constructor(message: string);
+    clientVersion: string;
+    constructor(message: string, clientVersion: string);
 }
 declare class PrismaClientRustPanicError extends Error {
-    constructor(message: string);
+    clientVersion: string;
+    constructor(message: string, clientVersion: string);
 }
 declare class PrismaClientInitializationError extends Error {
-    constructor(message: string);
+    clientVersion: string;
+    constructor(message: string, clientVersion: string);
 }
 
 declare type Platform = 'native' | 'darwin' | 'debian-openssl-1.0.x' | 'debian-openssl-1.1.x' | 'rhel-openssl-1.0.x' | 'rhel-openssl-1.1.x' | 'linux-musl' | 'linux-nixos' | 'windows' | 'freebsd11' | 'freebsd12' | 'openbsd' | 'netbsd' | 'arm';
-
-declare type Dictionary$1<T> = {
-    [key: string]: T;
-};
-interface GeneratorConfig {
-    name: string;
-    output: string | null;
-    isCustomOutput?: boolean;
-    provider: string;
-    config: Dictionary$1<string>;
-    binaryTargets: string[];
-    previewFeatures: string[];
-}
-interface EnvValue {
-    fromEnvVar: null | string;
-    value: string;
-}
-declare type ConnectorType = 'mysql' | 'mongo' | 'sqlite' | 'postgresql';
-interface DataSource {
-    name: string;
-    activeProvider: ConnectorType;
-    provider: ConnectorType[];
-    url: EnvValue;
-    config: {
-        [key: string]: string;
-    };
-}
 
 declare class Undici {
     private pool;
@@ -615,6 +625,69 @@ declare class NodeEngine {
     private graphQLToJSError;
 }
 
+declare type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
+declare type Datasource = {
+    url?: string;
+};
+declare type Datasources = Record<string, Datasource>;
+interface PrismaClientOptions {
+    /**
+     * Overwrites the datasource url from your prisma.schema file
+     */
+    datasources?: Datasources;
+    /**
+     * @default "colorless"
+     */
+    errorFormat?: ErrorFormat;
+    /**
+     * @example
+     * \`\`\`
+     * // Defaults to stdout
+     * log: ['query', 'info', 'warn']
+     *
+     * // Emit as events
+     * log: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     * ]
+     * \`\`\`
+     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     */
+    log?: Array<LogLevel$1 | LogDefinition>;
+    /**
+     * @internal
+     * You probably don't want to use this. \`__internal\` is used by internal tooling.
+     */
+    __internal?: {
+        debug?: boolean;
+        hooks?: Hooks;
+        useUds?: boolean;
+        engine?: {
+            cwd?: string;
+            binaryPath?: string;
+            endpoint?: string;
+            enableEngineDebugMode?: boolean;
+        };
+    };
+}
+declare type HookParams = {
+    query: string;
+    path: string[];
+    rootField?: string;
+    typeName?: string;
+    document: any;
+    clientMethod: string;
+    args: any;
+};
+declare type Hooks = {
+    beforeRequest?: (options: HookParams) => any;
+};
+declare type LogLevel$1 = 'info' | 'query' | 'warn' | 'error';
+declare type LogDefinition = {
+    level: LogLevel$1;
+    emit: 'stdout' | 'event';
+};
 interface GetPrismaClientOptions {
     document: DMMF.Document;
     generator?: GeneratorConfig;
@@ -660,4 +733,4 @@ declare const empty: Sql;
  */
 declare function sqltag(strings: TemplateStringsArray, ...values: RawValue[]): Sql;
 
-export { DMMF, DMMFClass, NodeEngine as Engine, PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError, RawValue, Sql, Value, Debug as debugLib, empty, getPrismaClient, join, makeDocument, raw, sqltag, transformDocument, unpack };
+export { DMMF, DMMFClass, NodeEngine as Engine, PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientOptions, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError, RawValue, Sql, Value, Debug as debugLib, empty, getPrismaClient, join, makeDocument, raw, sqltag, transformDocument, unpack };

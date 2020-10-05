@@ -2,6 +2,7 @@ export { AggregateClientArgs } from "./AggregateClientArgs";
 export { CreateClientArgs } from "./CreateClientArgs";
 export { DeleteClientArgs } from "./DeleteClientArgs";
 export { DeleteManyClientArgs } from "./DeleteManyClientArgs";
+export { FindFirstClientArgs } from "./FindFirstClientArgs";
 export { FindManyClientArgs } from "./FindManyClientArgs";
 export { FindOneClientArgs } from "./FindOneClientArgs";
 export { UpdateClientArgs } from "./UpdateClientArgs";

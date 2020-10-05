@@ -5,6 +5,7 @@ import { AggregateCategoryArgs } from "./args/AggregateCategoryArgs";
 import { CreateCategoryArgs } from "./args/CreateCategoryArgs";
 import { DeleteCategoryArgs } from "./args/DeleteCategoryArgs";
 import { DeleteManyCategoryArgs } from "./args/DeleteManyCategoryArgs";
+import { FindFirstCategoryArgs } from "./args/FindFirstCategoryArgs";
 import { FindManyCategoryArgs } from "./args/FindManyCategoryArgs";
 import { FindOneCategoryArgs } from "./args/FindOneCategoryArgs";
 import { UpdateCategoryArgs } from "./args/UpdateCategoryArgs";
@@ -22,6 +23,14 @@ export class CategoryCrudResolver {
   })
   async category(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneCategoryArgs): Promise<Category | null> {
     return ctx.prisma.category.findOne(args);
+  }
+
+  @TypeGraphQL.Query(_returns => Category, {
+    nullable: true,
+    description: undefined
+  })
+  async findFirstCategory(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindFirstCategoryArgs): Promise<Category | null> {
+    return ctx.prisma.category.findFirst(args);
   }
 
   @TypeGraphQL.Query(_returns => [Category], {

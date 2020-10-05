@@ -5,8 +5,9 @@ import { DMMF } from "./dmmf/types";
 export function noop() {}
 
 export function getFieldTSType(
-  typeInfo: DMMF.TypeInfo,
   dmmfDocument: DmmfDocument,
+  typeInfo: DMMF.TypeInfo,
+  isRequired: boolean,
   isInputType: boolean,
   modelName?: string,
   typeName?: string,
@@ -35,7 +36,7 @@ export function getFieldTSType(
       TSType += "[]";
     }
   }
-  if (!typeInfo.isRequired) {
+  if (!isRequired) {
     if (isInputType) {
       TSType += " | undefined";
     } else {

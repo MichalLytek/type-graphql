@@ -11,6 +11,7 @@ import {
   empty,
   join,
   raw,
+  Sql,
 } from './runtime';
 
 export { PrismaClientKnownRequestError }
@@ -22,11 +23,11 @@ export { PrismaClientValidationError }
 /**
  * Re-export of sql-template-tag
  */
-export { sql, empty, join, raw }
+export { sql, empty, join, raw, Sql }
 
 /**
- * Prisma Client JS version: 2.7.1
- * Query Engine version: 5c2ad460cf4fe8c9330e6640b266c046542c8b6a
+ * Prisma Client JS version: 2.9.0-dev.36
+ * Query Engine version: 075eb432c5e4c5e21e8a6e487df82813b7b40b22
  */
 export declare type PrismaVersion = {
   client: string
@@ -207,6 +208,7 @@ export type LogEvent = {
 export type PrismaAction =
   | 'findOne'
   | 'findMany'
+  | 'findFirst'
   | 'create'
   | 'update'
   | 'updateMany'
@@ -543,14 +545,6 @@ export declare const CreatorDistinctFieldEnum: {
 export declare type CreatorDistinctFieldEnum = (typeof CreatorDistinctFieldEnum)[keyof typeof CreatorDistinctFieldEnum]
 
 
-export declare const SortOrder: {
-  asc: 'asc',
-  desc: 'desc'
-};
-
-export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
 export declare const Role: {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -559,12 +553,28 @@ export declare const Role: {
 export declare type Role = (typeof Role)[keyof typeof Role]
 
 
+export declare const SortOrder: {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
 export declare const PostKind: {
   BLOG: 'BLOG',
   ADVERT: 'ADVERT'
 };
 
 export declare type PostKind = (typeof PostKind)[keyof typeof PostKind]
+
+
+export declare const QueryMode: {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+export declare type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 
@@ -650,7 +660,7 @@ export type UserMaxAggregateInputType = {
 
 export type AggregateUserArgs = {
   where?: UserWhereInput
-  orderBy?: Enumerable<UserOrderByInput>
+  orderBy?: Enumerable<UserOrderByInput> | UserOrderByInput
   cursor?: UserWhereUniqueInput
   take?: number
   skip?: number
@@ -720,7 +730,7 @@ export type UserGetPayload<
 
 export interface UserDelegate {
   /**
-   * Find zero or one User.
+   * Find zero or one User that matches the filter.
    * @param {FindOneUserArgs} args - Arguments to find a User
    * @example
    * // Get one User
@@ -734,7 +744,21 @@ export interface UserDelegate {
     args: Subset<T, FindOneUserArgs>
   ): CheckSelect<T, Prisma__UserClient<User | null>, Prisma__UserClient<UserGetPayload<T> | null>>
   /**
-   * Find zero or more Users.
+   * Find the first User that matches the filter.
+   * @param {FindFirstUserArgs} args - Arguments to find a User
+   * @example
+   * // Get one User
+   * const user = await prisma.user.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstUserArgs>(
+    args: Subset<T, FindFirstUserArgs>
+  ): CheckSelect<T, Prisma__UserClient<User>, Prisma__UserClient<UserGetPayload<T>>>
+  /**
+   * Find zero or more Users that matches the filter.
    * @param {FindManyUserArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Users
@@ -933,6 +957,30 @@ export type FindOneUserArgs = {
 
 
 /**
+ * User findFirst
+ */
+export type FindFirstUserArgs = {
+  /**
+   * Select specific fields to fetch from the User
+  **/
+  select?: UserSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: UserInclude | null
+  /**
+   * Filter, which User to fetch.
+  **/
+  where?: UserWhereInput
+  orderBy?: Enumerable<UserOrderByInput> | UserOrderByInput
+  cursor?: UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<UserDistinctFieldEnum>
+}
+
+
+/**
  * User findMany
  */
 export type FindManyUserArgs = {
@@ -951,7 +999,7 @@ export type FindManyUserArgs = {
   /**
    * Determine the order of the Users to fetch.
   **/
-  orderBy?: Enumerable<UserOrderByInput>
+  orderBy?: Enumerable<UserOrderByInput> | UserOrderByInput
   /**
    * Sets the position for listing Users.
   **/
@@ -1118,7 +1166,7 @@ export type AggregatePost = {
 
 export type PostAvgAggregateOutputType = {
   authorId: number
-  editorId: number
+  editorId: number | null
 }
 
 export type PostSumAggregateOutputType = {
@@ -1159,7 +1207,7 @@ export type PostMaxAggregateInputType = {
 
 export type AggregatePostArgs = {
   where?: postWhereInput
-  orderBy?: Enumerable<postOrderByInput>
+  orderBy?: Enumerable<postOrderByInput> | postOrderByInput
   cursor?: postWhereUniqueInput
   take?: number
   skip?: number
@@ -1233,7 +1281,7 @@ export type postGetPayload<
 
 export interface postDelegate {
   /**
-   * Find zero or one Post.
+   * Find zero or one Post that matches the filter.
    * @param {FindOnepostArgs} args - Arguments to find a Post
    * @example
    * // Get one Post
@@ -1247,7 +1295,21 @@ export interface postDelegate {
     args: Subset<T, FindOnepostArgs>
   ): CheckSelect<T, Prisma__postClient<post | null>, Prisma__postClient<postGetPayload<T> | null>>
   /**
-   * Find zero or more Posts.
+   * Find the first Post that matches the filter.
+   * @param {FindFirstpostArgs} args - Arguments to find a Post
+   * @example
+   * // Get one Post
+   * const post = await prisma.post.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstpostArgs>(
+    args: Subset<T, FindFirstpostArgs>
+  ): CheckSelect<T, Prisma__postClient<post>, Prisma__postClient<postGetPayload<T>>>
+  /**
+   * Find zero or more Posts that matches the filter.
    * @param {FindManypostArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Posts
@@ -1446,6 +1508,30 @@ export type FindOnepostArgs = {
 
 
 /**
+ * post findFirst
+ */
+export type FindFirstpostArgs = {
+  /**
+   * Select specific fields to fetch from the post
+  **/
+  select?: postSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: postInclude | null
+  /**
+   * Filter, which post to fetch.
+  **/
+  where?: postWhereInput
+  orderBy?: Enumerable<postOrderByInput> | postOrderByInput
+  cursor?: postWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<PostDistinctFieldEnum>
+}
+
+
+/**
  * post findMany
  */
 export type FindManypostArgs = {
@@ -1464,7 +1550,7 @@ export type FindManypostArgs = {
   /**
    * Determine the order of the posts to fetch.
   **/
-  orderBy?: Enumerable<postOrderByInput>
+  orderBy?: Enumerable<postOrderByInput> | postOrderByInput
   /**
    * Sets the position for listing posts.
   **/
@@ -1656,7 +1742,7 @@ export type CategoryMaxAggregateInputType = {
 
 export type AggregateCategoryArgs = {
   where?: CategoryWhereInput
-  orderBy?: Enumerable<CategoryOrderByInput>
+  orderBy?: Enumerable<CategoryOrderByInput> | CategoryOrderByInput
   cursor?: CategoryWhereUniqueInput
   take?: number
   skip?: number
@@ -1706,7 +1792,7 @@ export type CategoryGetPayload<
 
 export interface CategoryDelegate {
   /**
-   * Find zero or one Category.
+   * Find zero or one Category that matches the filter.
    * @param {FindOneCategoryArgs} args - Arguments to find a Category
    * @example
    * // Get one Category
@@ -1720,7 +1806,21 @@ export interface CategoryDelegate {
     args: Subset<T, FindOneCategoryArgs>
   ): CheckSelect<T, Prisma__CategoryClient<Category | null>, Prisma__CategoryClient<CategoryGetPayload<T> | null>>
   /**
-   * Find zero or more Categories.
+   * Find the first Category that matches the filter.
+   * @param {FindFirstCategoryArgs} args - Arguments to find a Category
+   * @example
+   * // Get one Category
+   * const category = await prisma.category.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstCategoryArgs>(
+    args: Subset<T, FindFirstCategoryArgs>
+  ): CheckSelect<T, Prisma__CategoryClient<Category>, Prisma__CategoryClient<CategoryGetPayload<T>>>
+  /**
+   * Find zero or more Categories that matches the filter.
    * @param {FindManyCategoryArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Categories
@@ -1912,6 +2012,26 @@ export type FindOneCategoryArgs = {
 
 
 /**
+ * Category findFirst
+ */
+export type FindFirstCategoryArgs = {
+  /**
+   * Select specific fields to fetch from the Category
+  **/
+  select?: CategorySelect | null
+  /**
+   * Filter, which Category to fetch.
+  **/
+  where?: CategoryWhereInput
+  orderBy?: Enumerable<CategoryOrderByInput> | CategoryOrderByInput
+  cursor?: CategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<CategoryDistinctFieldEnum>
+}
+
+
+/**
  * Category findMany
  */
 export type FindManyCategoryArgs = {
@@ -1926,7 +2046,7 @@ export type FindManyCategoryArgs = {
   /**
    * Determine the order of the Categories to fetch.
   **/
-  orderBy?: Enumerable<CategoryOrderByInput>
+  orderBy?: Enumerable<CategoryOrderByInput> | CategoryOrderByInput
   /**
    * Sets the position for listing Categories.
   **/
@@ -2063,7 +2183,7 @@ export type AggregatePatient = {
 
 export type AggregatePatientArgs = {
   where?: PatientWhereInput
-  orderBy?: Enumerable<PatientOrderByInput>
+  orderBy?: Enumerable<PatientOrderByInput> | PatientOrderByInput
   cursor?: PatientWhereUniqueInput
   take?: number
   skip?: number
@@ -2107,7 +2227,7 @@ export type PatientGetPayload<
 
 export interface PatientDelegate {
   /**
-   * Find zero or one Patient.
+   * Find zero or one Patient that matches the filter.
    * @param {FindOnePatientArgs} args - Arguments to find a Patient
    * @example
    * // Get one Patient
@@ -2121,7 +2241,21 @@ export interface PatientDelegate {
     args: Subset<T, FindOnePatientArgs>
   ): CheckSelect<T, Prisma__PatientClient<Patient | null>, Prisma__PatientClient<PatientGetPayload<T> | null>>
   /**
-   * Find zero or more Patients.
+   * Find the first Patient that matches the filter.
+   * @param {FindFirstPatientArgs} args - Arguments to find a Patient
+   * @example
+   * // Get one Patient
+   * const patient = await prisma.patient.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstPatientArgs>(
+    args: Subset<T, FindFirstPatientArgs>
+  ): CheckSelect<T, Prisma__PatientClient<Patient>, Prisma__PatientClient<PatientGetPayload<T>>>
+  /**
+   * Find zero or more Patients that matches the filter.
    * @param {FindManyPatientArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Patients
@@ -2313,6 +2447,26 @@ export type FindOnePatientArgs = {
 
 
 /**
+ * Patient findFirst
+ */
+export type FindFirstPatientArgs = {
+  /**
+   * Select specific fields to fetch from the Patient
+  **/
+  select?: PatientSelect | null
+  /**
+   * Filter, which Patient to fetch.
+  **/
+  where?: PatientWhereInput
+  orderBy?: Enumerable<PatientOrderByInput> | PatientOrderByInput
+  cursor?: PatientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<PatientDistinctFieldEnum>
+}
+
+
+/**
  * Patient findMany
  */
 export type FindManyPatientArgs = {
@@ -2327,7 +2481,7 @@ export type FindManyPatientArgs = {
   /**
    * Determine the order of the Patients to fetch.
   **/
-  orderBy?: Enumerable<PatientOrderByInput>
+  orderBy?: Enumerable<PatientOrderByInput> | PatientOrderByInput
   /**
    * Sets the position for listing Patients.
   **/
@@ -2464,7 +2618,7 @@ export type AggregateMovie = {
 
 export type AggregateMovieArgs = {
   where?: MovieWhereInput
-  orderBy?: Enumerable<MovieOrderByInput>
+  orderBy?: Enumerable<MovieOrderByInput> | MovieOrderByInput
   cursor?: MovieWhereUniqueInput
   take?: number
   skip?: number
@@ -2518,7 +2672,7 @@ export type MovieGetPayload<
 
 export interface MovieDelegate {
   /**
-   * Find zero or one Movie.
+   * Find zero or one Movie that matches the filter.
    * @param {FindOneMovieArgs} args - Arguments to find a Movie
    * @example
    * // Get one Movie
@@ -2532,7 +2686,21 @@ export interface MovieDelegate {
     args: Subset<T, FindOneMovieArgs>
   ): CheckSelect<T, Prisma__MovieClient<Movie | null>, Prisma__MovieClient<MovieGetPayload<T> | null>>
   /**
-   * Find zero or more Movies.
+   * Find the first Movie that matches the filter.
+   * @param {FindFirstMovieArgs} args - Arguments to find a Movie
+   * @example
+   * // Get one Movie
+   * const movie = await prisma.movie.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstMovieArgs>(
+    args: Subset<T, FindFirstMovieArgs>
+  ): CheckSelect<T, Prisma__MovieClient<Movie>, Prisma__MovieClient<MovieGetPayload<T>>>
+  /**
+   * Find zero or more Movies that matches the filter.
    * @param {FindManyMovieArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Movies
@@ -2729,6 +2897,30 @@ export type FindOneMovieArgs = {
 
 
 /**
+ * Movie findFirst
+ */
+export type FindFirstMovieArgs = {
+  /**
+   * Select specific fields to fetch from the Movie
+  **/
+  select?: MovieSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: MovieInclude | null
+  /**
+   * Filter, which Movie to fetch.
+  **/
+  where?: MovieWhereInput
+  orderBy?: Enumerable<MovieOrderByInput> | MovieOrderByInput
+  cursor?: MovieWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<MovieDistinctFieldEnum>
+}
+
+
+/**
  * Movie findMany
  */
 export type FindManyMovieArgs = {
@@ -2747,7 +2939,7 @@ export type FindManyMovieArgs = {
   /**
    * Determine the order of the Movies to fetch.
   **/
-  orderBy?: Enumerable<MovieOrderByInput>
+  orderBy?: Enumerable<MovieOrderByInput> | MovieOrderByInput
   /**
    * Sets the position for listing Movies.
   **/
@@ -2903,7 +3095,7 @@ export type AggregateDirector = {
 
 export type AggregateDirectorArgs = {
   where?: DirectorWhereInput
-  orderBy?: Enumerable<DirectorOrderByInput>
+  orderBy?: Enumerable<DirectorOrderByInput> | DirectorOrderByInput
   cursor?: DirectorWhereUniqueInput
   take?: number
   skip?: number
@@ -2956,7 +3148,7 @@ export type DirectorGetPayload<
 
 export interface DirectorDelegate {
   /**
-   * Find zero or one Director.
+   * Find zero or one Director that matches the filter.
    * @param {FindOneDirectorArgs} args - Arguments to find a Director
    * @example
    * // Get one Director
@@ -2970,7 +3162,21 @@ export interface DirectorDelegate {
     args: Subset<T, FindOneDirectorArgs>
   ): CheckSelect<T, Prisma__DirectorClient<Director | null>, Prisma__DirectorClient<DirectorGetPayload<T> | null>>
   /**
-   * Find zero or more Directors.
+   * Find the first Director that matches the filter.
+   * @param {FindFirstDirectorArgs} args - Arguments to find a Director
+   * @example
+   * // Get one Director
+   * const director = await prisma.director.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstDirectorArgs>(
+    args: Subset<T, FindFirstDirectorArgs>
+  ): CheckSelect<T, Prisma__DirectorClient<Director>, Prisma__DirectorClient<DirectorGetPayload<T>>>
+  /**
+   * Find zero or more Directors that matches the filter.
    * @param {FindManyDirectorArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Directors
@@ -3167,6 +3373,30 @@ export type FindOneDirectorArgs = {
 
 
 /**
+ * Director findFirst
+ */
+export type FindFirstDirectorArgs = {
+  /**
+   * Select specific fields to fetch from the Director
+  **/
+  select?: DirectorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: DirectorInclude | null
+  /**
+   * Filter, which Director to fetch.
+  **/
+  where?: DirectorWhereInput
+  orderBy?: Enumerable<DirectorOrderByInput> | DirectorOrderByInput
+  cursor?: DirectorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<DirectorDistinctFieldEnum>
+}
+
+
+/**
  * Director findMany
  */
 export type FindManyDirectorArgs = {
@@ -3185,7 +3415,7 @@ export type FindManyDirectorArgs = {
   /**
    * Determine the order of the Directors to fetch.
   **/
-  orderBy?: Enumerable<DirectorOrderByInput>
+  orderBy?: Enumerable<DirectorOrderByInput> | DirectorOrderByInput
   /**
    * Sets the position for listing Directors.
   **/
@@ -3344,7 +3574,7 @@ export type AggregateProblem = {
 
 export type ProblemAvgAggregateOutputType = {
   id: number
-  creatorId: number
+  creatorId: number | null
 }
 
 export type ProblemSumAggregateOutputType = {
@@ -3385,7 +3615,7 @@ export type ProblemMaxAggregateInputType = {
 
 export type AggregateProblemArgs = {
   where?: ProblemWhereInput
-  orderBy?: Enumerable<ProblemOrderByInput>
+  orderBy?: Enumerable<ProblemOrderByInput> | ProblemOrderByInput
   cursor?: ProblemWhereUniqueInput
   take?: number
   skip?: number
@@ -3451,7 +3681,7 @@ export type ProblemGetPayload<
 
 export interface ProblemDelegate {
   /**
-   * Find zero or one Problem.
+   * Find zero or one Problem that matches the filter.
    * @param {FindOneProblemArgs} args - Arguments to find a Problem
    * @example
    * // Get one Problem
@@ -3465,7 +3695,21 @@ export interface ProblemDelegate {
     args: Subset<T, FindOneProblemArgs>
   ): CheckSelect<T, Prisma__ProblemClient<Problem | null>, Prisma__ProblemClient<ProblemGetPayload<T> | null>>
   /**
-   * Find zero or more Problems.
+   * Find the first Problem that matches the filter.
+   * @param {FindFirstProblemArgs} args - Arguments to find a Problem
+   * @example
+   * // Get one Problem
+   * const problem = await prisma.problem.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstProblemArgs>(
+    args: Subset<T, FindFirstProblemArgs>
+  ): CheckSelect<T, Prisma__ProblemClient<Problem>, Prisma__ProblemClient<ProblemGetPayload<T>>>
+  /**
+   * Find zero or more Problems that matches the filter.
    * @param {FindManyProblemArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Problems
@@ -3664,6 +3908,30 @@ export type FindOneProblemArgs = {
 
 
 /**
+ * Problem findFirst
+ */
+export type FindFirstProblemArgs = {
+  /**
+   * Select specific fields to fetch from the Problem
+  **/
+  select?: ProblemSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: ProblemInclude | null
+  /**
+   * Filter, which Problem to fetch.
+  **/
+  where?: ProblemWhereInput
+  orderBy?: Enumerable<ProblemOrderByInput> | ProblemOrderByInput
+  cursor?: ProblemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<ProblemDistinctFieldEnum>
+}
+
+
+/**
  * Problem findMany
  */
 export type FindManyProblemArgs = {
@@ -3682,7 +3950,7 @@ export type FindManyProblemArgs = {
   /**
    * Determine the order of the Problems to fetch.
   **/
-  orderBy?: Enumerable<ProblemOrderByInput>
+  orderBy?: Enumerable<ProblemOrderByInput> | ProblemOrderByInput
   /**
    * Sets the position for listing Problems.
   **/
@@ -3873,7 +4141,7 @@ export type CreatorMaxAggregateInputType = {
 
 export type AggregateCreatorArgs = {
   where?: CreatorWhereInput
-  orderBy?: Enumerable<CreatorOrderByInput>
+  orderBy?: Enumerable<CreatorOrderByInput> | CreatorOrderByInput
   cursor?: CreatorWhereUniqueInput
   take?: number
   skip?: number
@@ -3938,7 +4206,7 @@ export type CreatorGetPayload<
 
 export interface CreatorDelegate {
   /**
-   * Find zero or one Creator.
+   * Find zero or one Creator that matches the filter.
    * @param {FindOneCreatorArgs} args - Arguments to find a Creator
    * @example
    * // Get one Creator
@@ -3952,7 +4220,21 @@ export interface CreatorDelegate {
     args: Subset<T, FindOneCreatorArgs>
   ): CheckSelect<T, Prisma__CreatorClient<Creator | null>, Prisma__CreatorClient<CreatorGetPayload<T> | null>>
   /**
-   * Find zero or more Creators.
+   * Find the first Creator that matches the filter.
+   * @param {FindFirstCreatorArgs} args - Arguments to find a Creator
+   * @example
+   * // Get one Creator
+   * const creator = await prisma.creator.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstCreatorArgs>(
+    args: Subset<T, FindFirstCreatorArgs>
+  ): CheckSelect<T, Prisma__CreatorClient<Creator>, Prisma__CreatorClient<CreatorGetPayload<T>>>
+  /**
+   * Find zero or more Creators that matches the filter.
    * @param {FindManyCreatorArgs=} args - Arguments to filter and select certain fields only.
    * @example
    * // Get all Creators
@@ -4151,6 +4433,30 @@ export type FindOneCreatorArgs = {
 
 
 /**
+ * Creator findFirst
+ */
+export type FindFirstCreatorArgs = {
+  /**
+   * Select specific fields to fetch from the Creator
+  **/
+  select?: CreatorSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: CreatorInclude | null
+  /**
+   * Filter, which Creator to fetch.
+  **/
+  where?: CreatorWhereInput
+  orderBy?: Enumerable<CreatorOrderByInput> | CreatorOrderByInput
+  cursor?: CreatorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<CreatorDistinctFieldEnum>
+}
+
+
+/**
  * Creator findMany
  */
 export type FindManyCreatorArgs = {
@@ -4169,7 +4475,7 @@ export type FindManyCreatorArgs = {
   /**
    * Determine the order of the Creators to fetch.
   **/
-  orderBy?: Enumerable<CreatorOrderByInput>
+  orderBy?: Enumerable<CreatorOrderByInput> | CreatorOrderByInput
   /**
    * Sets the position for listing Creators.
   **/
@@ -4313,17 +4619,17 @@ export type CreatorArgs = {
 
 
 export type UserWhereInput = {
-  AND?: Enumerable<UserWhereInput>
-  OR?: Array<UserWhereInput>
-  NOT?: Enumerable<UserWhereInput>
-  id?: number | IntFilter
-  email?: string | StringFilter
-  name?: string | StringNullableFilter | null
-  age?: number | IntFilter
-  balance?: number | FloatFilter
-  amount?: number | FloatFilter
+  AND?: UserWhereInput | Enumerable<UserWhereInput>
+  OR?: UserWhereInput | Enumerable<UserWhereInput>
+  NOT?: UserWhereInput | Enumerable<UserWhereInput>
+  id?: IntFilter | number
+  email?: StringFilter | string
+  name?: StringNullableFilter | string | null
+  age?: IntFilter | number
+  balance?: FloatFilter | number
+  amount?: FloatFilter | number
   posts?: PostListRelationFilter
-  role?: Role | EnumRoleFilter
+  role?: EnumRoleFilter | Role
   editorPosts?: PostListRelationFilter
 }
 
@@ -4343,21 +4649,21 @@ export type UserWhereUniqueInput = {
 }
 
 export type postWhereInput = {
-  AND?: Enumerable<postWhereInput>
-  OR?: Array<postWhereInput>
-  NOT?: Enumerable<postWhereInput>
-  uuid?: string | StringFilter
-  createdAt?: Date | string | DateTimeFilter
-  updatedAt?: Date | string | DateTimeFilter
-  published?: boolean | BoolFilter
-  title?: string | StringFilter
-  subtitle?: string | StringFilter
-  content?: string | StringNullableFilter | null
-  author?: UserWhereInput | null
-  authorId?: number | IntFilter
-  editor?: UserWhereInput | null
-  editorId?: number | IntNullableFilter | null
-  kind?: PostKind | EnumPostKindNullableFilter | null
+  AND?: postWhereInput | Enumerable<postWhereInput>
+  OR?: postWhereInput | Enumerable<postWhereInput>
+  NOT?: postWhereInput | Enumerable<postWhereInput>
+  uuid?: StringFilter | string
+  createdAt?: DateTimeFilter | Date | string
+  updatedAt?: DateTimeFilter | Date | string
+  published?: BoolFilter | boolean
+  title?: StringFilter | string
+  subtitle?: StringFilter | string
+  content?: StringNullableFilter | string | null
+  author?: UserRelationFilter | UserWhereInput
+  authorId?: IntFilter | number
+  editor?: UserRelationFilter | UserWhereInput | null
+  editorId?: IntNullableFilter | number | null
+  kind?: EnumPostKindNullableFilter | PostKind | null
   metadata?: JsonFilter
 }
 
@@ -4380,12 +4686,12 @@ export type postWhereUniqueInput = {
 }
 
 export type CategoryWhereInput = {
-  AND?: Enumerable<CategoryWhereInput>
-  OR?: Array<CategoryWhereInput>
-  NOT?: Enumerable<CategoryWhereInput>
-  name?: string | StringFilter
-  slug?: string | StringFilter
-  number?: number | IntFilter
+  AND?: CategoryWhereInput | Enumerable<CategoryWhereInput>
+  OR?: CategoryWhereInput | Enumerable<CategoryWhereInput>
+  NOT?: CategoryWhereInput | Enumerable<CategoryWhereInput>
+  name?: StringFilter | string
+  slug?: StringFilter | string
+  number?: IntFilter | number
 }
 
 export type CategoryOrderByInput = {
@@ -4399,12 +4705,12 @@ export type CategoryWhereUniqueInput = {
 }
 
 export type PatientWhereInput = {
-  AND?: Enumerable<PatientWhereInput>
-  OR?: Array<PatientWhereInput>
-  NOT?: Enumerable<PatientWhereInput>
-  firstName?: string | StringFilter
-  lastName?: string | StringFilter
-  email?: string | StringFilter
+  AND?: PatientWhereInput | Enumerable<PatientWhereInput>
+  OR?: PatientWhereInput | Enumerable<PatientWhereInput>
+  NOT?: PatientWhereInput | Enumerable<PatientWhereInput>
+  firstName?: StringFilter | string
+  lastName?: StringFilter | string
+  email?: StringFilter | string
 }
 
 export type PatientOrderByInput = {
@@ -4418,13 +4724,13 @@ export type PatientWhereUniqueInput = {
 }
 
 export type MovieWhereInput = {
-  AND?: Enumerable<MovieWhereInput>
-  OR?: Array<MovieWhereInput>
-  NOT?: Enumerable<MovieWhereInput>
-  directorFirstName?: string | StringFilter
-  directorLastName?: string | StringFilter
-  director?: DirectorWhereInput | null
-  title?: string | StringFilter
+  AND?: MovieWhereInput | Enumerable<MovieWhereInput>
+  OR?: MovieWhereInput | Enumerable<MovieWhereInput>
+  NOT?: MovieWhereInput | Enumerable<MovieWhereInput>
+  directorFirstName?: StringFilter | string
+  directorLastName?: StringFilter | string
+  director?: DirectorRelationFilter | DirectorWhereInput
+  title?: StringFilter | string
 }
 
 export type MovieOrderByInput = {
@@ -4438,11 +4744,11 @@ export type MovieWhereUniqueInput = {
 }
 
 export type DirectorWhereInput = {
-  AND?: Enumerable<DirectorWhereInput>
-  OR?: Array<DirectorWhereInput>
-  NOT?: Enumerable<DirectorWhereInput>
-  firstName?: string | StringFilter
-  lastName?: string | StringFilter
+  AND?: DirectorWhereInput | Enumerable<DirectorWhereInput>
+  OR?: DirectorWhereInput | Enumerable<DirectorWhereInput>
+  NOT?: DirectorWhereInput | Enumerable<DirectorWhereInput>
+  firstName?: StringFilter | string
+  lastName?: StringFilter | string
   movies?: MovieListRelationFilter
 }
 
@@ -4456,14 +4762,14 @@ export type DirectorWhereUniqueInput = {
 }
 
 export type ProblemWhereInput = {
-  AND?: Enumerable<ProblemWhereInput>
-  OR?: Array<ProblemWhereInput>
-  NOT?: Enumerable<ProblemWhereInput>
-  id?: number | IntFilter
-  problemText?: string | StringFilter
+  AND?: ProblemWhereInput | Enumerable<ProblemWhereInput>
+  OR?: ProblemWhereInput | Enumerable<ProblemWhereInput>
+  NOT?: ProblemWhereInput | Enumerable<ProblemWhereInput>
+  id?: IntFilter | number
+  problemText?: StringFilter | string
   likedBy?: CreatorListRelationFilter
-  creator?: CreatorWhereInput | null
-  creatorId?: number | IntNullableFilter | null
+  creator?: CreatorRelationFilter | CreatorWhereInput | null
+  creatorId?: IntNullableFilter | number | null
 }
 
 export type ProblemOrderByInput = {
@@ -4477,11 +4783,11 @@ export type ProblemWhereUniqueInput = {
 }
 
 export type CreatorWhereInput = {
-  AND?: Enumerable<CreatorWhereInput>
-  OR?: Array<CreatorWhereInput>
-  NOT?: Enumerable<CreatorWhereInput>
-  id?: number | IntFilter
-  name?: string | StringFilter
+  AND?: CreatorWhereInput | Enumerable<CreatorWhereInput>
+  OR?: CreatorWhereInput | Enumerable<CreatorWhereInput>
+  NOT?: CreatorWhereInput | Enumerable<CreatorWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
   likes?: ProblemListRelationFilter
   problems?: ProblemListRelationFilter
 }
@@ -4687,6 +4993,7 @@ export type StringFilter = {
   contains?: string
   startsWith?: string
   endsWith?: string
+  mode?: QueryMode
   not?: string | NestedStringFilter
 }
 
@@ -4694,13 +5001,14 @@ export type StringNullableFilter = {
   equals?: string | null
   in?: Enumerable<string> | null
   notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  mode?: QueryMode
   not?: string | NestedStringNullableFilter | null
 }
 
@@ -4730,8 +5038,8 @@ export type EnumRoleFilter = {
 
 export type DateTimeFilter = {
   equals?: Date | string
-  in?: Enumerable<Date | string>
-  notIn?: Enumerable<Date | string>
+  in?: Enumerable<Date> | Enumerable<string>
+  notIn?: Enumerable<Date> | Enumerable<string>
   lt?: Date | string
   lte?: Date | string
   gt?: Date | string
@@ -4745,18 +5053,18 @@ export type BoolFilter = {
 }
 
 export type UserRelationFilter = {
-  is?: UserWhereInput | null
-  isNot?: UserWhereInput | null
+  is?: UserWhereInput
+  isNot?: UserWhereInput
 }
 
 export type IntNullableFilter = {
   equals?: number | null
   in?: Enumerable<number> | null
   notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
   not?: number | NestedIntNullableFilter | null
 }
 
@@ -4769,7 +5077,7 @@ export type EnumPostKindNullableFilter = {
 
 export type JsonFilter = {
   equals?: InputJsonValue
-  not?: InputJsonValue | NestedJsonFilter
+  not?: InputJsonValue
 }
 
 export type SlugNumberCompoundUniqueInput = {
@@ -4783,8 +5091,8 @@ export type FirstNameLastNameCompoundUniqueInput = {
 }
 
 export type DirectorRelationFilter = {
-  is?: DirectorWhereInput | null
-  isNot?: DirectorWhereInput | null
+  is?: DirectorWhereInput
+  isNot?: DirectorWhereInput
 }
 
 export type DirectorFirstNameDirectorLastNameTitleCompoundUniqueInput = {
@@ -4817,15 +5125,15 @@ export type ProblemListRelationFilter = {
 }
 
 export type postCreateManyWithoutAuthorInput = {
-  create?: Enumerable<postCreateWithoutAuthorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+  create?: postCreateWithoutAuthorInput | Enumerable<postCreateWithoutAuthorInput>
+  connect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  connectOrCreate?: postCreateOrConnectWithoutUserInput | Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type postCreateManyWithoutEditorInput = {
-  create?: Enumerable<postCreateWithoutEditorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+  create?: postCreateWithoutEditorInput | Enumerable<postCreateWithoutEditorInput>
+  connect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  connectOrCreate?: postCreateOrConnectWithoutUserInput | Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -4857,29 +5165,29 @@ export type EnumRoleFieldUpdateOperationsInput = {
 }
 
 export type postUpdateManyWithoutAuthorInput = {
-  create?: Enumerable<postCreateWithoutAuthorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  set?: Enumerable<postWhereUniqueInput>
-  disconnect?: Enumerable<postWhereUniqueInput>
-  delete?: Enumerable<postWhereUniqueInput>
-  update?: Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
-  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<postScalarWhereInput>
-  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+  create?: postCreateWithoutAuthorInput | Enumerable<postCreateWithoutAuthorInput>
+  connect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  set?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  disconnect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  delete?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  update?: postUpdateWithWhereUniqueWithoutAuthorInput | Enumerable<postUpdateWithWhereUniqueWithoutAuthorInput>
+  updateMany?: postUpdateManyWithWhereNestedInput | Enumerable<postUpdateManyWithWhereNestedInput>
+  deleteMany?: postScalarWhereInput | Enumerable<postScalarWhereInput>
+  upsert?: postUpsertWithWhereUniqueWithoutAuthorInput | Enumerable<postUpsertWithWhereUniqueWithoutAuthorInput>
+  connectOrCreate?: postCreateOrConnectWithoutUserInput | Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type postUpdateManyWithoutEditorInput = {
-  create?: Enumerable<postCreateWithoutEditorInput>
-  connect?: Enumerable<postWhereUniqueInput>
-  set?: Enumerable<postWhereUniqueInput>
-  disconnect?: Enumerable<postWhereUniqueInput>
-  delete?: Enumerable<postWhereUniqueInput>
-  update?: Enumerable<postUpdateWithWhereUniqueWithoutEditorInput>
-  updateMany?: Enumerable<postUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<postScalarWhereInput>
-  upsert?: Enumerable<postUpsertWithWhereUniqueWithoutEditorInput>
-  connectOrCreate?: Enumerable<postCreateOrConnectWithoutUserInput>
+  create?: postCreateWithoutEditorInput | Enumerable<postCreateWithoutEditorInput>
+  connect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  set?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  disconnect?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  delete?: postWhereUniqueInput | Enumerable<postWhereUniqueInput>
+  update?: postUpdateWithWhereUniqueWithoutEditorInput | Enumerable<postUpdateWithWhereUniqueWithoutEditorInput>
+  updateMany?: postUpdateManyWithWhereNestedInput | Enumerable<postUpdateManyWithWhereNestedInput>
+  deleteMany?: postScalarWhereInput | Enumerable<postScalarWhereInput>
+  upsert?: postUpsertWithWhereUniqueWithoutEditorInput | Enumerable<postUpsertWithWhereUniqueWithoutEditorInput>
+  connectOrCreate?: postCreateOrConnectWithoutUserInput | Enumerable<postCreateOrConnectWithoutUserInput>
 }
 
 export type UserCreateOneWithoutPostsInput = {
@@ -4904,10 +5212,6 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type NullableEnumPostKindFieldUpdateOperationsInput = {
   set?: PostKind | null
-}
-
-export type JsonFieldUpdateOperationsInput = {
-  set?: InputJsonValue
 }
 
 export type UserUpdateOneRequiredWithoutPostsInput = {
@@ -4943,28 +5247,28 @@ export type DirectorUpdateOneRequiredWithoutMoviesInput = {
 }
 
 export type MovieCreateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput>
-  connect?: Enumerable<MovieWhereUniqueInput>
-  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
+  create?: MovieCreateWithoutDirectorInput | Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: MovieWhereUniqueInput | Enumerable<MovieWhereUniqueInput>
+  connectOrCreate?: MovieCreateOrConnectWithoutDirectorInput | Enumerable<MovieCreateOrConnectWithoutDirectorInput>
 }
 
 export type MovieUpdateManyWithoutDirectorInput = {
-  create?: Enumerable<MovieCreateWithoutDirectorInput>
-  connect?: Enumerable<MovieWhereUniqueInput>
-  set?: Enumerable<MovieWhereUniqueInput>
-  disconnect?: Enumerable<MovieWhereUniqueInput>
-  delete?: Enumerable<MovieWhereUniqueInput>
-  update?: Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
-  updateMany?: Enumerable<MovieUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<MovieScalarWhereInput>
-  upsert?: Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
-  connectOrCreate?: Enumerable<MovieCreateOrConnectWithoutDirectorInput>
+  create?: MovieCreateWithoutDirectorInput | Enumerable<MovieCreateWithoutDirectorInput>
+  connect?: MovieWhereUniqueInput | Enumerable<MovieWhereUniqueInput>
+  set?: MovieWhereUniqueInput | Enumerable<MovieWhereUniqueInput>
+  disconnect?: MovieWhereUniqueInput | Enumerable<MovieWhereUniqueInput>
+  delete?: MovieWhereUniqueInput | Enumerable<MovieWhereUniqueInput>
+  update?: MovieUpdateWithWhereUniqueWithoutDirectorInput | Enumerable<MovieUpdateWithWhereUniqueWithoutDirectorInput>
+  updateMany?: MovieUpdateManyWithWhereNestedInput | Enumerable<MovieUpdateManyWithWhereNestedInput>
+  deleteMany?: MovieScalarWhereInput | Enumerable<MovieScalarWhereInput>
+  upsert?: MovieUpsertWithWhereUniqueWithoutDirectorInput | Enumerable<MovieUpsertWithWhereUniqueWithoutDirectorInput>
+  connectOrCreate?: MovieCreateOrConnectWithoutDirectorInput | Enumerable<MovieCreateOrConnectWithoutDirectorInput>
 }
 
 export type CreatorCreateManyWithoutLikesInput = {
-  create?: Enumerable<CreatorCreateWithoutLikesInput>
-  connect?: Enumerable<CreatorWhereUniqueInput>
-  connectOrCreate?: Enumerable<CreatorCreateOrConnectWithoutProblemInput>
+  create?: CreatorCreateWithoutLikesInput | Enumerable<CreatorCreateWithoutLikesInput>
+  connect?: CreatorWhereUniqueInput | Enumerable<CreatorWhereUniqueInput>
+  connectOrCreate?: CreatorCreateOrConnectWithoutProblemInput | Enumerable<CreatorCreateOrConnectWithoutProblemInput>
 }
 
 export type CreatorCreateOneWithoutProblemsInput = {
@@ -4974,16 +5278,16 @@ export type CreatorCreateOneWithoutProblemsInput = {
 }
 
 export type CreatorUpdateManyWithoutLikesInput = {
-  create?: Enumerable<CreatorCreateWithoutLikesInput>
-  connect?: Enumerable<CreatorWhereUniqueInput>
-  set?: Enumerable<CreatorWhereUniqueInput>
-  disconnect?: Enumerable<CreatorWhereUniqueInput>
-  delete?: Enumerable<CreatorWhereUniqueInput>
-  update?: Enumerable<CreatorUpdateWithWhereUniqueWithoutLikesInput>
-  updateMany?: Enumerable<CreatorUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<CreatorScalarWhereInput>
-  upsert?: Enumerable<CreatorUpsertWithWhereUniqueWithoutLikesInput>
-  connectOrCreate?: Enumerable<CreatorCreateOrConnectWithoutProblemInput>
+  create?: CreatorCreateWithoutLikesInput | Enumerable<CreatorCreateWithoutLikesInput>
+  connect?: CreatorWhereUniqueInput | Enumerable<CreatorWhereUniqueInput>
+  set?: CreatorWhereUniqueInput | Enumerable<CreatorWhereUniqueInput>
+  disconnect?: CreatorWhereUniqueInput | Enumerable<CreatorWhereUniqueInput>
+  delete?: CreatorWhereUniqueInput | Enumerable<CreatorWhereUniqueInput>
+  update?: CreatorUpdateWithWhereUniqueWithoutLikesInput | Enumerable<CreatorUpdateWithWhereUniqueWithoutLikesInput>
+  updateMany?: CreatorUpdateManyWithWhereNestedInput | Enumerable<CreatorUpdateManyWithWhereNestedInput>
+  deleteMany?: CreatorScalarWhereInput | Enumerable<CreatorScalarWhereInput>
+  upsert?: CreatorUpsertWithWhereUniqueWithoutLikesInput | Enumerable<CreatorUpsertWithWhereUniqueWithoutLikesInput>
+  connectOrCreate?: CreatorCreateOrConnectWithoutProblemInput | Enumerable<CreatorCreateOrConnectWithoutProblemInput>
 }
 
 export type CreatorUpdateOneWithoutProblemsInput = {
@@ -4997,41 +5301,41 @@ export type CreatorUpdateOneWithoutProblemsInput = {
 }
 
 export type ProblemCreateManyWithoutLikedByInput = {
-  create?: Enumerable<ProblemCreateWithoutLikedByInput>
-  connect?: Enumerable<ProblemWhereUniqueInput>
-  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+  create?: ProblemCreateWithoutLikedByInput | Enumerable<ProblemCreateWithoutLikedByInput>
+  connect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  connectOrCreate?: ProblemCreateOrConnectWithoutCreatorInput | Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
 }
 
 export type ProblemCreateManyWithoutCreatorInput = {
-  create?: Enumerable<ProblemCreateWithoutCreatorInput>
-  connect?: Enumerable<ProblemWhereUniqueInput>
-  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+  create?: ProblemCreateWithoutCreatorInput | Enumerable<ProblemCreateWithoutCreatorInput>
+  connect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  connectOrCreate?: ProblemCreateOrConnectWithoutCreatorInput | Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
 }
 
 export type ProblemUpdateManyWithoutLikedByInput = {
-  create?: Enumerable<ProblemCreateWithoutLikedByInput>
-  connect?: Enumerable<ProblemWhereUniqueInput>
-  set?: Enumerable<ProblemWhereUniqueInput>
-  disconnect?: Enumerable<ProblemWhereUniqueInput>
-  delete?: Enumerable<ProblemWhereUniqueInput>
-  update?: Enumerable<ProblemUpdateWithWhereUniqueWithoutLikedByInput>
-  updateMany?: Enumerable<ProblemUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<ProblemScalarWhereInput>
-  upsert?: Enumerable<ProblemUpsertWithWhereUniqueWithoutLikedByInput>
-  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+  create?: ProblemCreateWithoutLikedByInput | Enumerable<ProblemCreateWithoutLikedByInput>
+  connect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  set?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  disconnect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  delete?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  update?: ProblemUpdateWithWhereUniqueWithoutLikedByInput | Enumerable<ProblemUpdateWithWhereUniqueWithoutLikedByInput>
+  updateMany?: ProblemUpdateManyWithWhereNestedInput | Enumerable<ProblemUpdateManyWithWhereNestedInput>
+  deleteMany?: ProblemScalarWhereInput | Enumerable<ProblemScalarWhereInput>
+  upsert?: ProblemUpsertWithWhereUniqueWithoutLikedByInput | Enumerable<ProblemUpsertWithWhereUniqueWithoutLikedByInput>
+  connectOrCreate?: ProblemCreateOrConnectWithoutCreatorInput | Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
 }
 
 export type ProblemUpdateManyWithoutCreatorInput = {
-  create?: Enumerable<ProblemCreateWithoutCreatorInput>
-  connect?: Enumerable<ProblemWhereUniqueInput>
-  set?: Enumerable<ProblemWhereUniqueInput>
-  disconnect?: Enumerable<ProblemWhereUniqueInput>
-  delete?: Enumerable<ProblemWhereUniqueInput>
-  update?: Enumerable<ProblemUpdateWithWhereUniqueWithoutCreatorInput>
-  updateMany?: Enumerable<ProblemUpdateManyWithWhereNestedInput> | null
-  deleteMany?: Enumerable<ProblemScalarWhereInput>
-  upsert?: Enumerable<ProblemUpsertWithWhereUniqueWithoutCreatorInput>
-  connectOrCreate?: Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
+  create?: ProblemCreateWithoutCreatorInput | Enumerable<ProblemCreateWithoutCreatorInput>
+  connect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  set?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  disconnect?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  delete?: ProblemWhereUniqueInput | Enumerable<ProblemWhereUniqueInput>
+  update?: ProblemUpdateWithWhereUniqueWithoutCreatorInput | Enumerable<ProblemUpdateWithWhereUniqueWithoutCreatorInput>
+  updateMany?: ProblemUpdateManyWithWhereNestedInput | Enumerable<ProblemUpdateManyWithWhereNestedInput>
+  deleteMany?: ProblemScalarWhereInput | Enumerable<ProblemScalarWhereInput>
+  upsert?: ProblemUpsertWithWhereUniqueWithoutCreatorInput | Enumerable<ProblemUpsertWithWhereUniqueWithoutCreatorInput>
+  connectOrCreate?: ProblemCreateOrConnectWithoutCreatorInput | Enumerable<ProblemCreateOrConnectWithoutCreatorInput>
 }
 
 export type NestedIntFilter = {
@@ -5042,7 +5346,7 @@ export type NestedIntFilter = {
   lte?: number
   gt?: number
   gte?: number
-  not?: NestedIntFilter | null
+  not?: number | NestedIntFilter
 }
 
 export type NestedStringFilter = {
@@ -5056,21 +5360,21 @@ export type NestedStringFilter = {
   contains?: string
   startsWith?: string
   endsWith?: string
-  not?: NestedStringFilter | null
+  not?: string | NestedStringFilter
 }
 
 export type NestedStringNullableFilter = {
   equals?: string | null
   in?: Enumerable<string> | null
   notIn?: Enumerable<string> | null
-  lt?: string | null
-  lte?: string | null
-  gt?: string | null
-  gte?: string | null
-  contains?: string | null
-  startsWith?: string | null
-  endsWith?: string | null
-  not?: NestedStringNullableFilter | null
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: string | NestedStringNullableFilter | null
 }
 
 export type NestedFloatFilter = {
@@ -5081,53 +5385,48 @@ export type NestedFloatFilter = {
   lte?: number
   gt?: number
   gte?: number
-  not?: NestedFloatFilter | null
+  not?: number | NestedFloatFilter
 }
 
 export type NestedEnumRoleFilter = {
   equals?: Role
   in?: Enumerable<Role>
   notIn?: Enumerable<Role>
-  not?: NestedEnumRoleFilter | null
+  not?: Role | NestedEnumRoleFilter
 }
 
 export type NestedDateTimeFilter = {
   equals?: Date | string
-  in?: Enumerable<Date | string>
-  notIn?: Enumerable<Date | string>
+  in?: Enumerable<Date> | Enumerable<string>
+  notIn?: Enumerable<Date> | Enumerable<string>
   lt?: Date | string
   lte?: Date | string
   gt?: Date | string
   gte?: Date | string
-  not?: NestedDateTimeFilter | null
+  not?: Date | string | NestedDateTimeFilter
 }
 
 export type NestedBoolFilter = {
   equals?: boolean
-  not?: NestedBoolFilter | null
+  not?: boolean | NestedBoolFilter
 }
 
 export type NestedIntNullableFilter = {
   equals?: number | null
   in?: Enumerable<number> | null
   notIn?: Enumerable<number> | null
-  lt?: number | null
-  lte?: number | null
-  gt?: number | null
-  gte?: number | null
-  not?: NestedIntNullableFilter | null
+  lt?: number
+  lte?: number
+  gt?: number
+  gte?: number
+  not?: number | NestedIntNullableFilter | null
 }
 
 export type NestedEnumPostKindNullableFilter = {
   equals?: PostKind | null
   in?: Enumerable<PostKind> | null
   notIn?: Enumerable<PostKind> | null
-  not?: NestedEnumPostKindNullableFilter | null
-}
-
-export type NestedJsonFilter = {
-  equals?: InputJsonValue
-  not?: NestedJsonFilter | null
+  not?: PostKind | NestedEnumPostKindNullableFilter | null
 }
 
 export type postCreateWithoutAuthorInput = {
@@ -5172,19 +5471,19 @@ export type postUpdateManyWithWhereNestedInput = {
 }
 
 export type postScalarWhereInput = {
-  AND?: Enumerable<postScalarWhereInput>
-  OR?: Array<postScalarWhereInput>
-  NOT?: Enumerable<postScalarWhereInput>
-  uuid?: string | StringFilter
-  createdAt?: Date | string | DateTimeFilter
-  updatedAt?: Date | string | DateTimeFilter
-  published?: boolean | BoolFilter
-  title?: string | StringFilter
-  subtitle?: string | StringFilter
-  content?: string | StringNullableFilter | null
-  authorId?: number | IntFilter
-  editorId?: number | IntNullableFilter | null
-  kind?: PostKind | EnumPostKindNullableFilter | null
+  AND?: postScalarWhereInput | Enumerable<postScalarWhereInput>
+  OR?: postScalarWhereInput | Enumerable<postScalarWhereInput>
+  NOT?: postScalarWhereInput | Enumerable<postScalarWhereInput>
+  uuid?: StringFilter | string
+  createdAt?: DateTimeFilter | Date | string
+  updatedAt?: DateTimeFilter | Date | string
+  published?: BoolFilter | boolean
+  title?: StringFilter | string
+  subtitle?: StringFilter | string
+  content?: StringNullableFilter | string | null
+  authorId?: IntFilter | number
+  editorId?: IntNullableFilter | number | null
+  kind?: EnumPostKindNullableFilter | PostKind | null
   metadata?: JsonFilter
 }
 
@@ -5300,12 +5599,12 @@ export type MovieUpdateManyWithWhereNestedInput = {
 }
 
 export type MovieScalarWhereInput = {
-  AND?: Enumerable<MovieScalarWhereInput>
-  OR?: Array<MovieScalarWhereInput>
-  NOT?: Enumerable<MovieScalarWhereInput>
-  directorFirstName?: string | StringFilter
-  directorLastName?: string | StringFilter
-  title?: string | StringFilter
+  AND?: MovieScalarWhereInput | Enumerable<MovieScalarWhereInput>
+  OR?: MovieScalarWhereInput | Enumerable<MovieScalarWhereInput>
+  NOT?: MovieScalarWhereInput | Enumerable<MovieScalarWhereInput>
+  directorFirstName?: StringFilter | string
+  directorLastName?: StringFilter | string
+  title?: StringFilter | string
 }
 
 export type MovieUpsertWithWhereUniqueWithoutDirectorInput = {
@@ -5340,11 +5639,11 @@ export type CreatorUpdateManyWithWhereNestedInput = {
 }
 
 export type CreatorScalarWhereInput = {
-  AND?: Enumerable<CreatorScalarWhereInput>
-  OR?: Array<CreatorScalarWhereInput>
-  NOT?: Enumerable<CreatorScalarWhereInput>
-  id?: number | IntFilter
-  name?: string | StringFilter
+  AND?: CreatorScalarWhereInput | Enumerable<CreatorScalarWhereInput>
+  OR?: CreatorScalarWhereInput | Enumerable<CreatorScalarWhereInput>
+  NOT?: CreatorScalarWhereInput | Enumerable<CreatorScalarWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
 }
 
 export type CreatorUpsertWithWhereUniqueWithoutLikesInput = {
@@ -5389,12 +5688,12 @@ export type ProblemUpdateManyWithWhereNestedInput = {
 }
 
 export type ProblemScalarWhereInput = {
-  AND?: Enumerable<ProblemScalarWhereInput>
-  OR?: Array<ProblemScalarWhereInput>
-  NOT?: Enumerable<ProblemScalarWhereInput>
-  id?: number | IntFilter
-  problemText?: string | StringFilter
-  creatorId?: number | IntNullableFilter | null
+  AND?: ProblemScalarWhereInput | Enumerable<ProblemScalarWhereInput>
+  OR?: ProblemScalarWhereInput | Enumerable<ProblemScalarWhereInput>
+  NOT?: ProblemScalarWhereInput | Enumerable<ProblemScalarWhereInput>
+  id?: IntFilter | number
+  problemText?: StringFilter | string
+  creatorId?: IntNullableFilter | number | null
 }
 
 export type ProblemUpsertWithWhereUniqueWithoutLikedByInput = {

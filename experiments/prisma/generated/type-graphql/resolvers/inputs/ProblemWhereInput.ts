@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { JsonValue, InputJsonValue } from "../../../client";
 import { CreatorListRelationFilter } from "../inputs/CreatorListRelationFilter";
-import { CreatorWhereInput } from "../inputs/CreatorWhereInput";
+import { CreatorRelationFilter } from "../inputs/CreatorRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -48,11 +48,11 @@ export class ProblemWhereInput {
   })
   likedBy?: CreatorListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CreatorWhereInput, {
+  @TypeGraphQL.Field(_type => CreatorRelationFilter, {
     nullable: true,
     description: undefined
   })
-  creator?: CreatorWhereInput | undefined;
+  creator?: CreatorRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true,

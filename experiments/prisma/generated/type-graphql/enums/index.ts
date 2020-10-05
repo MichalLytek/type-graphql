@@ -7,5 +7,6 @@ export { PatientDistinctFieldEnum } from "./PatientDistinctFieldEnum";
 export { PostDistinctFieldEnum } from "./PostDistinctFieldEnum";
 export { PostKind } from "./PostKind";
 export { ProblemDistinctFieldEnum } from "./ProblemDistinctFieldEnum";
+export { QueryMode } from "./QueryMode";
 export { Role } from "./Role";
 export { SortOrder } from "./SortOrder";

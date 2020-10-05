@@ -212,13 +212,11 @@ export { FloatFieldUpdateOperationsInput } from \\"./FloatFieldUpdateOperationsI
 export { FloatFilter } from \\"./FloatFilter\\";
 export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
-export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
 export { JsonFilter } from \\"./JsonFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
 export { NestedDateTimeFilter } from \\"./NestedDateTimeFilter\\";
 export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
-export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
 export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
@@ -720,7 +718,7 @@ exports[`inputs should properly generate input type classes for filtering models
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { FirstModelWhereInput } from \\"../inputs/FirstModelWhereInput\\";
+import { FirstModelRelationFilter } from \\"../inputs/FirstModelRelationFilter\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
@@ -772,11 +770,11 @@ export class SecondModelWhereInput {
   })
   firstModelFieldId?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => FirstModelWhereInput, {
+  @TypeGraphQL.Field(_type => FirstModelRelationFilter, {
     nullable: true,
     description: undefined
   })
-  firstModelField?: FirstModelWhereInput | undefined;
+  firstModelField?: FirstModelRelationFilter | undefined;
 }
 "
 `;
@@ -1062,7 +1060,6 @@ exports[`inputs should properly generate input type classes for filtering scalar
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { NestedJsonFilter } from \\"../inputs/NestedJsonFilter\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -1075,11 +1072,11 @@ export class JsonFilter {
   })
   equals?: InputJsonValue | undefined;
 
-  @TypeGraphQL.Field(_type => NestedJsonFilter, {
+  @TypeGraphQL.Field(_type => GraphQLJSON, {
     nullable: true,
     description: undefined
   })
-  not?: NestedJsonFilter | undefined;
+  not?: InputJsonValue | undefined;
 }
 "
 `;
@@ -1292,31 +1289,6 @@ export class NestedIntFilter {
 "
 `;
 
-exports[`inputs should properly generate input type classes for filtering scalar fields: NestedJsonFilter 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-import GraphQLJSON from \\"graphql-type-json\\";
-import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-
-@TypeGraphQL.InputType({
-  isAbstract: true,
-  description: undefined,
-})
-export class NestedJsonFilter {
-  @TypeGraphQL.Field(_type => GraphQLJSON, {
-    nullable: true,
-    description: undefined
-  })
-  equals?: InputJsonValue | undefined;
-
-  @TypeGraphQL.Field(_type => NestedJsonFilter, {
-    nullable: true,
-    description: undefined
-  })
-  not?: NestedJsonFilter | undefined;
-}
-"
-`;
-
 exports[`inputs should properly generate input type classes for filtering scalar fields: NestedStringNullableFilter 1`] = `
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
@@ -1401,6 +1373,7 @@ exports[`inputs should properly generate input type classes for filtering scalar
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 import { NestedStringFilter } from \\"../inputs/NestedStringFilter\\";
+import { QueryMode } from \\"../../enums/QueryMode\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -1467,6 +1440,12 @@ export class StringFilter {
   })
   endsWith?: string | undefined;
 
+  @TypeGraphQL.Field(_type => QueryMode, {
+    nullable: true,
+    description: undefined
+  })
+  mode?: typeof QueryMode[keyof typeof QueryMode] | undefined;
+
   @TypeGraphQL.Field(_type => NestedStringFilter, {
     nullable: true,
     description: undefined
@@ -1481,6 +1460,7 @@ exports[`inputs should properly generate input type classes for filtering scalar
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 import { NestedStringNullableFilter } from \\"../inputs/NestedStringNullableFilter\\";
+import { QueryMode } from \\"../../enums/QueryMode\\";
 
 @TypeGraphQL.InputType({
   isAbstract: true,
@@ -1547,6 +1527,12 @@ export class StringNullableFilter {
   })
   endsWith?: string | undefined;
 
+  @TypeGraphQL.Field(_type => QueryMode, {
+    nullable: true,
+    description: undefined
+  })
+  mode?: typeof QueryMode[keyof typeof QueryMode] | undefined;
+
   @TypeGraphQL.Field(_type => NestedStringNullableFilter, {
     nullable: true,
     description: undefined
@@ -1569,7 +1555,6 @@ export { FloatNullableFilter } from \\"./FloatNullableFilter\\";
 export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { IntNullableFilter } from \\"./IntNullableFilter\\";
-export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
 export { JsonFilter } from \\"./JsonFilter\\";
 export { JsonNullableFilter } from \\"./JsonNullableFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
@@ -1580,15 +1565,12 @@ export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedFloatNullableFilter } from \\"./NestedFloatNullableFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
 export { NestedIntNullableFilter } from \\"./NestedIntNullableFilter\\";
-export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
-export { NestedJsonNullableFilter } from \\"./NestedJsonNullableFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
 export { NullableBoolFieldUpdateOperationsInput } from \\"./NullableBoolFieldUpdateOperationsInput\\";
 export { NullableDateTimeFieldUpdateOperationsInput } from \\"./NullableDateTimeFieldUpdateOperationsInput\\";
 export { NullableFloatFieldUpdateOperationsInput } from \\"./NullableFloatFieldUpdateOperationsInput\\";
 export { NullableIntFieldUpdateOperationsInput } from \\"./NullableIntFieldUpdateOperationsInput\\";
-export { NullableJsonFieldUpdateOperationsInput } from \\"./NullableJsonFieldUpdateOperationsInput\\";
 export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
 export { SampleModelCreateInput } from \\"./SampleModelCreateInput\\";
 export { SampleModelOrderByInput } from \\"./SampleModelOrderByInput\\";
@@ -1910,7 +1892,7 @@ exports[`inputs should properly generate input type classes for model with id ke
 "import * as TypeGraphQL from \\"type-graphql\\";
 import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-import { DirectorWhereInput } from \\"../inputs/DirectorWhereInput\\";
+import { DirectorRelationFilter } from \\"../inputs/DirectorRelationFilter\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
@@ -1949,11 +1931,11 @@ export class MovieWhereInput {
   })
   directorLastName?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DirectorWhereInput, {
+  @TypeGraphQL.Field(_type => DirectorRelationFilter, {
     nullable: true,
     description: undefined
   })
-  director?: DirectorWhereInput | undefined;
+  director?: DirectorRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true,
@@ -2125,25 +2107,6 @@ export class IntFieldUpdateOperationsInput {
     description: undefined
   })
   set?: number | undefined;
-}
-"
-`;
-
-exports[`inputs should properly generate input type classes for updating scalar fields: JSONFieldUpdateOperationsInput 1`] = `
-"import * as TypeGraphQL from \\"type-graphql\\";
-import GraphQLJSON from \\"graphql-type-json\\";
-import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
-
-@TypeGraphQL.InputType({
-  isAbstract: true,
-  description: undefined,
-})
-export class JsonFieldUpdateOperationsInput {
-  @TypeGraphQL.Field(_type => GraphQLJSON, {
-    nullable: true,
-    description: undefined
-  })
-  set?: InputJsonValue | undefined;
 }
 "
 `;
@@ -2401,7 +2364,6 @@ export { FloatNullableFilter } from \\"./FloatNullableFilter\\";
 export { IntFieldUpdateOperationsInput } from \\"./IntFieldUpdateOperationsInput\\";
 export { IntFilter } from \\"./IntFilter\\";
 export { IntNullableFilter } from \\"./IntNullableFilter\\";
-export { JsonFieldUpdateOperationsInput } from \\"./JsonFieldUpdateOperationsInput\\";
 export { JsonFilter } from \\"./JsonFilter\\";
 export { JsonNullableFilter } from \\"./JsonNullableFilter\\";
 export { NestedBoolFilter } from \\"./NestedBoolFilter\\";
@@ -2414,8 +2376,6 @@ export { NestedFloatFilter } from \\"./NestedFloatFilter\\";
 export { NestedFloatNullableFilter } from \\"./NestedFloatNullableFilter\\";
 export { NestedIntFilter } from \\"./NestedIntFilter\\";
 export { NestedIntNullableFilter } from \\"./NestedIntNullableFilter\\";
-export { NestedJsonFilter } from \\"./NestedJsonFilter\\";
-export { NestedJsonNullableFilter } from \\"./NestedJsonNullableFilter\\";
 export { NestedStringFilter } from \\"./NestedStringFilter\\";
 export { NestedStringNullableFilter } from \\"./NestedStringNullableFilter\\";
 export { NullableBoolFieldUpdateOperationsInput } from \\"./NullableBoolFieldUpdateOperationsInput\\";
@@ -2423,7 +2383,6 @@ export { NullableDateTimeFieldUpdateOperationsInput } from \\"./NullableDateTime
 export { NullableEnumColorFieldUpdateOperationsInput } from \\"./NullableEnumColorFieldUpdateOperationsInput\\";
 export { NullableFloatFieldUpdateOperationsInput } from \\"./NullableFloatFieldUpdateOperationsInput\\";
 export { NullableIntFieldUpdateOperationsInput } from \\"./NullableIntFieldUpdateOperationsInput\\";
-export { NullableJsonFieldUpdateOperationsInput } from \\"./NullableJsonFieldUpdateOperationsInput\\";
 export { NullableStringFieldUpdateOperationsInput } from \\"./NullableStringFieldUpdateOperationsInput\\";
 export { SampleModelCreateInput } from \\"./SampleModelCreateInput\\";
 export { SampleModelOrderByInput } from \\"./SampleModelOrderByInput\\";
@@ -3027,7 +2986,7 @@ import GraphQLJSON from \\"graphql-type-json\\";
 import { JsonValue, InputJsonValue } from \\"../../../../helpers/prisma-client-mock\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
-import { RenamedFirstModelWhereInput } from \\"../inputs/RenamedFirstModelWhereInput\\";
+import { RenamedFirstModelRelationFilter } from \\"../inputs/RenamedFirstModelRelationFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
 @TypeGraphQL.InputType({
@@ -3077,11 +3036,11 @@ export class RenamedSecondModelWhereInput {
   })
   firstModelFieldId?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => RenamedFirstModelWhereInput, {
+  @TypeGraphQL.Field(_type => RenamedFirstModelRelationFilter, {
     nullable: true,
     description: undefined
   })
-  firstModelField?: RenamedFirstModelWhereInput | undefined;
+  firstModelField?: RenamedFirstModelRelationFilter | undefined;
 }
 "
 `;
@@ -3209,7 +3168,7 @@ import { BoolFilter } from \\"../inputs/BoolFilter\\";
 import { DateTimeFilter } from \\"../inputs/DateTimeFilter\\";
 import { FloatFilter } from \\"../inputs/FloatFilter\\";
 import { IntFilter } from \\"../inputs/IntFilter\\";
-import { OtherModelWhereInput } from \\"../inputs/OtherModelWhereInput\\";
+import { OtherModelRelationFilter } from \\"../inputs/OtherModelRelationFilter\\";
 import { StringFilter } from \\"../inputs/StringFilter\\";
 
 @TypeGraphQL.InputType({
@@ -3265,11 +3224,11 @@ export class ExampleWhereInput {
   })
   dateField?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => OtherModelWhereInput, {
+  @TypeGraphQL.Field(_type => OtherModelRelationFilter, {
     nullable: true,
     description: undefined
   })
-  other?: OtherModelWhereInput | undefined;
+  other?: OtherModelRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true,

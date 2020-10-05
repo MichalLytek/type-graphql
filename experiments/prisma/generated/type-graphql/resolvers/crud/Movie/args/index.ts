@@ -2,6 +2,7 @@ export { AggregateMovieArgs } from "./AggregateMovieArgs";
 export { CreateMovieArgs } from "./CreateMovieArgs";
 export { DeleteManyMovieArgs } from "./DeleteManyMovieArgs";
 export { DeleteMovieArgs } from "./DeleteMovieArgs";
+export { FindFirstMovieArgs } from "./FindFirstMovieArgs";
 export { FindManyMovieArgs } from "./FindManyMovieArgs";
 export { FindOneMovieArgs } from "./FindOneMovieArgs";
 export { UpdateManyMovieArgs } from "./UpdateManyMovieArgs";

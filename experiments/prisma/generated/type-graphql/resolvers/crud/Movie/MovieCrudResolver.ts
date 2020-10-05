@@ -5,6 +5,7 @@ import { AggregateMovieArgs } from "./args/AggregateMovieArgs";
 import { CreateMovieArgs } from "./args/CreateMovieArgs";
 import { DeleteManyMovieArgs } from "./args/DeleteManyMovieArgs";
 import { DeleteMovieArgs } from "./args/DeleteMovieArgs";
+import { FindFirstMovieArgs } from "./args/FindFirstMovieArgs";
 import { FindManyMovieArgs } from "./args/FindManyMovieArgs";
 import { FindOneMovieArgs } from "./args/FindOneMovieArgs";
 import { UpdateManyMovieArgs } from "./args/UpdateManyMovieArgs";
@@ -22,6 +23,14 @@ export class MovieCrudResolver {
   })
   async movie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindOneMovieArgs): Promise<Movie | null> {
     return ctx.prisma.movie.findOne(args);
+  }
+
+  @TypeGraphQL.Query(_returns => Movie, {
+    nullable: true,
+    description: undefined
+  })
+  async findFirstMovie(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FindFirstMovieArgs): Promise<Movie | null> {
+    return ctx.prisma.movie.findFirst(args);
   }
 
   @TypeGraphQL.Query(_returns => [Movie], {

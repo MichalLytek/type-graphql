@@ -14,8 +14,8 @@ export class PostAvgAggregateOutputType {
   authorId!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: false,
+    nullable: true,
     description: undefined
   })
-  editorId!: number;
+  editorId!: number | null;
 }

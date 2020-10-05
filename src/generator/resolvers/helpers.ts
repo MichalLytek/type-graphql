@@ -12,8 +12,9 @@ export function generateCrudResolverClassMethodDeclaration(
 ): OptionalKind<MethodDeclarationStructure> {
   // TODO: move to DMMF transform step
   const returnTSType = getFieldTSType(
-    action.method.outputType,
     dmmfDocument,
+    action.method.outputType,
+    action.method.isRequired,
     false,
     mapping.model,
     typeName,
@@ -34,7 +35,7 @@ export function generateCrudResolverClassMethodDeclaration(
             typeName,
           )}`,
           `{
-            nullable: ${!action.method.outputType.isRequired},
+            nullable: ${!action.method.isRequired},
             description: undefined
           }`,
         ],
