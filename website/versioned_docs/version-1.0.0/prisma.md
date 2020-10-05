@@ -50,6 +50,6 @@ query GetSomeUsers {
 
 ## Documentation and examples
 
-To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the separate branch of the main GitHub repository](https://github.com/MichalLytek/type-graphql/tree/prisma).
+To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the separate GitHub repository](https://github.com/MichalLytek/typegraphql-prisma/blob/main/Readme.md).
 
 You can find there also some examples and more detailed info about the installation and the configuration.
