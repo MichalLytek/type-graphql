@@ -43,6 +43,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Apollo Engine (Apollo Cache Control) \*\*](./apollo-engine)
 - [Apollo client state](./apollo-client)
 - [GraphQL Modules](./graphql-modules)
+- [Fastify GQL](./fastify-gql)
 
 _\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
 
