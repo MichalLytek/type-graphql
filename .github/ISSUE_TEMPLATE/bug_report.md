@@ -15,7 +15,7 @@ A clear and concise description of what you expected to happen.
 
 **Logs**
 If applicable, add some console logs to help explain your problem.
-You can paste the errors with stack trace that were printed when the error occured.
+You can paste the errors with stack trace that were printed when the error occurred.
 
 **Environment (please complete the following information):**
 
