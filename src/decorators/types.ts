@@ -25,7 +25,7 @@ export type SubscriptionFilterFunc = (
 
 export type SubscriptionTopicFunc = (
   resolverTopicData: ResolverTopicData<any, any, any>,
-) => string | string[];
+) => string | readonly string[];
 
 export interface DecoratorTypeOptions {
   nullable?: boolean | NullableListOptions;

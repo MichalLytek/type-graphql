@@ -43,7 +43,7 @@ export interface FieldResolverMetadata extends BaseResolverMetadata {
 }
 
 export interface SubscriptionResolverMetadata extends ResolverMetadata {
-  topics: string | string[] | SubscriptionTopicFunc | undefined;
+  topics: string | readonly string[] | SubscriptionTopicFunc | undefined;
   filter: SubscriptionFilterFunc | undefined;
   subscribe: ResolverFn | undefined;
 }

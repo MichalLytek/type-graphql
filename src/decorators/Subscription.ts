@@ -13,7 +13,7 @@ import { MissingSubscriptionTopicsError } from "../errors";
 import { MergeExclusive } from "../utils/types";
 
 interface PubSubOptions {
-  topics: string | string[] | SubscriptionTopicFunc;
+  topics: string | readonly string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
 }
 
