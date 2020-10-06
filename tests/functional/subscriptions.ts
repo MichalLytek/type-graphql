@@ -71,7 +71,7 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Subscription(returns => [SampleObject], { topics: "STH" })
+        @Subscription(returns => [SampleObject], { topics: ["STH"] as const })
         subscriptionWithExplicitType(): any {
           return true;
         }
@@ -206,7 +206,7 @@ describe("Subscriptions", () => {
           return { value };
         }
 
-        @Subscription({ topics: [SAMPLE_TOPIC, OTHER_TOPIC] })
+        @Subscription({ topics: [SAMPLE_TOPIC, OTHER_TOPIC] as const })
         multipleTopicSubscription(@Root() value: number): SampleObject {
           return { value };
         }
