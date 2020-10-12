@@ -82,13 +82,47 @@
   <span class="token constant">RIGHT</span> <span class="token operator">=</span> <span class="token string">"right"</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>To tell TypeGraphQL about our enum, we would ideally mark the enums with the <code>@GraphQLEnumType()</code> decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the <code>registerEnumType</code> function and providing the enum name for GraphQL:</p>
+<p>To tell TypeGraphQL about our enum, we would ideally mark the enums with the <code>@EnumType()</code> decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the <code>registerEnumType</code> function and providing the enum name for GraphQL:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> registerEnumType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
 
 <span class="token function">registerEnumType</span><span class="token punctuation">(</span>Direction<span class="token punctuation">,</span> <span class="token punctuation">{</span>
   name<span class="token operator">:</span> <span class="token string">"Direction"</span><span class="token punctuation">,</span> <span class="token comment">// this one is mandatory</span>
   description<span class="token operator">:</span> <span class="token string">"The basic directions"</span><span class="token punctuation">,</span> <span class="token comment">// this one is optional</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>In case we need to provide additional GraphQL-related config for values, like description or deprecation reason, we can use <code>valuesConfig</code> property and put the data inside it, e.g.:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">enum</span> Direction <span class="token punctuation">{</span>
+  <span class="token constant">UP</span> <span class="token operator">=</span> <span class="token string">"UP"</span><span class="token punctuation">,</span>
+  <span class="token constant">DOWN</span> <span class="token operator">=</span> <span class="token string">"DOWN"</span><span class="token punctuation">,</span>
+  <span class="token constant">LEFT</span> <span class="token operator">=</span> <span class="token string">"LEFT"</span><span class="token punctuation">,</span>
+  <span class="token constant">RIGHT</span> <span class="token operator">=</span> <span class="token string">"RIGHT"</span><span class="token punctuation">,</span>
+  <span class="token constant">SIDEWAYS</span> <span class="token operator">=</span> <span class="token string">"SIDEWAYS"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">registerEnumType</span><span class="token punctuation">(</span>Direction<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">"Direction"</span><span class="token punctuation">,</span>
+  description<span class="token operator">:</span> <span class="token string">"The basic directions"</span><span class="token punctuation">,</span>
+  valuesConfig<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token constant">SIDEWAYS</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      deprecationReason<span class="token operator">:</span> <span class="token string">"Replaced with Left or Right"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token constant">RIGHT</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      description<span class="token operator">:</span> <span class="token string">"The other left"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This way, the additional info will be emitted in the GraphQL schema:</p>
+<pre><code class="hljs css language-graphql"><span class="token keyword">enum</span> <span class="token class-name">Direction</span> <span class="token punctuation">{</span>
+  <span class="token constant">UP</span>
+  <span class="token constant">DOWN</span>
+  <span class="token constant">LEFT</span>
+  <span class="token description string">"""<span class="token language-markdown">
+  The other left
+  </span>"""</span>
+  <span class="token constant">RIGHT</span>
+  <span class="token constant">SIDEWAYS</span> <span class="token directive function">@deprecated</span><span class="token punctuation">(</span><span class="token attr-name">reason</span><span class="token punctuation">:</span> <span class="token string">"Replaced with Left or Right"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="using-enum"></a><a href="#using-enum" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using enum</h2>
 <p>The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:</p>
