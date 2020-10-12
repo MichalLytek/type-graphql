@@ -68,9 +68,13 @@ export type AdvancedOptions = BasicOptions &
   SchemaNameOptions &
   ComplexityOptions;
 
-export interface EnumConfig {
+export interface EnumConfig<TEnum extends object> {
   name: string;
   description?: string;
+  valuesConfig?: EnumValuesConfig<TEnum>;
 }
+export type EnumValuesConfig<TEnum extends object> = Partial<
+  Record<keyof TEnum, DescriptionOptions & DeprecationOptions>
+>;
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
