@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v1.1.0
 ### Features
 - allow passing custom validation function as `validate` option to `buildSchema`
 - support defining deprecation reason and description of enum members (#714)
