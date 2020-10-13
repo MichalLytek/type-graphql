@@ -41,7 +41,7 @@ export function findType({
     propertyKey,
   );
   if (metadataKey === "design:paramtypes") {
-    metadataDesignType = (reflectedType as Function[])[parameterIndex!];
+    metadataDesignType = (reflectedType as Function[])?.[parameterIndex!];
   } else {
     metadataDesignType = reflectedType as Function | undefined;
   }
