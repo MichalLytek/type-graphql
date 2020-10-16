@@ -71,12 +71,16 @@ class Node {
 }
 
 @InterfaceType({ implements: Node })
-class Person extends Node {
-  @Field()
-  name: string;
+class IPerson extends Node {
 
   @Field(type => Int)
   age: number;
+}
+
+@ObjectType({ implements: [Node, IPerson] })
+class Person extends IPerson {  
+  @Field()
+  name: string;
 }
 ```
 
@@ -87,7 +91,12 @@ interface Node {
   id: ID!
 }
 
-interface Person implements Node {
+interface IPerson implements Node {
+  id: ID!
+  age: Int!
+}
+
+type Person implements Node & IPerson {
   id: ID!
   name: String!
   age: Int!
