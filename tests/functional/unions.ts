@@ -536,5 +536,58 @@ describe("Unions", () => {
         one: "one",
       });
     });
+
+    it("should should fail with error info when `resolveType` returns undefined", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class One {
+        @Field()
+        one: string;
+      }
+      @ObjectType()
+      class Two {
+        @Field()
+        two: string;
+      }
+      const OneTwo = createUnionType({
+        name: "OneTwo",
+        types: () => [One, Two],
+        resolveType: () => {
+          return undefined;
+        },
+      });
+      @Resolver()
+      class OneTwoResolver {
+        @Query(returns => OneTwo)
+        oneTwo(): typeof OneTwo {
+          const one = new One();
+          one.one = "one";
+          return one;
+        }
+      }
+      const query = /* graphql */ `
+        query {
+          oneTwo {
+            __typename
+            ... on One {
+              one
+            }
+            ... on Two {
+              two
+            }
+          }
+        }
+      `;
+
+      const testSchema = await buildSchema({
+        resolvers: [OneTwoResolver],
+      });
+      const result = await graphql(testSchema, query);
+
+      expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
+        `"Abstract type \\"OneTwo\\" must resolve to an Object type at runtime for field \\"Query.oneTwo\\" with value { one: \\"one\\" }, received \\"undefined\\". Either the \\"OneTwo\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+      );
+    });
   });
 });

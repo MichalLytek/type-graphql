@@ -99,7 +99,8 @@ describe("Interfaces and inheritance", () => {
         ownField3: number;
       }
       @ObjectType({ implements: SampleInterface1 })
-      class SampleExtendingImplementingObject extends SampleImplementingObject2
+      class SampleExtendingImplementingObject
+        extends SampleImplementingObject2
         implements SampleInterface1 {
         @Field()
         ownField4: number;
@@ -676,6 +677,11 @@ describe("Interfaces and inheritance", () => {
         }
 
         @Query()
+        notMatchingValueForInterfaceWithClassResolveTypeObject(): InterfaceWithClassResolveType {
+          return { baseInterfaceField: "notMatchingValue" };
+        }
+
+        @Query()
         queryWithArgs(@Args() args: ChildArgs): boolean {
           queryArgs = args;
           return true;
@@ -798,6 +804,27 @@ describe("Interfaces and inheritance", () => {
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toBeUndefined();
       expect(data.secondField).toEqual("secondField");
+    });
+
+    it("should should fail with error info when `resolveType` returns undefined", async () => {
+      const query = `query {
+        notMatchingValueForInterfaceWithClassResolveTypeObject {
+          __typename
+          baseInterfaceField
+          ... on FirstInterfaceWithClassResolveTypeObject {
+            firstField
+          }
+          ... on SecondInterfaceWithClassResolveTypeObject {
+            secondField
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
+        `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\" with value { baseInterfaceField: \\"notMatchingValue\\" }, received \\"undefined\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+      );
     });
 
     it("should throw error when not returning instance of object class", async () => {

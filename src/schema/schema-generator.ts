@@ -841,10 +841,10 @@ export abstract class SchemaGenerator {
   ): GraphQLTypeResolver<TSource, TContext> {
     return async (...args) => {
       const resolvedType = await resolveType(...args);
-      if (typeof resolvedType === "string") {
+      if (!resolvedType || typeof resolvedType === "string") {
         return resolvedType;
       }
-      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)!.type;
+      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)?.type;
     };
   }
 

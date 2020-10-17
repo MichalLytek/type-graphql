@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- fix crashing when of union's or interface type's `resolveType` function returns `undefined` or `null` (#731)
 
 ## v1.1.0
 ### Features
