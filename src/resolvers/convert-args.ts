@@ -96,20 +96,21 @@ function convertToInput(tree: TransformationTree, data: any) {
   return convertToType(tree.target, inputFields);
 }
 
-function convertValueToInstance(target: TypeValue, value: any) {
+function convertValueToInstance(target: TypeValue, value: any): any {
   const transformationTree = generateInstanceTransformationTree(target);
   return transformationTree
     ? convertToInput(transformationTree, value)
     : convertToType(target, value);
 }
 
-function convertValuesToInstances(target: TypeValue, value: any) {
+function convertValuesToInstances(target: TypeValue, value: any): any {
   // skip converting undefined and null
   if (value == null) {
     return value;
   }
   if (Array.isArray(value)) {
-    return value.map(itemValue => convertValueToInstance(target, itemValue));
+    // call function recursively to handle nested arrays case
+    return value.map(itemValue => convertValuesToInstances(target, itemValue));
   }
   return convertValueToInstance(target, value);
 }

@@ -1412,6 +1412,14 @@ describe("Resolvers", () => {
         }
 
         @Mutation()
+        mutationWithTripleArrayInputs(
+          @Arg("inputs", type => [[[SampleInput]]]) inputs: SampleInput[][][],
+        ): number {
+          mutationInputValue = inputs;
+          return inputs[0][0][0].factor;
+        }
+
+        @Mutation()
         mutationWithOptionalArg(
           @Arg("input", { nullable: true }) input?: SampleNestedInput,
         ): number {
@@ -1754,6 +1762,28 @@ describe("Resolvers", () => {
       expect(mutationInputValue).toBeInstanceOf(classes.SampleInput);
       expect(mutationInputValue.instanceField).toBeGreaterThanOrEqual(0);
       expect(mutationInputValue.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("should create instance of nested arrays input from arg", async () => {
+      const mutation = `mutation {
+        mutationWithTripleArrayInputs(inputs: [[[{ factor: 30 }]]])
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      const result = mutationResult.data!.mutationWithTripleArrayInputs;
+      const nestedInput = mutationInputValue[0][0][0];
+
+      expect(mutationResult.errors).toBeUndefined();
+      expect(result).toEqual(30);
+      expect(mutationInputValue).toBeInstanceOf(Array);
+      expect(mutationInputValue).toHaveLength(1);
+      expect(mutationInputValue[0]).toBeInstanceOf(Array);
+      expect(mutationInputValue[0]).toHaveLength(1);
+      expect(mutationInputValue[0][0]).toBeInstanceOf(Array);
+      expect(mutationInputValue[0][0]).toHaveLength(1);
+      expect(nestedInput).toBeInstanceOf(classes.SampleInput);
+      expect(nestedInput.instanceField).toBeGreaterThanOrEqual(0);
+      expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
     });
 
     it("shouldn't create instance of an argument if the value is null or not provided", async () => {
