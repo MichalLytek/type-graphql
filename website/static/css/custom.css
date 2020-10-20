@@ -5,6 +5,80 @@
   box-sizing: border-box;
 }
 
+html {
+  --color-main-dark: white;
+  --color-main-light: #18191a;
+  --color-secondary-background: #f1f1f1;
+}
+
+html.theme-mode--light {
+  --color-main-dark: white;
+  --color-main-light: #18191a;
+  --color-secondary-background: #f1f1f1;
+}
+
+html.theme-mode--dark {
+  --color-main-dark: #18191a;
+  --color-main-light: #f1f1f1;
+  --color-secondary-background: #111111;
+}
+
+body {
+  background: var(--color-main-dark);
+  color: var(--color-main-light);
+}
+
+#theme-mode-btn {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  cursor: pointer;
+  padding: 2px 5px;
+  z-index: 11001;
+}
+
+@media (max-width: 1023px) {
+  #theme-mode-btn {
+    top: 100px;
+    left: unset;
+    right: 36px;
+  }
+}
+
+.theme-mode-btn--dark {
+  color: black;
+  background-color: lightgrey;
+}
+
+.theme-mode-btn--light {
+  color: white;
+  background-color: grey;
+}
+
+.productShowcaseSection h2 {
+  color: var(--color-main-light);
+}
+
+.toc {
+  color: var(--color-main-light);
+}
+
+.toc .toggleNav .navGroup .navGroupCategoryTitle {
+  color: var(--color-main-light);
+}
+
+.toc .toggleNav ul li.navListItemActive a {
+  color: var(--color-main-light);
+}
+
+.onPageNav .toc-headings > li > a.active, .onPageNav .toc-headings > li > a.hover {
+  color: var(--color-main-light);
+}
+
+.toc .toggleNav ul li a:hover, .toc .toggleNav ul li a:focus {
+  color: var(--color-main-light);
+}
+
 a,
 a:hover {
   color: #2f7bc5;
@@ -16,11 +90,11 @@ a:hover {
 }
 
 .lightBackground {
-  background: #e9e9e9;
+  background: var(--color-secondary-background);
 }
 
 .container.highlight {
-  background-color: #f9f9f9;
+  background-color: var(--color-secondary-background);
 }
 
 .snippet-container > .wrapper {
@@ -42,7 +116,7 @@ a:hover {
 }
 
 #sponsors {
-  background-color: #f9f9f9;
+  background-color: var(--color-secondary-background);
   margin-top: -36px;
   padding-bottom: 60px;
 }
@@ -52,8 +126,8 @@ a:hover {
 }
 
 #sponsors blockquote.note {
-  background-color: #f6f6f6;
-  border-left: 8px solid #f1f1f1;
+  background-color: var(--color-secondary-background);
+  border-left: 8px solid var(--color-main-light);
   padding: 15px 30px 15px 15px;
 }
 
@@ -90,7 +164,7 @@ a:hover {
 
 .want-more-section,
 .container.features-section {
-  background-color: #f2f2f2;
+  background-color: var(--color-main-dark);
 }
 
 .want-more-buttons {

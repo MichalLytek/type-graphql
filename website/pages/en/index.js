@@ -270,7 +270,7 @@ const CollectiveSection = props => (
         <h3 className="title">Silver Sponsors 🥈</h3>
         <div className="tiles">
           <a href="https://gorrion.io/">
-            <img src={imgUrl("gorrion.png")} style={{ width: 250 }} />
+            <img src={imgUrl("gorrion.png")} style={{ width: 250, backgroundColor: "#f1f1f1" }} />
             <span>Gorrion Software House</span>
           </a>
           <a href="https://www.mryum.com/">
