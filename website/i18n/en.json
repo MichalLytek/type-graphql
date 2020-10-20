@@ -446,6 +446,21 @@
       "version-1.0.0/version-1.0.0-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-1.1.0/version-1.1.0-enums": {
+        "title": "Enums"
+      },
+      "version-1.1.0/version-1.1.0-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-1.1.0/version-1.1.0-prisma": {
+        "title": "Prisma 2 Integration",
+        "sidebar_label": "Prisma 2"
+      },
+      "version-1.1.0/version-1.1.0-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {

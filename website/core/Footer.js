@@ -7,6 +7,58 @@
 
 const React = require("react");
 
+const DarkModeButton = () => {
+  return (
+    <>
+    <div id="theme-mode-btn">
+      Light Mode
+    </div>
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+                const btn = document.querySelector("#theme-mode-btn");
+                const html = document.querySelector("html");
+                
+                function setInitialColorMode() {
+                  const currentColorMode = localStorage.getItem("theme");
+                  if (currentColorMode === null) {
+                    localStorage.setItem("theme", 0);
+                    return;
+                  } else if(currentColorMode === "1") {
+                    btn.classList.add('theme-mode-btn--dark');
+                    html.classList.add('theme-mode--dark');
+                    btn.textContent = "Light Mode";
+                  } else {
+                    btn.classList.add('theme-mode-btn--light');
+                    html.classList.add('theme-mode--light');
+                    btn.textContent = "Dark Mode";
+                  }
+                }
+                
+                function toggleColorMode() {
+                  const currentColorMode = localStorage.getItem("theme");
+                  if (currentColorMode === "1") {
+                    localStorage.setItem("theme", 0);
+                    btn.textContent = "Dark Mode";
+                  } else {
+                    localStorage.setItem("theme", 1);
+                    btn.textContent = "Light Mode";
+                  }
+                  btn.classList.toggle('theme-mode-btn--dark');
+                  btn.classList.toggle('theme-mode-btn--light');
+                  html.classList.toggle('theme-mode--dark');
+                  html.classList.toggle('theme-mode--light');
+                }
+
+                setInitialColorMode();
+                btn.addEventListener("click", () => {toggleColorMode()});
+                `
+      }}
+    />
+    </>
+  )
+}
+
 class Footer extends React.Component {
   docUrl(doc, language) {
     const baseUrl = this.props.config.baseUrl;
@@ -22,6 +74,7 @@ class Footer extends React.Component {
     const currentYear = new Date().getFullYear();
     return (
       <footer className="nav-footer" id="footer">
+        <DarkModeButton />
         <section className="sitemap">
           <a href={this.props.config.baseUrl} className="nav-home">
             {this.props.config.footerIcon && (
