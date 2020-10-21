@@ -10,48 +10,59 @@ const React = require("react");
 const DarkModeButton = () => {
   return (
     <>
-    <div id="theme-mode-btn">
-      Light Mode
-    </div>
+    
     <script
       dangerouslySetInnerHTML={{
         __html: `
-                const btn = document.querySelector("#theme-mode-btn");
                 const html = document.querySelector("html");
+
+                function appendButtonDOM() {
+                  const li = document.createElement("li");
+                  li.classList.add("center-list-item")
+                  li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>'
+
+                  let nav = document.querySelector(".nav-site");
+                  nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+                  const btn = document.querySelector("#toggle-switch");
+                  btn.addEventListener("click", () => {toggleColorMode()});
+                }
                 
                 function setInitialColorMode() {
                   const currentColorMode = localStorage.getItem("theme");
+                  const btn = document.querySelector("#toggle-switch");
+
                   if (currentColorMode === null) {
                     localStorage.setItem("theme", 0);
+                    btn.checked = true;
                     return;
                   } else if(currentColorMode === "1") {
-                    btn.classList.add('theme-mode-btn--dark');
                     html.classList.add('theme-mode--dark');
-                    btn.textContent = "Light Mode";
+                    btn.checked = false;
                   } else {
-                    btn.classList.add('theme-mode-btn--light');
                     html.classList.add('theme-mode--light');
-                    btn.textContent = "Dark Mode";
+                    btn.checked = true;
                   }
                 }
                 
                 function toggleColorMode() {
+                  const btn = document.querySelector("#toggle-switch");
                   const currentColorMode = localStorage.getItem("theme");
+
                   if (currentColorMode === "1") {
                     localStorage.setItem("theme", 0);
-                    btn.textContent = "Dark Mode";
+                    btn.checked = true;
                   } else {
                     localStorage.setItem("theme", 1);
-                    btn.textContent = "Light Mode";
+                    btn.checked = false;
                   }
-                  btn.classList.toggle('theme-mode-btn--dark');
-                  btn.classList.toggle('theme-mode-btn--light');
+                  
                   html.classList.toggle('theme-mode--dark');
                   html.classList.toggle('theme-mode--light');
                 }
 
+                appendButtonDOM();
                 setInitialColorMode();
-                btn.addEventListener("click", () => {toggleColorMode()});
                 `
       }}
     />

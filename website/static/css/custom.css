@@ -1,6 +1,8 @@
 /* your custom css */
 
 @import "./prism-theme.css";
+@import "./button.css";
+
 * {
   box-sizing: border-box;
 }
@@ -9,18 +11,21 @@ html {
   --color-main-dark: white;
   --color-main-light: #18191a;
   --color-secondary-background: #f1f1f1;
+  --color-secondary-text: #717171;
 }
 
 html.theme-mode--light {
   --color-main-dark: white;
   --color-main-light: #18191a;
   --color-secondary-background: #f1f1f1;
+  --color-secondary-text: #717171;
 }
 
 html.theme-mode--dark {
   --color-main-dark: #18191a;
   --color-main-light: #f1f1f1;
   --color-secondary-background: #111111;
+  --color-secondary-text:#a3a3a3;
 }
 
 body {
@@ -65,6 +70,10 @@ body {
 
 .toc .toggleNav .navGroup .navGroupCategoryTitle {
   color: var(--color-main-light);
+}
+
+.toc .toggleNav ul li a {
+  color: var(--color-secondary-text)
 }
 
 .toc .toggleNav ul li.navListItemActive a {
