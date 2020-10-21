@@ -62,7 +62,7 @@ All we need to do is to use the the `subscribe` option which should be a functio
 class SampleResolver {
   // ...
   @Subscription({
-    subscribe: ({ args, context }) => {
+    subscribe: (root, args, context, info) => {
       return context.prisma.$subscribe.users({ mutation_in: [args.mutationType] });
     },
   })
