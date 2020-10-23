@@ -129,17 +129,21 @@ export abstract class SchemaGenerator {
     this.buildTypesInfo(options.resolvers);
 
     const orphanedTypes = options.orphanedTypes || (options.resolvers ? [] : undefined);
-    const schema = new GraphQLSchema({
+    const prebuiltSchema = new GraphQLSchema({
       query: this.buildRootQueryType(options.resolvers),
       mutation: this.buildRootMutationType(options.resolvers),
       subscription: this.buildRootSubscriptionType(options.resolvers),
-      types: this.buildOtherTypes(orphanedTypes),
       directives: options.directives,
     });
+    const finalSchema = new GraphQLSchema({
+      ...prebuiltSchema.toConfig(),
+      // run after first build to make `usedInterfaceTypes` working
+      types: this.buildOtherTypes(orphanedTypes),
+    })
 
     BuildContext.reset();
     this.usedInterfaceTypes = new Set<Function>();
-    return schema;
+    return finalSchema;
   }
 
   private static checkForErrors(options: SchemaGeneratorOptions) {
