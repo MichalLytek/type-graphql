@@ -82,6 +82,16 @@ class Person extends Node {
 }
 ```
 
+Also, when we implement the interface that already implements other interface, we need to put them all in `implements` array in `@ObjectType` decorator option, e.g.:
+
+```typescript
+@ObjectType({ implements: [Person, Node] })
+class Student extends Person {
+  @Field()
+  universityName: string;
+}
+```
+
 This example produces following representation in GraphQL SDL:
 
 ```graphql
@@ -93,6 +103,13 @@ interface Person implements Node {
   id: ID!
   name: String!
   age: Int!
+}
+
+type Student implements Node & IPerson {
+  id: ID!
+  name: String!
+  age: Int!
+  universityName: String!
 }
 ```
 
