@@ -177,4 +177,4 @@ An alternative solution that allows to completely get rid off big `class-validat
 
 ## Example
 
-To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/automatic-validation).
