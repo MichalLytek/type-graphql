@@ -1,7 +1,6 @@
 /* your custom css */
 
 @import "./prism-theme.css";
-@import "./button.css";
 
 * {
   box-sizing: border-box;
@@ -10,26 +9,36 @@
 html {
   --color-main-dark: white;
   --color-main-light: #18191a;
+  --color-link: #2f7bc5;
   --color-secondary-background: #f1f1f1;
   --color-secondary-text: #717171;
+  --color-code-block: rgba(27,31,35,.05);
 }
 
 html.theme-mode--light {
   --color-main-dark: white;
   --color-main-light: #18191a;
+  --color-link: #2f7bc5;
   --color-secondary-background: #f1f1f1;
   --color-secondary-text: #717171;
+  --color-code-block: rgba(27,31,35,.05);
 }
 
 html.theme-mode--dark {
   --color-main-dark: #18191a;
   --color-main-light: #f1f1f1;
+  --color-link: #6daff0;
   --color-secondary-background: #111111;
   --color-secondary-text:#a3a3a3;
+  --color-code-block: rgba(255, 255, 255, 0.07);
 }
 
 body {
   background: var(--color-main-dark);
+  color: var(--color-main-light);
+}
+
+blockquote {
   color: var(--color-main-light);
 }
 
@@ -87,10 +96,16 @@ body {
 .toc .toggleNav ul li a:hover, .toc .toggleNav ul li a:focus {
   color: var(--color-main-light);
 }
+table tr:nth-child(2n) {
+  background-color: var(--color-secondary-background);
+}
+.onPageNav a {
+  color: var(--color-secondary-text);
+}
 
 a,
 a:hover {
-  color: #2f7bc5;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -200,7 +215,7 @@ a:hover {
 
 .projectTitle {
   font-weight: 600;
-  color: #2f7bc5;
+  color:var(--color-link);
 }
 
 .projectTitle > small {
@@ -266,4 +281,73 @@ a:hover {
 }
 
 @media only screen and (min-width: 1500px) {
+}
+
+/* Dark mode button */
+
+.toggle {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  justify-content: space-around;
+  max-width: 140px;
+}
+.toggle span {
+  margin: 0 0.25rem;
+}
+.toggle input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  margin: 0;
+}
+.toggle input[type="checkbox"]:checked + label {
+  background: teal;
+}
+.toggle input[type="checkbox"]:checked + label:after {
+  left: calc(100% - 2px);
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+.toggle label {
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  background:#09393f;
+  display: block;
+  border-radius: 40px;
+  position: relative;
+}
+.toggle label:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 40px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.center-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

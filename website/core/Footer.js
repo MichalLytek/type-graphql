@@ -10,13 +10,12 @@ const React = require("react");
 const DarkModeButton = () => {
   return (
     <>
-    
-    <script
+      <script
       dangerouslySetInnerHTML={{
         __html: `
                 const html = document.querySelector("html");
 
-                function appendButtonDOM() {
+                function appendButtonToDOM() {
                   const li = document.createElement("li");
                   li.classList.add("center-list-item")
                   li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>'
@@ -32,10 +31,14 @@ const DarkModeButton = () => {
                   const currentColorMode = localStorage.getItem("theme");
                   const btn = document.querySelector("#toggle-switch");
 
-                  if (currentColorMode === null) {
-                    localStorage.setItem("theme", 0);
-                    btn.checked = true;
-                    return;
+                  if (currentColorMode === null) { //runs on first entry
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //inspects OS prefered color scheme
+                      localStorage.setItem("theme", 1);
+                      btn.cheked = false
+                    } else {
+                      localStorage.setItem("theme", 0);
+                      btn.checked = true;
+                    }
                   } else if(currentColorMode === "1") {
                     html.classList.add('theme-mode--dark');
                     btn.checked = false;
@@ -61,11 +64,11 @@ const DarkModeButton = () => {
                   html.classList.toggle('theme-mode--light');
                 }
 
-                appendButtonDOM();
+                appendButtonToDOM();
                 setInitialColorMode();
                 `
       }}
-    />
+      />
     </>
   )
 }
