@@ -303,7 +303,7 @@ a:hover {
   margin: 0;
 }
 .toggle input[type="checkbox"]:checked + label {
-  background: teal;
+  background: #c04392;
 }
 .toggle input[type="checkbox"]:checked + label:after {
   left: calc(100% - 2px);
@@ -314,7 +314,7 @@ a:hover {
   cursor: pointer;
   width: 50px;
   height: 20px;
-  background:#09393f;
+  background:#7f2f61;
   display: block;
   border-radius: 40px;
   position: relative;
