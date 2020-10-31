@@ -1,7 +1,12 @@
 // tslint:disable:member-ordering
 import "reflect-metadata";
-
-import { GraphQLSchema, graphql, GraphQLInputObjectType, printSchema } from "graphql";
+import {
+  GraphQLSchema,
+  graphql,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+} from "graphql";
 import {
   Field,
   InputType,
@@ -14,6 +19,7 @@ import {
   Mutation,
   FieldResolver,
   Subscription,
+  InterfaceType,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { SchemaDirectiveVisitor } from "graphql-tools";
@@ -107,6 +113,17 @@ describe("Directives", () => {
           return `hello${input.append}`;
         }
       }
+
+      @InterfaceType()
+      @Directive("foo")
+      abstract class DirectiveOnInterface {
+        @Field()
+        @Directive("bar")
+        withDirective: string;
+      }
+
+      @ObjectType({ implements: DirectiveOnInterface })
+      class ObjectImplement extends DirectiveOnInterface {}
 
       @Resolver()
       class SampleResolver {
@@ -225,8 +242,21 @@ describe("Directives", () => {
         }
       }
 
+      @Resolver(() => ObjectImplement)
+      class ObjectImplementResolver {
+        @Query(() => ObjectImplement)
+        objectImplentingInterface(): ObjectImplement {
+          return new ObjectImplement();
+        }
+      }
+
       schema = await buildSchema({
-        resolvers: [SampleResolver, SampleObjectTypeResolver, SubSampleResolver],
+        resolvers: [
+          SampleResolver,
+          SampleObjectTypeResolver,
+          SubSampleResolver,
+          ObjectImplementResolver,
+        ],
         validate: false,
       });
 
@@ -481,6 +511,31 @@ describe("Directives", () => {
           withInputUpperOnClass: "HELLO, WORLD!",
           fieldResolverWithAppendDefinition: "hello, world!",
         });
+      });
+    });
+
+    describe("Interface", () => {
+      it("adds directive to interface", () => {
+        const interfaceType = schema.getType("DirectiveOnInterface") as GraphQLInterfaceType;
+
+        expect(interfaceType).toHaveProperty("astNode");
+        assertValidDirective(interfaceType.astNode, "foo");
+      });
+
+      it("adds field directives to interface fields", async () => {
+        const fields = (schema.getType("DirectiveOnInterface") as GraphQLInterfaceType).getFields();
+
+        expect(fields).toHaveProperty("withDirective");
+        expect(fields.withDirective).toHaveProperty("astNode");
+        assertValidDirective(fields.withDirective.astNode, "bar");
+      });
+
+      it("adds inherited field directives to object type fields while extending interface type class", async () => {
+        const fields = (schema.getType("ObjectImplement") as GraphQLObjectType).getFields();
+
+        expect(fields).toHaveProperty("withDirective");
+        expect(fields.withDirective).toHaveProperty("astNode");
+        assertValidDirective(fields.withDirective.astNode, "bar");
       });
     });
   });

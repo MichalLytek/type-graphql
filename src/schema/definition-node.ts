@@ -9,6 +9,7 @@ import {
   parseValue,
   DocumentNode,
   parse,
+  InterfaceTypeDefinitionNode,
 } from "graphql";
 
 import { InvalidDirectiveError } from "../errors";
@@ -98,6 +99,25 @@ export function getInputValueDefinitionNode(
     },
     name: {
       kind: "Name",
+      value: name,
+    },
+    directives: directiveMetadata.map(getDirectiveNode),
+  };
+}
+
+export function getInterfaceTypeDefinitionNode(
+  name: string,
+  directiveMetadata?: DirectiveMetadata[],
+): InterfaceTypeDefinitionNode | undefined {
+  if (!directiveMetadata || !directiveMetadata.length) {
+    return;
+  }
+
+  return {
+    kind: "InterfaceTypeDefinition",
+    name: {
+      kind: "Name",
+      // FIXME: use proper AST representation
       value: name,
     },
     directives: directiveMetadata.map(getDirectiveNode),
