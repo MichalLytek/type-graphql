@@ -194,6 +194,31 @@ const server = new ApolloServer({
 
 And it's done! We have a working GraphQL subscription server on `/subscriptions`, along with the normal HTTP GraphQL server.
 
+If you're using servers other than `ApolloServer` (e.g. plain Fastify), you can integrate them using `subscriptions-transport-ws`:
+
+```
+import fastify from 'fastify'
+import { execute, subscribe } from 'graphql'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
+
+// Create TypeGraphQL schema before initializing the app
+// const schema = buildSchema(...
+
+const app = fastify()
+
+const subscriptionServer = SubscriptionServer.create(
+  {
+    schema,
+    execute,
+    subscribe,
+  },
+  {
+    server: app.server,
+    path: '/graphql/subscriptions',
+  },
+)
+```
+
 ## Examples
 
 See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions).
