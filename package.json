@@ -22,8 +22,8 @@
     "postinstall": "node ./dist/postinstall || exit 0"
   },
   "peerDependencies": {
-    "graphql": "^15.3.0",
-    "class-validator": ">=0.12.0"
+    "class-validator": ">=0.12.0",
+    "graphql": "^15.3.0"
   },
   "dependencies": {
     "@types/glob": "^7.1.3",
