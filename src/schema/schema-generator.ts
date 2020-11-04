@@ -139,7 +139,7 @@ export abstract class SchemaGenerator {
       ...prebuiltSchema.toConfig(),
       // run after first build to make `usedInterfaceTypes` working
       types: this.buildOtherTypes(orphanedTypes),
-    })
+    });
 
     BuildContext.reset();
     this.usedInterfaceTypes = new Set<Function>();
