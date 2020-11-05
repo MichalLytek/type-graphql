@@ -1,6 +1,6 @@
 ---
 title: Resolvers
-id: version-1.0.0-resolvers
+id: version-1.1.1-resolvers
 original_id: resolvers
 ---
 
@@ -345,4 +345,4 @@ Resolver class `inheritance` is an advanced topic covered in the [resolver inher
 ## Examples
 
 These code samples are just made up for tutorial purposes.
-You can find more advanced, real examples in the [examples folder on the repository](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples).
+You can find more advanced, real examples in the [examples folder on the repository](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples).

@@ -13,8 +13,7 @@
     "format": "prettier --write \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:format": "prettier --check \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:type": "tsc --noEmit",
-    "//check": "npm run check:format && npm run check:type",
-    "check": "npm run check:type",
+    "check": "npm run check:format && npm run check:type",
     "lint": "tslint --project tsconfig.json",
     "verify": "npm run check && npm run lint",
     "package": "gulp package",
@@ -22,8 +21,8 @@
     "postinstall": "node ./dist/postinstall || exit 0"
   },
   "peerDependencies": {
-    "graphql": "^15.3.0",
-    "class-validator": ">=0.12.0"
+    "class-validator": ">=0.12.0",
+    "graphql": "^15.3.0"
   },
   "dependencies": {
     "@types/glob": "^7.1.3",

@@ -1,5 +1,7 @@
 ---
 title: Interfaces
+id: version-1.1.1-interfaces
+original_id: interfaces
 ---
 
 The main idea of TypeGraphQL is to create GraphQL types based on TypeScript classes.
@@ -253,4 +255,4 @@ However in case of interfaces, it might be a little bit more tricky than with un
 
 ## Examples
 
-For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).
+For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/interfaces-inheritance).

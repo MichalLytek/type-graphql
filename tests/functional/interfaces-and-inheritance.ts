@@ -1221,6 +1221,57 @@ describe("Interfaces and inheritance", () => {
       );
     });
 
+    it("should by default automatically register all and only the object types that implements an interface type used as field type", async () => {
+      getMetadataStorage().clear();
+      @InterfaceType()
+      class IFooBar {
+        @Field(() => String)
+        fooBarKind: string;
+      }
+      @ObjectType({ implements: IFooBar })
+      class Foo extends IFooBar {
+        fooBarKind = "Foo";
+      }
+      @ObjectType({ implements: IFooBar })
+      class Bar extends IFooBar {
+        fooBarKind = "Bar";
+      }
+      @ObjectType()
+      class FooBar {
+        @Field(() => IFooBar)
+        iFooBarField: IFooBar;
+      }
+      @Resolver()
+      class TestResolver {
+        @Query(() => FooBar)
+        foobar() {
+          return new FooBar();
+        }
+      }
+      const { schemaIntrospection } = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      expect(schemaIntrospection.types).toContainEqual(
+        expect.objectContaining({
+          kind: TypeKind.INTERFACE,
+          name: "IFooBar",
+        }),
+      );
+      expect(schemaIntrospection.types).toContainEqual(
+        expect.objectContaining({
+          kind: TypeKind.OBJECT,
+          name: "Bar",
+        }),
+      );
+      expect(schemaIntrospection.types).toContainEqual(
+        expect.objectContaining({
+          kind: TypeKind.OBJECT,
+          name: "Foo",
+        }),
+      );
+    });
+
     it("should register only the object types from orphanedType when interface type has disabled auto registering", async () => {
       @InterfaceType({ autoRegisterImplementations: false })
       abstract class SampleUsedInterface {

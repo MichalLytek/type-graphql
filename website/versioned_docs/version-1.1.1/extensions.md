@@ -1,6 +1,6 @@
 ---
 title: Extensions
-id: version-1.0.0-extensions
+id: version-1.1.1-extensions
 original_id: extensions
 ---
 
@@ -116,4 +116,4 @@ export class LoggerMiddleware implements MiddlewareInterface<Context> {
 
 ## Examples
 
-You can see more detailed examples of usage [here](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/extensions).
+You can see more detailed examples of usage [here](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/extensions).

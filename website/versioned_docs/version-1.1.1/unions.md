@@ -1,6 +1,6 @@
 ---
 title: Unions
-id: version-1.0.0-unions
+id: version-1.1.1-unions
 original_id: unions
 ---
 
@@ -106,4 +106,4 @@ query {
 
 ## Examples
 
-More advanced usage examples of unions (and enums) are located in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/enums-and-unions).
+More advanced usage examples of unions (and enums) are located in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/enums-and-unions).

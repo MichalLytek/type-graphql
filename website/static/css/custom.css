@@ -10,18 +10,22 @@ html {
   --color-main-dark: white;
   --color-main-light: #18191a;
   --color-link: #2f7bc5;
-  --color-secondary-background: #f1f1f1;
+  --color-secondary-background: #f9f9f9;
   --color-secondary-text: #717171;
-  --color-code-block: rgba(27,31,35,.05);
+  --color-code-block: rgba(27, 31, 35, 0.05);
+  --color-blockquote-text: #6a737d;
+  --color-other-background: #f2f2f2;
 }
 
 html.theme-mode--light {
   --color-main-dark: white;
   --color-main-light: #18191a;
   --color-link: #2f7bc5;
-  --color-secondary-background: #f1f1f1;
+  --color-secondary-background: #f9f9f9;
   --color-secondary-text: #717171;
-  --color-code-block: rgba(27,31,35,.05);
+  --color-code-block: rgba(27, 31, 35, 0.05);
+  --color-blockquote-text: #6a737d;
+  --color-other-background: #f2f2f2;
 }
 
 html.theme-mode--dark {
@@ -29,8 +33,10 @@ html.theme-mode--dark {
   --color-main-light: #f1f1f1;
   --color-link: #6daff0;
   --color-secondary-background: #111111;
-  --color-secondary-text:#a3a3a3;
+  --color-secondary-text: #a3a3a3;
   --color-code-block: rgba(255, 255, 255, 0.07);
+  --color-blockquote-text: #f1f1f1;
+  --color-other-background: #151515;
 }
 
 body {
@@ -39,7 +45,7 @@ body {
 }
 
 blockquote {
-  color: var(--color-main-light);
+  color: var(--color-blockquote-text);
 }
 
 #theme-mode-btn {
@@ -82,18 +88,20 @@ blockquote {
 }
 
 .toc .toggleNav ul li a {
-  color: var(--color-secondary-text)
+  color: var(--color-secondary-text);
 }
 
 .toc .toggleNav ul li.navListItemActive a {
   color: var(--color-main-light);
 }
 
-.onPageNav .toc-headings > li > a.active, .onPageNav .toc-headings > li > a.hover {
+.onPageNav .toc-headings > li > a.active,
+.onPageNav .toc-headings > li > a.hover {
   color: var(--color-main-light);
 }
 
-.toc .toggleNav ul li a:hover, .toc .toggleNav ul li a:focus {
+.toc .toggleNav ul li a:hover,
+.toc .toggleNav ul li a:focus {
   color: var(--color-main-light);
 }
 table tr:nth-child(2n) {
@@ -151,7 +159,7 @@ a:hover {
 
 #sponsors blockquote.note {
   background-color: var(--color-secondary-background);
-  border-left: 8px solid var(--color-main-light);
+  border-left: 8px solid #f1f1f1;
   padding: 15px 30px 15px 15px;
 }
 
@@ -188,7 +196,7 @@ a:hover {
 
 .want-more-section,
 .container.features-section {
-  background-color: var(--color-main-dark);
+  background-color: var(--color-other-background);
 }
 
 .want-more-buttons {
@@ -215,7 +223,7 @@ a:hover {
 
 .projectTitle {
   font-weight: 600;
-  color:var(--color-link);
+  color: var(--color-link);
 }
 
 .projectTitle > small {
@@ -289,7 +297,7 @@ a:hover {
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   justify-content: space-around;
   max-width: 140px;
 }
@@ -308,13 +316,13 @@ a:hover {
 .toggle input[type="checkbox"]:checked + label:after {
   left: calc(100% - 2px);
   -webkit-transform: translateX(-100%);
-          transform: translateX(-100%);
+  transform: translateX(-100%);
 }
 .toggle label {
   cursor: pointer;
   width: 50px;
   height: 20px;
-  background:#7f2f61;
+  background: #7f2f61;
   display: block;
   border-radius: 40px;
   position: relative;
@@ -336,7 +344,7 @@ a:hover {
   border: 0;
   clip: rect(1px, 1px, 1px, 1px);
   -webkit-clip-path: inset(50%);
-          clip-path: inset(50%);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;

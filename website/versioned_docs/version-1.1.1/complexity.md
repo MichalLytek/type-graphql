@@ -1,6 +1,6 @@
 ---
 title: Query complexity
-id: version-1.0.0-complexity
+id: version-1.1.1-complexity
 original_id: complexity
 ---
 
@@ -98,4 +98,4 @@ For more info about how query complexity is computed, please visit [graphql-quer
 
 ## Example
 
-See how this works in the [simple query complexity example](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/query-complexity).
+See how this works in the [simple query complexity example](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/query-complexity).

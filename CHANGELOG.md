@@ -1,9 +1,14 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 <!-- here goes all the unreleased changes descriptions -->
+
+## v1.1.1
 ### Fixes
 - fix crashing when of union's or interface type's `resolveType` function returns `undefined` or `null` (#731)
+- fix crashing when no reflected type available for fields with params decorators (#724)
+- fix not registering object types implementing interface type when interface type is used as object type field type (#736)
+- properly transform nested array of input type classes (#737)
 
 ## v1.1.0
 ### Features

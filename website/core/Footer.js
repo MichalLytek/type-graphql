@@ -7,71 +7,82 @@
 
 const React = require("react");
 
+const toggleButtonHtml = /* html */ `
+  <div class="toggle">
+    <span>🌙</span>
+    <input type="checkbox" id="toggle-switch" />
+    <label for="toggle-switch">
+      <span class="screen-reader-text">Toggle Color Scheme</span>
+    </label>
+    <span>☀️</span>
+  </div>`;
+
 const DarkModeButton = () => {
   return (
     <>
       <script
-      dangerouslySetInnerHTML={{
-        __html: `
-                const html = document.querySelector("html");
+        dangerouslySetInnerHTML={{
+          __html: /* js */ `
+            const html = document.querySelector("html");
 
-                function appendButtonToDOM() {
-                  const li = document.createElement("li");
-                  li.classList.add("center-list-item")
-                  li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>'
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '${toggleButtonHtml
+                .split("\n")
+                .map(it => it.trim())
+                .join("")}';
 
-                  let nav = document.querySelector(".nav-site");
-                  nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
 
-                  const btn = document.querySelector("#toggle-switch");
-                  btn.addEventListener("click", () => {toggleColorMode()});
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
                 }
-                
-                function setInitialColorMode() {
-                  const currentColorMode = localStorage.getItem("theme");
-                  const btn = document.querySelector("#toggle-switch");
+              }
 
-                  if (currentColorMode === null) { //runs on first entry
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //inspects OS prefered color scheme
-                      localStorage.setItem("theme", 1);
-                      btn.cheked = false
-                    } else {
-                      localStorage.setItem("theme", 0);
-                      btn.checked = true;
-                    }
-                  } else if(currentColorMode === "1") {
-                    html.classList.add('theme-mode--dark');
-                    btn.checked = false;
-                  } else {
-                    html.classList.add('theme-mode--light');
-                    btn.checked = true;
-                  }
-                }
-                
-                function toggleColorMode() {
-                  const btn = document.querySelector("#toggle-switch");
-                  const currentColorMode = localStorage.getItem("theme");
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
 
-                  if (currentColorMode === "1") {
-                    localStorage.setItem("theme", 0);
-                    btn.checked = true;
-                  } else {
-                    localStorage.setItem("theme", 1);
-                    btn.checked = false;
-                  }
-                  
-                  html.classList.toggle('theme-mode--dark');
-                  html.classList.toggle('theme-mode--light');
-                }
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
 
-                appendButtonToDOM();
-                setInitialColorMode();
-                `
-      }}
+            appendButtonToDOM();
+            setInitialColorMode();
+          `,
+        }}
       />
     </>
-  )
-}
+  );
+};
 
 class Footer extends React.Component {
   docUrl(doc, language) {

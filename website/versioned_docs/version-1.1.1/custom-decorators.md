@@ -1,6 +1,6 @@
 ---
 title: Custom decorators
-id: version-1.0.0-custom-decorators
+id: version-1.1.1-custom-decorators
 original_id: custom-decorators
 ---
 
@@ -103,4 +103,4 @@ export class RecipeResolver {
 
 ## Example
 
-See how different kinds of custom decorators work in the [custom decorators and middlewares example](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/middlewares-custom-decorators).
+See how different kinds of custom decorators work in the [custom decorators and middlewares example](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/middlewares-custom-decorators).

@@ -1,5 +1,7 @@
 ---
 title: Subscriptions
+id: version-1.1.1-subscriptions
+original_id: subscriptions
 ---
 
 GraphQL can be used to perform reads with queries and writes with mutations.
@@ -196,7 +198,7 @@ And it's done! We have a working GraphQL subscription server on `/subscriptions`
 
 ## Examples
 
-See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions).
+See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/simple-subscriptions).
 
-For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions).
+For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/redis-subscriptions).
 However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection parameters.

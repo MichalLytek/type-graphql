@@ -1,6 +1,6 @@
 ---
 title: Middleware and guards
-id: version-1.0.0-middlewares
+id: version-1.1.1-middlewares
 original_id: middlewares
 ---
 
@@ -186,4 +186,4 @@ If we want to use middlewares with a more descriptive and declarative API, we ca
 
 ## Example
 
-See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/middlewares-custom-decorators).
+See how different kinds of middlewares work in the [middlewares and custom decorators example](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/middlewares-custom-decorators).

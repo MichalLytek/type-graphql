@@ -40,10 +40,12 @@ export function findType({
     prototype,
     propertyKey,
   );
-  if (metadataKey === "design:paramtypes") {
-    metadataDesignType = (reflectedType as Function[])[parameterIndex!];
-  } else {
-    metadataDesignType = reflectedType as Function | undefined;
+  if (reflectedType) {
+    if (metadataKey === "design:paramtypes") {
+      metadataDesignType = (reflectedType as Function[])[parameterIndex!];
+    } else {
+      metadataDesignType = reflectedType as Function;
+    }
   }
 
   if (!returnTypeFunc && (!metadataDesignType || bannedTypes.includes(metadataDesignType))) {

@@ -1,6 +1,6 @@
 ---
 title: Generic Types
-id: version-1.0.0-generic-types
+id: version-1.1.1-generic-types
 original_id: generic-types
 ---
 
@@ -168,4 +168,4 @@ class UserResolver {
 
 ## Examples
 
-A more advanced usage example of the generic types feature can be found in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v1.0.0/examples/generic-types).
+A more advanced usage example of the generic types feature can be found in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v1.1.1/examples/generic-types).
