@@ -1,7 +1,8 @@
 import { ApolloServer } from "apollo-server";
 
 import InventoryResolver from "./resolver";
-import Product, { resolveProductReference } from "./product";
+import Product from "./product";
+import { resolveProductReference } from "./product-reference";
 import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
 
 export async function listen(port: number): Promise<string> {
