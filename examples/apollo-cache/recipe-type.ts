@@ -1,6 +1,7 @@
 import { Field, ObjectType, Int, Float } from "../../src";
 
 import { CacheControl } from "./cache-control";
+import { getTime } from './utils';
 
 @ObjectType()
 export class Recipe {
@@ -21,12 +22,13 @@ export class Recipe {
   // if the field is requested
   @CacheControl({ maxAge: 10 })
   get cachedAverageRating() {
-    console.log(`Called 'cachedAverageRating' for recipe '${this.title}'`);
+    console.log(`Called 'cachedAverageRating' for recipe '${this.title}' on ${getTime()}`);
     return this.averageRating;
   }
 
   @Field(type => Float, { nullable: true })
   get averageRating(): number | null {
+    console.log(`Called 'averageRating' for recipe '${this.title}' on ${getTime()}`);
     const ratingsCount = this.ratings.length;
     if (ratingsCount === 0) {
       return null;

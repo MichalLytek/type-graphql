@@ -6,7 +6,6 @@
     "url": "https://github.com/MichalLytek"
   },
   "scripts": {
-    "dev": "node ./dev.js",
     "test": "jest --verbose --coverage",
     "test:ci": "jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "jest --watch",
@@ -51,6 +50,7 @@
     "@types/rimraf": "^3.0.0",
     "apollo-cache-control": "^0.11.3",
     "apollo-server": "^2.18.1",
+    "apollo-server-plugin-response-cache": "^0.5.6",
     "class-validator": "^0.12.2",
     "del": "^6.0.0",
     "graphql": "^15.3.0",
