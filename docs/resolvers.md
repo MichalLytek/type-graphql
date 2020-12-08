@@ -66,8 +66,8 @@ class RecipeResolver {
   // ...
   @Query(returns => [Recipe])
   async recipes(
-    @Arg("title", { nullable: true }) title?: string,
     @Arg("servings", { defaultValue: 2 }) servings: number,
+    @Arg("title", { nullable: true }) title?: string,
   ): Promise<Recipe[]> {
     // ...
   }
