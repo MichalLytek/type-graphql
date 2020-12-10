@@ -1,7 +1,7 @@
 import { Field, ObjectType, Int, Float } from "../../src";
 
 import { CacheControl } from "./cache-control";
-import { getTime } from './utils';
+import { getTime } from "./utils";
 
 @ObjectType()
 export class Recipe {

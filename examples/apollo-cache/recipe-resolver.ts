@@ -3,7 +3,7 @@ import { Resolver, Query, Arg } from "../../src";
 import { Recipe } from "./recipe-type";
 import { createRecipeSamples } from "./recipe-samples";
 import { CacheControl } from "./cache-control";
-import { getTime } from './utils';
+import { getTime } from "./utils";
 
 @Resolver(of => Recipe)
 export class RecipeResolver {
