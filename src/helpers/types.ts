@@ -107,7 +107,9 @@ export function convertToType(Target: any, data?: object): object | undefined {
     return data.map(item => convertToType(Target, item));
   }
 
-  return Object.assign(new Target(), data);
+  return typeof Target.fromModel === "function"
+    ? Target.fromModel(data)
+    : Object.assign(new Target(), data);
 }
 
 export function getEnumValuesMap<T extends object>(enumObject: T) {
