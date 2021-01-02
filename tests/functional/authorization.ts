@@ -13,6 +13,8 @@ import {
   FieldResolver,
   UnauthorizedError,
   ForbiddenError,
+  AuthCheckerInterface,
+  ResolverData,
 } from "../../src";
 
 describe("Authorization", () => {
@@ -494,6 +496,49 @@ describe("Authorization", () => {
       expect(authCheckerResolverData.context.field).toEqual("contextField");
       expect(authCheckerResolverData.args).toEqual({});
       expect(authCheckerResolverData.info).toBeDefined();
+    });
+  });
+
+  describe("with class-based auth checker", () => {
+    it("should correctly call auth checker class instance 'check' method", async () => {
+      let authCheckerResolverData: any;
+      let authCheckerRoles: any;
+      class TestAuthChecker implements AuthCheckerInterface {
+        check(resolverData: ResolverData, roles: string[]) {
+          authCheckerResolverData = resolverData;
+          authCheckerRoles = roles;
+          return false;
+        }
+      }
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: TestAuthChecker,
+      });
+
+      const query = /* graphql */ `
+        query {
+          adminOrRegularQuery
+        }
+      `;
+
+      const result = await graphql(
+        localSchema,
+        query,
+        { field: "rootField" },
+        { field: "contextField" },
+      );
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toMatchInlineSnapshot(`
+        Array [
+          [GraphQLError: Access denied! You don't have permission for this action!],
+        ]
+      `);
+      expect(authCheckerResolverData.root).toEqual({ field: "rootField" });
+      expect(authCheckerResolverData.context).toEqual({ field: "contextField" });
+      expect(authCheckerResolverData.args).toEqual({});
+      expect(authCheckerResolverData.info).toBeDefined();
+      expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
     });
   });
 });

@@ -648,7 +648,7 @@ export abstract class SchemaGenerator {
   private static generateSubscriptionsFields<T = any, U = any>(
     subscriptionsHandlers: SubscriptionResolverMetadata[],
   ): GraphQLFieldConfigMap<T, U> {
-    const { pubSub } = BuildContext;
+    const { pubSub, container } = BuildContext;
     const basicFields = this.generateHandlerFields(subscriptionsHandlers);
     return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       // omit emitting abstract resolver fields
@@ -686,6 +686,7 @@ export abstract class SchemaGenerator {
 
       fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
         subscribeFn,
+        container,
         handler.roles,
       );
       return fields;

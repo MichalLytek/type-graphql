@@ -11,6 +11,7 @@ import { BuildContext } from "../schema/build-context";
 import { ResolverData } from "../interfaces";
 import isPromiseLike from "../utils/isPromiseLike";
 import { AuthMiddleware } from "../helpers/auth-middleware";
+import { IOCContainer } from "../utils/container";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
@@ -24,7 +25,7 @@ export function createHandlerResolver(
     container,
   } = BuildContext;
   const middlewares = globalMiddlewares.concat(resolverMetadata.middlewares!);
-  applyAuthChecker(middlewares, authMode, authChecker, resolverMetadata.roles);
+  applyAuthChecker(middlewares, authChecker, container, authMode, resolverMetadata.roles);
 
   return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
@@ -87,7 +88,7 @@ export function createAdvancedFieldResolver(
     container,
   } = BuildContext;
   const middlewares = globalMiddlewares.concat(fieldResolverMetadata.middlewares!);
-  applyAuthChecker(middlewares, authMode, authChecker, fieldResolverMetadata.roles);
+  applyAuthChecker(middlewares, authChecker, container, authMode, fieldResolverMetadata.roles);
 
   return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
@@ -121,7 +122,7 @@ export function createBasicFieldResolver(
 ): GraphQLFieldResolver<any, any, any> {
   const { authChecker, authMode, globalMiddlewares, container } = BuildContext;
   const middlewares = globalMiddlewares.concat(fieldMetadata.middlewares!);
-  applyAuthChecker(middlewares, authMode, authChecker, fieldMetadata.roles);
+  applyAuthChecker(middlewares, authChecker, container, authMode, fieldMetadata.roles);
 
   return (root, args, context, info) => {
     const resolverData: ResolverData<any> = { root, args, context, info };
@@ -131,6 +132,7 @@ export function createBasicFieldResolver(
 
 export function wrapResolverWithAuthChecker(
   resolver: GraphQLFieldResolver<any, any>,
+  container: IOCContainer,
   roles: any[] | undefined,
 ): GraphQLFieldResolver<any, any> {
   const { authChecker, authMode } = BuildContext;
@@ -142,6 +144,7 @@ export function wrapResolverWithAuthChecker(
     const resolverData: ResolverData<any> = { root, args, context, info };
     return AuthMiddleware(
       authChecker,
+      container,
       authMode,
       roles,
     )(resolverData, async () => resolver(root, args, context, info));

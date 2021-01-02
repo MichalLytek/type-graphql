@@ -1,14 +1,23 @@
 import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker, AuthMode } from "../interfaces";
+import { AuthChecker, AuthCheckerFn, AuthMode } from "../interfaces";
 import { UnauthorizedError, ForbiddenError } from "../errors";
+import { IOCContainer } from "../utils/container";
 
 export function AuthMiddleware(
   authChecker: AuthChecker<any, any>,
+  container: IOCContainer,
   authMode: AuthMode,
   roles: any[],
 ): MiddlewareFn {
   return async (action, next) => {
-    const accessGranted = await authChecker(action, roles);
+    let accessGranted: boolean;
+    if (authChecker.prototype) {
+      const authCheckerInstance = await container.getInstance(authChecker, action);
+      accessGranted = await authCheckerInstance.check(action, roles);
+    } else {
+      accessGranted = await (authChecker as AuthCheckerFn<any, any>)(action, roles);
+    }
+
     if (!accessGranted) {
       if (authMode === "null") {
         return null;

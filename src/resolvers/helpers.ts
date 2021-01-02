@@ -68,12 +68,13 @@ export function getParams(
 
 export function applyAuthChecker(
   middlewares: Array<Middleware<any>>,
+  authChecker: AuthChecker<any, any> | undefined,
+  container: IOCContainer,
   authMode: AuthMode,
-  authChecker?: AuthChecker<any, any>,
-  roles?: any[],
+  roles: any[] | undefined,
 ) {
   if (authChecker && roles) {
-    middlewares.unshift(AuthMiddleware(authChecker, authMode, roles));
+    middlewares.unshift(AuthMiddleware(authChecker, container, authMode, roles));
   }
 }
 

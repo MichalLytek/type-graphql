@@ -1,7 +1,10 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
+- support class-based auth checker, which allows for dependency injection
 
 ## v1.1.1
 ### Fixes

@@ -85,7 +85,25 @@ export const customAuthChecker: AuthChecker<ContextType> = (
 
 The second argument of the `AuthChecker` generic type is `RoleType` - used together with the `@Authorized` decorator generic type.
 
-The last step is to register the function while building the schema:
+Auth checker can be also defined as a class - this way we can leverage the dependency injection mechanism:
+
+```ts
+export class CustomAuthChecker implements AuthCheckerInterface<ContextType> {
+  // inject dependency
+  constructor(private readonly userRepository: Repository<User>) {}
+
+  check({ root, args, context, info }: ResolverData<ContextType>, roles: string[]) {
+    const userId = getUserIdFromToken(context.token);
+    // use injected service
+    const user = this.userRepository.getById(userId);
+
+    // custom logic here, e.g.:
+    return user % 2 === 0;
+  }
+}
+```
+
+The last step is to register the function or class while building the schema:
 
 ```typescript
 import { customAuthChecker } from "../auth/custom-auth-checker.ts";
