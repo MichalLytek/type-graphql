@@ -103,7 +103,7 @@ interface Person implements Node {
   age: Int!
 }
 
-type Student implements Node & IPerson {
+type Student implements Node & Person {
   id: ID!
   name: String!
   age: Int!
