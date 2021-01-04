@@ -52,6 +52,7 @@ import {
   getFieldDefinitionNode,
   getInputObjectTypeDefinitionNode,
   getInputValueDefinitionNode,
+  getInterfaceTypeDefinitionNode,
   getObjectTypeDefinitionNode,
 } from "./definition-node";
 import { ObjectClassMetadata } from "../metadata/definitions/object-class-metdata";
@@ -392,6 +393,7 @@ export abstract class SchemaGenerator {
           type: new GraphQLInterfaceType({
             name: interfaceType.name,
             description: interfaceType.description,
+            astNode: getInterfaceTypeDefinitionNode(interfaceType.name, interfaceType.directives),
             interfaces: () => {
               let interfaces = (interfaceType.interfaceClasses || []).map<GraphQLInterfaceType>(
                 interfaceClass =>
@@ -431,19 +433,21 @@ export abstract class SchemaGenerator {
                       (resolver.resolverClassMetadata === undefined ||
                         resolver.resolverClassMetadata.isAbstract === false),
                   );
+                  const type = this.getGraphQLOutputType(
+                    field.target,
+                    field.name,
+                    field.getType(),
+                    field.typeOptions,
+                  );
                   fieldsMap[field.schemaName] = {
-                    type: this.getGraphQLOutputType(
-                      field.target,
-                      field.name,
-                      field.getType(),
-                      field.typeOptions,
-                    ),
+                    type,
                     args: this.generateHandlerArgs(field.target, field.name, field.params!),
                     resolve: fieldResolverMetadata
                       ? createAdvancedFieldResolver(fieldResolverMetadata)
                       : createBasicFieldResolver(field),
                     description: field.description,
                     deprecationReason: field.deprecationReason,
+                    astNode: getFieldDefinitionNode(field.name, type, field.directives),
                     extensions: {
                       complexity: field.complexity,
                       ...field.extensions,
