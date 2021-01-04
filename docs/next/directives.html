@@ -82,7 +82,7 @@
 <p>Basically, we declare the usage of directives just like in SDL, with the <code>@</code> syntax:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Use newField")'</span><span class="token punctuation">)</span>
 </code></pre>
-<p>Currently, you can use the directives only on object types, input types and their fields or fields resolvers, as well as queries, mutations and subscriptions.</p>
+<p>Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, as well as queries, mutations and subscriptions. Other locations like scalars, enums, unions or arguments are not yet supported.</p>
 <p>So the <code>@Directive</code> decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:</p>
 <pre><code class="hljs css language-typescript">@<span class="token function">Directive</span><span class="token punctuation">(</span><span class="token string">"@auth(requires: USER)"</span><span class="token punctuation">)</span>
 @<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
