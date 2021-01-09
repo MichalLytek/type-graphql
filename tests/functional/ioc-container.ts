@@ -32,6 +32,7 @@ describe("IOC container", () => {
       @Field({ nullable: true })
       field?: string;
     }
+    @Service()
     @Resolver(of => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
@@ -173,6 +174,7 @@ describe("IOC container", () => {
   it("should properly get instance from an async container", async () => {
     let called: boolean = false;
 
+    @Service()
     @Resolver()
     class SampleResolver {
       @Query()

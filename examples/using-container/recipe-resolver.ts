@@ -1,9 +1,11 @@
+import { Service } from "typedi";
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "../../src";
 
 import { Recipe } from "./recipe-type";
 import { RecipeService } from "./recipe-service";
 import { RecipeInput } from "./recipe-input";
 
+@Service()
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(

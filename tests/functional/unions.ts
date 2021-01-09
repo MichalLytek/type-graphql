@@ -586,7 +586,7 @@ describe("Unions", () => {
       const result = await graphql(testSchema, query);
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
-        `"Abstract type \\"OneTwo\\" must resolve to an Object type at runtime for field \\"Query.oneTwo\\" with value { one: \\"one\\" }, received \\"undefined\\". Either the \\"OneTwo\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+        `"Abstract type \\"OneTwo\\" must resolve to an Object type at runtime for field \\"Query.oneTwo\\". Either the \\"OneTwo\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
       );
     });
   });

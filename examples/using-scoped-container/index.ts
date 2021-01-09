@@ -24,7 +24,7 @@ async function bootstrap() {
     // we need to provide unique context with `requestId` for each request
     context: (): Context => {
       const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
-      const container = Container.of(requestId); // get scoped container
+      const container = Container.of(requestId.toString()); // get scoped container
       const context = { requestId, container }; // create our context
       container.set("context", context); // place context or other data in container
       return context;
@@ -35,7 +35,7 @@ async function bootstrap() {
         requestDidStart: () => ({
           willSendResponse(requestContext: GraphQLRequestContext<Context>) {
             // remember to dispose the scoped container to prevent memory leaks
-            Container.reset(requestContext.context.requestId);
+            Container.reset(requestContext.context.requestId.toString());
 
             // for developers curiosity purpose, here is the logging of current scoped container instances
             // we can make multiple parallel requests to see in console how this works

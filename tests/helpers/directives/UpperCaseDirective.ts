@@ -24,7 +24,10 @@ class UpperCaseType extends GraphQLScalarType {
   }
 }
 
-export class UpperCaseDirective extends SchemaDirectiveVisitor {
+export class UpperCaseDirective<
+  TArgs = { [name: string]: any },
+  TContext = { [key: string]: any }
+> extends SchemaDirectiveVisitor<TArgs, TContext> {
   static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
     return new GraphQLDirective({
       name: directiveName,

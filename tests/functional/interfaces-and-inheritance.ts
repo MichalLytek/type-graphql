@@ -823,7 +823,7 @@ describe("Interfaces and inheritance", () => {
       const result = await graphql(schema, query);
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
-        `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\" with value { baseInterfaceField: \\"notMatchingValue\\" }, received \\"undefined\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+        `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
       );
     });
 

@@ -1,7 +1,10 @@
 import { SchemaDirectiveVisitor } from "graphql-tools";
 import { GraphQLField, GraphQLString, GraphQLDirective, DirectiveLocation } from "graphql";
 
-export class AppendDirective extends SchemaDirectiveVisitor {
+export class AppendDirective<
+  TArgs = { [name: string]: any },
+  TContext = { [key: string]: any }
+> extends SchemaDirectiveVisitor<TArgs, TContext> {
   static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
     return new GraphQLDirective({
       name: directiveName,
@@ -19,6 +22,7 @@ export class AppendDirective extends SchemaDirectiveVisitor {
       defaultValue: "",
       extensions: {},
       astNode: undefined,
+      deprecationReason: undefined,
     });
 
     field.resolve = async function (source, { append, ...otherArgs }, context, info) {

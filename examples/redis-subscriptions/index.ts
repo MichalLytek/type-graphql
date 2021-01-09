@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import * as Redis from "ioredis";
+import Redis from "ioredis";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { buildSchema } from "../../src";
 

@@ -144,6 +144,7 @@ describe("buildTypeDefsAndResolvers", () => {
       },
     });
 
+    @Service()
     @Resolver()
     class SampleResolver {
       constructor(private readonly sampleService: SampleService) {}
