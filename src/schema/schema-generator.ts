@@ -343,6 +343,7 @@ export abstract class SchemaGenerator {
                   extensions: {
                     complexity: field.complexity,
                     ...field.extensions,
+                    ...fieldResolverMetadata?.extensions,
                   },
                 };
                 return fieldsMap;

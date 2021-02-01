@@ -321,5 +321,44 @@ describe("Extensions", () => {
         expect(childObjectTypeParentField.extensions).toEqual({ parentField: true });
       });
     });
+
+    describe("Fields with field resolvers", () => {
+      beforeAll(async () => {
+        getMetadataStorage().clear();
+
+        @ObjectType()
+        class Child {
+          @Field()
+          @Extensions({ childField: true })
+          childField!: string;
+        }
+        @Resolver(of => Child)
+        class ChildResolver {
+          @Query()
+          sampleQuery(): Child {
+            return {} as Child;
+          }
+
+          @Extensions({ childFieldResolver: true })
+          @FieldResolver()
+          childField(): string {
+            return "childField";
+          }
+        }
+
+        schema = await buildSchema({
+          resolvers: [ChildResolver],
+        });
+      });
+
+      it("should merge field level with field resolver level extensions", () => {
+        const childObjectType = schema.getType("Child") as GraphQLObjectType;
+
+        expect(childObjectType.getFields().childField.extensions).toEqual({
+          childField: true,
+          childFieldResolver: true,
+        });
+      });
+    });
   });
 });

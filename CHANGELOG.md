@@ -6,6 +6,8 @@
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
+### Fixes
+- allow defining extension on field resolver level for fields also defined as a property of the class (#776)
 ### Others
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.4.0`
 
