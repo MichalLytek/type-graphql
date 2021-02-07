@@ -1,4 +1,4 @@
-import * as glob from "glob";
+import glob from "glob";
 
 export function findFileNamesFromGlob(globString: string) {
   return glob.sync(globString);

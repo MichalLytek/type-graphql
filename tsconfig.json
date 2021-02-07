@@ -43,8 +43,8 @@
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
     // "types": [],                           /* Type declaration files to be included in compilation. */
-    "allowSyntheticDefaultImports": false,    /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
-    "esModuleInterop": false,                 /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "allowSyntheticDefaultImports": true,     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,                     /* Don't check libs typings - due to https://github.com/prisma/graphql-request/issues/26 */
@@ -60,7 +60,6 @@
     "emitDecoratorMetadata": true             /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "./examples",
     "./src",
     "./tests"
   ],

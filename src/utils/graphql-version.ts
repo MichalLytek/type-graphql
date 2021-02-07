@@ -1,4 +1,4 @@
-import * as semVer from "semver";
+import semVer from "semver";
 
 import { UnmetGraphQLPeerDependencyError } from "../errors";
 

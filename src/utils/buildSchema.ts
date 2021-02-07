@@ -1,5 +1,5 @@
 import { GraphQLSchema } from "graphql";
-import * as path from "path";
+import path from "path";
 
 import { SchemaGenerator, SchemaGeneratorOptions } from "../schema/schema-generator";
 import { loadResolversFromGlob } from "../helpers/loadResolversFromGlob";

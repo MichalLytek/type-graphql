@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
-import * as fs from "fs";
-import * as path from "path";
-import * as rimraf from "rimraf";
+import fs from "fs";
+import path from "path";
+import rimraf from "rimraf";
 
 import {
   buildSchema,

@@ -11,7 +11,7 @@
     "test:watch": "jest --watch",
     "format": "prettier --write \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:format": "prettier --check \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
-    "check:type": "tsc --noEmit",
+    "check:type": "tsc --noEmit && tsc --noEmit -p ./examples/tsconfig.json",
     "check": "npm run check:format && npm run check:type",
     "lint": "tslint --project tsconfig.json",
     "verify": "npm run check && npm run lint",
