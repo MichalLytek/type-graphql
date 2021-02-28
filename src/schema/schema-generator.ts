@@ -525,6 +525,7 @@ export abstract class SchemaGenerator {
                   defaultValue,
                   astNode: getInputValueDefinitionNode(field.name, type, field.directives),
                   extensions: field.extensions,
+                  deprecationReason: field.deprecationReason,
                 };
                 return fieldsMap;
               },
@@ -716,6 +717,7 @@ export abstract class SchemaGenerator {
             param.name,
           ),
           defaultValue: param.typeOptions.defaultValue,
+          deprecationReason: param.deprecationReason,
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
@@ -762,6 +764,7 @@ export abstract class SchemaGenerator {
           defaultValue,
         }),
         defaultValue,
+        deprecationReason: field.deprecationReason,
       };
     });
   }

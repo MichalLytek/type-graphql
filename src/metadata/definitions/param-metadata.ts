@@ -32,6 +32,7 @@ export interface ArgParamMetadata extends CommonArgMetadata {
   kind: "arg";
   name: string;
   description: string | undefined;
+  deprecationReason: string | undefined;
 }
 export interface ArgsParamMetadata extends CommonArgMetadata {
   kind: "args";
