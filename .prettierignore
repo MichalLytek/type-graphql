@@ -13,3 +13,6 @@ coverage
 
 # parcel cache
 .cache
+
+# changelog
+CHANGELOG.md
