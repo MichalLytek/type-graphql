@@ -168,6 +168,7 @@ export abstract class SchemaGenerator {
       defaultValueFromInitializer !== undefined &&
       typeOptions.defaultValue !== defaultValueFromInitializer
     ) {
+      // console.log("ConflictingDefaultValuesError", { typeOptions, defaultValueFromInitializer });
       throw new ConflictingDefaultValuesError(
         typeName,
         fieldName,
@@ -175,6 +176,7 @@ export abstract class SchemaGenerator {
         defaultValueFromInitializer,
       );
     }
+    // console.log("normal", { typeOptions, defaultValueFromInitializer });
     return typeOptions.defaultValue !== undefined
       ? typeOptions.defaultValue
       : defaultValueFromInitializer;
@@ -506,23 +508,21 @@ export abstract class SchemaGenerator {
           fields: () => {
             let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
               (fieldsMap, field) => {
-                field.typeOptions.defaultValue = this.getDefaultValue(
+                const defaultValue = this.getDefaultValue(
                   inputInstance,
                   field.typeOptions,
                   field.name,
                   inputType.name,
                 );
 
-                const type = this.getGraphQLInputType(
-                  field.target,
-                  field.name,
-                  field.getType(),
-                  field.typeOptions,
-                );
+                const type = this.getGraphQLInputType(field.target, field.name, field.getType(), {
+                  ...field.typeOptions,
+                  defaultValue,
+                });
                 fieldsMap[field.schemaName] = {
                   description: field.description,
                   type,
-                  defaultValue: field.typeOptions.defaultValue,
+                  defaultValue,
                   astNode: getInputValueDefinitionNode(field.name, type, field.directives),
                   extensions: field.extensions,
                 };
@@ -749,7 +749,7 @@ export abstract class SchemaGenerator {
   ) {
     const argumentInstance = new (argumentType.target as any)();
     argumentType.fields!.forEach(field => {
-      field.typeOptions.defaultValue = this.getDefaultValue(
+      const defaultValue = this.getDefaultValue(
         argumentInstance,
         field.typeOptions,
         field.name,
@@ -757,13 +757,11 @@ export abstract class SchemaGenerator {
       );
       args[field.schemaName] = {
         description: field.description,
-        type: this.getGraphQLInputType(
-          field.target,
-          field.name,
-          field.getType(),
-          field.typeOptions,
-        ),
-        defaultValue: field.typeOptions.defaultValue,
+        type: this.getGraphQLInputType(field.target, field.name, field.getType(), {
+          ...field.typeOptions,
+          defaultValue,
+        }),
+        defaultValue,
       };
     });
   }
