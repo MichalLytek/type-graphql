@@ -10,7 +10,7 @@
 - allow defining extension on field resolver level for fields also defined as a property of the class (#776)
 - fix throwing error when schema with dynamic default value was built again (#787)
 ### Others
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.4.0`
+- **Breaking Change**: update `graphql-js` peer dependency to `^15.5.0`
 
 ## v1.1.1
 ### Fixes

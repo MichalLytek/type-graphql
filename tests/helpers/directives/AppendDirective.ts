@@ -1,10 +1,7 @@
 import { SchemaDirectiveVisitor } from "graphql-tools";
 import { GraphQLField, GraphQLString, GraphQLDirective, DirectiveLocation } from "graphql";
 
-export class AppendDirective<
-  TArgs = { [name: string]: any },
-  TContext = { [key: string]: any }
-> extends SchemaDirectiveVisitor<TArgs, TContext> {
+export class AppendDirective extends SchemaDirectiveVisitor {
   static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
     return new GraphQLDirective({
       name: directiveName,
