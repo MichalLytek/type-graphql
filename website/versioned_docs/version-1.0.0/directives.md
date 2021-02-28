@@ -4,11 +4,9 @@ id: version-1.0.0-directives
 original_id: directives
 ---
 
-[GraphQL directives](https://www.apollographql.com/docs/graphql-tools/schema-directives/) though the syntax might remind the TS decorators:
-
 > A directive is an identifier preceded by a @ character, optionally followed by a list of named arguments, which can appear after almost any form of syntax in the GraphQL query or schema languages.
 
-But in fact, they are a purely SDL (Schema Definition Language) feature that allows you to put some metadata for selected type or its field:
+Though the [GraphQL directives](https://www.apollographql.com/docs/graphql-tools/schema-directives/) syntax is similar to TS decorators, they are purely an SDL (Schema Definition Language) feature that allows you to add metadata to a selected type or its field:
 
 ```graphql
 type Foo @auth(requires: USER) {
@@ -20,7 +18,7 @@ type Bar {
 }
 ```
 
-That metadata can be read in runtime to modify the structure and behavior of a GraphQL schema to support reusable code and tasks like authentication, permission, formatting, and plenty more. They are also really useful for some external services like [Apollo Cache Control](https://www.apollographql.com/docs/apollo-server/performance/caching/#adding-cache-hints-statically-in-your-schema) or [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/#federated-schema-example).
+That metadata can be read at runtime to modify the structure and behavior of a GraphQL schema to support reusable code and tasks like authentication, permission, formatting, and plenty more. They are also really useful for some external services like [Apollo Cache Control](https://www.apollographql.com/docs/apollo-server/performance/caching/#adding-cache-hints-statically-in-your-schema) or [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/#federated-schema-example).
 
 **TypeGraphQL** of course provides some basic support for using the schema directives via the `@Directive` decorator.
 
