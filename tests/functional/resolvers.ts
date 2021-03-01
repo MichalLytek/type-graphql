@@ -1236,6 +1236,24 @@ describe("Resolvers", () => {
       }
       classes.SampleInput = SampleInput;
 
+      @ObjectType()
+      @InputType("SampleInnerClassInput")
+      class SampleInnerClass {
+        @Field()
+        aNumber: number;
+
+        @Field()
+        aString: string;
+      }
+      classes.SampleInnerClass = SampleInnerClass;
+
+      @InputType()
+      class SampleOuterClass {
+        @Field(type => [[SampleInnerClass]])
+        nested: SampleInnerClass[][];
+      }
+      classes.SampleOuterClass = SampleOuterClass;
+
       @InputType()
       class SampleNestedInput {
         instanceField = Math.random();
@@ -1432,6 +1450,14 @@ describe("Resolvers", () => {
         ): number {
           mutationInputValue = inputs;
           return inputs[0][0][0].factor;
+        }
+
+        @Mutation(type => SampleInnerClass)
+        mutationWithNestedArrayField(
+          @Arg("inputs", type => SampleOuterClass) inputs: SampleOuterClass,
+        ) {
+          mutationInputValue = inputs;
+          return inputs.nested[0][0];
         }
 
         @Mutation()
@@ -1825,6 +1851,18 @@ describe("Resolvers", () => {
       expect(nestedInput).toBeInstanceOf(classes.SampleInput);
       expect(nestedInput.instanceField).toBeGreaterThanOrEqual(0);
       expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("should create instance of nested arrays input from arg", async () => {
+      const mutation = `mutation {
+        mutationWithNestedArrayField(inputs: {nested: [[{aNumber: 90, aString: "test"}]]}) {
+          aNumber
+          aString
+        }
+      }`;
+
+      const { data, errors } = await graphql(schema, mutation);
+      expect(errors).toBeUndefined();
     });
 
     it("shouldn't create instance of an argument if the value is null or not provided", async () => {
