@@ -1853,7 +1853,7 @@ describe("Resolvers", () => {
       expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
     });
 
-    it("should create instance of nested arrays input from arg", async () => {
+    it("should create instance with a nested property from arg", async () => {
       const mutation = `mutation {
         mutationWithNestedArrayField(inputs: {nested: [[{aNumber: 90, aString: "test"}]]}) {
           aNumber
