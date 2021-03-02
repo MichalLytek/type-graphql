@@ -1,11 +1,22 @@
 import "reflect-metadata";
-import { IntrospectionSchema, IntrospectionObjectType } from "graphql";
+import { IntrospectionSchema, IntrospectionObjectType, GraphQLSchema, printType } from "graphql";
 
-import { ObjectType, Resolver, Field, Query, Mutation } from "../../src";
+import {
+  ObjectType,
+  Resolver,
+  Field,
+  Query,
+  Mutation,
+  InputType,
+  Arg,
+  ArgsType,
+  Args,
+} from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Deprecation", () => {
   describe("Schema", () => {
+    let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
     let mutationType: IntrospectionObjectType;
     let queryType: IntrospectionObjectType;
@@ -19,11 +30,11 @@ describe("Deprecation", () => {
         normalField: string;
 
         @Field({ deprecationReason: "sample object field deprecation reason" })
-        describedField: string;
+        deprecatedField: string;
 
         @Field({ deprecationReason: "sample object getter field deprecation reason" })
-        get describedGetterField(): string {
-          return "describedGetterField";
+        get deprecatedGetterField(): string {
+          return "deprecatedGetterField";
         }
 
         @Field({ deprecationReason: "sample object method field deprecation reason" })
@@ -32,10 +43,55 @@ describe("Deprecation", () => {
         }
       }
 
+      @InputType()
+      class SampleInput {
+        @Field()
+        normalField: string;
+
+        @Field({
+          deprecationReason: "sample input field deprecation reason",
+          nullable: true,
+        })
+        deprecatedField: string;
+      }
+
+      @ArgsType()
+      class SampleArgs {
+        @Field()
+        normalArg: string;
+
+        @Field({
+          deprecationReason: "sample args field deprecation reason",
+          nullable: true,
+        })
+        deprecatedArg: string;
+      }
+
       @Resolver(of => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): SampleObject {
+          return {} as SampleObject;
+        }
+
+        @Query()
+        inputQuery(@Arg("input") input: SampleInput): SampleObject {
+          return {} as SampleObject;
+        }
+
+        @Query()
+        argsQuery(@Args() args: SampleArgs): SampleObject {
+          return {} as SampleObject;
+        }
+
+        @Query()
+        deprecatedArgQuery(
+          @Arg("arg", {
+            deprecationReason: "sample query arg deprecation reason",
+            nullable: true,
+          })
+          arg?: string,
+        ): SampleObject {
           return {} as SampleObject;
         }
 
@@ -59,6 +115,7 @@ describe("Deprecation", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
       });
+      schema = schemaInfo.schema;
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;
       mutationType = schemaInfo.mutationType!;
@@ -69,26 +126,38 @@ describe("Deprecation", () => {
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
       const normalField = sampleObjectType.fields.find(field => field.name === "normalField")!;
-      const describedField = sampleObjectType.fields.find(
-        field => field.name === "describedField",
+      const deprecatedField = sampleObjectType.fields.find(
+        field => field.name === "deprecatedField",
       )!;
-      const describedGetterField = sampleObjectType.fields.find(
-        field => field.name === "describedGetterField",
+      const deprecatedGetterField = sampleObjectType.fields.find(
+        field => field.name === "deprecatedGetterField",
       )!;
       const methodField = sampleObjectType.fields.find(field => field.name === "methodField")!;
 
       expect(normalField.isDeprecated).toBeFalsy();
       expect(normalField.deprecationReason).toBeNull();
-      expect(describedField.isDeprecated).toBeTruthy();
-      expect(describedField.deprecationReason).toEqual("sample object field deprecation reason");
-      expect(describedGetterField.isDeprecated).toBeTruthy();
-      expect(describedGetterField.deprecationReason).toEqual(
+      expect(deprecatedField.isDeprecated).toBeTruthy();
+      expect(deprecatedField.deprecationReason).toEqual("sample object field deprecation reason");
+      expect(deprecatedGetterField.isDeprecated).toBeTruthy();
+      expect(deprecatedGetterField.deprecationReason).toEqual(
         "sample object getter field deprecation reason",
       );
       expect(methodField.isDeprecated).toBeTruthy();
       expect(methodField.deprecationReason).toEqual(
         "sample object method field deprecation reason",
       );
+    });
+
+    it("should generate proper input type fields deprecation reason", async () => {
+      const sampleInputType = schema.getType("SampleInput")!;
+      const sampleInputTypeSDL = printType(sampleInputType);
+
+      expect(sampleInputTypeSDL).toMatchInlineSnapshot(`
+        "input SampleInput {
+          normalField: String!
+          deprecatedField: String @deprecated(reason: \\"sample input field deprecation reason\\")
+        }"
+      `);
     });
 
     it("should generate proper query type deprecation reason", async () => {
@@ -111,6 +180,24 @@ describe("Deprecation", () => {
       expect(normalMutation.deprecationReason).toBeNull();
       expect(describedMutation.isDeprecated).toBeTruthy();
       expect(describedMutation.deprecationReason).toEqual("sample mutation deprecation reason");
+    });
+
+    it("should generate proper single arg deprecation reason", async () => {
+      const queryObjectType = schema.getQueryType()!;
+      const queryObjectTypeSDL = printType(queryObjectType);
+
+      expect(queryObjectTypeSDL).toContain(
+        'deprecatedArgQuery(arg: String @deprecated(reason: "sample query arg deprecation reason"))',
+      );
+    });
+
+    it("should generate proper args type fields deprecation reason", async () => {
+      const queryObjectType = schema.getQueryType()!;
+      const queryObjectTypeSDL = printType(queryObjectType);
+
+      expect(queryObjectTypeSDL).toContain(
+        'argsQuery(normalArg: String!, deprecatedArg: String @deprecated(reason: "sample args field deprecation reason")): SampleObject!',
+      );
     });
   });
 });
