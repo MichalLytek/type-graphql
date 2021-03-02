@@ -1,0 +1,36 @@
+name: TypeGraphQL
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.13, 10.x, 11.x, 12.x, 13.x, 14.x, 15.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install deps
+        run: |
+          npm ci
+          npm i -g codecov
+
+      - name: Check codebase
+        run: |
+          npm run verify
+
+      - name: Run tests
+        run: npm run test:ci
+        env:
+          CI: true
+
+      - name: Upload code coverage results
+        uses: codecov/codecov-action@v1
