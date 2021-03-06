@@ -12,7 +12,7 @@ import { TypeOptions } from "../decorators/types";
 import { GraphQLTimestamp } from "../scalars/timestamp";
 import { GraphQLISODateTime } from "../scalars/isodate";
 import { BuildContext } from "../schema/build-context";
-import { WrongNullableListOptionError, ConflictingDefaultWithNullableError } from "../errors";
+import { WrongNullableListOptionError } from "../errors";
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
@@ -50,17 +50,6 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   ) {
     throw new WrongNullableListOptionError(target.name, propertyName, typeOptions.nullable);
   }
-  if (
-    typeOptions.defaultValue !== undefined &&
-    (typeOptions.nullable === false || typeOptions.nullable === "items")
-  ) {
-    throw new ConflictingDefaultWithNullableError(
-      target.name,
-      propertyName,
-      typeOptions.defaultValue,
-      typeOptions.nullable,
-    );
-  }
 
   let gqlType: GraphQLType = type;
 
@@ -73,10 +62,9 @@ export function wrapWithTypeOptions<T extends GraphQLType>(
   }
 
   if (
-    typeOptions.defaultValue === undefined &&
-    (typeOptions.nullable === false ||
-      (typeOptions.nullable === undefined && nullableByDefault === false) ||
-      typeOptions.nullable === "items")
+    typeOptions.nullable === false ||
+    (typeOptions.nullable === undefined && nullableByDefault === false) ||
+    typeOptions.nullable === "items"
   ) {
     gqlType = new GraphQLNonNull(gqlType);
   }

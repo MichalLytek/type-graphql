@@ -306,7 +306,15 @@ describe("buildTypeDefsAndResolvers", () => {
 
       expect(sampleInput.kind).toBe(TypeKind.INPUT_OBJECT);
       expect(sampleInput.inputFields).toHaveLength(2);
-      expect(sampleInputDefaultStringFieldType.name).toBe("String");
+      expect(sampleInputDefaultStringFieldType).toEqual({
+        kind: "NON_NULL",
+        name: null,
+        ofType: {
+          kind: "SCALAR",
+          name: "String",
+          ofType: null,
+        },
+      });
       expect(sampleInputDefaultStringField.defaultValue).toBe('"sampleInputDefaultStringField"');
     });
 

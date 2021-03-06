@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { IntrospectionSchema } from "graphql";
+import { GraphQLSchema, IntrospectionSchema, printType } from "graphql";
 import {
   Arg,
   buildSchema,
@@ -44,6 +44,148 @@ describe("default values", () => {
 
     it("should not throw error when schema with dynamic default has been built again", async () => {
       await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrowError();
+    });
+  });
+
+  describe("with nullable settings", () => {
+    describe("when `nullable: false` and defaultValue is provided", () => {
+      let schema: GraphQLSchema;
+
+      beforeEach(async () => {
+        getMetadataStorage().clear();
+        @InputType()
+        class SampleInput {
+          @Field({ defaultValue: "stringDefaultValue", nullable: false })
+          inputField: string;
+        }
+
+        @Resolver()
+        class SampleResolver {
+          @Query()
+          sampleQuery(@Arg("input") input: SampleInput): string {
+            return "sampleQuery";
+          }
+        }
+        schema = await buildSchema({ resolvers: [SampleResolver] });
+      });
+
+      it("should emit field of type non-nullable string with default value", async () => {
+        const sampleInputType = schema.getType("SampleInput")!;
+        const sampleInputSDL = printType(sampleInputType);
+
+        expect(sampleInputSDL).toMatchInlineSnapshot(`
+          "input SampleInput {
+            inputField: String! = \\"stringDefaultValue\\"
+          }"
+        `);
+      });
+    });
+
+    describe("when `nullable: true` and defaultValue is provided", () => {
+      let schema: GraphQLSchema;
+
+      beforeEach(async () => {
+        getMetadataStorage().clear();
+        @InputType()
+        class SampleInput {
+          @Field({ defaultValue: "stringDefaultValue", nullable: true })
+          inputField: string;
+        }
+
+        @Resolver()
+        class SampleResolver {
+          @Query()
+          sampleQuery(@Arg("input") input: SampleInput): string {
+            return "sampleQuery";
+          }
+        }
+        schema = await buildSchema({ resolvers: [SampleResolver] });
+      });
+
+      it("should emit field of type nullable string with default value", async () => {
+        const sampleInputType = schema.getType("SampleInput")!;
+        const sampleInputSDL = printType(sampleInputType);
+
+        expect(sampleInputSDL).toMatchInlineSnapshot(`
+          "input SampleInput {
+            inputField: String = \\"stringDefaultValue\\"
+          }"
+        `);
+      });
+    });
+
+    describe("when `nullableByDefault: true`", () => {
+      describe("when defaultValue is provided", () => {
+        let schema: GraphQLSchema;
+
+        beforeEach(async () => {
+          getMetadataStorage().clear();
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "stringDefaultValue" })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          schema = await buildSchema({
+            resolvers: [SampleResolver],
+            nullableByDefault: true,
+          });
+        });
+
+        it("should emit field of type nullable string with default value", async () => {
+          const sampleInputType = schema.getType("SampleInput")!;
+          const sampleInputSDL = printType(sampleInputType);
+
+          expect(sampleInputSDL).toMatchInlineSnapshot(`
+            "input SampleInput {
+              inputField: String = \\"stringDefaultValue\\"
+            }"
+          `);
+        });
+      });
+
+      describe("when `nullable: false` and defaultValue is provided", () => {
+        let schema: GraphQLSchema;
+
+        beforeEach(async () => {
+          getMetadataStorage().clear();
+          @InputType()
+          class SampleInput {
+            @Field({ defaultValue: "stringDefaultValue", nullable: false })
+            inputField: string;
+          }
+
+          @Resolver()
+          class SampleResolver {
+            @Query()
+            sampleQuery(@Arg("input") input: SampleInput): string {
+              return "sampleQuery";
+            }
+          }
+          schema = await buildSchema({
+            resolvers: [SampleResolver],
+            nullableByDefault: true,
+          });
+        });
+
+        it("should emit field of type non-nullable string with default value", async () => {
+          const sampleInputType = schema.getType("SampleInput")!;
+          const sampleInputSDL = printType(sampleInputType);
+
+          expect(sampleInputSDL).toMatchInlineSnapshot(`
+            "input SampleInput {
+              inputField: String! = \\"stringDefaultValue\\"
+            }"
+          `);
+        });
+      });
     });
   });
 });
