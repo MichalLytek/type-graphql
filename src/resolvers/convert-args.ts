@@ -72,11 +72,16 @@ function generateInstanceTransformationTree(target: TypeValue): TransformationTr
   return generatedTransformationTree;
 }
 
-function convertToInput(tree: TransformationTree, data: any) {
+function convertToInput(tree: TransformationTree, data: any): any {
   if (data == null) {
     // skip converting undefined and null
     return data;
   }
+  if (Array.isArray(data)) {
+    // recursively convert nested arrays
+    return data.map(it => convertToInput(tree, it));
+  }
+
   const inputFields = tree.getFields().reduce<Record<string, any>>((fields, field) => {
     const siblings = field.fields;
     const value = data[field.name];

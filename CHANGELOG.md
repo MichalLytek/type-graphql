@@ -10,6 +10,7 @@
 ### Fixes
 - allow defining extension on field resolver level for fields also defined as a property of the class (#776)
 - fix throwing error when schema with dynamic default value was built again (#787)
+- fix converting inputs with fields of nested array type (#801)
 ### Others
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.5.0`
 

@@ -1254,6 +1254,15 @@ describe("Resolvers", () => {
       }
       classes.SampleNestedInput = SampleNestedInput;
 
+      @InputType()
+      class SampleTripleNestedInput {
+        instanceField = Math.random();
+
+        @Field(type => [[[SampleInput]]])
+        deeplyNestedInputArrayField: SampleInput[][][];
+      }
+      classes.SampleTripleNestedInput = SampleTripleNestedInput;
+
       @ArgsType()
       class SampleNestedArgs {
         @Field()
@@ -1397,6 +1406,12 @@ describe("Resolvers", () => {
         mutationWithNestedInputs(@Arg("input") input: SampleNestedInput): number {
           mutationInputValue = input;
           return input.instanceField;
+        }
+
+        @Mutation()
+        mutationWithTripleNestedInputs(@Arg("input") input: SampleTripleNestedInput): number {
+          mutationInputValue = input;
+          return input.deeplyNestedInputArrayField[0][0][0].factor;
         }
 
         @Mutation()
@@ -1781,6 +1796,32 @@ describe("Resolvers", () => {
       expect(mutationInputValue[0]).toHaveLength(1);
       expect(mutationInputValue[0][0]).toBeInstanceOf(Array);
       expect(mutationInputValue[0][0]).toHaveLength(1);
+      expect(nestedInput).toBeInstanceOf(classes.SampleInput);
+      expect(nestedInput.instanceField).toBeGreaterThanOrEqual(0);
+      expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("should create instance of nested arrays input field", async () => {
+      const mutation = `mutation {
+        mutationWithTripleNestedInputs(input: {
+          deeplyNestedInputArrayField: [[[{ factor: 30 }]]]
+        })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      expect(mutationResult.errors).toBeUndefined();
+
+      const result = mutationResult.data!.mutationWithTripleNestedInputs;
+      expect(result).toEqual(30);
+
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleTripleNestedInput);
+      expect(mutationInputValue.deeplyNestedInputArrayField).toHaveLength(1);
+      expect(mutationInputValue.deeplyNestedInputArrayField[0]).toBeInstanceOf(Array);
+      expect(mutationInputValue.deeplyNestedInputArrayField[0]).toHaveLength(1);
+      expect(mutationInputValue.deeplyNestedInputArrayField[0][0]).toBeInstanceOf(Array);
+      expect(mutationInputValue.deeplyNestedInputArrayField[0][0]).toHaveLength(1);
+
+      const nestedInput = mutationInputValue.deeplyNestedInputArrayField[0][0][0];
       expect(nestedInput).toBeInstanceOf(classes.SampleInput);
       expect(nestedInput.instanceField).toBeGreaterThanOrEqual(0);
       expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
