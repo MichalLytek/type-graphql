@@ -8,6 +8,7 @@
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)
 ### Fixes
+- **Breaking Change**: properly emit types nullability when `defaultValue` is provided and remove `ConflictingDefaultWithNullableError` error (#751)
 - allow defining extension on field resolver level for fields also defined as a property of the class (#776)
 - fix throwing error when schema with dynamic default value was built again (#787)
 - fix converting inputs with fields of nested array type (#801)
