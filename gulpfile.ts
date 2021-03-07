@@ -1,10 +1,10 @@
 import { Gulpclass, MergedTask, SequenceTask, Task } from "gulpclass";
 
-import * as gulp from "gulp";
-import * as del from "del";
-import * as shell from "gulp-shell";
-import * as replace from "gulp-replace";
-import * as ts from "gulp-typescript";
+import gulp from "gulp";
+import del from "del";
+import shell from "gulp-shell";
+import replace from "gulp-replace";
+import ts from "gulp-typescript";
 // import tslint from "gulp-tslint";
 // const stylish = require("tslint-stylish");
 // const sourcemaps = require("gulp-sourcemaps");
