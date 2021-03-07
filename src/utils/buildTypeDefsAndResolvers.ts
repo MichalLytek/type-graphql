@@ -1,4 +1,4 @@
-import { printSchema } from "graphql";
+import { GraphQLSchema, printSchema } from "graphql";
 
 import { BuildSchemaOptions, buildSchema, buildSchemaSync } from "./buildSchema";
 import { createResolversMap } from "./createResolversMap";
@@ -13,7 +13,7 @@ export function buildTypeDefsAndResolversSync(options: BuildSchemaOptions) {
   return commonBuild(schema);
 }
 
-function commonBuild(schema) {
+function commonBuild(schema: GraphQLSchema) {
   const typeDefs = printSchema(schema);
   const resolvers = createResolversMap(schema);
   return { typeDefs, resolvers };
