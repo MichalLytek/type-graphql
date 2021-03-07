@@ -150,9 +150,6 @@ class Footer extends React.Component {
             >
               Issues
             </a>
-            <a href="https://gitter.im/type-graphql/Lobby" target="_blank">
-              Project Chat
-            </a>
             <a href="https://twitter.com/typegraphql" target="_blank">
               Twitter
             </a>

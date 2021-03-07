@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Prisma 2 integration
-    url: https://github.com/MichalLytek/type-graphql/issues/476
-    about: You have a problem or a question about `typegraphql-prisma` package
   - name: Question or help request
-    url: https://gitter.im/type-graphql/Lobby
-    about: You want to ask a question or discuss with other community members
+    url: https://github.com/MichalLytek/type-graphql/discussions
+    about: Github Discussions is the place to ask a question or discuss with other community members
+  - name: Prisma 2 integration
+    url: https://github.com/MichalLytek/typegraphql-prisma
+    about: All problems or a questions about `typegraphql-prisma` package should be placed in the separate repository

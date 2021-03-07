@@ -16,7 +16,7 @@ Do not open issues for general support questions as we want to keep GitHub issue
 
 Instead, consider using [Stack Overflow](https://stackoverflow.com/questions/tagged/typegraphql) to ask support-related questions. When creating a new question on Stack Overflow, make sure to add the `typegraphql` tag.
 
-If you would like to chat about the question in real-time, you can reach out via [our gitter channel][gitter].
+You can also ask community for help using the [Github Discussion platform][discussions].
 
 ## <a name="issue"></a> Found a Bug?
 
@@ -82,7 +82,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
    ```
 
 10. In GitHub, send a pull request to `type-graphql:master`.
-Make sure to [allow edits from maintainers][allow-maintainer-edits].
+    Make sure to [allow edits from maintainers][allow-maintainer-edits].
 
 If we ask for changes via code reviews then:
 
@@ -138,6 +138,6 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 For more information checkout this [commit rules guide](https://www.conventionalcommits.org/en/v1.0.0/).
 
 [github]: https://github.com/MichalLytek/type-graphql
-[gitter]: https://gitter.im/type-graphql/Lobby
+[discussions]: https://github.com/MichalLytek/type-graphql/discussions
 [stackoverflow]: https://stackoverflow.com/questions/tagged/typegraphql
 [allow-maintainer-edits]: https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork#enabling-repository-maintainer-permissions-on-existing-pull-requests

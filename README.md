@@ -7,7 +7,6 @@
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
 [![dependencies](https://david-dm.org/MichalLytek/type-graphql/status.svg)](https://david-dm.org/MichalLytek/type-graphql)
 [![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
-[![gitter](https://badges.gitter.im/type-graphql.svg)](https://gitter.im/type-graphql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
 
@@ -98,19 +97,22 @@ First, we create all the GraphQL types in `schema.gql` using SDL. Then we create
 Only then can we actually implement the resolvers using weird generic signatures and manually performing common tasks, like validation, authorization and loading dependencies:
 
 ```ts
-export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> =
-  async (_, args, ctx) => {
-    // common tasks repeatable for almost every resolver
-    const repository = TypeORM.getRepository(Recipe);
-    const auth = Container.get(AuthService);
-    await joi.validate(getRecipesSchema, args);
-    if (!auth.check(ctx.user)) {
-      throw new NotAuthorizedError();
-    }
+export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> = async (
+  _,
+  args,
+  ctx,
+) => {
+  // common tasks repeatable for almost every resolver
+  const repository = TypeORM.getRepository(Recipe);
+  const auth = Container.get(AuthService);
+  await joi.validate(getRecipesSchema, args);
+  if (!auth.check(ctx.user)) {
+    throw new NotAuthorizedError();
+  }
 
-    // our business logic, e.g.:
-    return repository.find({ skip: args.offset, take: args.limit });
-  };
+  // our business logic, e.g.:
+  return repository.find({ skip: args.offset, take: args.limit });
+};
 ```
 
 The biggest problem is redundancy in our codebase, which makes it difficult to keep things in sync. To add a new field to our entity, we have to jump through all the files - modify an entity class, the schema, as well as the interface. The same goes for inputs or arguments. It's easy to forget to update one piece or make a mistake with a single type. Also, what if we've made a typo in field name? The rename feature (F2) won't work correctly.
@@ -156,22 +158,22 @@ It doesn't have a large company that sits behind - its ongoing development is po
 ### Gold Sponsors 🏆
 
 | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/blue_receipt.gif" width="450">](http://career.bluereceipt.co/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/ecad.png" width="200">](https://www.ecadlabs.com/) |
-| :---: | :---: |
-| [**BlueReceipt**](http://career.bluereceipt.co/) | [**ECAD Labs**](https://www.ecadlabs.com/) |
+| :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: |
+|                                                [**BlueReceipt**](http://career.bluereceipt.co/)                                                 |                                             [**ECAD Labs**](https://www.ecadlabs.com/)                                              |
 
 > Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/gold-sponsors-8340) and getting a premium technical support from our core contributors.
 
 ### Silver Sponsors 🥈
 
 | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/mr-yum.png" width="100">](https://www.mryum.com/) |
-| :---: | :---: |
-| [**Gorrion Software House**](https://gorrion.io/) | [**Mr Yum**](https://www.mryum.com/) | 
+| :------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
+|                                        [**Gorrion Software House**](https://gorrion.io/)                                         |                                                [**Mr Yum**](https://www.mryum.com/)                                                |
 
 ### Bronze Sponsors 🥉
 
 | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="60">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="75">](https://www.joinlifex.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/swiss-mentor.png" width="125">](https://www.swissmentor.com/) |
-| :---: | :---: |  :---: |
-| [**Live Graphic Systems**](https://www.ligrsystems.com/) | [**LifeX Aps**](https://www.joinlifex.com/) | [**SwissMentor**](https://www.swissmentor.com/) |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                               [**Live Graphic Systems**](https://www.ligrsystems.com/)                                                |                                             [**LifeX Aps**](https://www.joinlifex.com/)                                              |                                                [**SwissMentor**](https://www.swissmentor.com/)                                                 |
 
 [![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
