@@ -9,6 +9,7 @@
 - allow deprecating input fields and args (#794)
 - support disabling inferring default values (#793)
 - support readonly arrays for roles of `@Authorized` decorator (#935)
+- adds a method to build TypeDefs and Resolvers in Sync mode (#803)
 ### Fixes
 - **Breaking Change**: properly emit types nullability when `defaultValue` is provided and remove `ConflictingDefaultWithNullableError` error (#751)
 - allow defining extension on field resolver level for fields also defined as a property of the class (#776)
