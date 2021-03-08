@@ -3,9 +3,10 @@
 # TypeGraphQL
 
 [![npm version](https://badge.fury.io/js/type-graphql.svg)](https://badge.fury.io/js/type-graphql)
-[![Build Status](https://travis-ci.com/MichalLytek/type-graphql.svg?branch=master)](https://travis-ci.com/MichalLytek/type-graphql)
+[![Build Status](https://img.shields.io/github/checks-status/MichalLytek/type-graphql/master)](https://github.com/MichalLytek/type-graphql/actions/workflows/main.yml?query=branch%3Amaster)
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
-[![dependencies](https://david-dm.org/MichalLytek/type-graphql/status.svg)](https://david-dm.org/MichalLytek/type-graphql)
+![dependencies](https://img.shields.io/david/MichalLytek/type-graphql)
+[![open collective](https://opencollective.com/typegraphql/tiers/badge.svg)](<(https://opencollective.com/typegraphql)>)
 [![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
 
 Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
