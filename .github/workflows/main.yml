@@ -21,7 +21,6 @@ jobs:
       - name: Install deps
         run: |
           npm ci
-          npm i -g codecov
 
       - name: Check codebase
         run: |
@@ -34,3 +33,4 @@ jobs:
 
       - name: Upload code coverage results
         uses: codecov/codecov-action@v1
+        if: matrix.node-version == '15.x'
