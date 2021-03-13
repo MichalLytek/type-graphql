@@ -1311,6 +1311,26 @@ describe("Resolvers", () => {
       }
       classes.SampleTripleNestedInput = SampleTripleNestedInput;
 
+      @InputType()
+      class SampleNestedWithNamedConversionsInputEvenDeeper {
+        @Field({ name: "renamedName2" })
+        originalName2: number;
+      }
+      classes.SampleNestedWithNamedConversionsInput_EvenDeeper = SampleNestedWithNamedConversionsInputEvenDeeper;
+
+      @InputType()
+      class SampleNestedWithNamedConversionsInput {
+        @Field({ name: "renamedName1" })
+        originalName1: number;
+
+        @Field()
+        unconvertedValue: number;
+
+        @Field(() => SampleNestedWithNamedConversionsInputEvenDeeper, { name: "deepRenamedName3" })
+        deepOriginalName3: SampleNestedWithNamedConversionsInputEvenDeeper;
+      }
+      classes.SampleNestedWithNamedConversionsInput = SampleNestedWithNamedConversionsInput;
+
       @ArgsType()
       class SampleNestedArgs {
         @Field()
@@ -1460,6 +1480,14 @@ describe("Resolvers", () => {
         mutationWithTripleNestedInputs(@Arg("input") input: SampleTripleNestedInput): number {
           mutationInputValue = input;
           return input.deeplyNestedInputArrayField[0][0][0].factor;
+        }
+
+        @Mutation()
+        mutationWithNameConversions(
+          @Arg("input") input: SampleNestedWithNamedConversionsInput,
+        ): number {
+          mutationInputValue = input;
+          return input.deepOriginalName3.originalName2;
         }
 
         @Mutation()
@@ -1873,6 +1901,29 @@ describe("Resolvers", () => {
       expect(nestedInput).toBeInstanceOf(classes.SampleInput);
       expect(nestedInput.instanceField).toBeGreaterThanOrEqual(0);
       expect(nestedInput.instanceField).toBeLessThanOrEqual(1);
+    });
+
+    it("should convert names in nested input fields", async () => {
+      const mutation = `mutation {
+        mutationWithNameConversions(input: {
+          renamedName1: 30
+          unconvertedValue: 40
+          deepRenamedName3: {
+            renamedName2: 50
+          }
+        })
+      }`;
+
+      const mutationResult = await graphql(schema, mutation);
+      expect(mutationResult.errors).toBeUndefined();
+
+      const result = mutationResult.data!.mutationWithNameConversions;
+      expect(result).toEqual(50);
+
+      expect(mutationInputValue).toBeInstanceOf(classes.SampleNestedWithNamedConversionsInput);
+      expect(mutationInputValue.originalName1).toBe(30);
+      expect(mutationInputValue.unconvertedValue).toBe(40);
+      expect(mutationInputValue.deepOriginalName3.originalName2).toBe(50);
     });
 
     it("shouldn't create instance of an argument if the value is null or not provided", async () => {
