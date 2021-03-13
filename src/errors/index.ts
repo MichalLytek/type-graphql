@@ -3,7 +3,6 @@ export * from "./CannotDetermineGraphQLTypeError";
 export * from "./ForbiddenError";
 export * from "./GeneratingSchemaError";
 export * from "./ConflictingDefaultValuesError";
-export * from "./ConflictingDefaultWithNullableError";
 export * from "./InterfaceResolveTypeError";
 export * from "./InvalidDirectiveError";
 export * from "./MissingSubscriptionTopicsError";
