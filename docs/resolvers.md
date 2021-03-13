@@ -90,7 +90,10 @@ class GetRecipesArgs {
 }
 ```
 
-We can define default values for optional fields in the `@Field()` decorator using the `defaultValue` option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value and making the field nullable.
+We can define default values for optional fields in the `@Field()` decorator using the `defaultValue` option or by using a property initializer - in both cases TypeGraphQL will reflect this in the schema by setting the default value, so users will be able to omit those args while sending a query.
+
+> Be aware that `defaultValue` works only for input args and fields, like `@Arg`, `@ArgsType` and `@InputType`.
+> Setting `defaultValue` does not affect `@ObjectType` or `@InterfaceType` fields as they are for output purposes only.
 
 Also, this way of declaring arguments allows you to perform validation. You can find more details about this feature in the [validation docs](validation.md).
 
