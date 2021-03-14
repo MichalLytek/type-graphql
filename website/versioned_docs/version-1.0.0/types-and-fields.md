@@ -125,3 +125,16 @@ Also the `user` property doesn't have a `@Field()` decorator - this way we can h
 Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
 
 Be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of object type classes under the hood by itself.
+
+In some case we may want to expose our classes or properties under a different types or fields name.
+To accomplish this, we can use the `name` parameter or `name` property of decorator's options, e.g.:
+
+```typescript
+@ObjectType("ExternalTypeName")
+class InternalClassName {
+  @Field({ name: "externalFieldName" })
+  internalPropertyName: string;
+}
+```
+
+However, be aware that renaming fields works only for output types like object type or interface type. It's due to a fact that input fields has no resolvers that could translate one field value into another property value.
