@@ -45,7 +45,7 @@ import {
   InterfaceResolveTypeError,
   CannotDetermineGraphQLTypeError,
 } from "../errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver, ClassType } from "../interfaces";
+import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 import {
@@ -219,8 +219,8 @@ export abstract class SchemaGenerator {
                 // use closure captured `unionObjectTypesInfo`
                 const objectTypeInfo = unionObjectTypesInfo.find(
                   type => type.target === instanceTarget,
-                )!;
-                return objectTypeInfo.type;
+                );
+                return objectTypeInfo?.type.name;
               },
         }),
       };
@@ -481,8 +481,8 @@ export abstract class SchemaGenerator {
                   }
                   const objectTypeInfo = implementingObjectTypesInfo.find(
                     type => type.target === typeTarget,
-                  )!;
-                  return objectTypeInfo.type;
+                  );
+                  return objectTypeInfo?.type.name;
                 },
           }),
         };
@@ -855,7 +855,8 @@ export abstract class SchemaGenerator {
       if (!resolvedType || typeof resolvedType === "string") {
         return resolvedType;
       }
-      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)?.type;
+      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)?.type
+        .name;
     };
   }
 
