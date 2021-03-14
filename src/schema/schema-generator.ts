@@ -519,7 +519,7 @@ export abstract class SchemaGenerator {
                   ...field.typeOptions,
                   defaultValue,
                 });
-                fieldsMap[field.schemaName] = {
+                fieldsMap[field.name] = {
                   description: field.description,
                   type,
                   defaultValue,
