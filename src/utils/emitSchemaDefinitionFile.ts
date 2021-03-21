@@ -1,15 +1,29 @@
 import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
-import { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/printSchema";
+import type { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/printSchema";
+import { printSchemaWithDirectives } from "@graphql-tools/utils";
 
 import { outputFile, outputFileSync } from "../helpers/filesystem";
 
 export interface PrintSchemaOptions extends Required<GraphQLPrintSchemaOptions> {
+  /**
+   * Sort the schema alphabetically.
+   */
   sortedSchema: boolean;
+  /** Emit the schema with directives.
+   *
+   * It does not use the official 'printSchema' from graphql-js
+   * but 'printSchemaWithDirectives' from @graphql-tools/utils (https://www.graphql-tools.com/docs/api/modules/utils#printschemawithdirectives).
+   *
+   * Currently does not allow customization of printSchema options having to do with comments so
+   * 'commentDescriptions' option is ignored.
+   */
+  directives: boolean;
 }
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = {
   commentDescriptions: false,
   sortedSchema: true,
+  directives: false,
 };
 
 const generatedSchemaWarning = /* graphql */ `\
@@ -40,5 +54,9 @@ export async function emitSchemaDefinitionFile(
 
 function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
   const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
-  return generatedSchemaWarning + printSchema(schemaToEmit, options);
+  const schemaToEmitPrinted = options.directives
+    ? printSchemaWithDirectives(schemaToEmit, options)
+    : printSchema(schemaToEmit, options);
+
+  return generatedSchemaWarning + schemaToEmitPrinted;
 }

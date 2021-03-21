@@ -15,6 +15,7 @@ import {
   Resolver,
   PrintSchemaOptions,
   defaultPrintSchemaOptions,
+  Directive,
 } from "../../src";
 import * as filesystem from "../../src/helpers/filesystem";
 
@@ -32,6 +33,10 @@ describe("Emitting schema definition file", () => {
 
       @Field({ description: "Description test" })
       descriptionProperty: boolean;
+
+      @Field()
+      @Directive(`@upper`)
+      directiveProperty: string;
     }
 
     @Resolver()
@@ -56,7 +61,11 @@ describe("Emitting schema definition file", () => {
 
   function checkSchemaSDL(
     SDL: string,
-    { commentDescriptions, sortedSchema }: PrintSchemaOptions = defaultPrintSchemaOptions,
+    {
+      commentDescriptions,
+      sortedSchema,
+      directives,
+    }: PrintSchemaOptions = defaultPrintSchemaOptions,
   ) {
     expect(SDL).toContain("THIS FILE WAS GENERATED");
     expect(SDL).toContain("MyObject");
@@ -69,6 +78,11 @@ describe("Emitting schema definition file", () => {
       expect(SDL).toContain(`# Description test`);
     } else {
       expect(SDL).toContain(`"""Description test"""`);
+    }
+    if (directives) {
+      expect(SDL).toContain(`directiveProperty: String! @upper`);
+    } else {
+      expect(SDL).not.toContain(`directiveProperty: String! @upper`);
     }
   }
 
@@ -85,6 +99,19 @@ describe("Emitting schema definition file", () => {
       const options: PrintSchemaOptions = {
         commentDescriptions: true,
         sortedSchema: false,
+        directives: false,
+      };
+      await emitSchemaDefinitionFile(targetPath, schema, options);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), options);
+    });
+
+    it("should use provided options to write file with schema SDL that support directives", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
+      const options: PrintSchemaOptions = {
+        commentDescriptions: false, // Not supported
+        sortedSchema: false,
+        directives: true,
       };
       await emitSchemaDefinitionFile(targetPath, schema, options);
       expect(fs.existsSync(targetPath)).toEqual(true);
@@ -131,6 +158,19 @@ describe("Emitting schema definition file", () => {
       const options: PrintSchemaOptions = {
         commentDescriptions: true,
         sortedSchema: false,
+        directives: false,
+      };
+      emitSchemaDefinitionFileSync(targetPath, schema, options);
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), options);
+    });
+
+    it("should use provided options to write file with schema SDL that support directives", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
+      const options: PrintSchemaOptions = {
+        commentDescriptions: false,
+        sortedSchema: false,
+        directives: true, // Not supported
       };
       emitSchemaDefinitionFileSync(targetPath, schema, options);
       expect(fs.existsSync(targetPath)).toEqual(true);
@@ -198,16 +238,37 @@ describe("Emitting schema definition file", () => {
           commentDescriptions: true,
           path: targetPath,
           sortedSchema: false,
+          directives: false,
         },
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
         commentDescriptions: true,
         sortedSchema: false,
+        directives: false,
       });
     });
 
-    it("should read EmitSchemaFileOptions and set default path and sorting schema", async () => {
+    it("should read EmitSchemaFileOptions with directives enabled and apply them in emit", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test4", "schema.gql");
+      await buildSchema({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: false, // Not supported
+          path: targetPath,
+          sortedSchema: false,
+          directives: true,
+        },
+      });
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
+        commentDescriptions: false, // Not supported
+        sortedSchema: false,
+        directives: true,
+      });
+    });
+
+    it("should read EmitSchemaFileOptions and set default path and sorting schema and disable directives", async () => {
       jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
@@ -260,10 +321,30 @@ describe("Emitting schema definition file", () => {
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
         commentDescriptions: true,
         sortedSchema: false,
+        directives: false,
       });
     });
 
-    it("should read EmitSchemaFileOptions and set default path and sorting schema", async () => {
+    it("should read EmitSchemaFileOptions with directives enabled and apply them in emit", async () => {
+      const targetPath = path.join(TEST_DIR, "schemas", "test6", "schema.gql");
+      buildSchemaSync({
+        resolvers: [MyResolverClass],
+        emitSchemaFile: {
+          commentDescriptions: false, // Not supported
+          path: targetPath,
+          sortedSchema: false,
+          directives: true,
+        },
+      });
+      expect(fs.existsSync(targetPath)).toEqual(true);
+      checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
+        commentDescriptions: false, // Not supported
+        sortedSchema: false,
+        directives: true,
+      });
+    });
+
+    it("should read EmitSchemaFileOptions and set default path and sorting schema and disable directives", async () => {
       jest.spyOn(process, "cwd").mockImplementation(() => TEST_DIR);
       const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
