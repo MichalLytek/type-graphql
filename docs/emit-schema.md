@@ -35,16 +35,16 @@ hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async (
 
 ### Emit schema with custom directives
 
-Currently TypeGraphQL does not directly support emitting the schema with custom directives due to ```printSchema``` function limitations  from *graphql-js*.
+Currently TypeGraphQL does not directly support emitting the schema with custom directives due to `printSchema` function limitations from _graphql-js_.
 
-If you want the custom directives to appear in the generated schema definition file you have to create a custom function that use a third-party ```printSchema``` function.
+If you want the custom directives to appear in the generated schema definition file you have to create a custom function that use a third-party `printSchema` function.
 
-Below there is an example that uses the ```printSchemaWithDirectives``` function from [@graphql-tools/utils](https://www.graphql-tools.com/docs/api/modules/utils) (npm install @graphql-tools/utils --save).
+Below there is an example that uses the `printSchemaWithDirectives` function from [@graphql-tools/utils](https://www.graphql-tools.com/docs/api/modules/utils) (npm install @graphql-tools/utils --save).
 
 ```typescript
-import { GraphQLSchema, lexicographicSortSchema } from 'graphql';
-import { printSchemaWithDirectives } from '@graphql-tools/utils';
-import { outputFile, outputFileSync } from 'type-graphql/dist/helpers/filesystem';
+import { GraphQLSchema, lexicographicSortSchema } from "graphql";
+import { printSchemaWithDirectives } from "@graphql-tools/utils";
+import { outputFile, outputFileSync } from "type-graphql/dist/helpers/filesystem";
 
 const GENERATED_SCHEMA_WARNING: string = `\
 # -------------------------------------------
