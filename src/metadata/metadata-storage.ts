@@ -121,8 +121,6 @@ export class MetadataStorage {
   }
 
   build(options: SchemaGeneratorOptions) {
-    // TODO: disable next build attempts
-
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
     this.classExtensions.reverse();
