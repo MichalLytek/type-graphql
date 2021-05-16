@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLSchema, IntrospectionSchema, printType } from "graphql";
+import { GraphQLSchema, printType } from "graphql";
 import {
   Arg,
   buildSchema,
@@ -15,7 +15,6 @@ import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("default values", () => {
   describe("dynamic default value", () => {
-    let schemaIntrospection: IntrospectionSchema;
     let sampleResolver: ClassType;
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -29,21 +28,75 @@ describe("default values", () => {
       @Resolver()
       class SampleResolver {
         @Query()
-        sampleQuery(@Arg("input") input: SampleInput): string {
+        sampleQuery(@Arg("input") _input: SampleInput): string {
           return "sampleQuery";
         }
       }
       sampleResolver = SampleResolver;
 
-      // get builded schema info from retrospection
-      const schemaInfo = await getSchemaInfo({
+      await getSchemaInfo({
         resolvers: [SampleResolver],
       });
-      schemaIntrospection = schemaInfo.schemaIntrospection;
     });
 
     it("should not throw error when schema with dynamic default has been built again", async () => {
       await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrowError();
+    });
+  });
+
+  describe("when disableInferringDefaultValues is set", () => {
+    let schema: GraphQLSchema;
+
+    beforeEach(async () => {
+      getMetadataStorage().clear();
+      @InputType()
+      class SampleInitializerInput {
+        @Field()
+        inputField: string = "defaultValueFromPropertyInitializer";
+      }
+
+      @InputType()
+      class SampleOptionInput {
+        @Field({ defaultValue: "defaultValueFromOption" })
+        inputField: string;
+      }
+
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(
+          @Arg("input1") _input1: SampleInitializerInput,
+          @Arg("input2") _input2: SampleOptionInput,
+        ): string {
+          return "sampleQuery";
+        }
+      }
+      schema = await buildSchema({
+        resolvers: [SampleResolver],
+        disableInferringDefaultValues: true,
+      });
+    });
+
+    it("should not infer default value from a property initializer", async () => {
+      const sampleInitializerInputType = schema.getType("SampleInitializerInput")!;
+      const sampleInitializerInputSDL = printType(sampleInitializerInputType);
+
+      expect(sampleInitializerInputSDL).toMatchInlineSnapshot(`
+        "input SampleInitializerInput {
+          inputField: String!
+        }"
+      `);
+    });
+
+    it("should not infer default value from a property initializer", async () => {
+      const sampleOptionInputType = schema.getType("SampleOptionInput")!;
+      const sampleOptionInputSDL = printType(sampleOptionInputType);
+
+      expect(sampleOptionInputSDL).toMatchInlineSnapshot(`
+        "input SampleOptionInput {
+          inputField: String! = \\"defaultValueFromOption\\"
+        }"
+      `);
     });
   });
 
@@ -95,7 +148,7 @@ describe("default values", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): string {
+          sampleQuery(@Arg("input") _input: SampleInput): string {
             return "sampleQuery";
           }
         }
@@ -129,7 +182,7 @@ describe("default values", () => {
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }
@@ -165,7 +218,7 @@ describe("default values", () => {
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }

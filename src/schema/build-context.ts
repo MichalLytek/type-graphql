@@ -34,6 +34,10 @@ export interface BuildContextOptions {
    * Default value for type decorators, like `@Field({ nullable: true })`
    */
   nullableByDefault?: boolean;
+  /**
+   * Disable inferring default values from property initializers, like `created = new Date();`
+   */
+  disableInferringDefaultValues?: boolean;
 }
 
 export abstract class BuildContext {
@@ -46,6 +50,7 @@ export abstract class BuildContext {
   static globalMiddlewares: Array<Middleware<any>>;
   static container: IOCContainer;
   static nullableByDefault: boolean;
+  static disableInferringDefaultValues: boolean;
 
   /**
    * Set static fields with current building context data
@@ -83,11 +88,15 @@ export abstract class BuildContext {
       this.globalMiddlewares = options.globalMiddlewares;
     }
 
-    this.container = new IOCContainer(options.container);
-
     if (options.nullableByDefault !== undefined) {
       this.nullableByDefault = options.nullableByDefault;
     }
+
+    if (options.disableInferringDefaultValues !== undefined) {
+      this.disableInferringDefaultValues = options.disableInferringDefaultValues;
+    }
+
+    this.container = new IOCContainer(options.container);
   }
 
   /**
@@ -103,6 +112,7 @@ export abstract class BuildContext {
     this.globalMiddlewares = [];
     this.container = new IOCContainer();
     this.nullableByDefault = false;
+    this.disableInferringDefaultValues = false;
   }
 }
 

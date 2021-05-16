@@ -97,7 +97,6 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Disable checking on build the correctness of a schema
    */
   skipCheck?: boolean;
-
   /**
    * Array of graphql directives
    */
@@ -162,13 +161,17 @@ export abstract class SchemaGenerator {
     fieldName: string,
     typeName: string,
   ): unknown | undefined {
+    const { disableInferringDefaultValues } = BuildContext;
+    if (disableInferringDefaultValues) {
+      return typeOptions.defaultValue;
+    }
+
     const defaultValueFromInitializer = typeInstance[fieldName];
     if (
       typeOptions.defaultValue !== undefined &&
       defaultValueFromInitializer !== undefined &&
       typeOptions.defaultValue !== defaultValueFromInitializer
     ) {
-      // console.log("ConflictingDefaultValuesError", { typeOptions, defaultValueFromInitializer });
       throw new ConflictingDefaultValuesError(
         typeName,
         fieldName,
@@ -176,7 +179,6 @@ export abstract class SchemaGenerator {
         defaultValueFromInitializer,
       );
     }
-    // console.log("normal", { typeOptions, defaultValueFromInitializer });
     return typeOptions.defaultValue !== undefined
       ? typeOptions.defaultValue
       : defaultValueFromInitializer;
