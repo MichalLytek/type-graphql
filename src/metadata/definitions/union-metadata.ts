@@ -3,6 +3,7 @@ import { ClassType, TypeResolver } from "../../interfaces";
 export interface UnionMetadata {
   getClassTypes: () => ClassType[];
   name: string;
+  sync?: boolean;
   description?: string;
   resolveType?: TypeResolver<any, any>;
 }

@@ -199,18 +199,32 @@ export abstract class SchemaGenerator {
         );
         return unionObjectTypesInfo.map(it => it.type);
       };
+      let resolveTypeFunction = null;
+
+      if (unionMetadata.resolveType) {
+        if (unionMetadata.sync) {
+          resolveTypeFunction = this.getResolveTypeFunctionSync(
+            unionMetadata.resolveType,
+            // use closure captured `unionObjectTypesInfo`
+            unionObjectTypesInfo,
+          );
+        } else {
+          resolveTypeFunction = this.getResolveTypeFunction(
+            unionMetadata.resolveType,
+            // use closure captured `unionObjectTypesInfo`
+            unionObjectTypesInfo,
+          );
+        }
+      }
+
       return {
         unionSymbol: unionMetadata.symbol,
         type: new GraphQLUnionType({
           name: unionMetadata.name,
           description: unionMetadata.description,
           types: typesThunk,
-          resolveType: unionMetadata.resolveType
-            ? this.getResolveTypeFunction(
-                unionMetadata.resolveType,
-                // use closure captured `unionObjectTypesInfo`
-                unionObjectTypesInfo,
-              )
+          resolveType: resolveTypeFunction
+            ? resolveTypeFunction
             : instance => {
                 const instanceTarget = unionMetadata
                   .getClassTypes()
@@ -391,6 +405,21 @@ export abstract class SchemaGenerator {
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
 
+        let resolveTypeFunction = null;
+        if (interfaceType.resolveType) {
+          if (interfaceType.syncResolver) {
+            resolveTypeFunction = this.getResolveTypeFunctionSync(
+              interfaceType.resolveType,
+              implementingObjectTypesInfo,
+            );
+          } else {
+            resolveTypeFunction = this.getResolveTypeFunction(
+              interfaceType.resolveType,
+              implementingObjectTypesInfo,
+            );
+          }
+        }
+
         return {
           metadata: interfaceType,
           target: interfaceType.target,
@@ -472,8 +501,8 @@ export abstract class SchemaGenerator {
               }
               return fields;
             },
-            resolveType: interfaceType.resolveType
-              ? this.getResolveTypeFunction(interfaceType.resolveType, implementingObjectTypesInfo)
+            resolveType: resolveTypeFunction
+              ? resolveTypeFunction
               : instance => {
                   const typeTarget = implementingObjectTypesTargets.find(
                     typeCls => instance instanceof typeCls,
@@ -854,6 +883,20 @@ export abstract class SchemaGenerator {
   ): GraphQLTypeResolver<TSource, TContext> {
     return async (...args) => {
       const resolvedType = await resolveType(...args);
+      if (!resolvedType || typeof resolvedType === "string") {
+        return resolvedType;
+      }
+      return possibleObjectTypesInfo.find(objectType => objectType.target === resolvedType)?.type
+        .name;
+    };
+  }
+
+  private static getResolveTypeFunctionSync<TSource = any, TContext = any>(
+    resolveType: TypeResolver<TSource, TContext>,
+    possibleObjectTypesInfo: ObjectTypeInfo[],
+  ): GraphQLTypeResolver<TSource, TContext> {
+    return (...args) => {
+      const resolvedType = resolveType(...args);
       if (!resolvedType || typeof resolvedType === "string") {
         return resolvedType;
       }
