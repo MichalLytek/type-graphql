@@ -45,7 +45,7 @@ import {
   InterfaceResolveTypeError,
   CannotDetermineGraphQLTypeError,
 } from "../errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
+import { Maybe, ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
 import {
@@ -199,7 +199,7 @@ export abstract class SchemaGenerator {
         );
         return unionObjectTypesInfo.map(it => it.type);
       };
-      let resolveTypeFunction = null;
+      let resolveTypeFunction: Maybe<GraphQLTypeResolver<any, any>> = null;
 
       if (unionMetadata.resolveType) {
         if (unionMetadata.sync) {
@@ -215,6 +215,18 @@ export abstract class SchemaGenerator {
             unionObjectTypesInfo,
           );
         }
+      } else {
+        resolveTypeFunction = instance => {
+          const instanceTarget = unionMetadata
+            .getClassTypes()
+            .find(ObjectClassType => instance instanceof ObjectClassType);
+          if (!instanceTarget) {
+            throw new UnionResolveTypeError(unionMetadata);
+          }
+          // use closure captured `unionObjectTypesInfo`
+          const objectTypeInfo = unionObjectTypesInfo.find(type => type.target === instanceTarget);
+          return objectTypeInfo?.type.name;
+        };
       }
 
       return {
@@ -223,21 +235,7 @@ export abstract class SchemaGenerator {
           name: unionMetadata.name,
           description: unionMetadata.description,
           types: typesThunk,
-          resolveType: resolveTypeFunction
-            ? resolveTypeFunction
-            : instance => {
-                const instanceTarget = unionMetadata
-                  .getClassTypes()
-                  .find(ObjectClassType => instance instanceof ObjectClassType);
-                if (!instanceTarget) {
-                  throw new UnionResolveTypeError(unionMetadata);
-                }
-                // use closure captured `unionObjectTypesInfo`
-                const objectTypeInfo = unionObjectTypesInfo.find(
-                  type => type.target === instanceTarget,
-                );
-                return objectTypeInfo?.type.name;
-              },
+          resolveType: resolveTypeFunction,
         }),
       };
     });
@@ -405,7 +403,8 @@ export abstract class SchemaGenerator {
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
 
-        let resolveTypeFunction = null;
+        let resolveTypeFunction: Maybe<GraphQLTypeResolver<any, any>> = null;
+
         if (interfaceType.resolveType) {
           if (interfaceType.syncResolver) {
             resolveTypeFunction = this.getResolveTypeFunctionSync(
@@ -418,6 +417,19 @@ export abstract class SchemaGenerator {
               implementingObjectTypesInfo,
             );
           }
+        } else {
+          resolveTypeFunction = instance => {
+            const typeTarget = implementingObjectTypesTargets.find(
+              typeCls => instance instanceof typeCls,
+            );
+            if (!typeTarget) {
+              throw new InterfaceResolveTypeError(interfaceType);
+            }
+            const objectTypeInfo = implementingObjectTypesInfo.find(
+              type => type.target === typeTarget,
+            );
+            return objectTypeInfo?.type.name;
+          };
         }
 
         return {
@@ -501,20 +513,7 @@ export abstract class SchemaGenerator {
               }
               return fields;
             },
-            resolveType: resolveTypeFunction
-              ? resolveTypeFunction
-              : instance => {
-                  const typeTarget = implementingObjectTypesTargets.find(
-                    typeCls => instance instanceof typeCls,
-                  );
-                  if (!typeTarget) {
-                    throw new InterfaceResolveTypeError(interfaceType);
-                  }
-                  const objectTypeInfo = implementingObjectTypesInfo.find(
-                    type => type.target === typeTarget,
-                  );
-                  return objectTypeInfo?.type.name;
-                },
+            resolveType: resolveTypeFunction,
           }),
         };
       },
