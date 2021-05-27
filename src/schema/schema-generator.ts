@@ -406,7 +406,7 @@ export abstract class SchemaGenerator {
         let resolveTypeFunction: Maybe<GraphQLTypeResolver<any, any>> = null;
 
         if (interfaceType.resolveType) {
-          if (interfaceType.syncResolver) {
+          if (interfaceType.syncResolveTypeFn) {
             resolveTypeFunction = this.getResolveTypeFunctionSync(
               interfaceType.resolveType,
               implementingObjectTypesInfo,
