@@ -277,6 +277,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("mr-yum.png")} style={{ width: 100 }} />
             <span>Mr Yum</span>
           </a>
+          <a href="https://www.chums.co/">
+            <img src={imgUrl("chums.svg")} style={{ width: 125 }} />
+            <span>Chums</span>
+          </a>
         </div>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
