@@ -1980,20 +1980,36 @@ describe("Resolvers", () => {
   });
 
   describe("buildSchema", () => {
-    it("should load resolvers from glob paths", async () => {
-      getMetadataStorage().clear();
+    describe("load resolvers from glob paths", () => {
+      let queryType: IntrospectionObjectType;
+      let schemaIntrospection: IntrospectionSchema;
 
-      const { queryType } = await getSchemaInfo({
-        resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+      beforeAll(async () => {
+        getMetadataStorage().clear();
+
+        const schemaInfo = await getSchemaInfo({
+          resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
+        });
+
+        queryType = schemaInfo.queryType;
+        schemaIntrospection = schemaInfo.schemaIntrospection;
       });
 
-      const directoryQueryReturnType = getInnerTypeOfNonNullableType(
-        queryType.fields.find(field => field.name === "sampleQuery")!,
-      );
+      it("should works correctly", async () => {
+        const directoryQueryReturnType = getInnerTypeOfNonNullableType(
+          queryType.fields.find(field => field.name === "sampleQuery")!,
+        );
 
-      expect(queryType.fields).toHaveLength(1);
-      expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
-      expect(directoryQueryReturnType.name).toEqual("SampleObject");
+        expect(queryType.fields).toHaveLength(1);
+        expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
+        expect(directoryQueryReturnType.name).toEqual("SampleObject");
+      });
+
+      it("should ignore orphaned types if not specified", async () => {
+        const orphanedType = schemaIntrospection.types.find(it => it.name === "SampleObject2");
+
+        expect(orphanedType).not.toBeDefined();
+      });
     });
 
     it("should emit only things from provided `resolvers` property", async () => {
