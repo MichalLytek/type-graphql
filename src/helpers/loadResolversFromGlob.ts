@@ -6,5 +6,10 @@ export function findFileNamesFromGlob(globString: string) {
 
 export function loadResolversFromGlob(globString: string) {
   const filePaths = findFileNamesFromGlob(globString);
-  const modules = filePaths.map(fileName => require(fileName));
+  const modules = filePaths.reduce(
+    (merged, fileName) => [...merged, ...Object.values(require(fileName) as Function[])],
+    [] as Function[],
+  );
+
+  return modules;
 }
