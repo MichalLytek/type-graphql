@@ -34,7 +34,7 @@
   ```
 */
 
-import * as src from "./index";
+import * as src from "./allExports";
 
 export const dummyValue = "";
 export function dummyFn() {
