@@ -1,6 +1,6 @@
 import { users } from "./data";
 import User from "./user";
 
-export async function resolveUserReference(reference: Pick<User, "id">): Promise<User> {
+export const UserReferenceResolver = async (ref: Pick<User, 'Id'>, ctx: any, info: any): Promise<User> => {
   return users.find(u => u.id === reference.id)!;
 }
