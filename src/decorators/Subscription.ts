@@ -1,5 +1,3 @@
-import { ResolverFn } from "graphql-subscriptions";
-
 import {
   ReturnTypeFunc,
   AdvancedOptions,
@@ -16,6 +14,13 @@ interface PubSubOptions {
   topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
 }
+
+export type ResolverFn = (
+  rootValue?: any,
+  args?: any,
+  context?: any,
+  info?: any,
+) => AsyncIterator<any> | Promise<AsyncIterator<any>>;
 
 interface SubscribeOptions {
   subscribe: ResolverFn;
