@@ -139,4 +139,12 @@ const stateLink = withClientState({
 // ...the rest of `ApolloClient` initialization code
 ```
 
-Be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with the `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.
+There's also a sync version of it - `buildTypeDefsAndResolversSync`:
+
+```typescript
+const { typeDefs, resolvers } = buildTypeDefsAndResolvers({
+  resolvers: [FirstResolver, SecondResolver],
+});
+```
+
+However, be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with the `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.
