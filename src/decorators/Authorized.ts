@@ -5,7 +5,9 @@ import { MethodAndPropDecorator } from "./types";
 
 export function Authorized(): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodAndPropDecorator;
-export function Authorized<RoleType = string>(...roles: readonly RoleType[]): MethodAndPropDecorator;
+export function Authorized<RoleType = string>(
+  ...roles: readonly RoleType[]
+): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(
   ...rolesOrRolesArray: Array<RoleType | readonly RoleType[]>
 ): MethodDecorator | PropertyDecorator {
