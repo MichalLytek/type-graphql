@@ -185,8 +185,7 @@ describe("Authorization", () => {
     });
 
     // TODO: check for wrong `@Authorized` usage
-    // it("should throw error when `@Authorized` is used on args, input or interface class", async () => {
-    // }
+    it.todo("should throw error when `@Authorized` is used on args, input or interface class");
   });
 
   describe("Functional", () => {
@@ -539,6 +538,35 @@ describe("Authorization", () => {
       expect(authCheckerResolverData.args).toEqual({});
       expect(authCheckerResolverData.info).toBeDefined();
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
+    });
+  });
+
+  describe("with constant readonly array or roles", () => {
+    let testResolver: Function;
+
+    beforeAll(() => {
+      getMetadataStorage().clear();
+
+      const CONSTANT_ROLES = ["a", "b", "c"] as const;
+
+      @Resolver()
+      class TestResolver {
+        @Query()
+        @Authorized(CONSTANT_ROLES)
+        authedQuery(@Ctx() ctx: any): boolean {
+          return ctx.user !== undefined;
+        }
+      }
+
+      testResolver = TestResolver;
+    });
+
+    it("should not throw an error", async () => {
+      await buildSchema({
+        resolvers: [testResolver],
+        // dummy auth checker
+        authChecker: () => false,
+      });
     });
   });
 });
