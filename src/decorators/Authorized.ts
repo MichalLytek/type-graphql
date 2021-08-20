@@ -4,10 +4,12 @@ import { getArrayFromOverloadedRest } from "../helpers/decorators";
 import { MethodAndPropDecorator } from "./types";
 
 export function Authorized(): MethodAndPropDecorator;
-export function Authorized<RoleType = string>(roles: RoleType[]): MethodAndPropDecorator;
-export function Authorized<RoleType = string>(...roles: RoleType[]): MethodAndPropDecorator;
+export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(
-  ...rolesOrRolesArray: Array<RoleType | RoleType[]>
+  ...roles: readonly RoleType[]
+): MethodAndPropDecorator;
+export function Authorized<RoleType = string>(
+  ...rolesOrRolesArray: Array<RoleType | readonly RoleType[]>
 ): MethodDecorator | PropertyDecorator {
   const roles = getArrayFromOverloadedRest(rolesOrRolesArray);
 
