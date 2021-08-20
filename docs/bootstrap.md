@@ -107,8 +107,7 @@ Of course you can use the `express-graphql` middleware, `graphql-yoga` or whatev
 
 ## Create typeDefs and resolvers map
 
-TypeGraphQL provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.\
-There is also the `buildTypeDefsAndResolversSync` method which doesn't need `await` before being invoked.
+TypeGraphQL provides a second way to generate the GraphQL schema - the `buildTypeDefsAndResolvers` function.
 
 It accepts the same `BuildSchemaOptions` as the `buildSchema` function but instead of an executable `GraphQLSchema`, it creates a typeDefs and resolversMap pair that you can use e.g. with [`graphql-tools`](https://github.com/apollographql/graphql-tools):
 
@@ -140,4 +139,12 @@ const stateLink = withClientState({
 // ...the rest of `ApolloClient` initialization code
 ```
 
-Be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with the `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.
+There's also a sync version of it - `buildTypeDefsAndResolversSync`:
+
+```typescript
+const { typeDefs, resolvers } = buildTypeDefsAndResolvers({
+  resolvers: [FirstResolver, SecondResolver],
+});
+```
+
+However, be aware that some of the TypeGraphQL features (i.a. [query complexity](complexity.md)) might not work with the `buildTypeDefsAndResolvers` approach because they use some low-level `graphql-js` features.

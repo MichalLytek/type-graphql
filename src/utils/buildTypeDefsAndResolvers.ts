@@ -5,15 +5,15 @@ import { createResolversMap } from "./createResolversMap";
 
 export async function buildTypeDefsAndResolvers(options: BuildSchemaOptions) {
   const schema = await buildSchema(options);
-  return commonBuild(schema);
+  return createTypeDefsAndResolversMap(schema);
 }
 
 export function buildTypeDefsAndResolversSync(options: BuildSchemaOptions) {
   const schema = buildSchemaSync(options);
-  return commonBuild(schema);
+  return createTypeDefsAndResolversMap(schema);
 }
 
-function commonBuild(schema: GraphQLSchema) {
+function createTypeDefsAndResolversMap(schema: GraphQLSchema) {
   const typeDefs = printSchema(schema);
   const resolvers = createResolversMap(schema);
   return { typeDefs, resolvers };
