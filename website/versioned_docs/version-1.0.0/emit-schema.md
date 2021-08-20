@@ -34,3 +34,33 @@ hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async (
   await emitSchemaDefinitionFile("/path/to/folder/schema.gql", schema);
 });
 ```
+
+### Emit schema with custom directives
+
+Currently TypeGraphQL does not directly support emitting the schema with custom directives due to `printSchema` function limitations from `graphql-js`.
+
+If we want the custom directives to appear in the generated schema definition file we have to create a custom function that use a third-party `printSchema` function.
+
+Below there is an example that uses the `printSchemaWithDirectives` function from [`@graphql-tools/utils`](https://www.graphql-tools.com/docs/api/modules/utils):
+
+```typescript
+import { GraphQLSchema, lexicographicSortSchema } from "graphql";
+import { printSchemaWithDirectives } from "@graphql-tools/utils";
+import { outputFile } from "type-graphql/dist/helpers/filesystem";
+
+export async function emitSchemaDefinitionWithDirectivesFile(
+  schemaFilePath: string,
+  schema: GraphQLSchema,
+): Promise<void> {
+  const schemaFileContent = printSchemaWithDirectives(lexicographicSortSchema(schema));
+  await outputFile(schemaFilePath, schemaFileContent);
+}
+```
+
+The usage of `emitSchemaDefinitionWithDirectivesFile` function is the same as with standard `emitSchemaDefinitionFile`:
+
+```typescript
+const schema = await buildSchema(/*...*/);
+
+await emitSchemaDefinitionWithDirectivesFile("/path/to/folder/schema.gql", schema);
+```
