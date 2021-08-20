@@ -166,7 +166,12 @@ So we can also provide an array of paths to resolver module files instead, which
 
 <span class="token comment">// ...the rest of `ApolloClient` initialization code</span>
 </code></pre>
-<p>Be aware that some of the TypeGraphQL features (i.a. <a href="/docs/next/complexity.html">query complexity</a>) might not work with the <code>buildTypeDefsAndResolvers</code> approach because they use some low-level <code>graphql-js</code> features.</p>
+<p>There's also a sync version of it - <code>buildTypeDefsAndResolversSync</code>:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">const</span> <span class="token punctuation">{</span> typeDefs<span class="token punctuation">,</span> resolvers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">buildTypeDefsAndResolvers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>However, be aware that some of the TypeGraphQL features (i.a. <a href="/docs/next/complexity.html">query complexity</a>) might not work with the <code>buildTypeDefsAndResolvers</code> approach because they use some low-level <code>graphql-js</code> features.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/next/resolvers.html"><span class="arrow-prev">← </span><span>Resolvers</span></a><a class="docs-next button" href="/docs/next/scalars.html"><span>Scalars</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#create-executable-schema">Create Executable Schema</a></li><li><a href="#create-an-http-graphql-endpoint">Create an HTTP GraphQL endpoint</a></li><li><a href="#create-typedefs-and-resolvers-map">Create typeDefs and resolvers map</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
             const html = document.querySelector("html");
 
