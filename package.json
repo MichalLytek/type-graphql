@@ -98,6 +98,7 @@
     ]
   },
   "main": "./dist/index.js",
+  "browser": "./dist/browser-shim.js",
   "types": "./dist/index.d.ts",
   "readmeFilename": "README.md",
   "description": "Create GraphQL schema and resolvers with TypeScript, using classes and decorators!",
