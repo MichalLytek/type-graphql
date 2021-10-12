@@ -1,4 +1,4 @@
-import { CacheHint } from "apollo-cache-control";
+import type { CacheHint } from "apollo-server-types";
 import { Directive } from "../../src";
 
 export function CacheControl({ maxAge, scope }: CacheHint) {

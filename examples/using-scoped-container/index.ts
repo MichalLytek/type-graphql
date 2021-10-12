@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import Container, { ContainerInstance } from "typedi";
-import { GraphQLRequestContext, ApolloServerPlugin } from "apollo-server-plugin-base";
 import { buildSchema, ResolverData } from "../../src";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
@@ -32,8 +31,8 @@ async function bootstrap() {
     // create a plugin that will allow for disposing the scoped container created for every request
     plugins: [
       {
-        requestDidStart: () => ({
-          willSendResponse(requestContext: GraphQLRequestContext<Context>) {
+        requestDidStart: async () => ({
+          async willSendResponse(requestContext) {
             // remember to dispose the scoped container to prevent memory leaks
             Container.reset(requestContext.context.requestId.toString());
 
@@ -46,7 +45,7 @@ async function bootstrap() {
           },
         }),
       },
-    ] as ApolloServerPlugin[], // TODO: remove when fixed: https://github.com/apollographql/apollo-server/pull/3525
+    ],
   });
 
   // start the server

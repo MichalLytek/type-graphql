@@ -22,9 +22,11 @@ import {
   InterfaceType,
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { SchemaDirectiveVisitor } from "graphql-tools";
-import { UpperCaseDirective } from "../helpers/directives/UpperCaseDirective";
-import { AppendDirective } from "../helpers/directives/AppendDirective";
+import {
+  upperCaseDirective,
+  upperCaseDirectiveTransformer,
+} from "../helpers/directives/UpperCaseDirective";
+import { appendDirective, appendDirectiveTransformer } from "../helpers/directives/AppendDirective";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 import { InvalidDirectiveError } from "../../src/errors/InvalidDirectiveError";
 
@@ -258,12 +260,11 @@ describe("Directives", () => {
           ObjectImplementResolver,
         ],
         validate: false,
+        directives: [upperCaseDirective, appendDirective],
       });
 
-      SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
-        upper: UpperCaseDirective,
-        append: AppendDirective,
-      });
+      schema = upperCaseDirectiveTransformer(schema);
+      schema = appendDirectiveTransformer(schema);
     });
 
     it("should generate schema without errors", async () => {
@@ -402,8 +403,9 @@ describe("Directives", () => {
 
     describe("Subscription", () => {
       it("should add directives to subscription types", async () => {
-        const subscriptionWithDirective = schema.getSubscriptionType()!.getFields()
-          .subscriptionWithDirective;
+        const subscriptionWithDirective = schema
+          .getSubscriptionType()!
+          .getFields().subscriptionWithDirective;
 
         assertValidDirective(subscriptionWithDirective.astNode, "foo");
       });
@@ -418,9 +420,9 @@ describe("Directives", () => {
       });
 
       it("adds field directives to input type fields", async () => {
-        const fields = (schema.getType(
-          "DirectiveOnFieldInput",
-        ) as GraphQLInputObjectType).getFields();
+        const fields = (
+          schema.getType("DirectiveOnFieldInput") as GraphQLInputObjectType
+        ).getFields();
 
         expect(fields).toHaveProperty("append");
         expect(fields.append).toHaveProperty("astNode");
@@ -428,9 +430,9 @@ describe("Directives", () => {
       });
 
       it("adds inherited field directives to input type fields while extending input type class", async () => {
-        const fields = (schema.getType(
-          "SubDirectiveOnFieldInput",
-        ) as GraphQLInputObjectType).getFields();
+        const fields = (
+          schema.getType("SubDirectiveOnFieldInput") as GraphQLInputObjectType
+        ).getFields();
 
         expect(fields).toHaveProperty("append");
         expect(fields.append).toHaveProperty("astNode");

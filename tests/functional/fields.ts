@@ -332,8 +332,10 @@ describe("Fields - schema", () => {
     const arrayFieldType = nullableNestedArrayField.type as IntrospectionListTypeRef;
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionListTypeRef;
-    const arrayItemScalarNonNullFieldType = arrayItemFieldType.ofType as IntrospectionNonNullTypeRef;
-    const arrayItemScalarFieldType = arrayItemScalarNonNullFieldType.ofType as IntrospectionNamedTypeRef;
+    const arrayItemScalarNonNullFieldType =
+      arrayItemFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemScalarFieldType =
+      arrayItemScalarNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
     expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
     expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
@@ -378,8 +380,10 @@ describe("Fields - schema", () => {
     const overwrittenArrayScalarField = sampleObjectType.fields.find(
       field => field.name === "overwrittenArrayScalarField",
     )!;
-    const overwrittenArrayScalarFieldType = overwrittenArrayScalarField.type as IntrospectionNonNullTypeRef;
-    const overwrittenArrayScalarFieldInnerType = overwrittenArrayScalarFieldType.ofType as IntrospectionScalarType;
+    const overwrittenArrayScalarFieldType =
+      overwrittenArrayScalarField.type as IntrospectionNonNullTypeRef;
+    const overwrittenArrayScalarFieldInnerType =
+      overwrittenArrayScalarFieldType.ofType as IntrospectionScalarType;
 
     expect(overwrittenArrayScalarFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(overwrittenArrayScalarFieldInnerType.kind).toEqual(TypeKind.SCALAR);

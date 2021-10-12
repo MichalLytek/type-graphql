@@ -20,6 +20,7 @@
 - disable broken exposing input types fields under a changed name via `@Field({ name: "..." })`
 ### Others
 - **Breaking Change**: update `graphql-js` peer dependency to `^15.5.0`
+- **Breaking Change**: update `class-validator` peer dependency to `>=0.13.0`
 
 ## v1.1.1
 ### Fixes

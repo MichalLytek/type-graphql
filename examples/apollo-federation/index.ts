@@ -24,8 +24,6 @@ async function bootstrap() {
   const server = new ApolloServer({
     schema,
     executor,
-    tracing: false,
-    playground: true,
   });
 
   server.listen({ port: 3000 }).then(({ url }) => {

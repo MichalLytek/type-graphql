@@ -178,21 +178,8 @@ const schema = await buildSchema({
 
 The [bootstrap guide](bootstrap.md) and all the earlier examples used [`apollo-server`](https://github.com/apollographql/apollo-server) to create an HTTP endpoint for our GraphQL API.
 
-Fortunately, to make subscriptions work, we don't need to manually provide a transport layer that doesn't have constraints of HTTP and can do a push-based communication (WebSockets).
-The `apollo-server` package has built-in subscriptions support using websockets, so it works out of the box without any changes to our bootstrap config. However, if we want, we can provide the `subscriptions` property of the config object:
-
-```typescript
-// Create GraphQL server
-const server = new ApolloServer({
-  schema,
-  subscriptions: {
-    path: "/subscriptions",
-    // other options and hooks, like `onConnect`
-  },
-});
-```
-
-And it's done! We have a working GraphQL subscription server on `/subscriptions`, along with the normal HTTP GraphQL server.
+However, beginning in Apollo Server 3, subscriptions are not supported by the "batteries-included" apollo-server package. To enable subscriptions, you need to follow the guide on their docs page:
+https://www.apollographql.com/docs/apollo-server/data/subscriptions/#enabling-subscriptions
 
 ## Examples
 

@@ -1,65 +1,26 @@
-import {
-  GraphQLField,
-  GraphQLDirective,
-  DirectiveLocation,
-  GraphQLInputObjectType,
-  GraphQLInputField,
-  GraphQLScalarType,
-  GraphQLNonNull,
-} from "graphql";
-import { SchemaDirectiveVisitor } from "graphql-tools";
+import { GraphQLSchema, defaultFieldResolver, GraphQLDirective, DirectiveLocation } from "graphql";
+import { mapSchema, MapperKind, getDirective } from "@graphql-tools/utils";
 
-class UpperCaseType extends GraphQLScalarType {
-  constructor(type: any) {
-    super({
-      name: "UpperCase",
-      parseValue: value => this.upper(type.parseValue(value)),
-      serialize: value => this.upper(type.serialize(value)),
-      parseLiteral: ast => this.upper(type.parseLiteral(ast)),
-    });
-  }
+export const upperCaseDirective = new GraphQLDirective({
+  name: "upper",
+  locations: [DirectiveLocation.FIELD_DEFINITION],
+});
 
-  upper(value: any) {
-    return typeof value === "string" ? value.toUpperCase() : value;
-  }
-}
-
-export class UpperCaseDirective extends SchemaDirectiveVisitor {
-  static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
-    return new GraphQLDirective({
-      name: directiveName,
-      locations: [DirectiveLocation.FIELD_DEFINITION],
-    });
-  }
-
-  visitFieldDefinition(field: GraphQLField<any, any>) {
-    this.wrapField(field);
-  }
-
-  visitInputObject(object: GraphQLInputObjectType) {
-    const fields = object.getFields();
-
-    Object.keys(fields).forEach(field => {
-      this.wrapField(fields[field]);
-    });
-  }
-
-  visitInputFieldDefinition(field: GraphQLInputField) {
-    this.wrapField(field);
-  }
-
-  wrapField(field: GraphQLField<any, any> | GraphQLInputField): void {
-    if (field.type instanceof UpperCaseType) {
-      /* noop */
-    } else if (
-      field.type instanceof GraphQLNonNull &&
-      field.type.ofType instanceof GraphQLScalarType
-    ) {
-      field.type = new GraphQLNonNull(new UpperCaseType(field.type.ofType));
-    } else if (field.type instanceof GraphQLScalarType) {
-      field.type = new UpperCaseType(field.type);
-    } else {
-      throw new Error(`Not a scalar type: ${field.type}`);
-    }
-  }
+export function upperCaseDirectiveTransformer(schema: GraphQLSchema): GraphQLSchema {
+  return mapSchema(schema, {
+    [MapperKind.OBJECT_FIELD]: fieldConfig => {
+      const upperCaseDirectiveConfig = getDirective(schema, fieldConfig, "upper")?.[0];
+      if (upperCaseDirectiveConfig) {
+        const { resolve = defaultFieldResolver } = fieldConfig;
+        fieldConfig.resolve = async (source, args, context, info) => {
+          const result = await resolve(source, args, context, info);
+          if (typeof result === "string") {
+            return result.toUpperCase();
+          }
+          return result;
+        };
+      }
+      return fieldConfig;
+    },
+  });
 }

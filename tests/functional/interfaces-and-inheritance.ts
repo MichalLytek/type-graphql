@@ -101,7 +101,8 @@ describe("Interfaces and inheritance", () => {
       @ObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject
         extends SampleImplementingObject2
-        implements SampleInterface1 {
+        implements SampleInterface1
+      {
         @Field()
         ownField4: number;
       }
