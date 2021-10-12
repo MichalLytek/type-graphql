@@ -1,9 +1,9 @@
 ---
-title: Prisma 2 Integration
-sidebar_label: Prisma 2
+title: Prisma Integration
+sidebar_label: Prisma
 ---
 
-TypeGraphQL provides an integration with Prisma 2 by the [`typegraphql-prisma` package](https://www.npmjs.com/package/typegraphql-prisma).
+TypeGraphQL provides an integration with Prisma by the [`typegraphql-prisma` package](https://www.npmjs.com/package/typegraphql-prisma).
 
 It generates the type classes and CRUD resolvers based on the Prisma schema, so you can execute complex queries or mutations that corresponds to the Prisma actions, without having to write any code for that.
 
@@ -14,17 +14,16 @@ To make use of the prisma integration, first you need to add a new generator to 
 ```sh
 generator typegraphql {
   provider = "typegraphql-prisma"
-  output   = "../src/generated/typegraphql-prisma"
 }
 ```
 
-Then, after running `prisma generate` you can import the generated classes and use them to build your schema:
+Then, after running `prisma generate` you can import the generated resolvers classes and use them to build your schema:
 
 ```typescript
-import { User, UserRelationsResolver, UserCrudResolver } from "./generated/typegraphql-prisma";
+import { resolvers } from "@generated/type-graphql";
 
 const schema = await buildSchema({
-  resolvers: [CustomUserResolver, UserRelationsResolver, UserCrudResolver],
+  resolvers,
   validate: false,
 });
 ```
@@ -48,6 +47,6 @@ query GetSomeUsers {
 
 ## Documentation and examples
 
-To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the separate GitHub repository](https://github.com/MichalLytek/typegraphql-prisma/blob/main/Readme.md).
+To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the dedicated website](https://prisma.typegraphql.com/).
 
-You can find there also some examples and more detailed info about the installation and the configuration.
+You can find there also links to some examples and more detailed info about the installation and the configuration.
