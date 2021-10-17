@@ -56,7 +56,7 @@ class SampleResolver {
 
 We can also provide a custom subscription logic which might be useful, e.g. if we want to use the Prisma subscription functionality or something similar.
 
-All we need to do is to use the the `subscribe` option which should be a function that returns an `AsyncIterator`. Example using Prisma client subscription feature:
+All we need to do is to use the `subscribe` option which should be a function that returns an `AsyncIterator`. Example using Prisma client subscription feature:
 
 ```typescript
 class SampleResolver {
