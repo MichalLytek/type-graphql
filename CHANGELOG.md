@@ -1,7 +1,9 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Fixes
+- support overwriting fields of extended types (#1109)
 
 ## v1.2.0-rc.1
 ### Features
