@@ -7,6 +7,12 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
 > So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
 
+### How to download an example:
+
+```
+curl https://codeload.github.com/MichalLytek/type-graphql/tar.gz/master | tar -xz --strip=2 type-graphql-master/examples/[EXAMPLE_NAME]
+```
+
 ## Basics
 
 - [Simple usage of fields, basic types and resolvers](./simple-usage)
