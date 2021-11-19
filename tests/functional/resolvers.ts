@@ -38,6 +38,7 @@ import {
   buildSchema,
   FieldResolver,
   ResolverInterface,
+  MappedType,
   Info,
   buildSchemaSync,
   Subscription,
@@ -1321,6 +1322,18 @@ describe("Resolvers", () => {
       }
       classes.SampleNestedArgs = SampleNestedArgs;
 
+      class SurrogateObject {
+        hiddenField = "surrogate";
+      }
+
+      @ObjectType()
+      class SampleChildObject {
+        [MappedType]: SurrogateObject;
+
+        @Field()
+        normalField: string;
+      }
+
       @ObjectType()
       class SampleObject {
         private readonly TRUE = true;
@@ -1363,6 +1376,20 @@ describe("Resolvers", () => {
         @Field()
         methodFieldWithArg(@Arg("factor") factor: number): number {
           return this.instanceValue * factor;
+        }
+
+        @Field(type => SampleChildObject)
+        childField: SampleChildObject;
+
+        @Field(type => [SampleChildObject])
+        childrenField: SampleChildObject[];
+      }
+
+      @Resolver(of => SampleChildObject)
+      class SampleChildResolver implements ResolverInterface<SampleChildObject> {
+        @FieldResolver()
+        normalField(@Root() root: SurrogateObject) {
+          return root.hiddenField;
         }
       }
 
@@ -1518,10 +1545,20 @@ describe("Resolvers", () => {
         fieldResolverMethodWithArgs(@Root() root: SampleObject, @Arg("arg") arg: number): number {
           return arg;
         }
+
+        @FieldResolver(() => SampleChildObject)
+        childField(@Root() root: SampleObject) {
+          return new SurrogateObject();
+        }
+
+        @FieldResolver(() => SampleChildObject)
+        childrenField(@Root() root: SampleObject) {
+          return [new SurrogateObject()];
+        }
       }
 
       schema = await buildSchema({
-        resolvers: [SampleResolver],
+        resolvers: [SampleResolver, SampleChildResolver],
         validate: false,
       });
     });
@@ -1660,6 +1697,36 @@ describe("Resolvers", () => {
 
       const resultFieldData = result.data!.sampleQuery.fieldResolverMethodWithArgs;
       expect(resultFieldData).toEqual(value);
+    });
+
+    it("should return value from field resolver for mapped child type", async () => {
+      const query = `query {
+        sampleQuery {
+          childField {
+            normalField
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const resultFieldData = result.data!.sampleQuery.childField.normalField;
+      expect(resultFieldData).toEqual("surrogate");
+    });
+
+    it("should return value from field resolver for mapped child array type", async () => {
+      const query = `query {
+        sampleQuery {
+          childrenField {
+            normalField
+          }
+        }
+      }`;
+
+      const result = await graphql(schema, query);
+
+      const resultFieldData = result.data!.sampleQuery.childrenField[0].normalField;
+      expect(resultFieldData).toEqual("surrogate");
     });
 
     it("should create new instances of object type for consecutive queries", async () => {
