@@ -1,9 +1,10 @@
 ---
-title: Prisma Integration
+title: Prisma Integrations
 sidebar_label: Prisma
 ---
 
-TypeGraphQL provides an integration with Prisma by the [`typegraphql-prisma` package](https://www.npmjs.com/package/typegraphql-prisma).
+# typegraphql-prisma
+TypeGraphQL provides one generator package for Prisma-the [`typegraphql-prisma` package](https://www.npmjs.com/package/typegraphql-prisma).
 
 It generates the type classes and CRUD resolvers based on the Prisma schema, so you can execute complex queries or mutations that corresponds to the Prisma actions, without having to write any code for that.
 
@@ -50,3 +51,8 @@ query GetSomeUsers {
 To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the dedicated website](https://prisma.typegraphql.com/).
 
 You can find there also links to some examples and more detailed info about the installation and the configuration.
+
+# Community generators
+
+There are other generators avaiable from the community:
+ - [prisma-typegraphql-types-generator](https://www.npmjs.com/package/prisma-typegraphql-types-generator) by [@YassinEldeeb](https://github.com/YassinEldeeb)
