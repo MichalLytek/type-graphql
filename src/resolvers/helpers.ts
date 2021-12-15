@@ -33,8 +33,8 @@ export function getParams(
           return validateArg(
             convertArgToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
-            globalValidate,
             resolverData,
+            globalValidate,
             paramInfo.validate,
           );
         case "context":

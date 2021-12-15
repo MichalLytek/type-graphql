@@ -18,7 +18,7 @@ export async function validateArg<ContextType, T extends object>(
   }
 
   if (typeof validate === "function") {
-    await validate(argValue, argType);
+    await validate(resolverData, argValue, argType);
     return argValue;
   }
 

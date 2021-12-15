@@ -14,7 +14,10 @@ export interface ScalarsTypeMap {
   scalar: GraphQLScalarType;
 }
 
-export type ValidateSettings = boolean | ValidatorOptions | ValidatorFn<object>;
+export type ValidateSettings<ContextType = {}> =
+  | boolean
+  | ValidatorOptions
+  | ValidatorFn<ContextType, object>;
 
 export interface BuildContextOptions {
   dateScalarMode?: DateScalarMode;
