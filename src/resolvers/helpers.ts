@@ -25,6 +25,7 @@ export function getParams(
           return validateArg(
             convertArgsToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
+            resolverData,
             globalValidate,
             paramInfo.validate,
           );
@@ -33,6 +34,7 @@ export function getParams(
             convertArgToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
             globalValidate,
+            resolverData,
             paramInfo.validate,
           );
         case "context":

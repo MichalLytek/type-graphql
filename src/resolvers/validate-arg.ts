@@ -1,12 +1,14 @@
 import type { ValidatorOptions } from "class-validator";
+import { ResolverData } from "..";
 import { TypeValue } from "../decorators/types";
 
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 import { ValidateSettings } from "../schema/build-context";
 
-export async function validateArg<T extends object>(
+export async function validateArg<ContextType, T extends object>(
   argValue: T | undefined,
   argType: TypeValue,
+  resolverData: ResolverData<ContextType>,
   globalValidate: ValidateSettings,
   argValidate: ValidateSettings | undefined,
 ): Promise<T | undefined> {
