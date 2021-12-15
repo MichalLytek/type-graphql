@@ -148,6 +148,11 @@ However, there are also plans for a lot more features like better TypeORM, Prism
 
 If you have any interesting feature requests, feel free to open an issue on GitHub so we can discuss that!
 
+### TC39 decorators proposal
+
+Please if you enjoy typegraphql, go and star repo with the [proposal-decorators
+](https://github.com/tc39/proposal-decorators). That's a way to show the TC39 members that you are using decorators and you want to have them in the language.
+
 ## Support
 
 TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends.
