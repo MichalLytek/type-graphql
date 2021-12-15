@@ -136,9 +136,8 @@ describe("Interfaces with resolvers and arguments", () => {
         sampleInterfaceWithArgsAndFieldResolver,
       ].forEach(type => {
         const sampleFieldWithArgsField = type.fields.find(it => it.name === "sampleFieldWithArgs")!;
-        const sampleFieldWithArgsType = (
-          sampleFieldWithArgsField.type as IntrospectionNonNullTypeRef
-        ).ofType as IntrospectionNamedTypeRef;
+        const sampleFieldWithArgsType = (sampleFieldWithArgsField.type as IntrospectionNonNullTypeRef)
+          .ofType as IntrospectionNamedTypeRef;
 
         expect(sampleFieldWithArgsField.args).toHaveLength(1);
         expect(sampleFieldWithArgsType.name).toEqual("String");
@@ -157,12 +156,10 @@ describe("Interfaces with resolvers and arguments", () => {
       const interfaceFieldArgsTypeField = sampleInterfaceWithArgsFields.fields.find(
         it => it.name === "interfaceFieldArgsType",
       )!;
-      const interfaceFieldInlineArgsType = (
-        interfaceFieldInlineArgsField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionNamedTypeRef;
-      const interfaceFieldArgsTypeFieldType = (
-        interfaceFieldArgsTypeField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionNamedTypeRef;
+      const interfaceFieldInlineArgsType = (interfaceFieldInlineArgsField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionNamedTypeRef;
+      const interfaceFieldArgsTypeFieldType = (interfaceFieldArgsTypeField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionNamedTypeRef;
 
       expect(interfaceFieldInlineArgsField.args).toHaveLength(2);
       expect(interfaceFieldArgsTypeField.args).toHaveLength(2);
@@ -177,10 +174,9 @@ describe("Interfaces with resolvers and arguments", () => {
       const sampleImplementingObjectWithArgsAndInheritedResolver = schemaIntrospection.types.find(
         type => type.name === "SampleImplementingObjectWithArgsAndInheritedResolver",
       ) as IntrospectionInterfaceType;
-      const sampleImplementingObjectWithArgsAndInheritedFieldResolver =
-        schemaIntrospection.types.find(
-          type => type.name === "SampleImplementingObjectWithArgsAndInheritedFieldResolver",
-        ) as IntrospectionInterfaceType;
+      const sampleImplementingObjectWithArgsAndInheritedFieldResolver = schemaIntrospection.types.find(
+        type => type.name === "SampleImplementingObjectWithArgsAndInheritedFieldResolver",
+      ) as IntrospectionInterfaceType;
       expect(sampleImplementingObjectWithArgsAndOwnResolver).toBeDefined();
       expect(sampleImplementingObjectWithArgsAndInheritedResolver).toBeDefined();
       expect(sampleImplementingObjectWithArgsAndInheritedFieldResolver).toBeDefined();
@@ -191,9 +187,8 @@ describe("Interfaces with resolvers and arguments", () => {
         sampleImplementingObjectWithArgsAndInheritedFieldResolver,
       ].forEach(type => {
         const sampleFieldWithArgsField = type.fields.find(it => it.name === "sampleFieldWithArgs")!;
-        const sampleFieldWithArgsType = (
-          sampleFieldWithArgsField.type as IntrospectionNonNullTypeRef
-        ).ofType as IntrospectionNamedTypeRef;
+        const sampleFieldWithArgsType = (sampleFieldWithArgsField.type as IntrospectionNonNullTypeRef)
+          .ofType as IntrospectionNamedTypeRef;
 
         expect(sampleFieldWithArgsField.args).toHaveLength(1);
         expect(sampleFieldWithArgsType.name).toEqual("String");
@@ -368,8 +363,8 @@ describe("Interfaces with resolvers and arguments", () => {
       const { data, errors } = await graphql(schema, query);
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndOwnResolver.sampleFieldWithArgs;
+      const result = data!.queryForSampleImplementingObjectWithArgsAndOwnResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleImplementingObjectWithArgsAndOwnResolver: sampleArgValue");
     });
@@ -386,8 +381,8 @@ describe("Interfaces with resolvers and arguments", () => {
       const { data, errors } = await graphql(schema, query);
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndInheritedResolver.sampleFieldWithArgs;
+      const result = data!.queryForSampleImplementingObjectWithArgsAndInheritedResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });
@@ -404,8 +399,8 @@ describe("Interfaces with resolvers and arguments", () => {
       const { data, errors } = await graphql(schema, query);
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver.sampleFieldWithArgs;
+      const result = data!.queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceResolver: sampleArgValue");
     });
@@ -422,9 +417,8 @@ describe("Interfaces with resolvers and arguments", () => {
       const { data, errors } = await graphql(schema, query);
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver
-          .sampleFieldWithArgs;
+      const result = data!.queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });

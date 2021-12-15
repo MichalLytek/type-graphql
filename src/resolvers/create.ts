@@ -37,7 +37,6 @@ export function createHandlerResolver(
       return targetInstanceOrPromise.then(targetInstance =>
         applyMiddlewares(container, resolverData, middlewares, () => {
           const params: Promise<any[]> | any[] = getParams(
-            context,
             resolverMetadata.params!,
             resolverData,
             globalValidate,
@@ -55,7 +54,6 @@ export function createHandlerResolver(
     }
     return applyMiddlewares(container, resolverData, middlewares, () => {
       const params: Promise<any[]> | any[] = getParams(
-        context,
         resolverMetadata.params!,
         resolverData,
         globalValidate,
@@ -103,7 +101,6 @@ export function createAdvancedFieldResolver(
       }
       // method
       const params: Promise<any[]> | any[] = getParams(
-        context,
         fieldResolverMetadata.params!,
         resolverData,
         globalValidate,

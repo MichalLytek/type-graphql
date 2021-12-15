@@ -303,8 +303,7 @@ describe("typeDefs and resolvers", () => {
         const sampleInputDefaultStringField = sampleInput.inputFields.find(
           it => it.name === "sampleInputDefaultStringField",
         )!;
-        const sampleInputDefaultStringFieldType =
-          sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
+        const sampleInputDefaultStringFieldType = sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
 
         expect(sampleInput.kind).toBe(TypeKind.INPUT_OBJECT);
         expect(sampleInput.inputFields).toHaveLength(2);

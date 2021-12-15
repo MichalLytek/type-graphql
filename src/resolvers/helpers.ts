@@ -11,8 +11,7 @@ import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
 import isPromiseLike from "../utils/isPromiseLike";
 import { ValidateSettings } from "../schema/build-context";
 
-export function getParams<TContext>(
-  context: TContext,
+export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
@@ -24,7 +23,6 @@ export function getParams<TContext>(
       switch (paramInfo.kind) {
         case "args":
           return validateArg(
-            context,
             convertArgsToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
             globalValidate,
@@ -32,7 +30,6 @@ export function getParams<TContext>(
           );
         case "arg":
           return validateArg(
-            context,
             convertArgToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
             globalValidate,

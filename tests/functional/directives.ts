@@ -402,9 +402,8 @@ describe("Directives", () => {
 
     describe("Subscription", () => {
       it("should add directives to subscription types", async () => {
-        const subscriptionWithDirective = schema
-          .getSubscriptionType()!
-          .getFields().subscriptionWithDirective;
+        const subscriptionWithDirective = schema.getSubscriptionType()!.getFields()
+          .subscriptionWithDirective;
 
         assertValidDirective(subscriptionWithDirective.astNode, "foo");
       });
@@ -419,9 +418,9 @@ describe("Directives", () => {
       });
 
       it("adds field directives to input type fields", async () => {
-        const fields = (
-          schema.getType("DirectiveOnFieldInput") as GraphQLInputObjectType
-        ).getFields();
+        const fields = (schema.getType(
+          "DirectiveOnFieldInput",
+        ) as GraphQLInputObjectType).getFields();
 
         expect(fields).toHaveProperty("append");
         expect(fields.append).toHaveProperty("astNode");
@@ -429,9 +428,9 @@ describe("Directives", () => {
       });
 
       it("adds inherited field directives to input type fields while extending input type class", async () => {
-        const fields = (
-          schema.getType("SubDirectiveOnFieldInput") as GraphQLInputObjectType
-        ).getFields();
+        const fields = (schema.getType(
+          "SubDirectiveOnFieldInput",
+        ) as GraphQLInputObjectType).getFields();
 
         expect(fields).toHaveProperty("append");
         expect(fields.append).toHaveProperty("astNode");

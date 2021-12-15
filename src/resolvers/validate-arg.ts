@@ -4,8 +4,7 @@ import { TypeValue } from "../decorators/types";
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 import { ValidateSettings } from "../schema/build-context";
 
-export async function validateArg<T extends object, TContext>(
-  context: TContext,
+export async function validateArg<T extends object>(
   argValue: T | undefined,
   argType: TypeValue,
   globalValidate: ValidateSettings,
@@ -17,7 +16,7 @@ export async function validateArg<T extends object, TContext>(
   }
 
   if (typeof validate === "function") {
-    await validate(context, argValue, argType);
+    await validate(argValue, argType);
     return argValue;
   }
 
