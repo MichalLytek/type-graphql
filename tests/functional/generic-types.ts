@@ -216,14 +216,18 @@ describe("Generic types", () => {
       const userConnectionCountField = userConnectionTypeInfo.fields.find(
         it => it.name === "count",
       )!;
-      const userConnectionCountFieldType = (userConnectionCountField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionScalarType;
+      const userConnectionCountFieldType = (
+        userConnectionCountField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionScalarType;
       const userConnectionItemsField = userConnectionTypeInfo.fields.find(
         it => it.name === "items",
       )!;
-      const userConnectionItemsFieldType = (((userConnectionItemsField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionListTypeRef).ofType as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const userConnectionItemsFieldType = (
+        (
+          (userConnectionItemsField.type as IntrospectionNonNullTypeRef)
+            .ofType as IntrospectionListTypeRef
+        ).ofType as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
 
       expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
       expect(userConnectionTypeInfo.fields).toHaveLength(2);
@@ -339,19 +343,22 @@ describe("Generic types", () => {
       const recipeEdgePersonalNotesField = recipeEdgeTypeInfo.fields.find(
         it => it.name === "personalNotes",
       )!;
-      const recipeEdgePersonalNotesFieldType = (recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const recipeEdgePersonalNotesFieldType = (
+        recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
       const friendshipEdgeTypeInfo = schemaObjectTypes.find(
         it => it.name === "FriendshipEdge",
       ) as IntrospectionObjectType;
       const friendshipEdgeNodeField = friendshipEdgeTypeInfo.fields.find(it => it.name === "node")!;
-      const friendshipEdgeNodeFieldType = (friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const friendshipEdgeNodeFieldType = (
+        friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
       const friendshipEdgeFriendedAtField = friendshipEdgeTypeInfo.fields.find(
         it => it.name === "friendedAt",
       )!;
-      const friendshipEdgeFriendedAtFieldType = (friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const friendshipEdgeFriendedAtFieldType = (
+        friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
 
       expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
       expect(recipeEdgeTypeInfo.fields).toHaveLength(3);

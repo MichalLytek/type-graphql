@@ -302,7 +302,8 @@ describe("Resolvers", () => {
           field => field.name === "simpleMethodField",
         )!;
         const simpleMethodFieldType = simpleMethodField.type as IntrospectionNonNullTypeRef;
-        const simpleMethodFieldInnerType = simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
+        const simpleMethodFieldInnerType =
+          simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(simpleMethodField.name).toEqual("simpleMethodField");
         expect(simpleMethodField.args).toHaveLength(0);
@@ -372,8 +373,10 @@ describe("Resolvers", () => {
         const explicitArrayArg = argMethodField.args.find(arg => arg.name === "explicitArrayArg")!;
         const explicitArrayArgType = explicitArrayArg.type as IntrospectionNonNullTypeRef;
         const explicitArrayArgArrayType = explicitArrayArgType.ofType as IntrospectionListTypeRef;
-        const explicitArrayArgInnerType = explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
-        const explicitArrayArgArrayItemType = explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
+        const explicitArrayArgInnerType =
+          explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
+        const explicitArrayArgArrayItemType =
+          explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitArrayArg.name).toEqual("explicitArrayArg");
         expect(explicitArrayArgType.kind).toEqual(TypeKind.NON_NULL);
@@ -439,7 +442,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultStringFieldDefaultValue"');
         expect(defaultValueStringFieldType).toEqual({
@@ -457,7 +461,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultStringFieldDefaultValue"',
@@ -477,7 +482,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultValueOverwritten"');
         expect(defaultValueStringFieldType).toEqual({
@@ -495,7 +501,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultValueOverwritten"',
@@ -583,7 +590,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual('"implicitDefaultValueOverwritten"');
@@ -621,7 +629,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual(
@@ -691,7 +700,8 @@ describe("Resolvers", () => {
         const arg2Type = getInnerTypeOfNonNullableType(
           fieldResolverArgs.find(arg => arg.name === "arg2")!,
         );
-        const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
+        const independentFieldResolverType =
+          independentFieldResolver.type as IntrospectionNamedTypeRef;
 
         expect(independentFieldResolver.description).toEqual("independent");
         expect(independentFieldResolverType.kind).toEqual("SCALAR");
@@ -734,7 +744,8 @@ describe("Resolvers", () => {
       it("should generate proper definition for mutation method", async () => {
         const emptyMutation = getMutation("emptyMutation");
         const emptyMutationReturnType = emptyMutation.type as IntrospectionNonNullTypeRef;
-        const emptyMutationInnerReturnType = emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
+        const emptyMutationInnerReturnType =
+          emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
 
         expect(emptyMutation.args).toHaveLength(0);
         expect(emptyMutation.name).toEqual("emptyMutation");
@@ -746,7 +757,8 @@ describe("Resolvers", () => {
       it("should generate implicit string return type for query method", async () => {
         const implicitStringQuery = getQuery("implicitStringQuery");
         const implicitStringQueryType = implicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const implicitStringQueryInnerType = implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitStringQueryInnerType =
+          implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitStringQueryInnerType.name).toEqual("String");
@@ -755,7 +767,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query when explicitly set", async () => {
         const explicitStringQuery = getQuery("explicitStringQuery");
         const explicitStringQueryType = explicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const explicitStringQueryInnerType = explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const explicitStringQueryInnerType =
+          explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitStringQueryInnerType.name).toEqual("String");
@@ -797,7 +810,8 @@ describe("Resolvers", () => {
         const explicitNullableArrayWithNullableItemsQuery = getQuery(
           "explicitNullableArrayWithNullableItemsQuery",
         );
-        const listType = explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
+        const listType =
+          explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
         const itemType = listType.ofType as IntrospectionNamedTypeRef;
 
         expect(listType.kind).toEqual(TypeKind.LIST);
@@ -808,7 +822,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query returning Promise", async () => {
         const promiseStringQuery = getQuery("promiseStringQuery");
         const promiseStringQueryType = promiseStringQuery.type as IntrospectionNonNullTypeRef;
-        const promiseStringQueryInnerType = promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const promiseStringQueryInnerType =
+          promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(promiseStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(promiseStringQueryInnerType.name).toEqual("String");
@@ -826,7 +841,8 @@ describe("Resolvers", () => {
       it("should generate object return type for query method", async () => {
         const implicitObjectQuery = getQuery("implicitObjectQuery");
         const implicitObjectQueryType = implicitObjectQuery.type as IntrospectionNonNullTypeRef;
-        const implicitObjectQueryInnerType = implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitObjectQueryInnerType =
+          implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitObjectQueryInnerType.kind).toEqual(TypeKind.OBJECT);
         expect(implicitObjectQueryInnerType.name).toEqual("SampleObject");

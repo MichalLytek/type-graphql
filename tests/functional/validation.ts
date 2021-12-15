@@ -616,7 +616,7 @@ describe("Custom validation", () => {
   it("should call `validate` function provided in option with proper params", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: (arg, type) => {
+      validate: (_, arg, type) => {
         validateArgs.push(arg);
         validateTypes.push(type);
       },
@@ -627,6 +627,20 @@ describe("Custom validation", () => {
     expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
     expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
     expect(validateTypes).toEqual([sampleArgsCls]);
+  });
+
+  it("should call `validate` function provided in option with proper context", async () => {
+    const testContext = { hello: "world" };
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validate: (ctx, arg, type) => {
+        expect(ctx).toEqual(testContext);
+        validateArgs.push(arg);
+        validateTypes.push(type);
+      },
+    });
+
+    await graphql(schema, document, undefined, testContext);
   });
 
   it("should inject validated arg as resolver param", async () => {
