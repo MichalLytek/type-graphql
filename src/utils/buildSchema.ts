@@ -17,7 +17,7 @@ interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
 
 export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolvers"> {
   /** Array of resolvers classes or glob paths to resolver files */
-  resolvers: NonEmptyArray<Function> | NonEmptyArray<string>;
+  resolvers: NonEmptyArray<Function | string>;
   /**
    * Path to the file to where emit the schema
    * or config object with print schema options
@@ -46,20 +46,18 @@ export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
   return schema;
 }
 
-function loadResolvers(options: BuildSchemaOptions): Function[] | undefined {
-  // TODO: remove that check as it's covered by `NonEmptyArray` type guard
-  if (options.resolvers.length === 0) {
-    throw new Error("Empty `resolvers` array property found in `buildSchema` options!");
-  }
-  if (options.resolvers.some((resolver: Function | string) => typeof resolver === "string")) {
-    (options.resolvers as string[]).forEach(resolver => {
+function loadResolvers(options: BuildSchemaOptions): Function[] {
+  // NonEmptyArray doesn't have reduce<T> hence the cast
+  return (options.resolvers as Array<Function | string>).reduce<Function[]>(
+    (resolvers: Function[], resolver: Function | string) => {
       if (typeof resolver === "string") {
-        loadResolversFromGlob(resolver);
+        return [...resolvers, ...loadResolversFromGlob(resolver)];
       }
-    });
-    return undefined;
-  }
-  return options.resolvers as Function[];
+
+      return [...resolvers, resolver];
+    },
+    [],
+  );
 }
 
 function getEmitSchemaDefinitionFileOptions(
