@@ -28,7 +28,7 @@ const schema = await buildSchema({
 });
 ```
 
-So you will be able to execute such complex query that talks with the db in just a few minutes!
+So you will be able to execute a complex query that talks with the db in just a few minutes!
 
 ```graphql
 query GetSomeUsers {
