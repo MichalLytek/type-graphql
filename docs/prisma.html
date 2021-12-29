@@ -63,14 +63,14 @@
               }
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/prisma.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Prisma Integration</h1></header><article><div><span><p>TypeGraphQL provides an integration with Prisma by the <a href="https://www.npmjs.com/package/typegraphql-prisma"><code>typegraphql-prisma</code> package</a>.</p>
-<p>It generates the type classes and CRUD resolvers based on the Prisma schema, so you can execute complex queries or mutations that corresponds to the Prisma actions, without having to write any code for that.</p>
+<p>It generates the type classes and CRUD resolvers based on the Prisma schema, so we can execute complex queries or mutations that corresponds to the Prisma actions, without having to write any code for that.</p>
 <h2><a class="anchor" aria-hidden="true" id="overview"></a><a href="#overview" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p>To make use of the prisma integration, first you need to add a new generator to the <code>schema.prisma</code> file:</p>
+<p>To make use of the prisma integration, first we need to add a new generator to the <code>schema.prisma</code> file:</p>
 <pre><code class="hljs css language-sh">generator typegraphql <span class="token punctuation">{</span>
   provider <span class="token operator">=</span> <span class="token string">"typegraphql-prisma"</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Then, after running <code>prisma generate</code> you can import the generated resolvers classes and use them to build your schema:</p>
+<p>Then, after running <code>prisma generate</code> we can import the generated resolvers classes and use them to build our schema:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> resolvers <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@generated/type-graphql"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -78,7 +78,7 @@
   validate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>So you will be able to execute such complex query that talks with the db in just a few minutes!</p>
+<p>So we will be able to execute a complex query, that talks with the real database, in just a few minutes!</p>
 <pre><code class="hljs css language-graphql"><span class="token keyword">query</span> GetSomeUsers <span class="token punctuation">{</span>
   users<span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">email</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">contains</span><span class="token punctuation">:</span> <span class="token string">"prisma"</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token attr-name">orderBy</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">name</span><span class="token punctuation">:</span> desc <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     id
@@ -94,7 +94,7 @@
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="documentation-and-examples"></a><a href="#documentation-and-examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Documentation and examples</h2>
 <p>To read about all the <code>typegraphql-prisma</code> features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs <a href="https://prisma.typegraphql.com/">on the dedicated website</a>.</p>
-<p>You can find there also links to some examples and more detailed info about the installation and the configuration.</p>
+<p>There also can be found the links to some examples and more detailed info about the installation and the configuration.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/complexity.html"><span class="arrow-prev">← </span><span>Query complexity</span></a><a class="docs-next button" href="/docs/nestjs.html"><span class="function-name-prevnext">NestJS</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#documentation-and-examples">Documentation and examples</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
             const html = document.querySelector("html");
 
