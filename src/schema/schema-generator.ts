@@ -114,7 +114,7 @@ export abstract class SchemaGenerator {
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
     const schema = this.generateFromMetadataSync(options);
     if (!options.skipCheck) {
-      const { errors } = await graphql(schema, getIntrospectionQuery());
+      const { errors } = await graphql({ schema, source: getIntrospectionQuery() });
       if (errors) {
         throw new GeneratingSchemaError(errors);
       }
@@ -852,6 +852,7 @@ export abstract class SchemaGenerator {
     resolveType: TypeResolver<TSource, TContext>,
     possibleObjectTypesInfo: ObjectTypeInfo[],
   ): GraphQLTypeResolver<TSource, TContext> {
+    // @ts-expect-error
     return async (...args) => {
       const resolvedType = await resolveType(...args);
       if (!resolvedType || typeof resolvedType === "string") {

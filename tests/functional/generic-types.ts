@@ -25,6 +25,7 @@ import {
   InputType,
   Arg,
 } from "../../src";
+import { invokeGql } from "../invokeGql";
 
 describe("Generic types", () => {
   beforeEach(() => {
@@ -245,7 +246,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data!.dogs).toEqual(dogsResponseMock);
     });
@@ -386,7 +387,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data!.recipeEdge).toEqual(recipeEdgeResponse);
       expect(result.data!.friendshipEdge).toEqual({
@@ -472,7 +473,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, document);
+      const result = await invokeGql(schema, document);
 
       expect(result.data!).toEqual({
         child: {

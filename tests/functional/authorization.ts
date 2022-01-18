@@ -16,6 +16,7 @@ import {
   AuthCheckerInterface,
   ResolverData,
 } from "../../src";
+import { invokeGql } from "../invokeGql";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;
@@ -203,7 +204,7 @@ describe("Authorization", () => {
         normalQuery
       }`;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data!.normalQuery).toEqual(true);
     });
@@ -215,7 +216,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data!.normalObjectQuery.normalField).toEqual("normalField");
     });
@@ -227,7 +228,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data!.normalObjectQuery.normalResolvedField).toEqual("normalResolvedField");
     });
@@ -241,7 +242,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toBeDefined();
@@ -257,7 +258,7 @@ describe("Authorization", () => {
         nullableAuthedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data!.nullableAuthedQuery).toBeNull();
       expect(result.errors).toBeUndefined();
@@ -272,7 +273,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -290,7 +291,7 @@ describe("Authorization", () => {
         adminQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -308,7 +309,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result = await invokeGql(localSchema, query, null, {});
 
       expect(result.data!.authedQuery).toEqual(false);
     });
@@ -324,7 +325,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
     });
@@ -340,7 +341,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
@@ -356,7 +357,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -376,7 +377,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -396,7 +397,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result = await invokeGql(localSchema, query, null, {});
 
       expect(result.data!.normalObjectQuery.authedField).toEqual("authedField");
     });
@@ -412,7 +413,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
     });
@@ -428,7 +429,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await invokeGql(localSchema, query);
 
       expect(result.data).toBeNull();
     });
@@ -444,7 +445,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result = await invokeGql(localSchema, query, null, {});
 
       expect(result.data!.normalObjectQuery.inlineAuthedResolvedField).toEqual(
         "inlineAuthedResolvedField",
@@ -464,7 +465,7 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result = await invokeGql(localSchema, query, null, {});
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
@@ -483,7 +484,7 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(
+      const result = await invokeGql(
         localSchema,
         query,
         { field: "rootField" },
@@ -520,7 +521,7 @@ describe("Authorization", () => {
         }
       `;
 
-      const result = await graphql(
+      const result = await invokeGql(
         localSchema,
         query,
         { field: "rootField" },

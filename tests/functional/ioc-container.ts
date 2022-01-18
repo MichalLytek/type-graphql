@@ -13,6 +13,7 @@ import {
   ResolverData,
   ContainerType,
 } from "../../src";
+import { invokeGql } from "../invokeGql";
 
 describe("IOC container", () => {
   beforeEach(() => {
@@ -54,7 +55,7 @@ describe("IOC container", () => {
         }
       }
     `;
-    await graphql(schema, query);
+    await invokeGql(schema, query);
 
     expect(serviceValue).toEqual(initValue);
   });
@@ -86,10 +87,10 @@ describe("IOC container", () => {
         }
       }
     `;
-    await graphql(schema, query);
+    await invokeGql(schema, query);
     const firstCallValue = resolverValue;
     resolverValue = undefined;
-    await graphql(schema, query);
+    await invokeGql(schema, query);
     const secondCallValue = resolverValue;
 
     expect(firstCallValue).toBeDefined();
@@ -126,7 +127,7 @@ describe("IOC container", () => {
     `;
 
     const requestId = Math.random();
-    await graphql(schema, query, null, { requestId });
+    await invokeGql(schema, query, null, { requestId });
     expect(contextRequestId).toEqual(requestId);
   });
 
@@ -166,7 +167,7 @@ describe("IOC container", () => {
       container: mockedContainer,
     };
 
-    await graphql(schema, query, null, queryContext);
+    await invokeGql(schema, query, null, queryContext);
 
     expect(called).toEqual(true);
   });
@@ -202,7 +203,7 @@ describe("IOC container", () => {
       }
     `;
 
-    const result = await graphql(schema, query);
+    const result = await invokeGql(schema, query);
 
     expect(result.errors).toBeUndefined();
     expect(result.data!.sampleQuery).toEqual("sampleArgValue");

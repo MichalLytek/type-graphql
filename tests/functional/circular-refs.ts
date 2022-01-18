@@ -4,6 +4,7 @@ import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "g
 import { Query, ObjectType, Field, Resolver, buildSchema } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
+import { invokeGql } from "../invokeGql";
 
 describe("Circular references", () => {
   it("should resolve circular type dependencies when type functions are used", async () => {
@@ -117,7 +118,7 @@ describe("Circular references", () => {
         }
       }
     `;
-    const { data } = await graphql(schema, query);
+    const { data } = await invokeGql(schema, query);
 
     expect(data!.objectQuery).toEqual({
       stringField: "stringField",

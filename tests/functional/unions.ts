@@ -12,6 +12,7 @@ import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "../../src";
+import { invokeGql } from "../invokeGql";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -216,7 +217,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = (await invokeGql(schema, query)) as any;
       const data = result.data!.getObjectOneFromUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
@@ -236,8 +237,8 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getObjectOneFromStringResolveTypeUnion;
+      const result = await invokeGql(schema, query);
+      const data = result.data!.getObjectOneFromStringResolveTypeUnion as any;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
       expect(data.fieldOne).toBeUndefined();
@@ -256,7 +257,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = (await invokeGql(schema, query)) as any;
       const data = result.data!.getObjectOneFromClassResolveTypeUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
@@ -278,7 +279,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = (await invokeGql(schema, query)) as any;
       const unionFieldData = result.data!.getObjectWithUnion.unionField;
 
       expect(unionFieldData.__typename).toEqual("ObjectTwo");
@@ -299,7 +300,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result = await invokeGql(schema, query);
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -382,8 +383,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await invokeGql(firstSchema, query);
+      const secondResult = await invokeGql(secondSchema, query);
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -452,8 +453,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await invokeGql(firstSchema, query);
+      const secondResult = await invokeGql(secondSchema, query);
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -522,8 +523,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await invokeGql(firstSchema, query);
+      const secondResult = await invokeGql(secondSchema, query);
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -583,7 +584,7 @@ describe("Unions", () => {
       const testSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const result = await graphql(testSchema, query);
+      const result = await invokeGql(testSchema, query);
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
         `"Abstract type \\"OneTwo\\" must resolve to an Object type at runtime for field \\"Query.oneTwo\\". Either the \\"OneTwo\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,

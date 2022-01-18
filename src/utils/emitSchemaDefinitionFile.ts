@@ -1,10 +1,10 @@
 import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
-import { Options as GraphQLPrintSchemaOptions } from "graphql/utilities/printSchema";
 
 import { outputFile, outputFileSync } from "../helpers/filesystem";
 
-export interface PrintSchemaOptions extends Required<GraphQLPrintSchemaOptions> {
+export interface PrintSchemaOptions {
   sortedSchema: boolean;
+  commentDescriptions: boolean;
 }
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = {
@@ -40,5 +40,5 @@ export async function emitSchemaDefinitionFile(
 
 function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
   const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
-  return generatedSchemaWarning + printSchema(schemaToEmit, options);
+  return generatedSchemaWarning + printSchema(schemaToEmit);
 }

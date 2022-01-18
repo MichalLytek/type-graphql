@@ -65,11 +65,7 @@ describe("Emitting schema definition file", () => {
     } else {
       expect(SDL.indexOf("descriptionProperty")).toBeGreaterThan(SDL.indexOf("normalProperty"));
     }
-    if (commentDescriptions) {
-      expect(SDL).toContain(`# Description test`);
-    } else {
-      expect(SDL).toContain(`"""Description test"""`);
-    }
+    expect(SDL).toContain(`"""Description test"""`);
   }
 
   describe("emitSchemaDefinitionFile", () => {
