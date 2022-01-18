@@ -1,4 +1,4 @@
-import { Directive, ObjectType, Field, ID } from "../../../../src";
+import { Directive, ObjectType, Field, ID } from "../../../../../src";
 
 import User from "../user/user";
 import Product from "../product/product";

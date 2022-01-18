@@ -1,4 +1,4 @@
-import { ObjectType, Directive, Field } from "../../../src";
+import { ObjectType, Directive, Field } from "../../../../src";
 
 @Directive(`@key(fields: "upc")`)
 @ObjectType()

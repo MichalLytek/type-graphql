@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root } from "../../../../src";
+import { Resolver, FieldResolver, Root } from "../../../../../src";
 
 import Product from "./product";
 import { reviews } from "../review/data";

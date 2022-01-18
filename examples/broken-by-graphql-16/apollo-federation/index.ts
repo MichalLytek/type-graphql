@@ -1,3 +1,5 @@
+throw new Error("this example is broken because @apollo/gateway does not support graphql 16");
+
 import "reflect-metadata";
 import { ApolloGateway } from "@apollo/gateway";
 import { ApolloServer } from "apollo-server";

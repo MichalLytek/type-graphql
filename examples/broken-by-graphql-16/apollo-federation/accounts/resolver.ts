@@ -1,4 +1,4 @@
-import { Resolver, Query } from "../../../src";
+import { Resolver, Query } from "../../../../src";
 
 import User from "./user";
 import { users } from "./data";

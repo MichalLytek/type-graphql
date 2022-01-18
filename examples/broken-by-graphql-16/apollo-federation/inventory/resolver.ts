@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Directive, Root } from "../../../src";
+import { Resolver, FieldResolver, Directive, Root } from "../../../../src";
 
 import Product from "./product";
 

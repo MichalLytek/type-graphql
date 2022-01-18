@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg } from "../../../src";
+import { Resolver, Query, Arg } from "../../../../src";
 
 import Product from "./product";
 import { products } from "./data";
