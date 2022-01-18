@@ -57,10 +57,8 @@ function generateTypeResolver(
 ): GraphQLTypeResolver<any, any> {
   if (abstractType.resolveType) {
     return async (...args) => {
+      // TODO: simplify
       const detectedType = await abstractType.resolveType!(...args);
-      if (detectedType instanceof GraphQLObjectType) {
-        return detectedType.name;
-      }
       return detectedType;
     };
   }
@@ -72,7 +70,7 @@ function generateTypeResolver(
         return objectType.name;
       }
     }
-    return null;
+    return undefined;
   };
 }
 

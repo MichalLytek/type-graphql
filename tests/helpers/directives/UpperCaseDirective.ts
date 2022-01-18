@@ -9,7 +9,11 @@ export const upperCaseDirective = new GraphQLDirective({
 export function upperCaseDirectiveTransformer(schema: GraphQLSchema): GraphQLSchema {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: fieldConfig => {
-      const upperCaseDirectiveConfig = getDirective(schema, fieldConfig, "upper")?.[0];
+      const upperCaseDirectiveConfig = getDirective(
+        schema,
+        fieldConfig,
+        upperCaseDirective.name,
+      )?.[0];
       if (upperCaseDirectiveConfig) {
         const { resolve = defaultFieldResolver } = fieldConfig;
         fieldConfig.resolve = async (source, args, context, info) => {

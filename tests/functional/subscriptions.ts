@@ -238,17 +238,19 @@ describe("Subscriptions", () => {
       subscriptionVariables?: object;
       onSubscribedData: (data: any) => void;
     }) {
-      const results = (await subscribe(
+      const results = (await subscribe({
         schema,
-        options.subscription,
-        null,
-        null,
-        options.subscriptionVariables,
-      )) as AsyncIterableIterator<ExecutionResult>;
+        document: options.subscription,
+        variableValues: options.subscriptionVariables as any,
+      })) as AsyncIterableIterator<ExecutionResult>;
       const onDataPromise = results.next().then(async ({ value }) => {
         options.onSubscribedData(value.data);
       });
-      await execute(schema, options.mutation, null, null, options.mutationVariables);
+      await execute({
+        schema,
+        document: options.mutation,
+        variableValues: options.mutationVariables as any,
+      });
       await onDataPromise;
     }
 
@@ -331,7 +333,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscription.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscription.value;
         }
       })();
 
@@ -402,7 +404,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscription.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscription.value;
         }
       })();
 
@@ -441,7 +443,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscriptionWithFilter.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscriptionWithFilter.value;
         }
       })();
 
@@ -485,7 +487,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.multipleTopicSubscription.value;
+          subscriptionValue = (result.data as any).multipleTopicSubscription.value;
         }
       })();
 
@@ -590,7 +592,7 @@ describe("Subscriptions", () => {
         pubSub: customPubSub as any,
       });
 
-      await graphql(localSchema, mutation);
+      await graphql({ schema: localSchema, source: mutation });
 
       expect(pubSub).toEqual(customPubSub);
       expect(pubSub.myField).toEqual(true);
@@ -625,7 +627,7 @@ describe("Subscriptions", () => {
         resolvers: [SampleResolver],
         pubSub: { eventEmitter: customEmitter },
       });
-      await graphql(localSchema, mutation);
+      await graphql({ schema: localSchema, source: mutation });
 
       expect(emittedValue).toBeDefined();
       expect(emittedValue.test).toEqual(true);
@@ -698,7 +700,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscribeResult = await subscribe(schema, document);
+      const subscribeResult = await subscribe({ schema, document });
 
       expect(subscribeResult).toHaveProperty("errors");
       const { errors } = subscribeResult as ExecutionResult;

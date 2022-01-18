@@ -314,10 +314,10 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result = data!.queryForSampleInterfaceWithArgs.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleInterfaceWithArgs.sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleImplementingObjectWithArgsAndOwnResolver: sampleArgValue");
     });
@@ -331,10 +331,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result = data!.queryForSampleInterfaceWithArgsAndInlineResolver.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleInterfaceWithArgsAndInlineResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });
@@ -348,10 +349,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result = data!.queryForSampleInterfaceWithArgsAndFieldResolver.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleInterfaceWithArgsAndFieldResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceResolver: sampleArgValue");
     });
@@ -365,11 +367,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndOwnResolver.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleImplementingObjectWithArgsAndOwnResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleImplementingObjectWithArgsAndOwnResolver: sampleArgValue");
     });
@@ -383,11 +385,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndInheritedResolver.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleImplementingObjectWithArgsAndInheritedResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });
@@ -401,11 +403,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver.sampleFieldWithArgs;
+      const result = (data as any).queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver
+        .sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceResolver: sampleArgValue");
     });
@@ -419,12 +421,11 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      const result =
-        data!.queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver
-          .sampleFieldWithArgs;
+      const result = (data as any)
+        .queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver.sampleFieldWithArgs;
       expect(result).toBeDefined();
       expect(result).toEqual("SampleInterfaceWithArgsAndInlineResolver: sampleArgValue");
     });

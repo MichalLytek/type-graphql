@@ -56,7 +56,7 @@ describe("Emitting schema definition file", () => {
 
   function checkSchemaSDL(
     SDL: string,
-    { commentDescriptions, sortedSchema }: PrintSchemaOptions = defaultPrintSchemaOptions,
+    { sortedSchema }: PrintSchemaOptions = defaultPrintSchemaOptions,
   ) {
     expect(SDL).toContain("THIS FILE WAS GENERATED");
     expect(SDL).toContain("MyObject");
@@ -65,11 +65,7 @@ describe("Emitting schema definition file", () => {
     } else {
       expect(SDL.indexOf("descriptionProperty")).toBeGreaterThan(SDL.indexOf("normalProperty"));
     }
-    if (commentDescriptions) {
-      expect(SDL).toContain(`# Description test`);
-    } else {
-      expect(SDL).toContain(`"""Description test"""`);
-    }
+    expect(SDL).toContain(`"""Description test"""`);
   }
 
   describe("emitSchemaDefinitionFile", () => {
@@ -83,7 +79,6 @@ describe("Emitting schema definition file", () => {
     it("should use provided options to write file with schema SDL", async () => {
       const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
       const options: PrintSchemaOptions = {
-        commentDescriptions: true,
         sortedSchema: false,
       };
       await emitSchemaDefinitionFile(targetPath, schema, options);
@@ -129,7 +124,6 @@ describe("Emitting schema definition file", () => {
     it("should use provided options to write file with schema SDL", async () => {
       const targetPath = path.join(TEST_DIR, "schemas", "test1", "schema.gql");
       const options: PrintSchemaOptions = {
-        commentDescriptions: true,
         sortedSchema: false,
       };
       emitSchemaDefinitionFileSync(targetPath, schema, options);
@@ -195,14 +189,12 @@ describe("Emitting schema definition file", () => {
       await buildSchema({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
-          commentDescriptions: true,
           path: targetPath,
           sortedSchema: false,
         },
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
-        commentDescriptions: true,
         sortedSchema: false,
       });
     });
@@ -212,14 +204,11 @@ describe("Emitting schema definition file", () => {
       const targetPath = path.join(process.cwd(), "schema.gql");
       await buildSchema({
         resolvers: [MyResolverClass],
-        emitSchemaFile: {
-          commentDescriptions: true,
-        },
+        emitSchemaFile: {},
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
         ...defaultPrintSchemaOptions,
-        commentDescriptions: true,
       });
     });
   });
@@ -251,14 +240,12 @@ describe("Emitting schema definition file", () => {
       buildSchemaSync({
         resolvers: [MyResolverClass],
         emitSchemaFile: {
-          commentDescriptions: true,
           path: targetPath,
           sortedSchema: false,
         },
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
-        commentDescriptions: true,
         sortedSchema: false,
       });
     });
@@ -268,14 +255,11 @@ describe("Emitting schema definition file", () => {
       const targetPath = path.join(process.cwd(), "schema.gql");
       buildSchemaSync({
         resolvers: [MyResolverClass],
-        emitSchemaFile: {
-          commentDescriptions: true,
-        },
+        emitSchemaFile: {},
       });
       expect(fs.existsSync(targetPath)).toEqual(true);
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), {
         ...defaultPrintSchemaOptions,
-        commentDescriptions: true,
       });
     });
   });

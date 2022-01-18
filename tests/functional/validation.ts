@@ -116,7 +116,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, mutation);
+      await graphql({ schema, source: mutation });
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5 });
     });
@@ -131,7 +131,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, mutation);
+      await graphql({ schema, source: mutation });
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5, optionalField: 5 });
     });
@@ -146,7 +146,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -170,7 +170,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -194,7 +194,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -220,7 +220,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -241,7 +241,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -260,7 +260,7 @@ describe("Validation", () => {
         field
       }
     }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argsData).toEqual({ stringField: "12345", numberField: 5 });
     });
@@ -275,7 +275,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argsData).toEqual({ stringField: "12345", numberField: 5, optionalField: 5 });
     });
@@ -290,7 +290,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -311,7 +311,7 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -362,7 +362,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "12345678" });
     });
 
@@ -400,7 +400,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "12345678" });
     });
 
@@ -438,7 +438,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -482,7 +482,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
@@ -526,7 +526,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "123456789" });
     });
 
@@ -564,7 +564,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      const { errors } = await graphql(localSchema, query);
+      const { errors } = await graphql({ schema: localSchema, source: query });
       const error = errors![0].originalError! as ArgumentValidationError;
 
       expect(localArgsData).toBeUndefined();
@@ -622,7 +622,7 @@ describe("Custom validation", () => {
       },
     });
 
-    await graphql(schema, document);
+    await graphql({ schema, source: document });
 
     expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
     expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
@@ -637,7 +637,7 @@ describe("Custom validation", () => {
       },
     });
 
-    await graphql(schema, document);
+    await graphql({ schema, source: document });
 
     expect(sampleQueryArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
   });
@@ -650,7 +650,7 @@ describe("Custom validation", () => {
       },
     });
 
-    const result = await graphql(schema, document);
+    const result: any = await graphql({ schema, source: document });
 
     expect(result.errors).toHaveLength(1);
     expect(result.errors![0].message).toEqual("Test validate error");

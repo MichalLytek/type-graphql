@@ -8,12 +8,12 @@ function convertTimestampToDate(value: number) {
   }
 }
 
-export const GraphQLTimestamp = new GraphQLScalarType({
+export const GraphQLTimestamp = new GraphQLScalarType<Date, number>({
   name: "Timestamp",
   description:
     "The javascript `Date` as integer. " +
     "Type represents date and time as number of milliseconds from start of UNIX epoch.",
-  serialize(value: Date) {
+  serialize(value: unknown) {
     if (!(value instanceof Date)) {
       throw new Error(`Unable to serialize value '${value}' as it's not an instance of 'Date'`);
     }

@@ -216,7 +216,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const data = result.data!.getObjectOneFromUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
@@ -236,7 +236,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const data = result.data!.getObjectOneFromStringResolveTypeUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
@@ -256,7 +256,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const data = result.data!.getObjectOneFromClassResolveTypeUnion;
       expect(data.__typename).toEqual("ObjectTwo");
       expect(data.fieldTwo).toEqual("fieldTwo");
@@ -278,7 +278,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const unionFieldData = result.data!.getObjectWithUnion.unionField;
 
       expect(unionFieldData.__typename).toEqual("ObjectTwo");
@@ -299,7 +299,7 @@ describe("Unions", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -382,8 +382,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -452,8 +452,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -522,8 +522,8 @@ describe("Unions", () => {
       const secondSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.oneTwo).toEqual({
@@ -583,7 +583,7 @@ describe("Unions", () => {
       const testSchema = await buildSchema({
         resolvers: [OneTwoResolver],
       });
-      const result = await graphql(testSchema, query);
+      const result: any = await graphql({ schema: testSchema, source: query });
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
         `"Abstract type \\"OneTwo\\" must resolve to an Object type at runtime for field \\"Query.oneTwo\\". Either the \\"OneTwo\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,

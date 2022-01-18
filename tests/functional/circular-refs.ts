@@ -117,7 +117,7 @@ describe("Circular references", () => {
         }
       }
     `;
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
     expect(data!.objectQuery).toEqual({
       stringField: "stringField",
