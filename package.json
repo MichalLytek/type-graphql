@@ -20,8 +20,10 @@
     "postinstall": "node ./dist/postinstall || exit 0"
   },
   "peerDependencies": {
-    "class-validator": ">=0.12.0",
     "graphql": "^15.5.0"
+  },
+  "optionalDependencies": {
+    "class-validator": ">=0.12.0",
   },
   "dependencies": {
     "@types/glob": "^7.1.3",
