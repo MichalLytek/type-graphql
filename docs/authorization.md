@@ -76,7 +76,7 @@ export const customAuthChecker: AuthChecker<ContextType> = (
   roles,
 ) => {
   // here we can read the user from context
-  // and check his permission in the db against the `roles` argument
+  // and check the user's permission in the db against the `roles` argument
   // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 
   return true; // or false if access is denied
