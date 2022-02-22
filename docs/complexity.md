@@ -41,8 +41,8 @@ async function bootstrap() {
     // Create a plugin that will allow for query complexity calculation for every request
     plugins: [
       {
-        requestDidStart: () => ({
-          didResolveOperation({ request, document }) {
+        requestDidStart: async () => ({
+          async didResolveOperation({ request, document }) {
             /**
              * This provides GraphQL query analysis to be able to react on complex queries to your GraphQL server.
              * This can be used to protect your GraphQL servers against resource exhaustion and DoS attacks.

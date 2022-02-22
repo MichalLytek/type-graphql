@@ -20,7 +20,7 @@ import {
 } from "graphql";
 import * as path from "path";
 import { fieldExtensionsEstimator, simpleEstimator } from "graphql-query-complexity";
-import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
+import ComplexityVisitor from "graphql-query-complexity/dist/cjs/QueryComplexity";
 
 import {
   ObjectType,
@@ -302,7 +302,8 @@ describe("Resolvers", () => {
           field => field.name === "simpleMethodField",
         )!;
         const simpleMethodFieldType = simpleMethodField.type as IntrospectionNonNullTypeRef;
-        const simpleMethodFieldInnerType = simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
+        const simpleMethodFieldInnerType =
+          simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(simpleMethodField.name).toEqual("simpleMethodField");
         expect(simpleMethodField.args).toHaveLength(0);
@@ -372,8 +373,10 @@ describe("Resolvers", () => {
         const explicitArrayArg = argMethodField.args.find(arg => arg.name === "explicitArrayArg")!;
         const explicitArrayArgType = explicitArrayArg.type as IntrospectionNonNullTypeRef;
         const explicitArrayArgArrayType = explicitArrayArgType.ofType as IntrospectionListTypeRef;
-        const explicitArrayArgInnerType = explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
-        const explicitArrayArgArrayItemType = explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
+        const explicitArrayArgInnerType =
+          explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
+        const explicitArrayArgArrayItemType =
+          explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitArrayArg.name).toEqual("explicitArrayArg");
         expect(explicitArrayArgType.kind).toEqual(TypeKind.NON_NULL);
@@ -439,7 +442,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultStringFieldDefaultValue"');
         expect(defaultValueStringFieldType).toEqual({
@@ -457,7 +461,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultStringFieldDefaultValue"',
@@ -477,7 +482,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultValueOverwritten"');
         expect(defaultValueStringFieldType).toEqual({
@@ -495,7 +501,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultValueOverwritten"',
@@ -583,7 +590,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual('"implicitDefaultValueOverwritten"');
@@ -621,7 +629,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual(
@@ -691,7 +700,8 @@ describe("Resolvers", () => {
         const arg2Type = getInnerTypeOfNonNullableType(
           fieldResolverArgs.find(arg => arg.name === "arg2")!,
         );
-        const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
+        const independentFieldResolverType =
+          independentFieldResolver.type as IntrospectionNamedTypeRef;
 
         expect(independentFieldResolver.description).toEqual("independent");
         expect(independentFieldResolverType.kind).toEqual("SCALAR");
@@ -734,7 +744,8 @@ describe("Resolvers", () => {
       it("should generate proper definition for mutation method", async () => {
         const emptyMutation = getMutation("emptyMutation");
         const emptyMutationReturnType = emptyMutation.type as IntrospectionNonNullTypeRef;
-        const emptyMutationInnerReturnType = emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
+        const emptyMutationInnerReturnType =
+          emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
 
         expect(emptyMutation.args).toHaveLength(0);
         expect(emptyMutation.name).toEqual("emptyMutation");
@@ -746,7 +757,8 @@ describe("Resolvers", () => {
       it("should generate implicit string return type for query method", async () => {
         const implicitStringQuery = getQuery("implicitStringQuery");
         const implicitStringQueryType = implicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const implicitStringQueryInnerType = implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitStringQueryInnerType =
+          implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitStringQueryInnerType.name).toEqual("String");
@@ -755,7 +767,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query when explicitly set", async () => {
         const explicitStringQuery = getQuery("explicitStringQuery");
         const explicitStringQueryType = explicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const explicitStringQueryInnerType = explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const explicitStringQueryInnerType =
+          explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitStringQueryInnerType.name).toEqual("String");
@@ -797,7 +810,8 @@ describe("Resolvers", () => {
         const explicitNullableArrayWithNullableItemsQuery = getQuery(
           "explicitNullableArrayWithNullableItemsQuery",
         );
-        const listType = explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
+        const listType =
+          explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
         const itemType = listType.ofType as IntrospectionNamedTypeRef;
 
         expect(listType.kind).toEqual(TypeKind.LIST);
@@ -808,7 +822,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query returning Promise", async () => {
         const promiseStringQuery = getQuery("promiseStringQuery");
         const promiseStringQueryType = promiseStringQuery.type as IntrospectionNonNullTypeRef;
-        const promiseStringQueryInnerType = promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const promiseStringQueryInnerType =
+          promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(promiseStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(promiseStringQueryInnerType.name).toEqual("String");
@@ -826,7 +841,8 @@ describe("Resolvers", () => {
       it("should generate object return type for query method", async () => {
         const implicitObjectQuery = getQuery("implicitObjectQuery");
         const implicitObjectQueryType = implicitObjectQuery.type as IntrospectionNonNullTypeRef;
-        const implicitObjectQueryInnerType = implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitObjectQueryInnerType =
+          implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitObjectQueryInnerType.kind).toEqual(TypeKind.OBJECT);
         expect(implicitObjectQueryInnerType.name).toEqual("SampleObject");
@@ -1537,7 +1553,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const getterFieldResult = result.data!.sampleQuery.getterField;
       expect(getterFieldResult).toBeGreaterThanOrEqual(0);
@@ -1551,7 +1567,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const methodFieldResult = result.data!.sampleQuery.methodField;
       expect(methodFieldResult).toBeGreaterThanOrEqual(0);
@@ -1565,7 +1581,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const asyncMethodFieldResult = result.data!.sampleQuery.asyncMethodField;
       expect(asyncMethodFieldResult).toEqual("asyncMethodField");
@@ -1578,7 +1594,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const methodFieldWithArgResult = result.data!.sampleQuery.methodFieldWithArg;
       expect(methodFieldWithArgResult).toBeGreaterThanOrEqual(0);
@@ -1592,7 +1608,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverFieldResult = result.data!.sampleQuery.fieldResolverField;
       expect(fieldResolverFieldResult).toBeGreaterThanOrEqual(0);
@@ -1606,7 +1622,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverGetterResult = result.data!.sampleQuery.fieldResolverGetter;
       expect(fieldResolverGetterResult).toBeGreaterThanOrEqual(0);
@@ -1620,7 +1636,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverMethodResult = result.data!.sampleQuery.fieldResolverMethod;
       expect(fieldResolverMethodResult).toBeGreaterThanOrEqual(0);
@@ -1656,7 +1672,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const resultFieldData = result.data!.sampleQuery.fieldResolverMethodWithArgs;
       expect(resultFieldData).toEqual(value);
@@ -1669,8 +1685,8 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result1 = await graphql(schema, query);
-      const result2 = await graphql(schema, query);
+      const result1: any = await graphql({ schema, source: query });
+      const result2: any = await graphql({ schema, source: query });
 
       const getterFieldResult1 = result1.data!.sampleQuery.getterField;
       const getterFieldResult2 = result2.data!.sampleQuery.getterField;
@@ -1687,7 +1703,7 @@ describe("Resolvers", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const getterFieldValue = result.data!.sampleQuery.getterField;
       const methodFieldValue = result.data!.sampleQuery.getterField;
 
@@ -1702,8 +1718,8 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result1 = await graphql(schema, query);
-      const result2 = await graphql(schema, query);
+      const result1: any = await graphql({ schema, source: query });
+      const result2: any = await graphql({ schema, source: query });
 
       const resolverFieldResult1 = result1.data!.sampleQuery.fieldResolverField;
       const resolverFieldResult2 = result2.data!.sampleQuery.fieldResolverField;
@@ -1715,7 +1731,7 @@ describe("Resolvers", () => {
         mutationWithArgs(factor: 10)
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithArgs;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1727,7 +1743,7 @@ describe("Resolvers", () => {
         mutationWithOptionalArgs(stringField: "stringField")
       }`;
 
-      const { errors } = await graphql(schema, mutation);
+      const { errors } = await graphql({ schema, source: mutation });
 
       expect(errors).toBeUndefined();
       expect(mutationInputValue).toBeInstanceOf(classes.SampleOptionalArgs);
@@ -1739,7 +1755,7 @@ describe("Resolvers", () => {
         mutationWithInput(input: { factor: 10 })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithInput;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1758,7 +1774,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithNestedInputs;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1783,7 +1799,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       expect(mutationResult.errors).toBeUndefined();
 
       const mutationWithNestedInputsData = mutationResult.data!.mutationWithNestedInputs;
@@ -1804,7 +1820,7 @@ describe("Resolvers", () => {
         mutationWithNestedArgsInput(factor: 20, input: { factor: 30 })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithNestedArgsInput;
 
       expect(result).toEqual(20);
@@ -1818,7 +1834,7 @@ describe("Resolvers", () => {
         mutationWithInputs(inputs: [{ factor: 30 }])
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithInputs;
 
       expect(result).toEqual(30);
@@ -1832,7 +1848,7 @@ describe("Resolvers", () => {
         mutationWithTripleArrayInputs(inputs: [[[{ factor: 30 }]]])
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithTripleArrayInputs;
       const nestedInput = mutationInputValue[0][0][0];
 
@@ -1856,7 +1872,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       expect(mutationResult.errors).toBeUndefined();
 
       const result = mutationResult.data!.mutationWithTripleNestedInputs;
@@ -1880,7 +1896,7 @@ describe("Resolvers", () => {
         mutationWithOptionalArg
       }`;
 
-      const { data, errors } = await graphql(schema, mutation);
+      const { data, errors } = await graphql({ schema, source: mutation });
       expect(errors).toBeUndefined();
       expect(data!.mutationWithOptionalArg).toBeDefined();
       expect(mutationInputValue).toEqual("undefined");
@@ -1894,7 +1910,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const queryResult = await graphql(schema, query);
+      const queryResult: any = await graphql({ schema, source: query });
       const fieldResolverWithRootValue = queryResult.data!.sampleQuery.fieldResolverWithRoot;
       const getterFieldValue = queryResult.data!.sampleQuery.getterField;
 
@@ -1911,7 +1927,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const queryResult = await graphql(schema, query);
+      const queryResult: any = await graphql({ schema, source: query });
       const fieldResolverWithRootValue = queryResult.data!.notInstanceQuery.fieldResolverWithRoot;
       const getterFieldValue = queryResult.data!.notInstanceQuery.getterField;
 
@@ -1927,7 +1943,7 @@ describe("Resolvers", () => {
       const root = { isRoot: true };
       const context = { isContext: true };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryRoot).toEqual(root);
       expect(queryContext).toEqual(context);
@@ -1942,7 +1958,7 @@ describe("Resolvers", () => {
       const root = { rootField: 2 };
       const context = { contextField: "present" };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryRoot).toEqual(2);
       expect(queryContext).toEqual("present");
@@ -1957,7 +1973,7 @@ describe("Resolvers", () => {
       const root = { rootField: 2 };
       const context = { contextField: "present" };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryFirstCustom.root).toEqual(root);
       expect(queryFirstCustom.context).toEqual(context);
@@ -1972,7 +1988,7 @@ describe("Resolvers", () => {
         }
       `;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(descriptorEvaluated).toBe(true);
       expect(data!.queryWithCustomDescriptorDecorator).toBe(true);
@@ -2067,9 +2083,9 @@ describe("Resolvers", () => {
           }
         }
       `;
-      const { data } = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
-      expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+      expect(result.data.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
     });
 
     it("should generate the schema when schema is incorrect but `skipCheck` is set to true", async () => {
@@ -2142,7 +2158,7 @@ describe("Resolvers", () => {
         validate: false,
       });
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.errors).toBeUndefined();
       expect(result.data!.sampleQuery).toEqual({
@@ -2464,7 +2480,7 @@ describe("Resolvers", () => {
         prefixQuery(arg: true)
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.prefixQuery).toEqual(true);
       expect(thisVar.constructor).toEqual(childResolver);
@@ -2475,7 +2491,7 @@ describe("Resolvers", () => {
         prefixMutation(arg: true)
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.prefixMutation).toEqual(true);
       expect(thisVar.constructor).toEqual(childResolver);
@@ -2486,7 +2502,7 @@ describe("Resolvers", () => {
         childQuery
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.childQuery).toEqual(true);
       expect(thisVar.constructor).toEqual(childResolver);
@@ -2497,7 +2513,7 @@ describe("Resolvers", () => {
         childMutation
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.childMutation).toEqual(true);
       expect(thisVar.constructor).toEqual(childResolver);
@@ -2510,9 +2526,9 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const { data } = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
-      expect(data!.objectQuery.resolverField).toEqual("resolverField");
+      expect(result.data!.objectQuery.resolverField).toEqual("resolverField");
       expect(thisVar.constructor).toEqual(childResolver);
     });
 
@@ -2521,7 +2537,7 @@ describe("Resolvers", () => {
         overriddenQuery(overriddenArg: true)
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.overriddenQuery).toEqual("overriddenQuery");
       expect(thisVar.constructor).toEqual(overrideResolver);
@@ -2532,7 +2548,7 @@ describe("Resolvers", () => {
         overriddenMutation(overriddenArg: true)
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.overriddenMutation).toEqual("overriddenMutationHandler");
       expect(thisVar.constructor).toEqual(overrideResolver);
@@ -2543,7 +2559,7 @@ describe("Resolvers", () => {
         childQuery
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(thisVar.name).toEqual("baseName");
     });
@@ -2553,7 +2569,7 @@ describe("Resolvers", () => {
         prefixQuery(arg: true)
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(thisVar).toBeInstanceOf(childResolver);
     });

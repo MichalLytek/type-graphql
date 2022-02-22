@@ -5,11 +5,13 @@ import {
   FieldDefinitionNode,
   GraphQLInputType,
   InputValueDefinitionNode,
-  DirectiveNode,
-  parseValue,
   DocumentNode,
   parse,
   InterfaceTypeDefinitionNode,
+  Kind,
+  ConstDirectiveNode,
+  ConstArgumentNode,
+  parseConstValue,
 } from "graphql";
 
 import { InvalidDirectiveError } from "../errors";
@@ -24,9 +26,9 @@ export function getObjectTypeDefinitionNode(
   }
 
   return {
-    kind: "ObjectTypeDefinition",
+    kind: Kind.OBJECT_TYPE_DEFINITION,
     name: {
-      kind: "Name",
+      kind: Kind.NAME,
       // FIXME: use proper AST representation
       value: name,
     },
@@ -43,9 +45,9 @@ export function getInputObjectTypeDefinitionNode(
   }
 
   return {
-    kind: "InputObjectTypeDefinition",
+    kind: Kind.INPUT_OBJECT_TYPE_DEFINITION,
     name: {
-      kind: "Name",
+      kind: Kind.NAME,
       // FIXME: use proper AST representation
       value: name,
     },
@@ -63,16 +65,16 @@ export function getFieldDefinitionNode(
   }
 
   return {
-    kind: "FieldDefinition",
+    kind: Kind.FIELD_DEFINITION,
     type: {
-      kind: "NamedType",
+      kind: Kind.NAMED_TYPE,
       name: {
-        kind: "Name",
+        kind: Kind.NAME,
         value: type.toString(),
       },
     },
     name: {
-      kind: "Name",
+      kind: Kind.NAME,
       value: name,
     },
     directives: directiveMetadata.map(getDirectiveNode),
@@ -89,16 +91,16 @@ export function getInputValueDefinitionNode(
   }
 
   return {
-    kind: "InputValueDefinition",
+    kind: Kind.INPUT_VALUE_DEFINITION,
     type: {
-      kind: "NamedType",
+      kind: Kind.NAMED_TYPE,
       name: {
-        kind: "Name",
+        kind: Kind.NAME,
         value: type.toString(),
       },
     },
     name: {
-      kind: "Name",
+      kind: Kind.NAME,
       value: name,
     },
     directives: directiveMetadata.map(getDirectiveNode),
@@ -114,9 +116,9 @@ export function getInterfaceTypeDefinitionNode(
   }
 
   return {
-    kind: "InterfaceTypeDefinition",
+    kind: Kind.INTERFACE_TYPE_DEFINITION,
     name: {
-      kind: "Name",
+      kind: Kind.NAME,
       // FIXME: use proper AST representation
       value: name,
     },
@@ -124,7 +126,7 @@ export function getInterfaceTypeDefinitionNode(
   };
 }
 
-export function getDirectiveNode(directive: DirectiveMetadata): DirectiveNode {
+export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNode {
   const { nameOrDefinition, args } = directive;
 
   if (nameOrDefinition === "") {
@@ -135,18 +137,18 @@ export function getDirectiveNode(directive: DirectiveMetadata): DirectiveNode {
 
   if (!nameOrDefinition.startsWith("@")) {
     return {
-      kind: "Directive",
+      kind: Kind.DIRECTIVE,
       name: {
-        kind: "Name",
+        kind: Kind.NAME,
         value: nameOrDefinition,
       },
-      arguments: Object.keys(args).map(argKey => ({
-        kind: "Argument",
+      arguments: Object.keys(args).map<ConstArgumentNode>(argKey => ({
+        kind: Kind.ARGUMENT,
         name: {
-          kind: "Name",
+          kind: Kind.NAME,
           value: argKey,
         },
-        value: parseValue(args[argKey]),
+        value: parseConstValue(args[argKey]),
       })),
     };
   }

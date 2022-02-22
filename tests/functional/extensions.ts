@@ -250,9 +250,9 @@ describe("Extensions", () => {
       });
 
       it("should add extensions to input type fields", async () => {
-        const fields = (schema.getType(
-          "ExtensionsOnFieldInput",
-        ) as GraphQLInputObjectType).getFields();
+        const fields = (
+          schema.getType("ExtensionsOnFieldInput") as GraphQLInputObjectType
+        ).getFields();
 
         expect(fields.withExtensions.extensions).toEqual({ role: "admin" });
       });

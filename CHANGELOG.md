@@ -2,9 +2,13 @@
 
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
+### Features
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.2.0`
 ### Fixes
 - support overwriting fields of extended types (#1109)
 - properly execute args validation for nullable items array (#1328)
+### Others
+- **Breaking Change**: update `class-validator` peer dependency to `>=0.13.0`
 
 ## v1.2.0-rc.1
 ### Features

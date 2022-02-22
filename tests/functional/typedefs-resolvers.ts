@@ -248,8 +248,8 @@ describe("typeDefs and resolvers", () => {
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
-      schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
+      const introspectionResult = await graphql({ schema, source: getIntrospectionQuery() });
+      schemaIntrospection = (introspectionResult.data as unknown as IntrospectionQuery).__schema;
     });
 
     it("should generate schema without errors", () => {
@@ -303,7 +303,8 @@ describe("typeDefs and resolvers", () => {
         const sampleInputDefaultStringField = sampleInput.inputFields.find(
           it => it.name === "sampleInputDefaultStringField",
         )!;
-        const sampleInputDefaultStringFieldType = sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
+        const sampleInputDefaultStringFieldType =
+          sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
 
         expect(sampleInput.kind).toBe(TypeKind.INPUT_OBJECT);
         expect(sampleInput.inputFields).toHaveLength(2);
@@ -396,10 +397,10 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
-        const parsedDate = new Date(data!.sampleDateQuery);
+        const result: any = await execute({ schema, document });
+        const parsedDate = new Date(result.data.sampleDateQuery);
 
-        expect(typeof data!.sampleDateQuery).toBe("string");
+        expect(typeof result.data.sampleDateQuery).toBe("string");
         expect(parsedDate.getTime()).toEqual(timestamp);
       });
 
@@ -410,7 +411,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleServiceQuery).toEqual("SampleString");
       });
@@ -422,7 +423,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMiddlewareBooleanQuery).toEqual(true);
         expect(middlewareLogs).toHaveLength(1);
@@ -436,7 +437,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleBooleanMutation).toBe(true);
       });
@@ -448,7 +449,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMutationWithInput).toBe(true);
         expect(inputValue.constructor.name).toBe("SampleInput");
@@ -463,7 +464,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Argument Validation Error");
@@ -476,7 +477,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Access denied");
@@ -494,7 +495,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleInterfaceQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -514,7 +515,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -534,7 +535,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleResolveUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -549,7 +550,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleNumberEnumQuery).toBe("OptionOne");
         expect(enumValue).toBe(0);
@@ -562,7 +563,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleStringEnumQuery).toBe("OptionTwo");
         expect(enumValue).toBe("OptionTwoString");
@@ -576,7 +577,7 @@ describe("typeDefs and resolvers", () => {
         `;
         const payload = 5.4321;
 
-        const iterator = (await subscribe(schema, document)) as AsyncIterator<ExecutionResult>;
+        const iterator = (await subscribe({ schema, document })) as AsyncIterator<ExecutionResult>;
         const firstValuePromise = iterator.next();
         pubSub.publish("SAMPLE", payload);
         const data = await firstValuePromise;
@@ -637,8 +638,8 @@ describe("typeDefs and resolvers", () => {
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
-      schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
+      const introspectionResult = await graphql({ schema, source: getIntrospectionQuery() });
+      schemaIntrospection = (introspectionResult.data as unknown as IntrospectionQuery).__schema;
     });
 
     it("should generate schema without errors", () => {
@@ -677,7 +678,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data, errors } = await execute(schema, document);
+        const { data, errors } = await execute({ schema, document });
 
         expect(errors).toBeUndefined();
         expect(data!.sampleBooleanQuery).toBe(true);
