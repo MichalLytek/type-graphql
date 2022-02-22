@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import * as TypeORM from "typeorm";
-import * as TypeGraphQL from "../../src";
+import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { RateResolver } from "./resolvers/rate-resolver";
@@ -40,7 +40,7 @@ async function bootstrap() {
     const { defaultUser } = await seedDatabase();
 
     // build TypeGraphQL executable schema
-    const schema = await TypeGraphQL.buildSchema({
+    const schema = await buildSchema({
       resolvers: [RecipeResolver, RateResolver],
       container: Container,
     });

@@ -3,6 +3,7 @@ import {
   InputObjectTypeDefinitionNode,
   InputValueDefinitionNode,
   InterfaceTypeDefinitionNode,
+  ObjectTypeDefinitionNode,
   parseValue,
 } from "graphql";
 
@@ -11,6 +12,7 @@ import { Maybe } from "../../../src/interfaces/Maybe";
 export function assertValidDirective(
   astNode: Maybe<
     | FieldDefinitionNode
+    | ObjectTypeDefinitionNode
     | InputObjectTypeDefinitionNode
     | InputValueDefinitionNode
     | InterfaceTypeDefinitionNode

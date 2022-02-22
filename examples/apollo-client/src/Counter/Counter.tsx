@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { useQuery } from "react-apollo";
-import { gql } from "apollo-boost";
+import { gql, useQuery } from "@apollo/client";
 
 import IncrementButton from "./IncrementButton";
 import DecrementButton from "./DecrementButton";

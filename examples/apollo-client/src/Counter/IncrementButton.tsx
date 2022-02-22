@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { useMutation } from "react-apollo";
-import { gql } from "apollo-boost";
+import { gql, useMutation } from "@apollo/client";
 
 const IncrementButton: FC = () => {
   const [increment] = useMutation<() => void>(gql`

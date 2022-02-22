@@ -235,9 +235,9 @@ describe("Middlewares", () => {
       normalQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.normalQuery).toEqual(true);
+    expect((data as any).normalQuery).toEqual(true);
   });
 
   it("should correctly call middlewares in order", async () => {
@@ -245,9 +245,9 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
+    expect((data as any).middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
 
     expect(middlewareLogs).toHaveLength(7);
     expect(middlewareLogs[0]).toEqual("middleware1 before");
@@ -264,9 +264,9 @@ describe("Middlewares", () => {
       multipleMiddlewareDecoratorsQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.multipleMiddlewareDecoratorsQuery).toEqual(
+    expect((data as any).multipleMiddlewareDecoratorsQuery).toEqual(
       "multipleMiddlewareDecoratorsQueryResult",
     );
 
@@ -285,9 +285,9 @@ describe("Middlewares", () => {
       middlewareInterceptQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareInterceptQuery).toEqual("interceptMiddleware");
+    expect((data as any).middlewareInterceptQuery).toEqual("interceptMiddleware");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("middlewareInterceptQuery");
     expect(middlewareLogs[1]).toEqual("middlewareInterceptQueryResult");
@@ -298,9 +298,11 @@ describe("Middlewares", () => {
       middlewareReturnUndefinedQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareReturnUndefinedQuery).toEqual("middlewareReturnUndefinedQueryResult");
+    expect((data as any).middlewareReturnUndefinedQuery).toEqual(
+      "middlewareReturnUndefinedQueryResult",
+    );
     expect(middlewareLogs).toHaveLength(4);
     expect(middlewareLogs[0]).toEqual("middlewareReturnUndefinedQuery");
     expect(middlewareLogs[1]).toEqual("middlewareReturnUndefinedQueryResult");
@@ -313,9 +315,9 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: true)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareErrorCatchQuery).toEqual("errorCatchMiddleware");
+    expect((data as any).middlewareErrorCatchQuery).toEqual("errorCatchMiddleware");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("middlewareErrorCatchQuery");
     expect(middlewareLogs[1]).toEqual("middlewareErrorCatchQueryError");
@@ -326,9 +328,9 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: false)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareErrorCatchQuery).toEqual("middlewareErrorCatchQueryResult");
+    expect((data as any).middlewareErrorCatchQuery).toEqual("middlewareErrorCatchQueryResult");
   });
 
   it("should propagate thrown error up to graphql handler", async () => {
@@ -336,7 +338,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorAfterQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowAfterMiddleware");
@@ -350,7 +352,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowMiddleware");
@@ -365,9 +367,9 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.sampleObjectQuery.resolverField).toEqual("resolverField");
+    expect((data as any).sampleObjectQuery.resolverField).toEqual("resolverField");
     expect(middlewareLogs).toHaveLength(3);
     expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
     expect(middlewareLogs[1]).toEqual("resolverField");
@@ -379,9 +381,9 @@ describe("Middlewares", () => {
       classMiddlewareQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
+    expect((data as any).classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
     expect(middlewareLogs).toHaveLength(3);
     expect(middlewareLogs[0]).toEqual("ClassMiddleware before");
     expect(middlewareLogs[1]).toEqual("classMiddlewareQuery");
@@ -393,9 +395,9 @@ describe("Middlewares", () => {
       customMethodDecoratorQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
+    expect((data as any).customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("CustomMethodDecorator");
     expect(middlewareLogs[1]).toEqual("customMethodDecoratorQuery");
@@ -408,9 +410,9 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.sampleObjectQuery.middlewareField).toEqual("middlewareField");
+    expect((data as any).sampleObjectQuery.middlewareField).toEqual("middlewareField");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
     expect(middlewareLogs[1]).toEqual("fieldResolverMiddlewareAfter");
@@ -421,7 +423,7 @@ describe("Middlewares", () => {
       doubleNextMiddlewareQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("next() called multiple times");
@@ -448,9 +450,9 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data } = await graphql({ schema: localSchema, source: query });
 
-    expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
+    expect((data as any).middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
     expect(middlewareLogs).toHaveLength(11);
     expect(middlewareLogs[0]).toEqual("globalMiddleware1 before");
     expect(middlewareLogs[1]).toEqual("globalMiddleware2 before");

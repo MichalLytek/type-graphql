@@ -1,4 +1,4 @@
-import ApolloClient, { Resolvers } from "apollo-boost";
+import { ApolloClient, InMemoryCache, Resolvers, gql } from "@apollo/client";
 import { buildTypeDefsAndResolvers } from "../../../../src";
 
 import CounterResolver from "../Counter/counter.resolver";
@@ -10,17 +10,29 @@ export default async function createApolloClient() {
     skipCheck: true, // allow for schema without queries
   });
 
-  const client = new ApolloClient({
-    clientState: {
-      typeDefs,
-      resolvers: resolvers as Resolvers,
-      defaults: {
-        counter: {
-          __typename: CounterType.name,
-          value: 0,
-        },
+  const cache = new InMemoryCache();
+
+  cache.writeQuery({
+    query: gql`
+      query {
+        counter @client {
+          __typename
+          value
+        }
+      }
+    `,
+    data: {
+      counter: {
+        __typename: CounterType.name,
+        value: 0,
       },
     },
+  });
+
+  const client = new ApolloClient({
+    typeDefs,
+    resolvers: resolvers as Resolvers,
+    cache,
   });
 
   return client;
