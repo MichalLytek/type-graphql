@@ -166,9 +166,9 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Silver Sponsors 🥈
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/chums.svg" width="125">](https://www.chums.co/) |
-| :------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: |
-|                                        [**Gorrion Software House**](https://gorrion.io/)                                         |                                                [**Chums**](https://www.chums.co/)                                                |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lovd.png" width="150">](https://www.lovd.com/) |
+| :------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|                                        [**Gorrion Software House**](https://gorrion.io/)                                         |                                                [**Lovd**](https://www.lovd.com/)                                                |
 
 ### Bronze Sponsors 🥉
 
