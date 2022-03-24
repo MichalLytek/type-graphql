@@ -1,4 +1,4 @@
-// tslint:disable:member-ordering
+/* eslint-disable @typescript-eslint/member-ordering */
 import "reflect-metadata";
 import {
   GraphQLSchema,

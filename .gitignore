@@ -13,3 +13,5 @@ coverage
 
 # parcel cache
 .cache
+
+.eslintcache
