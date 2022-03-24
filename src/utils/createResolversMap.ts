@@ -56,11 +56,7 @@ function generateTypeResolver(
   schema: GraphQLSchema,
 ): GraphQLTypeResolver<any, any> {
   if (abstractType.resolveType) {
-    return async (...args) => {
-      // TODO: simplify
-      const detectedType = await abstractType.resolveType!(...args);
-      return detectedType;
-    };
+    return abstractType.resolveType;
   }
 
   const possibleObjectTypes = schema.getPossibleTypes(abstractType);

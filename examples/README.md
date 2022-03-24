@@ -41,7 +41,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Typegoose](./typegoose)
 - [Apollo federation](./apollo-federation)
 - [Apollo Cache Control](./apollo-cache)
-- [Apollo Client state](./apollo-client)
+- [Apollo Client local state](./apollo-client)
 - [GraphQL Modules](./graphql-modules)
 
 _\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_

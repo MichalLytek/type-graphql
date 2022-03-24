@@ -248,14 +248,14 @@ const CollectiveSection = props => (
       <div className="wrapper">
         <h3 className="title">Gold Sponsors 🏆</h3>
         <div className="tiles">
-          <a href="http://career.bluereceipt.co/">
+          <a href="http://career.bluereceipt.co/" target="_blank">
             <img
               src={imgUrl("blue_receipt.gif")}
               style={{ width: 450, filter: "brightness(0.975)" }}
             />
             <span style={{ fontSize: 20 }}>BlueReceipt</span>
           </a>
-          <a href="https://www.ecadlabs.com/">
+          <a href="https://www.ecadlabs.com/" target="_blank">
             <img src={imgUrl("ecad.png")} style={{ width: 150 }} />
             <span style={{ fontSize: 20 }}>ECAD Labs</span>
           </a>
@@ -269,28 +269,36 @@ const CollectiveSection = props => (
         </blockquote>
         <h3 className="title">Silver Sponsors 🥈</h3>
         <div className="tiles">
-          <a href="https://gorrion.io/">
+          <a href="https://gorrion.io/" target="_blank">
             <img src={imgUrl("gorrion.png")} style={{ width: 250, backgroundColor: "#f9f9f9" }} />
             <span>Gorrion Software House</span>
           </a>
-          <a href="https://www.chums.co/">
+          <a href="https://www.chums.co/" target="_blank">
             <img src={imgUrl("chums.svg")} style={{ width: 125 }} />
             <span>Chums</span>
           </a>
         </div>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
-          <a href="https://www.ligrsystems.com/">
+          <a href="https://www.ligrsystems.com/" target="_blank">
             <img src={imgUrl("live-graphics-system.png")} style={{ width: 60 }} />
             <span>Live Graphic Systems</span>
           </a>
-          <a href="https://www.joinlifex.com/">
+          <a href="https://www.joinlifex.com/" target="_blank">
             <img src={imgUrl("lifex.svg")} style={{ width: 75 }} />
             <span>LifeX Aps</span>
           </a>
-          <a href="https://www.swissmentor.com/">
+          <a href="https://www.swissmentor.com/" target="_blank">
             <img src={imgUrl("swiss-mentor.png")} style={{ width: 125 }} />
             <span>SwissMentor</span>
+          </a>
+          <a href="https://www.adminremix.com/" target="_blank">
+            <img src={imgUrl("admin-remix.png")} style={{ width: 100 }} />
+            <span>Admin Remix</span>
+          </a>
+          <a href="https://www.qulix.com/" target="_blank">
+            <img src={imgUrl("qulix.png")} style={{ width: 85 }} />
+            <span>Qulix Systems</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>

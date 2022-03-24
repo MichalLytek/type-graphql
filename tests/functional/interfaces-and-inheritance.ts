@@ -12,7 +12,7 @@ import {
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerFieldType } from "../helpers/getInnerFieldType";
+import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { GeneratingSchemaError } from "../../src/errors";
 import {
@@ -43,6 +43,7 @@ describe("Interfaces and inheritance", () => {
     let sampleImplementingObject1Type: IntrospectionObjectType;
     let sampleImplementingObject2Type: IntrospectionObjectType;
     let sampleExtendingObject2Type: IntrospectionObjectType;
+    let sampleSecondExtendedInputType: IntrospectionInputObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -134,6 +135,28 @@ describe("Interfaces and inheritance", () => {
         extendingInputField: boolean;
       }
 
+      // overwriting fields case
+      @InputType()
+      class SampleFirstBaseInput {
+        @Field()
+        baseField: string;
+      }
+      @InputType()
+      class SampleFirstExtendedInput extends SampleFirstBaseInput {
+        @Field()
+        extendedField: string;
+      }
+      @InputType()
+      class SampleSecondBaseInput {
+        @Field()
+        baseInputField: SampleFirstBaseInput;
+      }
+      @InputType()
+      class SampleSecondExtendedInput extends SampleSecondBaseInput {
+        @Field()
+        baseInputField: SampleFirstExtendedInput;
+      }
+
       class SampleResolver {
         @Query()
         sampleQuery(): boolean {
@@ -163,6 +186,7 @@ describe("Interfaces and inheritance", () => {
           SampleMultiImplementingObject,
           SampleExtendingImplementingObject,
           SampleExtendingObject2,
+          SampleSecondExtendedInput,
         ],
       });
       queryType = schemaInfo.queryType;
@@ -191,6 +215,9 @@ describe("Interfaces and inheritance", () => {
       sampleExtendingObject2Type = schemaIntrospection.types.find(
         type => type.name === "SampleExtendingObject2",
       ) as IntrospectionObjectType;
+      sampleSecondExtendedInputType = schemaIntrospection.types.find(
+        type => type.name === "SampleSecondExtendedInput",
+      ) as IntrospectionInputObjectType;
     });
 
     // helpers
@@ -395,6 +422,15 @@ describe("Interfaces and inheritance", () => {
 
       expect(baseInputFieldType.name).toEqual("String");
       expect(extendingInputFieldType.name).toEqual("Boolean");
+    });
+
+    it("should properly overwrite input type field", () => {
+      const baseInputFieldType = getInnerInputFieldType(
+        sampleSecondExtendedInputType,
+        "baseInputField",
+      );
+
+      expect(baseInputFieldType.name).toEqual("SampleFirstExtendedInput");
     });
 
     it("shouldn't throw error when extending wrong class type", async () => {
@@ -646,6 +682,28 @@ describe("Interfaces and inheritance", () => {
         sampleField: string;
       }
 
+      // overwriting fields case
+      @InputType()
+      class SampleFirstBaseInput {
+        @Field()
+        baseField: string;
+      }
+      @InputType()
+      class SampleFirstExtendedInput extends SampleFirstBaseInput {
+        @Field()
+        extendedField: string;
+      }
+      @InputType()
+      class SampleSecondBaseInput {
+        @Field()
+        baseInputField: SampleFirstBaseInput;
+      }
+      @InputType()
+      class SampleSecondExtendedInput extends SampleSecondBaseInput {
+        @Field()
+        baseInputField: SampleFirstExtendedInput;
+      }
+
       @Resolver()
       class InterfacesResolver {
         @Query()
@@ -719,6 +777,12 @@ describe("Interfaces and inheritance", () => {
           obj.firstField = "firstField";
           obj.interfaceFieldToBeRenamed = "interfaceFieldToBeRenamed";
           return obj;
+        }
+
+        @Mutation()
+        overwritingInputFieldMutation(@Arg("input") input: SampleSecondExtendedInput): boolean {
+          mutationInput = input;
+          return true;
         }
       }
 
@@ -924,6 +988,27 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should allow to return plain object when return type is a class that implements an interface", async () => {
+      const query = `mutation {
+        overwritingInputFieldMutation(input: {
+          baseInputField: {
+            baseField: "baseField",
+            extendedField: "extendedField",
+          }
+        })
+      }`;
+
+      const { errors } = await graphql({ schema, source: query });
+
+      expect(errors).toBeUndefined();
+      expect(mutationInput).toEqual({
+        baseInputField: {
+          baseField: "baseField",
+          extendedField: "extendedField",
+        },
+      });
+    });
+
+    it("should correctly transform data of overwritten input field", async () => {
       const query = `query {
         secondImplementationPlainQuery {
           baseInterfaceField

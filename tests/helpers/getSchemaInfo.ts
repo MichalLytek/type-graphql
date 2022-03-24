@@ -15,8 +15,8 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
     skipCheck: true,
   });
 
-  // get builded schema info from retrospection
-  const result: any = await graphql({
+  // get built schema info from retrospection
+  const result = await graphql({
     schema,
     source: getIntrospectionQuery({
       inputValueDeprecation: true,

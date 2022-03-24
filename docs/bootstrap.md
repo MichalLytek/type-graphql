@@ -139,7 +139,7 @@ const stateLink = withClientState({
 There's also a sync version of it - `buildTypeDefsAndResolversSync`:
 
 ```typescript
-const { typeDefs, resolvers } = buildTypeDefsAndResolvers({
+const { typeDefs, resolvers } = buildTypeDefsAndResolversSync({
   resolvers: [FirstResolver, SecondResolver],
 });
 ```
