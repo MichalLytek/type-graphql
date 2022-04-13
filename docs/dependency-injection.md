@@ -10,63 +10,91 @@ TypeGraphQL supports this technique by allowing users to provide their IoC conta
 
 The usage of this feature is very simple - all you need to do is register a 3rd party container.
 
-Example using TypeDI:
-
+### Example using TypeDI:
+A sample entity:
 ```typescript
-import { buildSchema } from "type-graphql";
-// import your IoC container
-import { Container } from "typedi";
+/* recipe.entity.ts */
 
+@ObjectType()
+class RecipeEntity {
+  @Field((type) => ID)
+  id: string;
+
+  @Field()
+  title: string;
+
+  @Field()
+  averageRating?: number;
+}
+```
+
+A sample service using an identifier (`SAMPLE_RECIPES`):
+```typescript
+/* recipemock.service.ts */
+
+@Service("SAMPLE_RECIPES")
+export class RecipeMockService {
+  readonly items: RecipeEntity[] = [
+    { id: "id", title: "title", averageRating: 4 },
+  ];
+}
+```
+
+Another sample service that gets `RecipeMockService` injected
+```typescript
+/* recipe.service.ts */
+
+@Service()
+export class RecipeService {
+  @Inject("SAMPLE_RECIPES") // Inject service `SAMPLE_RECIPES` into `service` property
+  private readonly service: RecipeMockService;
+
+  async getAll() {
+    return this.service.items;
+  }
+
+  async getOne(id: string) {
+    return this.service.items.find((item) => item.id === id);
+  }
+}
+```
+
+A sample resolver that gets `RecipeService` injected
+```typescript
+/* recipe.resolver.ts */
+
+@Service()
+@Resolver((of) => RecipeEntity)
+export class RecipeResolver {
+  // property injection
+  @Inject() private readonly recipeService: RecipeService;
+
+  @Query((returns) => RecipeEntity, { nullable: true })
+  async getRecipe(recipeId: string) {
+    // usage of the injected service
+    return await this.recipeService.getOne(recipeId);
+  }
+}
+```
+
+Hook everything up so that TypeGraphQL will use the container to solve dependencies:
+```typescript
+/* app.ts */
+
+import { buildSchema } from "type-graphql";
+import { Container } from "typedi"; // IoC container
 import { SampleResolver } from "./resolvers";
+
+// Register custom identifier in the container
+Container.set("SAMPLE_RECIPES", new RecipeMockService());
 
 // build the schema as always
 const schema = await buildSchema({
   resolvers: [SampleResolver],
-  // register the 3rd party IOC container
-  container: Container,
+  container: Container, // register the IOC container
 });
 ```
 
-Our resolvers will then be able to declare their dependencies and TypeGraphQL will use the container to solve them:
-
-```typescript
-import { Service } from "typedi";
-
-@Service()
-@Resolver(of => Recipe)
-export class RecipeResolver {
-  constructor(
-    // constructor injection of a service
-    private readonly recipeService: RecipeService,
-  ) {}
-
-  @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg("recipeId") recipeId: string) {
-    // usage of the injected service
-    return this.recipeService.getOne(recipeId);
-  }
-}
-```
-
-A sample recipe service implementation may look like this:
-
-```typescript
-import { Service, Inject } from "typedi";
-
-@Service()
-export class RecipeService {
-  @Inject("SAMPLE_RECIPES")
-  private readonly items: Recipe[],
-
-  async getAll() {
-    return this.items;
-  }
-
-  async getOne(id: string) {
-    return this.items.find(item => item.id === id);
-  }
-}
-```
 
 > Be aware than when you use [InversifyJS](https://github.com/inversify/InversifyJS), you have to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types), e.g.:
 >
