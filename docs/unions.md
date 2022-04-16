@@ -14,10 +14,10 @@ Let's start by creating the object types from the example above:
 @ObjectType()
 class Movie {
   @Field()
-  name: string;
+  name: string
 
   @Field()
-  rating: number;
+  rating: number
 }
 ```
 
@@ -25,22 +25,22 @@ class Movie {
 @ObjectType()
 class Actor {
   @Field()
-  name: string;
+  name: string
 
   @Field(type => Int)
-  age: number;
+  age: number
 }
 ```
 
 Now let's create an union type from the object types above - the rarely seen `[ ] as const` syntax is to inform TypeScript compiler that it's a tuple, which allows for better TS union type inference:
 
 ```typescript
-import { createUnionType } from "type-graphql";
+import { createUnionType } from 'type-graphql'
 
 const SearchResultUnion = createUnionType({
-  name: "SearchResult", // the name of the GraphQL union
-  types: () => [Movie, Actor] as const, // function that returns tuple of object types classes
-});
+  name: 'SearchResult', // the name of the GraphQL union
+  types: () => [Movie, Actor] as const // function that returns tuple of object types classes
+})
 ```
 
 Then we can use the union type in the query by providing the `SearchResultUnion` value in the `@Query` decorator return type annotation.
@@ -51,11 +51,11 @@ For TypeScript compile-time type safety we can also use `typeof SearchResultUnio
 @Resolver()
 class SearchResolver {
   @Query(returns => [SearchResultUnion])
-  async search(@Arg("phrase") phrase: string): Promise<Array<typeof SearchResultUnion>> {
-    const movies = await Movies.findAll(phrase);
-    const actors = await Actors.findAll(phrase);
+  async search(@Arg('phrase') phrase: string): Promise<Array<typeof SearchResultUnion>> {
+    const movies = await Movies.findAll(phrase)
+    const actors = await Actors.findAll(phrase)
 
-    return [...movies, ...actors];
+    return [...movies, ...actors]
   }
 }
 ```
@@ -68,19 +68,19 @@ However, we can also provide our own `resolveType` function implementation to th
 
 ```typescript
 const SearchResultUnion = createUnionType({
-  name: "SearchResult",
+  name: 'SearchResult',
   types: () => [Movie, Actor] as const,
   // our implementation of detecting returned object type
   resolveType: value => {
-    if ("rating" in value) {
-      return Movie; // we can return object type class (the one with `@ObjectType()`)
+    if ('rating' in value) {
+      return Movie // we can return object type class (the one with `@ObjectType()`)
     }
-    if ("age" in value) {
-      return "Actor"; // or the schema name of the type as a string
+    if ('age' in value) {
+      return 'Actor' // or the schema name of the type as a string
     }
-    return undefined;
-  },
-});
+    return undefined
+  }
+})
 ```
 
 **Et Voilà!** We can now build the schema and make the example query 😉

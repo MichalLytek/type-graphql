@@ -25,7 +25,7 @@ npm i reflect-metadata
 We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
 ```typescript
-import "reflect-metadata";
+import 'reflect-metadata'
 ```
 
 ## TypeScript configuration

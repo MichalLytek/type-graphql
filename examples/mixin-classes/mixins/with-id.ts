@@ -1,4 +1,4 @@
-import { InputType, ClassType, Field, Int, ObjectType } from "../../../src";
+import { InputType, ClassType, Field, Int, ObjectType } from '../../../src'
 
 // adds id property to the base, extended class
 export default function withId<TClassType extends ClassType>(BaseClass: TClassType) {
@@ -6,7 +6,7 @@ export default function withId<TClassType extends ClassType>(BaseClass: TClassTy
   @InputType({ isAbstract: true })
   class IDTrait extends BaseClass {
     @Field(type => Int)
-    id!: number;
+    id!: number
   }
-  return IDTrait;
+  return IDTrait
 }

@@ -1,267 +1,265 @@
 import {
-  ResolverMetadata,
-  ClassMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  FieldMetadata,
-  ParamMetadata,
-  FieldResolverMetadata,
   AuthorizedMetadata,
   BaseResolverMetadata,
+  ClassMetadata,
   EnumMetadata,
-  UnionMetadata,
-  UnionMetadataWithSymbol,
-  ResolverClassMetadata,
-  SubscriptionResolverMetadata,
-  MiddlewareMetadata,
+  ExtensionsClassMetadata,
+  ExtensionsFieldMetadata,
   ExtensionsMetadata,
-} from "./definitions";
-import { ClassType } from "../interfaces";
-import { NoExplicitTypeError } from "../errors";
+  FieldMetadata,
+  FieldResolverMetadata,
+  MiddlewareMetadata,
+  ParamMetadata,
+  ResolverClassMetadata,
+  ResolverMetadata,
+  SubscriptionResolverMetadata,
+  UnionMetadata,
+  UnionMetadataWithSymbol
+} from './definitions'
+import { ClassType } from '../interfaces'
+import { NoExplicitTypeError } from '../errors'
 import {
-  mapSuperResolverHandlers,
+  ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
-  ensureReflectMetadataExists,
-} from "./utils";
-import { ObjectClassMetadata } from "./definitions/object-class-metdata";
-import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
-import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
-import { SchemaGeneratorOptions } from "../schema/schema-generator";
+  mapSuperResolverHandlers
+} from './utils'
+import { ObjectClassMetadata } from './definitions/object-class-metdata'
+import { InterfaceClassMetadata } from './definitions/interface-class-metadata'
+import { DirectiveClassMetadata, DirectiveFieldMetadata } from './definitions/directive-metadata'
+import { SchemaGeneratorOptions } from '../schema/schema-generator'
 
 export class MetadataStorage {
-  queries: ResolverMetadata[] = [];
-  mutations: ResolverMetadata[] = [];
-  subscriptions: SubscriptionResolverMetadata[] = [];
-  fieldResolvers: FieldResolverMetadata[] = [];
-  objectTypes: ObjectClassMetadata[] = [];
-  inputTypes: ClassMetadata[] = [];
-  argumentTypes: ClassMetadata[] = [];
-  interfaceTypes: InterfaceClassMetadata[] = [];
-  authorizedFields: AuthorizedMetadata[] = [];
-  enums: EnumMetadata[] = [];
-  unions: UnionMetadataWithSymbol[] = [];
-  middlewares: MiddlewareMetadata[] = [];
-  classDirectives: DirectiveClassMetadata[] = [];
-  fieldDirectives: DirectiveFieldMetadata[] = [];
-  classExtensions: ExtensionsClassMetadata[] = [];
-  fieldExtensions: ExtensionsFieldMetadata[] = [];
-  resolverClasses: ResolverClassMetadata[] = [];
-  fields: FieldMetadata[] = [];
-  params: ParamMetadata[] = [];
+  queries: ResolverMetadata[] = []
+  mutations: ResolverMetadata[] = []
+  subscriptions: SubscriptionResolverMetadata[] = []
+  fieldResolvers: FieldResolverMetadata[] = []
+  objectTypes: ObjectClassMetadata[] = []
+  inputTypes: ClassMetadata[] = []
+  argumentTypes: ClassMetadata[] = []
+  interfaceTypes: InterfaceClassMetadata[] = []
+  authorizedFields: AuthorizedMetadata[] = []
+  enums: EnumMetadata[] = []
+  unions: UnionMetadataWithSymbol[] = []
+  middlewares: MiddlewareMetadata[] = []
+  classDirectives: DirectiveClassMetadata[] = []
+  fieldDirectives: DirectiveFieldMetadata[] = []
+  classExtensions: ExtensionsClassMetadata[] = []
+  fieldExtensions: ExtensionsFieldMetadata[] = []
+  resolverClasses: ResolverClassMetadata[] = []
+  fields: FieldMetadata[] = []
+  params: ParamMetadata[] = []
 
   constructor() {
-    ensureReflectMetadataExists();
+    ensureReflectMetadataExists()
   }
 
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
-    this.queries.push(definition);
+    this.queries.push(definition)
   }
+
   collectMutationHandlerMetadata(definition: ResolverMetadata) {
-    this.mutations.push(definition);
+    this.mutations.push(definition)
   }
+
   collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
-    this.subscriptions.push(definition);
+    this.subscriptions.push(definition)
   }
+
   collectFieldResolverMetadata(definition: FieldResolverMetadata) {
-    this.fieldResolvers.push(definition);
+    this.fieldResolvers.push(definition)
   }
+
   collectObjectMetadata(definition: ObjectClassMetadata) {
-    this.objectTypes.push(definition);
+    this.objectTypes.push(definition)
   }
+
   collectInputMetadata(definition: ClassMetadata) {
-    this.inputTypes.push(definition);
+    this.inputTypes.push(definition)
   }
+
   collectArgsMetadata(definition: ClassMetadata) {
-    this.argumentTypes.push(definition);
+    this.argumentTypes.push(definition)
   }
+
   collectInterfaceMetadata(definition: InterfaceClassMetadata) {
-    this.interfaceTypes.push(definition);
+    this.interfaceTypes.push(definition)
   }
+
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
-    this.authorizedFields.push(definition);
+    this.authorizedFields.push(definition)
   }
+
   collectEnumMetadata(definition: EnumMetadata) {
-    this.enums.push(definition);
+    this.enums.push(definition)
   }
+
   collectUnionMetadata(definition: UnionMetadata) {
-    const unionSymbol = Symbol(definition.name);
+    const unionSymbol = Symbol(definition.name)
     this.unions.push({
       ...definition,
-      symbol: unionSymbol,
-    });
-    return unionSymbol;
+      symbol: unionSymbol
+    })
+    return unionSymbol
   }
+
   collectMiddlewareMetadata(definition: MiddlewareMetadata) {
-    this.middlewares.push(definition);
+    this.middlewares.push(definition)
   }
 
   collectResolverClassMetadata(definition: ResolverClassMetadata) {
-    this.resolverClasses.push(definition);
+    this.resolverClasses.push(definition)
   }
+
   collectClassFieldMetadata(definition: FieldMetadata) {
-    this.fields.push(definition);
+    this.fields.push(definition)
   }
+
   collectHandlerParamMetadata(definition: ParamMetadata) {
-    this.params.push(definition);
+    this.params.push(definition)
   }
 
   collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
-    this.classDirectives.push(definition);
+    this.classDirectives.push(definition)
   }
+
   collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
-    this.fieldDirectives.push(definition);
+    this.fieldDirectives.push(definition)
   }
 
   collectExtensionsClassMetadata(definition: ExtensionsClassMetadata) {
-    this.classExtensions.push(definition);
+    this.classExtensions.push(definition)
   }
+
   collectExtensionsFieldMetadata(definition: ExtensionsFieldMetadata) {
-    this.fieldExtensions.push(definition);
+    this.fieldExtensions.push(definition)
   }
 
   build(options: SchemaGeneratorOptions) {
-    this.classDirectives.reverse();
-    this.fieldDirectives.reverse();
-    this.classExtensions.reverse();
-    this.fieldExtensions.reverse();
+    this.classDirectives.reverse()
+    this.fieldDirectives.reverse()
+    this.classExtensions.reverse()
+    this.fieldExtensions.reverse()
 
-    this.buildClassMetadata(this.objectTypes);
-    this.buildClassMetadata(this.inputTypes);
-    this.buildClassMetadata(this.argumentTypes);
-    this.buildClassMetadata(this.interfaceTypes);
+    this.buildClassMetadata(this.objectTypes)
+    this.buildClassMetadata(this.inputTypes)
+    this.buildClassMetadata(this.argumentTypes)
+    this.buildClassMetadata(this.interfaceTypes)
 
-    this.buildFieldResolverMetadata(this.fieldResolvers, options);
+    this.buildFieldResolverMetadata(this.fieldResolvers, options)
 
-    this.buildResolversMetadata(this.queries);
-    this.buildResolversMetadata(this.mutations);
-    this.buildResolversMetadata(this.subscriptions);
+    this.buildResolversMetadata(this.queries)
+    this.buildResolversMetadata(this.mutations)
+    this.buildResolversMetadata(this.subscriptions)
 
-    this.buildExtendedResolversMetadata();
+    this.buildExtendedResolversMetadata()
   }
 
   clear() {
-    this.queries = [];
-    this.mutations = [];
-    this.subscriptions = [];
-    this.fieldResolvers = [];
-    this.objectTypes = [];
-    this.inputTypes = [];
-    this.argumentTypes = [];
-    this.interfaceTypes = [];
-    this.authorizedFields = [];
-    this.enums = [];
-    this.unions = [];
-    this.middlewares = [];
-    this.classDirectives = [];
-    this.fieldDirectives = [];
-    this.classExtensions = [];
-    this.fieldExtensions = [];
+    this.queries = []
+    this.mutations = []
+    this.subscriptions = []
+    this.fieldResolvers = []
+    this.objectTypes = []
+    this.inputTypes = []
+    this.argumentTypes = []
+    this.interfaceTypes = []
+    this.authorizedFields = []
+    this.enums = []
+    this.unions = []
+    this.middlewares = []
+    this.classDirectives = []
+    this.fieldDirectives = []
+    this.classExtensions = []
+    this.fieldExtensions = []
 
-    this.resolverClasses = [];
-    this.fields = [];
-    this.params = [];
+    this.resolverClasses = []
+    this.fields = []
+    this.params = []
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
       if (!def.fields) {
-        const fields = this.fields.filter(field => field.target === def.target);
+        const fields = this.fields.filter(field => field.target === def.target)
         fields.forEach(field => {
-          field.roles = this.findFieldRoles(field.target, field.name);
-          field.params = this.params.filter(
-            param => param.target === field.target && field.name === param.methodName,
-          );
+          field.roles = this.findFieldRoles(field.target, field.name)
+          field.params = this.params.filter(param => param.target === field.target && field.name === param.methodName)
           field.middlewares = mapMiddlewareMetadataToArray(
             this.middlewares.filter(
-              middleware =>
-                middleware.target === field.target && middleware.fieldName === field.name,
-            ),
-          );
+              middleware => middleware.target === field.target && middleware.fieldName === field.name
+            )
+          )
           field.directives = this.fieldDirectives
             .filter(it => it.target === field.target && it.fieldName === field.name)
-            .map(it => it.directive);
-          field.extensions = this.findExtensions(field.target, field.name);
-        });
-        def.fields = fields;
+            .map(it => it.directive)
+          field.extensions = this.findExtensions(field.target, field.name)
+        })
+        def.fields = fields
       }
       if (!def.directives) {
-        def.directives = this.classDirectives
-          .filter(it => it.target === def.target)
-          .map(it => it.directive);
+        def.directives = this.classDirectives.filter(it => it.target === def.target).map(it => it.directive)
       }
       if (!def.extensions) {
-        def.extensions = this.findExtensions(def.target);
+        def.extensions = this.findExtensions(def.target)
       }
-    });
+    })
   }
 
   private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
-      const resolverClassMetadata = this.resolverClasses.find(
-        resolver => resolver.target === def.target,
-      )!;
-      def.resolverClassMetadata = resolverClassMetadata;
-      def.params = this.params.filter(
-        param => param.target === def.target && def.methodName === param.methodName,
-      );
-      def.roles = this.findFieldRoles(def.target, def.methodName);
+      const resolverClassMetadata = this.resolverClasses.find(resolver => resolver.target === def.target)!
+      def.resolverClassMetadata = resolverClassMetadata
+      def.params = this.params.filter(param => param.target === def.target && def.methodName === param.methodName)
+      def.roles = this.findFieldRoles(def.target, def.methodName)
       def.middlewares = mapMiddlewareMetadataToArray(
         this.middlewares.filter(
-          middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
-        ),
-      );
+          middleware => middleware.target === def.target && def.methodName === middleware.fieldName
+        )
+      )
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
-        .map(it => it.directive);
-      def.extensions = this.findExtensions(def.target, def.methodName);
-    });
+        .map(it => it.directive)
+      def.extensions = this.findExtensions(def.target, def.methodName)
+    })
   }
 
-  private buildFieldResolverMetadata(
-    definitions: FieldResolverMetadata[],
-    options: SchemaGeneratorOptions,
-  ) {
-    this.buildResolversMetadata(definitions);
+  private buildFieldResolverMetadata(definitions: FieldResolverMetadata[], options: SchemaGeneratorOptions) {
+    this.buildResolversMetadata(definitions)
     definitions.forEach(def => {
-      def.roles = this.findFieldRoles(def.target, def.methodName);
+      def.roles = this.findFieldRoles(def.target, def.methodName)
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
-        .map(it => it.directive);
-      def.extensions = this.findExtensions(def.target, def.methodName);
+        .map(it => it.directive)
+      def.extensions = this.findExtensions(def.target, def.methodName)
       def.getObjectType =
-        def.kind === "external"
+        def.kind === 'external'
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
-          : () => def.target as ClassType;
-      if (def.kind === "external") {
-        const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!
-          .getObjectType!();
+          : () => def.target as ClassType
+      if (def.kind === 'external') {
+        const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType()
         const typeMetadata =
           this.objectTypes.find(objTypeDef => objTypeDef.target === typeClass) ||
-          this.interfaceTypes.find(interfaceTypeDef => interfaceTypeDef.target === typeClass);
+          this.interfaceTypes.find(interfaceTypeDef => interfaceTypeDef.target === typeClass)
         if (!typeMetadata) {
-          throw new Error(
-            `Unable to find type metadata for input type or object type named '${typeClass.name}'`,
-          );
+          throw new Error(`Unable to find type metadata for input type or object type named '${typeClass.name}'`)
         }
 
-        const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!;
+        const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!
         if (!typeField) {
           const shouldCollectFieldMetadata =
             !options.resolvers ||
-            options.resolvers.some(
-              resolverCls => resolverCls === def.target || def.target.isPrototypeOf(resolverCls),
-            );
+            options.resolvers.some(resolverCls => resolverCls === def.target || def.target.isPrototypeOf(resolverCls))
           if (!def.getType || !def.typeOptions) {
-            throw new NoExplicitTypeError(def.target.name, def.methodName);
+            throw new NoExplicitTypeError(def.target.name, def.methodName)
           }
           if (shouldCollectFieldMetadata) {
             const fieldMetadata: FieldMetadata = {
               name: def.methodName,
               schemaName: def.schemaName,
-              getType: def.getType!,
+              getType: def.getType,
               target: typeClass,
-              typeOptions: def.typeOptions!,
+              typeOptions: def.typeOptions,
               deprecationReason: def.deprecationReason,
               description: def.description,
               complexity: def.complexity,
@@ -269,69 +267,65 @@ export class MetadataStorage {
               middlewares: def.middlewares!,
               params: def.params!,
               directives: def.directives,
-              extensions: def.extensions,
-            };
-            this.collectClassFieldMetadata(fieldMetadata);
-            typeMetadata.fields!.push(fieldMetadata);
+              extensions: def.extensions
+            }
+            this.collectClassFieldMetadata(fieldMetadata)
+            typeMetadata.fields!.push(fieldMetadata)
           }
         } else {
-          typeField.complexity = def.complexity;
+          typeField.complexity = def.complexity
           if (typeField.params!.length === 0) {
-            typeField.params = def.params!;
+            typeField.params = def.params!
           }
           if (def.roles) {
-            typeField.roles = def.roles;
+            typeField.roles = def.roles
           } else if (typeField.roles) {
-            def.roles = typeField.roles;
+            def.roles = typeField.roles
           }
         }
       }
-    });
+    })
   }
 
   private buildExtendedResolversMetadata() {
     this.resolverClasses.forEach(def => {
-      const target = def.target;
-      let superResolver = Object.getPrototypeOf(target);
+      const target = def.target
+      let superResolver = Object.getPrototypeOf(target)
 
       // copy and modify metadata of resolver from parent resolver class
       while (superResolver.prototype) {
-        const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
+        const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver)
         if (superResolverMetadata) {
-          this.queries = mapSuperResolverHandlers(this.queries, superResolver, def);
-          this.mutations = mapSuperResolverHandlers(this.mutations, superResolver, def);
-          this.subscriptions = mapSuperResolverHandlers(this.subscriptions, superResolver, def);
-          this.fieldResolvers = mapSuperFieldResolverHandlers(
-            this.fieldResolvers,
-            superResolver,
-            def,
-          );
+          this.queries = mapSuperResolverHandlers(this.queries, superResolver, def)
+          this.mutations = mapSuperResolverHandlers(this.mutations, superResolver, def)
+          this.subscriptions = mapSuperResolverHandlers(this.subscriptions, superResolver, def)
+          this.fieldResolvers = mapSuperFieldResolverHandlers(this.fieldResolvers, superResolver, def)
         }
-        superResolver = Object.getPrototypeOf(superResolver);
+        superResolver = Object.getPrototypeOf(superResolver)
       }
-    });
+    })
   }
 
   private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
     const authorizedField = this.authorizedFields.find(
-      authField => authField.target === target && authField.fieldName === fieldName,
-    );
+      authField => authField.target === target && authField.fieldName === fieldName
+    )
     if (!authorizedField) {
-      return;
+      return
     }
-    return authorizedField.roles;
+    return authorizedField.roles
   }
 
   private findExtensions(target: Function, fieldName?: string): ExtensionsMetadata {
     const storedExtensions: Array<ExtensionsClassMetadata | ExtensionsFieldMetadata> = fieldName
       ? this.fieldExtensions
-      : this.classExtensions;
+      : this.classExtensions
     return storedExtensions
       .filter(
         entry =>
           (entry.target === target || entry.target.isPrototypeOf(target)) &&
-          (!("fieldName" in entry) || entry.fieldName === fieldName),
+          (!('fieldName' in entry) || entry.fieldName === fieldName)
       )
-      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
+      .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {})
   }
 }

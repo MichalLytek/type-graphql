@@ -1,68 +1,49 @@
-import {
-  ResolverClassMetadata,
-  BaseResolverMetadata,
-  MiddlewareMetadata,
-  FieldResolverMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  ExtensionsMetadata,
-} from "./definitions";
-import { Middleware } from "../interfaces/Middleware";
-import { isThrowing } from "../helpers/isThrowing";
-import { ReflectMetadataMissingError } from "../errors";
+import { BaseResolverMetadata, FieldResolverMetadata, MiddlewareMetadata, ResolverClassMetadata } from './definitions'
+import { Middleware } from '../interfaces/Middleware'
+import { isThrowing } from '../helpers/isThrowing'
+import { ReflectMetadataMissingError } from '../errors'
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   definitions: T[],
   superResolver: Function,
-  resolverMetadata: ResolverClassMetadata,
+  resolverMetadata: ResolverClassMetadata
 ): T[] {
   return definitions.map(metadata => {
     return metadata.target === superResolver
       ? {
           ...metadata,
           target: resolverMetadata.target,
-          resolverClassMetadata: resolverMetadata,
+          resolverClassMetadata: resolverMetadata
         }
-      : metadata;
-  });
+      : metadata
+  })
 }
 
 export function mapSuperFieldResolverHandlers(
   definitions: FieldResolverMetadata[],
   superResolver: Function,
-  resolverMetadata: ResolverClassMetadata,
+  resolverMetadata: ResolverClassMetadata
 ) {
-  const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata);
+  const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata)
 
   return superMetadata.map(metadata => {
     return metadata.target === superResolver
       ? {
           ...metadata,
-          getObjectType: isThrowing(metadata.getObjectType!)
-            ? resolverMetadata.getObjectType
-            : metadata.getObjectType,
+          getObjectType: isThrowing(metadata.getObjectType!) ? resolverMetadata.getObjectType : metadata.getObjectType
         }
-      : metadata;
-  });
+      : metadata
+  })
 }
 
-export function mapMiddlewareMetadataToArray(
-  metadata: MiddlewareMetadata[],
-): Array<Middleware<any>> {
+export function mapMiddlewareMetadataToArray(metadata: MiddlewareMetadata[]): Array<Middleware<any>> {
   return metadata
     .map(m => m.middlewares)
-    .reduce<Array<Middleware<any>>>(
-      (middlewares, resultArray) => resultArray.concat(middlewares),
-      [],
-    );
+    .reduce<Array<Middleware<any>>>((middlewares, resultArray) => resultArray.concat(middlewares), [])
 }
 
 export function ensureReflectMetadataExists() {
-  if (
-    typeof Reflect !== "object" ||
-    typeof Reflect.decorate !== "function" ||
-    typeof Reflect.metadata !== "function"
-  ) {
-    throw new ReflectMetadataMissingError();
+  if (typeof Reflect !== 'object' || typeof Reflect.decorate !== 'function' || typeof Reflect.metadata !== 'function') {
+    throw new ReflectMetadataMissingError()
   }
 }

@@ -1,8 +1,8 @@
-import { Injectable } from "@graphql-modules/di";
-import { Resolver, FieldResolver, Root } from "../../../src";
+import { Injectable } from '@graphql-modules/di'
+import { Resolver, FieldResolver, Root } from '../../../src'
 
-import UserService from "./user.service";
-import Recipe from "./recipe.type";
+import UserService from './user.service'
+import Recipe from './recipe.type'
 
 @Injectable()
 @Resolver(of => Recipe)
@@ -11,6 +11,6 @@ export default class RecipeResolver {
 
   @FieldResolver()
   author(@Root() recipe: Recipe) {
-    return this.userService.findById(recipe.authorId);
+    return this.userService.findById(recipe.authorId)
   }
 }

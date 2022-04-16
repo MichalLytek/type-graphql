@@ -1,31 +1,31 @@
-import { prop as Property, getModelForClass } from "@typegoose/typegoose";
-import { ObjectId } from "mongodb";
-import { Field, ObjectType } from "../../../src";
+import { prop as Property, getModelForClass } from '@typegoose/typegoose'
+import { ObjectId } from 'mongodb'
+import { Field, ObjectType } from '../../../src'
 
-import { Rate } from "./rate";
-import { User } from "./user";
-import { Ref } from "../types";
+import { Rate } from './rate'
+import { User } from './user'
+import { Ref } from '../types'
 
 @ObjectType()
 export class Recipe {
   @Field()
-  readonly _id: ObjectId;
+  readonly _id: ObjectId
 
   @Field()
   @Property({ required: true })
-  title: string;
+  title: string
 
   @Field({ nullable: true })
   @Property()
-  description?: string;
+  description?: string
 
   @Field(type => [Rate])
   @Property({ type: () => Rate, default: [] })
-  ratings: Rate[];
+  ratings: Rate[]
 
   @Field(type => User)
   @Property({ ref: User, required: true })
-  author: Ref<User>;
+  author: Ref<User>
 }
 
-export const RecipeModel = getModelForClass(Recipe);
+export const RecipeModel = getModelForClass(Recipe)

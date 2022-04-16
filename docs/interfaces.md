@@ -22,13 +22,13 @@ How do we create a GraphQL interface definition? We create an abstract class and
 @InterfaceType()
 abstract class IPerson {
   @Field(type => ID)
-  id: string;
+  id: string
 
   @Field()
-  name: string;
+  name: string
 
   @Field(type => Int)
-  age: number;
+  age: number
 }
 ```
 
@@ -37,9 +37,9 @@ We can then use this interface type class like an interface in the object type c
 ```typescript
 @ObjectType({ implements: IPerson })
 class Person implements IPerson {
-  id: string;
-  name: string;
-  age: number;
+  id: string
+  name: string
+  age: number
 }
 ```
 
@@ -53,7 +53,7 @@ We can also extend the base interface type abstract class as well because all th
 @ObjectType({ implements: IPerson })
 class Person extends IPerson {
   @Field()
-  hasKids: boolean;
+  hasKids: boolean
 }
 ```
 
@@ -67,16 +67,16 @@ To accomplish this, we can just use the same syntax that we utilize for object t
 @InterfaceType()
 class Node {
   @Field(type => ID)
-  id: string;
+  id: string
 }
 
 @InterfaceType({ implements: Node })
 class Person extends Node {
   @Field()
-  name: string;
+  name: string
 
   @Field(type => Int)
-  age: number;
+  age: number
 }
 ```
 
@@ -86,7 +86,7 @@ Also, when we implement the interface that already implements other interface, w
 @ObjectType({ implements: [Person, Node] })
 class Student extends Person {
   @Field()
-  universityName: string;
+  universityName: string
 }
 ```
 
@@ -119,14 +119,14 @@ What's more, we can define resolvers for the interface fields, using the same sy
 @InterfaceType()
 abstract class IPerson {
   @Field()
-  firstName: string;
+  firstName: string
 
   @Field()
-  lastName: string;
+  lastName: string
 
   @Field()
   fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.firstName} ${this.lastName}`
   }
 }
 ```
@@ -147,8 +147,8 @@ We can just use `@Arg` or `@Args` decorators as usual:
 @InterfaceType()
 abstract class IPerson {
   @Field()
-  avatar(@Arg("size") size: number): string {
-    return `http://i.pravatar.cc/${size}`;
+  avatar(@Arg('size') size: number): string {
+    return `http://i.pravatar.cc/${size}`
   }
 }
 ```
@@ -160,8 +160,8 @@ So if we don't want to provide implementation for that field resolver, only to e
 @InterfaceType()
 abstract class IPerson {
   @Field()
-  avatar(@Arg("size") size: number): string {
-    throw new Error("Method not implemented!");
+  avatar(@Arg('size') size: number): string {
+    throw new Error('Method not implemented!')
   }
 }
 ```
@@ -172,7 +172,7 @@ And then we need to extend the interface class and override the method by provid
 @ObjectType({ implements: IPerson })
 class Person extends IPerson {
   avatar(size: number): string {
-    return `http://i.pravatar.cc/${size}`;
+    return `http://i.pravatar.cc/${size}`
   }
 }
 ```
@@ -183,8 +183,8 @@ In order to extend the signature by providing additional arguments (like `format
 @ObjectType({ implements: IPerson })
 class Person implements IPerson {
   @Field()
-  avatar(@Arg("size") size: number, @Arg("format") format: string): string {
-    return `http://i.pravatar.cc/${size}.${format}`;
+  avatar(@Arg('size') size: number, @Arg('format') format: string): string {
+    return `http://i.pravatar.cc/${size}.${format}`
   }
 }
 ```
@@ -195,8 +195,8 @@ Resolvers for interface type fields can be also defined on resolvers classes lev
 @Resolver(of => IPerson)
 class IPersonResolver {
   @FieldResolver()
-  avatar(@Root() person: IPerson, @Arg("size") size: number): string {
-    return `http://typegraphql.com/${person.id}/${size}`;
+  avatar(@Root() person: IPerson, @Arg('size') size: number): string {
+    return `http://typegraphql.com/${person.id}/${size}`
   }
 }
 ```
@@ -213,7 +213,7 @@ In this situation, we can provide an `{ autoRegisterImplementations: false }` op
 @InterfaceType({ autoRegisterImplementations: false })
 abstract class Node {
   @Field(type => ID)
-  id: string;
+  id: string
 }
 ```
 
@@ -223,8 +223,8 @@ Then we need to add all the object types (that implement this interface type and
 const schema = await buildSchema({
   resolvers,
   // here we provide such object types
-  orphanedTypes: [Person, Animal, Recipe],
-});
+  orphanedTypes: [Person, Animal, Recipe]
+})
 ```
 
 Be aware that if the object type class is explicitly used as the GraphQL type (like `Recipe` type as the return type of `addRecipe` mutation), it will be emitted regardless the `orphanedTypes` setting.
@@ -238,11 +238,11 @@ We can also provide our own `resolveType` function implementation to the `@Inter
 ```typescript
 @InterfaceType({
   resolveType: value => {
-    if ("grades" in value) {
-      return "Student"; // schema name of the type as a string
+    if ('grades' in value) {
+      return 'Student' // schema name of the type as a string
     }
-    return Person; // or the object type class
-  },
+    return Person // or the object type class
+  }
 })
 abstract class IPerson {
   // ...

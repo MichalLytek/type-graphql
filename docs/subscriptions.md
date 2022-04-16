@@ -45,8 +45,8 @@ This function should return a `boolean` or `Promise<boolean>` type.
 class SampleResolver {
   // ...
   @Subscription({
-    topics: "NOTIFICATIONS",
-    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
+    topics: 'NOTIFICATIONS',
+    filter: ({ payload, args }) => args.priorities.includes(payload.priority)
   })
   newNotification(): Notification {
     // ...
@@ -63,8 +63,8 @@ class SampleResolver {
   // ...
   @Subscription({
     subscribe: (root, args, context, info) => {
-      return context.prisma.$subscribe.users({ mutation_in: [args.mutationType] });
-    },
+      return context.prisma.$subscribe.users({ mutation_in: [args.mutationType] })
+    }
   })
   newNotification(): Notification {
     // ...
@@ -80,17 +80,14 @@ Now we can implement the subscription resolver. It will receive the payload from
 class SampleResolver {
   // ...
   @Subscription({
-    topics: "NOTIFICATIONS",
-    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
+    topics: 'NOTIFICATIONS',
+    filter: ({ payload, args }) => args.priorities.includes(payload.priority)
   })
-  newNotification(
-    @Root() notificationPayload: NotificationPayload,
-    @Args() args: NewNotificationsArgs,
-  ): Notification {
+  newNotification(@Root() notificationPayload: NotificationPayload, @Args() args: NewNotificationsArgs): Notification {
     return {
       ...notificationPayload,
-      date: new Date(),
-    };
+      date: new Date()
+    }
   }
 }
 ```
@@ -108,10 +105,10 @@ So, let us assume we have this mutation for adding a new comment:
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
-  async addNewComment(@Arg("comment") input: CommentInput) {
-    const comment = this.commentsService.createNew(input);
-    await this.commentsRepository.save(comment);
-    return true;
+  async addNewComment(@Arg('comment') input: CommentInput) {
+    const comment = this.commentsService.createNew(input)
+    await this.commentsRepository.save(comment)
+    return true
   }
 }
 ```
@@ -123,13 +120,13 @@ There we can trigger the topics and send the payload to all topic subscribers.
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
-  async addNewComment(@Arg("comment") input: CommentInput, @PubSub() pubSub: PubSubEngine) {
-    const comment = this.commentsService.createNew(input);
-    await this.commentsRepository.save(comment);
+  async addNewComment(@Arg('comment') input: CommentInput, @PubSub() pubSub: PubSubEngine) {
+    const comment = this.commentsService.createNew(input)
+    await this.commentsRepository.save(comment)
     // here we can trigger subscriptions topics
-    const payload: NotificationPayload = { message: input.content };
-    await pubSub.publish("NOTIFICATIONS", payload);
-    return true;
+    const payload: NotificationPayload = { message: input.content }
+    await pubSub.publish('NOTIFICATIONS', payload)
+    return true
   }
 }
 ```
@@ -142,14 +139,14 @@ class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
   async addNewComment(
-    @Arg("comment") input: CommentInput,
-    @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
+    @Arg('comment') input: CommentInput,
+    @PubSub('NOTIFICATIONS') publish: Publisher<NotificationPayload>
   ) {
-    const comment = this.commentsService.createNew(input);
-    await this.commentsRepository.save(comment);
+    const comment = this.commentsService.createNew(input)
+    await this.commentsRepository.save(comment)
     // here we can trigger subscriptions topics
-    await publish({ message: input.content });
-    return true;
+    await publish({ message: input.content })
+    return true
   }
 }
 ```
@@ -166,12 +163,12 @@ For better scalability we'll want to use one of the [`PubSub implementations`](h
 All we need to do is create an instance of PubSub according to the package instructions and then provide it to the TypeGraphQL `buildSchema` options:
 
 ```typescript
-const myRedisPubSub = getConfiguredRedisPubSub();
+const myRedisPubSub = getConfiguredRedisPubSub()
 
 const schema = await buildSchema({
-  resolvers: [__dirname + "/**/*.resolver.ts"],
-  pubSub: myRedisPubSub,
-});
+  resolvers: [__dirname + '/**/*.resolver.ts'],
+  pubSub: myRedisPubSub
+})
 ```
 
 ## Creating a Subscription Server

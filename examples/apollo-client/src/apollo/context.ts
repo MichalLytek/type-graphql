@@ -1,5 +1,5 @@
-import { InMemoryCache } from "@apollo/client";
+import { InMemoryCache } from '@apollo/client'
 
 export default interface ApolloContext {
-  cache: InMemoryCache;
+  cache: InMemoryCache
 }

@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata'
 import {
   IntrospectionObjectType,
   IntrospectionInterfaceType,
@@ -9,39 +9,29 @@ import {
   graphql,
   GraphQLSchema,
   IntrospectionSchema,
-  IntrospectionInputObjectType,
-} from "graphql";
+  IntrospectionInputObjectType
+} from 'graphql'
 
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
-  InterfaceType,
-  ClassType,
-  Int,
-  InputType,
-  Arg,
-} from "../../src";
+import { getSchemaInfo } from '../helpers/getSchemaInfo'
+import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
+import { ObjectType, Field, Resolver, Query, InterfaceType, ClassType, Int, InputType, Arg } from '../../src'
 
-describe("Generic types", () => {
+describe('Generic types', () => {
   beforeEach(() => {
-    getMetadataStorage().clear();
-  });
+    getMetadataStorage().clear()
+  })
 
   it("shouldn't emit abstract object type", async () => {
     @ObjectType({ isAbstract: true })
     abstract class BaseType {
       @Field()
-      baseField: string;
+      baseField: string
     }
 
     @ObjectType()
     class SampleType extends BaseType {
       @Field()
-      sampleField: string;
+      sampleField: string
     }
 
     @Resolver()
@@ -49,141 +39,136 @@ describe("Generic types", () => {
       @Query()
       sampleQuery(): SampleType {
         return {
-          sampleField: "sampleField",
-          baseField: "baseField",
-        };
+          sampleField: 'sampleField',
+          baseField: 'baseField'
+        }
       }
     }
 
-    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] });
+    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] })
 
-    const sampleTypeInfo = schemaIntrospection.types.find(
-      it => it.name === "SampleType",
-    ) as IntrospectionObjectType;
-    const baseTypeInfo = schemaIntrospection.types.find(it => it.name === "BaseType") as undefined;
+    const sampleTypeInfo = schemaIntrospection.types.find(it => it.name === 'SampleType') as IntrospectionObjectType
+    const baseTypeInfo = schemaIntrospection.types.find(it => it.name === 'BaseType') as undefined
 
-    expect(sampleTypeInfo.fields).toHaveLength(2);
-    expect(baseTypeInfo).toBeUndefined();
-  });
+    expect(sampleTypeInfo.fields).toHaveLength(2)
+    expect(baseTypeInfo).toBeUndefined()
+  })
 
   it("shouldn't emit abstract interface type", async () => {
     @InterfaceType({ isAbstract: true })
     abstract class BaseInterfaceType {
       @Field()
-      baseField: string;
+      baseField: string
     }
 
     @InterfaceType()
     abstract class SampleInterfaceType extends BaseInterfaceType {
       @Field()
-      sampleField: string;
+      sampleField: string
     }
 
     @ObjectType({ implements: SampleInterfaceType })
     class SampleType implements SampleInterfaceType {
       @Field()
-      baseField: string;
+      baseField: string
+
       @Field()
-      sampleField: string;
+      sampleField: string
     }
 
     @Resolver()
     class SampleResolver {
       @Query()
       sampleQuery(): SampleInterfaceType {
-        const sample = new SampleType();
-        sample.baseField = "baseField";
-        sample.sampleField = "sampleField";
-        return sample;
+        const sample = new SampleType()
+        sample.baseField = 'baseField'
+        sample.sampleField = 'sampleField'
+        return sample
       }
     }
 
-    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] });
+    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] })
 
     const sampleInterfaceTypeInfo = schemaIntrospection.types.find(
-      it => it.name === "SampleInterfaceType",
-    ) as IntrospectionInterfaceType;
-    const baseInterfaceTypeInfo = schemaIntrospection.types.find(
-      it => it.name === "BaseInterfaceType",
-    ) as undefined;
+      it => it.name === 'SampleInterfaceType'
+    ) as IntrospectionInterfaceType
+    const baseInterfaceTypeInfo = schemaIntrospection.types.find(it => it.name === 'BaseInterfaceType') as undefined
 
-    expect(sampleInterfaceTypeInfo.fields).toHaveLength(2);
-    expect(baseInterfaceTypeInfo).toBeUndefined();
-  });
+    expect(sampleInterfaceTypeInfo.fields).toHaveLength(2)
+    expect(baseInterfaceTypeInfo).toBeUndefined()
+  })
 
   it("shouldn't emit abstract input object type", async () => {
     @InputType({ isAbstract: true })
     abstract class BaseInput {
       @Field()
-      baseField: string;
+      baseField: string
     }
 
     @InputType()
     class SampleInput extends BaseInput {
       @Field()
-      sampleField: string;
+      sampleField: string
     }
 
     @Resolver()
     class SampleResolver {
       @Query()
-      sampleQuery(@Arg("input") input: SampleInput): boolean {
-        return true;
+      sampleQuery(@Arg('input') input: SampleInput): boolean {
+        return true
       }
     }
 
-    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] });
+    const { schemaIntrospection } = await getSchemaInfo({ resolvers: [SampleResolver] })
 
     const sampleInputInfo = schemaIntrospection.types.find(
-      it => it.name === "SampleInput",
-    ) as IntrospectionInputObjectType;
-    const baseInputInfo = schemaIntrospection.types.find(
-      it => it.name === "BaseInput",
-    ) as undefined;
+      it => it.name === 'SampleInput'
+    ) as IntrospectionInputObjectType
+    const baseInputInfo = schemaIntrospection.types.find(it => it.name === 'BaseInput') as undefined
 
-    expect(sampleInputInfo.inputFields).toHaveLength(2);
-    expect(baseInputInfo).toBeUndefined();
-  });
+    expect(sampleInputInfo.inputFields).toHaveLength(2)
+    expect(baseInputInfo).toBeUndefined()
+  })
 
-  describe("multiple children of base generic class", () => {
-    let schema: GraphQLSchema;
-    let schemaIntrospection: IntrospectionSchema;
-    let dogsResponseMock: any;
+  describe('multiple children of base generic class', () => {
+    let schema: GraphQLSchema
+    let schemaIntrospection: IntrospectionSchema
+    let dogsResponseMock: any
 
     beforeEach(async () => {
       function Connection<TItem>(TItemClass: ClassType<TItem>) {
         @ObjectType(`${TItemClass.name}Connection`, { isAbstract: true })
         class ConnectionClass {
           @Field(type => Int)
-          count: number;
+          count: number
 
           @Field(type => [TItemClass])
-          items: TItem[];
+          items: TItem[]
         }
-        return ConnectionClass;
+        return ConnectionClass
       }
 
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name: string
       }
 
       @ObjectType()
       class Dog {
         @Field()
-        canBark: boolean;
+        canBark: boolean
       }
 
-      const UserConnection = Connection(User);
-      type UserConnection = InstanceType<typeof UserConnection>;
+      const UserConnection = Connection(User)
+      type UserConnection = InstanceType<typeof UserConnection>
       @ObjectType()
       class DogConnection extends Connection(Dog) {}
 
       dogsResponseMock = {
         count: 2,
-        items: [{ canBark: false }, { canBark: true }],
-      } as DogConnection;
+        items: [{ canBark: false }, { canBark: true }]
+      } as DogConnection
 
       @Resolver()
       class GenericConnectionResolver {
@@ -191,53 +176,46 @@ describe("Generic types", () => {
         users(): UserConnection {
           return {
             count: 2,
-            items: [{ name: "Tony" }, { name: "Michael" }],
-          };
+            items: [{ name: 'Tony' }, { name: 'Michael' }]
+          }
         }
 
         @Query(returns => DogConnection)
         dogs(): DogConnection {
-          return dogsResponseMock;
+          return dogsResponseMock
         }
       }
 
-      ({ schema, schemaIntrospection } = await getSchemaInfo({
-        resolvers: [GenericConnectionResolver],
-      }));
-    });
+      ;({ schema, schemaIntrospection } = await getSchemaInfo({
+        resolvers: [GenericConnectionResolver]
+      }))
+    })
 
-    it("should register proper types in schema using const and class syntax", async () => {
+    it('should register proper types in schema using const and class syntax', async () => {
       const schemaObjectTypes = schemaIntrospection.types.filter(
-        it => it.kind === TypeKind.OBJECT && !it.name.startsWith("__"),
-      );
+        it => it.kind === TypeKind.OBJECT && !it.name.startsWith('__')
+      )
       const userConnectionTypeInfo = schemaObjectTypes.find(
-        it => it.name === "UserConnection",
-      ) as IntrospectionObjectType;
-      const userConnectionCountField = userConnectionTypeInfo.fields.find(
-        it => it.name === "count",
-      )!;
-      const userConnectionCountFieldType = (
-        userConnectionCountField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionScalarType;
-      const userConnectionItemsField = userConnectionTypeInfo.fields.find(
-        it => it.name === "items",
-      )!;
+        it => it.name === 'UserConnection'
+      ) as IntrospectionObjectType
+      const userConnectionCountField = userConnectionTypeInfo.fields.find(it => it.name === 'count')!
+      const userConnectionCountFieldType = (userConnectionCountField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionScalarType
+      const userConnectionItemsField = userConnectionTypeInfo.fields.find(it => it.name === 'items')!
       const userConnectionItemsFieldType = (
-        (
-          (userConnectionItemsField.type as IntrospectionNonNullTypeRef)
-            .ofType as IntrospectionListTypeRef
-        ).ofType as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionObjectType;
+        ((userConnectionItemsField.type as IntrospectionNonNullTypeRef).ofType as IntrospectionListTypeRef)
+          .ofType as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType
 
-      expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
-      expect(userConnectionTypeInfo.fields).toHaveLength(2);
-      expect(userConnectionCountFieldType.kind).toBe(TypeKind.SCALAR);
-      expect(userConnectionCountFieldType.name).toBe("Int");
-      expect(userConnectionItemsFieldType.kind).toBe(TypeKind.OBJECT);
-      expect(userConnectionItemsFieldType.name).toBe("User");
-    });
+      expect(schemaObjectTypes).toHaveLength(5) // Query, User, Dog, UserCon, DogCon
+      expect(userConnectionTypeInfo.fields).toHaveLength(2)
+      expect(userConnectionCountFieldType.kind).toBe(TypeKind.SCALAR)
+      expect(userConnectionCountFieldType.name).toBe('Int')
+      expect(userConnectionItemsFieldType.kind).toBe(TypeKind.OBJECT)
+      expect(userConnectionItemsFieldType.name).toBe('User')
+    })
 
-    it("should return child class data from query", async () => {
+    it('should return child class data from query', async () => {
       const query = /* graphql */ `
         query {
           dogs {
@@ -247,133 +225,124 @@ describe("Generic types", () => {
             }
           }
         }
-      `;
+      `
 
-      const result: any = await graphql({ schema, source: query });
+      const result: any = await graphql({ schema, source: query })
 
-      expect(result.data!.dogs).toEqual(dogsResponseMock);
-    });
-  });
+      expect(result.data!.dogs).toEqual(dogsResponseMock)
+    })
+  })
 
-  describe("adding new properties in child class", () => {
-    let schema: GraphQLSchema;
-    let schemaIntrospection: IntrospectionSchema;
-    let recipeEdgeResponse: any;
-    let friendshipEdgeResponse: any;
+  describe('adding new properties in child class', () => {
+    let schema: GraphQLSchema
+    let schemaIntrospection: IntrospectionSchema
+    let recipeEdgeResponse: any
+    let friendshipEdgeResponse: any
 
     beforeEach(async () => {
       function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
         @ObjectType({ isAbstract: true })
         abstract class EdgeClass {
           @Field(type => NodeClass)
-          node: TNodeClass;
+          node: TNodeClass
 
           @Field()
-          cursor: string;
+          cursor: string
         }
-        return EdgeClass;
+        return EdgeClass
       }
 
       @ObjectType()
       class Recipe {
         @Field()
-        title: string;
+        title: string
       }
 
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name: string
       }
 
       @ObjectType()
       class RecipeEdge extends Edge(Recipe) {
         @Field()
-        personalNotes: string;
+        personalNotes: string
       }
       recipeEdgeResponse = {
-        cursor: "recipeCursor",
+        cursor: 'recipeCursor',
         node: {
-          title: "recipeTitle",
+          title: 'recipeTitle'
         },
-        personalNotes: "recipePersonalNotes",
-      } as RecipeEdge;
+        personalNotes: 'recipePersonalNotes'
+      } as RecipeEdge
 
       @ObjectType()
       class FriendshipEdge extends Edge(User) {
         @Field()
-        friendedAt: Date;
+        friendedAt: Date
       }
       friendshipEdgeResponse = {
-        cursor: "friendshipCursor",
+        cursor: 'friendshipCursor',
         node: {
-          name: "userName",
+          name: 'userName'
         },
-        friendedAt: new Date(),
-      } as FriendshipEdge;
+        friendedAt: new Date()
+      } as FriendshipEdge
 
       @Resolver()
       class EdgeResolver {
         @Query()
         recipeEdge(): RecipeEdge {
-          return recipeEdgeResponse;
+          return recipeEdgeResponse
         }
 
         @Query()
         friendshipEdge(): FriendshipEdge {
-          return friendshipEdgeResponse;
+          return friendshipEdgeResponse
         }
       }
 
-      ({ schema, schemaIntrospection } = await getSchemaInfo({
-        resolvers: [EdgeResolver],
-      }));
-    });
+      ;({ schema, schemaIntrospection } = await getSchemaInfo({
+        resolvers: [EdgeResolver]
+      }))
+    })
 
-    it("should register fields properly in schema", async () => {
+    it('should register fields properly in schema', async () => {
       const schemaObjectTypes = schemaIntrospection.types.filter(
-        it => it.kind === TypeKind.OBJECT && !it.name.startsWith("__"),
-      );
-      const recipeEdgeTypeInfo = schemaObjectTypes.find(
-        it => it.name === "RecipeEdge",
-      ) as IntrospectionObjectType;
-      const recipeEdgeNodeField = recipeEdgeTypeInfo.fields.find(it => it.name === "node")!;
+        it => it.kind === TypeKind.OBJECT && !it.name.startsWith('__')
+      )
+      const recipeEdgeTypeInfo = schemaObjectTypes.find(it => it.name === 'RecipeEdge') as IntrospectionObjectType
+      const recipeEdgeNodeField = recipeEdgeTypeInfo.fields.find(it => it.name === 'node')!
       const recipeEdgeNodeFieldType = (recipeEdgeNodeField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
-      const recipeEdgePersonalNotesField = recipeEdgeTypeInfo.fields.find(
-        it => it.name === "personalNotes",
-      )!;
-      const recipeEdgePersonalNotesFieldType = (
-        recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionObjectType;
+        .ofType as IntrospectionObjectType
+      const recipeEdgePersonalNotesField = recipeEdgeTypeInfo.fields.find(it => it.name === 'personalNotes')!
+      const recipeEdgePersonalNotesFieldType = (recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionObjectType
       const friendshipEdgeTypeInfo = schemaObjectTypes.find(
-        it => it.name === "FriendshipEdge",
-      ) as IntrospectionObjectType;
-      const friendshipEdgeNodeField = friendshipEdgeTypeInfo.fields.find(it => it.name === "node")!;
-      const friendshipEdgeNodeFieldType = (
-        friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionObjectType;
-      const friendshipEdgeFriendedAtField = friendshipEdgeTypeInfo.fields.find(
-        it => it.name === "friendedAt",
-      )!;
-      const friendshipEdgeFriendedAtFieldType = (
-        friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef
-      ).ofType as IntrospectionObjectType;
+        it => it.name === 'FriendshipEdge'
+      ) as IntrospectionObjectType
+      const friendshipEdgeNodeField = friendshipEdgeTypeInfo.fields.find(it => it.name === 'node')!
+      const friendshipEdgeNodeFieldType = (friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionObjectType
+      const friendshipEdgeFriendedAtField = friendshipEdgeTypeInfo.fields.find(it => it.name === 'friendedAt')!
+      const friendshipEdgeFriendedAtFieldType = (friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef)
+        .ofType as IntrospectionObjectType
 
-      expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
-      expect(recipeEdgeTypeInfo.fields).toHaveLength(3);
-      expect(recipeEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT);
-      expect(recipeEdgeNodeFieldType.name).toBe("Recipe");
-      expect(recipeEdgePersonalNotesFieldType.kind).toBe(TypeKind.SCALAR);
-      expect(recipeEdgePersonalNotesFieldType.name).toBe("String");
-      expect(friendshipEdgeTypeInfo.fields).toHaveLength(3);
-      expect(friendshipEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT);
-      expect(friendshipEdgeNodeFieldType.name).toBe("User");
-      expect(friendshipEdgeFriendedAtFieldType.kind).toBe(TypeKind.SCALAR);
-      expect(friendshipEdgeFriendedAtFieldType.name).toBe("DateTime");
-    });
+      expect(schemaObjectTypes).toHaveLength(5) // Query, User, Dog, UserCon, DogCon
+      expect(recipeEdgeTypeInfo.fields).toHaveLength(3)
+      expect(recipeEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT)
+      expect(recipeEdgeNodeFieldType.name).toBe('Recipe')
+      expect(recipeEdgePersonalNotesFieldType.kind).toBe(TypeKind.SCALAR)
+      expect(recipeEdgePersonalNotesFieldType.name).toBe('String')
+      expect(friendshipEdgeTypeInfo.fields).toHaveLength(3)
+      expect(friendshipEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT)
+      expect(friendshipEdgeNodeFieldType.name).toBe('User')
+      expect(friendshipEdgeFriendedAtFieldType.kind).toBe(TypeKind.SCALAR)
+      expect(friendshipEdgeFriendedAtFieldType.name).toBe('DateTime')
+    })
 
-    it("should return child classes data from queries", async () => {
+    it('should return child classes data from queries', async () => {
       const query = /* graphql */ `
         query {
           recipeEdge {
@@ -391,50 +360,51 @@ describe("Generic types", () => {
             friendedAt
           }
         }
-      `;
+      `
 
-      const result: any = await graphql({ schema, source: query });
+      const result: any = await graphql({ schema, source: query })
 
-      expect(result.data!.recipeEdge).toEqual(recipeEdgeResponse);
+      expect(result.data!.recipeEdge).toEqual(recipeEdgeResponse)
       expect(result.data!.friendshipEdge).toEqual({
         ...friendshipEdgeResponse,
-        friendedAt: friendshipEdgeResponse.friendedAt.toISOString(),
-      });
-    });
-  });
+        friendedAt: friendshipEdgeResponse.friendedAt.toISOString()
+      })
+    })
+  })
 
-  describe("overwriting a property from base generic class in child class", () => {
-    let schema: GraphQLSchema;
-    let schemaIntrospection: IntrospectionSchema;
+  describe('overwriting a property from base generic class in child class', () => {
+    let schema: GraphQLSchema
+    let schemaIntrospection: IntrospectionSchema
 
     beforeAll(async () => {
       function Base<TType>(TTypeClass: ClassType<TType>) {
         @ObjectType({ isAbstract: true })
         class BaseClass {
           @Field(type => TTypeClass)
-          baseField: TType;
+          baseField: TType
         }
-        return BaseClass;
+        return BaseClass
       }
 
       @ObjectType()
       class BaseSample {
         @Field()
-        sampleField: string;
+        sampleField: string
       }
 
       @ObjectType()
       class ChildSample {
         @Field()
-        sampleField: string;
+        sampleField: string
+
         @Field()
-        childField: string;
+        childField: string
       }
 
       @ObjectType()
       class Child extends Base(BaseSample) {
         @Field()
-        baseField: ChildSample; // overwriting field with a up compatible type
+        baseField: ChildSample // overwriting field with a up compatible type
       }
 
       @Resolver()
@@ -443,31 +413,29 @@ describe("Generic types", () => {
         child(): Child {
           return {
             baseField: {
-              sampleField: "sampleField",
-              childField: "childField",
-            },
-          };
+              sampleField: 'sampleField',
+              childField: 'childField'
+            }
+          }
         }
       }
 
-      ({ schema, schemaIntrospection } = await getSchemaInfo({
-        resolvers: [OverwriteResolver],
-      }));
-    });
+      ;({ schema, schemaIntrospection } = await getSchemaInfo({
+        resolvers: [OverwriteResolver]
+      }))
+    })
 
-    it("should register proper type with overwritten field from base generic class", async () => {
-      const childTypeInfo = schemaIntrospection.types.find(
-        it => it.name === "Child",
-      ) as IntrospectionObjectType;
-      const childTypeBaseField = childTypeInfo.fields.find(it => it.name === "baseField")!;
+    it('should register proper type with overwritten field from base generic class', async () => {
+      const childTypeInfo = schemaIntrospection.types.find(it => it.name === 'Child') as IntrospectionObjectType
+      const childTypeBaseField = childTypeInfo.fields.find(it => it.name === 'baseField')!
       const childTypeBaseFieldType = (childTypeBaseField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+        .ofType as IntrospectionObjectType
 
-      expect(childTypeBaseFieldType.kind).toEqual(TypeKind.OBJECT);
-      expect(childTypeBaseFieldType.name).toEqual("ChildSample");
-    });
+      expect(childTypeBaseFieldType.kind).toEqual(TypeKind.OBJECT)
+      expect(childTypeBaseFieldType.name).toEqual('ChildSample')
+    })
 
-    it("should return overwritten child class data from query", async () => {
+    it('should return overwritten child class data from query', async () => {
       const document = /* graphql */ `
         query {
           child {
@@ -477,18 +445,18 @@ describe("Generic types", () => {
             }
           }
         }
-      `;
+      `
 
-      const result: any = await graphql({ schema, source: document });
+      const result: any = await graphql({ schema, source: document })
 
       expect(result.data!).toEqual({
         child: {
           baseField: {
-            sampleField: "sampleField",
-            childField: "childField",
-          },
-        },
-      });
-    });
-  });
-});
+            sampleField: 'sampleField',
+            childField: 'childField'
+          }
+        }
+      })
+    })
+  })
+})

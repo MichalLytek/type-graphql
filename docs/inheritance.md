@@ -16,10 +16,10 @@ While creating a GraphQL API, it's a common pattern to have pagination args in r
 @ArgsType()
 class PaginationArgs {
   @Field(type => Int)
-  skip: number = 0;
+  skip: number = 0
 
   @Field(type => Int)
-  take: number = 25;
+  take: number = 25
 }
 ```
 
@@ -29,7 +29,7 @@ and then reuse it everywhere:
 @ArgsType()
 class GetTodosArgs extends PaginationArgs {
   @Field()
-  onlyCompleted: boolean = false;
+  onlyCompleted: boolean = false
 }
 ```
 
@@ -39,13 +39,13 @@ This technique also works with input type classes, as well as with object type c
 @ObjectType()
 class Person {
   @Field()
-  age: number;
+  age: number
 }
 
 @ObjectType()
 class Student extends Person {
   @Field()
-  universityName: string;
+  universityName: string
 }
 ```
 
@@ -61,7 +61,7 @@ Since we need to generate unique query/mutation names, we have to create a facto
 function createBaseResolver() {
   abstract class BaseResolver {}
 
-  return BaseResolver;
+  return BaseResolver
 }
 ```
 
@@ -73,7 +73,7 @@ This factory should take a parameter that we can use to generate the query/mutat
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   abstract class BaseResolver {}
 
-  return BaseResolver;
+  return BaseResolver
 }
 ```
 
@@ -84,7 +84,7 @@ function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: 
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {}
 
-  return BaseResolver;
+  return BaseResolver
 }
 ```
 
@@ -94,22 +94,22 @@ We can then implement the resolver methods as usual. The only difference is that
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {
-    protected items: T[] = [];
+    protected items: T[] = []
 
     @Query(type => [objectTypeCls], { name: `getAll${suffix}` })
-    async getAll(@Arg("first", type => Int) first: number): Promise<T[]> {
-      return this.items.slice(0, first);
+    async getAll(@Arg('first', type => Int) first: number): Promise<T[]> {
+      return this.items.slice(0, first)
     }
   }
 
-  return BaseResolver;
+  return BaseResolver
 }
 ```
 
 Now we can create a specific resolver class that will extend the base resolver class:
 
 ```typescript
-const PersonBaseResolver = createBaseResolver("person", Person);
+const PersonBaseResolver = createBaseResolver('person', Person)
 
 @Resolver(of => Person)
 export class PersonResolver extends PersonBaseResolver {
@@ -120,14 +120,14 @@ export class PersonResolver extends PersonBaseResolver {
 We can also add specific queries and mutations in our resolver class, as always:
 
 ```typescript
-const PersonBaseResolver = createBaseResolver("person", Person);
+const PersonBaseResolver = createBaseResolver('person', Person)
 
 @Resolver(of => Person)
 export class PersonResolver extends PersonBaseResolver {
   @Mutation()
-  addPerson(@Arg("input") personInput: PersonInput): Person {
-    this.items.push(personInput);
-    return personInput;
+  addPerson(@Arg('input') personInput: PersonInput): Person {
+    this.items.push(personInput)
+    return personInput
   }
 }
 ```

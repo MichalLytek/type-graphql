@@ -1,20 +1,20 @@
-import { IsEmail } from "class-validator";
-import { InputType, Field, ObjectType } from "../../../src";
+import { IsEmail } from 'class-validator'
+import { InputType, Field, ObjectType } from '../../../src'
 
 // `UserDetails` stores base common user properties
 @ObjectType({ isAbstract: true })
-@InputType("UserDetailsInput", { isAbstract: true })
+@InputType('UserDetailsInput', { isAbstract: true })
 export default class UserDetails {
   @Field()
-  forename!: string;
+  forename!: string
 
   @Field({ nullable: true })
-  surname?: string;
+  surname?: string
 
   @Field(type => Date)
-  dateOfBirth!: Date;
+  dateOfBirth!: Date
 
   @IsEmail()
   @Field()
-  email!: string;
+  email!: string
 }

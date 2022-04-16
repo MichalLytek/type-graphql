@@ -19,11 +19,11 @@ This makes it easy to perform actions before or after resolver execution. So thi
 
 ```typescript
 export const ResolveTime: MiddlewareFn = async ({ info }, next) => {
-  const start = Date.now();
-  await next();
-  const resolveTime = Date.now() - start;
-  console.log(`${info.parentType.name}.${info.fieldName} [${resolveTime} ms]`);
-};
+  const start = Date.now()
+  await next()
+  const resolveTime = Date.now() - start
+  console.log(`${info.parentType.name}.${info.fieldName} [${resolveTime} ms]`)
+}
 ```
 
 ### Intercepting the execution result
@@ -32,12 +32,12 @@ Middleware also has the ability to intercept the result of a resolver's executio
 
 ```typescript
 export const CompetitorInterceptor: MiddlewareFn = async (_, next) => {
-  const result = await next();
-  if (result === "typegql") {
-    return "type-graphql";
+  const result = await next()
+  if (result === 'typegql') {
+    return 'type-graphql'
   }
-  return result;
-};
+  return result
+}
 ```
 
 It might not seem very useful from the perspective of this library's users but this feature was mainly introduced for plugin systems and 3rd-party library integration. Thanks to this, it's possible to e.g. wrap the returned object with a lazy-relation wrapper that automatically fetches relations from a database on demand under the hood.
@@ -48,10 +48,10 @@ If we only want to do something before an action, like log the access to the res
 
 ```typescript
 const LogAccess: MiddlewareFn<TContext> = ({ context, info }, next) => {
-  const username: string = context.username || "guest";
-  console.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`);
-  return next();
-};
+  const username: string = context.username || 'guest'
+  console.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`)
+  return next()
+}
 ```
 
 ### Guards
@@ -64,14 +64,14 @@ This way we can create a guard that blocks access to the resolver and prevents e
 
 ```typescript
 export const CompetitorDetector: MiddlewareFn = async ({ args }, next) => {
-  if (args.frameworkName === "type-graphql") {
-    return "TypeGraphQL";
+  if (args.frameworkName === 'type-graphql') {
+    return 'TypeGraphQL'
   }
-  if (args.frameworkName === "typegql") {
-    throw new Error("Competitive framework detected!");
+  if (args.frameworkName === 'typegql') {
+    throw new Error('Competitive framework detected!')
   }
-  return next();
-};
+  return next()
+}
 ```
 
 ### Reusable Middleware
@@ -81,13 +81,13 @@ Sometimes middleware has to be configurable, just like we pass a `roles` array t
 ```typescript
 export function NumberInterceptor(minValue: number): MiddlewareFn {
   return async (_, next) => {
-    const result = await next();
+    const result = await next()
     // hide values below minValue
-    if (typeof result === "number" && result < minValue) {
-      return null;
+    if (typeof result === 'number' && result < minValue) {
+      return null
     }
-    return result;
-  };
+    return result
+  }
 }
 ```
 
@@ -100,20 +100,20 @@ Middleware can also catch errors that were thrown during execution. This way, th
 ```typescript
 export const ErrorInterceptor: MiddlewareFn<any> = async ({ context, info }, next) => {
   try {
-    return await next();
+    return await next()
   } catch (err) {
     // write error to file log
-    fileLog.write(err, context, info);
+    fileLog.write(err, context, info)
 
     // hide errors from db like printing sql query
     if (someCondition(err)) {
-      throw new Error("Unknown error occurred!");
+      throw new Error('Unknown error occurred!')
     }
 
     // rethrow the error
-    throw err;
+    throw err
   }
-};
+}
 ```
 
 ### Class-based Middleware
@@ -127,9 +127,9 @@ export class LogAccess implements MiddlewareInterface<TContext> {
   constructor(private readonly logger: Logger) {}
 
   async use({ context, info }: ResolverData<TContext>, next: NextFn) {
-    const username: string = context.username || "guest";
-    this.logger.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`);
-    return next();
+    const username: string = context.username || 'guest'
+    this.logger.log(`Logging access: ${username} -> ${info.parentType.name}.${info.fieldName}`)
+    return next()
   }
 }
 ```
@@ -146,7 +146,7 @@ export class RecipeResolver {
   @Query()
   @UseMiddleware(ResolveTime, LogAccess)
   randomValue(): number {
-    return Math.random();
+    return Math.random()
   }
 }
 ```
@@ -157,11 +157,11 @@ We can also attach the middleware to the `ObjectType` fields, the same way as wi
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title: string
 
   @Field(type => [Int])
   @UseMiddleware(LogAccess)
-  ratings: number[];
+  ratings: number[]
 }
 ```
 
@@ -174,8 +174,8 @@ Hence, in TypeGraphQL we can also register a global middleware that will be call
 ```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
-  globalMiddlewares: [ErrorInterceptor, ResolveTime],
-});
+  globalMiddlewares: [ErrorInterceptor, ResolveTime]
+})
 ```
 
 ### Custom Decorators

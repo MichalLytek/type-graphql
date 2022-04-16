@@ -1,19 +1,19 @@
-import { ObjectType, Field, Int } from "../../../src";
+import { ObjectType, Field, Int } from '../../../src'
 
-import { Resource } from "../resource/resource";
-import { PersonRole } from "./person.role";
+import { Resource } from '../resource/resource'
+import { PersonRole } from './person.role'
 
 @ObjectType()
 export class Person implements Resource {
   @Field()
-  id: number;
+  id: number
 
   @Field()
-  name: string;
+  name: string
 
   @Field(type => Int)
-  age: number;
+  age: number
 
   @Field(type => PersonRole)
-  role: PersonRole;
+  role: PersonRole
 }

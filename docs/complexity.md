@@ -18,10 +18,10 @@ Example of complexity
 @ObjectType()
 class MyObject {
   @Field({ complexity: 2 })
-  publicField: string;
+  publicField: string
 
   @Field({ complexity: ({ args, childComplexity }) => childComplexity + 1 })
-  complexField: string;
+  complexField: string
 }
 ```
 
@@ -68,23 +68,23 @@ async function bootstrap() {
                 // Add more estimators here...
                 // This will assign each field a complexity of 1
                 // if no other estimator returned a value.
-                simpleEstimator({ defaultComplexity: 1 }),
-              ],
-            });
+                simpleEstimator({ defaultComplexity: 1 })
+              ]
+            })
             // Here we can react to the calculated complexity,
             // like compare it with max and throw error when the threshold is reached.
             if (complexity > 20) {
               throw new Error(
-                `Sorry, too complicated query! ${complexity} is over 20 that is the max allowed complexity.`,
-              );
+                `Sorry, too complicated query! ${complexity} is over 20 that is the max allowed complexity.`
+              )
             }
             // And here we can e.g. subtract the complexity point from hourly API calls limit.
-            console.log("Used query complexity points:", complexity);
-          },
-        }),
-      },
-    ],
-  });
+            console.log('Used query complexity points:', complexity)
+          }
+        })
+      }
+    ]
+  })
 
   // ...start the server as always
 }

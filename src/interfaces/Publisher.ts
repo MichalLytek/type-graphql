@@ -1,1 +1,1 @@
-export type Publisher<T> = (payload: T) => Promise<void>;
+export type Publisher<T> = (payload: T) => Promise<void>

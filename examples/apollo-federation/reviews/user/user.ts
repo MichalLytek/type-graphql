@@ -1,14 +1,14 @@
-import { Directive, ObjectType, Field, ID } from "../../../../src";
+import { Directive, ObjectType, Field, ID } from '../../../../src'
 
-@Directive("@extends")
+@Directive('@extends')
 @Directive(`@key(fields: "id")`)
 @ObjectType()
 export default class User {
-  @Directive("@external")
+  @Directive('@external')
   @Field(type => ID)
-  id: string;
+  id: string
 
-  @Directive("@external")
+  @Directive('@external')
   @Field()
-  username: string;
+  username: string
 }

@@ -1,10 +1,10 @@
-import { InputType, Field } from "../../../src";
+import { InputType, Field } from '../../../src'
 
 @InputType()
 export class PersonInput {
   @Field()
-  name: string;
+  name: string
 
   @Field()
-  dateOfBirth: Date;
+  dateOfBirth: Date
 }

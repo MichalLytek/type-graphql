@@ -1,16 +1,16 @@
-import { ApolloClient, InMemoryCache, Resolvers, gql } from "@apollo/client";
-import { buildTypeDefsAndResolvers } from "../../../../src";
+import { ApolloClient, InMemoryCache, Resolvers, gql } from '@apollo/client'
+import { buildTypeDefsAndResolvers } from '../../../../src'
 
-import CounterResolver from "../Counter/counter.resolver";
-import CounterType from "../Counter/counter.type";
+import CounterResolver from '../Counter/counter.resolver'
+import CounterType from '../Counter/counter.type'
 
 export default async function createApolloClient() {
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     resolvers: [CounterResolver],
-    skipCheck: true, // allow for schema without queries
-  });
+    skipCheck: true // allow for schema without queries
+  })
 
-  const cache = new InMemoryCache();
+  const cache = new InMemoryCache()
 
   cache.writeQuery({
     query: gql`
@@ -24,16 +24,16 @@ export default async function createApolloClient() {
     data: {
       counter: {
         __typename: CounterType.name,
-        value: 0,
-      },
-    },
-  });
+        value: 0
+      }
+    }
+  })
 
   const client = new ApolloClient({
     typeDefs,
     resolvers: resolvers as Resolvers,
-    cache,
-  });
+    cache
+  })
 
-  return client;
+  return client
 }

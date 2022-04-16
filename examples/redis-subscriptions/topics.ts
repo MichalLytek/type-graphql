@@ -1,4 +1,4 @@
 export enum Topic {
-  NewComment = "NEW_COMMENT",
-  NewRecipe = "NEW_RECIPE",
+  NewComment = 'NEW_COMMENT',
+  NewRecipe = 'NEW_RECIPE'
 }

@@ -1,13 +1,13 @@
-import { Field, ObjectType } from "../../src";
+import { Field, ObjectType } from '../../src'
 
 @ObjectType()
 export class Comment {
   @Field({ nullable: true })
-  nickname?: string;
+  nickname?: string
 
   @Field()
-  content: string;
+  content: string
 
   @Field()
-  date: Date;
+  date: Date
 }

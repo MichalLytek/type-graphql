@@ -14,7 +14,7 @@ First you need to register your resolver classes in `providers` of the `@Module`
 
 ```typescript
 @Module({
-  providers: [RecipeResolver, RecipeService],
+  providers: [RecipeResolver, RecipeService]
 })
 export default class RecipeModule {}
 ```
@@ -27,11 +27,11 @@ Then you need to register the TypeGraphQL module in your root module - you can p
     TypeGraphQLModule.forRoot({
       emitSchemaFile: true,
       authChecker,
-      dateScalarMode: "timestamp",
-      context: ({ req }) => ({ currentUser: req.user }),
+      dateScalarMode: 'timestamp',
+      context: ({ req }) => ({ currentUser: req.user })
     }),
-    RecipeModule,
-  ],
+    RecipeModule
+  ]
 })
 export default class AppModule {}
 ```

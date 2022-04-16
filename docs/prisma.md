@@ -20,12 +20,12 @@ generator typegraphql {
 Then, after running `prisma generate` we can import the generated resolvers classes and use them to build our schema:
 
 ```typescript
-import { resolvers } from "@generated/type-graphql";
+import { resolvers } from '@generated/type-graphql'
 
 const schema = await buildSchema({
   resolvers,
-  validate: false,
-});
+  validate: false
+})
 ```
 
 So we will be able to execute a complex query, that talks with the real database, in just a few minutes!

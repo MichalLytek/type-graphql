@@ -1,29 +1,24 @@
-import {
-  ReturnTypeFunc,
-  TypeOptions,
-  TypeValueThunk,
-  TypeValue,
-  RecursiveArray,
-} from "../decorators/types";
-import { bannedTypes } from "./returnTypes";
-import { NoExplicitTypeError } from "../errors";
+import { RecursiveArray, ReturnTypeFunc, TypeOptions, TypeValue, TypeValueThunk } from '../decorators/types'
+import { bannedTypes } from './returnTypes'
+import { NoExplicitTypeError } from '../errors'
 
-export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
+export type MetadataKey = 'design:type' | 'design:returntype' | 'design:paramtypes'
 
 export interface TypeInfo {
-  getType: TypeValueThunk;
-  typeOptions: TypeOptions;
+  getType: TypeValueThunk
+  typeOptions: TypeOptions
 }
 
 export interface GetTypeParams {
-  metadataKey: MetadataKey;
-  prototype: Object;
-  propertyKey: string;
-  parameterIndex?: number;
-  argName?: string;
-  returnTypeFunc?: ReturnTypeFunc;
-  typeOptions?: TypeOptions;
+  metadataKey: MetadataKey
+  prototype: Object
+  propertyKey: string
+  parameterIndex?: number
+  argName?: string
+  returnTypeFunc?: ReturnTypeFunc
+  typeOptions?: TypeOptions
 }
+
 export function findType({
   metadataKey,
   prototype,
@@ -31,58 +26,54 @@ export function findType({
   parameterIndex,
   argName,
   returnTypeFunc,
-  typeOptions = {},
+  typeOptions = {}
 }: GetTypeParams): TypeInfo {
-  const options: TypeOptions = { ...typeOptions };
-  let metadataDesignType: Function | undefined;
-  const reflectedType: Function[] | Function | undefined = Reflect.getMetadata(
-    metadataKey,
-    prototype,
-    propertyKey,
-  );
+  const options: TypeOptions = { ...typeOptions }
+  let metadataDesignType: Function | undefined
+  const reflectedType: Function[] | Function | undefined = Reflect.getMetadata(metadataKey, prototype, propertyKey)
   if (reflectedType) {
-    if (metadataKey === "design:paramtypes") {
-      metadataDesignType = (reflectedType as Function[])[parameterIndex!];
+    if (metadataKey === 'design:paramtypes') {
+      metadataDesignType = (reflectedType as Function[])[parameterIndex!]
     } else {
-      metadataDesignType = reflectedType as Function;
+      metadataDesignType = reflectedType as Function
     }
   }
 
   if (!returnTypeFunc && (!metadataDesignType || bannedTypes.includes(metadataDesignType))) {
-    throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex, argName);
+    throw new NoExplicitTypeError(prototype.constructor.name, propertyKey, parameterIndex, argName)
   }
 
   if (returnTypeFunc) {
     const getType = () => {
-      const returnTypeFuncReturnValue = returnTypeFunc();
+      const returnTypeFuncReturnValue = returnTypeFunc()
       if (Array.isArray(returnTypeFuncReturnValue)) {
-        const { depth, returnType } = findTypeValueArrayDepth(returnTypeFuncReturnValue);
-        options.array = true;
-        options.arrayDepth = depth;
-        return returnType;
+        const { depth, returnType } = findTypeValueArrayDepth(returnTypeFuncReturnValue)
+        options.array = true
+        options.arrayDepth = depth
+        return returnType
       }
-      return returnTypeFuncReturnValue;
-    };
+      return returnTypeFuncReturnValue
+    }
     return {
       getType,
-      typeOptions: options,
-    };
+      typeOptions: options
+    }
   } else if (metadataDesignType) {
     return {
       getType: () => metadataDesignType!,
-      typeOptions: options,
-    };
+      typeOptions: options
+    }
   } else {
-    throw new Error("Ooops... this should never happen :)");
+    throw new Error('Ooops... this should never happen :)')
   }
 }
 
 function findTypeValueArrayDepth(
   [typeValueOrArray]: RecursiveArray<TypeValue>,
-  innerDepth = 1,
+  innerDepth = 1
 ): { depth: number; returnType: TypeValue } {
   if (!Array.isArray(typeValueOrArray)) {
-    return { depth: innerDepth, returnType: typeValueOrArray };
+    return { depth: innerDepth, returnType: typeValueOrArray }
   }
-  return findTypeValueArrayDepth(typeValueOrArray, innerDepth + 1);
+  return findTypeValueArrayDepth(typeValueOrArray, innerDepth + 1)
 }

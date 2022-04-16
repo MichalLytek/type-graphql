@@ -1,11 +1,11 @@
-import "reflect-metadata";
+import 'reflect-metadata'
 import {
   GraphQLSchema,
   GraphQLInputObjectType,
   GraphQLInterfaceType,
   GraphQLObjectType,
-  OperationTypeNode,
-} from "graphql";
+  OperationTypeNode
+} from 'graphql'
 import {
   Field,
   InputType,
@@ -17,111 +17,107 @@ import {
   ObjectType,
   Mutation,
   Subscription,
-  InterfaceType,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { assertValidDirective } from "../helpers/directives/assertValidDirective";
-import { InvalidDirectiveError } from "../../src/errors/InvalidDirectiveError";
-import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
+  InterfaceType
+} from '../../src'
+import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
+import { assertValidDirective } from '../helpers/directives/assertValidDirective'
+import { InvalidDirectiveError } from '../../src/errors/InvalidDirectiveError'
+import { testDirective, testDirectiveTransformer } from '../helpers/directives/TestDirective'
 
-describe("Directives", () => {
-  describe("Schema", () => {
+describe('Directives', () => {
+  describe('Schema', () => {
     beforeEach(async () => {
-      getMetadataStorage().clear();
-    });
+      getMetadataStorage().clear()
+    })
 
-    describe("on ObjectType", () => {
-      let schema: GraphQLSchema;
+    describe('on ObjectType', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
-        @Directive("@test")
+        @Directive('@test')
         @ObjectType()
         class SampleObject {
           @Field()
-          sampleField!: string;
+          sampleField!: string
         }
         @Resolver()
         class SampleResolver {
           @Query()
           sampleQuery(): SampleObject {
-            return { sampleField: "sampleField" };
+            return { sampleField: 'sampleField' }
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleObjectTypeInfo = schema.getType("SampleObject") as GraphQLObjectType;
+      it('should properly emit directive in AST', () => {
+        const sampleObjectTypeInfo = schema.getType('SampleObject') as GraphQLObjectType
 
-        assertValidDirective(sampleObjectTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleObjectTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleObjectTypeInfo = schema.getType("SampleObject") as GraphQLObjectType;
+      it('should properly apply directive mapper', async () => {
+        const sampleObjectTypeInfo = schema.getType('SampleObject') as GraphQLObjectType
 
         expect(sampleObjectTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on ObjectType field", () => {
-      let schema: GraphQLSchema;
+    describe('on ObjectType field', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @ObjectType()
         class SampleObject {
           @Field()
-          @Directive("@test")
-          sampleField!: string;
+          @Directive('@test')
+          sampleField!: string
         }
         @Resolver()
         class SampleResolver {
           @Query()
           sampleQuery(): SampleObject {
-            return { sampleField: "sampleField" };
+            return { sampleField: 'sampleField' }
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleObject") as GraphQLObjectType
-        ).getFields().sampleField;
+      it('should properly emit directive in AST', () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleObject') as GraphQLObjectType).getFields().sampleField
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleFieldTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleObject") as GraphQLObjectType
-        ).getFields().sampleField;
+      it('should properly apply directive mapper', async () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleObject') as GraphQLObjectType).getFields().sampleField
 
         expect(sampleFieldTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on InterfaceType", () => {
-      let schema: GraphQLSchema;
+    describe('on InterfaceType', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
-        @Directive("@test")
+        @Directive('@test')
         @InterfaceType()
         class SampleInterface {
           @Field()
-          sampleField!: string;
+          sampleField!: string
         }
         @ObjectType({ implements: [SampleInterface] })
         class SampleObject extends SampleInterface {}
@@ -129,9 +125,9 @@ describe("Directives", () => {
         class SampleResolver {
           @Query()
           sampleQuery(): SampleInterface {
-            const sampleObject = new SampleObject();
-            sampleObject.sampleField = "sampleField";
-            return sampleObject;
+            const sampleObject = new SampleObject()
+            sampleObject.sampleField = 'sampleField'
+            return sampleObject
           }
         }
 
@@ -139,34 +135,34 @@ describe("Directives", () => {
           resolvers: [SampleResolver],
           orphanedTypes: [SampleObject],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleInterfaceTypeInfo = schema.getType("SampleInterface") as GraphQLInterfaceType;
+      it('should properly emit directive in AST', () => {
+        const sampleInterfaceTypeInfo = schema.getType('SampleInterface') as GraphQLInterfaceType
 
-        assertValidDirective(sampleInterfaceTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleInterfaceTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleInterfaceTypeInfo = schema.getType("SampleInterface") as GraphQLInterfaceType;
+      it('should properly apply directive mapper', async () => {
+        const sampleInterfaceTypeInfo = schema.getType('SampleInterface') as GraphQLInterfaceType
 
         expect(sampleInterfaceTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on InterfaceType field", () => {
-      let schema: GraphQLSchema;
+    describe('on InterfaceType field', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @InterfaceType()
         class SampleInterface {
-          @Directive("@test")
+          @Directive('@test')
           @Field()
-          sampleField!: string;
+          sampleField!: string
         }
         @ObjectType({ implements: [SampleInterface] })
         class SampleObject extends SampleInterface {}
@@ -174,9 +170,9 @@ describe("Directives", () => {
         class SampleResolver {
           @Query()
           sampleQuery(): SampleInterface {
-            const sampleObject = new SampleObject();
-            sampleObject.sampleField = "sampleField";
-            return sampleObject;
+            const sampleObject = new SampleObject()
+            sampleObject.sampleField = 'sampleField'
+            return sampleObject
           }
         }
 
@@ -184,314 +180,296 @@ describe("Directives", () => {
           resolvers: [SampleResolver],
           orphanedTypes: [SampleObject],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleInterface") as GraphQLInterfaceType
-        ).getFields().sampleField;
+      it('should properly emit directive in AST', () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleInterface') as GraphQLInterfaceType).getFields().sampleField
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleFieldTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleInterface") as GraphQLInterfaceType
-        ).getFields().sampleField;
+      it('should properly apply directive mapper', async () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleInterface') as GraphQLInterfaceType).getFields().sampleField
 
         expect(sampleFieldTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on InputType", () => {
-      let schema: GraphQLSchema;
+    describe('on InputType', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
-        @Directive("@test")
+        @Directive('@test')
         @InputType()
         class SampleInput {
           @Field()
-          sampleField!: string;
+          sampleField!: string
         }
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
-            return true;
+          sampleQuery(@Arg('input') input: SampleInput): boolean {
+            return true
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleInputTypeInfo = schema.getType("SampleInput") as GraphQLInputObjectType;
+      it('should properly emit directive in AST', () => {
+        const sampleInputTypeInfo = schema.getType('SampleInput') as GraphQLInputObjectType
 
-        assertValidDirective(sampleInputTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleInputTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleInputTypeInfo = schema.getType("SampleInput") as GraphQLInputObjectType;
+      it('should properly apply directive mapper', async () => {
+        const sampleInputTypeInfo = schema.getType('SampleInput') as GraphQLInputObjectType
 
         expect(sampleInputTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on InputType field", () => {
-      let schema: GraphQLSchema;
+    describe('on InputType field', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @InputType()
         class SampleInput {
           @Field()
-          @Directive("@test")
-          sampleField!: string;
+          @Directive('@test')
+          sampleField!: string
         }
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
-            return true;
+          sampleQuery(@Arg('input') input: SampleInput): boolean {
+            return true
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleInput") as GraphQLInputObjectType
-        ).getFields().sampleField;
+      it('should properly emit directive in AST', () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleInput') as GraphQLInputObjectType).getFields().sampleField
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
-      });
+        assertValidDirective(sampleFieldTypeInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleFieldTypeInfo = (
-          schema.getType("SampleInput") as GraphQLInputObjectType
-        ).getFields().sampleField;
+      it('should properly apply directive mapper', async () => {
+        const sampleFieldTypeInfo = (schema.getType('SampleInput') as GraphQLInputObjectType).getFields().sampleField
 
         expect(sampleFieldTypeInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on Query", () => {
-      let schema: GraphQLSchema;
+    describe('on Query', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @Resolver()
         class SampleResolver {
-          @Directive("@test")
+          @Directive('@test')
           @Query()
           sampleQuery(): boolean {
-            return true;
+            return true
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleQueryInfo = schema
-          .getRootType(OperationTypeNode.QUERY)!
-          .getFields().sampleQuery;
+      it('should properly emit directive in AST', () => {
+        const sampleQueryInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().sampleQuery
 
-        assertValidDirective(sampleQueryInfo.astNode, "test");
-      });
+        assertValidDirective(sampleQueryInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleQueryInfo = schema
-          .getRootType(OperationTypeNode.QUERY)!
-          .getFields().sampleQuery;
+      it('should properly apply directive mapper', async () => {
+        const sampleQueryInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().sampleQuery
 
         expect(sampleQueryInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on Mutation", () => {
-      let schema: GraphQLSchema;
+    describe('on Mutation', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @Resolver()
         class SampleResolver {
           @Query()
           sampleQuery(): boolean {
-            return true;
+            return true
           }
 
-          @Directive("@test")
+          @Directive('@test')
           @Mutation()
           sampleMutation(): boolean {
-            return true;
+            return true
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
-        const sampleMutationInfo = schema
-          .getRootType(OperationTypeNode.MUTATION)!
-          .getFields().sampleMutation;
+      it('should properly emit directive in AST', () => {
+        const sampleMutationInfo = schema.getRootType(OperationTypeNode.MUTATION)!.getFields().sampleMutation
 
-        assertValidDirective(sampleMutationInfo.astNode, "test");
-      });
+        assertValidDirective(sampleMutationInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
-        const sampleMutationInfo = schema
-          .getRootType(OperationTypeNode.MUTATION)!
-          .getFields().sampleMutation;
+      it('should properly apply directive mapper', async () => {
+        const sampleMutationInfo = schema.getRootType(OperationTypeNode.MUTATION)!.getFields().sampleMutation
 
         expect(sampleMutationInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
 
-    describe("on Subscription", () => {
-      let schema: GraphQLSchema;
+    describe('on Subscription', () => {
+      let schema: GraphQLSchema
       beforeAll(async () => {
         @Resolver()
         class SampleResolver {
           @Query()
           sampleQuery(): boolean {
-            return true;
+            return true
           }
 
-          @Directive("@test")
-          @Subscription({ topics: "sample" })
+          @Directive('@test')
+          @Subscription({ topics: 'sample' })
           sampleSubscription(): boolean {
-            return true;
+            return true
           }
         }
 
         schema = await buildSchema({
           resolvers: [SampleResolver],
           directives: [testDirective],
-          validate: false,
-        });
-        schema = testDirectiveTransformer(schema);
-      });
+          validate: false
+        })
+        schema = testDirectiveTransformer(schema)
+      })
 
-      it("should properly emit directive in AST", () => {
+      it('should properly emit directive in AST', () => {
         const sampleSubscriptionInfo = schema
           .getRootType(OperationTypeNode.SUBSCRIPTION)!
-          .getFields().sampleSubscription;
+          .getFields().sampleSubscription
 
-        assertValidDirective(sampleSubscriptionInfo.astNode, "test");
-      });
+        assertValidDirective(sampleSubscriptionInfo.astNode, 'test')
+      })
 
-      it("should properly apply directive mapper", async () => {
+      it('should properly apply directive mapper', async () => {
         const sampleSubscriptionInfo = schema
           .getRootType(OperationTypeNode.SUBSCRIPTION)!
-          .getFields().sampleSubscription;
+          .getFields().sampleSubscription
 
         expect(sampleSubscriptionInfo.extensions).toMatchObject({
-          TypeGraphQL: { isMappedByDirective: true },
-        });
-      });
-    });
-  });
+          TypeGraphQL: { isMappedByDirective: true }
+        })
+      })
+    })
+  })
 
-  describe("errors", () => {
+  describe('errors', () => {
     beforeEach(async () => {
-      getMetadataStorage().clear();
-    });
+      getMetadataStorage().clear()
+    })
 
-    it("throws error on multiple directive definitions", async () => {
-      expect.assertions(2);
-
-      @Resolver()
-      class InvalidQuery {
-        @Query()
-        @Directive("@upper @append")
-        invalid(): string {
-          return "invalid";
-        }
-      }
-
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
-        );
-      }
-    });
-
-    it("throws error when parsing invalid directives", async () => {
-      expect.assertions(2);
+    it('throws error on multiple directive definitions', async () => {
+      expect.assertions(2)
 
       @Resolver()
       class InvalidQuery {
         @Query()
-        @Directive("@invalid(@directive)")
+        @Directive('@upper @append')
         invalid(): string {
-          return "invalid";
+          return 'invalid'
         }
       }
 
       try {
-        await buildSchema({ resolvers: [InvalidQuery] });
+        await buildSchema({ resolvers: [InvalidQuery] })
       } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
+        expect(err).toBeInstanceOf(InvalidDirectiveError)
+        const error: InvalidDirectiveError = err
         expect(error.message).toContain(
-          'Error parsing directive definition "@invalid(@directive)"',
-        );
+          'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"'
+        )
       }
-    });
+    })
 
-    it("throws error when no directives are defined", async () => {
-      expect.assertions(2);
+    it('throws error when parsing invalid directives', async () => {
+      expect.assertions(2)
 
       @Resolver()
       class InvalidQuery {
         @Query()
-        @Directive("")
+        @Directive('@invalid(@directive)')
         invalid(): string {
-          return "invalid";
+          return 'invalid'
         }
       }
 
       try {
-        await buildSchema({ resolvers: [InvalidQuery] });
+        await buildSchema({ resolvers: [InvalidQuery] })
       } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          "Please pass at-least one directive name or definition to the @Directive decorator",
-        );
+        expect(err).toBeInstanceOf(InvalidDirectiveError)
+        const error: InvalidDirectiveError = err
+        expect(error.message).toContain('Error parsing directive definition "@invalid(@directive)"')
       }
-    });
-  });
-});
+    })
+
+    it('throws error when no directives are defined', async () => {
+      expect.assertions(2)
+
+      @Resolver()
+      class InvalidQuery {
+        @Query()
+        @Directive('')
+        invalid(): string {
+          return 'invalid'
+        }
+      }
+
+      try {
+        await buildSchema({ resolvers: [InvalidQuery] })
+      } catch (err) {
+        expect(err).toBeInstanceOf(InvalidDirectiveError)
+        const error: InvalidDirectiveError = err
+        expect(error.message).toContain(
+          'Please pass at-least one directive name or definition to the @Directive decorator'
+        )
+      }
+    })
+  })
+})

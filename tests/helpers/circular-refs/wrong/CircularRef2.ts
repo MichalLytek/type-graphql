@@ -1,9 +1,9 @@
-import { Field, ObjectType } from "../../../../src";
+import { Field, ObjectType } from '../../../../src'
 
-import { CircularRef1 } from "./CircularRef1";
+import { CircularRef1 } from './CircularRef1'
 
 @ObjectType()
 export class CircularRef2 {
   @Field()
-  ref1Field: CircularRef1;
+  ref1Field: CircularRef1
 }

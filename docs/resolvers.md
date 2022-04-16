@@ -20,7 +20,7 @@ We can use a DI framework (as described in the [dependency injection docs](depen
 ```typescript
 @Resolver()
 class RecipeResolver {
-  private recipesCollection: Recipe[] = [];
+  private recipesCollection: Recipe[] = []
 }
 ```
 
@@ -29,11 +29,11 @@ Then we can create class methods which will handle queries and mutations. For ex
 ```typescript
 @Resolver()
 class RecipeResolver {
-  private recipesCollection: Recipe[] = [];
+  private recipesCollection: Recipe[] = []
 
   async recipes() {
     // fake async in this example
-    return await this.recipesCollection;
+    return await this.recipesCollection
   }
 }
 ```
@@ -45,11 +45,11 @@ The second is to provide the return type. Since the method is async, the reflect
 ```typescript
 @Resolver()
 class RecipeResolver {
-  private recipesCollection: Recipe[] = [];
+  private recipesCollection: Recipe[] = []
 
   @Query(returns => [Recipe])
   async recipes() {
-    return await this.recipesCollection;
+    return await this.recipesCollection
   }
 }
 ```
@@ -66,8 +66,8 @@ class RecipeResolver {
   // ...
   @Query(returns => [Recipe])
   async recipes(
-    @Arg("servings", { defaultValue: 2 }) servings: number,
-    @Arg("title", { nullable: true }) title?: string,
+    @Arg('servings', { defaultValue: 2 }) servings: number,
+    @Arg('title', { nullable: true }) title?: string
   ): Promise<Recipe[]> {
     // ...
   }
@@ -80,13 +80,13 @@ This works well when there are 2 - 3 args. But when you have many more, the reso
 @ArgsType()
 class GetRecipesArgs {
   @Field(type => Int, { nullable: true })
-  skip?: number;
+  skip?: number
 
   @Field(type => Int, { nullable: true })
-  take?: number;
+  take?: number
 
   @Field({ nullable: true })
-  title?: string;
+  title?: string
 }
 ```
 
@@ -100,28 +100,28 @@ Also, this way of declaring arguments allows you to perform validation. You can 
 We can also define helper fields and methods for our args or input classes. But be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of args and input classes under the hood by itself.
 
 ```typescript
-import { Min, Max } from "class-validator";
+import { Min, Max } from 'class-validator'
 
 @ArgsType()
 class GetRecipesArgs {
   @Field(type => Int, { defaultValue: 0 })
   @Min(0)
-  skip: number;
+  skip: number
 
   @Field(type => Int)
   @Min(1)
   @Max(50)
-  take = 25;
+  take = 25
 
   @Field({ nullable: true })
-  title?: string;
+  title?: string
 
   // helpers - index calculations
   get startIndex(): number {
-    return this.skip;
+    return this.skip
   }
   get endIndex(): number {
-    return this.skip + this.take;
+    return this.skip + this.take
   }
 }
 ```
@@ -136,11 +136,11 @@ class RecipeResolver {
   @Query(returns => [Recipe])
   async recipes(@Args() { title, startIndex, endIndex }: GetRecipesArgs) {
     // sample implementation
-    let recipes = this.recipesCollection;
+    let recipes = this.recipesCollection
     if (title) {
-      recipes = recipes.filter(recipe => recipe.title === title);
+      recipes = recipes.filter(recipe => recipe.title === title)
     }
-    return recipes.slice(startIndex, endIndex);
+    return recipes.slice(startIndex, endIndex)
   }
 }
 ```
@@ -172,13 +172,13 @@ class AddRecipeInput implements Partial<Recipe> {}
 We then declare any input fields we need, using the `@Field()` decorator:
 
 ```typescript
-@InputType({ description: "New recipe data" })
+@InputType({ description: 'New recipe data' })
 class AddRecipeInput implements Partial<Recipe> {
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 }
 ```
 
@@ -191,11 +191,11 @@ We may also need access to the context. To achieve this we use the `@Ctx()` deco
 class RecipeResolver {
   // ...
   @Mutation()
-  addRecipe(@Arg("data") newRecipeData: AddRecipeInput, @Ctx() ctx: Context): Recipe {
+  addRecipe(@Arg('data') newRecipeData: AddRecipeInput, @Ctx() ctx: Context): Recipe {
     // sample implementation
-    const recipe = RecipesUtils.create(newRecipeData, ctx.user);
-    this.recipesCollection.push(recipe);
-    return recipe;
+    const recipe = RecipesUtils.create(newRecipeData, ctx.user)
+    this.recipesCollection.push(recipe)
+    return recipe
   }
 }
 ```
@@ -284,8 +284,8 @@ class RecipeResolver implements ResolverInterface<Recipe> {
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe) {
-    const ratingsSum = recipe.ratings.reduce((a, b) => a + b, 0);
-    return recipe.ratings.length ? ratingsSum / recipe.ratings.length : null;
+    const ratingsSum = recipe.ratings.reduce((a, b) => a + b, 0)
+    return recipe.ratings.length ? ratingsSum / recipe.ratings.length : null
   }
 }
 ```
@@ -296,23 +296,23 @@ For simple resolvers like `averageRating` or deprecated fields that behave like 
 @ObjectType()
 class Recipe {
   @Field()
-  title: string;
+  title: string
 
-  @Field({ deprecationReason: "Use `title` instead" })
+  @Field({ deprecationReason: 'Use `title` instead' })
   get name(): string {
-    return this.title;
+    return this.title
   }
 
   @Field(type => [Rate])
-  ratings: Rate[];
+  ratings: Rate[]
 
   @Field(type => Float, { nullable: true })
-  averageRating(@Arg("since") sinceDate: Date): number | null {
-    const ratings = this.ratings.filter(rate => rate.date > sinceDate);
-    if (!ratings.length) return null;
+  averageRating(@Arg('since') sinceDate: Date): number | null {
+    const ratings = this.ratings.filter(rate => rate.date > sinceDate)
+    if (!ratings.length) return null
 
-    const ratingsSum = ratings.reduce((a, b) => a + b, 0);
-    return ratingsSum / ratings.length;
+    const ratingsSum = ratings.reduce((a, b) => a + b, 0)
+    return ratingsSum / ratings.length
   }
 }
 ```
@@ -320,19 +320,19 @@ class Recipe {
 However, if the code is more complicated and has side effects (i.e. api calls, fetching data from a databases), a resolver class method should be used instead. This way we can leverage the dependency injection mechanism, which is really helpful in testing. For example:
 
 ```typescript
-import { Repository } from "typeorm";
+import { Repository } from 'typeorm'
 
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(
-    private userRepository: Repository<User>, // dependency injection
+    private userRepository: Repository<User> // dependency injection
   ) {}
 
   @FieldResolver()
   async author(@Root() recipe: Recipe) {
-    const author = await this.userRepository.findById(recipe.userId);
-    if (!author) throw new SomethingWentWrongError();
-    return author;
+    const author = await this.userRepository.findById(recipe.userId)
+    if (!author) throw new SomethingWentWrongError()
+    return author
   }
 }
 ```

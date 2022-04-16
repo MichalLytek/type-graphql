@@ -16,52 +16,52 @@ enum Direction {
   UP,
   DOWN,
   LEFT,
-  RIGHT,
+  RIGHT
 }
 
 // or explicit values
 enum Direction {
-  UP = "up",
-  DOWN = "down",
-  LEFT = "left",
-  RIGHT = "right",
+  UP = 'up',
+  DOWN = 'down',
+  LEFT = 'left',
+  RIGHT = 'right'
 }
 ```
 
 To tell TypeGraphQL about our enum, we would ideally mark the enums with the `@EnumType()` decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
 
 ```typescript
-import { registerEnumType } from "type-graphql";
+import { registerEnumType } from 'type-graphql'
 
 registerEnumType(Direction, {
-  name: "Direction", // this one is mandatory
-  description: "The basic directions", // this one is optional
-});
+  name: 'Direction', // this one is mandatory
+  description: 'The basic directions' // this one is optional
+})
 ```
 
 In case we need to provide additional GraphQL-related config for values, like description or deprecation reason, we can use `valuesConfig` property and put the data inside it, e.g.:
 
 ```typescript
 enum Direction {
-  UP = "UP",
-  DOWN = "DOWN",
-  LEFT = "LEFT",
-  RIGHT = "RIGHT",
-  SIDEWAYS = "SIDEWAYS",
+  UP = 'UP',
+  DOWN = 'DOWN',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+  SIDEWAYS = 'SIDEWAYS'
 }
 
 registerEnumType(Direction, {
-  name: "Direction",
-  description: "The basic directions",
+  name: 'Direction',
+  description: 'The basic directions',
   valuesConfig: {
     SIDEWAYS: {
-      deprecationReason: "Replaced with Left or Right",
+      deprecationReason: 'Replaced with Left or Right'
     },
     RIGHT: {
-      description: "The other left",
-    },
-  },
-});
+      description: 'The other left'
+    }
+  }
+})
 ```
 
 This way, the additional info will be emitted in the GraphQL schema:
@@ -87,7 +87,7 @@ The last step is very important: TypeScript has limited reflection ability, so t
 @InputType()
 class JourneyInput {
   @Field(type => Direction) // it's very important
-  direction: Direction;
+  direction: Direction
 }
 ```
 
@@ -98,29 +98,29 @@ With all that in place, we can use our enum directly in our code 😉
 ```typescript
 @Resolver()
 class SpriteResolver {
-  private sprite = getMarioSprite();
+  private sprite = getMarioSprite()
 
   @Mutation()
-  move(@Arg("direction", type => Direction) direction: Direction): boolean {
+  move(@Arg('direction', type => Direction) direction: Direction): boolean {
     switch (direction) {
       case Direction.Up:
-        this.sprite.position.y++;
-        break;
+        this.sprite.position.y++
+        break
       case Direction.Down:
-        this.sprite.position.y--;
-        break;
+        this.sprite.position.y--
+        break
       case Direction.Left:
-        this.sprite.position.x--;
-        break;
+        this.sprite.position.x--
+        break
       case Direction.Right:
-        this.sprite.position.x++;
-        break;
+        this.sprite.position.x++
+        break
       default:
         // it will never be hitten ;)
-        return false;
+        return false
     }
 
-    return true;
+    return true
   }
 }
 ```
@@ -133,9 +133,9 @@ So if we would like to share the types definition and use the enum on the client
 
 ```typescript
 enum Direction {
-  UP = "UP",
-  DOWN = "DOWN",
-  LEFT = "LEFT",
-  RIGHT = "RIGHT",
+  UP = 'UP',
+  DOWN = 'DOWN',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT'
 }
 ```

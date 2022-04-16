@@ -16,9 +16,9 @@ export function ValidateArgs(schema: JoiSchema) {
     // here place your middleware code that uses custom decorator arguments
 
     // e.g. validation logic based on schema using joi
-    await joiValidate(schema, args);
-    return next();
-  });
+    await joiValidate(schema, args)
+    return next()
+  })
 }
 ```
 
@@ -31,7 +31,7 @@ export class RecipeResolver {
   @UseMiddleware(ResolveTime) // explicit middleware
   @Query()
   randomValue(@Args() { scale }: MyArgs): number {
-    return Math.random() * scale;
+    return Math.random() * scale
   }
 }
 ```
@@ -44,7 +44,7 @@ They might be just a simple data extractor function, that makes our resolver mor
 
 ```typescript
 function CurrentUser() {
-  return createParamDecorator<MyContextType>(({ context }) => context.currentUser);
+  return createParamDecorator<MyContextType>(({ context }) => context.currentUser)
 }
 ```
 
@@ -53,11 +53,11 @@ Or might be a more advanced one that performs some calculations and encapsulates
 ```typescript
 function Fields(level = 1): ParameterDecorator {
   return createParamDecorator(({ info }) => {
-    const fieldsMap: FieldsMap = {};
+    const fieldsMap: FieldsMap = {}
     // calculate an object with info about requested fields
     // based on GraphQL `info` parameter of the resolver and the level parameter
-    return fieldsMap;
-  });
+    return fieldsMap
+  })
 }
 ```
 
@@ -74,27 +74,27 @@ export class RecipeResolver {
     @Args() recipeData: AddRecipeInput,
     // here we place our custom decorator
     // just like the built-in one
-    @CurrentUser() currentUser: User,
+    @CurrentUser() currentUser: User
   ) {
     const recipe: Recipe = {
       ...recipeData,
       // and use the data returned from custom decorator in our resolver code
-      author: currentUser,
-    };
-    await this.recipesRepository.save(recipe);
-    return recipe;
+      author: currentUser
+    }
+    await this.recipesRepository.save(recipe)
+    return recipe
   }
 
   @Query(returns => Recipe, { nullable: true })
   async recipe(
-    @Arg("id") id: string,
+    @Arg('id') id: string,
     // our custom decorator that parses the fields from graphql query info
-    @Fields() fields: FieldsMap,
+    @Fields() fields: FieldsMap
   ) {
     return await this.recipesRepository.find(id, {
       // use the fields map as a select projection to optimize db queries
-      select: fields,
-    });
+      select: fields
+    })
   }
 }
 ```

@@ -1,22 +1,22 @@
-import { prop as Property, getModelForClass } from "@typegoose/typegoose";
-import { ObjectId } from "mongodb";
-import { Field, ObjectType } from "../../../src";
+import { prop as Property, getModelForClass } from '@typegoose/typegoose'
+import { ObjectId } from 'mongodb'
+import { Field, ObjectType } from '../../../src'
 
 @ObjectType()
 export class User {
   @Field()
-  readonly _id: ObjectId;
+  readonly _id: ObjectId
 
   @Field()
   @Property({ required: true })
-  email: string;
+  email: string
 
   @Field({ nullable: true })
   @Property()
-  nickname?: string;
+  nickname?: string
 
   @Property({ required: true })
-  password: string;
+  password: string
 }
 
-export const UserModel = getModelForClass(User);
+export const UserModel = getModelForClass(User)

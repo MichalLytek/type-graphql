@@ -1,20 +1,20 @@
-import "reflect-metadata";
-import Container from "typedi";
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "../../src";
+import 'reflect-metadata'
+import Container from 'typedi'
+import { ApolloServer } from 'apollo-server'
+import { buildSchema } from '../../src'
 
-import { RecipeResolver } from "./recipe/recipe.resolver";
-import { ResolveTimeMiddleware } from "./middlewares/resolve-time";
-import { ErrorLoggerMiddleware } from "./middlewares/error-logger";
-import { Context } from "./context";
+import { RecipeResolver } from './recipe/recipe.resolver'
+import { ResolveTimeMiddleware } from './middlewares/resolve-time'
+import { ErrorLoggerMiddleware } from './middlewares/error-logger'
+import { Context } from './context'
 
 async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
     globalMiddlewares: [ErrorLoggerMiddleware, ResolveTimeMiddleware],
-    container: Container,
-  });
+    container: Container
+  })
 
   // Create GraphQL server
   const server = new ApolloServer({
@@ -24,15 +24,15 @@ async function bootstrap() {
         // example user
         currentUser: {
           id: 123,
-          name: "Sample user",
-        },
-      };
-    },
-  });
+          name: 'Sample user'
+        }
+      }
+    }
+  })
 
   // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  const { url } = await server.listen(4000)
+  console.log(`Server is running, GraphQL Playground available at ${url}`)
 }
 
-bootstrap();
+bootstrap()

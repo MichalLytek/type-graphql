@@ -8,10 +8,10 @@ Let's start by defining our example TypeScript class which represents our `Recip
 
 ```typescript
 class Recipe {
-  id: string;
-  title: string;
-  ratings: Rate[];
-  averageRating?: number;
+  id: string
+  title: string
+  ratings: Rate[]
+  averageRating?: number
 }
 ```
 
@@ -20,10 +20,10 @@ The first thing we must do is decorate the class with the `@ObjectType` decorato
 ```typescript
 @ObjectType()
 class Recipe {
-  id: string;
-  title: string;
-  ratings: Rate[];
-  averageRating: number;
+  id: string
+  title: string
+  ratings: Rate[]
+  averageRating: number
 }
 ```
 
@@ -34,16 +34,16 @@ To do this, we use the `@Field` decorator, which is also used to collect metadat
 @ObjectType()
 class Recipe {
   @Field()
-  id: string;
+  id: string
 
   @Field()
-  title: string;
+  title: string
 
   @Field()
-  ratings: Rate[];
+  ratings: Rate[]
 
   @Field()
-  averageRating: number;
+  averageRating: number
 }
 ```
 
@@ -65,19 +65,19 @@ In the config object we can also provide the `description` and `deprecationReaso
 So after these changes our example class would look like this:
 
 ```typescript
-@ObjectType({ description: "The recipe model" })
+@ObjectType({ description: 'The recipe model' })
 class Recipe {
   @Field(type => ID)
-  id: string;
+  id: string
 
-  @Field({ description: "The title of the recipe" })
-  title: string;
+  @Field({ description: 'The title of the recipe' })
+  title: string
 
   @Field(type => [Rate])
-  ratings: Rate[];
+  ratings: Rate[]
 
   @Field({ nullable: true })
-  averageRating?: number;
+  averageRating?: number
 }
 ```
 
@@ -98,12 +98,12 @@ Similarly, the `Rate` type class would look like this:
 @ObjectType()
 class Rate {
   @Field(type => Int)
-  value: number;
+  value: number
 
   @Field()
-  date: Date;
+  date: Date
 
-  user: User;
+  user: User
 }
 ```
 
@@ -128,10 +128,10 @@ In some case we may want to expose our classes or properties under a different t
 To accomplish this, we can use the `name` parameter or `name` property of decorator's options, e.g.:
 
 ```typescript
-@ObjectType("ExternalTypeName")
+@ObjectType('ExternalTypeName')
 class InternalClassName {
-  @Field({ name: "externalFieldName" })
-  internalPropertyName: string;
+  @Field({ name: 'externalFieldName' })
+  internalPropertyName: string
 }
 ```
 

@@ -1,11 +1,11 @@
-import { ObjectType, Field } from "../../../src";
+import { ObjectType, Field } from '../../../src'
 
-import Recipe from "./recipe.type";
+import Recipe from './recipe.type'
 
 @ObjectType()
 export default class User {
-  id: number;
+  id: number
 
   @Field(type => [Recipe])
-  recipes: Recipe[];
+  recipes: Recipe[]
 }

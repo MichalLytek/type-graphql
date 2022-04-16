@@ -1,5 +1,5 @@
-import User from "./user";
+import User from './user'
 
 export interface Context {
-  currentUser: User;
+  currentUser: User
 }

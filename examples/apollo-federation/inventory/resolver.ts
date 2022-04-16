@@ -1,6 +1,6 @@
-import { Resolver, FieldResolver, Directive, Root } from "../../../src";
+import { Resolver, FieldResolver, Directive, Root } from '../../../src'
 
-import Product from "./product";
+import Product from './product'
 
 @Resolver(of => Product)
 export default class InventoryResolver {
@@ -9,10 +9,10 @@ export default class InventoryResolver {
   async shippingEstimate(@Root() product: Product): Promise<number> {
     // free for expensive items
     if (product.price > 1000) {
-      return 0;
+      return 0
     }
 
     // estimate is based on weight
-    return product.weight * 0.5;
+    return product.weight * 0.5
   }
 }

@@ -14,13 +14,13 @@ Example object type:
 @ObjectType()
 class Recipe {
   @Field()
-  title: string;
+  title: string
 
   @Field(type => [Rate])
-  ratings: Rate[];
+  ratings: Rate[]
 
   @Field({ nullable: true })
-  averageRating?: number;
+  averageRating?: number
 }
 ```
 
@@ -34,22 +34,18 @@ Why? Let's take a look at the steps we usually have to take.
 First, we create all the schema types in SDL. We also create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represent our database entities. Then we start to write resolvers for our queries, mutations and fields. This forces us, however, to begin with creating TypeScript interfaces for all arguments and inputs and/or object types. After that, we can actually implement the resolvers, using weird generic signatures, e.g.:
 
 ```typescript
-export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> = async (
-  _,
-  args,
-  ctx,
-) => {
+export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> = async (_, args, ctx) => {
   // common tasks repeatable for almost every resolver
-  const auth = Container.get(AuthService);
+  const auth = Container.get(AuthService)
   if (!auth.check(ctx.user)) {
-    throw new NotAuthorizedError();
+    throw new NotAuthorizedError()
   }
-  await joi.validate(getRecipesSchema, args);
-  const repository = TypeORM.getRepository(Recipe);
+  await joi.validate(getRecipesSchema, args)
+  const repository = TypeORM.getRepository(Recipe)
 
   // our business logic, e.g.:
-  return repository.find({ skip: args.offset, take: args.limit });
-};
+  return repository.find({ skip: args.offset, take: args.limit })
+}
 ```
 
 The biggest problem is code redundancy which makes it difficult to keep things in sync. To add a new field to our entity, we have to jump through all the files: modify the entity class, then modify the schema, and finally update the interface. The same goes with inputs or arguments: it's easy to forget to update one of them or make a mistake with a type. Also, what if we've made a typo in a field name? The rename feature (F2) won't work correctly.

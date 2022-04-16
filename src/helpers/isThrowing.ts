@@ -1,8 +1,8 @@
 export function isThrowing(fn: () => void) {
   try {
-    fn();
-    return false;
+    fn()
+    return false
   } catch {
-    return true;
+    return true
   }
 }

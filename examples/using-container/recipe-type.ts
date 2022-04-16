@@ -1,24 +1,24 @@
-import { Field, ID, ObjectType, Int } from "../../src";
+import { Field, ID, ObjectType, Int } from '../../src'
 
 @ObjectType()
 export class Recipe {
   @Field(type => ID)
-  id: string;
+  id: string
 
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field(type => [String])
-  ingredients: string[];
+  ingredients: string[]
 
   @Field(type => Int)
-  protected numberInCollection: number;
+  protected numberInCollection: number
 
   @Field(type => Int)
   protected get ingredientsLength(): number {
-    return this.ingredients.length;
+    return this.ingredients.length
   }
 }

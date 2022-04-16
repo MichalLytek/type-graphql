@@ -1,3 +1,3 @@
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb'
 
-export type Ref<T> = T | ObjectId;
+export type Ref<T> = T | ObjectId

@@ -1,8 +1,8 @@
-import { IntrospectionField, IntrospectionObjectType, IntrospectionInterfaceType } from "graphql";
+import { IntrospectionField, IntrospectionObjectType, IntrospectionInterfaceType } from 'graphql'
 
 export function getTypeField(
   type: IntrospectionObjectType | IntrospectionInterfaceType,
-  fieldName: string,
+  fieldName: string
 ): IntrospectionField {
-  return type.fields.find(field => field.name === fieldName)!;
+  return type.fields.find(field => field.name === fieldName)!
 }

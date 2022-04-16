@@ -1,1 +1,1 @@
-export { getMetadataStorage } from "./getMetadataStorage";
+export { getMetadataStorage } from './getMetadataStorage'

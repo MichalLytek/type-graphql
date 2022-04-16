@@ -1,28 +1,28 @@
-import { Field, ID, ObjectType } from "../../../src";
-import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
+import { Field, ID, ObjectType } from '../../../src'
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm'
 
-import { Recipe } from "./recipe";
-import { Lazy } from "../helpers";
+import { Recipe } from './recipe'
+import { Lazy } from '../helpers'
 
 @ObjectType()
 @Entity()
 export class User {
   @Field(type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id: number
 
   @Field()
   @Column()
-  email: string;
+  email: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  nickname?: string;
+  nickname?: string
 
   @Column()
-  password: string;
+  password: string
 
   @OneToMany(type => Recipe, recipe => recipe.author, { lazy: true })
   @Field(type => [Recipe])
-  recipes: Lazy<Recipe[]>;
+  recipes: Lazy<Recipe[]>
 }

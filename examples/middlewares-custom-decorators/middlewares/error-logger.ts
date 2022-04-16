@@ -1,8 +1,8 @@
-import { Service } from "typedi";
-import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "../../../src";
+import { Service } from 'typedi'
+import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from '../../../src'
 
-import { Context } from "../context";
-import { Logger } from "../logger";
+import { Context } from '../context'
+import { Logger } from '../logger'
 
 @Service()
 export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
@@ -10,19 +10,19 @@ export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
 
   async use({ context, info }: ResolverData<Context>, next: NextFn) {
     try {
-      return await next();
+      return await next()
     } catch (err) {
       this.logger.log({
         message: err.message,
         operation: info.operation.operation,
         fieldName: info.fieldName,
-        userName: context.currentUser.name,
-      });
+        userName: context.currentUser.name
+      })
       if (!(err instanceof ArgumentValidationError)) {
         // hide errors from db like printing sql query
-        throw new Error("Unknown error occurred. Try again later!");
+        throw new Error('Unknown error occurred. Try again later!')
       }
-      throw err;
+      throw err
     }
   }
 }

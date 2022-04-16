@@ -13,37 +13,37 @@ The usage of this feature is very simple - all you need to do is register a 3rd 
 Example using TypeDI:
 
 ```typescript
-import { buildSchema } from "type-graphql";
+import { buildSchema } from 'type-graphql'
 // import your IoC container
-import { Container } from "typedi";
+import { Container } from 'typedi'
 
-import { SampleResolver } from "./resolvers";
+import { SampleResolver } from './resolvers'
 
 // build the schema as always
 const schema = await buildSchema({
   resolvers: [SampleResolver],
   // register the 3rd party IOC container
-  container: Container,
-});
+  container: Container
+})
 ```
 
 Our resolvers will then be able to declare their dependencies and TypeGraphQL will use the container to solve them:
 
 ```typescript
-import { Service } from "typedi";
+import { Service } from 'typedi'
 
 @Service()
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
     // constructor injection of a service
-    private readonly recipeService: RecipeService,
+    private readonly recipeService: RecipeService
   ) {}
 
   @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg("recipeId") recipeId: string) {
+  async recipe(@Arg('recipeId') recipeId: string) {
     // usage of the injected service
-    return this.recipeService.getOne(recipeId);
+    return this.recipeService.getOne(recipeId)
   }
 }
 ```
@@ -71,7 +71,7 @@ export class RecipeService {
 > Be aware than when you use [InversifyJS](https://github.com/inversify/InversifyJS), you have to bind the resolver class with the [self-binding of concrete types](https://github.com/inversify/InversifyJS/blob/master/wiki/classes_as_id.md#self-binding-of-concrete-types), e.g.:
 >
 > ```typescript
-> container.bind<SampleResolver>(SampleResolver).to(SampleResolver).inSingletonScope();
+> container.bind<SampleResolver>(SampleResolver).to(SampleResolver).inSingletonScope()
 > ```
 
 ## Scoped containers
@@ -102,8 +102,8 @@ await buildSchema({
 Example using `TypeDI` and `apollo-server` with the `context` creation method:
 
 ```typescript
-import { ApolloServer } from "apollo-server";
-import { Container } from "typedi";
+import { ApolloServer } from 'apollo-server'
+import { Container } from 'typedi'
 
 const server = new ApolloServer({
   // schema comes from `buildSchema` as always
@@ -111,13 +111,13 @@ const server = new ApolloServer({
   // provide unique context with `requestId` for each request
   context: () => {
     // generate the requestId (it also may come from `express-request-id` or other middleware)
-    const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
-    const container = Container.of(requestId); // get the scoped container
-    const context = { requestId, container }; // create fresh context object
-    container.set("context", context); // place context or other data in container
-    return context;
-  },
-});
+    const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) // uuid-like
+    const container = Container.of(requestId) // get the scoped container
+    const context = { requestId, container } // create fresh context object
+    container.set('context', context) // place context or other data in container
+    return context
+  }
+})
 ```
 
 We also have to dispose the container after the request has been handled and the response is ready. Otherwise, there would be a huge memory leak as the new instances of services and resolvers have been created for each request but they haven't been cleaned up.
@@ -127,8 +127,8 @@ Apollo Server has a [plugins](https://www.apollographql.com/docs/apollo-server/i
 Example using `TypeDI` and `apollo-server` with plugins approach:
 
 ```typescript
-import { ApolloServer } from "apollo-server";
-import { Container } from "typedi";
+import { ApolloServer } from 'apollo-server'
+import { Container } from 'typedi'
 
 const server = new ApolloServer({
   // ... schema and context here
@@ -137,12 +137,12 @@ const server = new ApolloServer({
       requestDidStart: async () => ({
         async willSendResponse(requestContext) {
           // remember to dispose the scoped container to prevent memory leaks
-          Container.reset(requestContext.context.requestId);
-        },
-      }),
-    },
-  ],
-});
+          Container.reset(requestContext.context.requestId)
+        }
+      })
+    }
+  ]
+})
 ```
 
 And basically that's it! The configuration of the container is done and TypeGraphQL will be able to use different instances of resolvers for each request.

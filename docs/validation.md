@@ -23,27 +23,27 @@ So we take this:
 @InputType()
 export class RecipeInput {
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 }
 ```
 
 ...and turn it into this:
 
 ```typescript
-import { MaxLength, Length } from "class-validator";
+import { MaxLength, Length } from 'class-validator'
 
 @InputType()
 export class RecipeInput {
   @Field()
   @MaxLength(30)
-  title: string;
+  title: string
 
   @Field({ nullable: true })
   @Length(30, 255)
-  description?: string;
+  description?: string
 }
 ```
 
@@ -55,11 +55,11 @@ TypeGraphQL will automatically validate our inputs and arguments based on the de
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Mutation(returns => Recipe)
-  async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
+  async addRecipe(@Arg('input') recipeInput: RecipeInput): Promise<Recipe> {
     // you can be 100% sure that the input is correct
-    console.assert(recipeInput.title.length <= 30);
-    console.assert(recipeInput.description.length >= 30);
-    console.assert(recipeInput.description.length <= 255);
+    console.assert(recipeInput.title.length <= 30)
+    console.assert(recipeInput.description.length >= 30)
+    console.assert(recipeInput.description.length <= 255)
   }
 }
 ```
@@ -71,8 +71,8 @@ This feature is enabled by default. However, we can disable it if we must:
 ```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
-  validate: false, // disable automatic validation or pass the default config object
-});
+  validate: false // disable automatic validation or pass the default config object
+})
 ```
 
 And we can still enable it per resolver's argument if we need to:
@@ -80,7 +80,7 @@ And we can still enable it per resolver's argument if we need to:
 ```typescript
 class RecipeResolver {
   @Mutation(returns => Recipe)
-  async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
+  async addRecipe(@Arg('input', { validate: true }) recipeInput: RecipeInput) {
     // ...
   }
 }
@@ -92,8 +92,8 @@ The `ValidatorOptions` object used for setting features like [validation groups]
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(
-    @Arg("input", { validate: { groups: ["admin"] } })
-    recipeInput: RecipeInput,
+    @Arg('input', { validate: { groups: ['admin'] } })
+    recipeInput: RecipeInput
   ) {
     // ...
   }
@@ -203,13 +203,13 @@ const schema = await buildSchema({
   // ...other options
   validate: argValue => {
     // call joiful validate
-    const { error } = joiful.validate(argValue);
+    const { error } = joiful.validate(argValue)
     if (error) {
       // throw error on failed validation
-      throw error;
+      throw error
     }
-  },
-});
+  }
+})
 ```
 
 > Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.

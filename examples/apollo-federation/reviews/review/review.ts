@@ -1,21 +1,21 @@
-import { Directive, ObjectType, Field, ID } from "../../../../src";
+import { Directive, ObjectType, Field, ID } from '../../../../src'
 
-import User from "../user/user";
-import Product from "../product/product";
+import User from '../user/user'
+import Product from '../product/product'
 
 @Directive(`@key(fields: "id")`)
 @ObjectType()
 export default class Review {
   @Field(type => ID)
-  id: string;
+  id: string
 
   @Field()
-  body: string;
+  body: string
 
   @Directive(`@provides(fields: "username")`)
   @Field()
-  author: User;
+  author: User
 
   @Field()
-  product: Product;
+  product: Product
 }

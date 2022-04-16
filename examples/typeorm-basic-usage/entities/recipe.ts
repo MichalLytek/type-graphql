@@ -1,31 +1,32 @@
-import { Field, ID, ObjectType } from "../../../src";
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, RelationId } from "typeorm";
+import { Field, ID, ObjectType } from '../../../src'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, RelationId } from 'typeorm'
 
-import { Rate } from "./rate";
-import { User } from "./user";
+import { Rate } from './rate'
+import { User } from './user'
 
 @Entity()
 @ObjectType()
 export class Recipe {
   @Field(type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id: number
 
   @Field()
   @Column()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field(type => [Rate])
-  @OneToMany(type => Rate, rate => rate.recipe, { cascade: ["insert"] })
-  ratings: Rate[];
+  @OneToMany(type => Rate, rate => rate.recipe, { cascade: ['insert'] })
+  ratings: Rate[]
 
   @Field(type => User)
   @ManyToOne(type => User)
-  author: User;
+  author: User
+
   @RelationId((recipe: Recipe) => recipe.author)
-  authorId: number;
+  authorId: number
 }

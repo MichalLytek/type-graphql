@@ -51,40 +51,40 @@ TypeGraphQL classes with the following decorators can be annotated with `@Extens
 So the `@Extensions` decorator can be placed over the class property/method or over the type class itself, and multiple times if necessary, depending on what we want to do with the extensions data:
 
 ```typescript
-@Extensions({ roles: ["USER"] })
+@Extensions({ roles: ['USER'] })
 @ObjectType()
 class Foo {
   @Field()
-  field: string;
+  field: string
 }
 
 @ObjectType()
 class Bar {
-  @Extensions({ roles: ["USER"] })
+  @Extensions({ roles: ['USER'] })
   @Field()
-  field: string;
+  field: string
 }
 
 @ObjectType()
 class Bar {
-  @Extensions({ roles: ["USER"] })
-  @Extensions({ visible: false, logMessage: "User accessed restricted field" })
+  @Extensions({ roles: ['USER'] })
+  @Extensions({ visible: false, logMessage: 'User accessed restricted field' })
   @Field()
-  field: string;
+  field: string
 }
 
 @Resolver(of => Foo)
 class FooBarResolver {
-  @Extensions({ roles: ["USER"] })
+  @Extensions({ roles: ['USER'] })
   @Query()
-  foobar(@Arg("baz") baz: string): string {
-    return "foobar";
+  foobar(@Arg('baz') baz: string): string {
+    return 'foobar'
   }
 
-  @Extensions({ roles: ["ADMIN"] })
+  @Extensions({ roles: ['ADMIN'] })
   @FieldResolver()
   bar(): string {
-    return "foobar";
+    return 'foobar'
   }
 }
 ```
@@ -101,13 +101,13 @@ export class LoggerMiddleware implements MiddlewareInterface<Context> {
 
   use({ info }: ResolverData, next: NextFn) {
     // extract `extensions` object from GraphQLResolveInfo object to get the `logMessage` value
-    const { logMessage } = info.parentType.getFields()[info.fieldName].extensions || {};
+    const { logMessage } = info.parentType.getFields()[info.fieldName].extensions || {}
 
     if (logMessage) {
-      this.logger.log(logMessage);
+      this.logger.log(logMessage)
     }
 
-    return next();
+    return next()
   }
 }
 ```

@@ -1,21 +1,21 @@
-import { PrimaryKey, Property, Entity } from "@mikro-orm/core";
-import { Field, ID, ObjectType } from "../../../src";
+import { PrimaryKey, Property, Entity } from '@mikro-orm/core'
+import { Field, ID, ObjectType } from '../../../src'
 
 @ObjectType()
 @Entity()
 export class User {
   @Field(type => ID)
   @PrimaryKey()
-  readonly id: number;
+  readonly id: number
 
   @Field()
   @Property()
-  email: string;
+  email: string
 
   @Field({ nullable: true })
   @Property({ nullable: true })
-  nickname?: string;
+  nickname?: string
 
   @Property()
-  password: string;
+  password: string
 }

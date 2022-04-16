@@ -90,6 +90,6 @@ However, if there are only simple fields in the class definition, reuse the code
 
 ```typescript
 @ObjectType() // name inferred to `Person`
-@InputType("PersonInput")
+@InputType('PersonInput')
 export class Person {}
 ```

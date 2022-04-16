@@ -1,16 +1,16 @@
-import { ObjectType, Int, Field } from "../../../src";
+import { ObjectType, Int, Field } from '../../../src'
 
 @ObjectType()
 export default class User {
   @Field(type => Int)
-  id: number;
+  id: number
 
   @Field()
-  name: string;
+  name: string
 
   @Field()
-  email: string;
+  email: string
 
   @Field(type => Int)
-  age: number;
+  age: number
 }

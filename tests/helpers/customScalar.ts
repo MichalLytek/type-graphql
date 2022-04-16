@@ -1,20 +1,20 @@
-import { GraphQLScalarType } from "graphql";
+import { GraphQLScalarType } from 'graphql'
 
 export const CustomScalar = new GraphQLScalarType({
-  name: "Custom",
-  parseLiteral: () => "TypeGraphQL parseLiteral",
-  parseValue: () => "TypeGraphQL parseValue",
-  serialize: () => "TypeGraphQL serialize",
-});
+  name: 'Custom',
+  parseLiteral: () => 'TypeGraphQL parseLiteral',
+  parseValue: () => 'TypeGraphQL parseValue',
+  serialize: () => 'TypeGraphQL serialize'
+})
 export class CustomType {}
 
 export const ObjectScalar = new GraphQLScalarType({
-  name: "ObjectScalar",
+  name: 'ObjectScalar',
   parseLiteral: () => ({
-    value: "TypeGraphQL parseLiteral",
+    value: 'TypeGraphQL parseLiteral'
   }),
   parseValue: () => ({
-    value: "TypeGraphQL parseValue",
+    value: 'TypeGraphQL parseValue'
   }),
-  serialize: (obj: any) => obj.value,
-});
+  serialize: (obj: any) => obj.value
+})

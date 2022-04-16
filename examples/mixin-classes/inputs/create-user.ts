@@ -1,7 +1,7 @@
-import { InputType } from "../../../src";
+import { InputType } from '../../../src'
 
-import withPassword from "../mixins/with-password";
-import UserDetails from "../types/user-details";
+import withPassword from '../mixins/with-password'
+import UserDetails from '../types/user-details'
 
 // `CreateUser` is like the full `User` class without the id
 @InputType()

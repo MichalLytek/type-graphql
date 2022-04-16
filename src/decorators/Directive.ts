@@ -1,28 +1,26 @@
-import { MethodAndPropDecorator } from "./types";
-import { SymbolKeysNotSupportedError } from "../errors";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
+import { MethodAndPropDecorator } from './types'
+import { SymbolKeysNotSupportedError } from '../errors'
+import { getMetadataStorage } from '../metadata/getMetadataStorage'
 
-export function Directive(sdl: string): MethodAndPropDecorator & ClassDecorator;
-export function Directive(
-  nameOrDefinition: string,
-): MethodDecorator | PropertyDecorator | ClassDecorator {
+export function Directive(sdl: string): MethodAndPropDecorator & ClassDecorator
+export function Directive(nameOrDefinition: string): MethodDecorator | PropertyDecorator | ClassDecorator {
   return (targetOrPrototype, propertyKey, _descriptor) => {
-    const directive = { nameOrDefinition, args: {} };
+    const directive = { nameOrDefinition, args: {} }
 
-    if (typeof propertyKey === "symbol") {
-      throw new SymbolKeysNotSupportedError();
+    if (typeof propertyKey === 'symbol') {
+      throw new SymbolKeysNotSupportedError()
     }
     if (propertyKey) {
       getMetadataStorage().collectDirectiveFieldMetadata({
         target: targetOrPrototype.constructor,
         fieldName: propertyKey,
-        directive,
-      });
+        directive
+      })
     } else {
       getMetadataStorage().collectDirectiveClassMetadata({
         target: targetOrPrototype as Function,
-        directive,
-      });
+        directive
+      })
     }
-  };
+  }
 }

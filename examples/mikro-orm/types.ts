@@ -1,8 +1,8 @@
-import { EntityManager } from "@mikro-orm/core";
+import { EntityManager } from '@mikro-orm/core'
 
-import { User } from "./entities/user";
+import { User } from './entities/user'
 
 export interface ContextType {
-  entityManager: EntityManager;
-  user: User;
+  entityManager: EntityManager
+  user: User
 }

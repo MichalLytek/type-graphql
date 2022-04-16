@@ -1,7 +1,7 @@
-import { InterfaceType, ID, Field } from "../../../src";
+import { InterfaceType, ID, Field } from '../../../src'
 
 @InterfaceType()
 export abstract class IResource {
   @Field(type => ID)
-  id: string;
+  id: string
 }

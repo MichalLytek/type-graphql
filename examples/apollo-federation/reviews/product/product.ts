@@ -1,10 +1,10 @@
-import { ObjectType, Directive, Field } from "../../../../src";
+import { ObjectType, Directive, Field } from '../../../../src'
 
-@Directive("@extends")
+@Directive('@extends')
 @Directive(`@key(fields: "upc")`)
 @ObjectType()
 export default class Product {
-  @Directive("@external")
+  @Directive('@external')
   @Field()
-  upc: string;
+  upc: string
 }

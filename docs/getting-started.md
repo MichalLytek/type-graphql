@@ -26,11 +26,11 @@ So we create the `Recipe` class with all its properties and types:
 
 ```typescript
 class Recipe {
-  id: string;
-  title: string;
-  description?: string;
-  creationDate: Date;
-  ingredients: string[];
+  id: string
+  title: string
+  description?: string
+  creationDate: Date
+  ingredients: string[]
 }
 ```
 
@@ -40,19 +40,19 @@ Then we decorate the class and its properties with decorators:
 @ObjectType()
 class Recipe {
   @Field(type => ID)
-  id: string;
+  id: string
 
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field()
-  creationDate: Date;
+  creationDate: Date
 
   @Field(type => [String])
-  ingredients: string[];
+  ingredients: string[]
 }
 ```
 
@@ -68,36 +68,33 @@ class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
 
   @Query(returns => Recipe)
-  async recipe(@Arg("id") id: string) {
-    const recipe = await this.recipeService.findById(id);
+  async recipe(@Arg('id') id: string) {
+    const recipe = await this.recipeService.findById(id)
     if (recipe === undefined) {
-      throw new RecipeNotFoundError(id);
+      throw new RecipeNotFoundError(id)
     }
-    return recipe;
+    return recipe
   }
 
   @Query(returns => [Recipe])
   recipes(@Args() { skip, take }: RecipesArgs) {
-    return this.recipeService.findAll({ skip, take });
+    return this.recipeService.findAll({ skip, take })
   }
 
   @Mutation(returns => Recipe)
   @Authorized()
-  addRecipe(
-    @Arg("newRecipeData") newRecipeData: NewRecipeInput,
-    @Ctx("user") user: User,
-  ): Promise<Recipe> {
-    return this.recipeService.addNew({ data: newRecipeData, user });
+  addRecipe(@Arg('newRecipeData') newRecipeData: NewRecipeInput, @Ctx('user') user: User): Promise<Recipe> {
+    return this.recipeService.addNew({ data: newRecipeData, user })
   }
 
   @Mutation(returns => Boolean)
   @Authorized(Roles.Admin)
-  async removeRecipe(@Arg("id") id: string) {
+  async removeRecipe(@Arg('id') id: string) {
     try {
-      await this.recipeService.removeById(id);
-      return true;
+      await this.recipeService.removeById(id)
+      return true
     } catch {
-      return false;
+      return false
     }
   }
 }
@@ -115,27 +112,27 @@ Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
 class NewRecipeInput {
   @Field()
   @MaxLength(30)
-  title: string;
+  title: string
 
   @Field({ nullable: true })
   @Length(30, 255)
-  description?: string;
+  description?: string
 
   @Field(type => [String])
   @ArrayMaxSize(30)
-  ingredients: string[];
+  ingredients: string[]
 }
 
 @ArgsType()
 class RecipesArgs {
   @Field(type => Int)
   @Min(0)
-  skip: number = 0;
+  skip: number = 0
 
   @Field(type => Int)
   @Min(1)
   @Max(50)
-  take: number = 25;
+  take: number = 25
 }
 ```
 
@@ -147,8 +144,8 @@ The last step that needs to be done is to actually build the schema from the Typ
 
 ```typescript
 const schema = await buildSchema({
-  resolvers: [RecipeResolver],
-});
+  resolvers: [RecipeResolver]
+})
 
 // ...creating express server or sth
 ```

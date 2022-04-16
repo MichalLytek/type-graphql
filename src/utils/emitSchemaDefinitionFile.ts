@@ -1,14 +1,14 @@
-import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
+import { GraphQLSchema, lexicographicSortSchema, printSchema } from 'graphql'
 
-import { outputFile, outputFileSync } from "../helpers/filesystem";
+import { outputFile, outputFileSync } from '../helpers/filesystem'
 
 export interface PrintSchemaOptions {
-  sortedSchema: boolean;
+  sortedSchema: boolean
 }
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = {
-  sortedSchema: true,
-};
+  sortedSchema: true
+}
 
 const generatedSchemaWarning = /* graphql */ `\
 # -----------------------------------------------
@@ -16,27 +16,27 @@ const generatedSchemaWarning = /* graphql */ `\
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-`;
+`
 
 export function emitSchemaDefinitionFileSync(
   schemaFilePath: string,
   schema: GraphQLSchema,
-  options: PrintSchemaOptions = defaultPrintSchemaOptions,
+  options: PrintSchemaOptions = defaultPrintSchemaOptions
 ) {
-  const schemaFileContent = getSchemaFileContent(schema, options);
-  outputFileSync(schemaFilePath, schemaFileContent);
+  const schemaFileContent = getSchemaFileContent(schema, options)
+  outputFileSync(schemaFilePath, schemaFileContent)
 }
 
 export async function emitSchemaDefinitionFile(
   schemaFilePath: string,
   schema: GraphQLSchema,
-  options: PrintSchemaOptions = defaultPrintSchemaOptions,
+  options: PrintSchemaOptions = defaultPrintSchemaOptions
 ) {
-  const schemaFileContent = getSchemaFileContent(schema, options);
-  await outputFile(schemaFilePath, schemaFileContent);
+  const schemaFileContent = getSchemaFileContent(schema, options)
+  await outputFile(schemaFilePath, schemaFileContent)
 }
 
 function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
-  const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
-  return generatedSchemaWarning + printSchema(schemaToEmit);
+  const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema
+  return generatedSchemaWarning + printSchema(schemaToEmit)
 }

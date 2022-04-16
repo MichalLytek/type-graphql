@@ -1,10 +1,10 @@
-import { Field, ObjectType, Int } from "../../src";
+import { Field, ObjectType, Int } from '../../src'
 
 @ObjectType()
 export class Cook {
   @Field()
-  name: string;
+  name: string
 
   @Field(type => Int)
-  yearsOfExperience: number;
+  yearsOfExperience: number
 }

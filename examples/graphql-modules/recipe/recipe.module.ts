@@ -1,15 +1,15 @@
-import { GraphQLModule } from "@graphql-modules/core";
-import * as path from "path";
-import { buildSchemaSync } from "../../../src";
+import { GraphQLModule } from '@graphql-modules/core'
+import * as path from 'path'
+import { buildSchemaSync } from '../../../src'
 
-import RecipeResolver from "./recipe.resolver";
-import UserResolver from "./user.resolver";
-import RecipeService from "./recipe.service";
-import User from "./user.type";
+import RecipeResolver from './recipe.resolver'
+import UserResolver from './user.resolver'
+import RecipeService from './recipe.service'
+import User from './user.type'
 
-const resolvers = [RecipeResolver, UserResolver] as const;
+const resolvers = [RecipeResolver, UserResolver] as const
 
-// @ts-ignore
+// @ts-expect-error
 const RecipeModule = new GraphQLModule({
   providers: [RecipeService, ...resolvers],
   extraSchemas: [
@@ -18,9 +18,9 @@ const RecipeModule = new GraphQLModule({
       orphanedTypes: [User],
       container: ({ context }) => RecipeModule.injector.getSessionInjector(context),
       skipCheck: true,
-      emitSchemaFile: path.resolve(__dirname, "recipe.schema.gql"),
-    }),
-  ],
-});
+      emitSchemaFile: path.resolve(__dirname, 'recipe.schema.gql')
+    })
+  ]
+})
 
-export default RecipeModule;
+export default RecipeModule

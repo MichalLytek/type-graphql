@@ -19,7 +19,7 @@ export default function PaginatedResponse() {
   abstract class PaginatedResponseClass {
     // ...
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
@@ -30,7 +30,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
   abstract class PaginatedResponseClass {
     // ...
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
@@ -43,7 +43,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
   abstract class PaginatedResponseClass {
     // ...
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
@@ -57,15 +57,15 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
     // here we use the runtime argument
     @Field(type => [TItemClass])
     // and here the generic type
-    items: TItem[];
+    items: TItem[]
 
     @Field(type => Int)
-    total: number;
+    total: number
 
     @Field()
-    hasMore: boolean;
+    hasMore: boolean
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
@@ -76,7 +76,7 @@ Finally, use the generic function factory to create a dedicated type class:
 class PaginatedUserResponse extends PaginatedResponse(User) {
   // we can freely add more fields or overwrite the existing one's types
   @Field(type => [String])
-  otherInfo: string[];
+  otherInfo: string[]
 }
 ```
 
@@ -93,8 +93,8 @@ class UserResolver {
       items,
       total,
       hasMore,
-      otherInfo,
-    };
+      otherInfo
+    }
   }
 }
 ```
@@ -108,16 +108,16 @@ So if we want to return an array of strings as the `items` field, we need to add
 
 ```typescript
 export default function PaginatedResponse<TItemsFieldValue>(
-  itemsFieldValue: ClassType<TItemsFieldValue> | GraphQLScalarType | String | Number | Boolean,
+  itemsFieldValue: ClassType<TItemsFieldValue> | GraphQLScalarType | String | Number | Boolean
 ) {
   @ObjectType({ isAbstract: true })
   abstract class PaginatedResponseClass {
     @Field(type => [itemsFieldValue])
-    items: TItemsFieldValue[];
+    items: TItemsFieldValue[]
 
     // ...other fields
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
@@ -144,15 +144,15 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
   class PaginatedResponseClass {
     // the same fields as in the earlier code snippet
   }
-  return PaginatedResponseClass;
+  return PaginatedResponseClass
 }
 ```
 
 Then, we can store the generated class in a variable and in order to use it both as a runtime object and as a type, we must also create a type for this new class:
 
 ```typescript
-const PaginatedUserResponse = PaginatedResponse(User);
-type PaginatedUserResponse = InstanceType<typeof PaginatedUserResponse>;
+const PaginatedUserResponse = PaginatedResponse(User)
+type PaginatedUserResponse = InstanceType<typeof PaginatedUserResponse>
 
 @Resolver()
 class UserResolver {

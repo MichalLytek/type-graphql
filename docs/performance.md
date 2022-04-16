@@ -42,10 +42,10 @@ When we have a query that returns a huge amount of JSON-like data and we don't n
 @ObjectType()
 class SampleObject {
   @Field()
-  sampleField: string;
+  sampleField: string
 
   @Field({ simple: true })
-  publicFrequentlyQueriedField: SomeType;
+  publicFrequentlyQueriedField: SomeType
 }
 ```
 
@@ -55,13 +55,13 @@ Moreover, we can also apply this behavior for all the fields of the object type 
 @ObjectType({ simpleResolvers: true })
 class Post {
   @Field()
-  title: string;
+  title: string
 
   @Field()
-  createdAt: Date;
+  createdAt: Date
 
   @Field()
-  isPublished: boolean;
+  isPublished: boolean
 }
 ```
 

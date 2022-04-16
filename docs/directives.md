@@ -35,32 +35,32 @@ Currently, you can use the directives only on object types, input types, interfa
 So the `@Directive` decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:
 
 ```typescript
-@Directive("@auth(requires: USER)")
+@Directive('@auth(requires: USER)')
 @ObjectType()
 class Foo {
   @Field()
-  field: string;
+  field: string
 }
 
 @ObjectType()
 class Bar {
-  @Directive("@auth(requires: USER)")
+  @Directive('@auth(requires: USER)')
   @Field()
-  field: string;
+  field: string
 }
 
 @Resolver(of => Foo)
 class FooBarResolver {
-  @Directive("@auth(requires: ANY)")
+  @Directive('@auth(requires: ANY)')
   @Query()
-  foobar(@Arg("baz") baz: string): string {
-    return "foobar";
+  foobar(@Arg('baz') baz: string): string {
+    return 'foobar'
   }
 
-  @Directive("@auth(requires: ADMIN)")
+  @Directive('@auth(requires: ADMIN)')
   @FieldResolver()
   bar(): string {
-    return "foobar";
+    return 'foobar'
   }
 }
 ```
@@ -72,11 +72,11 @@ Also please note that `@Directive` can only contain a single GraphQL directive n
 ```typescript
 @ObjectType()
 class Foo {
-  @Directive("@lowercase")
+  @Directive('@lowercase')
   @Directive('@deprecated(reason: "Use `newField`")')
-  @Directive("@hasRole(role: Manager)")
+  @Directive('@hasRole(role: Manager)')
   @Field()
-  bar: string;
+  bar: string
 }
 ```
 
@@ -89,15 +89,15 @@ Besides declaring the usage of directives, you also have to register the runtime
 Here is an example using the [`graphql-tools`](https://github.com/apollographql/graphql-tools):
 
 ```typescript
-import { SchemaDirectiveVisitor } from "graphql-tools";
+import { SchemaDirectiveVisitor } from 'graphql-tools'
 
 // build the schema as always
 const schema = buildSchemaSync({
-  resolvers: [SampleResolver],
-});
+  resolvers: [SampleResolver]
+})
 
 // register the used directives implementations
 SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
-  sample: SampleDirective,
-});
+  sample: SampleDirective
+})
 ```

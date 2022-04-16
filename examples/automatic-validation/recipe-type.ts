@@ -1,13 +1,13 @@
-import { Field, ObjectType } from "../../src";
+import { Field, ObjectType } from '../../src'
 
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field()
-  creationDate: Date;
+  creationDate: Date
 }

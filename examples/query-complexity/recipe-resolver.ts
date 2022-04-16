@@ -1,11 +1,11 @@
-import { Resolver, Query, FieldResolver, Root, ResolverInterface, Arg } from "../../src";
+import { Resolver, Query, FieldResolver, Root, ResolverInterface, Arg } from '../../src'
 
-import { Recipe } from "./recipe-type";
-import { createRecipeSamples } from "./recipe-samples";
+import { Recipe } from './recipe-type'
+import { createRecipeSamples } from './recipe-samples'
 
 @Resolver(of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
-  private readonly items: Recipe[] = createRecipeSamples();
+  private readonly items: Recipe[] = createRecipeSamples()
 
   @Query(returns => [Recipe], {
     /*
@@ -15,15 +15,15 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
       That way you can make a more realistic estimation of individual field
       complexity values, e.g. by multiplying childComplexity by the number of items in array
     */
-    complexity: ({ childComplexity, args }) => args.count * childComplexity,
+    complexity: ({ childComplexity, args }) => args.count * childComplexity
   })
-  async recipes(@Arg("count") count: number): Promise<Recipe[]> {
-    return await this.items.slice(0, count);
+  async recipes(@Arg('count') count: number): Promise<Recipe[]> {
+    return await this.items.slice(0, count)
   }
 
   /* Complexity in field resolver overrides complexity of equivalent field type */
   @FieldResolver({ complexity: 5 })
   ratingsCount(@Root() recipe: Recipe): number {
-    return recipe.ratings.length;
+    return recipe.ratings.length
   }
 }

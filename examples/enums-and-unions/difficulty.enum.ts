@@ -1,14 +1,14 @@
-import { registerEnumType } from "../../src";
+import { registerEnumType } from '../../src'
 
 export enum Difficulty {
   Beginner,
   Easy,
   Medium,
   Hard,
-  MasterChef,
+  MasterChef
 }
 
 registerEnumType(Difficulty, {
-  name: "Difficulty",
-  description: "All possible preparation difficulty levels",
-});
+  name: 'Difficulty',
+  description: 'All possible preparation difficulty levels'
+})

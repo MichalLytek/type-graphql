@@ -1,9 +1,9 @@
-import { Resolver, FieldResolver, Root } from "../../../src";
-import { Repository } from "typeorm";
-import { InjectRepository } from "typeorm-typedi-extensions";
+import { Resolver, FieldResolver, Root } from '../../../src'
+import { Repository } from 'typeorm'
+import { InjectRepository } from 'typeorm-typedi-extensions'
 
-import { Rate } from "../entities/rate";
-import { User } from "../entities/user";
+import { Rate } from '../entities/rate'
+import { User } from '../entities/user'
 
 @Resolver(of => Rate)
 export class RateResolver {
@@ -11,6 +11,6 @@ export class RateResolver {
 
   @FieldResolver()
   async user(@Root() rate: Rate): Promise<User> {
-    return (await this.userRepository.findOne(rate.userId, { cache: 1000 }))!;
+    return (await this.userRepository.findOne(rate.userId, { cache: 1000 }))!
   }
 }

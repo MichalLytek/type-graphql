@@ -1,18 +1,18 @@
-import { ObjectType, Field, ID } from "../../src";
+import { ObjectType, Field, ID } from '../../src'
 
-import { Comment } from "./comment.type";
+import { Comment } from './comment.type'
 
 @ObjectType()
 export class Recipe {
   @Field(type => ID)
-  id: string;
+  id: string
 
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field(type => [Comment])
-  comments: Comment[];
+  comments: Comment[]
 }

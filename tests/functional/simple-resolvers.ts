@@ -1,89 +1,89 @@
-import "reflect-metadata";
-import gql from "graphql-tag";
-import { GraphQLSchema, execute } from "graphql";
-import { MiddlewareFn, ObjectType, Field, buildSchema, Resolver, Query } from "../../src";
+import 'reflect-metadata'
+import gql from 'graphql-tag'
+import { GraphQLSchema, execute } from 'graphql'
+import { MiddlewareFn, ObjectType, Field, buildSchema, Resolver, Query } from '../../src'
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
 
-describe("Simple resolvers", () => {
-  let schema: GraphQLSchema;
-  let middlewareLogs: string[] = [];
+describe('Simple resolvers', () => {
+  let schema: GraphQLSchema
+  let middlewareLogs: string[] = []
 
   beforeAll(async () => {
-    getMetadataStorage().clear();
+    getMetadataStorage().clear()
 
     const testMiddleware: MiddlewareFn = async ({}, next) => {
-      middlewareLogs.push("middleware extecuted");
-      return next();
-    };
+      middlewareLogs.push('middleware extecuted')
+      return next()
+    }
 
     @ObjectType()
     class NormalObject {
       @Field()
-      normalField: string;
+      normalField: string
     }
     @ObjectType()
     class ObjectWithSimpleField {
       @Field({ simple: true })
-      simpleField: string;
+      simpleField: string
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObject {
       @Field()
-      simpleField: string;
+      simpleField: string
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObjectWithNormalField {
       @Field({ simple: false })
-      normalField: string;
+      normalField: string
     }
 
     @Resolver()
     class TestResolver {
       @Query()
       normalObjectQuery(): NormalObject {
-        return { normalField: "normalField" };
+        return { normalField: 'normalField' }
       }
 
       @Query()
       objectWithSimpleFieldQuery(): ObjectWithSimpleField {
-        return { simpleField: "simpleField" };
+        return { simpleField: 'simpleField' }
       }
 
       @Query()
       simpleObjectQuery(): SimpleObject {
-        return { simpleField: "simpleField" };
+        return { simpleField: 'simpleField' }
       }
 
       @Query()
       simpleObjectWithNormalFieldQuery(): SimpleObjectWithNormalField {
-        return { normalField: "normalField" };
+        return { normalField: 'normalField' }
       }
     }
 
     schema = await buildSchema({
       resolvers: [TestResolver],
-      globalMiddlewares: [testMiddleware],
-    });
-  });
+      globalMiddlewares: [testMiddleware]
+    })
+  })
 
   beforeEach(() => {
-    middlewareLogs = [];
-  });
+    middlewareLogs = []
+  })
 
-  it("should execute middlewares for field resolvers for normal object", async () => {
+  it('should execute middlewares for field resolvers for normal object', async () => {
     const document = gql`
       query {
         normalObjectQuery {
           normalField
         }
       }
-    `;
+    `
 
-    await execute({ schema, document });
+    await execute({ schema, document })
 
-    expect(middlewareLogs).toHaveLength(2);
-  });
+    expect(middlewareLogs).toHaveLength(2)
+  })
 
   it("shouldn't execute middlewares for simple field resolvers", async () => {
     const document = gql`
@@ -92,12 +92,12 @@ describe("Simple resolvers", () => {
           simpleField
         }
       }
-    `;
+    `
 
-    await execute({ schema, document });
+    await execute({ schema, document })
 
-    expect(middlewareLogs).toHaveLength(1);
-  });
+    expect(middlewareLogs).toHaveLength(1)
+  })
 
   it("shouldn't execute middlewares for field resolvers of simple objects", async () => {
     const document = gql`
@@ -106,24 +106,24 @@ describe("Simple resolvers", () => {
           simpleField
         }
       }
-    `;
+    `
 
-    await execute({ schema, document });
+    await execute({ schema, document })
 
-    expect(middlewareLogs).toHaveLength(1);
-  });
+    expect(middlewareLogs).toHaveLength(1)
+  })
 
-  it("should execute middlewares for not simple field resolvers of simple objects", async () => {
+  it('should execute middlewares for not simple field resolvers of simple objects', async () => {
     const document = gql`
       query {
         simpleObjectWithNormalFieldQuery {
           normalField
         }
       }
-    `;
+    `
 
-    await execute({ schema, document });
+    await execute({ schema, document })
 
-    expect(middlewareLogs).toHaveLength(2);
-  });
-});
+    expect(middlewareLogs).toHaveLength(2)
+  })
+})

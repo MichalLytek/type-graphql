@@ -1,30 +1,30 @@
-import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker, AuthCheckerFn, AuthMode } from "../interfaces";
-import { UnauthorizedError, ForbiddenError } from "../errors";
-import { IOCContainer } from "../utils/container";
+import { MiddlewareFn } from '../interfaces/Middleware'
+import { AuthChecker, AuthCheckerFn, AuthMode } from '../interfaces'
+import { ForbiddenError, UnauthorizedError } from '../errors'
+import { IOCContainer } from '../utils/container'
 
 export function AuthMiddleware(
   authChecker: AuthChecker<any, any>,
   container: IOCContainer,
   authMode: AuthMode,
-  roles: any[],
+  roles: any[]
 ): MiddlewareFn {
   return async (action, next) => {
-    let accessGranted: boolean;
+    let accessGranted: boolean
     if (authChecker.prototype) {
-      const authCheckerInstance = await container.getInstance(authChecker, action);
-      accessGranted = await authCheckerInstance.check(action, roles);
+      const authCheckerInstance = await container.getInstance(authChecker, action)
+      accessGranted = await authCheckerInstance.check(action, roles)
     } else {
-      accessGranted = await (authChecker as AuthCheckerFn<any, any>)(action, roles);
+      accessGranted = await (authChecker as AuthCheckerFn<any, any>)(action, roles)
     }
 
     if (!accessGranted) {
-      if (authMode === "null") {
-        return null;
-      } else if (authMode === "error") {
-        throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+      if (authMode === 'null') {
+        return null
+      } else if (authMode === 'error') {
+        throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError()
       }
     }
-    return next();
-  };
+    return next()
+  }
 }

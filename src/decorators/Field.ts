@@ -1,43 +1,37 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "./types";
-import { findType } from "../helpers/findType";
-import { getTypeDecoratorParams } from "../helpers/decorators";
-import { SymbolKeysNotSupportedError } from "../errors";
+import { getMetadataStorage } from '../metadata/getMetadataStorage'
+import { AdvancedOptions, MethodAndPropDecorator, ReturnTypeFunc } from './types'
+import { findType } from '../helpers/findType'
+import { getTypeDecoratorParams } from '../helpers/decorators'
+import { SymbolKeysNotSupportedError } from '../errors'
 
 export type FieldOptions = AdvancedOptions & {
   /** Set to `true` to disable auth and all middlewares stack for this field resolver */
-  simple?: boolean;
-};
+  simple?: boolean
+}
 
-export function Field(): MethodAndPropDecorator;
-export function Field(options: FieldOptions): MethodAndPropDecorator;
-export function Field(
-  returnTypeFunction?: ReturnTypeFunc,
-  options?: FieldOptions,
-): MethodAndPropDecorator;
+export function Field(): MethodAndPropDecorator
+export function Field(options: FieldOptions): MethodAndPropDecorator
+export function Field(returnTypeFunction?: ReturnTypeFunc, options?: FieldOptions): MethodAndPropDecorator
 export function Field(
   returnTypeFuncOrOptions?: ReturnTypeFunc | FieldOptions,
-  maybeOptions?: FieldOptions,
+  maybeOptions?: FieldOptions
 ): MethodDecorator | PropertyDecorator {
   return (prototype, propertyKey, descriptor) => {
-    if (typeof propertyKey === "symbol") {
-      throw new SymbolKeysNotSupportedError();
+    if (typeof propertyKey === 'symbol') {
+      throw new SymbolKeysNotSupportedError()
     }
 
-    const { options, returnTypeFunc } = getTypeDecoratorParams(
-      returnTypeFuncOrOptions,
-      maybeOptions,
-    );
-    const isResolver = Boolean(descriptor);
-    const isResolverMethod = Boolean(descriptor && descriptor.value);
+    const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions)
+    const isResolver = Boolean(descriptor)
+    const isResolverMethod = Boolean(descriptor && descriptor.value)
 
     const { getType, typeOptions } = findType({
-      metadataKey: isResolverMethod ? "design:returntype" : "design:type",
+      metadataKey: isResolverMethod ? 'design:returntype' : 'design:type',
       prototype,
       propertyKey,
       returnTypeFunc,
-      typeOptions: options,
-    });
+      typeOptions: options
+    })
 
     getMetadataStorage().collectClassFieldMetadata({
       name: propertyKey,
@@ -48,17 +42,17 @@ export function Field(
       target: prototype.constructor,
       description: options.description,
       deprecationReason: options.deprecationReason,
-      simple: options.simple,
-    });
+      simple: options.simple
+    })
 
     if (isResolver) {
       getMetadataStorage().collectFieldResolverMetadata({
-        kind: "internal",
+        kind: 'internal',
         methodName: propertyKey,
         schemaName: options.name || propertyKey,
         target: prototype.constructor,
-        complexity: options.complexity,
-      });
+        complexity: options.complexity
+      })
     }
-  };
+  }
 }

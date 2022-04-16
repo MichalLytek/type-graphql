@@ -1,18 +1,18 @@
-import { Field, ObjectType, Int } from "../../../src";
+import { Field, ObjectType, Int } from '../../../src'
 
 @ObjectType()
 export default class Recipe {
   @Field(type => Int)
-  id: number;
+  id: number
 
   @Field()
-  title: string;
+  title: string
 
   @Field({ nullable: true })
-  description?: string;
+  description?: string
 
   @Field()
-  creationDate: Date;
+  creationDate: Date
 
-  authorId: number;
+  authorId: number
 }

@@ -1,18 +1,18 @@
-import { ObjectType, Field, ID } from "../../src";
+import { ObjectType, Field, ID } from '../../src'
 
 @ObjectType()
 export class Notification {
   @Field(type => ID)
-  id: number;
+  id: number
 
   @Field({ nullable: true })
-  message?: string;
+  message?: string
 
   @Field(type => Date)
-  date: Date;
+  date: Date
 }
 
 export interface NotificationPayload {
-  id: number;
-  message?: string;
+  id: number
+  message?: string
 }
