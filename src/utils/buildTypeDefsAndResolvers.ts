@@ -1,8 +1,9 @@
-import { GraphQLSchema, printSchema } from 'graphql'
+import { GraphQLSchema } from 'graphql'
 
 import { buildSchema, BuildSchemaOptions, buildSchemaSync } from './buildSchema'
 import { createResolversMap } from './createResolversMap'
 import { ResolversMap } from '../interfaces'
+import { printSchemaWithDirectives } from '@graphql-tools/utils'
 
 export async function buildTypeDefsAndResolvers(
   options: BuildSchemaOptions
@@ -20,7 +21,7 @@ export function buildTypeDefsAndResolversSync(options: BuildSchemaOptions): {
 }
 
 function createTypeDefsAndResolversMap(schema: GraphQLSchema): { typeDefs: string; resolvers: ResolversMap<any, any> } {
-  const typeDefs = printSchema(schema)
+  const typeDefs = printSchemaWithDirectives(schema)
   const resolvers = createResolversMap(schema)
   return { typeDefs, resolvers }
 }
