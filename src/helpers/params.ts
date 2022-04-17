@@ -3,12 +3,12 @@ import { ReturnTypeFunc, TypeOptions, ValidateOptions } from '../decorators/type
 import { CommonArgMetadata } from '../metadata/definitions'
 import { SymbolKeysNotSupportedError } from '../errors'
 
-export interface ParamInfo {
+export interface ParamInfo<T extends Object> {
   prototype: Object
   propertyKey: string | symbol
   parameterIndex: number
   argName?: string
-  returnTypeFunc?: ReturnTypeFunc
+  returnTypeFunc?: ReturnTypeFunc | T | undefined
   options?: TypeOptions & ValidateOptions
 }
 
@@ -19,7 +19,7 @@ export function getParamInfo({
   argName,
   returnTypeFunc,
   options = {}
-}: ParamInfo): CommonArgMetadata {
+}: ParamInfo<any>): CommonArgMetadata {
   if (typeof propertyKey === 'symbol') {
     throw new SymbolKeysNotSupportedError()
   }

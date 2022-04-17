@@ -6,7 +6,7 @@ import { SymbolKeysNotSupportedError } from '../errors'
 export function getResolverMetadata(
   prototype: object,
   propertyKey: string | symbol,
-  returnTypeFunc?: ReturnTypeFunc,
+  returnTypeFunc?: ReturnTypeFunc | AdvancedOptions,
   options: AdvancedOptions = {}
 ): ResolverMetadata {
   if (typeof propertyKey === 'symbol') {

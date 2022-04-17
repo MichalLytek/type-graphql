@@ -2,7 +2,7 @@ import { DescriptionOptions, ReturnTypeFunc } from '../decorators/types'
 
 export interface TypeDecoratorParams<T> {
   options: Partial<T>
-  returnTypeFunc?: ReturnTypeFunc
+  returnTypeFunc?: ReturnTypeFunc | T
 }
 
 export function getTypeDecoratorParams<T extends object>(

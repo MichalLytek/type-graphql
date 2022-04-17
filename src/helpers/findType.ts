@@ -8,6 +8,7 @@ import {
 } from '../decorators/types'
 import { bannedTypes } from './returnTypes'
 import { NoExplicitTypeError } from '../errors'
+import { FieldOptions } from '../decorators'
 
 export type MetadataKey = 'design:type' | 'design:returntype' | 'design:paramtypes'
 
@@ -22,7 +23,7 @@ export interface GetTypeParams {
   propertyKey: string
   parameterIndex?: number
   argName?: string
-  returnTypeFunc?: ReturnTypeFunc
+  returnTypeFunc?: ReturnTypeFunc | FieldOptions
   typeOptions?: TypeOptions
 }
 
@@ -52,7 +53,7 @@ export function findType({
 
   if (returnTypeFunc) {
     const getType = (): ReturnTypeFuncValue => {
-      const returnTypeFuncReturnValue = returnTypeFunc()
+      const returnTypeFuncReturnValue = typeof returnTypeFunc === 'function' ? returnTypeFunc() : returnTypeFunc
       if (Array.isArray(returnTypeFuncReturnValue)) {
         const { depth, returnType } = findTypeValueArrayDepth(returnTypeFuncReturnValue)
         options.array = true
