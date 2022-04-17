@@ -17,7 +17,10 @@ module.exports = {
     'array-bracket-spacing': ['error', 'never'],
     '@typescript-eslint/dot-notation': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-extraneous-class': 'warn'
+    '@typescript-eslint/no-extraneous-class': 'warn',
+    '@typescript-eslint/no-this-alias': 'warn',
+    'no-case-declarations': 'off',
+    'no-prototype-builtins': 'warn'
   },
-  ignorePatterns: ['website/*', './gulpfile.ts']
+  ignorePatterns: ['website/*', './gulpfile.ts', './tests/**/*.ts', './jest.config.js']
 }

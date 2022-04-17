@@ -1,10 +1,10 @@
 import glob from 'glob'
 
-export function findFileNamesFromGlob(globString: string) {
+export function findFileNamesFromGlob(globString: string): string[] {
   return glob.sync(globString)
 }
 
-export function loadResolversFromGlob(globString: string) {
+export function loadResolversFromGlob(globString: string): void {
   const filePaths = findFileNamesFromGlob(globString)
-  const modules = filePaths.map(fileName => require(fileName))
+  filePaths.map(fileName => require(fileName))
 }

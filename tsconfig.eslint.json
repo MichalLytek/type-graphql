@@ -8,9 +8,10 @@
   },
   "extends": "./tsconfig.json",
   "include": [
-    "tests/**/*.ts",
     "src/**/*.ts",
+    "tests/**/*.ts",
     "examples/**/*.ts",
-    "docs/**/*.ts"
+    "website/**/*.ts",
+    "helpers/**/*.ts"
   ]
 }

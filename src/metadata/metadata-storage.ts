@@ -239,7 +239,7 @@ export class MetadataStorage {
       if (def.kind === 'external') {
         const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType()
         const typeMetadata =
-          this.objectTypes.find(objTypeDef => objTypeDef.target === typeClass) ||
+          this.objectTypes.find(objTypeDef => objTypeDef.target === typeClass) ??
           this.interfaceTypes.find(interfaceTypeDef => interfaceTypeDef.target === typeClass)
         if (!typeMetadata) {
           throw new Error(`Unable to find type metadata for input type or object type named '${typeClass.name}'`)
@@ -287,7 +287,7 @@ export class MetadataStorage {
     })
   }
 
-  private buildExtendedResolversMetadata() {
+  private buildExtendedResolversMetadata(): void {
     this.resolverClasses.forEach(def => {
       const target = def.target
       let superResolver = Object.getPrototypeOf(target)

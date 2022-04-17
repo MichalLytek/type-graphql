@@ -23,7 +23,6 @@ describe('Validation', () => {
     let schema: GraphQLSchema
     let argInput: any
     let argsData: any
-    let sampleResolver: any
 
     beforeEach(() => {
       argInput = undefined

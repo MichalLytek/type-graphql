@@ -38,9 +38,9 @@ import * as src from './index'
 
 export const dummyValue = ''
 
-export function dummyFn() {}
+export function dummyFn(): void {}
 
-export function dummyDecorator() {
+export function dummyDecorator(): any {
   return dummyFn
 }
 

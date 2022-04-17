@@ -85,7 +85,7 @@ function mapConfig(
     | GraphQLInterfaceTypeConfig<any, any>
     | GraphQLInputObjectTypeConfig
     | GraphQLInputFieldConfig
-) {
+): void {
   config.extensions ??= {}
   ;(config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
     isMappedByDirective: true

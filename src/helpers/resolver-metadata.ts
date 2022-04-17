@@ -25,7 +25,7 @@ export function getResolverMetadata(
 
   return {
     methodName,
-    schemaName: options.name || methodName,
+    schemaName: options.name ?? methodName,
     target: prototype.constructor,
     getReturnType: getType,
     returnTypeOptions: typeOptions,

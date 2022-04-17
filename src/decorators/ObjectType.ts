@@ -21,7 +21,7 @@ export function ObjectType(
 
   return target => {
     getMetadataStorage().collectObjectMetadata({
-      name: name || target.name,
+      name: name ?? target.name,
       target,
       description: options.description,
       interfaceClasses,

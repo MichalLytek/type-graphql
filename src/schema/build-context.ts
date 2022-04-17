@@ -55,7 +55,7 @@ export abstract class BuildContext {
   /**
    * Set static fields with current building context data
    */
-  static create(options: BuildContextOptions) {
+  static create(options: BuildContextOptions): void {
     if (options.dateScalarMode !== undefined) {
       this.dateScalarMode = options.dateScalarMode
     }
@@ -102,7 +102,7 @@ export abstract class BuildContext {
   /**
    * Restore default settings
    */
-  static reset() {
+  static reset(): void {
     this.dateScalarMode = 'isoDate'
     this.scalarsMaps = []
     this.validate = true

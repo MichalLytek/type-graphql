@@ -1,6 +1,6 @@
 import { GraphQLScalarType, Kind } from 'graphql'
 
-function convertTimestampToDate(value: number) {
+function convertTimestampToDate(value: number): Date {
   try {
     return new Date(value)
   } catch (err) {
@@ -15,13 +15,15 @@ export const GraphQLTimestamp = new GraphQLScalarType<Date, number>({
     'Type represents date and time as number of milliseconds from start of UNIX epoch.',
   serialize(value: unknown) {
     if (!(value instanceof Date)) {
-      throw new Error(`Unable to serialize value '${value}' as it's not an instance of 'Date'`)
+      throw new Error(`Unable to serialize value '${value as string}' as it's not an instance of 'Date'`)
     }
     return value.getTime()
   },
   parseValue(value: unknown) {
     if (typeof value !== 'number') {
-      throw new Error(`Unable to parse value '${value}' as GraphQLTimestamp scalar supports only number values`)
+      throw new Error(
+        `Unable to parse value '${value as string}' as GraphQLTimestamp scalar supports only number values`
+      )
     }
 
     return convertTimestampToDate(value)

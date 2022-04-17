@@ -12,6 +12,7 @@ describe('`graphql` package peer dependency', () => {
     jest.mock('graphql/package.json', () => ({
       version: '14.0.2'
     }))
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const graphqlVersion = require('../../src/utils/graphql-version')
 
     try {

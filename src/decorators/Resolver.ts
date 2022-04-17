@@ -13,7 +13,7 @@ export function Resolver(
   const objectTypeOrTypeFunc: Function | undefined =
     typeof objectTypeOrTypeFuncOrMaybeOptions === 'function' ? objectTypeOrTypeFuncOrMaybeOptions : undefined
   const options: AbstractClassOptions =
-    (typeof objectTypeOrTypeFuncOrMaybeOptions === 'function' ? maybeOptions : objectTypeOrTypeFuncOrMaybeOptions) || {}
+    (typeof objectTypeOrTypeFuncOrMaybeOptions === 'function' ? maybeOptions : objectTypeOrTypeFuncOrMaybeOptions) ?? {}
 
   return target => {
     const getObjectType = objectTypeOrTypeFunc
@@ -26,7 +26,7 @@ export function Resolver(
     getMetadataStorage().collectResolverClassMetadata({
       target,
       getObjectType,
-      isAbstract: options.isAbstract || false
+      isAbstract: options.isAbstract ?? false
     })
   }
 }

@@ -463,7 +463,7 @@ describe('Interfaces and inheritance', () => {
         expect(schemaError.message).toMatchInlineSnapshot(`
           "Some errors occurred while generating GraphQL schema:
             Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.
-          Please check the \`details\` property of the error to get more detailed info."
+          Please check the 'details' property of the error to get more detailed info."
         `)
         expect(JSON.stringify(schemaError.details, null, 2)).toMatchInlineSnapshot(`
           "[

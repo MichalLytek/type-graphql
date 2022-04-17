@@ -133,7 +133,7 @@ export abstract class SchemaGenerator {
     getMetadataStorage().build(options)
     this.buildTypesInfo(options.resolvers)
 
-    const orphanedTypes = options.orphanedTypes || (options.resolvers ? [] : undefined)
+    const orphanedTypes = options.orphanedTypes ?? (options.resolvers ? [] : undefined)
     const prebuiltSchema = new GraphQLSchema({
       query: this.buildRootQueryType(options.resolvers),
       mutation: this.buildRootMutationType(options.resolvers),
@@ -233,7 +233,7 @@ export abstract class SchemaGenerator {
           name: enumMetadata.name,
           description: enumMetadata.description,
           values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
-            const valueConfig = enumMetadata.valuesConfig[enumKey] || {}
+            const valueConfig = enumMetadata.valuesConfig[enumKey] ?? {}
             enumConfig[enumKey] = {
               value: enumMap[enumKey],
               description: valueConfig.description,
@@ -256,7 +256,7 @@ export abstract class SchemaGenerator {
       return {
         metadata: objectType,
         target: objectType.target,
-        isAbstract: objectType.isAbstract || false,
+        isAbstract: objectType.isAbstract ?? false,
         type: new GraphQLObjectType({
           name: objectType.name,
           description: objectType.description,
@@ -293,7 +293,7 @@ export abstract class SchemaGenerator {
                 objectType.interfaceClasses!.includes(it.target)
               )
               implementedInterfaces.forEach(it => {
-                fieldsMetadata.push(...(it.fields || []))
+                fieldsMetadata.push(...(it.fields ?? []))
               })
             }
             // push own fields at the end to overwrite the one inherited from interface
@@ -360,9 +360,7 @@ export abstract class SchemaGenerator {
 
       // fetch ahead the subset of object types that implements this interface
       const implementingObjectTypesTargets = getMetadataStorage()
-        .objectTypes.filter(
-          objectType => objectType.interfaceClasses && objectType.interfaceClasses.includes(interfaceType.target)
-        )
+        .objectTypes.filter(objectType => objectType.interfaceClasses?.includes(interfaceType.target))
         .map(objectType => objectType.target)
       const implementingObjectTypesInfo = this.objectTypesInfo.filter(objectTypesInfo =>
         implementingObjectTypesTargets.includes(objectTypesInfo.target)
@@ -371,13 +369,13 @@ export abstract class SchemaGenerator {
       return {
         metadata: interfaceType,
         target: interfaceType.target,
-        isAbstract: interfaceType.isAbstract || false,
+        isAbstract: interfaceType.isAbstract ?? false,
         type: new GraphQLInterfaceType({
           name: interfaceType.name,
           description: interfaceType.description,
           astNode: getInterfaceTypeDefinitionNode(interfaceType.name, interfaceType.directives),
           interfaces: () => {
-            let interfaces = (interfaceType.interfaceClasses || []).map<GraphQLInterfaceType>(
+            let interfaces = (interfaceType.interfaceClasses ?? []).map<GraphQLInterfaceType>(
               interfaceClass => this.interfaceTypesInfo.find(info => info.target === interfaceClass)!.type
             )
             // copy interfaces from super class
@@ -399,7 +397,7 @@ export abstract class SchemaGenerator {
                 interfaceType.interfaceClasses!.includes(it.target)
               )
               implementedInterfacesMetadata.forEach(it => {
-                fieldsMetadata.push(...(it.fields || []))
+                fieldsMetadata.push(...(it.fields ?? []))
               })
             }
             // push own fields at the end to overwrite the one inherited from interface
@@ -561,7 +559,7 @@ export abstract class SchemaGenerator {
   private static generateHandlerFields<T = any, U = any>(handlers: ResolverMetadata[]): GraphQLFieldConfigMap<T, U> {
     return handlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       // omit emitting abstract resolver fields
-      if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
+      if (handler.resolverClassMetadata?.isAbstract) {
         return fields
       }
       const type = this.getGraphQLOutputType(
@@ -593,7 +591,7 @@ export abstract class SchemaGenerator {
     const basicFields = this.generateHandlerFields(subscriptionsHandlers)
     return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
       // omit emitting abstract resolver fields
-      if (handler.resolverClassMetadata && handler.resolverClassMetadata.isAbstract) {
+      if (handler.resolverClassMetadata?.isAbstract) {
         return fields
       }
 

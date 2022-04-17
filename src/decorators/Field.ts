@@ -23,7 +23,7 @@ export function Field(
 
     const { options, returnTypeFunc } = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions)
     const isResolver = Boolean(descriptor)
-    const isResolverMethod = Boolean(descriptor && descriptor.value)
+    const isResolverMethod = Boolean(descriptor?.value)
 
     const { getType, typeOptions } = findType({
       metadataKey: isResolverMethod ? 'design:returntype' : 'design:type',
@@ -35,7 +35,7 @@ export function Field(
 
     getMetadataStorage().collectClassFieldMetadata({
       name: propertyKey,
-      schemaName: options.name || propertyKey,
+      schemaName: options.name ?? propertyKey,
       getType,
       typeOptions,
       complexity: options.complexity,
@@ -49,7 +49,7 @@ export function Field(
       getMetadataStorage().collectFieldResolverMetadata({
         kind: 'internal',
         methodName: propertyKey,
-        schemaName: options.name || propertyKey,
+        schemaName: options.name ?? propertyKey,
         target: prototype.constructor,
         complexity: options.complexity
       })

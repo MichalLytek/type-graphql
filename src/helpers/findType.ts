@@ -1,4 +1,11 @@
-import { RecursiveArray, ReturnTypeFunc, TypeOptions, TypeValue, TypeValueThunk } from '../decorators/types'
+import {
+  RecursiveArray,
+  ReturnTypeFunc,
+  ReturnTypeFuncValue,
+  TypeOptions,
+  TypeValue,
+  TypeValueThunk
+} from '../decorators/types'
 import { bannedTypes } from './returnTypes'
 import { NoExplicitTypeError } from '../errors'
 
@@ -44,7 +51,7 @@ export function findType({
   }
 
   if (returnTypeFunc) {
-    const getType = () => {
+    const getType = (): ReturnTypeFuncValue => {
       const returnTypeFuncReturnValue = returnTypeFunc()
       if (Array.isArray(returnTypeFuncReturnValue)) {
         const { depth, returnType } = findTypeValueArrayDepth(returnTypeFuncReturnValue)

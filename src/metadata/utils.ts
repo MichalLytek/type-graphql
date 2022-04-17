@@ -23,7 +23,7 @@ export function mapSuperFieldResolverHandlers(
   definitions: FieldResolverMetadata[],
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata
-) {
+): FieldResolverMetadata[] {
   const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata)
 
   return superMetadata.map(metadata => {
@@ -42,7 +42,7 @@ export function mapMiddlewareMetadataToArray(metadata: MiddlewareMetadata[]): Ar
     .reduce<Array<Middleware<any>>>((middlewares, resultArray) => resultArray.concat(middlewares), [])
 }
 
-export function ensureReflectMetadataExists() {
+export function ensureReflectMetadataExists(): void {
   if (typeof Reflect !== 'object' || typeof Reflect.decorate !== 'function' || typeof Reflect.metadata !== 'function') {
     throw new ReflectMetadataMissingError()
   }

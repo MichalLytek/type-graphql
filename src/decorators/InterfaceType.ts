@@ -24,7 +24,7 @@ export function InterfaceType(
   const interfaceClasses = options.implements && ([] as Function[]).concat(options.implements)
   return target => {
     getMetadataStorage().collectInterfaceMetadata({
-      name: name || target.name,
+      name: name ?? target.name,
       target,
       interfaceClasses,
       autoRegisteringDisabled: options.autoRegisterImplementations === false,
