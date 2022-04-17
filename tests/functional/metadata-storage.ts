@@ -23,7 +23,7 @@ describe('MetadataStorage', () => {
     beforeAll(async () => {
       getMetadataStorage().clear()
 
-      function createAbstractResolver(classType: ClassType) {
+      function createAbstractResolver(classType: ClassType): any {
         @Resolver(() => classType, { isAbstract: true })
         abstract class AbstractResolver {
           @Query({ name: INHERITED_QUERY_NAME })

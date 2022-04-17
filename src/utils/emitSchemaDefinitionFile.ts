@@ -22,7 +22,7 @@ export function emitSchemaDefinitionFileSync(
   schemaFilePath: string,
   schema: GraphQLSchema,
   options: PrintSchemaOptions = defaultPrintSchemaOptions
-) {
+): void {
   const schemaFileContent = getSchemaFileContent(schema, options)
   outputFileSync(schemaFilePath, schemaFileContent)
 }
@@ -31,12 +31,12 @@ export async function emitSchemaDefinitionFile(
   schemaFilePath: string,
   schema: GraphQLSchema,
   options: PrintSchemaOptions = defaultPrintSchemaOptions
-) {
+): Promise<void> {
   const schemaFileContent = getSchemaFileContent(schema, options)
   await outputFile(schemaFilePath, schemaFileContent)
 }
 
-function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
+function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions): string {
   const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema
   return generatedSchemaWarning + printSchema(schemaToEmit)
 }

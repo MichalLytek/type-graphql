@@ -74,7 +74,7 @@ describe('Interfaces with resolvers and arguments', () => {
 
       @ObjectType({ implements: SampleInterfaceWithArgs })
       class SampleImplementingObjectWithArgsAndOwnResolver implements SampleInterfaceWithArgs {
-        sampleFieldWithArgs(sampleArg: string) {
+        sampleFieldWithArgs(sampleArg: string): string {
           return `SampleImplementingObjectWithArgsAndOwnResolver: ${sampleArg}`
         }
       }
@@ -130,7 +130,6 @@ describe('Interfaces with resolvers and arguments', () => {
       expect(sampleInterfaceWithArgs).toBeDefined()
       expect(sampleInterfaceWithArgsAndInlineResolver).toBeDefined()
       expect(sampleInterfaceWithArgsAndFieldResolver).toBeDefined()
-
       ;[
         sampleInterfaceWithArgs,
         sampleInterfaceWithArgsAndInlineResolver,
@@ -181,7 +180,6 @@ describe('Interfaces with resolvers and arguments', () => {
       expect(sampleImplementingObjectWithArgsAndOwnResolver).toBeDefined()
       expect(sampleImplementingObjectWithArgsAndInheritedResolver).toBeDefined()
       expect(sampleImplementingObjectWithArgsAndInheritedFieldResolver).toBeDefined()
-
       ;[
         sampleImplementingObjectWithArgsAndOwnResolver,
         sampleImplementingObjectWithArgsAndInheritedResolver,
@@ -224,7 +222,7 @@ describe('Interfaces with resolvers and arguments', () => {
 
       @ObjectType({ implements: SampleInterfaceWithArgs })
       class SampleImplementingObjectWithArgsAndOwnResolver extends SampleInterfaceWithArgs {
-        sampleFieldWithArgs(sampleArg: string) {
+        sampleFieldWithArgs(sampleArg: string): string {
           return `SampleImplementingObjectWithArgsAndOwnResolver: ${sampleArg}`
         }
       }

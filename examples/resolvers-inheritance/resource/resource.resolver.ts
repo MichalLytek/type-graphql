@@ -16,7 +16,7 @@ export class GetAllArgs {
 export function ResourceResolver<TResource extends Resource>(
   ResourceCls: ClassType<TResource>,
   resources: TResource[]
-) {
+): any {
   const resourceName = ResourceCls.name.toLocaleLowerCase()
 
   // `isAbstract` decorator option is mandatory to prevent multiple registering in schema
@@ -30,14 +30,13 @@ export function ResourceResolver<TResource extends Resource>(
     }
 
     @Query(returns => ResourceCls, { name: `${resourceName}` })
-    protected async getOne(@Arg('id', type => Int) id: number) {
+    protected async getOne(@Arg('id', type => Int) id: number): Promise<TResource | undefined> {
       return this.resourceService.getOne(id)
     }
 
     @Query(returns => [ResourceCls], { name: `${resourceName}s` })
-    protected async getAll(@Args() { skip, take }: GetAllArgs) {
-      const all = this.resourceService.getAll(skip, take)
-      return all
+    protected async getAll(@Args() { skip, take }: GetAllArgs): Promise<TResource[]> {
+      return await this.resourceService.getAll(skip, take)
     }
 
     // dynamically created field with resolver for all child resource classes

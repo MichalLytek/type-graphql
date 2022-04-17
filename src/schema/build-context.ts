@@ -40,6 +40,7 @@ export interface BuildContextOptions {
   disableInferringDefaultValues?: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export abstract class BuildContext {
   static dateScalarMode: DateScalarMode
   static scalarsMaps: ScalarsTypeMap[]

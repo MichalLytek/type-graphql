@@ -5,7 +5,7 @@ import { buildSchema } from '../../src'
 
 import UserResolver from './resolver'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [UserResolver],

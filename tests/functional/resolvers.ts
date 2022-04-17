@@ -137,6 +137,7 @@ describe('Resolvers', () => {
           return 'simpleMethodField'
         }
 
+        // eslint-disable-next-line max-params
         @Field(type => String)
         argMethodField(
           @Arg('stringArg') stringArg: string,
@@ -156,6 +157,7 @@ describe('Resolvers', () => {
       }
 
       @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class LambdaResolver {
         @Query()
         lambdaQuery(): boolean {
@@ -164,6 +166,7 @@ describe('Resolvers', () => {
       }
 
       @Resolver(SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class ClassResolver {
         @Query()
         classQuery(): boolean {
@@ -254,17 +257,17 @@ describe('Resolvers', () => {
         }
 
         @FieldResolver()
-        resolverFieldWithArgs(@Arg('arg1') arg1: string, @Arg('arg2') arg2: boolean) {
+        resolverFieldWithArgs(@Arg('arg1') arg1: string, @Arg('arg2') arg2: boolean): string {
           return 'resolverFieldWithArgs'
         }
 
         @FieldResolver(type => String, { nullable: true, description: 'independent' })
-        independentFieldResolver(@Arg('arg1') arg1: string, @Arg('arg2') arg2: boolean) {
+        independentFieldResolver(@Arg('arg1') arg1: string, @Arg('arg2') arg2: boolean): string {
           return 'resolverFieldWithArgs'
         }
 
         @FieldResolver(type => String, { name: 'overwrittenField', nullable: true })
-        overwrittenFieldResolver() {
+        overwrittenFieldResolver(): string {
           return 'overwrittenFieldResolver'
         }
       }
@@ -281,10 +284,10 @@ describe('Resolvers', () => {
     })
 
     // helpers
-    function getQuery(queryName: string) {
+    function getQuery(queryName: string): IntrospectionField {
       return queryType.fields.find(field => field.name === queryName)!
     }
-    function getMutation(mutationName: string) {
+    function getMutation(mutationName: string): IntrospectionField {
       return mutationType.fields.find(field => field.name === mutationName)!
     }
 
@@ -843,6 +846,7 @@ describe('Resolvers', () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query(returns => String)
             sampleQuery(@Arg('arg') arg: any): string {
@@ -864,8 +868,10 @@ describe('Resolvers', () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             sampleQuery() {
               return 'sampleQuery'
             }
@@ -885,6 +891,7 @@ describe('Resolvers', () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
             sampleQuery(): any {
@@ -906,8 +913,10 @@ describe('Resolvers', () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             sampleMutation() {
               return 'sampleMutation'
             }
@@ -927,6 +936,7 @@ describe('Resolvers', () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
             sampleMutation(): any {
@@ -947,6 +957,7 @@ describe('Resolvers', () => {
         expect.assertions(2)
 
         @ObjectType()
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         class SampleObjectWithError {
           @Field()
           sampleField: string
@@ -961,7 +972,7 @@ describe('Resolvers', () => {
             }
 
             @FieldResolver()
-            sampleField() {
+            sampleField(): string {
               return 'sampleField'
             }
           }
@@ -995,6 +1006,7 @@ describe('Resolvers', () => {
             }
 
             @FieldResolver()
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             independentField() {
               return 'independentField'
             }
@@ -1182,7 +1194,7 @@ describe('Resolvers', () => {
     }
 
     // helpers
-    function generateAndVisitComplexMethod(maximumComplexity: number) {
+    function generateAndVisitComplexMethod(maximumComplexity: number): void {
       const query = /* graphql */ `
         query {
           sampleQuery {
@@ -1216,8 +1228,8 @@ describe('Resolvers', () => {
     beforeAll(async () => {
       getMetadataStorage().clear()
 
-      const FirstCustomArgDecorator = () => createParamDecorator(resolverData => resolverData)
-      const SecondCustomArgDecorator = (arg: string) => createParamDecorator(async () => arg)
+      const FirstCustomArgDecorator = (): ParameterDecorator => createParamDecorator(resolverData => resolverData)
+      const SecondCustomArgDecorator = (arg: string): ParameterDecorator => createParamDecorator(async () => arg)
 
       @ArgsType()
       class SampleArgs {
@@ -1227,7 +1239,7 @@ describe('Resolvers', () => {
         @Field()
         factor: number
 
-        isTrue() {
+        isTrue(): boolean {
           return this.TRUE
         }
       }
@@ -1251,7 +1263,7 @@ describe('Resolvers', () => {
         @Field()
         factor: number
 
-        isTrue() {
+        isTrue(): boolean {
           return this.TRUE
         }
       }
@@ -1297,7 +1309,7 @@ describe('Resolvers', () => {
       @ObjectType()
       class SampleObject {
         private readonly TRUE = true
-        isTrue() {
+        isTrue(): boolean {
           return this.TRUE
         }
 
@@ -1336,7 +1348,7 @@ describe('Resolvers', () => {
         }
 
         @Field(type => String)
-        async asyncMethodField() {
+        async asyncMethodField(): Promise<string> {
           return 'asyncMethodField'
         }
 
@@ -1350,11 +1362,11 @@ describe('Resolvers', () => {
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1
         randomValueField = Math.random() * this.factor
-        get randomValueGetter() {
+        get randomValueGetter(): number {
           return Math.random() * this.factor
         }
 
-        getRandomValue() {
+        getRandomValue(): number {
           return Math.random() * this.factor
         }
 
@@ -1464,12 +1476,12 @@ describe('Resolvers', () => {
         }
 
         @FieldResolver()
-        fieldResolverField() {
+        fieldResolverField(): number {
           return this.randomValueField
         }
 
         @FieldResolver()
-        fieldResolverGetter() {
+        fieldResolverGetter(): number {
           return this.randomValueGetter
         }
 
@@ -1987,6 +1999,7 @@ describe('Resolvers', () => {
         omittedField: string
       }
       @Resolver()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class OmittedResolver {
         @Query()
         omittedQuery(): OmittedObject {
@@ -2094,6 +2107,7 @@ describe('Resolvers', () => {
         }
       }
       @Resolver(of => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2138,6 +2152,7 @@ describe('Resolvers', () => {
         }
       }
       @Resolver(of => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2172,7 +2187,7 @@ describe('Resolvers', () => {
           return { sampleField: 'sampleField' }
         }
       }
-      function createResolver() {
+      function createResolver(): any {
         @Resolver(of => SampleObject)
         class SampleObjectResolver {
           @FieldResolver()
@@ -2203,7 +2218,6 @@ describe('Resolvers', () => {
     let mutationType: IntrospectionObjectType
     let subscriptionType: IntrospectionObjectType
     let thisVar: any
-    let baseResolver: any
     let childResolver: any
     let overrideResolver: any
     let validationErrors: GraphQLError[]
@@ -2228,7 +2242,7 @@ describe('Resolvers', () => {
         normalField: string
       }
 
-      function createResolver(name: string, objectType: ClassType) {
+      function createResolver(name: string, objectType: ClassType): any {
         @Resolver(of => objectType, { isAbstract: true })
         class BaseResolver {
           protected name = 'baseName'
@@ -2263,7 +2277,6 @@ describe('Resolvers', () => {
             return 'resolverField'
           }
         }
-        baseResolver = BaseResolver
 
         return BaseResolver
       }
@@ -2394,7 +2407,7 @@ describe('Resolvers', () => {
       const overriddenQuery = queryType.fields.find(it => it.name === 'overriddenQuery')!
       const prefixMutation = mutationType.fields.find(it => it.name === 'prefixMutation')!
       const overriddenMutation = mutationType.fields.find(it => it.name === 'overriddenMutation')!
-      const t = getInnerTypeOfNonNullableType(prefixQuery)
+      getInnerTypeOfNonNullableType(prefixQuery)
 
       expect(prefixQuery.args).toHaveLength(1)
       expect(prefixQuery.args[0].name).toEqual('arg')

@@ -7,11 +7,11 @@ import createUsers from './user.seed'
 export default class UserService {
   private readonly users: User[] = createUsers()
 
-  getAll() {
+  getAll(): User[] {
     return this.users
   }
 
-  findById(id: number) {
+  findById(id: number): User | undefined {
     return this.users.find(it => it.id === id)
   }
 }

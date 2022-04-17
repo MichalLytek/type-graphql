@@ -5,6 +5,9 @@ import { NumberInterceptor } from '../middlewares/number-interceptor'
 
 @ObjectType()
 export class Recipe {
+  @Field(type => ID)
+  id: string
+
   @Field()
   title: string
 

@@ -7,11 +7,11 @@ import createRecipes from './recipe.seed'
 export default class RecipeService {
   private readonly recipes: Recipe[] = createRecipes()
 
-  getAll() {
+  getAll(): Recipe[] {
     return this.recipes
   }
 
-  findById(id: number) {
+  findById(id: number): Recipe[] {
     return this.recipes.filter(it => it.authorId === id)
   }
 }

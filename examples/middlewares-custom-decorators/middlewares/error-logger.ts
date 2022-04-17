@@ -8,7 +8,7 @@ import { Logger } from '../logger'
 export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context, info }: ResolverData<Context>, next: NextFn) {
+  async use({ context, info }: ResolverData<Context>, next: NextFn): Promise<any> {
     try {
       return await next()
     } catch (err) {

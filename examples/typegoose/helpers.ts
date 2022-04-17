@@ -1,7 +1,7 @@
 import { Recipe, RecipeModel } from './entities/recipe'
 import { User, UserModel } from './entities/user'
 
-export async function seedDatabase() {
+export async function seedDatabase(): Promise<{ defaultUser: User }> {
   const defaultUser = new UserModel({
     email: 'test@github.com',
     nickname: 'MichalLytek',

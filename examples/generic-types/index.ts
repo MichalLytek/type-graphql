@@ -5,7 +5,7 @@ import { buildSchema } from '../../src'
 
 import RecipeResolver from './recipe.resolver'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
     emitSchemaFile: path.resolve(__dirname, 'schema.gql')

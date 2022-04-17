@@ -54,47 +54,47 @@ export class MetadataStorage {
     ensureReflectMetadataExists()
   }
 
-  collectQueryHandlerMetadata(definition: ResolverMetadata) {
+  collectQueryHandlerMetadata(definition: ResolverMetadata): void {
     this.queries.push(definition)
   }
 
-  collectMutationHandlerMetadata(definition: ResolverMetadata) {
+  collectMutationHandlerMetadata(definition: ResolverMetadata): void {
     this.mutations.push(definition)
   }
 
-  collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
+  collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata): void {
     this.subscriptions.push(definition)
   }
 
-  collectFieldResolverMetadata(definition: FieldResolverMetadata) {
+  collectFieldResolverMetadata(definition: FieldResolverMetadata): void {
     this.fieldResolvers.push(definition)
   }
 
-  collectObjectMetadata(definition: ObjectClassMetadata) {
+  collectObjectMetadata(definition: ObjectClassMetadata): void {
     this.objectTypes.push(definition)
   }
 
-  collectInputMetadata(definition: ClassMetadata) {
+  collectInputMetadata(definition: ClassMetadata): void {
     this.inputTypes.push(definition)
   }
 
-  collectArgsMetadata(definition: ClassMetadata) {
+  collectArgsMetadata(definition: ClassMetadata): void {
     this.argumentTypes.push(definition)
   }
 
-  collectInterfaceMetadata(definition: InterfaceClassMetadata) {
+  collectInterfaceMetadata(definition: InterfaceClassMetadata): void {
     this.interfaceTypes.push(definition)
   }
 
-  collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
+  collectAuthorizedFieldMetadata(definition: AuthorizedMetadata): void {
     this.authorizedFields.push(definition)
   }
 
-  collectEnumMetadata(definition: EnumMetadata) {
+  collectEnumMetadata(definition: EnumMetadata): void {
     this.enums.push(definition)
   }
 
-  collectUnionMetadata(definition: UnionMetadata) {
+  collectUnionMetadata(definition: UnionMetadata): Symbol {
     const unionSymbol = Symbol(definition.name)
     this.unions.push({
       ...definition,
@@ -103,39 +103,39 @@ export class MetadataStorage {
     return unionSymbol
   }
 
-  collectMiddlewareMetadata(definition: MiddlewareMetadata) {
+  collectMiddlewareMetadata(definition: MiddlewareMetadata): void {
     this.middlewares.push(definition)
   }
 
-  collectResolverClassMetadata(definition: ResolverClassMetadata) {
+  collectResolverClassMetadata(definition: ResolverClassMetadata): void {
     this.resolverClasses.push(definition)
   }
 
-  collectClassFieldMetadata(definition: FieldMetadata) {
+  collectClassFieldMetadata(definition: FieldMetadata): void {
     this.fields.push(definition)
   }
 
-  collectHandlerParamMetadata(definition: ParamMetadata) {
+  collectHandlerParamMetadata(definition: ParamMetadata): void {
     this.params.push(definition)
   }
 
-  collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
+  collectDirectiveClassMetadata(definition: DirectiveClassMetadata): void {
     this.classDirectives.push(definition)
   }
 
-  collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
+  collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata): void {
     this.fieldDirectives.push(definition)
   }
 
-  collectExtensionsClassMetadata(definition: ExtensionsClassMetadata) {
+  collectExtensionsClassMetadata(definition: ExtensionsClassMetadata): void {
     this.classExtensions.push(definition)
   }
 
-  collectExtensionsFieldMetadata(definition: ExtensionsFieldMetadata) {
+  collectExtensionsFieldMetadata(definition: ExtensionsFieldMetadata): void {
     this.fieldExtensions.push(definition)
   }
 
-  build(options: SchemaGeneratorOptions) {
+  build(options: SchemaGeneratorOptions): void {
     this.classDirectives.reverse()
     this.fieldDirectives.reverse()
     this.classExtensions.reverse()
@@ -155,7 +155,7 @@ export class MetadataStorage {
     this.buildExtendedResolversMetadata()
   }
 
-  clear() {
+  clear(): void {
     this.queries = []
     this.mutations = []
     this.subscriptions = []
@@ -178,7 +178,7 @@ export class MetadataStorage {
     this.params = []
   }
 
-  private buildClassMetadata(definitions: ClassMetadata[]) {
+  private buildClassMetadata(definitions: ClassMetadata[]): void {
     definitions.forEach(def => {
       if (!def.fields) {
         const fields = this.fields.filter(field => field.target === def.target)
@@ -206,7 +206,7 @@ export class MetadataStorage {
     })
   }
 
-  private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
+  private buildResolversMetadata(definitions: BaseResolverMetadata[]): void {
     definitions.forEach(def => {
       const resolverClassMetadata = this.resolverClasses.find(resolver => resolver.target === def.target)!
       def.resolverClassMetadata = resolverClassMetadata
@@ -224,7 +224,7 @@ export class MetadataStorage {
     })
   }
 
-  private buildFieldResolverMetadata(definitions: FieldResolverMetadata[], options: SchemaGeneratorOptions) {
+  private buildFieldResolverMetadata(definitions: FieldResolverMetadata[], options: SchemaGeneratorOptions): void {
     this.buildResolversMetadata(definitions)
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName)

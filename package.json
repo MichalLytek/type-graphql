@@ -93,7 +93,7 @@
   },
   "lint-staged": {
     "{src,tests,examples}/**/*.ts": [
-      "tslint --fix",
+      "eslint --fix",
       "prettier --write"
     ],
     "{src,tests,examples}/**/*.js": [

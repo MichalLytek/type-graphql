@@ -6,11 +6,15 @@ import { User } from '../entities/user'
 import { RecipeInput } from './inputs/recipe-input'
 import { RateInput } from './inputs/rate-input'
 import { ContextType } from '../types'
+import { Loaded } from '@mikro-orm/core'
 
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg('recipeId', type => Int) recipeId: number, @Ctx() { entityManager }: ContextType) {
+  async recipe(
+    @Arg('recipeId', type => Int) recipeId: number,
+    @Ctx() { entityManager }: ContextType
+  ): Promise<Recipe | null> {
     return entityManager.findOne(Recipe, recipeId)
   }
 
@@ -57,7 +61,10 @@ export class RecipeResolver {
   }
 
   @FieldResolver()
-  async ratings(@Root() recipe: Recipe, @Ctx() { entityManager }: ContextType) {
+  async ratings(
+    @Root() recipe: Recipe,
+    @Ctx() { entityManager }: ContextType
+  ): Promise<Array<Loaded<{ recipe: { id: number } }, any>>> {
     return entityManager.find(Rate, { recipe: { id: recipe.id } })
   }
 

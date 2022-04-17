@@ -1,13 +1,16 @@
 import {
+  GraphQLFieldConfig,
   GraphQLFieldConfigArgumentMap,
   GraphQLFieldConfigMap,
+  GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
   GraphQLInputObjectType,
   GraphQLInterfaceType,
   GraphQLObjectType
 } from 'graphql'
+import { ObjMap } from 'graphql/jsutils/ObjMap'
 
-export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
+export function getFieldMetadataFromInputType(type: GraphQLInputObjectType): ObjMap<GraphQLInputFieldConfig> {
   const fieldInfo = type.getFields()
   const typeFields = Object.keys(fieldInfo).reduce<GraphQLInputFieldConfigMap>((fieldsMap, fieldName) => {
     const superField = fieldInfo[fieldName]
@@ -22,7 +25,9 @@ export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
   return typeFields
 }
 
-export function getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQLInterfaceType) {
+export function getFieldMetadataFromObjectType(
+  type: GraphQLObjectType | GraphQLInterfaceType
+): ObjMap<GraphQLFieldConfig<any, any>> {
   const fieldInfo = type.getFields()
   const typeFields = Object.keys(fieldInfo).reduce<GraphQLFieldConfigMap<any, any>>((fieldsMap, fieldName) => {
     const superField = fieldInfo[fieldName]

@@ -4,7 +4,7 @@ import { Recipe } from './entities/recipe'
 import { Rate } from './entities/rate'
 import { User } from './entities/user'
 
-export async function seedDatabase(em: EntityManager) {
+export async function seedDatabase(em: EntityManager): Promise<{ defaultUser: User }> {
   const defaultUser = em.create(User, {
     email: 'test@github.com',
     nickname: 'MichalLytek',

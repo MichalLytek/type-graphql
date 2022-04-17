@@ -1,6 +1,6 @@
 import { Recipe } from './recipe-type'
 
-export function createRecipeSamples() {
+export function createRecipeSamples(): Recipe[] {
   return [
     createRecipe({
       title: 'Recipe 1',

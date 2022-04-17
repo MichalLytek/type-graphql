@@ -13,9 +13,9 @@ interface LoggerConfig {
 
 const extractLoggerExtensionsFromConfig = (
   config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>
-): LoggerConfig => (config.extensions && (config.extensions.log as LoggerConfig)) || {}
+): LoggerConfig => (config.extensions && (config.extensions.log as LoggerConfig)) ?? {}
 
-const getLoggerExtensions = (info: GraphQLResolveInfo) => {
+const getLoggerExtensions = (info: GraphQLResolveInfo): any => {
   const fieldConfig = extractFieldConfig(info)
   const fieldLoggerExtensions = extractLoggerExtensionsFromConfig(fieldConfig)
 
@@ -32,7 +32,7 @@ const getLoggerExtensions = (info: GraphQLResolveInfo) => {
 export class LoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context: { user }, info }: ResolverData<Context>, next: NextFn) {
+  async use({ context: { user }, info }: ResolverData<Context>, next: NextFn): Promise<any> {
     const { message, level = 0 } = getLoggerExtensions(info)
 
     if (message) {

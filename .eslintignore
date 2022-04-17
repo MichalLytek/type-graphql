@@ -1,2 +1,10 @@
 node_modules
 dist
+website/*
+gulpfile.ts
+jest.config.js
+examples/dev.js
+examples/apollo-client/**/*
+coverage
+benchmarks
+.eslintrc.js

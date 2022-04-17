@@ -19,7 +19,7 @@ export interface Context {
 // replace with your values if needed
 const MONGO_DB_URL = 'mongodb://localhost:27017/type-graphql'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   try {
     // create mongoose connection
     const mongoose = await connect(MONGO_DB_URL)
@@ -53,4 +53,4 @@ async function bootstrap() {
   }
 }
 
-bootstrap()
+bootstrap().catch(err => console.error(err))

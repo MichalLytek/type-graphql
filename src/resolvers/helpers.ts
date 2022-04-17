@@ -19,6 +19,7 @@ export function getParams(
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
+    // eslint-disable-next-line array-callback-return
     .map(paramInfo => {
       switch (paramInfo.kind) {
         case 'args':
@@ -70,7 +71,7 @@ export function applyAuthChecker(
   container: IOCContainer,
   authMode: AuthMode,
   roles: any[] | undefined
-) {
+): void {
   if (authChecker && roles) {
     middlewares.unshift(AuthMiddleware(authChecker, container, authMode, roles))
   }

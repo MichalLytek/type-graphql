@@ -10,7 +10,7 @@ export default class RecipeResolver {
   constructor(private readonly recipeService: RecipeService) {}
 
   @Query(returns => [Recipe])
-  recipes() {
+  recipes(): Recipe[] {
     return this.recipeService.getAll()
   }
 }

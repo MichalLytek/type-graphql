@@ -4,7 +4,7 @@ import { buildSchema } from '../../src'
 
 import { SampleResolver } from './resolver'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   // Build the TypeGraphQL schema
   const schema = await buildSchema({
     resolvers: [SampleResolver]
@@ -18,4 +18,4 @@ async function bootstrap() {
   console.log(`Server is running, GraphQL Playground available at ${url}`)
 }
 
-bootstrap()
+bootstrap().catch(err => console.error(err))

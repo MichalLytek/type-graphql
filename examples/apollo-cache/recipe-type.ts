@@ -21,7 +21,7 @@ export class Recipe {
   // will invalidate `cachedRecipe` cache with maxAge of 60 to 10
   // if the field is requested
   @CacheControl({ maxAge: 10 })
-  get cachedAverageRating() {
+  get cachedAverageRating(): number | null {
     console.log(`Called 'cachedAverageRating' for recipe '${this.title}' on ${getTime()}`)
     return this.averageRating
   }

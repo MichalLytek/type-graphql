@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import {
   GraphQLSchema,
   IntrospectionObjectType,
-  IntrospectionSchema,
   TypeKind,
   graphql,
   subscribe,
@@ -40,7 +39,6 @@ import sleep from '../helpers/sleep'
 describe('Subscriptions', () => {
   describe('Schema', () => {
     let schema: GraphQLSchema
-    let schemaIntrospection: IntrospectionSchema
     let subscriptionType: IntrospectionObjectType
 
     beforeAll(async () => {
@@ -428,7 +426,7 @@ describe('Subscriptions', () => {
         document: subscriptionQuery
       })) as AsyncIterableIterator<ExecutionResult>
       // run subscription in a separate async "thread"
-      ;(async () => {
+      void (async () => {
         for await (const result of subscription) {
           subscriptionValue = (result.data as any).sampleTopicSubscriptionWithFilter.value
         }
@@ -472,7 +470,7 @@ describe('Subscriptions', () => {
         document: subscriptionQuery
       })) as AsyncIterableIterator<ExecutionResult>
       // run subscription in a separate async "thread"
-      ;(async () => {
+      void (async () => {
         for await (const result of subscription) {
           subscriptionValue = (result.data as any).multipleTopicSubscription.value
         }
@@ -552,6 +550,7 @@ describe('Subscriptions', () => {
       getMetadataStorage().clear()
 
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         sampleField: string
@@ -588,6 +587,7 @@ describe('Subscriptions', () => {
     it('should create PubSub instance with provided emitter options', async () => {
       getMetadataStorage().clear()
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         sampleField: string
@@ -626,6 +626,7 @@ describe('Subscriptions', () => {
       expect.assertions(5)
       try {
         @ObjectType()
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         class SampleObject {
           @Field()
           sampleField: string

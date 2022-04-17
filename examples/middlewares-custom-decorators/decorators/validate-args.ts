@@ -3,7 +3,7 @@ import { ClassType, ArgumentValidationError, createMethodDecorator } from '../..
 
 // sample implementation of custom validation decorator
 // this example use `class-validator` however you can plug-in `joi` or any other lib
-export function ValidateArgs<T extends object>(Type: ClassType<T>) {
+export function ValidateArgs<T extends object>(Type: ClassType<T>): MethodDecorator {
   return createMethodDecorator(async ({ args }, next) => {
     const instance = Object.assign(new Type(), args)
     const validationErrors = await validate(instance)

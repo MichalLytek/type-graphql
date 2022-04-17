@@ -21,6 +21,6 @@ export const products: Product[] = [
   })
 ]
 
-function createProduct(productData: Partial<Product>) {
+function createProduct(productData: Partial<Product>): Product {
   return Object.assign(new Product(), productData)
 }

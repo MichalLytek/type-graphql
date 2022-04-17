@@ -7,7 +7,7 @@ import { RecipeResolver } from './recipe/recipe.resolver'
 import { Context } from './types'
 import { setSamplesInContainer } from './recipe/recipe.samples'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   setSamplesInContainer()
 
   // build TypeGraphQL executable schema
@@ -51,4 +51,4 @@ async function bootstrap() {
   console.log(`Server is running, GraphQL Playground available at ${url}`)
 }
 
-bootstrap()
+bootstrap().catch(err => console.error(err))

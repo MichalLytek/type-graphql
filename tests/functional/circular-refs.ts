@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from 'graphql'
+import { IntrospectionObjectType, TypeKind, graphql } from 'graphql'
 
 import { Query, ObjectType, Field, Resolver, buildSchema } from '../../src'
 import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
@@ -9,7 +9,9 @@ describe('Circular references', () => {
   it('should resolve circular type dependencies when type functions are used', async () => {
     getMetadataStorage().clear()
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { CircularRef1 } = require('../helpers/circular-refs/good/CircularRef1')
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { CircularRef2 } = require('../helpers/circular-refs/good/CircularRef2')
 
     @ObjectType()
@@ -45,6 +47,7 @@ describe('Circular references', () => {
     getMetadataStorage().clear()
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions,@typescript-eslint/no-var-requires
       require('../helpers/circular-refs/wrong/CircularRef1').CircularRef1
     } catch (err) {
       expect(err).toBeInstanceOf(Error)
@@ -55,6 +58,7 @@ describe('Circular references', () => {
     }
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions,@typescript-eslint/no-var-requires
       require('../helpers/circular-refs/wrong/CircularRef2').CircularRef2
     } catch (err) {
       expect(err).toBeInstanceOf(Error)

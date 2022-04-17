@@ -15,6 +15,6 @@ export const users: User[] = [
   })
 ]
 
-function createUser(userData: Partial<User>) {
+function createUser(userData: Partial<User>): User {
   return Object.assign(new User(), userData)
 }

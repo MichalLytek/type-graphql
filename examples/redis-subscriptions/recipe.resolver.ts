@@ -25,7 +25,7 @@ export class RecipeResolver {
   private readonly recipes: Recipe[] = sampleRecipes.slice()
 
   @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg('id', type => ID) id: string) {
+  async recipe(@Arg('id', type => ID) id: string): Promise<Recipe | undefined> {
     return this.recipes.find(recipe => recipe.id === id)
   }
 

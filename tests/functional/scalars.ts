@@ -34,10 +34,8 @@ describe('Scalars', () => {
   let schema: GraphQLSchema
 
   let argScalar: string | undefined
-  let argDate: Date | undefined
   beforeEach(() => {
     argScalar = undefined
-    argDate = undefined
   })
 
   beforeAll(async () => {
@@ -116,7 +114,6 @@ describe('Scalars', () => {
 
       @Query()
       argDate(@Arg('date', type => Date) date: any): boolean {
-        argDate = date
         return true
       }
     }
@@ -132,10 +129,9 @@ describe('Scalars', () => {
   })
 
   describe('Schema', () => {
-    function getFieldType(name: string) {
+    function getFieldType(name: string): IntrospectionNamedTypeRef {
       const field = sampleObject.fields.find(it => it.name === name)!
-      const fieldType = (field.type as IntrospectionNonNullTypeRef).ofType as IntrospectionNamedTypeRef
-      return fieldType
+      return (field.type as IntrospectionNonNullTypeRef).ofType as IntrospectionNamedTypeRef
     }
 
     it('should generate ID scalar field type', async () => {
@@ -246,7 +242,7 @@ describe('Scalars', () => {
     })
   })
 
-  describe('Bulit-in scalars', () => {
+  describe('Built-in scalars', () => {
     let sampleResolver: any
     let localArgDate: Date | undefined
 
@@ -304,9 +300,7 @@ describe('Scalars', () => {
       sampleResolver = SampleResolver
     })
 
-    beforeEach(() => {
-      argDate = undefined
-    })
+    beforeEach(() => {})
 
     describe('GraphQLISODate', () => {
       let localSchema: GraphQLSchema

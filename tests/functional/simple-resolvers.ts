@@ -12,7 +12,7 @@ describe('Simple resolvers', () => {
   beforeAll(async () => {
     getMetadataStorage().clear()
 
-    const testMiddleware: MiddlewareFn = async ({}, next) => {
+    const testMiddleware: MiddlewareFn = async (resolverData, next) => {
       middlewareLogs.push('middleware extecuted')
       return next()
     }

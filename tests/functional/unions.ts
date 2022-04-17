@@ -316,6 +316,7 @@ describe('Unions', () => {
         name: 'ExtendedBase',
         types: () => [Base, Extended] as const
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _extended: typeof ExtendedBase = {
         base: 'base',
         extended: 'extended'

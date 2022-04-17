@@ -1,4 +1,4 @@
-import { IsPositive, Max, Min } from 'class-validator'
+import { Max, Min } from 'class-validator'
 import { ArgsType, Field, Int } from '../../../src'
 
 @ArgsType()

@@ -54,7 +54,7 @@ describe('Emitting schema definition file', () => {
     rimraf(TEST_DIR, done)
   })
 
-  function checkSchemaSDL(SDL: string, { sortedSchema }: PrintSchemaOptions = defaultPrintSchemaOptions) {
+  function checkSchemaSDL(SDL: string, { sortedSchema }: PrintSchemaOptions = defaultPrintSchemaOptions): void {
     expect(SDL).toContain('THIS FILE WAS GENERATED')
     expect(SDL).toContain('MyObject')
     if (sortedSchema) {
@@ -130,7 +130,7 @@ describe('Emitting schema definition file', () => {
 
     it('should throw error when unknown error occur while writing file with schema SDL', () => {
       jest.spyOn(fs, 'writeFileSync').mockImplementationOnce(() => {
-        throw { code: 'TEST ERROR' }
+        throw new Error('TEST ERROR')
       })
       const targetPath = path.join(TEST_DIR, 'schemas', 'fail3', 'schema.gql')
       let error
@@ -139,13 +139,13 @@ describe('Emitting schema definition file', () => {
       } catch (e) {
         error = e
       }
-      expect(error).toEqual({ code: 'TEST ERROR' })
+      expect(error.message).toEqual('TEST ERROR')
       expect(fs.existsSync(targetPath)).toEqual(false)
     })
 
     it('should throw error when unknown error occur while creating directory with schema SDL', () => {
       jest.spyOn(fs, 'mkdirSync').mockImplementationOnce(() => {
-        throw { code: 'TEST ERROR' }
+        throw new Error('TEST ERROR')
       })
       const targetPath = path.join(TEST_DIR, 'schemas', 'fail4', 'schema.gql')
       let error
@@ -154,7 +154,7 @@ describe('Emitting schema definition file', () => {
       } catch (e) {
         error = e
       }
-      expect(error).toEqual({ code: 'TEST ERROR' })
+      expect(error.message).toEqual('TEST ERROR')
       expect(fs.existsSync(targetPath)).toEqual(false)
     })
   })

@@ -12,7 +12,7 @@ import { User } from './entities/user'
 import { ContextType } from './types'
 import { seedDatabase } from './helpers'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   console.log(`Initializing database connection...`)
   const orm = await MikroORM.init({
     metadataProvider: ReflectMetadataProvider,

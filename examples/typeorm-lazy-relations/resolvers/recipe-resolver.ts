@@ -16,7 +16,7 @@ export class RecipeResolver {
   ) {}
 
   @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg('recipeId', type => Int) recipeId: number) {
+  async recipe(@Arg('recipeId', type => Int) recipeId: number): Promise<Recipe | undefined> {
     return this.recipeRepository.findOne(recipeId)
   }
 

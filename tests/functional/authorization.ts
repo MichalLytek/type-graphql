@@ -16,6 +16,7 @@ import {
   AuthCheckerInterface,
   ResolverData
 } from '../../src'
+import { ResolverMetadata } from '../../src/metadata/definitions'
 
 describe('Authorization', () => {
   let schema: GraphQLSchema
@@ -76,7 +77,7 @@ describe('Authorization', () => {
 
       @Query(type => Boolean, { nullable: true })
       @Authorized()
-      nullableAuthedQuery(@Ctx() ctx: any) {
+      nullableAuthedQuery(@Ctx() ctx: any): boolean {
         return true
       }
 
@@ -99,18 +100,18 @@ describe('Authorization', () => {
       }
 
       @FieldResolver()
-      normalResolvedField() {
+      normalResolvedField(): string {
         return 'normalResolvedField'
       }
 
       @FieldResolver()
       @Authorized()
-      authedResolvedField() {
+      authedResolvedField(): string {
         return 'authedResolvedField'
       }
 
       @FieldResolver()
-      inlineAuthedResolvedField() {
+      inlineAuthedResolvedField(): string {
         return 'inlineAuthedResolvedField'
       }
     }
@@ -125,7 +126,7 @@ describe('Authorization', () => {
 
   describe('Reflection', () => {
     // helpers
-    function findQuery(queryName: string) {
+    function findQuery(queryName: string): ResolverMetadata {
       return getMetadataStorage().queries.find(it => it.methodName === queryName)!
     }
 
@@ -499,7 +500,7 @@ describe('Authorization', () => {
       let authCheckerResolverData: any
       let authCheckerRoles: any
       class TestAuthChecker implements AuthCheckerInterface {
-        check(resolverData: ResolverData, roles: string[]) {
+        check(resolverData: ResolverData, roles: string[]): boolean {
           authCheckerResolverData = resolverData
           authCheckerRoles = roles
           return false

@@ -8,7 +8,7 @@ import { Logger } from '../logger'
 export class LogAccessMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
-  async use({ context, info }: ResolverData<Context>, next: NextFn) {
+  async use({ context, info }: ResolverData<Context>, next: NextFn): Promise<any> {
     this.logger.log(`Logging access: ${context.currentUser.name} -> ${info.parentType.name}.${info.fieldName}`)
     return next()
   }

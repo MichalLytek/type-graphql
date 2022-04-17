@@ -12,12 +12,9 @@ import {
 import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
 import { getSchemaInfo } from '../helpers/getSchemaInfo'
 import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from '../../src'
-import { NullableListOptions } from '../../src/decorators/types'
 
 describe('Fields - schema', () => {
   let schemaIntrospection: IntrospectionSchema
-  let queryType: IntrospectionObjectType
-  let mutationType: IntrospectionObjectType
   let sampleObjectType: IntrospectionObjectType
 
   beforeAll(async () => {
@@ -93,13 +90,11 @@ describe('Fields - schema', () => {
       resolvers: [SampleResolver]
     })
     schemaIntrospection = schemaInfo.schemaIntrospection
-    queryType = schemaInfo.queryType
-    mutationType = schemaInfo.mutationType!
     sampleObjectType = schemaIntrospection.types.find(type => type.name === 'SampleObject') as IntrospectionObjectType
   })
 
   // helpers
-  function getInnerFieldType(name: string) {
+  function getInnerFieldType(name: string): IntrospectionNamedTypeRef {
     const fieldType = sampleObjectType.fields.find(field => field.name === name)!
     return (fieldType.type as IntrospectionNonNullTypeRef).ofType as IntrospectionNamedTypeRef
   }
@@ -122,6 +117,7 @@ describe('Fields - schema', () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleField: any
@@ -140,6 +136,7 @@ describe('Fields - schema', () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleArrayField: string[]
@@ -158,6 +155,7 @@ describe('Fields - schema', () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         invalidSampleNullableField: string | null
@@ -177,6 +175,7 @@ describe('Fields - schema', () => {
     const symbolKey = Symbol('symbolKey')
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         [symbolKey]: string | null

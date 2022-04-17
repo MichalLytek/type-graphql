@@ -1,7 +1,7 @@
 import type { CacheHint } from 'apollo-server-types'
 import { Directive } from '../../src'
 
-export function CacheControl({ maxAge, scope }: CacheHint) {
+export function CacheControl({ maxAge, scope }: CacheHint): typeof Directive {
   if (!maxAge && !scope) {
     throw new Error('Missing maxAge or scope param for @CacheControl')
   }

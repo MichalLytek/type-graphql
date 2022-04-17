@@ -2,7 +2,7 @@ import { ClassType, Field, ObjectType, Int } from '../../src'
 
 export default function PaginatedResponse<TItemsFieldValue>(
   itemsFieldValue: ClassType<TItemsFieldValue> | String | Number | Boolean
-) {
+): any {
   // `isAbstract` decorator option is mandatory to prevent registering in schema
   @ObjectType({ isAbstract: true })
   abstract class PaginatedResponseClass {

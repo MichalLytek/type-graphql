@@ -5,7 +5,7 @@ import { Resource } from './resource'
 // we need to use factory as we need separate instance of service for each generic
 @Service()
 export class ResourceServiceFactory {
-  create<TResource extends Resource>(resources?: TResource[]) {
+  create<TResource extends Resource>(resources?: TResource[]): ResourceService<TResource> {
     return new ResourceService(resources)
   }
 }

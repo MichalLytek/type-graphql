@@ -4,7 +4,7 @@ import { Recipe } from './entities/recipe'
 import { Rate } from './entities/rate'
 import { User } from './entities/user'
 
-export async function seedDatabase() {
+export async function seedDatabase(): Promise<{ defaultUser: User }> {
   const recipeRepository = getRepository(Recipe)
   const ratingsRepository = getRepository(Rate)
   const userRepository = getRepository(User)

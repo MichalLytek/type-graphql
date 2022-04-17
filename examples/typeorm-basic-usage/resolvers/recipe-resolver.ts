@@ -18,7 +18,7 @@ export class RecipeResolver {
   ) {}
 
   @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg('recipeId', type => Int) recipeId: number) {
+  async recipe(@Arg('recipeId', type => Int) recipeId: number): Promise<Recipe | undefined> {
     return this.recipeRepository.findOne(recipeId)
   }
 
@@ -60,7 +60,7 @@ export class RecipeResolver {
   }
 
   @FieldResolver()
-  async ratings(@Root() recipe: Recipe) {
+  async ratings(@Root() recipe: Recipe): Promise<Rate[]> {
     return this.ratingsRepository.find({
       cache: 1000,
       where: { recipe: { id: recipe.id } }

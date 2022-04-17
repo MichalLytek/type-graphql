@@ -9,7 +9,7 @@ import { RecipeResolver } from './recipe.resolver'
 const REDIS_HOST = '192.168.99.100' // replace with own IP
 const REDIS_PORT = 6379
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   // configure Redis connection options
   const options: Redis.RedisOptions = {
     host: REDIS_HOST,
@@ -38,4 +38,4 @@ async function bootstrap() {
   console.log(`Server is running, GraphQL Playground available at ${url}`)
 }
 
-bootstrap()
+bootstrap().catch(err => console.error(err))

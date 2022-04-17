@@ -195,6 +195,7 @@ describe('Interfaces and inheritance', () => {
       sampleInterface1Type = schemaIntrospection.types.find(
         type => type.name === 'SampleInterface1'
       ) as IntrospectionInterfaceType
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       sampleInterface2Type = schemaIntrospection.types.find(
         type => type.name === 'SampleInterface2'
       ) as IntrospectionInterfaceType
@@ -222,7 +223,7 @@ describe('Interfaces and inheritance', () => {
     })
 
     // helpers
-    function getInnerType(fieldType: any) {
+    function getInnerType(fieldType: any): IntrospectionNamedTypeRef {
       return (fieldType.type as IntrospectionNonNullTypeRef).ofType as IntrospectionNamedTypeRef
     }
 
@@ -629,8 +630,9 @@ describe('Interfaces and inheritance', () => {
         secondField: string
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-extraneous-class
       class SampleBaseClass {
-        static sampleStaticMethod() {
+        static sampleStaticMethod(): string {
           return 'sampleStaticMethod'
         }
       }
@@ -1226,6 +1228,7 @@ describe('Interfaces and inheritance', () => {
         sampleField: string
       }
       @ObjectType({ implements: SampleUnusedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleUnusedObjectType implements SampleUnusedInterface {
         @Field()
         sampleField: string
@@ -1283,10 +1286,12 @@ describe('Interfaces and inheritance', () => {
         fooBarKind: string
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Foo extends IFooBar {
         fooBarKind = 'Foo'
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Bar extends IFooBar {
         fooBarKind = 'Bar'
       }
@@ -1298,7 +1303,7 @@ describe('Interfaces and inheritance', () => {
       @Resolver()
       class TestResolver {
         @Query(() => FooBar)
-        foobar() {
+        foobar(): FooBar {
           return new FooBar()
         }
       }
@@ -1341,6 +1346,7 @@ describe('Interfaces and inheritance', () => {
         sampleFirstAdditionalField: string
       }
       @ObjectType({ implements: SampleUsedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SecondSampleObject implements SampleUsedInterface {
         @Field()
         sampleField: string

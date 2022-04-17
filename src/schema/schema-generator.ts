@@ -108,6 +108,7 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
   directives?: GraphQLDirective[]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = []
   private static inputTypesInfo: InputObjectTypeInfo[] = []
@@ -151,7 +152,7 @@ export abstract class SchemaGenerator {
     return finalSchema
   }
 
-  private static checkForErrors(options: SchemaGeneratorOptions) {
+  private static checkForErrors(options: SchemaGeneratorOptions): void {
     ensureInstalledCorrectGraphQLPackage()
     if (getMetadataStorage().authorizedFields.length !== 0 && options.authChecker === undefined) {
       throw new Error('You need to provide `authChecker` function for `@Authorized` decorator usage!')
@@ -185,12 +186,12 @@ export abstract class SchemaGenerator {
     return typeOptions.defaultValue !== undefined ? typeOptions.defaultValue : defaultValueFromInitializer
   }
 
-  private static buildTypesInfo(resolvers?: Function[]) {
+  private static buildTypesInfo(resolvers?: Function[]): void {
     this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
       // use closure to capture values from this selected schema build
       const unionObjectTypesInfo: ObjectTypeInfo[] = []
       // called once after building all `objectTypesInfo`
-      const typesThunk = () => {
+      const typesThunk = (): Array<GraphQLObjectType<any, any>> => {
         unionObjectTypesInfo.push(
           ...unionMetadata
             .getClassTypes()
@@ -248,7 +249,7 @@ export abstract class SchemaGenerator {
     this.objectTypesInfo = getMetadataStorage().objectTypes.map<ObjectTypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target)
       const hasExtended = objectSuperClass.prototype !== undefined
-      const getSuperClassType = () => {
+      const getSuperClassType = (): GraphQLObjectType | undefined => {
         const superClassTypeInfo = this.objectTypesInfo.find(type => type.target === objectSuperClass)
         return superClassTypeInfo ? superClassTypeInfo.type : undefined
       }
@@ -353,7 +354,7 @@ export abstract class SchemaGenerator {
     this.interfaceTypesInfo = getMetadataStorage().interfaceTypes.map<InterfaceTypeInfo>(interfaceType => {
       const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target)
       const hasExtended = interfaceSuperClass.prototype !== undefined
-      const getSuperClassType = () => {
+      const getSuperClassType = (): GraphQLInterfaceType | undefined => {
         const superClassTypeInfo = this.interfaceTypesInfo.find(type => type.target === interfaceSuperClass)
         return superClassTypeInfo ? superClassTypeInfo.type : undefined
       }
@@ -453,7 +454,7 @@ export abstract class SchemaGenerator {
 
     this.inputTypesInfo = getMetadataStorage().inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target)
-      const getSuperClassType = () => {
+      const getSuperClassType = (): GraphQLInputObjectType | undefined => {
         const superClassTypeInfo = this.inputTypesInfo.find(type => type.target === objectSuperClass)
         return superClassTypeInfo ? superClassTypeInfo.type : undefined
       }
@@ -670,7 +671,7 @@ export abstract class SchemaGenerator {
     }, {})
   }
 
-  private static mapArgFields(argumentType: ClassMetadata, args: GraphQLFieldConfigArgumentMap = {}) {
+  private static mapArgFields(argumentType: ClassMetadata, args: GraphQLFieldConfigArgumentMap = {}): void {
     const argumentInstance = new (argumentType.target as any)()
     argumentType.fields!.forEach(field => {
       const defaultValue = this.getDefaultValue(argumentInstance, field.typeOptions, field.name, argumentType.name)
@@ -773,14 +774,14 @@ export abstract class SchemaGenerator {
   private static filterHandlersByResolvers<T extends ResolverMetadata>(
     handlers: T[],
     resolvers: Function[] | undefined
-  ) {
+  ): T[] {
     return resolvers ? handlers.filter(query => resolvers.includes(query.target)) : handlers
   }
 
   private static filterTypesInfoByIsAbstractAndOrphanedTypesAndExtractType(
     typesInfo: Array<ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo>,
     orphanedTypes: Function[] | undefined
-  ) {
+  ): Array<GraphQLInputObjectType | GraphQLObjectType<any, any> | GraphQLInterfaceType> {
     return typesInfo
       .filter(it => !it.isAbstract && (!orphanedTypes || orphanedTypes.includes(it.target)))
       .map(it => it.type)

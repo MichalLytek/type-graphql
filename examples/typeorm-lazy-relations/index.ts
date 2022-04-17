@@ -14,7 +14,7 @@ import { Context } from './resolvers/types/context'
 // register 3rd party IOC container
 TypeORM.useContainer(Container)
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   try {
     // create TypeORM connection
     await TypeORM.createConnection({
@@ -55,4 +55,4 @@ async function bootstrap() {
   }
 }
 
-bootstrap()
+bootstrap().catch(err => console.error(err))

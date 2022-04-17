@@ -96,7 +96,7 @@ export function convertToType(Target: any, data?: object): object | undefined {
   return Object.assign(new Target(), data)
 }
 
-export function getEnumValuesMap<T extends object>(enumObject: T) {
+export function getEnumValuesMap<T extends object>(enumObject: T): any {
   const enumKeys = Object.keys(enumObject).filter(key => isNaN(parseInt(key, 10)))
   const enumMap = enumKeys.reduce<any>((map, key) => {
     map[key] = enumObject[key as keyof T]

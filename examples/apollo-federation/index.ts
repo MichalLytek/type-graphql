@@ -7,7 +7,7 @@ import * as reviews from './reviews'
 import * as products from './products'
 import * as inventory from './inventory'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const gateway = new ApolloGateway({
     supergraphSdl: new IntrospectAndCompose({
       subgraphs: [
@@ -26,7 +26,7 @@ async function bootstrap() {
     executor
   })
 
-  server.listen({ port: 3000 }).then(({ url }) => {
+  return server.listen({ port: 3000 }).then(({ url }) => {
     console.log(`Apollo Gateway ready at ${url}`)
   })
 }

@@ -12,8 +12,8 @@ import { ObjectIdScalar } from '../object-id.scalar'
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Query(returns => Recipe, { nullable: true })
-  recipe(@Arg('recipeId', type => ObjectIdScalar) recipeId: ObjectId) {
-    return RecipeModel.findById(recipeId)
+  async recipe(@Arg('recipeId', type => ObjectIdScalar) recipeId: ObjectId): Promise<any> {
+    return await RecipeModel.findById(recipeId)
   }
 
   @Query(returns => [Recipe])

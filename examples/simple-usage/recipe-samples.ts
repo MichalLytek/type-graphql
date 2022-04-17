@@ -1,6 +1,6 @@
 import { Recipe } from './recipe-type'
 
-export function createRecipeSamples() {
+export function createRecipeSamples(): Recipe[] {
   return [
     createRecipe({
       description: 'Desc 1',
@@ -23,6 +23,6 @@ export function createRecipeSamples() {
   ]
 }
 
-function createRecipe(recipeData: Partial<Recipe>) {
+function createRecipe(recipeData: Partial<Recipe>): Recipe & Partial<Recipe> {
   return Object.assign(new Recipe(), recipeData)
 }

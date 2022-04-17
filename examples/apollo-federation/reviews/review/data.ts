@@ -49,14 +49,14 @@ export const reviews: Review[] = [
   })
 ]
 
-function createReview(reviewData: Partial<Review>) {
+function createReview(reviewData: Partial<Review>): Review {
   return Object.assign(new Review(), reviewData)
 }
 
-function createUser(userData: Partial<User>) {
+function createUser(userData: Partial<User>): User {
   return Object.assign(new User(), userData)
 }
 
-function createProduct(productData: Partial<Product>) {
+function createProduct(productData: Partial<Product>): Product {
   return Object.assign(new Product(), productData)
 }

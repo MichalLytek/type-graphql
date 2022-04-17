@@ -5,7 +5,7 @@ import { promisify } from 'util'
 export const fsMkdir = promisify(fs.mkdir)
 export const fsWriteFile = promisify(fs.writeFile)
 
-export function parsePath(targetPath: string) {
+export function parsePath(targetPath: string): string[] {
   const directories: string[] = []
   const parsedPath = path.parse(path.resolve(targetPath))
   const splitPath = parsedPath.dir.split(path.sep)
@@ -20,7 +20,7 @@ export function parsePath(targetPath: string) {
   return directories
 }
 
-export async function mkdirRecursive(filePath: string) {
+export async function mkdirRecursive(filePath: string): Promise<void> {
   const directories = parsePath(filePath)
   for (const directory of directories) {
     try {
@@ -33,7 +33,7 @@ export async function mkdirRecursive(filePath: string) {
   }
 }
 
-export function mkdirRecursiveSync(filePath: string) {
+export function mkdirRecursiveSync(filePath: string): void {
   const directories = parsePath(filePath)
   for (const directory of directories) {
     if (!fs.existsSync(directory)) {
@@ -42,7 +42,7 @@ export function mkdirRecursiveSync(filePath: string) {
   }
 }
 
-export async function outputFile(filePath: string, fileContent: any) {
+export async function outputFile(filePath: string, fileContent: any): Promise<void> {
   try {
     await fsWriteFile(filePath, fileContent)
   } catch (err) {
@@ -54,7 +54,7 @@ export async function outputFile(filePath: string, fileContent: any) {
   }
 }
 
-export function outputFileSync(filePath: string, fileContent: any) {
+export function outputFileSync(filePath: string, fileContent: any): void {
   try {
     fs.writeFileSync(filePath, fileContent)
   } catch (e) {

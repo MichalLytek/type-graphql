@@ -48,7 +48,7 @@ describe('buildSchema -> nullableByDefault', () => {
       }
 
       @Query(type => String, { nullable: true })
-      nullableQuery() {
+      nullableQuery(): null {
         return null
       }
 

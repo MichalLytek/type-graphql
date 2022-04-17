@@ -7,7 +7,7 @@ import { emitSchemaDefinitionFile } from '../../src'
 import RecipeModule from './recipe/recipe.module'
 import UserModule from './user/user.module'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   // create main app module
   const { schema } = new GraphQLModule({
     // join other sub-modules

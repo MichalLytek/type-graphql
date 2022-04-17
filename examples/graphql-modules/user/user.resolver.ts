@@ -10,7 +10,7 @@ export default class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(returns => [User])
-  users() {
+  users(): User[] {
     return this.userService.getAll()
   }
 }

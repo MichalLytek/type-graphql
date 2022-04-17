@@ -11,21 +11,21 @@ export class RecipeService {
     this.autoIncrementValue = this.items.length
   }
 
-  async getAll() {
+  async getAll(): Promise<Recipe[]> {
     return this.items
   }
 
-  async getOne(id: string) {
+  async getOne(id: string): Promise<Recipe | undefined> {
     return this.items.find(it => it.id === id)
   }
 
-  async add(data: RecipeInput) {
+  async add(data: RecipeInput): Promise<Recipe> {
     const recipe = this.createRecipe(data)
     this.items.push(recipe)
     return recipe
   }
 
-  async findIndex(recipe: Recipe) {
+  async findIndex(recipe: Recipe): Promise<number> {
     return this.items.findIndex(it => it.id === recipe.id)
   }
 

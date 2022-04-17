@@ -136,7 +136,7 @@ describe('Generic types', () => {
     let dogsResponseMock: any
 
     beforeEach(async () => {
-      function Connection<TItem>(TItemClass: ClassType<TItem>) {
+      function Connection<TItem>(TItemClass: ClassType<TItem>): any {
         @ObjectType(`${TItemClass.name}Connection`, { isAbstract: true })
         class ConnectionClass {
           @Field(type => Int)
@@ -161,6 +161,7 @@ describe('Generic types', () => {
       }
 
       const UserConnection = Connection(User)
+      // eslint-disable-next-line @typescript-eslint/no-redeclare
       type UserConnection = InstanceType<typeof UserConnection>
       @ObjectType()
       class DogConnection extends Connection(Dog) {}
@@ -240,7 +241,7 @@ describe('Generic types', () => {
     let friendshipEdgeResponse: any
 
     beforeEach(async () => {
-      function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
+      function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>): any {
         @ObjectType({ isAbstract: true })
         abstract class EdgeClass {
           @Field(type => NodeClass)
@@ -377,7 +378,7 @@ describe('Generic types', () => {
     let schemaIntrospection: IntrospectionSchema
 
     beforeAll(async () => {
-      function Base<TType>(TTypeClass: ClassType<TType>) {
+      function Base<TType>(TTypeClass: ClassType<TType>): any {
         @ObjectType({ isAbstract: true })
         class BaseClass {
           @Field(type => TTypeClass)

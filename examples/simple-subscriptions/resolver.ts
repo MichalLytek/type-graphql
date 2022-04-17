@@ -8,7 +8,7 @@ export class SampleResolver {
   private autoIncrement = 0
 
   @Query(returns => Date)
-  currentDate() {
+  currentDate(): Date {
     return new Date()
   }
 
@@ -40,7 +40,7 @@ export class SampleResolver {
     topics: 'NOTIFICATIONS',
     filter: ({ payload }: ResolverFilterData<NotificationPayload>) => payload.id % 2 === 0
   })
-  subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
+  subscriptionWithFilter(@Root() { id, message }: NotificationPayload): Notification {
     const newNotification: Notification = { id, message, date: new Date() }
     return newNotification
   }

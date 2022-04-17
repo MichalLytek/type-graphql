@@ -7,7 +7,7 @@ export function getId(): string {
   return hash.digest('hex')
 }
 
-export function calculateAge(birthday: Date) {
+export function calculateAge(birthday: Date): number {
   const ageDiffMs = Date.now() - birthday.getTime()
   const ageDate = new Date(ageDiffMs) // miliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970)

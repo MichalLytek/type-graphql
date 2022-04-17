@@ -121,7 +121,7 @@ function convertValuesToInstances(target: TypeValue, value: any): any {
   return convertValueToInstance(target, value)
 }
 
-export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: ArgsDictionary) {
+export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: ArgsDictionary): object | undefined {
   const ArgsClass = argsMetadata.getType() as ClassType
   const argsType = getArgsType(ArgsClass)!
 
@@ -148,7 +148,7 @@ export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: Arg
   return convertToType(ArgsClass, transformedFields)
 }
 
-export function convertArgToInstance(argMetadata: ArgParamMetadata, args: ArgsDictionary) {
+export function convertArgToInstance(argMetadata: ArgParamMetadata, args: ArgsDictionary): any {
   const argValue = args[argMetadata.name]
   const argTarget = argMetadata.getType()
   return convertValuesToInstances(argTarget, argValue)
