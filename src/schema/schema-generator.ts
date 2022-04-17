@@ -106,6 +106,10 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Array of graphql directives
    */
   directives?: GraphQLDirective[]
+  /**
+   * Function to transform schema description
+   */
+  transformDescription?: Function
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -133,7 +137,6 @@ export abstract class SchemaGenerator {
     BuildContext.create(options)
     getMetadataStorage().build(options)
     this.buildTypesInfo(options.resolvers)
-
     const orphanedTypes = options.orphanedTypes ?? (options.resolvers ? [] : undefined)
     const prebuiltSchema = new GraphQLSchema({
       query: this.buildRootQueryType(options.resolvers),

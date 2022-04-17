@@ -52,7 +52,7 @@ function loadResolvers(options: BuildSchemaOptions): Function[] | undefined {
     throw new Error('Empty `resolvers` array property found in `buildSchema` options!')
   }
   if (options.resolvers.some((resolver: Function | string) => typeof resolver === 'string')) {
-    ;(options.resolvers as string[]).forEach(resolver => {
+    options.resolvers.forEach(resolver => {
       if (typeof resolver === 'string') {
         loadResolversFromGlob(resolver)
       }

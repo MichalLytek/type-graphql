@@ -65,5 +65,13 @@
   ],
   "exclude": [
     "./examples/apollo-client"
-  ]
+  ],
+  "files": [
+    "src/index.ts",
+    "src/global.d.ts",
+    "src/declarations.d.ts"
+  ],
+  "ts-node": {
+    "files": true
+  }
 }

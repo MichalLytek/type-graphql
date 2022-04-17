@@ -141,16 +141,16 @@ export class MetadataStorage {
     this.classExtensions.reverse()
     this.fieldExtensions.reverse()
 
-    this.buildClassMetadata(this.objectTypes)
-    this.buildClassMetadata(this.inputTypes)
-    this.buildClassMetadata(this.argumentTypes)
-    this.buildClassMetadata(this.interfaceTypes)
+    this.buildClassMetadata(this.objectTypes, options)
+    this.buildClassMetadata(this.inputTypes, options)
+    this.buildClassMetadata(this.argumentTypes, options)
+    this.buildClassMetadata(this.interfaceTypes, options)
 
     this.buildFieldResolverMetadata(this.fieldResolvers, options)
 
-    this.buildResolversMetadata(this.queries)
-    this.buildResolversMetadata(this.mutations)
-    this.buildResolversMetadata(this.subscriptions)
+    this.buildResolversMetadata(this.queries, options)
+    this.buildResolversMetadata(this.mutations, options)
+    this.buildResolversMetadata(this.subscriptions, options)
 
     this.buildExtendedResolversMetadata()
   }
@@ -178,12 +178,15 @@ export class MetadataStorage {
     this.params = []
   }
 
-  private buildClassMetadata(definitions: ClassMetadata[]): void {
+  private buildClassMetadata(definitions: ClassMetadata[], options: SchemaGeneratorOptions): void {
     definitions.forEach(def => {
       if (!def.fields) {
         const fields = this.fields.filter(field => field.target === def.target)
         fields.forEach(field => {
           field.roles = this.findFieldRoles(field.target, field.name)
+          if (options.transformDescription) {
+            field.description = options.transformDescription(field)
+          }
           field.params = this.params.filter(param => param.target === field.target && field.name === param.methodName)
           field.middlewares = mapMiddlewareMetadataToArray(
             this.middlewares.filter(
@@ -206,12 +209,15 @@ export class MetadataStorage {
     })
   }
 
-  private buildResolversMetadata(definitions: BaseResolverMetadata[]): void {
+  private buildResolversMetadata(definitions: BaseResolverMetadata[], options: SchemaGeneratorOptions): void {
     definitions.forEach(def => {
       const resolverClassMetadata = this.resolverClasses.find(resolver => resolver.target === def.target)!
       def.resolverClassMetadata = resolverClassMetadata
       def.params = this.params.filter(param => param.target === def.target && def.methodName === param.methodName)
       def.roles = this.findFieldRoles(def.target, def.methodName)
+      if (options.transformDescription) {
+        def.description = options.transformDescription(def)
+      }
       def.middlewares = mapMiddlewareMetadataToArray(
         this.middlewares.filter(
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName
@@ -225,7 +231,7 @@ export class MetadataStorage {
   }
 
   private buildFieldResolverMetadata(definitions: FieldResolverMetadata[], options: SchemaGeneratorOptions): void {
-    this.buildResolversMetadata(definitions)
+    this.buildResolversMetadata(definitions, options)
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName)
       def.directives = this.fieldDirectives
@@ -261,7 +267,7 @@ export class MetadataStorage {
               target: typeClass,
               typeOptions: def.typeOptions,
               deprecationReason: def.deprecationReason,
-              description: def.description,
+              description: options.transformDescription ? options.transformDescription(def) : def.description,
               complexity: def.complexity,
               roles: def.roles!,
               middlewares: def.middlewares!,

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { GraphQLSchema, graphql } from 'graphql'
+import { GraphQLSchema, graphql, printSchema } from 'graphql'
 
 import { getMetadataStorage } from '../../src/metadata/getMetadataStorage'
 import {
@@ -16,7 +16,7 @@ import {
   AuthCheckerInterface,
   ResolverData
 } from '../../src'
-import { ResolverMetadata } from '../../src/metadata/definitions'
+import { FieldMetadata, ResolverMetadata } from '../../src/metadata/definitions'
 
 describe('Authorization', () => {
   let schema: GraphQLSchema
@@ -38,7 +38,7 @@ describe('Authorization', () => {
       @Authorized()
       nullableAuthedField: string
 
-      @Field()
+      @Field({ description: 'random field description' })
       @Authorized('ADMIN')
       adminField: string
 
@@ -60,7 +60,7 @@ describe('Authorization', () => {
         return true
       }
 
-      @Query()
+      @Query({ description: 'random query description' })
       normalObjectQuery(): SampleObject {
         return {
           normalField: 'normalField',
@@ -194,6 +194,27 @@ describe('Authorization', () => {
         authChecker: () => true
       })
 
+      expect(localSchema).toBeDefined()
+    })
+
+    it('should publish roles via description transformer', async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => true,
+        transformDescription: (metadata: FieldMetadata) => {
+          if (!metadata.roles) {
+            return metadata.description
+          }
+          if (!metadata.description) {
+            metadata.description = ''
+          }
+          if (Array.isArray(metadata.roles) && metadata.roles.length) {
+            return `${metadata.description}\nAuthorized roles: ${metadata.roles.join(', ')}`.trim()
+          }
+          return `${metadata.description}\nAuthorization required`.trim()
+        }
+      })
+      console.log(printSchema(localSchema))
       expect(localSchema).toBeDefined()
     })
 
