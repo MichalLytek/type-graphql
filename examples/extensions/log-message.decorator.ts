@@ -5,7 +5,7 @@ interface LogOptions {
   level?: number
 }
 
-export function LogMessage(messageOrOptions: string | LogOptions): typeof Extensions {
+export function LogMessage(messageOrOptions: string | LogOptions): any {
   // parse the parameters of the custom decorator
   const log: LogOptions =
     typeof messageOrOptions === 'string'

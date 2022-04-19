@@ -17,7 +17,7 @@ export default class UserResolver {
   @Mutation(returns => User)
   async createUser(@Arg('input') userData: CreateUserInput): Promise<User> {
     // in createUser we generate the ID and store the password
-    const user: User = { ...userData, id: ++this.autoIncrementId }
+    const user: User = { ...userData, id: ++this.autoIncrementId, password: userData?.password }
     this.usersData.push(user)
     return user
   }
@@ -27,7 +27,7 @@ export default class UserResolver {
     // in amendUser we use receive the ID but can't change the password
     const user = this.usersData.find(it => it.id === id)
     if (!user) {
-      throw new Error(`Invalid ID: ${id}`)
+      throw new Error(`Invalid ID: ${id as number}`)
     }
     Object.assign(user, userData)
     return user

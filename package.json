@@ -1,13 +1,14 @@
 {
-  "name": "type-graphql",
-  "version": "0.0.0-unreleased",
+  "name": "type-graphql-v2-fork",
+  "version": "2.0.0-aplha",
   "author": {
     "name": "Michał Lytek",
     "url": "https://github.com/MichalLytek"
   },
   "contributors": [
     {
-      "name": "Tomas Strejcek"
+      "name": "Tomas Strejcek",
+      "url": "https://github.com/tomasstrejcek"
     }
   ],
   "scripts": {
@@ -23,7 +24,7 @@
     "verify": "npm run check && npm run lint",
     "docs": "npm run --prefix website start",
     "prepare": "husky install",
-    "build": "npm check && rimraf build && tsc -p tsconfig.package.json && cp src/browser-shim.ts build/package/dist/"
+    "build": "npm run check && rimraf build && tsc -p tsconfig.package.json && cp src/browser-shim.ts build/package/dist/"
   },
   "peerDependencies": {
     "class-validator": ">=0.13.0",
