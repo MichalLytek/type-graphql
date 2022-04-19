@@ -5,6 +5,11 @@
     "name": "Michał Lytek",
     "url": "https://github.com/MichalLytek"
   },
+  "contributors": [
+    {
+      "name": "Tomas Strejcek"
+    }
+  ],
   "scripts": {
     "test": "jest --verbose --coverage",
     "test:ci": "jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
