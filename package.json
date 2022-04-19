@@ -17,14 +17,13 @@
     "format": "prettier --write \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:format": "prettier --check \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:type": "tsc --noEmit && tsc --noEmit -p ./examples/tsconfig.json",
-    "check": "npm run check:format && npm run check:type",
+    "check": "npm run lint && npm run check:format && npm run check:type",
     "lint": "eslint . --cache --cache-strategy content",
     "lint:fix": "eslint --fix .",
     "verify": "npm run check && npm run lint",
-    "package": "gulp package",
     "docs": "npm run --prefix website start",
-    "postinstall": "node ./dist/postinstall || exit 0",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "npm check && rimraf build && tsc -p tsconfig.package.json && cp src/browser-shim.ts build/package/dist/"
   },
   "peerDependencies": {
     "class-validator": ">=0.13.0",
@@ -136,5 +135,5 @@
   "engines": {
     "node": ">= 10.13"
   },
-  "private": true
+  "private": false
 }
