@@ -288,7 +288,7 @@ const CollectiveSection = props => (
             <span>Live Graphic Systems</span>
           </a>
           <a href="https://www.joinlifex.com/" target="_blank">
-            <img src={imgUrl("lifex.svg")} style={{ width: 75 }} />
+            <img src={imgUrl("lifex.svg")} style={{ width: 65 }} />
             <span>LifeX Aps</span>
           </a>
           <a href="https://www.swissmentor.com/" target="_blank">
@@ -296,12 +296,16 @@ const CollectiveSection = props => (
             <span>SwissMentor</span>
           </a>
           <a href="https://www.adminremix.com/" target="_blank">
-            <img src={imgUrl("admin-remix.png")} style={{ width: 100 }} />
+            <img src={imgUrl("admin-remix.png")} style={{ width: 90 }} />
             <span>Admin Remix</span>
           </a>
           <a href="https://flatironsdevelopment.com/" target="_blank">
-            <img src={imgUrl("flatirons.png")} style={{ width: 65 }} />
+            <img src={imgUrl("flatirons.png")} style={{ width: 55 }} />
             <span>Flatirons Development</span>
+          </a>
+          <a href="https://instinctools.com/manufacturing/" target="_blank">
+            <img src={imgUrl("instinctools.svg")} style={{ width: 110 }} />
+            <span>*instinctools</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
