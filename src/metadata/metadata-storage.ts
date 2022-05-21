@@ -291,7 +291,9 @@ export class MetadataStorage {
           );
         }
 
-        const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!;
+        const typeField = typeMetadata.fields!.find(
+          fieldDef => fieldDef.schemaName === def.schemaName,
+        )!;
         if (!typeField) {
           const shouldCollectFieldMetadata =
             !options.resolvers ||
