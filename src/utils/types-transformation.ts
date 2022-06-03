@@ -90,3 +90,27 @@ export function OmitType<T, K extends keyof T>(
   });
   return OmitClass as ClassType<Omit<T, K>>;
 }
+
+export function IntersectionType<A, B>(BaseClassA: ClassType<A>, BaseClassB: ClassType<B>) {
+  class IntersectionClass {}
+  InputType({ isAbstract: true })(IntersectionClass);
+  ObjectType({ isAbstract: true })(IntersectionClass);
+  InterfaceType({ isAbstract: true })(IntersectionClass);
+
+  const fields = getMetadataStorage().fields.filter(
+    f =>
+      f.target === BaseClassB ||
+      BaseClassB.prototype instanceof f.target ||
+      f.target === BaseClassA ||
+      BaseClassA.prototype instanceof f.target,
+  );
+
+  fields.forEach(field => {
+    getMetadataStorage().collectClassFieldMetadata({
+      ...field,
+      target: IntersectionClass,
+    });
+  });
+
+  return IntersectionClass as ClassType<A & B>;
+}
