@@ -3,10 +3,7 @@ import { ClassType } from "../interfaces";
 import { getMetadataStorage } from "../metadata";
 
 export function PartialType<T>(BaseClass: ClassType<T>): ClassType<Partial<T>> {
-  class PartialClass {}
-  InputType({ isAbstract: true })(PartialClass);
-  ObjectType({ isAbstract: true })(PartialClass);
-  InterfaceType({ isAbstract: true })(PartialClass);
+  const PartialClass = abstractClass();
 
   const fields = getMetadataStorage().fields.filter(
     f => f.target === BaseClass || BaseClass.prototype instanceof f.target,
@@ -24,10 +21,7 @@ export function PartialType<T>(BaseClass: ClassType<T>): ClassType<Partial<T>> {
 }
 
 export function RequiredType<T>(BaseClass: ClassType<T>): ClassType<Required<T>> {
-  class RequiredClass {}
-  InputType({ isAbstract: true })(RequiredClass);
-  ObjectType({ isAbstract: true })(RequiredClass);
-  InterfaceType({ isAbstract: true })(RequiredClass);
+  const RequiredClass = abstractClass();
 
   const fields = getMetadataStorage().fields.filter(
     f => f.target === BaseClass || BaseClass.prototype instanceof f.target,
@@ -47,10 +41,7 @@ export function PickType<T, K extends keyof T>(
   BaseClass: ClassType<T>,
   ...pickFields: K[]
 ): ClassType<Pick<T, K>> {
-  class PickClass {}
-  InputType({ isAbstract: true })(PickClass);
-  ObjectType({ isAbstract: true })(PickClass);
-  InterfaceType({ isAbstract: true })(PickClass);
+  const PickClass = abstractClass();
 
   const fields = getMetadataStorage().fields.filter(
     f =>
@@ -71,10 +62,7 @@ export function OmitType<T, K extends keyof T>(
   BaseClass: ClassType<T>,
   ...omitFields: K[]
 ): ClassType<Omit<T, K>> {
-  class OmitClass {}
-  InputType({ isAbstract: true })(OmitClass);
-  ObjectType({ isAbstract: true })(OmitClass);
-  InterfaceType({ isAbstract: true })(OmitClass);
+  const OmitClass = abstractClass();
 
   const fields = getMetadataStorage().fields.filter(
     f =>
@@ -92,10 +80,7 @@ export function OmitType<T, K extends keyof T>(
 }
 
 export function IntersectionType<A, B>(BaseClassA: ClassType<A>, BaseClassB: ClassType<B>) {
-  class IntersectionClass {}
-  InputType({ isAbstract: true })(IntersectionClass);
-  ObjectType({ isAbstract: true })(IntersectionClass);
-  InterfaceType({ isAbstract: true })(IntersectionClass);
+  const IntersectionClass = abstractClass();
 
   const fields = getMetadataStorage().fields.filter(
     f =>
@@ -113,4 +98,17 @@ export function IntersectionType<A, B>(BaseClassA: ClassType<A>, BaseClassB: Cla
   });
 
   return IntersectionClass as ClassType<A & B>;
+}
+
+function abstractClass() {
+  class AbstractClass {}
+  InputType({ isAbstract: true })(AbstractClass);
+  ObjectType({ isAbstract: true })(AbstractClass);
+  InterfaceType({ isAbstract: true })(AbstractClass);
+  getMetadataStorage().collectArgsMetadata({
+    name: AbstractClass.name,
+    isAbstract: true,
+    target: AbstractClass,
+  });
+  return AbstractClass;
 }
