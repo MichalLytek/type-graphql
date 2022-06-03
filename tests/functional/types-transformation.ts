@@ -1,5 +1,11 @@
 import "reflect-metadata";
-import { IntrospectionInputObjectType, IntrospectionObjectType, TypeKind } from "graphql";
+import {
+  graphql,
+  GraphQLSchema,
+  IntrospectionInputObjectType,
+  IntrospectionObjectType,
+  TypeKind,
+} from "graphql";
 import {
   Arg,
   Args,
@@ -16,9 +22,13 @@ import {
   Query,
   RequiredType,
   Resolver,
+  IntersectionType,
+  buildSchema,
+  Mutation,
+  ArgumentValidationError,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { IntersectionType } from "../../src/utils/types-transformation";
+import { MaxLength, Max, Min, ValidateNested } from "class-validator";
 
 describe("Types transformation utils", () => {
   beforeEach(() => {
@@ -276,6 +286,71 @@ describe("Types transformation utils", () => {
 
     expect(stringField).toBeDefined();
     expect(stringField.type.kind).toEqual(TypeKind.SCALAR);
+  });
+
+  it("should work with class-validator", async () => {
+    @ObjectType()
+    class SampleObject {
+      @Field({ nullable: true })
+      field?: string;
+    }
+
+    @InputType()
+    class BaseInputA {
+      @Field()
+      @MaxLength(5)
+      stringField: string;
+
+      @Field()
+      @Max(5)
+      numberField: number;
+    }
+
+    @InputType()
+    class BaseInputB {
+      @Field({ nullable: true })
+      @Min(5)
+      optionalField?: number;
+    }
+
+    @InputType()
+    class SampleInput extends IntersectionType(BaseInputA, BaseInputB) {}
+
+    @Resolver(of => SampleObject)
+    class SampleResolver {
+      @Mutation()
+      sampleMutation(@Arg("input") input: SampleInput): SampleObject {
+        return {};
+      }
+
+      @Query()
+      sampleQuery(): SampleObject {
+        return {};
+      }
+    }
+
+    const schema = await buildSchema({
+      resolvers: [SampleResolver],
+      validate: true,
+    });
+
+    const mutation = `mutation {
+      sampleMutation(input: {
+        stringField: "12345",
+        numberField: 15,
+      }) {
+        field
+      }
+    }`;
+
+    const result = await graphql(schema, mutation);
+    expect(result.data).toBeNull();
+    expect(result.errors).toHaveLength(1);
+
+    const validationError = result.errors![0].originalError! as ArgumentValidationError;
+    expect(validationError).toBeInstanceOf(ArgumentValidationError);
+    expect(validationError.validationErrors).toHaveLength(1);
+    expect(validationError.validationErrors[0].property).toEqual("numberField");
   });
 });
 
