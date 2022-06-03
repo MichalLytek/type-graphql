@@ -1,8 +1,9 @@
 import "reflect-metadata";
 import {
   graphql,
-  GraphQLSchema,
   IntrospectionInputObjectType,
+  IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
   IntrospectionObjectType,
   TypeKind,
 } from "graphql";
@@ -28,7 +29,7 @@ import {
   ArgumentValidationError,
 } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { MaxLength, Max, Min, ValidateNested } from "class-validator";
+import { MaxLength, Max, Min } from "class-validator";
 
 describe("Types transformation utils", () => {
   beforeEach(() => {
@@ -139,11 +140,11 @@ describe("Types transformation utils", () => {
     expect(baseFieldC).toBeDefined();
   });
 
-  it("IntersectionType should combines two types into one new type", async () => {
+  it("IntersectionType should combines two types into one new type without error", async () => {
     @ObjectType()
     class BaseObjectA {
       @Field()
-      baseFieldA: string;
+      baseFieldA: number;
     }
 
     @ObjectType()
@@ -167,11 +168,20 @@ describe("Types transformation utils", () => {
     const sampleObjectType = await getSampleObjectType(SampleObject);
 
     const baseFieldA = sampleObjectType.fields.find(field => field.name === "baseFieldA")!;
+    const baseFieldAType = (baseFieldA.type as IntrospectionNonNullTypeRef)
+      .ofType as IntrospectionNamedTypeRef;
     expect(baseFieldA).toBeDefined();
+    expect(baseFieldAType.name).toEqual("Float");
     const baseFieldB = sampleObjectType.fields.find(field => field.name === "baseFieldB")!;
+    const baseFieldBType = (baseFieldB.type as IntrospectionNonNullTypeRef)
+      .ofType as IntrospectionNamedTypeRef;
     expect(baseFieldB).toBeDefined();
+    expect(baseFieldBType.name).toEqual("String");
     const baseFieldC = sampleObjectType.fields.find(field => field.name === "baseFieldC")!;
+    const baseFieldCType = (baseFieldC.type as IntrospectionNonNullTypeRef)
+      .ofType as IntrospectionNamedTypeRef;
     expect(baseFieldC).toBeDefined();
+    expect(baseFieldCType.name).toEqual("String");
   });
 
   it("should composable", async () => {
@@ -227,7 +237,7 @@ describe("Types transformation utils", () => {
     expect(pickedStringField).toBeDefined();
   });
 
-  it("should work with InputType", async () => {
+  it("should generate correct input type", async () => {
     @ObjectType()
     class BaseObject {
       @Field({ nullable: false })
@@ -258,7 +268,7 @@ describe("Types transformation utils", () => {
     expect(stringField.type.kind).toEqual(TypeKind.SCALAR);
   });
 
-  it("should work with ArgsType", async () => {
+  it("should generate correct args type", async () => {
     @ObjectType()
     class BaseObject {
       @Field({ nullable: false })
@@ -288,7 +298,7 @@ describe("Types transformation utils", () => {
     expect(stringField.type.kind).toEqual(TypeKind.SCALAR);
   });
 
-  it("should work with class-validator", async () => {
+  it("should throw validation error when input is incorrect", async () => {
     @ObjectType()
     class SampleObject {
       @Field({ nullable: true })
