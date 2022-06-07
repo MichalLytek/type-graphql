@@ -158,9 +158,9 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Gold Sponsors 🏆
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/ecad.png" width="200">](https://www.ecadlabs.com/) |
-| :---------------------------------------------------------------------------------------------------------------------------------: |
-|                                             [**ECAD Labs**](https://www.ecadlabs.com/)                                              |
+| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/ecad_new.png" width="300">](https://www.ecadlabs.com/) |
+| :-------------------------------------------------------------------------------------------------------------------------------------: |
+|                                               [**ECAD Labs**](https://www.ecadlabs.com/)                                                |
 
 > Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/gold-sponsors-8340) and getting a premium technical support from our core contributors.
 

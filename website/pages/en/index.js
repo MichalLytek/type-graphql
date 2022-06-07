@@ -249,7 +249,7 @@ const CollectiveSection = props => (
         <h3 className="title">Gold Sponsors 🏆</h3>
         <div className="tiles">
           <a href="https://www.ecadlabs.com/" target="_blank">
-            <img src={imgUrl("ecad.png")} style={{ width: 150 }} />
+            <img src={imgUrl("ecad_new.png")} style={{ width: 300 }} />
             <span style={{ fontSize: 20 }}>ECAD Labs</span>
           </a>
         </div>
