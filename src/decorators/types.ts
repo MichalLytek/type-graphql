@@ -78,4 +78,5 @@ export type EnumValuesConfig<TEnum extends object> = Partial<
 >;
 
 export type MethodAndPropDecorator = PropertyDecorator & MethodDecorator;
+
 export type MethodPropClassDecorator = PropertyDecorator & MethodDecorator & ClassDecorator;

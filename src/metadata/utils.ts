@@ -6,6 +6,7 @@ import {
   ExtensionsClassMetadata,
   ExtensionsFieldMetadata,
   ExtensionsMetadata,
+  ResolverMiddlewareMetadata,
 } from "./definitions";
 import { Middleware } from "../interfaces/Middleware";
 import { isThrowing } from "../helpers/isThrowing";
@@ -47,7 +48,7 @@ export function mapSuperFieldResolverHandlers(
 }
 
 export function mapMiddlewareMetadataToArray(
-  metadata: MiddlewareMetadata[],
+  metadata: ResolverMiddlewareMetadata[],
 ): Array<Middleware<any>> {
   return metadata
     .map(m => m.middlewares)
