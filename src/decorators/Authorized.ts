@@ -1,25 +1,37 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
 import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodAndPropDecorator } from "./types";
+import { MethodPropClassDecorator } from "./types";
 
-export function Authorized(): MethodAndPropDecorator;
-export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodAndPropDecorator;
+export function Authorized(): MethodPropClassDecorator;
+export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodPropClassDecorator;
 export function Authorized<RoleType = string>(
   ...roles: readonly RoleType[]
-): MethodAndPropDecorator;
+): MethodPropClassDecorator;
 export function Authorized<RoleType = string>(
   ...rolesOrRolesArray: Array<RoleType | readonly RoleType[]>
-): MethodDecorator | PropertyDecorator {
+): MethodPropClassDecorator {
   const roles = getArrayFromOverloadedRest(rolesOrRolesArray);
 
-  return (prototype, propertyKey, descriptor) => {
+  return (
+    target: Function | Object,
+    propertyKey?: string | symbol,
+    descriptor?: TypedPropertyDescriptor<any>,
+  ) => {
+    if (propertyKey == null) {
+      getMetadataStorage().collectAuthorizedResolverMetadata({
+        target: target as Function,
+        roles,
+      });
+      return;
+    }
+
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
     }
 
     getMetadataStorage().collectAuthorizedFieldMetadata({
-      target: prototype.constructor,
+      target: target.constructor,
       fieldName: propertyKey,
       roles,
     });

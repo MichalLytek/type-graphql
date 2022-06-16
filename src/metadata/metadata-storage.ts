@@ -15,6 +15,7 @@ import {
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
   ExtensionsMetadata,
+  AuthorizedClassMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -39,6 +40,8 @@ export class MetadataStorage {
   argumentTypes: ClassMetadata[] = [];
   interfaceTypes: InterfaceClassMetadata[] = [];
   authorizedFields: AuthorizedMetadata[] = [];
+  authorizedResolver: AuthorizedClassMetadata[] = [];
+  scopeFields: AuthorizedMetadata[] = [];
   enums: EnumMetadata[] = [];
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
@@ -80,6 +83,9 @@ export class MetadataStorage {
   }
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
+  }
+  collectAuthorizedResolverMetadata(definition: AuthorizedClassMetadata) {
+    this.authorizedResolver.push(definition);
   }
   collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
@@ -150,6 +156,7 @@ export class MetadataStorage {
     this.argumentTypes = [];
     this.interfaceTypes = [];
     this.authorizedFields = [];
+    this.authorizedResolver = [];
     this.enums = [];
     this.unions = [];
     this.middlewares = [];
@@ -313,9 +320,10 @@ export class MetadataStorage {
   }
 
   private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
-    const authorizedField = this.authorizedFields.find(
-      authField => authField.target === target && authField.fieldName === fieldName,
-    );
+    const authorizedField =
+      this.authorizedFields.find(
+        authField => authField.target === target && authField.fieldName === fieldName,
+      ) ?? this.authorizedResolver.find(authScope => authScope.target === target);
     if (!authorizedField) {
       return;
     }

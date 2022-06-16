@@ -247,6 +247,25 @@ describe("Authorization", () => {
       expect(result.errors).toBeDefined();
     });
 
+    it("should restrict access to authed resolver", async () => {
+      Authorized()(sampleResolver);
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+      });
+
+      // clear AuthorizedClassMetadata for other tests
+      getMetadataStorage().authorizedResolver = [];
+      const query = `query {
+        normalQuery
+      }`;
+
+      const result = await graphql(localSchema, query);
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toBeDefined();
+    });
+
     it("should return null when accessing nullable authed query in null mode", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -460,6 +479,52 @@ describe("Authorization", () => {
           return true;
         },
       });
+      const query = `query {
+        adminOrRegularQuery
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
+      expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
+    });
+
+    it("should pass roles from Resolver to `authChecker` when checking for access to handler", async () => {
+      let authCheckerRoles: string[] | undefined;
+      Authorized(["ADMIN", "REGULAR"])(sampleResolver);
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: (resolverData, roles) => {
+          authCheckerRoles = roles;
+          return true;
+        },
+      });
+
+      // clear AuthorizedClassMetadata for other tests
+      getMetadataStorage().authorizedResolver = [];
+      const query = `query {
+        normalQuery
+      }`;
+
+      const result = await graphql(localSchema, query, null, {});
+
+      expect(result.data!.normalQuery).toEqual(true);
+      expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
+    });
+
+    it("should pass roles from Field rather than Resolver to `authChecker`", async () => {
+      let authCheckerRoles: string[] | undefined;
+      Authorized(["REGULAR"])(sampleResolver);
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: (resolverData, roles) => {
+          authCheckerRoles = roles;
+          return true;
+        },
+      });
+
+      // clear AuthorizedClassMetadata for other tests
+      getMetadataStorage().authorizedResolver = [];
       const query = `query {
         adminOrRegularQuery
       }`;
