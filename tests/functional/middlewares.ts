@@ -327,6 +327,7 @@ describe("Middlewares", () => {
   it("should call resolver middlewares in order of multiple decorators", async () => {
     @UseMiddleware(resolverMiddleware1)
     @UseMiddleware(resolverMiddleware2)
+    @Resolver()
     class LocalResolver {
       @Query()
       normalQuery(): boolean {
