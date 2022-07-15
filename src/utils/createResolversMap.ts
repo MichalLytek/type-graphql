@@ -50,7 +50,7 @@ function generateFieldsResolvers(fields: GraphQLFieldMap<any, any>): ResolverObj
 export function createResolversMap(schema: GraphQLSchema): ResolversMap {
   const typeMap = schema.getTypeMap();
   return Object.keys(typeMap)
-    .filter(typeName => !typeName.includes("__"))
+    .filter(typeName => !typeName.startsWith("__"))
     .reduce<ResolversMap>((resolversMap, typeName) => {
       const type = typeMap[typeName];
       if (type instanceof GraphQLObjectType) {
