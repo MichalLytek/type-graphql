@@ -42,6 +42,5 @@ All examples have an `examples.gql` file with sample queries/mutations/subscript
 - [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
 - [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache)
 - [Apollo Client local state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
-- [GraphQL Modules](https://github.com/MichalLytek/type-graphql/tree/master/examples/graphql-modules)
 
 _\* Note that we need to edit the TypeORM example's `index.ts` with the credentials of our local database_
