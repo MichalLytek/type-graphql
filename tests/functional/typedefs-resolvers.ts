@@ -17,7 +17,7 @@ import {
   subscribe,
   ExecutionResult,
 } from "graphql";
-import { makeExecutableSchema } from "graphql-tools";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { PubSub } from "graphql-subscriptions";
 import { MinLength } from "class-validator";
 import Container, { Service } from "typedi";
