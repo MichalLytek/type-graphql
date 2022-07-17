@@ -10,17 +10,10 @@ import {
   GraphQLSchema,
   graphql,
   TypeKind,
-  parse,
-  TypeInfo,
-  ValidationContext,
-  visit,
-  visitWithTypeInfo,
   IntrospectionInputObjectType,
   GraphQLError,
 } from "graphql";
 import * as path from "path";
-import { fieldExtensionsEstimator, simpleEstimator } from "graphql-query-complexity";
-import ComplexityVisitor from "graphql-query-complexity/dist/cjs/QueryComplexity";
 
 import {
   ObjectType,
@@ -1222,27 +1215,6 @@ describe("Resolvers", () => {
       };
     }
 
-    // helpers
-    function generateAndVisitComplexMethod(maximumComplexity: number) {
-      const query = /* graphql */ `
-        query {
-          sampleQuery {
-            complexResolverMethod
-          }
-        }
-      `;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo, err =>
-        validationErrors.push(err),
-      );
-      const visitor = new ComplexityVisitor(context, {
-        maximumComplexity,
-        estimators: [fieldExtensionsEstimator(), simpleEstimator({ defaultComplexity: 1 })],
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
-    }
-
     let mutationInputValue: any;
     beforeEach(() => {
       queryRoot = undefined;
@@ -1641,27 +1613,6 @@ describe("Resolvers", () => {
       const fieldResolverMethodResult = result.data!.sampleQuery.fieldResolverMethod;
       expect(fieldResolverMethodResult).toBeGreaterThanOrEqual(0);
       expect(fieldResolverMethodResult).toBeLessThanOrEqual(1);
-    });
-
-    it("should fail when a query exceeds the max allowed complexity", () => {
-      generateAndVisitComplexMethod(5);
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 5. Actual complexity is 11",
-      );
-    });
-
-    it("should succeed when a query does not exceed the max allowed complexity", () => {
-      generateAndVisitComplexMethod(12);
-      expect(validationErrors.length).toEqual(0);
-    });
-
-    it("Complexity of a field should be overridden by complexity of a field resolver", () => {
-      generateAndVisitComplexMethod(9);
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 9. Actual complexity is 11",
-      );
     });
 
     it("should return value from field resolver arg", async () => {
@@ -2406,25 +2357,6 @@ describe("Resolvers", () => {
       expect(subscriptionNames).toContain("prefixSubscription");
       expect(subscriptionNames).toContain("overriddenSubscription");
       expect(prefixSubscription.args).toHaveLength(1);
-    });
-    it("should fail when a subscription exceeds the max allowed complexity", () => {
-      const query = `subscription {
-        childSubscription
-      }`;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo, err =>
-        validationErrors.push(err),
-      );
-      const visitor = new ComplexityVisitor(context, {
-        maximumComplexity: 2,
-        estimators: [fieldExtensionsEstimator(), simpleEstimator({ defaultComplexity: 1 })],
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 2. Actual complexity is 4",
-      );
     });
 
     it("should generate proper object fields in schema", async () => {
