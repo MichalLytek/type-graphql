@@ -1,11 +1,11 @@
 import { prop as Property, getModelForClass } from "@typegoose/typegoose";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 import { Field, ObjectType } from "../../../src";
 
 @ObjectType()
 export class User {
   @Field()
-  readonly _id: ObjectId;
+  readonly _id: Types.ObjectId;
 
   @Field()
   @Property({ required: true })

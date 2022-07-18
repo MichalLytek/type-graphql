@@ -13,7 +13,7 @@
     "check:format": "prettier --check \"{src,tests,examples}/**/*.{ts,js}\" \"docs/**/*.md\"",
     "check:type": "tsc --noEmit && tsc --noEmit -p ./examples/tsconfig.json",
     "check": "npm run check:format && npm run check:type",
-    "//lint": "tslint --project tsconfig.json",
+    "lint": "echo TODO: add ESLint",
     "verify": "npm run check && npm run lint",
     "package": "gulp package",
     "docs": "npm run --prefix website start"

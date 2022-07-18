@@ -19,7 +19,7 @@ export class RecipeResolver {
 
   @Query(returns => Recipe, { nullable: true })
   recipe(@Arg("recipeId", type => Int) recipeId: number) {
-    return this.recipeRepository.findOne(recipeId);
+    return this.recipeRepository.findOneBy({ id: recipeId });
   }
 
   @Query(returns => [Recipe])
@@ -42,7 +42,8 @@ export class RecipeResolver {
   @Mutation(returns => Recipe)
   async rate(@Arg("rate") rateInput: RateInput, @Ctx() { user }: Context): Promise<Recipe> {
     // find the recipe
-    const recipe = await this.recipeRepository.findOne(rateInput.recipeId, {
+    const recipe = await this.recipeRepository.findOne({
+      where: { id: rateInput.recipeId },
       relations: ["ratings"],
     });
     if (!recipe) {
@@ -72,6 +73,6 @@ export class RecipeResolver {
 
   @FieldResolver()
   async author(@Root() recipe: Recipe): Promise<User> {
-    return (await this.userRepository.findOne(recipe.authorId, { cache: 1000 }))!;
+    return (await this.userRepository.findOne({ where: { id: recipe.authorId }, cache: 1000 }))!;
   }
 }

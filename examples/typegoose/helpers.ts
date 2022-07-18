@@ -1,4 +1,4 @@
-import { Recipe, RecipeModel } from "./entities/recipe";
+import { RecipeModel } from "./entities/recipe";
 import { User, UserModel } from "./entities/user";
 
 export async function seedDatabase() {
@@ -30,7 +30,7 @@ export async function seedDatabase() {
         { value: 4, user: defaultUser },
       ],
     },
-  ] as Recipe[]);
+  ]);
 
   return { defaultUser };
 }

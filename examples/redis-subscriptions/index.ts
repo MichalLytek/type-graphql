@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import Redis from "ioredis";
+import Redis, { RedisOptions } from "ioredis";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { buildSchema } from "../../src";
 
@@ -11,7 +11,7 @@ const REDIS_PORT = 6379;
 
 async function bootstrap() {
   // configure Redis connection options
-  const options: Redis.RedisOptions = {
+  const options: RedisOptions = {
     host: REDIS_HOST,
     port: REDIS_PORT,
     retryStrategy: times => Math.max(times * 100, 3000),
