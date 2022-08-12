@@ -4,6 +4,9 @@ import { TypeValue } from "../decorators/types";
 import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 import { ValidateSettings } from "../schema/build-context";
 
+const shouldArgBeValidated = (argValue: unknown): boolean =>
+  argValue == null || typeof argValue !== "object";
+
 export async function validateArg<T extends object>(
   argValue: T | undefined,
   argType: TypeValue,
@@ -11,7 +14,7 @@ export async function validateArg<T extends object>(
   argValidate: ValidateSettings | undefined,
 ): Promise<T | undefined> {
   const validate = argValidate !== undefined ? argValidate : globalValidate;
-  if (validate === false || argValue == null || typeof argValue !== "object") {
+  if (validate === false || !shouldArgBeValidated(argValue)) {
     return argValue;
   }
 
@@ -32,7 +35,11 @@ export async function validateArg<T extends object>(
   const { validateOrReject } = await import("class-validator");
   try {
     if (Array.isArray(argValue)) {
-      await Promise.all(argValue.map(argItem => validateOrReject(argItem, validatorOptions)));
+      await Promise.all(
+        argValue
+          .filter(shouldArgBeValidated)
+          .map(argItem => validateOrReject(argItem, validatorOptions)),
+      );
     } else {
       await validateOrReject(argValue, validatorOptions);
     }
