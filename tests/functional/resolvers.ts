@@ -53,6 +53,7 @@ import {
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
+import { ReturnTypeFunc, ReturnTypeFuncValue, TypeValue } from "../../src/decorators/types";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -1192,6 +1193,7 @@ describe("Resolvers", () => {
     let queryInfo: any;
     let queryFirstCustom: any;
     let querySecondCustom: any;
+    let queryThirdCustom: any;
     let descriptorEvaluated: boolean;
     let sampleObjectConstructorCallCount: number;
     let validationErrors: GraphQLError[];
@@ -1234,6 +1236,7 @@ describe("Resolvers", () => {
       queryInfo = undefined;
       queryFirstCustom = undefined;
       querySecondCustom = undefined;
+      queryThirdCustom = undefined;
       descriptorEvaluated = false;
       sampleObjectConstructorCallCount = 0;
       mutationInputValue = undefined;
@@ -1245,6 +1248,23 @@ describe("Resolvers", () => {
 
       const FirstCustomArgDecorator = () => createParamDecorator(resolverData => resolverData);
       const SecondCustomArgDecorator = (arg: string) => createParamDecorator(async () => arg);
+      const DefaultValueArgDecorator = (
+        argName: string,
+        returnTypeFunc: ReturnTypeFunc,
+        defaultValue: any,
+      ) =>
+        createParamDecorator(
+          {
+            arg: {
+              name: argName,
+              returnTypeFunc,
+              options: { nullable: true },
+            },
+          },
+          resolverData => {
+            return resolverData.args[argName] ?? defaultValue;
+          },
+        );
 
       @ArgsType()
       class SampleArgs {
@@ -1414,9 +1434,12 @@ describe("Resolvers", () => {
         queryWithCustomDecorators(
           @FirstCustomArgDecorator() firstCustom: any,
           @SecondCustomArgDecorator("secondCustom") secondCustom: any,
+          @DefaultValueArgDecorator("thirdCustom", () => String, "Default")
+          thirdCustom: string,
         ): boolean {
           queryFirstCustom = firstCustom;
           querySecondCustom = secondCustom;
+          queryThirdCustom = thirdCustom;
           return true;
         }
 
@@ -1963,6 +1986,25 @@ describe("Resolvers", () => {
       expect(queryFirstCustom.context).toEqual(context);
       expect(queryFirstCustom.info).toBeDefined();
       expect(querySecondCustom).toEqual("secondCustom");
+      expect(queryThirdCustom).toEqual("Default");
+    });
+
+    it("should allow custom arg decorators to create args", async () => {
+      const query = /* graphql */ `
+        query {
+          queryWithCustomDecorators(thirdCustom: "Overridden")
+        }
+      `;
+      const root = { rootField: 2 };
+      const context = { contextField: "present" };
+
+      await graphql(schema, query, root, context);
+
+      expect(queryFirstCustom.root).toEqual(root);
+      expect(queryFirstCustom.context).toEqual(context);
+      expect(queryFirstCustom.info).toBeDefined();
+      expect(querySecondCustom).toEqual("secondCustom");
+      expect(queryThirdCustom).toEqual("Overridden");
     });
 
     it("should allow for overwriting descriptor value in custom decorator", async () => {

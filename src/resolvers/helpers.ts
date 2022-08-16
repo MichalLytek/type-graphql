@@ -56,6 +56,15 @@ export function getParams(
           }
           return pubSub;
         case "custom":
+          if (paramInfo.options.arg) {
+            const arg = paramInfo.options.arg!;
+            return validateArg(
+              convertArgToInstance(arg, resolverData.args),
+              arg.getType(),
+              globalValidate,
+              arg.validate,
+            ).then(() => paramInfo.resolver(resolverData));
+          }
           return paramInfo.resolver(resolverData);
       }
     });

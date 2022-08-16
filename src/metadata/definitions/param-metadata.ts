@@ -1,6 +1,7 @@
-import { TypeValueThunk, TypeOptions } from "../../decorators/types";
+import { TypeValueThunk, TypeOptions, ReturnTypeFunc } from "../../decorators/types";
 import { ResolverData } from "../../interfaces";
 import { ValidateSettings } from "../../schema/build-context";
+import { ArgOptions } from "../../decorators";
 
 export interface BasicParamMetadata {
   target: Function;
@@ -37,9 +38,14 @@ export interface ArgParamMetadata extends CommonArgMetadata {
 export interface ArgsParamMetadata extends CommonArgMetadata {
   kind: "args";
 }
+
+export type CustomParamOptions = {
+  arg?: ArgParamMetadata;
+};
 export interface CustomParamMetadata extends BasicParamMetadata {
   kind: "custom";
   resolver: (resolverData: ResolverData<any>) => any;
+  options: CustomParamOptions;
 }
 // prettier-ignore
 export type ParamMetadata =

@@ -707,19 +707,21 @@ export abstract class SchemaGenerator {
     params: ParamMetadata[],
   ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
-      if (param.kind === "arg") {
-        args[param.name] = {
-          description: param.description,
+      if (param.kind === "arg" || (param.kind === "custom" && param.options?.arg)) {
+        const input = param.kind === "arg" ? param : param.options.arg!;
+
+        args[input.name] = {
+          description: input.description,
           type: this.getGraphQLInputType(
             target,
             propertyName,
-            param.getType(),
-            param.typeOptions,
-            param.index,
-            param.name,
+            input.getType(),
+            input.typeOptions,
+            input.index,
+            input.name,
           ),
-          defaultValue: param.typeOptions.defaultValue,
-          deprecationReason: param.deprecationReason,
+          defaultValue: input.typeOptions.defaultValue,
+          deprecationReason: input.deprecationReason,
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
