@@ -126,7 +126,7 @@
     "apollo"
   ],
   "engines": {
-    "node": ">= 10.13"
+    "node": ">= 14.5.0"
   },
   "private": true
 }

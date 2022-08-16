@@ -9,6 +9,7 @@
 - properly execute args validation for nullable items array (#1328)
 ### Others
 - **Breaking Change**: update `class-validator` peer dependency to `>=0.13.0`
+- **Breaking Change**: change build config to ES2019 - drop support for Node.js < 14.5
 
 ## v1.2.0-rc.1
 ### Features
