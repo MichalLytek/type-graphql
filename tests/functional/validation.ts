@@ -239,7 +239,25 @@ describe("Validation", () => {
       expect(validationError.validationErrors[0].property).toEqual("numberField");
     });
 
-    it("should throw validation error when one of optional items in the input array is incorrect", async () => {
+    it("should not throw error when one of optional items in the input array is null", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalInputsArray(inputs: [
+          null,
+          {
+            stringField: "12345",
+            numberField: 5
+          },
+        ]) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.errors).toBeUndefined();
+      expect(result.data).toEqual({ mutationWithOptionalInputsArray: { field: null } });
+    });
+
+    it("should properly validate arg array when one of optional items in the input array is incorrect", async () => {
       const mutation = `mutation {
         mutationWithOptionalInputsArray(inputs: [
           null,
