@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Fixes
 - support overwriting fields of extended types (#1109)
+- properly execute args validation for nullable items array (#1328)
 
 ## v1.2.0-rc.1
 ### Features
