@@ -41,7 +41,7 @@ export async function validateArg<T extends object>(
           .map(argItem => validateOrReject(argItem, validatorOptions)),
       );
     } else {
-      await validateOrReject(argValue, validatorOptions);
+      await validateOrReject(argValue as T, validatorOptions);
     }
     return argValue;
   } catch (err) {
