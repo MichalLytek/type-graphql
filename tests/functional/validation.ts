@@ -98,6 +98,15 @@ describe("Validation", () => {
           argInput = inputs;
           return {};
         }
+
+        @Mutation()
+        mutationWithOptionalInputsArray(
+          @Arg("inputs", type => [SampleInput], { nullable: "items" })
+          inputs: Array<SampleInput | null>,
+        ): SampleObject {
+          argInput = inputs;
+          return {};
+        }
       }
       sampleResolver = SampleResolver;
 
@@ -210,6 +219,51 @@ describe("Validation", () => {
           {
             stringField: "12345",
             numberField: 5,
+          },
+          {
+            stringField: "12345",
+            numberField: 15,
+          },
+        ]) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+
+      const validationError = result.errors![0].originalError! as ArgumentValidationError;
+      expect(validationError).toBeInstanceOf(ArgumentValidationError);
+      expect(validationError.validationErrors).toHaveLength(1);
+      expect(validationError.validationErrors[0].property).toEqual("numberField");
+    });
+
+    it("should not throw error when one of optional items in the input array is null", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalInputsArray(inputs: [
+          null,
+          {
+            stringField: "12345",
+            numberField: 5
+          },
+        ]) {
+          field
+        }
+      }`;
+
+      const result = await graphql(schema, mutation);
+      expect(result.errors).toBeUndefined();
+      expect(result.data).toEqual({ mutationWithOptionalInputsArray: { field: null } });
+    });
+
+    it("should properly validate arg array when one of optional items in the input array is incorrect", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalInputsArray(inputs: [
+          null,
+          {
+            stringField: "12345",
+            numberField: 5
           },
           {
             stringField: "12345",
