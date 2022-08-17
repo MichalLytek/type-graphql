@@ -277,28 +277,36 @@ const CollectiveSection = props => (
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
           <a href="https://www.ligrsystems.com/" target="_blank">
-            <img src={imgUrl("live-graphics-system.png")} style={{ width: 60 }} />
+            <img src={imgUrl("live-graphics-system.png")} style={{ width: 55 }} />
             <span>Live Graphic Systems</span>
           </a>
           <a href="https://www.joinlifex.com/" target="_blank">
-            <img src={imgUrl("lifex.svg")} style={{ width: 65 }} />
+            <img src={imgUrl("lifex.svg")} style={{ width: 60 }} />
             <span>LifeX Aps</span>
           </a>
           <a href="https://www.swissmentor.com/" target="_blank">
-            <img src={imgUrl("swiss-mentor.png")} style={{ width: 125 }} />
+            <img src={imgUrl("swiss-mentor.png")} style={{ width: 115 }} />
             <span>SwissMentor</span>
           </a>
           <a href="https://flatironsdevelopment.com/" target="_blank">
-            <img src={imgUrl("flatirons.png")} style={{ width: 55 }} />
+            <img src={imgUrl("flatirons.png")} style={{ width: 50 }} />
             <span>Flatirons Development</span>
           </a>
           <a href="https://instinctools.com/manufacturing/" target="_blank">
-            <img src={imgUrl("instinctools.svg")} style={{ width: 110 }} />
+            <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
           <a href="https://slonmedia.com/" target="_blank">
-            <img src={imgUrl("slon.png")} style={{ width: 70 }} />
+            <img src={imgUrl("slon.png")} style={{ width: 65 }} />
             <span>SLON Media</span>
+          </a>
+          <a href="https://rubyroidlabs.com/services/ror_development" target="_blank">
+            <img src={imgUrl("rubydroid.svg")} style={{ width: 110 }} />
+            <span>Rubyroidlabs</span>
+          </a>
+          <a href="https://intexsoft.com/ecommerce-development-services/" target="_blank">
+            <img src={imgUrl("intexsoft.jpg")} style={{ width: 65 }} />
+            <span>Intexsoft</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
