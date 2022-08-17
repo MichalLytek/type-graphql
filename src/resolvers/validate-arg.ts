@@ -5,7 +5,7 @@ import { ArgumentValidationError } from "../errors/ArgumentValidationError";
 import { ValidateSettings } from "../schema/build-context";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
-  argValue == null || typeof argValue !== "object";
+  argValue !== null && typeof argValue === "object";
 
 export async function validateArg<T extends object>(
   argValue: T | undefined,
