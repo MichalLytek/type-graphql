@@ -377,7 +377,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
+          `"Expected value of type "DateTime!", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
         );
       });
 
@@ -410,7 +410,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
+          `"Expected value of type "DateTime!", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
         );
       });
 
@@ -456,7 +456,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Variable \\"$date\\" got invalid value true; Expected type \\"DateTime\\". Unable to parse value 'true' as GraphQLISODateTime scalar supports only string values"`,
+          `"Variable "$date" got invalid value true; Expected type "DateTime". Unable to parse value 'true' as GraphQLISODateTime scalar supports only string values"`,
         );
       });
 
@@ -545,7 +545,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
+          `"Expected value of type "Timestamp!", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
         );
       });
 
@@ -578,7 +578,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
+          `"Expected value of type "Timestamp!", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
         );
       });
 
@@ -624,7 +624,7 @@ describe("Scalars", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
-          `"Variable \\"$date\\" got invalid value true; Expected type \\"Timestamp\\". Unable to parse value 'true' as GraphQLTimestamp scalar supports only number values"`,
+          `"Variable "$date" got invalid value true; Expected type "Timestamp". Unable to parse value 'true' as GraphQLTimestamp scalar supports only number values"`,
         );
       });
 

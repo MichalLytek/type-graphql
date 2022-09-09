@@ -502,7 +502,7 @@ describe("Interfaces and inheritance", () => {
         expect(JSON.stringify(schemaError.details, null, 2)).toMatchInlineSnapshot(`
           "[
             {
-              \\"message\\": \\"Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.\\"
+              "message": "Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float."
             }
           ]"
         `);
@@ -888,7 +888,7 @@ describe("Interfaces and inheritance", () => {
       const result: any = await graphql({ schema, source: query });
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
-        `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+        `"Abstract type "InterfaceWithClassResolveType" must resolve to an Object type at runtime for field "Query.notMatchingValueForInterfaceWithClassResolveTypeObject". Either the "InterfaceWithClassResolveType" type should provide a "resolveType" function or each possible type should provide an "isTypeOf" function."`,
       );
     });
 

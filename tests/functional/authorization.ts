@@ -529,7 +529,7 @@ describe("Authorization", () => {
 
       expect(result.data).toBeNull();
       expect(result.errors).toMatchInlineSnapshot(`
-        Array [
+        [
           [GraphQLError: Access denied! You don't have permission for this action!],
         ]
       `);

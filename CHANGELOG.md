@@ -3,7 +3,7 @@
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
-- **Breaking Change**: update `graphql-js` peer dependency to `^16.2.0`
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.6.0`
 ### Fixes
 - support overwriting fields of extended types (#1109)
 - properly execute args validation for nullable items array (#1328)

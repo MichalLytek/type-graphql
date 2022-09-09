@@ -23,7 +23,7 @@ export async function buildFederatedSchema(
   });
 
   if (referenceResolvers) {
-    addResolversToSchema(federatedSchema, referenceResolvers);
+    addResolversToSchema({ schema: federatedSchema, resolvers: referenceResolvers });
   }
   return federatedSchema;
 }
