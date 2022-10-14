@@ -16,8 +16,7 @@
     "lint": "tslint --project tsconfig.json",
     "verify": "npm run check && npm run lint",
     "package": "gulp package",
-    "docs": "npm run --prefix website start",
-    "postinstall": "node ./dist/postinstall || exit 0"
+    "docs": "npm run --prefix website start"
   },
   "peerDependencies": {
     "class-validator": ">=0.12.0",
