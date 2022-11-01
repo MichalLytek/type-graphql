@@ -1,29 +1,25 @@
 import { buildSchema, BuildSchemaOptions, createResolversMap } from "../../../src";
-import { specifiedDirectives } from "graphql";
 import gql from "graphql-tag";
+import deepMerge from "lodash.merge";
 import { buildSubgraphSchema } from "@apollo/subgraph";
-import { addResolversToSchema } from "@graphql-tools/schema";
 import { IResolvers, printSchemaWithDirectives } from "@graphql-tools/utils";
 
 export async function buildFederatedSchema(
   options: Omit<BuildSchemaOptions, "skipCheck">,
   referenceResolvers?: IResolvers,
 ) {
+  // build TypeGraphQL schema
   const schema = await buildSchema({
     ...options,
-    directives: [...specifiedDirectives, ...(options.directives || [])],
-    skipCheck: true,
+    skipCheck: true, // disable check to allow schemas without query, etc.
   });
 
-  console.log(printSchemaWithDirectives(schema));
-
+  // build Apollo Subgraph schema
   const federatedSchema = buildSubgraphSchema({
     typeDefs: gql(printSchemaWithDirectives(schema)),
-    resolvers: createResolversMap(schema) as any,
+    // merge schema's resolvers with reference resolvers
+    resolvers: deepMerge(createResolversMap(schema) as any, referenceResolvers),
   });
 
-  if (referenceResolvers) {
-    addResolversToSchema({ schema: federatedSchema, resolvers: referenceResolvers });
-  }
   return federatedSchema;
 }
