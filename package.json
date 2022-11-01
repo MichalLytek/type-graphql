@@ -101,10 +101,16 @@
   "readmeFilename": "README.md",
   "description": "Create GraphQL schema and resolvers with TypeScript, using classes and decorators!",
   "license": "MIT",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/typegraphql"
-  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/TypeGraphQL"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/typegraphql"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/MichalLytek/type-graphql.git"
