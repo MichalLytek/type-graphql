@@ -7,6 +7,7 @@ import {
   IntrospectionNonNullTypeRef,
   GraphQLSchema,
   TypeKind,
+  ExecutionResult,
 } from "graphql";
 
 import {
@@ -224,7 +225,7 @@ describe("Scalars", () => {
       const query = `query {
         returnScalar
       }`;
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const returnScalar = result.data!.returnScalar;
 
       expect(returnScalar).toEqual("TypeGraphQL serialize");
@@ -234,7 +235,7 @@ describe("Scalars", () => {
       const query = `query {
         argScalar(scalar: "test")
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argScalar!).toEqual("TypeGraphQL parseLiteral");
     });
@@ -243,7 +244,7 @@ describe("Scalars", () => {
       const query = `query {
         objectArgScalar(scalar: "test")
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argScalar!).toEqual({ value: "TypeGraphQL parseLiteral" });
     });
@@ -327,7 +328,7 @@ describe("Scalars", () => {
           returnDate
         }`;
         const beforeQuery = Date.now();
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
         const afterQuery = Date.now();
         const returnDate = Date.parse(result.data!.returnDate);
 
@@ -340,7 +341,7 @@ describe("Scalars", () => {
           nullableReturnDate
         }`;
 
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
 
         expect(result.errors).toBeUndefined();
         expect(result.data!.nullableReturnDate).toBeNull();
@@ -351,7 +352,10 @@ describe("Scalars", () => {
           returnStringAsDate
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain(`Unable to serialize value`);
@@ -363,7 +367,7 @@ describe("Scalars", () => {
         const query = `query {
           argDate(date: "${now.toISOString()}")
         }`;
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
@@ -373,7 +377,10 @@ describe("Scalars", () => {
           argDate(date: true)
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
@@ -386,7 +393,7 @@ describe("Scalars", () => {
           nullableArgDate(date: null)
         }`;
 
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(localArgDate).toBeNull();
       });
@@ -396,7 +403,7 @@ describe("Scalars", () => {
         const query = `query {
           inputDate(input: { date: "${now.toISOString()}" })
         }`;
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
@@ -406,7 +413,10 @@ describe("Scalars", () => {
           inputDate(input: { date: true })
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
@@ -420,7 +430,7 @@ describe("Scalars", () => {
           inputDate(input: { date: "${now.toISOString()}", nullableDate: null })
         }`;
 
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
 
         expect(result.errors).toBeUndefined();
       });
@@ -495,7 +505,7 @@ describe("Scalars", () => {
           returnDate
         }`;
         const beforeQuery = Date.now();
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
         const afterQuery = Date.now();
         const returnDate = result.data!.returnDate;
 
@@ -508,7 +518,7 @@ describe("Scalars", () => {
           nullableReturnDate
         }`;
 
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
 
         expect(result.errors).toBeUndefined();
         expect(result.data!.nullableReturnDate).toBeNull();
@@ -519,7 +529,10 @@ describe("Scalars", () => {
           returnStringAsDate
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain(`Unable to serialize value`);
@@ -531,7 +544,7 @@ describe("Scalars", () => {
         const query = `query {
           argDate(date: ${now.getTime()})
         }`;
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
@@ -541,7 +554,10 @@ describe("Scalars", () => {
           argDate(date: true)
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
@@ -554,7 +570,7 @@ describe("Scalars", () => {
           nullableArgDate(date: null)
         }`;
 
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(localArgDate).toBeNull();
       });
@@ -564,7 +580,7 @@ describe("Scalars", () => {
         const query = `query {
           inputDate(input: {date: ${now.getTime()}})
         }`;
-        await graphql(localSchema, query);
+        await graphql({ schema: localSchema, source: query });
 
         expect(now.getTime()).toEqual(localArgDate!.getTime());
       });
@@ -574,7 +590,10 @@ describe("Scalars", () => {
           inputDate(input: { date: true })
         }`;
 
-        const { errors } = await graphql(localSchema, query);
+        const { errors }: ExecutionResult<any> = await graphql({
+          schema: localSchema,
+          source: query,
+        });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toMatchInlineSnapshot(
@@ -588,7 +607,7 @@ describe("Scalars", () => {
           inputDate(input: { date: ${now.getTime()}, nullableDate: null })
         }`;
 
-        const result = await graphql(localSchema, query);
+        const result: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
 
         expect(result.errors).toBeUndefined();
       });

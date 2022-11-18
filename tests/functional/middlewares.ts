@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
+import { GraphQLSchema, graphql, ExecutionResult } from "graphql";
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
@@ -235,7 +235,7 @@ describe("Middlewares", () => {
       normalQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.normalQuery).toEqual(true);
   });
@@ -245,7 +245,7 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
 
@@ -264,7 +264,7 @@ describe("Middlewares", () => {
       multipleMiddlewareDecoratorsQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.multipleMiddlewareDecoratorsQuery).toEqual(
       "multipleMiddlewareDecoratorsQueryResult",
@@ -285,7 +285,7 @@ describe("Middlewares", () => {
       middlewareInterceptQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.middlewareInterceptQuery).toEqual("interceptMiddleware");
     expect(middlewareLogs).toHaveLength(2);
@@ -298,7 +298,7 @@ describe("Middlewares", () => {
       middlewareReturnUndefinedQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.middlewareReturnUndefinedQuery).toEqual("middlewareReturnUndefinedQueryResult");
     expect(middlewareLogs).toHaveLength(4);
@@ -313,7 +313,7 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: true)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.middlewareErrorCatchQuery).toEqual("errorCatchMiddleware");
     expect(middlewareLogs).toHaveLength(2);
@@ -326,7 +326,7 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: false)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.middlewareErrorCatchQuery).toEqual("middlewareErrorCatchQueryResult");
   });
@@ -336,7 +336,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorAfterQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowAfterMiddleware");
@@ -350,7 +350,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowMiddleware");
@@ -365,7 +365,7 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.sampleObjectQuery.resolverField).toEqual("resolverField");
     expect(middlewareLogs).toHaveLength(3);
@@ -379,7 +379,7 @@ describe("Middlewares", () => {
       classMiddlewareQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
     expect(middlewareLogs).toHaveLength(3);
@@ -393,7 +393,7 @@ describe("Middlewares", () => {
       customMethodDecoratorQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
     expect(middlewareLogs).toHaveLength(2);
@@ -408,7 +408,7 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.sampleObjectQuery.middlewareField).toEqual("middlewareField");
     expect(middlewareLogs).toHaveLength(2);
@@ -421,7 +421,7 @@ describe("Middlewares", () => {
       doubleNextMiddlewareQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("next() called multiple times");
@@ -448,7 +448,7 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema: localSchema, source: query });
 
     expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
     expect(middlewareLogs).toHaveLength(11);

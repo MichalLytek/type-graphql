@@ -6,6 +6,7 @@ import {
   GraphQLInputObjectType,
   GraphQLInterfaceType,
   GraphQLObjectType,
+  ExecutionResult,
 } from "graphql";
 import {
   Field,
@@ -289,7 +290,7 @@ describe("Directives", () => {
           queryWithUpper
         }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("queryWithUpper", "QUERYWITHUPPER");
       });
@@ -299,7 +300,7 @@ describe("Directives", () => {
           queryWithUpperDefinition
         }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("queryWithUpperDefinition", "QUERYWITHUPPER");
       });
@@ -309,7 +310,7 @@ describe("Directives", () => {
           queryWithAppend(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("queryWithAppend", "hello, world!");
       });
@@ -319,7 +320,7 @@ describe("Directives", () => {
           queryWithAppendDefinition(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("queryWithAppendDefinition", "hello, world!");
       });
@@ -329,7 +330,7 @@ describe("Directives", () => {
           queryWithUpperAndAppend(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("queryWithUpperAndAppend", "HELLO, WORLD!");
       });
@@ -354,7 +355,7 @@ describe("Directives", () => {
           mutationWithUpper
         }`;
 
-        const { data } = await graphql(schema, mutation);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: mutation });
 
         expect(data).toHaveProperty("mutationWithUpper", "MUTATIONWITHUPPER");
       });
@@ -364,7 +365,7 @@ describe("Directives", () => {
           mutationWithUpperDefinition
         }`;
 
-        const { data } = await graphql(schema, mutation);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: mutation });
 
         expect(data).toHaveProperty("mutationWithUpperDefinition", "MUTATIONWITHUPPER");
       });
@@ -374,7 +375,7 @@ describe("Directives", () => {
           mutationWithAppend(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, mutation);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: mutation });
 
         expect(data).toHaveProperty("mutationWithAppend", "hello, world!");
       });
@@ -384,7 +385,7 @@ describe("Directives", () => {
           mutationWithAppendDefinition(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, mutation);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: mutation });
 
         expect(data).toHaveProperty("mutationWithAppendDefinition", "hello, world!");
       });
@@ -394,7 +395,7 @@ describe("Directives", () => {
           mutationWithUpperAndAppend(append: ", world!")
         }`;
 
-        const { data } = await graphql(schema, mutation);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: mutation });
 
         expect(data).toHaveProperty("mutationWithUpperAndAppend", "HELLO, WORLD!");
       });
@@ -457,7 +458,7 @@ describe("Directives", () => {
           }
       }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("objectType");
         expect(data!.objectType).toEqual({
@@ -494,7 +495,7 @@ describe("Directives", () => {
           }
       }`;
 
-        const { data } = await graphql(schema, query);
+        const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
         expect(data).toHaveProperty("subObjectType");
         expect(data!.subObjectType).toEqual({

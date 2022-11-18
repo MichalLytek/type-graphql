@@ -6,6 +6,7 @@ import {
   graphql,
   IntrospectionNonNullTypeRef,
   IntrospectionNamedTypeRef,
+  ExecutionResult,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -309,7 +310,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleInterfaceWithArgs.sampleFieldWithArgs;
@@ -326,7 +327,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleInterfaceWithArgsAndInlineResolver.sampleFieldWithArgs;
@@ -343,7 +344,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleInterfaceWithArgsAndFieldResolver.sampleFieldWithArgs;
@@ -360,7 +361,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleImplementingObjectWithArgsAndOwnResolver
@@ -378,7 +379,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleImplementingObjectWithArgsAndInheritedResolver
@@ -396,7 +397,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver
@@ -414,7 +415,7 @@ describe("Interfaces with resolvers and arguments", () => {
         }
       `;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       const result = data!.queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver

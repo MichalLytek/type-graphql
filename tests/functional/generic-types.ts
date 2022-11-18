@@ -10,6 +10,7 @@ import {
   GraphQLSchema,
   IntrospectionSchema,
   IntrospectionInputObjectType,
+  ExecutionResult,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -245,7 +246,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data!.dogs).toEqual(dogsResponseMock);
     });
@@ -386,7 +387,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data!.recipeEdge).toEqual(recipeEdgeResponse);
       expect(result.data!.friendshipEdge).toEqual({
@@ -472,7 +473,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, document);
+      const result: ExecutionResult<any> = await graphql({ schema, source: document });
 
       expect(result.data!).toEqual({
         child: {

@@ -9,6 +9,7 @@ import {
   GraphQLSchema,
   graphql,
   TypeKind,
+  ExecutionResult,
 } from "graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -805,7 +806,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const data = result.data!.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
     });
@@ -823,7 +824,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const data = result.data!.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toEqual("firstField");
@@ -843,7 +844,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const data = result.data!.getSecondInterfaceWithStringResolveTypeObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toBeUndefined();
@@ -863,7 +864,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const data = result.data!.getSecondInterfaceWithClassResolveTypeObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toBeUndefined();
@@ -884,7 +885,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
         `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
@@ -898,7 +899,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -920,7 +921,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
       const data = result.data!.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toEqual("firstField");
@@ -933,7 +934,10 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+      });
 
       expect(errors).toBeUndefined();
       expect(data!.renamedFieldInterfaceQuery.renamedInterfaceField).toEqual(
@@ -949,7 +953,7 @@ describe("Interfaces and inheritance", () => {
         )
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(queryArgs.baseArgField).toEqual("baseArgField");
       expect(queryArgs.childArgField).toEqual("childArgField");
@@ -964,7 +968,7 @@ describe("Interfaces and inheritance", () => {
         })
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(mutationInput.baseInputField).toEqual("baseInputField");
       expect(mutationInput.childInputField).toEqual("childInputField");
@@ -979,7 +983,7 @@ describe("Interfaces and inheritance", () => {
         )
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(data!.baseClassQuery).toEqual("sampleStaticMethod");
       expect(inputFieldValue).toEqual("sampleInputValue");
@@ -996,7 +1000,7 @@ describe("Interfaces and inheritance", () => {
         })
       }`;
 
-      const { errors } = await graphql(schema, query);
+      const { errors }: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
       expect(mutationInput).toEqual({
@@ -1015,7 +1019,10 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors }: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+      });
 
       expect(errors).toBeUndefined();
       expect(data!.secondImplementationPlainQuery.baseInterfaceField).toEqual("baseInterfaceField");
@@ -1079,8 +1086,14 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult: ExecutionResult<any> = await graphql({
+        schema: firstSchema,
+        source: query,
+      });
+      const secondResult: ExecutionResult<any> = await graphql({
+        schema: secondSchema,
+        source: query,
+      });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({
@@ -1157,8 +1170,14 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult: ExecutionResult<any> = await graphql({
+        schema: firstSchema,
+        source: query,
+      });
+      const secondResult: ExecutionResult<any> = await graphql({
+        schema: secondSchema,
+        source: query,
+      });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({
@@ -1235,8 +1254,15 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+
+      const firstResult: ExecutionResult<any> = await graphql({
+        schema: firstSchema,
+        source: query,
+      });
+      const secondResult: ExecutionResult<any> = await graphql({
+        schema: secondSchema,
+        source: query,
+      });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({

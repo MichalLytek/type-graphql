@@ -3,6 +3,7 @@ import {
   getIntrospectionQuery,
   IntrospectionObjectType,
   IntrospectionSchema,
+  ExecutionResult,
 } from "graphql";
 
 import { buildSchema, BuildSchemaOptions } from "../../src";
@@ -16,7 +17,8 @@ export async function getSchemaInfo(options: BuildSchemaOptions) {
   });
 
   // get builded schema info from retrospection
-  const result = await graphql(schema, getIntrospectionQuery());
+  const result: ExecutionResult<any> = await graphql({ schema, source: getIntrospectionQuery() });
+
   expect(result.errors).toBeUndefined();
 
   const schemaIntrospection = result.data!.__schema as IntrospectionSchema;

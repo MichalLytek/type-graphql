@@ -1,5 +1,11 @@
 import "reflect-metadata";
-import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "graphql";
+import {
+  IntrospectionObjectType,
+  TypeKind,
+  GraphQLObjectType,
+  graphql,
+  ExecutionResult,
+} from "graphql";
 
 import { Query, ObjectType, Field, Resolver, buildSchema } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
@@ -117,7 +123,7 @@ describe("Circular references", () => {
         }
       }
     `;
-    const { data } = await graphql(schema, query);
+    const { data }: ExecutionResult<any> = await graphql({ schema, source: query });
 
     expect(data!.objectQuery).toEqual({
       stringField: "stringField",

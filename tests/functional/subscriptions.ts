@@ -233,22 +233,24 @@ describe("Subscriptions", () => {
 
     async function subscribeOnceAndMutate(options: {
       mutation: DocumentNode;
-      mutationVariables?: object;
+      mutationVariables?: Record<any, any>;
       subscription: DocumentNode;
-      subscriptionVariables?: object;
+      subscriptionVariables?: Record<any, any>;
       onSubscribedData: (data: any) => void;
     }) {
-      const results = (await subscribe(
+      const results: any = (await subscribe({
         schema,
-        options.subscription,
-        null,
-        null,
-        options.subscriptionVariables,
-      )) as AsyncIterableIterator<ExecutionResult>;
-      const onDataPromise = results.next().then(async ({ value }) => {
+        document: options.subscription,
+        variableValues: options.subscriptionVariables,
+      })) as AsyncIterableIterator<ExecutionResult>;
+      const onDataPromise = results.next().then(async ({ value }: any) => {
         options.onSubscribedData(value.data);
       });
-      await execute(schema, options.mutation, null, null, options.mutationVariables);
+      await execute({
+        schema,
+        document: options.mutation,
+        variableValues: options.mutationVariables,
+      });
       await onDataPromise;
     }
 
@@ -324,7 +326,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscription = (await subscribe({
+      const subscription: any = (await subscribe({
         schema,
         document: subscriptionQuery,
       })) as AsyncIterableIterator<ExecutionResult>;
@@ -395,7 +397,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscription = (await subscribe({
+      const subscription: any = (await subscribe({
         schema,
         document: subscriptionQuery,
       })) as AsyncIterableIterator<ExecutionResult>;
@@ -434,7 +436,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscription = (await subscribe({
+      const subscription: any = (await subscribe({
         schema,
         document: subscriptionQuery,
       })) as AsyncIterableIterator<ExecutionResult>;
@@ -478,7 +480,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscription = (await subscribe({
+      const subscription: any = (await subscribe({
         schema,
         document: subscriptionQuery,
       })) as AsyncIterableIterator<ExecutionResult>;
@@ -590,7 +592,7 @@ describe("Subscriptions", () => {
         pubSub: customPubSub as any,
       });
 
-      await graphql(localSchema, mutation);
+      await graphql({ schema: localSchema, source: mutation });
 
       expect(pubSub).toEqual(customPubSub);
       expect(pubSub.myField).toEqual(true);
@@ -625,7 +627,7 @@ describe("Subscriptions", () => {
         resolvers: [SampleResolver],
         pubSub: { eventEmitter: customEmitter },
       });
-      await graphql(localSchema, mutation);
+      await graphql({ schema: localSchema, source: mutation });
 
       expect(emittedValue).toBeDefined();
       expect(emittedValue.test).toEqual(true);
@@ -698,7 +700,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscribeResult = await subscribe(schema, document);
+      const subscribeResult = await subscribe({ schema, document });
 
       expect(subscribeResult).toHaveProperty("errors");
       const { errors } = subscribeResult as ExecutionResult;

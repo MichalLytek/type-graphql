@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
+import { GraphQLSchema, graphql, ExecutionResult } from "graphql";
 
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
@@ -202,8 +202,7 @@ describe("Authorization", () => {
       const query = `query {
         normalQuery
       }`;
-
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data!.normalQuery).toEqual(true);
     });
@@ -215,7 +214,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data!.normalObjectQuery.normalField).toEqual("normalField");
     });
@@ -227,7 +226,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: ExecutionResult<any> = await graphql({ schema, source: query });
 
       expect(result.data!.normalObjectQuery.normalResolvedField).toEqual("normalResolvedField");
     });
@@ -241,7 +240,11 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toBeDefined();
@@ -257,7 +260,7 @@ describe("Authorization", () => {
         nullableAuthedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await graphql({ schema: localSchema, source: query });
 
       expect(result.data!.nullableAuthedQuery).toBeNull();
       expect(result.errors).toBeUndefined();
@@ -272,7 +275,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -290,7 +293,11 @@ describe("Authorization", () => {
         adminQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -308,7 +315,11 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data!.authedQuery).toEqual(false);
     });
@@ -324,7 +335,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
     });
@@ -340,7 +355,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
@@ -356,7 +375,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -376,7 +399,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -396,7 +423,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data!.normalObjectQuery.authedField).toEqual("authedField");
     });
@@ -412,7 +443,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
     });
@@ -428,7 +463,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: ExecutionResult<any> = await graphql({
+        schema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data).toBeNull();
     });
@@ -444,7 +483,11 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data!.normalObjectQuery.inlineAuthedResolvedField).toEqual(
         "inlineAuthedResolvedField",
@@ -464,7 +507,11 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        contextValue: {},
+      });
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
@@ -483,12 +530,12 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(
-        localSchema,
-        query,
-        { field: "rootField" },
-        { field: "contextField" },
-      );
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        rootValue: { field: "rootField" },
+        contextValue: { field: "contextField" },
+      });
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
       expect(authCheckerResolverData.root.field).toEqual("rootField");
@@ -520,12 +567,12 @@ describe("Authorization", () => {
         }
       `;
 
-      const result = await graphql(
-        localSchema,
-        query,
-        { field: "rootField" },
-        { field: "contextField" },
-      );
+      const result: ExecutionResult<any> = await graphql({
+        schema: localSchema,
+        source: query,
+        rootValue: { field: "rootField" },
+        contextValue: { field: "contextField" },
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toMatchInlineSnapshot(`

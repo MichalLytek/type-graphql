@@ -1,5 +1,11 @@
 import { SchemaDirectiveVisitor } from "graphql-tools";
-import { GraphQLField, GraphQLString, GraphQLDirective, DirectiveLocation } from "graphql";
+import {
+  GraphQLField,
+  GraphQLString,
+  GraphQLDirective,
+  DirectiveLocation,
+  GraphQLArgument,
+} from "graphql";
 
 export class AppendDirective extends SchemaDirectiveVisitor {
   static getDirectiveDeclaration(directiveName: string): GraphQLDirective {
@@ -12,7 +18,7 @@ export class AppendDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: GraphQLField<any, any>) {
     const resolve = field.resolve;
 
-    field.args.push({
+    (field.args as GraphQLArgument[]).push({
       name: "append",
       description: "Appends a string to the end of a field",
       type: GraphQLString,

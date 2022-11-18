@@ -248,7 +248,10 @@ describe("typeDefs and resolvers", () => {
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
+      const introspectionResult: ExecutionResult<any> = await graphql({
+        schema,
+        source: getIntrospectionQuery(),
+      });
       schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
     });
 
@@ -395,8 +398,7 @@ describe("typeDefs and resolvers", () => {
             sampleDateQuery
           }
         `;
-
-        const { data } = await execute(schema, document);
+        const { data }: ExecutionResult<any> = await execute({ schema, document });
         const parsedDate = new Date(data!.sampleDateQuery);
 
         expect(typeof data!.sampleDateQuery).toBe("string");
@@ -410,7 +412,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleServiceQuery).toEqual("SampleString");
       });
@@ -422,7 +424,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMiddlewareBooleanQuery).toEqual(true);
         expect(middlewareLogs).toHaveLength(1);
@@ -436,7 +438,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleBooleanMutation).toBe(true);
       });
@@ -448,7 +450,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMutationWithInput).toBe(true);
         expect(inputValue.constructor.name).toBe("SampleInput");
@@ -463,7 +465,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Argument Validation Error");
@@ -476,7 +478,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Access denied");
@@ -494,7 +496,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleInterfaceQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -514,7 +516,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -534,7 +536,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleResolveUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -549,7 +551,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleNumberEnumQuery).toBe("OptionOne");
         expect(enumValue).toBe(0);
@@ -562,7 +564,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleStringEnumQuery).toBe("OptionTwo");
         expect(enumValue).toBe("OptionTwoString");
@@ -576,7 +578,7 @@ describe("typeDefs and resolvers", () => {
         `;
         const payload = 5.4321;
 
-        const iterator = (await subscribe(schema, document)) as AsyncIterator<ExecutionResult>;
+        const iterator = (await subscribe({ schema, document })) as AsyncIterator<ExecutionResult>;
         const firstValuePromise = iterator.next();
         pubSub.publish("SAMPLE", payload);
         const data = await firstValuePromise;
@@ -637,7 +639,10 @@ describe("typeDefs and resolvers", () => {
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
+      const introspectionResult: ExecutionResult<any> = await graphql({
+        schema,
+        source: getIntrospectionQuery(),
+      });
       schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
     });
 
@@ -677,7 +682,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data, errors } = await execute(schema, document);
+        const { data, errors } = await execute({ schema, document });
 
         expect(errors).toBeUndefined();
         expect(data!.sampleBooleanQuery).toBe(true);
