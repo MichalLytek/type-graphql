@@ -292,6 +292,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
+          <a href="https://pillarwm.com/" target="_blank">
+            <img src={imgUrl("pwmlogo.png")} style={{ width: 100 }} />
+            <span>Pillar Wealth Management</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
