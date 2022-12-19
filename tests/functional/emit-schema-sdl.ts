@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { GraphQLSchema } from "graphql";
 import fs from "fs";
 import path from "path";
-import rimraf from "rimraf";
+import shelljs from "shelljs";
 
 import {
   buildSchema,
@@ -49,9 +49,9 @@ describe("Emitting schema definition file", () => {
     });
   });
 
-  afterEach(done => {
+  afterEach(() => {
     jest.restoreAllMocks();
-    rimraf(TEST_DIR, done);
+    shelljs.rm("-rf", TEST_DIR);
   });
 
   function checkSchemaSDL(
