@@ -48,6 +48,15 @@
     "prettier/prettier": "error",
     "tsdoc/syntax": "warn",
     "import/no-default-export": "error",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "Function": false
+        },
+        "extendDefaults": true
+      }
+    ]
   }
 }
