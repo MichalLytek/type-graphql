@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { buildSchema, Field, ObjectType, Resolver, Query } from "../../build/package";
-
 import { runBenchmark } from "./run";
 
 @ObjectType()
@@ -47,4 +46,5 @@ async function main() {
   await runBenchmark(schema);
 }
 
+// eslint-disable-next-line no-console
 main().catch(console.error);

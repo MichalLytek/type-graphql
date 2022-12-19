@@ -9,7 +9,6 @@ import {
   FieldResolver,
   Root,
 } from "../../../build/package/dist";
-
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType()
@@ -17,7 +16,7 @@ class SampleObject {
   @Field()
   stringField!: string;
 
-  @Field(type => Int)
+  @Field(() => Int)
   numberField!: number;
 
   @Field()
@@ -29,7 +28,7 @@ class SampleObject {
 
 @Resolver(SampleObject)
 class SampleResolver {
-  @Query(returns => [SampleObject])
+  @Query(() => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
     return Array.from(
       { length: ARRAY_ITEMS },
@@ -75,4 +74,5 @@ async function main() {
   await runBenchmark(schema);
 }
 
+// eslint-disable-next-line no-console
 main().catch(console.error);

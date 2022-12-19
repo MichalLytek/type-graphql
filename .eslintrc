@@ -1,0 +1,53 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "jest/globals": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": [
+      "tsconfig.json",
+      "tests/tsconfig.json",
+      "examples/tsconfig.json",
+      "benchmarks/tsconfig.json"
+    ],
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": [
+          "tsconfig.json",
+          "tests/tsconfig.json",
+          "examples/tsconfig.json",
+          "benchmarks/tsconfig.json"
+        ]
+      }
+    }
+  },
+  "plugins": ["import", "@typescript-eslint", "eslint-plugin-tsdoc", "prettier", "jest"],
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "eslint:recommended",
+    "plugin:@cspell/recommended",
+    "plugin:@typescript-eslint/recommended",
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "plugin:jest/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "tsdoc/syntax": "warn",
+    "import/no-default-export": "error",
+    "import/prefer-default-export": "off"
+  }
+}

@@ -44,4 +44,5 @@ const schema = new GraphQLSchema({
   }),
 });
 
+// eslint-disable-next-line no-console
 runBenchmark(schema).catch(console.error);

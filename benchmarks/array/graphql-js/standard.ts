@@ -7,7 +7,6 @@ import {
   GraphQLInt,
   GraphQLList,
 } from "graphql";
-
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 const SampleObjectType: GraphQLObjectType = new GraphQLObjectType({
@@ -50,4 +49,5 @@ const schema = new GraphQLSchema({
   }),
 });
 
+// eslint-disable-next-line no-console
 runBenchmark(schema).catch(console.error);

@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "GraphQL.vscode-graphql",
+    "Orta.vscode-jest",
+    "Gruntfuggly.todo-tree",
+    "timonwong.shellcheck",
+    "usernamehw.errorlens"
+  ]
+}

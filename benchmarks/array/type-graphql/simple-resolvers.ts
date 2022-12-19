@@ -8,7 +8,6 @@ import {
   Int,
   MiddlewareFn,
 } from "../../../build/package/dist";
-
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType({ simpleResolvers: true })
@@ -16,7 +15,7 @@ class SampleObject {
   @Field()
   stringField!: string;
 
-  @Field(type => Int)
+  @Field(() => Int)
   numberField!: number;
 
   @Field()
@@ -28,7 +27,7 @@ class SampleObject {
 
 @Resolver()
 class SampleResolver {
-  @Query(returns => [SampleObject])
+  @Query(() => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
     return Array.from(
       { length: ARRAY_ITEMS },
@@ -46,7 +45,8 @@ class SampleResolver {
   }
 }
 
-const log = (...args: any[]) => void 0; // noop
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const log = (...args: unknown[]) => undefined; // noop
 
 const loggingMiddleware: MiddlewareFn = ({ info }, next) => {
   log(`${info.parentType.name}.${info.fieldName} accessed`);
@@ -62,4 +62,5 @@ async function main() {
   await runBenchmark(schema);
 }
 
+// eslint-disable-next-line no-console
 main().catch(console.error);

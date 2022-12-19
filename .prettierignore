@@ -1,18 +1,18 @@
 # node modules
-node_modules
+**/node_modules/
 
 # builded sources
-build
-dist
+**/build/
+**/dist/
 
 # coverage reports
-coverage
+**/coverage/
 
 # IntelliJ stuffs
 .idea/
 
 # parcel cache
-.cache
+.cache/
 
 # changelog
 CHANGELOG.md

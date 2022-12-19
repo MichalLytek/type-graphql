@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# shellcheck source=./_/husky.sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no -- lint-staged

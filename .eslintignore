@@ -1,0 +1,5 @@
+**/build/
+**/dist/
+**/coverage/
+**/node_modules/
+jest.config.ts

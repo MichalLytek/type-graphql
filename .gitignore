@@ -1,12 +1,12 @@
 # node modules
-node_modules
+**/node_modules/
 
 # builded sources
-build
-dist
+**/build/
+**/dist/
 
 # coverage reports
-coverage
+**/coverage/
 
 # IntelliJ stuffs
 .idea/
