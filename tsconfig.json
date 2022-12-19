@@ -6,6 +6,9 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "./build",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
     "removeComments": false,
     "importHelpers": true,
     "strict": false,
@@ -20,15 +23,23 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "paths": {},
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
   },
-  "include": ["./src"],
-  "exclude": ["./node_modules", "./build"]
+  "exclude": ["./node_modules", "./build"],
+  "include": ["./src"]
 }

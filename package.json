@@ -58,7 +58,7 @@
     "fix:markdown": "markdownlint --fix \"**/*.md\"",
     "postbuild": "shx rm ./build/browser-shim.d.ts && shx cp ./src/browser-shim.ts ./build",
     "prebuild": "npm run clean",
-    "prepare": "husky install",
+    "prepare": "ts-patch install -s && husky install",
     "prepublishOnly": "npm run build",
     "test": "jest --verbose --coverage",
     "test:ci": "jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
@@ -126,10 +126,13 @@
     "shx": "^0.3.4",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
+    "ts-patch": "^2.1.0",
+    "tsconfig-paths": "^4.1.1",
     "typedi": "^0.10.0",
     "typeorm": "^0.2.31",
     "typeorm-typedi-extensions": "^0.4.1",
-    "typescript": "~4.8.3"
+    "typescript": "~4.8.3",
+    "typescript-transform-paths": "^3.4.4"
   },
   "peerDependencies": {
     "class-validator": ">=0.12.0",
