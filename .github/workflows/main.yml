@@ -30,7 +30,7 @@ jobs:
 
       - name: Check codebase
         run: |
-          npm run verify
+          npm run check
 
       - name: Run tests
         run: npm run test:ci

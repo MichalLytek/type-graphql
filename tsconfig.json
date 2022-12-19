@@ -55,5 +55,5 @@
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": ["./src"],
-  "exclude": ["./examples/apollo-client"]
+  "exclude": ["./node_modules", "./build"]
 }

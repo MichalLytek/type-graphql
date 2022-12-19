@@ -7,13 +7,6 @@
     "@cspell/dict-npm/cspell-ext.json",
     "@cspell/dict-typescript/cspell-ext.json"
   ],
-  "ignorePaths": [
-    "**/build/",
-    "**/dist/",
-    "**/coverage/",
-    "**/node_modules/"
-  ],
-  "words": [
-    "middlewares"
-  ]
+  "ignorePaths": ["**/build/", "**/dist/", "**/coverage/", "**/node_modules/"],
+  "words": ["middlewares"]
 }
