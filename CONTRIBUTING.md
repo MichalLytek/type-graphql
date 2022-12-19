@@ -12,7 +12,7 @@ As a contributor, here are the guidelines we would like you to follow:
 - [Coding Rules](#rules)
 - [Commit Message Guidelines](#commit)
 
-<h2 id="question"></h2> Got a Question or Problem?
+<h2 id="question">Got a Question or Problem?</h2>
 
 Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests.
 
@@ -20,12 +20,12 @@ Instead, consider using [Stack Overflow](https://stackoverflow.com/questions/tag
 
 You can also ask community for help using the [Github Discussion platform][discussions].
 
-<h2 id="issue"></h2> Found a Bug?
+<h2 id="issue">Found a Bug?</h2>
 
 If you find a bug in the source code, you can help us by [submitting an issue](#submit-issue) to our [GitHub Repository][github].
 Even better, you can [submit a Pull Request](#submit-pr) with a failing test case that reproduces the issue.
 
-<h2 id="feature"></h2> Missing a Feature?
+<h2 id="feature">Missing a Feature?</h2>
 
 You can _request_ a new feature by [submitting an issue](#submit-issue) to our GitHub Repository.
 
@@ -36,15 +36,15 @@ If you would like to _implement_ a new feature, please consider the size of the 
 
 - **Small Features** can be crafted and directly [submitted as a Pull Request](#submit-pr).
 
-<h2 id="submit"></h2> Submission Guidelines
+<h2 id="submit">Submission Guidelines</h2>
 
-<h3 id="submit-issue"></h3> Submitting an Issue
+<h3 id="submit-issue">Submitting an Issue</h3>
 
 Before you submit an issue, please search the issue tracker. An issue for your problem may already exist and the discussion might inform you of workarounds readily available.
 
 You can file new issues by selecting from our [new issue templates](https://github.com/MichalLytek/type-graphql/issues/new/choose) and filling out the issue template.
 
-<h3 id="submit-pr"></h3> Submitting a Pull Request (PR)
+<h3 id="submit-pr">Submitting a Pull Request (PR)</h3>
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
@@ -100,6 +100,7 @@ If we ask for changes via code reviews then:
 That's it! Thank you for your contribution!
 
 <!-- markdownlint-disable-next-line MD001 -->
+
 ### After your pull request is merged
 
 After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:
@@ -128,7 +129,7 @@ After your pull request is merged, you can safely delete your branch and pull th
   git pull --ff upstream master
   ```
 
-<h2 id="rules"></h2> Coding Rules
+<h2 id="rules">Coding Rules</h2>
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
@@ -136,7 +137,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 - The code must pass type checking and fullfil all the TSLint rules.
 
-<h2 id="commit"></h2> Commit Message Guidelines
+<h2 id="commit">Commit Message Guidelines</h2>
 
 For more information checkout this [commit rules guide](https://www.conventionalcommits.org/en/v1.0.0/).
 
