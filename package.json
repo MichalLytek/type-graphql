@@ -39,7 +39,7 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
-    "build"
+    "./build"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.json",
