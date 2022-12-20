@@ -79,6 +79,7 @@
     "@apollo/gateway": "^0.23.2",
     "@cspell/dict-node": "^4.0.2",
     "@cspell/dict-npm": "^5.0.1",
+    "@cspell/dict-shell": "^1.0.1",
     "@cspell/dict-typescript": "^3.0.2",
     "@cspell/eslint-plugin": "^6.17.0",
     "@graphql-modules/core": "^0.7.13",
