@@ -8,7 +8,7 @@ import {
   Int,
   FieldResolver,
   Root,
-} from "../../../build/package/dist";
+} from "../../../build";
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType()

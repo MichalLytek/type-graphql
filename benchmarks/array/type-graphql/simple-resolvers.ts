@@ -1,13 +1,5 @@
 import "reflect-metadata";
-import {
-  buildSchema,
-  Field,
-  ObjectType,
-  Resolver,
-  Query,
-  Int,
-  MiddlewareFn,
-} from "../../../build/package/dist";
+import { buildSchema, Field, ObjectType, Resolver, Query, Int, MiddlewareFn } from "../../../build";
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType({ simpleResolvers: true })

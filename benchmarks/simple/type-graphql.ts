@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query } from "../../build/package";
+import { buildSchema, Field, ObjectType, Resolver, Query } from "../../build";
 import { runBenchmark } from "./run";
 
 @ObjectType()
