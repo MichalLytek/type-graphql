@@ -293,8 +293,12 @@ const CollectiveSection = props => (
             <span>*instinctools</span>
           </a>
           <a href="https://pillarwm.com/" target="_blank">
-            <img src={imgUrl("pwmlogo.png")} style={{ width: 100 }} />
+            <img src={imgUrl("pwmlogo.png")} style={{ width: 90 }} />
             <span>Pillar Wealth Management</span>
+          </a>
+          <a href="https://www.vpsserver.com/" target="_blank">
+            <img src={imgUrl("vps-server.png")} style={{ width: 125 }} />
+            <span>VPS Server</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
