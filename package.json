@@ -50,7 +50,7 @@
     "apollo-cache-control": "^0.11.6",
     "apollo-server": "^2.21.0",
     "apollo-server-plugin-response-cache": "^0.6.0",
-    "class-validator": "^0.13.1",
+    "class-validator": "^0.14.0",
     "del": "^6.0.0",
     "graphql": "^15.5.0",
     "graphql-redis-subscriptions": "^2.3.1",

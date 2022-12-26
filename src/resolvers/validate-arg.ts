@@ -32,6 +32,10 @@ export async function validateArg<T extends object>(
     validatorOptions.skipMissingProperties = true;
   }
 
+  // Returning the old behavior of “class-validator”.
+  // Since 0.14.0 the “forbidUnknownValues” is really set to true by default :-).
+  validatorOptions.forbidUnknownValues = false;
+
   const { validateOrReject } = await import("class-validator");
   try {
     if (Array.isArray(argValue)) {
