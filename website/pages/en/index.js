@@ -247,12 +247,6 @@ const CollectiveSection = props => (
     <div id="sponsors" className="snippet-container">
       <div className="wrapper">
         <h3 className="title">Gold Sponsors 🏆</h3>
-        <div className="tiles">
-          <a href="https://www.ecadlabs.com/" target="_blank">
-            <img src={imgUrl("ecad_new.png")} style={{ width: 300 }} />
-            <span style={{ fontSize: 20 }}>ECAD Labs</span>
-          </a>
-        </div>
         <blockquote className="note">
           <span>Please ask your company to support this open source project by</span>{" "}
           <a href="https://opencollective.com/typegraphql/contribute/gold-sponsors-8340">
@@ -280,21 +274,9 @@ const CollectiveSection = props => (
             <img src={imgUrl("lifex.svg")} style={{ width: 60 }} />
             <span>LifeX Aps</span>
           </a>
-          <a href="https://www.swissmentor.com/" target="_blank">
-            <img src={imgUrl("swiss-mentor.png")} style={{ width: 115 }} />
-            <span>SwissMentor</span>
-          </a>
-          <a href="https://flatironsdevelopment.com/" target="_blank">
-            <img src={imgUrl("flatirons.png")} style={{ width: 50 }} />
-            <span>Flatirons Development</span>
-          </a>
           <a href="https://instinctools.com/manufacturing/" target="_blank">
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
-          </a>
-          <a href="https://pillarwm.com/" target="_blank">
-            <img src={imgUrl("pwmlogo.png")} style={{ width: 90 }} />
-            <span>Pillar Wealth Management</span>
           </a>
           <a href="https://www.vpsserver.com/" target="_blank">
             <img src={imgUrl("vps-server.png")} style={{ width: 125 }} />
