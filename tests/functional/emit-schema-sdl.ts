@@ -49,9 +49,9 @@ describe("Emitting schema definition file", () => {
     });
   });
 
-  afterEach(done => {
+  afterEach(async () => {
     jest.restoreAllMocks();
-    rimraf(TEST_DIR, done);
+    await rimraf(TEST_DIR);
   });
 
   function checkSchemaSDL(
