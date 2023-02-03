@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Authorization · TypeGraphQL</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict data access or actions for a specific group of users."/><meta name="docsearch:version" content="0.17.5"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Authorization · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict data access or actions for a specific group of users."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Authorization · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict data access or actions for a specific group of users."/><meta name="docsearch:version" content="0.17.5"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Authorization · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="Authorization is a core feature used in almost all APIs. Sometimes we want to restrict data access or actions for a specific group of users."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -68,21 +68,21 @@
 <h2><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use</h2>
 <p>First, we need to use the <code>@Authorized</code> decorator as a guard on a field, query or mutation.
 Example object type field guards:</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">ObjectType</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">ObjectType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">MyObject</span> <span class="token punctuation">{</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   publicField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   authorizedField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">)</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   adminField<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
-  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-  @<span class="token function">Field</span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
   hiddenField<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -90,9 +90,9 @@ Example object type field guards:</p>
 By default the roles are of type <code>string</code> but they can easily be changed as the decorator is generic - <code>@Authorized&lt;number&gt;(1, 7, 22)</code>.</p>
 <p>Thus, authorized users (regardless of their roles) can only read the <code>publicField</code> or the <code>authorizedField</code> from the <code>MyObject</code> object. They will receive <code>null</code> when accessing the <code>hiddenField</code> field and will receive an error (that will propagate through the whole query tree looking for a nullable field) for the <code>adminField</code> when they don't satisfy the role constraints.</p>
 <p>Sample query and mutation guards:</p>
-<pre><code class="hljs css language-typescript">@<span class="token function">Resolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">MyResolver</span> <span class="token punctuation">{</span>
-  @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">publicQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> MyObject <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token punctuation">{</span>
       publicField<span class="token operator">:</span> <span class="token string">"Some public data"</span><span class="token punctuation">,</span>
@@ -101,14 +101,14 @@ By default the roles are of type <code>string</code> but they can easily be chan
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
-  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  @<span class="token function">Query</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">authedQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"Authorized users only!"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
-  @<span class="token function">Authorized</span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">)</span>
-  @<span class="token function">Mutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">,</span> <span class="token string">"MODERATOR"</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">adminMutation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"You are an admin/moderator, you can safely drop the database ;)"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
