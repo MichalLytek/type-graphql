@@ -15,7 +15,7 @@
     "check": "npm run check:format && npm run check:type",
     "lint": "echo TODO: add ESLint",
     "verify": "npm run check && npm run lint",
-    "package": "gulp package",
+    "package": "echo TODO: bash script",
     "docs": "npm run --prefix website start"
   },
   "peerDependencies": {
@@ -43,7 +43,6 @@
     "@mikro-orm/core": "^5.6.8",
     "@mikro-orm/postgresql": "^5.6.8",
     "@typegoose/typegoose": "^10.1.0",
-    "@types/gulp": "^4.0.10",
     "@types/jest": "^29.4.0",
     "@types/lodash.merge": "^4.6.7",
     "@types/node": "^18.11.18",
@@ -55,10 +54,6 @@
     "graphql": "^16.6.0",
     "graphql-redis-subscriptions": "^2.6.0",
     "graphql-tag": "^2.12.6",
-    "gulp-replace": "^1.1.4",
-    "gulp-shell": "^0.8.0",
-    "gulp-typescript": "^5.0.1",
-    "gulpclass": "^0.2.0",
     "husky": "^4.3.8",
     "ioredis": "^5.3.0",
     "jest": "^29.4.1",
