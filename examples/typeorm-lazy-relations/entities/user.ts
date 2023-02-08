@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from "../../../src";
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
+import { Field, ID, ObjectType } from "../../../src";
 
 import { Recipe } from "./recipe";
 import { Lazy } from "../helpers";

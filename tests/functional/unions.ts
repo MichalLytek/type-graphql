@@ -58,7 +58,6 @@ describe("Unions", () => {
         if ("fieldTwo" in value) {
           return "ObjectTwo";
         }
-        return;
       },
     });
 
@@ -72,7 +71,6 @@ describe("Unions", () => {
         if ("fieldTwo" in value) {
           return ObjectTwo;
         }
-        return;
       },
     });
 

@@ -1,6 +1,6 @@
-import { Resolver, Query, Arg, Mutation, Ctx, Int } from "../../../src/";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
+import { Resolver, Query, Arg, Mutation, Ctx, Int } from "../../../src";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
@@ -55,6 +55,6 @@ export class RecipeResolver {
     );
 
     // return updated recipe
-    return await this.recipeRepository.save(recipe);
+    return this.recipeRepository.save(recipe);
   }
 }

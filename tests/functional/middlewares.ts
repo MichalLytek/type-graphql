@@ -92,6 +92,7 @@ describe("Middlewares", () => {
     };
     class ClassMiddleware implements MiddlewareInterface {
       private logName = "ClassMiddleware";
+
       async use(action: ResolverData, next: NextFn) {
         middlewareLogs.push(`${this.logName} before`);
         const result = await next();

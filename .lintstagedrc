@@ -1,13 +1,5 @@
 {
-  "{src,tests,examples}/**/*.ts": [
-    "eslint --fix",
-    "prettier --write"
-  ],
-  "{src,tests,examples}/**/*.js": [
-    "prettier --write"
-  ],
-  "*.md": [
-    "markdownlint --fix",
-    "prettier --write"
-  ]
+  "{src,tests,examples}/**/*.ts": ["eslint --fix", "prettier --write"],
+  "{src,tests,examples}/**/*.js": ["prettier --write"],
+  "*.md": ["markdownlint --fix", "prettier --write"]
 }

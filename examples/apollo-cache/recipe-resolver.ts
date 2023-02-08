@@ -12,7 +12,7 @@ export class RecipeResolver {
   @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<Recipe | undefined> {
     console.log(`Called 'recipe' with title '${title}' on ${getTime()}`);
-    return await this.items.find(recipe => recipe.title === title);
+    return this.items.find(recipe => recipe.title === title);
   }
 
   @Query(returns => Recipe, { nullable: true })
@@ -20,11 +20,11 @@ export class RecipeResolver {
   @CacheControl({ maxAge: 60 })
   async cachedRecipe(@Arg("title") title: string): Promise<Recipe | undefined> {
     console.log(`Called 'cachedRecipe' with title '${title}' on ${getTime()}`);
-    return await this.items.find(recipe => recipe.title === title);
+    return this.items.find(recipe => recipe.title === title);
   }
 
   @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
-    return await this.items;
+    return this.items;
   }
 }

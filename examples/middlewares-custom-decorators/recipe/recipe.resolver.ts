@@ -21,6 +21,6 @@ export class RecipeResolver {
     console.log(`User "${currentUser.name}" queried for recipes!`);
     const start = options.skip;
     const end = options.skip + options.take;
-    return await this.items.slice(start, end);
+    return this.items.slice(start, end);
   }
 }

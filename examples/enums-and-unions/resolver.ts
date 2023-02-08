@@ -10,6 +10,7 @@ import { sampleCooks } from "./cook.samples";
 @Resolver()
 export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes;
+
   private cooks: Cook[] = sampleCooks;
 
   @Query(returns => [Recipe])

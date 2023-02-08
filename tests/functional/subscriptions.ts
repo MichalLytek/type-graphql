@@ -58,6 +58,7 @@ describe("Subscriptions", () => {
         sampleQuery(): boolean {
           return true;
         }
+
         @Subscription({ topics: "STH" })
         sampleSubscription(): boolean {
           return true;
@@ -610,6 +611,7 @@ describe("Subscriptions", () => {
         dumbQuery(): boolean {
           return true;
         }
+
         @Mutation()
         pubSubMutation(@PubSub() pubSubArg: PubSubEngine): boolean {
           pubSubArg.publish("TEST", { test: true });
@@ -647,6 +649,7 @@ describe("Subscriptions", () => {
           dumbQuery(): boolean {
             return true;
           }
+
           @Mutation(returns => Boolean)
           async pubSubMutation(
             @Arg("value") value: number,
@@ -655,6 +658,7 @@ describe("Subscriptions", () => {
             await pubSub.publish("TEST", value);
             return true;
           }
+
           @Subscription({ topics: [] })
           sampleSubscription(): boolean {
             return true;

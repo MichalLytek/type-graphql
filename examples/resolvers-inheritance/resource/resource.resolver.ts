@@ -18,10 +18,10 @@ import { ResourceService, ResourceServiceFactory } from "./resource.service";
 @ArgsType()
 export class GetAllArgs {
   @Field(type => Int)
-  skip: number = 0;
+  skip = 0;
 
   @Field(type => Int)
-  take: number = 10;
+  take = 10;
 }
 
 export function ResourceResolver<TResource extends Resource>(

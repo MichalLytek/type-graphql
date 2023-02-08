@@ -105,10 +105,15 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
+
   private static inputTypesInfo: InputObjectTypeInfo[] = [];
+
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
+
   private static enumTypesInfo: EnumTypeInfo[] = [];
+
   private static unionTypesInfo: UnionTypeInfo[] = [];
+
   private static usedInterfaceTypes = new Set<Function>();
 
   static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
@@ -308,7 +313,7 @@ export abstract class SchemaGenerator {
 
             let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const fieldResolvers = getMetadataStorage().fieldResolvers;
+                const { fieldResolvers } = getMetadataStorage();
                 const filteredFieldResolversMetadata = !resolvers
                   ? fieldResolvers
                   : fieldResolvers.filter(
@@ -359,7 +364,7 @@ export abstract class SchemaGenerator {
               const superClass = getSuperClassType();
               if (superClass) {
                 const superClassFields = getFieldMetadataFromObjectType(superClass);
-                fields = Object.assign({}, superClassFields, fields);
+                fields = { ...superClassFields, ...fields };
               }
             }
             return fields;
@@ -467,7 +472,7 @@ export abstract class SchemaGenerator {
                 const superClass = getSuperClassType();
                 if (superClass) {
                   const superClassFields = getFieldMetadataFromObjectType(superClass);
-                  fields = Object.assign({}, superClassFields, fields);
+                  fields = { ...superClassFields, ...fields };
                 }
               }
               return fields;
@@ -538,7 +543,7 @@ export abstract class SchemaGenerator {
               const superClass = getSuperClassType();
               if (superClass) {
                 const superClassFields = getFieldMetadataFromInputType(superClass);
-                fields = Object.assign({}, superClassFields, fields);
+                fields = { ...superClassFields, ...fields };
               }
             }
             return fields;

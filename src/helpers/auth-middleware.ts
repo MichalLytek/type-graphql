@@ -21,7 +21,8 @@ export function AuthMiddleware(
     if (!accessGranted) {
       if (authMode === "null") {
         return null;
-      } else if (authMode === "error") {
+      }
+      if (authMode === "error") {
         throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
       }
     }

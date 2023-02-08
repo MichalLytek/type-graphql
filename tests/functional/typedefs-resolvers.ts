@@ -84,6 +84,7 @@ describe("typeDefs and resolvers", () => {
       class SampleType1 implements SampleInterface {
         @Field()
         sampleInterfaceStringField: string;
+
         @Field({ description: "sampleType1StringFieldDescription" })
         sampleType1StringField: string;
       }
@@ -92,6 +93,7 @@ describe("typeDefs and resolvers", () => {
       class SampleType2 implements SampleInterface {
         @Field()
         sampleInterfaceStringField: string;
+
         @Field({ deprecationReason: "sampleType2StringFieldDeprecation" })
         sampleType2StringField: string;
       }
@@ -100,6 +102,7 @@ describe("typeDefs and resolvers", () => {
       class SampleType3 {
         @Field()
         sampleInterfaceStringField: string;
+
         @Field()
         sampleType3StringField: string;
       }
@@ -109,8 +112,9 @@ describe("typeDefs and resolvers", () => {
         @Field()
         @MinLength(10)
         sampleInputStringField: string;
+
         @Field()
-        sampleInputDefaultStringField: string = "sampleInputDefaultStringField";
+        sampleInputDefaultStringField = "sampleInputDefaultStringField";
       }
 
       enum SampleNumberEnum {
@@ -141,7 +145,6 @@ describe("typeDefs and resolvers", () => {
           if ("sampleType3StringField" in value) {
             return "SampleType3";
           }
-          return;
         },
       });
 
@@ -617,6 +620,7 @@ describe("typeDefs and resolvers", () => {
       class SampleType {
         @Field()
         sampleInterfaceStringField: string;
+
         @Field({ description: "sampleTypeStringFieldDescription" })
         sampleTypeStringField: string;
       }

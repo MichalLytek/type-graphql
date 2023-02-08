@@ -18,7 +18,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
     complexity: ({ childComplexity, args }) => args.count * childComplexity,
   })
   async recipes(@Arg("count") count: number): Promise<Recipe[]> {
-    return await this.items.slice(0, count);
+    return this.items.slice(0, count);
   }
 
   /* Complexity in field resolver overrides complexity of equivalent field type */

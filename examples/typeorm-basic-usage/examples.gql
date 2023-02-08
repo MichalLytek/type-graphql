@@ -31,9 +31,7 @@ query GetRecipe {
 }
 
 mutation AddRecipe {
-  addRecipe(recipe: {
-    title: "New Recipe"
-  }) {
+  addRecipe(recipe: { title: "New Recipe" }) {
     id
     ratings {
       value
@@ -45,10 +43,7 @@ mutation AddRecipe {
 }
 
 mutation RateRecipe {
-  rate(rate: {
-    recipeId: 3
-    value: 4
-  }) {
+  rate(rate: { recipeId: 3, value: 4 }) {
     id
     ratings {
       value

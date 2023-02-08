@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from "../../../src";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Field, ID, ObjectType } from "../../../src";
 
 import { Rate } from "./rate";
 import { User } from "./user";

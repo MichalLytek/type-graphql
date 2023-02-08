@@ -1,5 +1,5 @@
-import { ObjectType, Field, Int } from "../../../src";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { ObjectType, Field, Int } from "../../../src";
 
 import { User } from "./user";
 import { Recipe } from "./recipe";

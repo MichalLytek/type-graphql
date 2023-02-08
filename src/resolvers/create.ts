@@ -46,9 +46,8 @@ export function createHandlerResolver(
             return params.then(resolvedParams =>
               targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
             );
-          } else {
-            return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
           }
+          return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
         }),
       );
     }
@@ -64,9 +63,8 @@ export function createHandlerResolver(
         return params.then(resolvedParams =>
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
         );
-      } else {
-        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
       }
+      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };
 }
@@ -110,9 +108,8 @@ export function createAdvancedFieldResolver(
         return params.then(resolvedParams =>
           handlerOrGetterValue.apply(targetInstance, resolvedParams),
         );
-      } else {
-        return handlerOrGetterValue.apply(targetInstance, params);
       }
+      return handlerOrGetterValue.apply(targetInstance, params);
     });
   };
 }

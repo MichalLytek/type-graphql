@@ -1,6 +1,6 @@
-import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "../../../src";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
@@ -36,7 +36,7 @@ export class RecipeResolver {
       ...recipeInput,
       authorId: user.id,
     });
-    return await this.recipeRepository.save(recipe);
+    return this.recipeRepository.save(recipe);
   }
 
   @Mutation(returns => Recipe)

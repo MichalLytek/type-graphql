@@ -1,4 +1,3 @@
-import { ObjectType, Field, Int } from "../../../src";
 import {
   Column,
   Entity,
@@ -7,6 +6,7 @@ import {
   CreateDateColumn,
   RelationId,
 } from "typeorm";
+import { ObjectType, Field, Int } from "../../../src";
 
 import { User } from "./user";
 import { Recipe } from "./recipe";
@@ -24,6 +24,7 @@ export class Rate {
   @Field(type => User)
   @ManyToOne(type => User)
   user: User;
+
   @RelationId((rate: Rate) => rate.user)
   userId: number;
 
@@ -33,6 +34,7 @@ export class Rate {
 
   @ManyToOne(type => Recipe)
   recipe: Recipe;
+
   @RelationId((rate: Rate) => rate.recipe)
   recipeId: number;
 }

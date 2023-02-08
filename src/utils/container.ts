@@ -31,7 +31,9 @@ class DefaultContainer {
 
 export class IOCContainer {
   private container: ContainerType | undefined;
+
   private containerGetter: ContainerGetter<any> | undefined;
+
   private defaultContainer = new DefaultContainer();
 
   constructor(iocContainerOrContainerGetter?: ContainerType | ContainerGetter<any>) {

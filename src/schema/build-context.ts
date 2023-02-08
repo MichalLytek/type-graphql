@@ -42,14 +42,23 @@ export interface BuildContextOptions {
 
 export abstract class BuildContext {
   static dateScalarMode: DateScalarMode;
+
   static scalarsMaps: ScalarsTypeMap[];
+
   static validate: ValidateSettings;
+
   static authChecker?: AuthChecker<any, any>;
+
   static authMode: AuthMode;
+
   static pubSub: PubSubEngine;
+
   static globalMiddlewares: Array<Middleware<any>>;
+
   static container: IOCContainer;
+
   static nullableByDefault: boolean;
+
   static disableInferringDefaultValues: boolean;
 
   /**

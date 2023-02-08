@@ -62,44 +62,54 @@ describe("Resolvers", () => {
       class SampleInput {
         @Field()
         field: string;
+
         @Field({ defaultValue: "defaultStringFieldDefaultValue" })
         defaultStringField: string;
+
         @Field()
-        implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
+        implicitDefaultStringField = "implicitDefaultStringFieldDefaultValue";
+
         @Field()
-        inheritDefaultField: string = "inheritDefaultFieldValue";
+        inheritDefaultField = "inheritDefaultFieldValue";
       }
 
       @InputType()
       class SampleInputChild extends SampleInput {
         @Field({ defaultValue: "defaultValueOverwritten" })
         defaultStringField: string;
+
         @Field()
-        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
+        implicitDefaultStringField = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
       class SampleArgs {
         @Field()
         stringArg: string;
+
         @Field(type => Int, { nullable: true })
         numberArg: number;
+
         @Field()
         inputObjectArg: SampleInput;
+
         @Field({ defaultValue: "defaultStringArgDefaultValue" })
         defaultStringArg: string;
+
         @Field()
-        implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
+        implicitDefaultStringArg = "implicitDefaultStringArgDefaultValue";
+
         @Field()
-        inheritDefaultArg: string = "inheritDefaultArgValue";
+        inheritDefaultArg = "inheritDefaultArgValue";
       }
 
       @ArgsType()
       class SampleArgsChild extends SampleArgs {
         @Field({ defaultValue: "defaultValueOverwritten" })
         defaultStringArg: string;
+
         @Field()
-        implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
+        implicitDefaultStringArg = "implicitDefaultValueOverwritten";
       }
 
       @ObjectType()
@@ -995,6 +1005,7 @@ describe("Resolvers", () => {
             sampleQuery(): string {
               return "sampleQuery";
             }
+
             @FieldResolver()
             sampleField() {
               return "sampleField";
@@ -1028,6 +1039,7 @@ describe("Resolvers", () => {
             sampleQuery(): string {
               return "sampleQuery";
             }
+
             @FieldResolver()
             independentField() {
               return "independentField";
@@ -1140,7 +1152,7 @@ describe("Resolvers", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "decoratorDefaultValue" })
-            inputField: string = "initializerDefaultValue";
+            inputField = "initializerDefaultValue";
           }
 
           @Resolver()
@@ -1237,6 +1249,7 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleArgs {
         private readonly TRUE = true;
+
         instanceField = Math.random();
 
         @Field()
@@ -1261,6 +1274,7 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInput {
         private readonly TRUE = true;
+
         instanceField = Math.random();
 
         @Field()
@@ -1312,9 +1326,11 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         private readonly TRUE = true;
+
         isTrue() {
           return this.TRUE;
         }
+
         constructor() {
           sampleObjectConstructorCallCount++;
         }
@@ -1323,16 +1339,22 @@ describe("Resolvers", () => {
 
         @Field()
         fieldResolverField: number;
+
         @Field()
         fieldResolverGetter: number;
+
         @Field({ complexity: 5 })
         fieldResolverMethod: number;
+
         @Field()
         fieldResolverMethodWithArgs: number;
+
         @Field()
         fieldResolverWithRoot: number;
+
         @Field({ complexity: 10 })
         complexResolverMethod: number;
+
         @Field()
         get getterField(): number {
           return this.instanceValue;
@@ -1357,10 +1379,13 @@ describe("Resolvers", () => {
       @Resolver(of => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
+
         randomValueField = Math.random() * this.factor;
+
         get randomValueGetter() {
           return Math.random() * this.factor;
         }
+
         getRandomValue() {
           return Math.random() * this.factor;
         }
@@ -1418,9 +1443,8 @@ describe("Resolvers", () => {
         mutationWithArgs(@Args() args: SampleArgs): number {
           if (args.isTrue()) {
             return args.factor * args.instanceField;
-          } else {
-            return -1.0;
           }
+          return -1.0;
         }
 
         @Mutation()
@@ -1433,9 +1457,8 @@ describe("Resolvers", () => {
         mutationWithInput(@Arg("input") input: SampleInput): number {
           if (input.isTrue()) {
             return input.factor * input.instanceField;
-          } else {
-            return -1.0;
           }
+          return -1.0;
         }
 
         @Mutation()
@@ -1497,9 +1520,8 @@ describe("Resolvers", () => {
         fieldResolverWithRoot(@Root() root: SampleObject) {
           if (root.isTrue()) {
             return root.instanceValue;
-          } else {
-            return -1.0;
           }
+          return -1.0;
         }
 
         @FieldResolver()
@@ -2079,6 +2101,7 @@ describe("Resolvers", () => {
       class SampleObject {
         @Field()
         sampleField: string;
+
         @Field()
         resolvedField: string;
       }
@@ -2144,7 +2167,7 @@ describe("Resolvers", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
       });
-      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const { schemaIntrospection } = schemaInfo;
       const sampleObjectType = schemaIntrospection.types.find(
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
@@ -2183,7 +2206,7 @@ describe("Resolvers", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver, ChildResolver],
       });
-      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const { schemaIntrospection } = schemaInfo;
       const sampleObjectType = schemaIntrospection.types.find(
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;

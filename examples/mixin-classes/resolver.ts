@@ -7,6 +7,7 @@ import User from "./types/user";
 @Resolver()
 export default class UserResolver {
   private autoIncrementId = 0;
+
   private readonly usersData: User[] = [];
 
   @Query(returns => [User])

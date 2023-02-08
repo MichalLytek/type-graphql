@@ -36,6 +36,7 @@ describe("IOC container", () => {
     @Resolver(of => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
+
       @Query()
       sampleQuery(): SampleObject {
         serviceValue = this.service.value;
@@ -69,6 +70,7 @@ describe("IOC container", () => {
     @Resolver(of => SampleObject)
     class SampleResolver {
       value = Math.random();
+
       @Query()
       sampleQuery(): SampleObject {
         resolverValue = this.value;
@@ -131,7 +133,7 @@ describe("IOC container", () => {
   });
 
   it("should properly get container from container getter function", async () => {
-    let called: boolean = false;
+    let called = false;
 
     @Resolver()
     class SampleResolver {
@@ -172,7 +174,7 @@ describe("IOC container", () => {
   });
 
   it("should properly get instance from an async container", async () => {
-    let called: boolean = false;
+    let called = false;
 
     @Service()
     @Resolver()

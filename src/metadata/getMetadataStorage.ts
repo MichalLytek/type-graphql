@@ -1,4 +1,4 @@
-import { MetadataStorage } from "../metadata/metadata-storage";
+import { MetadataStorage } from "./metadata-storage";
 
 declare global {
   var TypeGraphQLMetadataStorage: MetadataStorage;

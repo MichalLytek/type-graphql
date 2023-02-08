@@ -19,12 +19,12 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
 
   @Query(returns => Recipe, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<Recipe | undefined> {
-    return await this.items.find(recipe => recipe.title === title);
+    return this.items.find(recipe => recipe.title === title);
   }
 
   @Query(returns => [Recipe], { description: "Get all the recipes from around the world " })
   async recipes(): Promise<Recipe[]> {
-    return await this.items;
+    return this.items;
   }
 
   @Mutation(returns => Recipe)

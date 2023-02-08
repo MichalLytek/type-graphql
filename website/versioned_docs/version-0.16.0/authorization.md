@@ -11,8 +11,10 @@ In express.js (and other Node.js framework) we use middlewares for this, like `p
 And that's why authorization is a first-class feature in `TypeGraphQL`!
 
 ## How to use?
+
 At first, you need to use `@Authorized` decorator as a guard on a field or a query/mutation.
 Example object type's fields guards:
+
 ```typescript
 @ObjectType()
 class MyObject {
@@ -39,6 +41,7 @@ By default the roles are `string` but you can change it easily as the decorator 
 This way authed users (regardless of theirs roles) could read only `publicField` or `authorizedField` from `MyObject` object. They will receive `null` when accessing `hiddenField` field and will receive error (that will propagate through the whole query tree looking for nullable field) for `adminField` when they don't satisfy roles constraints.
 
 Sample query and mutations guards:
+
 ```typescript
 @Resolver()
 class MyResolver {
@@ -64,22 +67,28 @@ class MyResolver {
   }
 }
 ```
+
 Authed users (regardless of theirs roles) will be able to read data from `publicQuery` and `authedQuery` but will receive error trying to perform `adminMutation` when their roles doesn't include `ADMIN` or `MODERATOR`.
 
 In next step, you need to create your auth checker function. Its implementation may depends on your business logic:
-```typescript
-export const customAuthChecker: AuthChecker<ContextType> = 
-  ({ root, args, context, info }, roles) => {
-    // here you can read user from context
-    // and check his permission in db against `roles` argument
-    // that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]
 
-    return true; // or false if access denied
-  }
+```typescript
+export const customAuthChecker: AuthChecker<ContextType> = (
+  { root, args, context, info },
+  roles,
+) => {
+  // here you can read user from context
+  // and check his permission in db against `roles` argument
+  // that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]
+
+  return true; // or false if access denied
+};
 ```
+
 The second argument of `AuthChecker` generic type is `RoleType` - use it together with `@Authorized` decorator generic type.
 
 The last step is to register the function while building the schema:
+
 ```typescript
 import { customAuthChecker } from "../auth/custom-auth-checker.ts";
 
@@ -87,26 +96,29 @@ const schema = await buildSchema({
   resolvers: [MyResolver],
   // here we register the auth checking function
   // or defining it inline
-  authChecker: customAuthChecker, 
-})
+  authChecker: customAuthChecker,
+});
 ```
+
 And it's done! 😉
 
 If you need silent auth guards and you don't want to return auth errors to users, you can set `authMode` property of `buildSchema` config object to `"null"`:
+
 ```typescript
 const schema = await buildSchema({
   resolvers: ["./**/*.resolver.ts"],
-  authChecker: customAuthChecker, 
+  authChecker: customAuthChecker,
   authMode: "null",
-})
+});
 ```
+
 It will then return `null` instead of throwing authorization error.
 
 ## Recipes
 
 You can also use `TypeGraphQL` with JWT authentication. Example using `apollo-server-express`:
-```typescript
 
+```typescript
 import express from "express";
 import { ApolloServer, gql } from "apollo-server-express";
 import * as jwt from "express-jwt";
@@ -114,10 +126,10 @@ import * as jwt from "express-jwt";
 import { schema } from "../example/above";
 
 const app = express();
-const path = '/graphql';
+const path = "/graphql";
 
 // Create a GraphQL server
-const server = new ApolloServer({ 
+const server = new ApolloServer({
   schema,
   context: ({ req }) => {
     const context = {
@@ -129,20 +141,25 @@ const server = new ApolloServer({
 });
 
 // Mount a jwt or other authentication middleware that is run before the GraphQL execution
-app.use(path, jwt({ 
-  secret: "TypeGraphQL",
-  credentialsRequired: false,
-}));
+app.use(
+  path,
+  jwt({
+    secret: "TypeGraphQL",
+    credentialsRequired: false,
+  }),
+);
 
 // Apply the GraphQL server middleware
 server.applyMiddleware({ app, path });
 
-// Launch the express server 
+// Launch the express server
 app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
-)
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
+);
 ```
+
 Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of `TypeGraphQL` authorization mechanism.
 
 ## Example
+
 You can see how this works together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization).

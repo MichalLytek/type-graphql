@@ -1,8 +1,6 @@
 {
   "version-0.16.0-docs": {
-    "Introduction": [
-      "version-0.16.0-introduction"
-    ],
+    "Introduction": ["version-0.16.0-introduction"],
     "Beginner guides": [
       "version-0.16.0-getting-started",
       "version-0.16.0-types-and-fields",
@@ -23,19 +21,12 @@
       "version-0.16.0-middlewares",
       "version-0.16.0-complexity"
     ],
-    "Others": [
-      "version-0.16.0-emit-schema",
-      "version-0.16.0-browser-usage"
-    ]
+    "Others": ["version-0.16.0-emit-schema", "version-0.16.0-browser-usage"]
   },
   "version-0.16.0-examples": {
-    "Examples": [
-      "version-0.16.0-examples"
-    ]
+    "Examples": ["version-0.16.0-examples"]
   },
   "version-0.16.0-others": {
-    "Others": [
-      "version-0.16.0-faq"
-    ]
+    "Others": ["version-0.16.0-faq"]
   }
 }

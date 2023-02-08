@@ -13,11 +13,10 @@ export function getTypeDecoratorParams<T extends object>(
       returnTypeFunc: returnTypeFuncOrOptions as ReturnTypeFunc,
       options: maybeOptions || {},
     };
-  } else {
-    return {
-      options: returnTypeFuncOrOptions || {},
-    };
   }
+  return {
+    options: returnTypeFuncOrOptions || {},
+  };
 }
 
 export function getNameDecoratorParams<T extends DescriptionOptions>(
@@ -29,11 +28,10 @@ export function getNameDecoratorParams<T extends DescriptionOptions>(
       name: nameOrOptions,
       options: maybeOptions || ({} as T),
     };
-  } else {
-    return {
-      options: nameOrOptions || ({} as T),
-    };
   }
+  return {
+    options: nameOrOptions || ({} as T),
+  };
 }
 
 export function getArrayFromOverloadedRest<T>(overloadedArray: Array<T | readonly T[]>): T[] {

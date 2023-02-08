@@ -10,6 +10,7 @@ Enums allow to limit the range of possible variable's values to a set of predefi
 GraphQL also has enum type support, so `TypeGraphQL` allows you to use TypeScript enums in your GraphQL schema.
 
 ## Usage
+
 First of all, you need to create a TypeScript enum.
 It can be a numeric or string enum - the internal value of enums will be taken from enums definition values and the public names from the enum keys:
 

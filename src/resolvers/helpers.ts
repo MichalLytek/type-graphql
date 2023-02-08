@@ -61,9 +61,8 @@ export function getParams(
     });
   if (paramValues.some(isPromiseLike)) {
     return Promise.all(paramValues);
-  } else {
-    return paramValues;
   }
+  return paramValues;
 }
 
 export function applyAuthChecker(

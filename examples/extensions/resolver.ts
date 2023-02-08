@@ -10,7 +10,7 @@ export class ExampleResolver {
 
   @Query(returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
-    return await this.recipesData;
+    return this.recipesData;
   }
 
   @Mutation()

@@ -99,8 +99,10 @@ If we ask for changes via code reviews then:
 
 That's it! Thank you for your contribution!
 
+<!-- prettier-ignore-start -->
 <!-- markdownlint-disable-next-line MD001 -->
 ### After your pull request is merged
+<!-- prettier-ignore-end -->
 
 After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:
 

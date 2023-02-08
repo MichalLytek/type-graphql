@@ -83,6 +83,7 @@ describe("Generic types", () => {
     class SampleType implements SampleInterfaceType {
       @Field()
       baseField: string;
+
       @Field()
       sampleField: string;
     }
@@ -427,6 +428,7 @@ describe("Generic types", () => {
       class ChildSample {
         @Field()
         sampleField: string;
+
         @Field()
         childField: string;
       }

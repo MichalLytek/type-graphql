@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from "../../../src";
 import { PrimaryGeneratedColumn, Column, Entity } from "typeorm";
+import { Field, ID, ObjectType } from "../../../src";
 
 @ObjectType()
 @Entity()

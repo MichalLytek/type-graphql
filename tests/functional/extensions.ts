@@ -47,21 +47,21 @@ describe("Extensions", () => {
       class SampleObjectType {
         @Field()
         @Extensions({ role: "user" })
-        withExtensions: string = "withExtensions";
+        withExtensions = "withExtensions";
 
         @Field()
         @Extensions({ first: "first value", second: "second value" })
-        withMultipleExtensions: string = "withMultipleExtensions";
+        withMultipleExtensions = "withMultipleExtensions";
 
         @Field()
         @Extensions({ first: "first value" })
         @Extensions({ second: "second value", third: "third value" })
-        withMultipleExtensionsDecorators: string = "hello";
+        withMultipleExtensionsDecorators = "hello";
 
         @Field()
         @Extensions({ duplicate: "first value" })
         @Extensions({ duplicate: "second value" })
-        withConflictingExtensionsKeys: string = "hello";
+        withConflictingExtensionsKeys = "hello";
 
         @Field()
         withInput(@Arg("input") input: ExtensionsOnFieldInput): string {

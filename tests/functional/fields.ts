@@ -56,10 +56,10 @@ describe("Fields - schema", () => {
       nullableObjectArrayField: SampleNestedObject[] | null;
 
       @Field(typoe => [String], { nullable: "itemsAndList" })
-      arrayWithNullableItemField: String[];
+      arrayWithNullableItemField: string[];
 
       @Field(typoe => [String], { nullable: "items" })
-      nonnullArrayWithNullableItemField: String[];
+      nonnullArrayWithNullableItemField: string[];
 
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
@@ -111,7 +111,7 @@ describe("Fields - schema", () => {
     expect(schemaIntrospection).toBeDefined();
   });
 
-  it("it should register complexity info for field", async () => {
+  it("should register complexity info for field", async () => {
     const metadataStorage = getMetadataStorage();
     const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
     const complexField = sampleObj.fields!.find(it => it.name === "complexField")!;

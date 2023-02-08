@@ -40,7 +40,7 @@ describe("default values", () => {
     });
 
     it("should not throw error when schema with dynamic default has been built again", async () => {
-      await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrowError();
+      await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrow();
     });
   });
 
@@ -52,7 +52,7 @@ describe("default values", () => {
       @InputType()
       class SampleInitializerInput {
         @Field()
-        inputField: string = "defaultValueFromPropertyInitializer";
+        inputField = "defaultValueFromPropertyInitializer";
       }
 
       @InputType()

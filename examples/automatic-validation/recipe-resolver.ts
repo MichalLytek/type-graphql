@@ -13,7 +13,7 @@ export class RecipeResolver {
   async recipes(@Args() options: RecipesArguments): Promise<Recipe[]> {
     const start: number = options.skip;
     const end: number = options.skip + options.take;
-    return await this.items.slice(start, end);
+    return this.items.slice(start, end);
   }
 
   @Mutation(returns => Recipe)

@@ -17,7 +17,7 @@ export class Rate {
   @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(type => Recipe)     
+  @ManyToOne(type => Recipe)
   recipe: Promise<Recipe>;
 }
 ```

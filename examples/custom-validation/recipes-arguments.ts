@@ -6,10 +6,10 @@ export class RecipesArguments {
   @Field(type => Int)
   // use decorators for Joi
   @Joiful.number().min(0)
-  skip: number = 0;
+  skip = 0;
 
   @Field(type => Int)
   // use decorators for Joi
   @Joiful.number().min(1).max(50)
-  take: number = 10;
+  take = 10;
 }

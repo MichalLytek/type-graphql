@@ -67,14 +67,14 @@ export function findType({
       getType,
       typeOptions: options,
     };
-  } else if (metadataDesignType) {
+  }
+  if (metadataDesignType) {
     return {
       getType: () => metadataDesignType!,
       typeOptions: options,
     };
-  } else {
-    throw new Error("Ooops... this should never happen :)");
   }
+  throw new Error("Ooops... this should never happen :)");
 }
 
 function findTypeValueArrayDepth(

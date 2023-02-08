@@ -9,7 +9,7 @@ import {
 } from "../interfaces";
 import { ValidateSettings } from "../schema/build-context";
 
-export interface RecursiveArray<TValue> extends Array<RecursiveArray<TValue> | TValue> {}
+export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;

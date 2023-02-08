@@ -19,10 +19,7 @@ query GetRecipes {
 }
 
 mutation AddRecipe {
-  addRecipe(recipe: {
-    title: "New recipe"
-    description: "Simple description"
-  }) {
+  addRecipe(recipe: { title: "New recipe", description: "Simple description" }) {
     creationDate
   }
 }

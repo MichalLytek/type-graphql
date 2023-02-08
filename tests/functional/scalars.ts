@@ -225,7 +225,7 @@ describe("Scalars", () => {
         returnScalar
       }`;
       const result: any = await graphql({ schema, source: query });
-      const returnScalar = result.data!.returnScalar;
+      const { returnScalar } = result.data!;
 
       expect(returnScalar).toEqual("TypeGraphQL serialize");
     });
@@ -497,7 +497,7 @@ describe("Scalars", () => {
         const beforeQuery = Date.now();
         const result: any = await graphql({ schema: localSchema, source: query });
         const afterQuery = Date.now();
-        const returnDate = result.data!.returnDate;
+        const { returnDate } = result.data!;
 
         expect(returnDate).toBeLessThanOrEqual(afterQuery);
         expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);

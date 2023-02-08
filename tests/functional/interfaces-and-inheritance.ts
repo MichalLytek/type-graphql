@@ -52,6 +52,7 @@ describe("Interfaces and inheritance", () => {
       abstract class SampleInterface1 {
         @Field(type => ID)
         id: string;
+
         @Field()
         interfaceStringField1: string;
       }
@@ -59,6 +60,7 @@ describe("Interfaces and inheritance", () => {
       abstract class SampleInterface2 {
         @Field(type => ID)
         id: string;
+
         @Field()
         interfaceStringField2: string;
       }
@@ -70,7 +72,9 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({ implements: [SampleInterface1] })
       abstract class SampleInterfaceImplementing1 implements SampleInterface1 {
         id: string;
+
         interfaceStringField1: string;
+
         @Field()
         ownStringField1: string;
       }
@@ -78,7 +82,9 @@ describe("Interfaces and inheritance", () => {
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject1 implements SampleInterface1 {
         id: string;
+
         interfaceStringField1: string;
+
         @Field()
         ownField1: number;
       }
@@ -86,16 +92,21 @@ describe("Interfaces and inheritance", () => {
       class SampleImplementingObject2 implements SampleInterface1 {
         @Field(type => ID)
         id: string;
+
         @Field()
         interfaceStringField1: string;
+
         @Field()
         ownField2: number;
       }
       @ObjectType({ implements: [SampleInterface1, SampleInterface2] })
       class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
         id: string;
+
         interfaceStringField1: string;
+
         interfaceStringField2: string;
+
         @Field()
         ownField3: number;
       }
@@ -478,6 +489,7 @@ describe("Interfaces and inheritance", () => {
         class ChildObject implements IBase {
           @Field(type => Number, { nullable: true })
           baseField: string;
+
           @Field()
           argField: string;
         }
@@ -561,8 +573,9 @@ describe("Interfaces and inheritance", () => {
       class BaseArgs {
         @Field()
         baseArgField: string;
+
         @Field(type => Int, { nullable: true })
-        optionalBaseArgField: number = 255;
+        optionalBaseArgField = 255;
       }
       @ArgsType()
       class ChildArgs extends BaseArgs {
@@ -574,8 +587,9 @@ describe("Interfaces and inheritance", () => {
       class BaseInput {
         @Field()
         baseInputField: string;
+
         @Field(type => Int, { nullable: true })
-        optionalBaseInputField: number = 255;
+        optionalBaseInputField = 255;
       }
       @InputType()
       class ChildInput extends BaseInput {
@@ -594,13 +608,16 @@ describe("Interfaces and inheritance", () => {
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
         baseInterfaceField: string;
+
         interfaceFieldToBeRenamed?: string;
+
         @Field()
         firstField: string;
       }
       @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
         baseInterfaceField: string;
+
         @Field()
         secondField: string;
       }
@@ -613,7 +630,6 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return "SecondInterfaceWithStringResolveTypeObject";
           }
-          return;
         },
       })
       abstract class InterfaceWithStringResolveType {
@@ -623,12 +639,14 @@ describe("Interfaces and inheritance", () => {
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class FirstInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
         baseInterfaceField: string;
+
         @Field()
         firstField: string;
       }
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class SecondInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
         baseInterfaceField: string;
+
         @Field()
         secondField: string;
       }
@@ -641,7 +659,6 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return SecondInterfaceWithClassResolveTypeObject;
           }
-          return;
         },
       })
       abstract class InterfaceWithClassResolveType {
@@ -651,12 +668,14 @@ describe("Interfaces and inheritance", () => {
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class FirstInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
         baseInterfaceField: string;
+
         @Field()
         firstField: string;
       }
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class SecondInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
         baseInterfaceField: string;
+
         @Field()
         secondField: string;
       }
@@ -1265,6 +1284,7 @@ describe("Interfaces and inheritance", () => {
       class SampleUnusedObjectType implements SampleUnusedInterface {
         @Field()
         sampleField: string;
+
         @Field()
         sampleUnusedInterfaceField: SampleUnusedInterface;
       }
@@ -1277,6 +1297,7 @@ describe("Interfaces and inheritance", () => {
       class SampleObjectTypeImplementingUsedInterface implements SampleUsedInterface {
         @Field()
         sampleField: string;
+
         @Field()
         sampleAdditionalField: string;
       }
@@ -1370,6 +1391,7 @@ describe("Interfaces and inheritance", () => {
       class FirstSampleObject implements SampleUsedInterface {
         @Field()
         sampleField: string;
+
         @Field()
         sampleFirstAdditionalField: string;
       }
@@ -1377,6 +1399,7 @@ describe("Interfaces and inheritance", () => {
       class SecondSampleObject implements SampleUsedInterface {
         @Field()
         sampleField: string;
+
         @Field()
         sampleSecondAdditionalField: string;
       }

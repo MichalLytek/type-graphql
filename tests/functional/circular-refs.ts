@@ -16,6 +16,7 @@ describe("Circular references", () => {
     class SampleObject {
       @Field(type => CircularRef1)
       ref1: any;
+
       @Field(type => CircularRef2)
       ref2: any;
     }

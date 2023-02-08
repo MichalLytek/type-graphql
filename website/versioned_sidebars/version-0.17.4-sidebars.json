@@ -1,8 +1,6 @@
 {
   "version-0.17.4-docs": {
-    "Introduction": [
-      "version-0.17.4-introduction"
-    ],
+    "Introduction": ["version-0.17.4-introduction"],
     "Beginner guides": [
       "version-0.17.4-installation",
       "version-0.17.4-getting-started",
@@ -27,19 +25,12 @@
       "version-0.17.4-custom-decorators",
       "version-0.17.4-complexity"
     ],
-    "Others": [
-      "version-0.17.4-emit-schema",
-      "version-0.17.4-browser-usage"
-    ]
+    "Others": ["version-0.17.4-emit-schema", "version-0.17.4-browser-usage"]
   },
   "version-0.17.4-examples": {
-    "Examples": [
-      "version-0.17.4-examples"
-    ]
+    "Examples": ["version-0.17.4-examples"]
   },
   "version-0.17.4-others": {
-    "Others": [
-      "version-0.17.4-faq"
-    ]
+    "Others": ["version-0.17.4-faq"]
   }
 }
