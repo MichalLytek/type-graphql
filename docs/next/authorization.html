@@ -186,6 +186,8 @@ Here's an example using <code>apollo-server-express</code>:</p>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+<span class="token keyword">await</span> server<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
 <span class="token comment">// Mount a jwt or other authentication middleware that is run before the GraphQL execution</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
   path<span class="token punctuation">,</span>

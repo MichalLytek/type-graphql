@@ -84,22 +84,22 @@
   <span class="token property">"experimentalDecorators"</span><span class="token operator">:</span> <span class="token boolean">true</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p><code>TypeGraphQL</code> is designed to work with Node.js LTS (10.3+, 12+) and the latest stable releases. It uses features from ES2018 so we should set our <code>tsconfig.json</code> file appropriately:</p>
+<p><code>TypeGraphQL</code> is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2019 so we should set our <code>tsconfig.json</code> file appropriately:</p>
 <pre><code class="hljs css language-js"><span class="token punctuation">{</span>
-  <span class="token string-property property">"target"</span><span class="token operator">:</span> <span class="token string">"es2018"</span> <span class="token comment">// or newer if your node.js version supports this</span>
+  <span class="token string-property property">"target"</span><span class="token operator">:</span> <span class="token string">"es2019"</span> <span class="token comment">// or newer if your node.js version supports this</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Due to using the <code>graphql-subscription</code> dependency that relies on an <code>AsyncIterator</code>, we may also have to provide the <code>esnext.asynciterable</code> to the <code>lib</code> option:</p>
 <pre><code class="hljs css language-json"><span class="token punctuation">{</span>
-  <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"es2018"</span><span class="token punctuation">,</span> <span class="token string">"esnext.asynciterable"</span><span class="token punctuation">]</span>
+  <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"es2019"</span><span class="token punctuation">,</span> <span class="token string">"esnext.asynciterable"</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>All in all, the minimal <code>tsconfig.json</code> file example looks like this:</p>
 <pre><code class="hljs css language-json"><span class="token punctuation">{</span>
   <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"es2018"</span><span class="token punctuation">,</span>
+    <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"es2019"</span><span class="token punctuation">,</span>
     <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"commonjs"</span><span class="token punctuation">,</span>
-    <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"es2018"</span><span class="token punctuation">,</span> <span class="token string">"esnext.asynciterable"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"es2019"</span><span class="token punctuation">,</span> <span class="token string">"esnext.asynciterable"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
     <span class="token property">"experimentalDecorators"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
     <span class="token property">"emitDecoratorMetadata"</span><span class="token operator">:</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
