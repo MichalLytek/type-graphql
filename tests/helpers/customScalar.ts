@@ -16,5 +16,5 @@ export const ObjectScalar = new GraphQLScalarType({
   parseValue: () => ({
     value: "TypeGraphQL parseValue",
   }),
-  serialize: obj => obj.value,
+  serialize: (obj: any) => obj.value,
 });

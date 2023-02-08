@@ -13,7 +13,6 @@ async function bootstrap() {
 
   const server = new ApolloServer({
     schema,
-    playground: true,
   });
 
   const { url } = await server.listen(4000);

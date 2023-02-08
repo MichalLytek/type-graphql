@@ -17,9 +17,3 @@ declare namespace Reflect {
     (target: Object, propertyKey: string | symbol): void;
   };
 }
-
-declare namespace NodeJS {
-  interface Global {
-    TypeGraphQLMetadataStorage: import("../src/metadata/metadata-storage").MetadataStorage;
-  }
-}

@@ -155,7 +155,7 @@ describe("Deprecation", () => {
       expect(sampleInputTypeSDL).toMatchInlineSnapshot(`
         "input SampleInput {
           normalField: String!
-          deprecatedField: String @deprecated(reason: \\"sample input field deprecation reason\\")
+          deprecatedField: String @deprecated(reason: "sample input field deprecation reason")
         }"
       `);
     });

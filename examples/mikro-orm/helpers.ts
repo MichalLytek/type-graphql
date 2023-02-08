@@ -18,11 +18,11 @@ export async function seedDatabase(em: EntityManager) {
     author: defaultUser,
   });
   recipe1.ratings.add(
-    em.create(Rate, { value: 2, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
-    em.create(Rate, { value: 5, user: defaultUser }),
-    em.create(Rate, { value: 3, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
+    em.create(Rate, { value: 2, user: defaultUser, recipe: recipe1 }),
+    em.create(Rate, { value: 4, user: defaultUser, recipe: recipe1 }),
+    em.create(Rate, { value: 5, user: defaultUser, recipe: recipe1 }),
+    em.create(Rate, { value: 3, user: defaultUser, recipe: recipe1 }),
+    em.create(Rate, { value: 4, user: defaultUser, recipe: recipe1 }),
   );
   em.persist(recipe1);
 
@@ -31,8 +31,8 @@ export async function seedDatabase(em: EntityManager) {
     author: defaultUser,
   });
   recipe2.ratings.add(
-    em.create(Rate, { value: 2, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
+    em.create(Rate, { value: 2, user: defaultUser, recipe: recipe2 }),
+    em.create(Rate, { value: 4, user: defaultUser, recipe: recipe2 }),
   );
   em.persist(recipe2);
 

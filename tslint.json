@@ -48,5 +48,8 @@
       "allow-pascal-case"
     ],
     "array-type": [true, "array-simple"]
+  },
+  "linterOptions": {
+    "exclude": ["node_modules"]
   }
 }

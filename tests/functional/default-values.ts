@@ -94,7 +94,7 @@ describe("default values", () => {
 
       expect(sampleOptionInputSDL).toMatchInlineSnapshot(`
         "input SampleOptionInput {
-          inputField: String! = \\"defaultValueFromOption\\"
+          inputField: String! = "defaultValueFromOption"
         }"
       `);
     });
@@ -128,7 +128,7 @@ describe("default values", () => {
 
         expect(sampleInputSDL).toMatchInlineSnapshot(`
           "input SampleInput {
-            inputField: String! = \\"stringDefaultValue\\"
+            inputField: String! = "stringDefaultValue"
           }"
         `);
       });
@@ -161,7 +161,7 @@ describe("default values", () => {
 
         expect(sampleInputSDL).toMatchInlineSnapshot(`
           "input SampleInput {
-            inputField: String = \\"stringDefaultValue\\"
+            inputField: String = "stringDefaultValue"
           }"
         `);
       });
@@ -198,7 +198,7 @@ describe("default values", () => {
 
           expect(sampleInputSDL).toMatchInlineSnapshot(`
             "input SampleInput {
-              inputField: String = \\"stringDefaultValue\\"
+              inputField: String = "stringDefaultValue"
             }"
           `);
         });
@@ -234,7 +234,7 @@ describe("default values", () => {
 
           expect(sampleInputSDL).toMatchInlineSnapshot(`
             "input SampleInput {
-              inputField: String! = \\"stringDefaultValue\\"
+              inputField: String! = "stringDefaultValue"
             }"
           `);
         });

@@ -1,25 +1,25 @@
 import { GraphQLScalarType, Kind } from "graphql";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: "ObjectId",
   description: "Mongo object id scalar type",
   serialize(value: unknown): string {
-    if (!(value instanceof ObjectId)) {
+    if (!(value instanceof Types.ObjectId)) {
       throw new Error("ObjectIdScalar can only serialize ObjectId values");
     }
     return value.toHexString();
   },
-  parseValue(value: unknown): ObjectId {
+  parseValue(value: unknown): Types.ObjectId {
     if (typeof value !== "string") {
       throw new Error("ObjectIdScalar can only parse string values");
     }
-    return new ObjectId(value);
+    return new Types.ObjectId(value);
   },
-  parseLiteral(ast): ObjectId {
+  parseLiteral(ast): Types.ObjectId {
     if (ast.kind !== Kind.STRING) {
       throw new Error("ObjectIdScalar can only parse string values");
     }
-    return new ObjectId(ast.value);
+    return new Types.ObjectId(ast.value);
   },
 });

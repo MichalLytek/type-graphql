@@ -14,11 +14,7 @@ export async function listen(port: number): Promise<string> {
     orphanedTypes: [User, Review, Product],
   });
 
-  const server = new ApolloServer({
-    schema,
-    tracing: false,
-    playground: true,
-  });
+  const server = new ApolloServer({ schema });
 
   const { url } = await server.listen({ port });
   console.log(`Reviews service ready at ${url}`);

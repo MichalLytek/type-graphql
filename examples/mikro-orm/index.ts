@@ -44,7 +44,6 @@ async function bootstrap() {
   });
   const server = new ApolloServer({
     schema,
-    playground: true,
     context: (): ContextType => ({
       user: defaultUser,
       // create fresh instance of entity manager per request

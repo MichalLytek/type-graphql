@@ -4,5 +4,5 @@ import { ArgsDictionary } from "./ResolverData";
 export type ResolverTopicData<
   TPayload = any,
   TArgs = ArgsDictionary,
-  TContext = {}
+  TContext = {},
 > = ResolverFilterData<TPayload, TArgs, TContext>;

@@ -1,9 +1,9 @@
-import { InputType, Field, Int, ID } from "../../../../src";
+import { InputType, Field, Int } from "../../../../src";
 
 @InputType()
 export class RateInput {
-  @Field(type => ID)
-  recipeId: string;
+  @Field(type => Int)
+  recipeId: number;
 
   @Field(type => Int)
   value: number;

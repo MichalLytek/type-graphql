@@ -1,10 +1,10 @@
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 import { InputType, Field, Int } from "../../../../src";
 
 @InputType()
 export class RateInput {
   @Field()
-  recipeId: ObjectId;
+  recipeId: Types.ObjectId;
 
   @Field(type => Int)
   value: number;

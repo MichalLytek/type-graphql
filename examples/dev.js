@@ -6,7 +6,6 @@
 // require("./enums-and-unions/index.ts");
 // require("./extensions/index.ts");
 // require("./generic-types/index.ts");
-// require("./graphql-modules/src/index.ts");
 // require("./interfaces-inheritance/index.ts");
 // require("./middlewares-custom-decorators/index.ts");
 // require("./mikro-orm/index.ts");

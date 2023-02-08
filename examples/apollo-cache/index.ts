@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
+import { ApolloServerPluginCacheControl } from "apollo-server-core";
 import responseCachePlugin from "apollo-server-plugin-response-cache";
 import { buildSchema } from "../../src";
 
@@ -12,11 +13,12 @@ async function bootstrap() {
 
   const server = new ApolloServer({
     schema,
-    tracing: true,
-    // turn on cache headers
-    cacheControl: true,
-    // add in-memory cache plugin
-    plugins: [responseCachePlugin()],
+    plugins: [
+      // turn on cache headers
+      ApolloServerPluginCacheControl(),
+      // add in-memory cache plugin
+      responseCachePlugin(),
+    ],
   });
 
   const { url } = await server.listen(4000);

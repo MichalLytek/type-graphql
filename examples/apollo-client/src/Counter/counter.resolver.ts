@@ -1,5 +1,4 @@
-import { gql } from "apollo-boost";
-import { ApolloCache } from "apollo-cache";
+import { gql, InMemoryCache } from "@apollo/client";
 import { Resolver, Mutation, Ctx } from "../../../../src";
 
 import ApolloContext from "../apollo/context";
@@ -17,7 +16,7 @@ export default class CounterResolver {
     this.updateCounter(cache, value => Math.max(value - 1, 0));
   }
 
-  private updateCounter(cache: ApolloCache<any>, getNewValueCb: (value: number) => number) {
+  private updateCounter(cache: InMemoryCache, getNewValueCb: (value: number) => number) {
     const query = gql`
       query {
         counter @client {
