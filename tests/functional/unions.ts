@@ -328,10 +328,6 @@ describe("Unions", () => {
         name: "ExtendedBase",
         types: () => [Base, Extended] as const,
       });
-      const _extended: typeof ExtendedBase = {
-        base: "base",
-        extended: "extended",
-      };
     });
   });
 

@@ -47,8 +47,8 @@ export async function runBenchmark(schema: GraphQLSchema) {
     const result = await execute({ schema, document: nestedObjectQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(
-      result.data?.nestedObject.nestedField.nestedField.nestedField.nestedField.sampleField !==
-        undefined,
+      (result.data?.nestedObject as any).nestedField.nestedField.nestedField.nestedField
+        .sampleField !== undefined,
       "data nestedField are incorrect",
     );
   }

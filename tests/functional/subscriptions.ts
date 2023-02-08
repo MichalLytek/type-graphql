@@ -35,7 +35,7 @@ import {
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
-import sleep from "../helpers/sleep";
+import { sleep } from "../helpers/sleep";
 
 describe("Subscriptions", () => {
   describe("Schema", () => {

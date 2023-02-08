@@ -1222,6 +1222,7 @@ describe("Resolvers", () => {
         const originalMethod: Function = descriptor.value;
         descriptor.value = function () {
           descriptorEvaluated = true;
+          // eslint-disable-next-line prefer-rest-params
           return originalMethod.apply(this, arguments);
         };
       };

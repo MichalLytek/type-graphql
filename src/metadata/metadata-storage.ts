@@ -25,7 +25,7 @@ import {
   mapSuperFieldResolverHandlers,
   ensureReflectMetadataExists,
 } from "./utils";
-import { ObjectClassMetadata } from "./definitions/object-class-metdata";
+import { ObjectClassMetadata } from "./definitions/object-class-metadata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
 import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
 

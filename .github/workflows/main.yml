@@ -27,6 +27,11 @@ jobs:
         run: |
           npm ci
 
+      # FIXME: Remove, this is due check:type benchmarks requiring build files
+      - name: Build
+        run: |
+          npm run build
+
       - name: Check codebase
         run: |
           npm run check

@@ -46,7 +46,7 @@ import {
 } from "~/errors";
 import { ResolverFilterData, ResolverTopicData, TypeResolver } from "~/interfaces";
 import { ensureInstalledCorrectGraphQLPackage } from "~/utils/graphql-version";
-import { ObjectClassMetadata } from "~/metadata/definitions/object-class-metdata";
+import { ObjectClassMetadata } from "~/metadata/definitions/object-class-metadata";
 import { InterfaceClassMetadata } from "~/metadata/definitions/interface-class-metadata";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";

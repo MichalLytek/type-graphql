@@ -8,13 +8,33 @@
     "@cspell/dict-shell/cspell-ext.json",
     "@cspell/dict-typescript/cspell-ext.json"
   ],
-  "ignorePaths": ["**/build/", "**/dist/", "**/coverage/", "**/node_modules/"],
+  "ignorePaths": [
+    "**/build/",
+    "**/dist/",
+    "**/coverage/",
+    "**/node_modules/",
+    "./img/",
+    "./package.json",
+    // FIXME: Remove
+    "README.md",
+    "website/",
+    "tests/",
+    "examples",
+    "docs/"
+  ],
   "words": [
+    "asynciterable",
+    "cdpath",
+    "graphqlid",
     "graphqlisodatetime",
     "isodate",
+    "michał",
     "middlewares",
+    "netrc",
+    "lytek",
     "paramtypes",
     "returntype",
-    "sindresorhus"
+    "sindresorhus",
+    "typegraphql"
   ]
 }

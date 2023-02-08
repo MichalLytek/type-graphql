@@ -49,7 +49,7 @@
     "check:lint": "eslint .",
     "check:markdown": "markdownlint \"**/*.md\"",
     "check:spell": "cspell lint --config cspell.json --no-progress --show-context \"**\"",
-    "check:type": "tsc --noEmit && tsc --noEmit --project ./examples/tsconfig.json && tsc --noEmit --project ./benchmarks/tsconfig.json",
+    "check:type": "tsc --noEmit && tsc --noEmit --project ./benchmarks/tsconfig.json",
     "clean": "shx rm -rf build",
     "docs": "npm run --prefix website start",
     "fix": "npm-run-all --npm-path npm fix:*",

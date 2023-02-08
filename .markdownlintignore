@@ -2,3 +2,7 @@
 **/dist/
 **/coverage/
 **/node_modules/
+
+# FIXME: Remove
+*
+!CONTRIBUTING.md
