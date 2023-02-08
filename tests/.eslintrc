@@ -6,6 +6,22 @@
       {
         "devDependencies": true
       }
-    ]
+    ],
+    // FIXME: Remove
+    "no-useless-return": "off",
+    // FIXME: Remove
+    "class-methods-use-this": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-inferrable-types": "off",
+    // FIXME: Remove
+    "jest/no-identical-title": "off",
+    // FIXME: Remove
+    "jest/no-conditional-expect": "off",
+    // FIXME: Remove
+    "no-underscore-dangle": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-this-alias": "off",
+    // FIXME: Remove
+    "no-empty-pattern": "off"
   }
 }

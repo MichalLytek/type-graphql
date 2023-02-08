@@ -575,7 +575,7 @@ describe("Interfaces and inheritance", () => {
         baseArgField: string;
 
         @Field(type => Int, { nullable: true })
-        optionalBaseArgField = 255;
+        optionalBaseArgField: number = 255;
       }
       @ArgsType()
       class ChildArgs extends BaseArgs {
@@ -589,7 +589,7 @@ describe("Interfaces and inheritance", () => {
         baseInputField: string;
 
         @Field(type => Int, { nullable: true })
-        optionalBaseInputField = 255;
+        optionalBaseInputField: number = 255;
       }
       @InputType()
       class ChildInput extends BaseInput {
@@ -630,6 +630,7 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return "SecondInterfaceWithStringResolveTypeObject";
           }
+          return;
         },
       })
       abstract class InterfaceWithStringResolveType {
@@ -659,6 +660,7 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return SecondInterfaceWithClassResolveTypeObject;
           }
+          return;
         },
       })
       abstract class InterfaceWithClassResolveType {

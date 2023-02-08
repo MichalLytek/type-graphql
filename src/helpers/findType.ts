@@ -74,7 +74,7 @@ export function findType({
       typeOptions: options,
     };
   }
-  throw new Error("Ooops... this should never happen :)");
+  throw new Error("Ops... this should never happen :)");
 }
 
 function findTypeValueArrayDepth(

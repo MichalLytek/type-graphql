@@ -133,7 +133,7 @@ describe("IOC container", () => {
   });
 
   it("should properly get container from container getter function", async () => {
-    let called = false;
+    let called: boolean = false;
 
     @Resolver()
     class SampleResolver {
@@ -174,7 +174,7 @@ describe("IOC container", () => {
   });
 
   it("should properly get instance from an async container", async () => {
-    let called = false;
+    let called: boolean = false;
 
     @Service()
     @Resolver()

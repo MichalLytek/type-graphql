@@ -114,7 +114,7 @@ describe("typeDefs and resolvers", () => {
         sampleInputStringField: string;
 
         @Field()
-        sampleInputDefaultStringField = "sampleInputDefaultStringField";
+        sampleInputDefaultStringField: string = "sampleInputDefaultStringField";
       }
 
       enum SampleNumberEnum {
@@ -145,6 +145,7 @@ describe("typeDefs and resolvers", () => {
           if ("sampleType3StringField" in value) {
             return "SampleType3";
           }
+          return;
         },
       });
 

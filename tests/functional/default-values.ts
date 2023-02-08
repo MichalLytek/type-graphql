@@ -52,7 +52,7 @@ describe("default values", () => {
       @InputType()
       class SampleInitializerInput {
         @Field()
-        inputField = "defaultValueFromPropertyInitializer";
+        inputField: string = "defaultValueFromPropertyInitializer";
       }
 
       @InputType()
@@ -115,7 +115,7 @@ describe("default values", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): string {
+          sampleQuery(@Arg("input") _input: SampleInput): string {
             return "sampleQuery";
           }
         }

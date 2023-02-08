@@ -67,10 +67,10 @@ describe("Resolvers", () => {
         defaultStringField: string;
 
         @Field()
-        implicitDefaultStringField = "implicitDefaultStringFieldDefaultValue";
+        implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
 
         @Field()
-        inheritDefaultField = "inheritDefaultFieldValue";
+        inheritDefaultField: string = "inheritDefaultFieldValue";
       }
 
       @InputType()
@@ -79,7 +79,7 @@ describe("Resolvers", () => {
         defaultStringField: string;
 
         @Field()
-        implicitDefaultStringField = "implicitDefaultValueOverwritten";
+        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
@@ -97,10 +97,10 @@ describe("Resolvers", () => {
         defaultStringArg: string;
 
         @Field()
-        implicitDefaultStringArg = "implicitDefaultStringArgDefaultValue";
+        implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
 
         @Field()
-        inheritDefaultArg = "inheritDefaultArgValue";
+        inheritDefaultArg: string = "inheritDefaultArgValue";
       }
 
       @ArgsType()
@@ -109,7 +109,7 @@ describe("Resolvers", () => {
         defaultStringArg: string;
 
         @Field()
-        implicitDefaultStringArg = "implicitDefaultValueOverwritten";
+        implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
       }
 
       @ObjectType()
@@ -1152,7 +1152,7 @@ describe("Resolvers", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "decoratorDefaultValue" })
-            inputField = "initializerDefaultValue";
+            inputField: string = "initializerDefaultValue";
           }
 
           @Resolver()
@@ -1332,7 +1332,7 @@ describe("Resolvers", () => {
         }
 
         constructor() {
-          sampleObjectConstructorCallCount++;
+          sampleObjectConstructorCallCount += 1;
         }
 
         instanceValue = Math.random();
@@ -1444,6 +1444,7 @@ describe("Resolvers", () => {
           if (args.isTrue()) {
             return args.factor * args.instanceField;
           }
+
           return -1.0;
         }
 
@@ -1458,6 +1459,7 @@ describe("Resolvers", () => {
           if (input.isTrue()) {
             return input.factor * input.instanceField;
           }
+
           return -1.0;
         }
 
@@ -1481,6 +1483,7 @@ describe("Resolvers", () => {
 
         @Mutation()
         mutationWithInputs(@Arg("inputs", type => [SampleInput]) inputs: SampleInput[]): number {
+          // eslint-disable-next-line prefer-destructuring
           mutationInputValue = inputs[0];
           return inputs[0].factor;
         }
@@ -1521,6 +1524,7 @@ describe("Resolvers", () => {
           if (root.isTrue()) {
             return root.instanceValue;
           }
+
           return -1.0;
         }
 

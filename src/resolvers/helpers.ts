@@ -6,7 +6,7 @@ import { ResolverData, AuthChecker, AuthMode } from "~/interfaces";
 import { Middleware, MiddlewareFn, MiddlewareClass } from "~/interfaces/Middleware";
 import { IOCContainer } from "~/utils/container";
 import { AuthMiddleware } from "~/helpers/auth-middleware";
-import isPromiseLike from "~/utils/isPromiseLike";
+import { isPromiseLike } from "~/utils/isPromiseLike";
 import { ValidateSettings } from "~/schema/build-context";
 import { validateArg } from "./validate-arg";
 import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
@@ -20,6 +20,7 @@ export function getParams(
   const paramValues = params
     .sort((a, b) => a.index - b.index)
     .map(paramInfo => {
+      // eslint-disable-next-line default-case
       switch (paramInfo.kind) {
         case "args":
           return validateArg(
@@ -41,6 +42,7 @@ export function getParams(
           }
           return resolverData.context;
         case "root":
+          // eslint-disable-next-line no-case-declarations
           const rootValue = paramInfo.propertyName
             ? resolverData.root[paramInfo.propertyName]
             : resolverData.root;

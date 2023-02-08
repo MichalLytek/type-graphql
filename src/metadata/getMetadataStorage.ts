@@ -1,6 +1,8 @@
 import { MetadataStorage } from "./metadata-storage";
 
+// FIXME: Global
 declare global {
+  // eslint-disable-next-line no-var
   var TypeGraphQLMetadataStorage: MetadataStorage;
 }
 

@@ -35,7 +35,6 @@ describe("Interfaces with resolvers and arguments", () => {
       class SampleArgs1 {
         @Field(_type => Int)
         classArg1: number;
-
         @Field(_type => Int)
         classArg2: number;
       }
@@ -260,32 +259,26 @@ describe("Interfaces with resolvers and arguments", () => {
         queryForSampleInterfaceWithArgs(): SampleInterfaceWithArgs {
           return new SampleImplementingObjectWithArgsAndOwnResolver();
         }
-
         @Query()
         queryForSampleInterfaceWithArgsAndInlineResolver(): SampleInterfaceWithArgsAndInlineResolver {
           return new SampleImplementingObjectWithArgsAndInheritedResolver();
         }
-
         @Query()
         queryForSampleInterfaceWithArgsAndFieldResolver(): SampleInterfaceWithArgsAndFieldResolver {
           return new SampleImplementingObjectWithArgsAndInheritedFieldResolver();
         }
-
         @Query()
         queryForSampleImplementingObjectWithArgsAndOwnResolver(): SampleImplementingObjectWithArgsAndOwnResolver {
           return new SampleImplementingObjectWithArgsAndOwnResolver();
         }
-
         @Query()
         queryForSampleImplementingObjectWithArgsAndInheritedResolver(): SampleImplementingObjectWithArgsAndInheritedResolver {
           return new SampleImplementingObjectWithArgsAndInheritedResolver();
         }
-
         @Query()
         queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver(): SampleImplementingObjectWithArgsAndInheritedFieldResolver {
           return new SampleImplementingObjectWithArgsAndInheritedFieldResolver();
         }
-
         @Query()
         queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver(): SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver {
           return new SampleObjectImplementingInterfaceImplementingWithArgsAndInheritedResolver();

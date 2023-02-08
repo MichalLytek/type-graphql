@@ -26,6 +26,7 @@ describe("Middlewares", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
   let middlewareLogs: string[] = [];
+  // eslint-disable-next-line no-promise-executor-return
   const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
 
   beforeEach(() => {

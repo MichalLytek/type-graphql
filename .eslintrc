@@ -57,14 +57,49 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
+    // FIXME: Remove
     "@typescript-eslint/ban-types": [
       "error",
       {
         "types": {
-          "Function": false
+          "Function": false,
+          "Object": false,
+          "{}": false
         },
         "extendDefaults": true
       }
-    ]
+    ],
+    // FIXME: Remove
+    "@typescript-eslint/no-explicit-any": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-var-requires": "off",
+    // FIXME: Remove
+    "global-require": "off",
+    // FIXME: Remove
+    "import/no-cycle": "off",
+    // FIXME: Remove
+    "no-param-reassign": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-non-null-assertion": "off",
+    // FIXME: Remove
+    "consistent-return": "off",
+    // FIXME: Remove
+    "no-await-in-loop": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-loop-func": "off",
+    // FIXME: Remove
+    "prefer-spread": "off",
+    // FIXME: Remove
+    "no-restricted-syntax": "off",
+    // FIXME: Remove
+    "no-prototype-builtins": "off",
+    // FIXME: Remove
+    "@typescript-eslint/no-use-before-define": "off",
+    // FIXME: Remove
+    "vars-on-top": "off",
+    // FIXME: Remove
+    "no-return-assign": "off",
+    // FIXME: Remove
+    "array-callback-return": "off"
   }
 }

@@ -177,6 +177,7 @@ describe("Generic types", () => {
       }
 
       const UserConnection = Connection(User);
+      // eslint-disable-next-line @typescript-eslint/no-redeclare
       type UserConnection = InstanceType<typeof UserConnection>;
       @ObjectType()
       class DogConnection extends Connection(Dog) {}

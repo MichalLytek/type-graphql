@@ -9,5 +9,12 @@
     "@cspell/dict-typescript/cspell-ext.json"
   ],
   "ignorePaths": ["**/build/", "**/dist/", "**/coverage/", "**/node_modules/"],
-  "words": ["middlewares"]
+  "words": [
+    "graphqlisodatetime",
+    "isodate",
+    "middlewares",
+    "paramtypes",
+    "returntype",
+    "sindresorhus"
+  ]
 }

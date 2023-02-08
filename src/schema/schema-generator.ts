@@ -333,6 +333,7 @@ export abstract class SchemaGenerator {
                   field.typeOptions,
                 );
                 const isSimpleResolver =
+                  // eslint-disable-next-line no-nested-ternary
                   field.simple !== undefined
                     ? field.simple === true
                     : objectType.simpleResolvers !== undefined
@@ -341,6 +342,7 @@ export abstract class SchemaGenerator {
                 fieldsMap[field.schemaName] = {
                   type,
                   args: this.generateHandlerArgs(field.target, field.name, field.params!),
+                  // eslint-disable-next-line no-nested-ternary
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : isSimpleResolver
