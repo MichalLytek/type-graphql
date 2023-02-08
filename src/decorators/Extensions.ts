@@ -1,13 +1,13 @@
+import { SymbolKeysNotSupportedError } from "~/errors";
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { ExtensionsMetadata } from "~/metadata/definitions";
 import { MethodAndPropDecorator } from "./types";
-import { SymbolKeysNotSupportedError } from "../errors";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ExtensionsMetadata } from "../metadata/definitions";
 
 export function Extensions(extensions: ExtensionsMetadata): MethodAndPropDecorator & ClassDecorator;
 export function Extensions(
   extensions: ExtensionsMetadata,
 ): MethodDecorator | PropertyDecorator | ClassDecorator {
-  return (targetOrPrototype, propertyKey, descriptor) => {
+  return (targetOrPrototype, propertyKey, _descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
     }

@@ -1,15 +1,14 @@
 import { ResolverFn } from "graphql-subscriptions";
-
 import {
   TypeValueThunk,
   TypeOptions,
   ClassTypeResolver,
   SubscriptionFilterFunc,
   SubscriptionTopicFunc,
-} from "../../decorators/types";
+} from "~/decorators/types";
+import { Middleware } from "~/interfaces/Middleware";
+import { Complexity } from "~/interfaces";
 import { ParamMetadata } from "./param-metadata";
-import { Middleware } from "../../interfaces/Middleware";
-import { Complexity } from "../../interfaces";
 import { DirectiveMetadata } from "./directive-metadata";
 import { ExtensionsMetadata } from "./extensions-metadata";
 

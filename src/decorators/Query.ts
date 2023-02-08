@@ -1,7 +1,7 @@
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { getResolverMetadata } from "~/helpers/resolver-metadata";
+import { getTypeDecoratorParams } from "~/helpers/decorators";
 import { ReturnTypeFunc, AdvancedOptions } from "./types";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getResolverMetadata } from "../helpers/resolver-metadata";
-import { getTypeDecoratorParams } from "../helpers/decorators";
 
 export function Query(): MethodDecorator;
 export function Query(options: AdvancedOptions): MethodDecorator;

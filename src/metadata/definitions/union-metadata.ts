@@ -1,4 +1,4 @@
-import { ClassType, TypeResolver } from "../../interfaces";
+import { ClassType, TypeResolver } from "~/interfaces";
 
 export interface UnionMetadata {
   getClassTypes: () => ClassType[];

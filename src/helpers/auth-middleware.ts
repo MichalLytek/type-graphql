@@ -1,7 +1,7 @@
-import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker, AuthCheckerFn, AuthMode } from "../interfaces";
-import { UnauthorizedError, ForbiddenError } from "../errors";
-import { IOCContainer } from "../utils/container";
+import { MiddlewareFn } from "~/interfaces/Middleware";
+import { AuthChecker, AuthCheckerFn, AuthMode } from "~/interfaces";
+import { UnauthorizedError, ForbiddenError } from "~/errors";
+import { IOCContainer } from "~/utils/container";
 
 export function AuthMiddleware(
   authChecker: AuthChecker<any, any>,

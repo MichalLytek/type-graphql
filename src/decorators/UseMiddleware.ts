@@ -1,7 +1,7 @@
-import { SymbolKeysNotSupportedError } from "../errors";
-import { Middleware } from "../interfaces/Middleware";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getArrayFromOverloadedRest } from "../helpers/decorators";
+import { SymbolKeysNotSupportedError } from "~/errors";
+import { Middleware } from "~/interfaces/Middleware";
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { getArrayFromOverloadedRest } from "~/helpers/decorators";
 import { MethodAndPropDecorator } from "./types";
 
 export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
@@ -11,7 +11,7 @@ export function UseMiddleware(
 ): MethodDecorator | PropertyDecorator {
   const middlewares = getArrayFromOverloadedRest(middlewaresOrMiddlewareArray);
 
-  return (prototype, propertyKey, descriptor) => {
+  return (prototype, propertyKey, _descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
     }

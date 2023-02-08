@@ -1,6 +1,6 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { ClassType } from "~/interfaces";
 import { ClassTypeResolver, AbstractClassOptions } from "./types";
-import { ClassType } from "../interfaces";
 
 export function Resolver(): ClassDecorator;
 export function Resolver(options: AbstractClassOptions): ClassDecorator;
@@ -23,6 +23,7 @@ export function Resolver(
       : objectTypeOrTypeFuncOrMaybeOptions) || {};
 
   return target => {
+    // eslint-disable-next-line no-nested-ternary
     const getObjectType = objectTypeOrTypeFunc
       ? objectTypeOrTypeFunc.prototype
         ? () => objectTypeOrTypeFunc as ClassType

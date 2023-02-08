@@ -1,8 +1,8 @@
-import { ArgParamMetadata, ClassMetadata, ArgsParamMetadata } from "../metadata/definitions";
-import { convertToType } from "../helpers/types";
-import { ArgsDictionary, ClassType } from "../interfaces";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { TypeValue } from "../decorators/types";
+import { ArgParamMetadata, ClassMetadata, ArgsParamMetadata } from "~/metadata/definitions";
+import { convertToType } from "~/helpers/types";
+import { ArgsDictionary, ClassType } from "~/interfaces";
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { TypeValue } from "~/decorators/types";
 
 interface TransformationTreeField {
   name: string;

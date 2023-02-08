@@ -1,6 +1,6 @@
-import path from "path";
-import fs from "fs";
-import { promisify } from "util";
+import path from "node:path";
+import fs from "node:fs";
+import { promisify } from "node:util";
 
 export const fsMkdir = promisify(fs.mkdir);
 export const fsWriteFile = promisify(fs.writeFile);

@@ -1,7 +1,7 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { findType } from "../helpers/findType";
+import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { findType } from "~/helpers/findType";
+import { SymbolKeysNotSupportedError } from "~/errors";
 import { TypeValueThunk } from "./types";
-import { SymbolKeysNotSupportedError } from "../errors";
 
 export function Root(propertyName?: string): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {

@@ -1,15 +1,15 @@
 import { PubSubEngine } from "graphql-subscriptions";
 
-import { ParamMetadata } from "../metadata/definitions";
-import { convertToType } from "../helpers/types";
+import { ParamMetadata } from "~/metadata/definitions";
+import { convertToType } from "~/helpers/types";
+import { ResolverData, AuthChecker, AuthMode } from "~/interfaces";
+import { Middleware, MiddlewareFn, MiddlewareClass } from "~/interfaces/Middleware";
+import { IOCContainer } from "~/utils/container";
+import { AuthMiddleware } from "~/helpers/auth-middleware";
+import isPromiseLike from "~/utils/isPromiseLike";
+import { ValidateSettings } from "~/schema/build-context";
 import { validateArg } from "./validate-arg";
-import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
-import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middleware";
-import { IOCContainer } from "../utils/container";
-import { AuthMiddleware } from "../helpers/auth-middleware";
 import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
-import isPromiseLike from "../utils/isPromiseLike";
-import { ValidateSettings } from "../schema/build-context";
 
 export function getParams(
   params: ParamMetadata[],

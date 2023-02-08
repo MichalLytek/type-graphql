@@ -1,4 +1,4 @@
-import { Middleware } from "../../interfaces/Middleware";
+import { Middleware } from "~/interfaces/Middleware";
 
 export interface MiddlewareMetadata {
   target: Function;

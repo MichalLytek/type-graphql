@@ -1,6 +1,5 @@
 import semVer from "semver";
-
-import { UnmetGraphQLPeerDependencyError } from "../errors";
+import { UnmetGraphQLPeerDependencyError } from "~/errors";
 
 export function getInstalledGraphQLVersion(): string {
   const graphqlPackageJson = require("graphql/package.json");

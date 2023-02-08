@@ -1,3 +1,6 @@
+import { ClassType } from "~/interfaces";
+import { NoExplicitTypeError } from "~/errors";
+import { SchemaGeneratorOptions } from "~/schema/schema-generator";
 import {
   ResolverMetadata,
   ClassMetadata,
@@ -16,8 +19,6 @@ import {
   MiddlewareMetadata,
   ExtensionsMetadata,
 } from "./definitions";
-import { ClassType } from "../interfaces";
-import { NoExplicitTypeError } from "../errors";
 import {
   mapSuperResolverHandlers,
   mapMiddlewareMetadataToArray,
@@ -27,7 +28,6 @@ import {
 import { ObjectClassMetadata } from "./definitions/object-class-metdata";
 import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
 import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
-import { SchemaGeneratorOptions } from "../schema/schema-generator";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];

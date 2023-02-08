@@ -9,8 +9,41 @@ import {
   GraphQLTypeResolver,
   GraphQLAbstractType,
 } from "graphql";
+import { ResolversMap, EnumResolver, ResolverObject } from "~/interfaces";
 
-import { ResolversMap, EnumResolver, ResolverObject } from "../interfaces";
+function generateTypeResolver(
+  abstractType: GraphQLAbstractType,
+  schema: GraphQLSchema,
+): GraphQLTypeResolver<any, any> {
+  if (abstractType.resolveType) {
+    return abstractType.resolveType;
+  }
+
+  const possibleObjectTypes = schema.getPossibleTypes(abstractType);
+  return async (source, context, info) => {
+    for (const objectType of possibleObjectTypes) {
+      if (objectType.isTypeOf && (await objectType.isTypeOf(source, context, info))) {
+        return objectType.name;
+      }
+    }
+    return undefined;
+  };
+}
+
+function generateFieldsResolvers(fields: GraphQLFieldMap<any, any>): ResolverObject {
+  return Object.keys(fields).reduce<ResolverObject>((fieldsMap, fieldName) => {
+    const field = fields[fieldName];
+    if (field.subscribe) {
+      fieldsMap[fieldName] = {
+        subscribe: field.subscribe,
+        resolve: field.resolve,
+      };
+    } else if (field.resolve) {
+      fieldsMap[fieldName] = field.resolve;
+    }
+    return fieldsMap;
+  }, {});
+}
 
 export function createResolversMap(schema: GraphQLSchema): ResolversMap {
   const typeMap = schema.getTypeMap();
@@ -49,38 +82,4 @@ export function createResolversMap(schema: GraphQLSchema): ResolversMap {
       }
       return resolversMap;
     }, {});
-}
-
-function generateTypeResolver(
-  abstractType: GraphQLAbstractType,
-  schema: GraphQLSchema,
-): GraphQLTypeResolver<any, any> {
-  if (abstractType.resolveType) {
-    return abstractType.resolveType;
-  }
-
-  const possibleObjectTypes = schema.getPossibleTypes(abstractType);
-  return async (source, context, info) => {
-    for (const objectType of possibleObjectTypes) {
-      if (objectType.isTypeOf && (await objectType.isTypeOf(source, context, info))) {
-        return objectType.name;
-      }
-    }
-    return undefined;
-  };
-}
-
-function generateFieldsResolvers(fields: GraphQLFieldMap<any, any>): ResolverObject {
-  return Object.keys(fields).reduce<ResolverObject>((fieldsMap, fieldName) => {
-    const field = fields[fieldName];
-    if (field.subscribe) {
-      fieldsMap[fieldName] = {
-        subscribe: field.subscribe,
-        resolve: field.resolve,
-      };
-    } else if (field.resolve) {
-      fieldsMap[fieldName] = field.resolve;
-    }
-    return fieldsMap;
-  }, {});
 }
