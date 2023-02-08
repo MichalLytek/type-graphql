@@ -2,13 +2,9 @@
 
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
-### Fixes
-- support overwriting fields of extended types (#1109)
-- properly execute args validation for nullable items array (#1328)
-
-## v1.2.0-rc.1
 ### Features
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.6.0`
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)
@@ -21,8 +17,11 @@
 - fix throwing error when schema with dynamic default value was built again (#787)
 - fix converting inputs with fields of nested array type (#801)
 - disable broken exposing input types fields under a changed name via `@Field({ name: "..." })`
+- support overwriting fields of extended types (#1109)
+- properly execute args validation for nullable items array (#1328)
 ### Others
-- **Breaking Change**: update `graphql-js` peer dependency to `^15.5.0`
+- **Breaking Change**: update `class-validator` peer dependency to `>=0.14.0`
+- **Breaking Change**: change build config to ES2019 - drop support for Node.js < 14.5
 
 ## v1.1.1
 ### Fixes

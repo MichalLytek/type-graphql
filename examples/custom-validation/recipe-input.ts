@@ -7,11 +7,11 @@ import { Recipe } from "./recipe-type";
 export class RecipeInput implements Partial<Recipe> {
   @Field()
   // use decorators for Joi
-  @(Joiful.string().required().max(30))
+  @Joiful.string().required().max(30)
   title: string;
 
   @Field({ nullable: true })
   // use decorators for Joi
-  @(Joiful.string().min(30).max(255))
+  @Joiful.string().min(30).max(255)
   description?: string;
 }

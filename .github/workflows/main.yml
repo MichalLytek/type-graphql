@@ -2,11 +2,9 @@ name: TypeGraphQL
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   check:
@@ -14,17 +12,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.13, 10.x, 11.x, 12.x, 13.x, 14.x, 15.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Setup  Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
           npm ci
 
@@ -39,7 +38,7 @@ jobs:
 
       - name: Upload code coverage results
         uses: codecov/codecov-action@v1
-        if: matrix.node-version == '15.x'
+        if: matrix.node-version == '18.x'
 
   deploy-website:
     if: github.ref == 'refs/heads/master'

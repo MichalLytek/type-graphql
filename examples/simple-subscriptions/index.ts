@@ -11,13 +11,7 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
-    schema,
-    playground: true,
-    // you can pass the endpoint path for subscriptions
-    // otherwise it will be the same as main graphql endpoint
-    // subscriptions: "/subscriptions",
-  });
+  const server = new ApolloServer({ schema });
 
   // Start the server
   const { url } = await server.listen(4000);

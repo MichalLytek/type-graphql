@@ -39,11 +39,11 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js LTS (10.3+, 12+) and the latest stable releases. It uses features from ES2018 so we should set our `tsconfig.json` file appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2019 so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
-  "target": "es2018" // or newer if your node.js version supports this
+  "target": "es2019" // or newer if your node.js version supports this
 }
 ```
 
@@ -51,7 +51,7 @@ Due to using the `graphql-subscription` dependency that relies on an `AsyncItera
 
 ```json
 {
-  "lib": ["es2018", "esnext.asynciterable"]
+  "lib": ["es2019", "esnext.asynciterable"]
 }
 ```
 
@@ -60,9 +60,9 @@ All in all, the minimal `tsconfig.json` file example looks like this:
 ```json
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2019",
     "module": "commonjs",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "lib": ["es2019", "esnext.asynciterable"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

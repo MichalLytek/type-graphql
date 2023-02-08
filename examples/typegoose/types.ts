@@ -1,3 +1,3 @@
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
-export type Ref<T> = T | ObjectId;
+export type Ref<T> = T | Types.ObjectId;

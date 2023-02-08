@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, PrimaryKey, OptionalProps } from "@mikro-orm/core";
 import { ObjectType, Field, Int } from "../../../src";
 
 import { User } from "./user";
@@ -24,4 +24,6 @@ export class Rate {
 
   @ManyToOne(type => Recipe)
   recipe: Recipe;
+
+  [OptionalProps]?: "date";
 }

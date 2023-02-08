@@ -157,6 +157,8 @@ const server = new ApolloServer({
   },
 });
 
+await server.start();
+
 // Mount a jwt or other authentication middleware that is run before the GraphQL execution
 app.use(
   path,

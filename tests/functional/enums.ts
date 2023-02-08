@@ -209,7 +209,7 @@ describe("Enums", () => {
       const query = `query {
         getNumberEnumValue(input: { numberEnumField: One })
       }`;
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.getNumberEnumValue).toEqual("Two");
     });
@@ -218,7 +218,7 @@ describe("Enums", () => {
       const query = `query {
         getStringEnumValue(input: { stringEnumField: One })
       }`;
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.getStringEnumValue).toEqual("Two");
     });
@@ -231,8 +231,8 @@ describe("Enums", () => {
         isNumberEnumEqualOne(enum: Two)
       }`;
 
-      const result1 = await graphql(schema, query1);
-      const result2 = await graphql(schema, query2);
+      const result1 = await graphql({ schema, source: query1 });
+      const result2 = await graphql({ schema, source: query2 });
 
       expect(result1.data!.isNumberEnumEqualOne).toEqual(true);
       expect(result2.data!.isNumberEnumEqualOne).toEqual(false);
@@ -246,8 +246,8 @@ describe("Enums", () => {
         isStringEnumEqualOne(enum: Two)
       }`;
 
-      const result1 = await graphql(schema, query1);
-      const result2 = await graphql(schema, query2);
+      const result1 = await graphql({ schema, source: query1 });
+      const result2 = await graphql({ schema, source: query2 });
 
       expect(result1.data!.isStringEnumEqualOne).toEqual(true);
       expect(result2.data!.isStringEnumEqualOne).toEqual(false);

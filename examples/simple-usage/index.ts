@@ -14,11 +14,7 @@ async function bootstrap() {
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
-    schema,
-    // enable GraphQL Playground
-    playground: true,
-  });
+  const server = new ApolloServer({ schema });
 
   // Start the server
   const { url } = await server.listen(4000);

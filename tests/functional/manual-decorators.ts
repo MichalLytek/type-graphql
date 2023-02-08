@@ -51,7 +51,9 @@ describe("manual decorators", () => {
     expect(dynamicField.args).toEqual([
       {
         defaultValue: null,
+        deprecationReason: null,
         description: null,
+        isDeprecated: false,
         name: "sampleField",
         type: {
           kind: "NON_NULL",

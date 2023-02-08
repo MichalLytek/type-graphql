@@ -6,9 +6,14 @@ import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.ex
 import { Context } from "./context.interface";
 import { Logger } from "./logger.service";
 
+type LoggerConfig = {
+  message?: string;
+  level?: number;
+};
+
 const extractLoggerExtensionsFromConfig = (
   config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>,
-) => (config.extensions && config.extensions.log) || {};
+): LoggerConfig => (config.extensions && (config.extensions.log as LoggerConfig)) || {};
 
 const getLoggerExtensions = (info: GraphQLResolveInfo) => {
   const fieldConfig = extractFieldConfig(info);

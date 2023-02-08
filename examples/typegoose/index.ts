@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import { connect } from "mongoose";
-import { ObjectId } from "mongodb";
+import { connect, Types } from "mongoose";
 import * as path from "path";
 import { buildSchema } from "../../src";
 
@@ -35,7 +34,7 @@ async function bootstrap() {
       // use document converting middleware
       globalMiddlewares: [TypegooseMiddleware],
       // use ObjectId scalar mapping
-      scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+      scalarsMap: [{ type: Types.ObjectId, scalar: ObjectIdScalar }],
       validate: false,
     });
 

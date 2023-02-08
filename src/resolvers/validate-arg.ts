@@ -31,6 +31,9 @@ export async function validateArg<T extends object>(
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
   }
+  if (validatorOptions.forbidUnknownValues !== true) {
+    validatorOptions.forbidUnknownValues = false;
+  }
 
   const { validateOrReject } = await import("class-validator");
   try {

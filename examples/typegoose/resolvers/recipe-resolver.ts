@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx } from "../../../src";
 
 import { Recipe, RecipeModel } from "../entities/recipe";
@@ -12,7 +12,7 @@ import { ObjectIdScalar } from "../object-id.scalar";
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Query(returns => Recipe, { nullable: true })
-  recipe(@Arg("recipeId", type => ObjectIdScalar) recipeId: ObjectId) {
+  recipe(@Arg("recipeId", type => ObjectIdScalar) recipeId: Types.ObjectId) {
     return RecipeModel.findById(recipeId);
   }
 
@@ -29,7 +29,7 @@ export class RecipeResolver {
     const recipe = new RecipeModel({
       ...recipeInput,
       author: user._id,
-    } as Recipe);
+    });
 
     await recipe.save();
     return recipe;

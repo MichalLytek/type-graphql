@@ -62,9 +62,7 @@ function loadResolvers(options: BuildSchemaOptions): Function[] | undefined {
   return options.resolvers as Function[];
 }
 
-function getEmitSchemaDefinitionFileOptions(
-  buildSchemaOptions: BuildSchemaOptions,
-): {
+function getEmitSchemaDefinitionFileOptions(buildSchemaOptions: BuildSchemaOptions): {
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {
