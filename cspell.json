@@ -28,12 +28,13 @@
     "graphqlid",
     "graphqlisodatetime",
     "isodate",
+    "lytek",
     "michał",
     "middlewares",
     "netrc",
-    "lytek",
     "paramtypes",
     "returntype",
+    "shellcheck",
     "sindresorhus",
     "typegraphql"
   ]

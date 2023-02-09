@@ -10,7 +10,8 @@
       "tsconfig.json",
       "tests/tsconfig.json",
       "examples/tsconfig.json",
-      "benchmarks/tsconfig.json"
+      "benchmarks/tsconfig.json",
+      "scripts/tsconfig.json"
     ],
     "ecmaVersion": "latest",
     "sourceType": "module"
@@ -26,7 +27,8 @@
           "tsconfig.json",
           "tests/tsconfig.json",
           "examples/tsconfig.json",
-          "benchmarks/tsconfig.json"
+          "benchmarks/tsconfig.json",
+          "scripts/tsconfig.json"
         ]
       }
     }
