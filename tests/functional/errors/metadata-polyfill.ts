@@ -1,5 +1,5 @@
-import { ReflectMetadataMissingError } from "../../../src";
-import { getMetadataStorage } from "../../../src/metadata/getMetadataStorage";
+import { ReflectMetadataMissingError } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Reflect metadata", () => {
   it("should throw ReflectMetadataMissingError when no polyfill provided", async () => {

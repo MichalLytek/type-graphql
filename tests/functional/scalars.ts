@@ -22,11 +22,11 @@ import {
   Int,
   GraphQLISODateTime,
   GraphQLTimestamp,
-} from "../../src";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;

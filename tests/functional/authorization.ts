@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   Field,
   ObjectType,
@@ -15,7 +14,8 @@ import {
   ForbiddenError,
   AuthCheckerInterface,
   ResolverData,
-} from "../../src";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;

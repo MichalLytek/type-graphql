@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import Redis, { RedisOptions } from "ioredis";
 import { RedisPubSub } from "graphql-redis-subscriptions";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import { RecipeResolver } from "./recipe.resolver";
 

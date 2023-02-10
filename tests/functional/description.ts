@@ -15,7 +15,7 @@ import {
   Mutation,
   Arg,
   Args,
-} from "../../src";
+} from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Description", () => {

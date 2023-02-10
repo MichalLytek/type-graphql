@@ -9,10 +9,10 @@ import {
   IntrospectionScalarType,
 } from "graphql";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "type-graphql";
+import { NullableListOptions } from "@/decorators/types";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "../../src";
-import { NullableListOptions } from "../../src/decorators/types";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;

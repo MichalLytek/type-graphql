@@ -8,10 +8,10 @@ import {
   TypeKind,
 } from "graphql";
 
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "../../src";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;

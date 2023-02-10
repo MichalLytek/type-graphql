@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { graphql } from "graphql";
 import { Container, Service } from "typedi";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   ObjectType,
   Field,
@@ -12,7 +12,7 @@ import {
   buildSchema,
   ResolverData,
   ContainerType,
-} from "../../src";
+} from "type-graphql";
 
 describe("IOC container", () => {
   beforeEach(() => {

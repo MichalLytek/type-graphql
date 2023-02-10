@@ -42,8 +42,8 @@ import {
   createParamDecorator,
   CannotDetermineGraphQLTypeError,
   NoExplicitTypeError,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 

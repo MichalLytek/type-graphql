@@ -1,4 +1,4 @@
-import { Field, ObjectType, Int } from "../../src";
+import { Field, ObjectType, Int } from "type-graphql";
 
 @ObjectType()
 export class Cook {

@@ -1,4 +1,4 @@
-import { ObjectType, Extensions, Field, Int, Float } from "../../src";
+import { ObjectType, Extensions, Field, Int, Float } from "type-graphql";
 
 import { LogMessage } from "./log-message.decorator";
 

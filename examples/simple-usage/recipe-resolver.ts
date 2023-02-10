@@ -7,7 +7,7 @@ import {
   Mutation,
   Int,
   ResolverInterface,
-} from "../../src";
+} from "type-graphql";
 
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";

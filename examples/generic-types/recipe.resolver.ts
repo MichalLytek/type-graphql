@@ -1,4 +1,4 @@
-import { ObjectType, Query, Mutation, Arg, Int, Resolver } from "../../src";
+import { ObjectType, Query, Mutation, Arg, Int, Resolver } from "type-graphql";
 
 import PaginatedResponse from "./paginated-response.type";
 import Recipe from "./recipe.type";

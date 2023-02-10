@@ -1,4 +1,4 @@
-import { Extensions } from "../../src";
+import { Extensions } from "type-graphql";
 
 interface LogOptions {
   message: string;

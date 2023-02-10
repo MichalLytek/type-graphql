@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Mutation } from "../../src";
+import { Resolver, Query, Arg, Mutation } from "type-graphql";
 
 import { getId, calculateAge } from "./helpers";
 import { Student } from "./student/student.type";

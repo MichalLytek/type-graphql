@@ -1,5 +1,5 @@
 import { Recipe } from "./recipe-type";
-import { InputType, Field } from "../../src";
+import { InputType, Field } from "type-graphql";
 
 @InputType()
 export class RecipeInput implements Partial<Recipe> {

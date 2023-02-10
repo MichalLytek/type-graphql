@@ -8,8 +8,8 @@ import {
   IntrospectionListTypeRef,
 } from "graphql";
 
-import { Field, ObjectType, Resolver, Query } from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Field, ObjectType, Resolver, Query } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("buildSchema -> nullableByDefault", () => {

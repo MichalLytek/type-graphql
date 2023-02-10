@@ -1,4 +1,4 @@
-import { Field, ID, InputType } from "../../src";
+import { Field, ID, InputType } from "type-graphql";
 
 import { Comment } from "./comment.type";
 

@@ -12,8 +12,8 @@ import {
   ObjectType,
   Mutation,
   FieldResolver,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Extensions", () => {
   let schema: GraphQLSchema;

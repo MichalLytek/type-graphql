@@ -7,7 +7,7 @@ import {
   parseValue,
 } from "graphql";
 
-import { Maybe } from "../../../src/interfaces/Maybe";
+import { Maybe } from "@/interfaces/Maybe";
 
 export function assertValidDirective(
   astNode: Maybe<

@@ -9,7 +9,7 @@ import {
   Subscription,
   Root,
   ResolverFilterData,
-} from "../../src";
+} from "type-graphql";
 
 import { Notification, NotificationPayload } from "./notification.type";
 

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "graphql";
 
-import { Query, ObjectType, Field, Resolver, buildSchema } from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Query, ObjectType, Field, Resolver, buildSchema } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Circular references", () => {

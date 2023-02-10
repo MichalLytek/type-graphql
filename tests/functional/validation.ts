@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { MaxLength, Max, Min, ValidateNested } from "class-validator";
 import { GraphQLSchema, graphql } from "graphql";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   InputType,
   Field,
@@ -15,8 +15,8 @@ import {
   ArgumentValidationError,
   Args,
   ArgsType,
-} from "../../src";
-import { TypeValue } from "../../src/decorators/types";
+} from "type-graphql";
+import { TypeValue } from "@/decorators/types";
 
 describe("Validation", () => {
   describe("Functional", () => {

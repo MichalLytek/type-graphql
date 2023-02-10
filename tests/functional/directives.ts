@@ -18,10 +18,10 @@ import {
   Mutation,
   Subscription,
   InterfaceType,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
-import { InvalidDirectiveError } from "../../src/errors/InvalidDirectiveError";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
 
 describe("Directives", () => {

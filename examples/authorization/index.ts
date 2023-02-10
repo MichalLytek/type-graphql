@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import { ExampleResolver } from "./resolver";
 import { Context } from "./context.interface";

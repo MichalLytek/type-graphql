@@ -20,8 +20,8 @@ import {
   buildSchema,
   Subscription,
   ClassType,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 // helpers
