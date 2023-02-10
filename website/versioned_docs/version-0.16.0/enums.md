@@ -74,7 +74,8 @@ class Resolver {
       case Direction.Right:
         this.sprite.position.x++;
         break;
-      default: // it will never be hitten ;)
+      default:
+        // it will never be hitten ;)
         return false;
     }
 
