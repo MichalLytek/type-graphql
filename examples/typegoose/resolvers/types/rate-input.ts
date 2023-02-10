@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { InputType, Field, Int } from "../../../../src";
+import { InputType, Field, Int } from "type-graphql";
 
 @InputType()
 export class RateInput {

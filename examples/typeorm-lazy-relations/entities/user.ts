@@ -1,5 +1,5 @@
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
-import { Field, ID, ObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "type-graphql";
 
 import { Recipe } from "./recipe";
 import { Lazy } from "../helpers";

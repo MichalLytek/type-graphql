@@ -1,4 +1,4 @@
-import { ObjectType } from "../../../src";
+import { ObjectType } from "type-graphql";
 
 import withId from "../mixins/with-id";
 import UserDetails from "./user-details";

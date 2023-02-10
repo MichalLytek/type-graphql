@@ -1,4 +1,4 @@
-import { ObjectType, Directive, Field } from "../../../src";
+import { ObjectType, Directive, Field } from "type-graphql";
 
 @ObjectType()
 @Directive("@extends")

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
-import { Field, ID, ObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "type-graphql";
 
 import { Rate } from "./rate";
 import { User } from "./user";

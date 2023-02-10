@@ -1,4 +1,4 @@
-import { MiddlewareFn } from "../../../src";
+import { MiddlewareFn } from "type-graphql";
 
 export const ResolveTimeMiddleware: MiddlewareFn = async ({ info }, next) => {
   const start = Date.now();

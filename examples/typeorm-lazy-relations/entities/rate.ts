@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
-import { ObjectType, Field, Int } from "../../../src";
+import { ObjectType, Field, Int } from "type-graphql";
 
 import { User } from "./user";
 import { Recipe } from "./recipe";

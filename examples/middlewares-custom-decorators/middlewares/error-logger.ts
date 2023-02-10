@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "../../../src";
+import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "type-graphql";
 
 import { Context } from "../context";
 import { Logger } from "../logger";

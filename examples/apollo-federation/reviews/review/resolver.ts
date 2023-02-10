@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver } from "../../../../src";
+import { Resolver, FieldResolver } from "type-graphql";
 
 import Review from "./review";
 import { reviews } from "./data";

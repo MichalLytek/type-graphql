@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Resolver, Query, Arg, Mutation, Ctx, Int } from "../../../src";
+import { Resolver, Query, Arg, Mutation, Ctx, Int } from "type-graphql";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";

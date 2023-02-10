@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import deepMerge from "lodash.merge";
 import { buildSubgraphSchema } from "@apollo/subgraph";
 import { IResolvers, printSchemaWithDirectives } from "@graphql-tools/utils";
-import { buildSchema, BuildSchemaOptions, createResolversMap } from "../../../src";
+import { buildSchema, BuildSchemaOptions, createResolversMap } from "type-graphql";
 
 export async function buildFederatedSchema(
   options: Omit<BuildSchemaOptions, "skipCheck">,

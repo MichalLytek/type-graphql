@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { Resolver, Query, Arg, Ctx, Mutation } from "../../../src";
+import { Resolver, Query, Arg, Ctx, Mutation } from "type-graphql";
 
 import { Recipe } from "./recipe.type";
 import { RecipeService } from "./recipe.service";

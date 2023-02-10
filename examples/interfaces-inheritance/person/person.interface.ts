@@ -1,4 +1,4 @@
-import { InterfaceType, Field, Int, ID, Arg } from "../../../src";
+import { InterfaceType, Field, Int, ID, Arg } from "type-graphql";
 
 import { IResource } from "../resource/resource.interface";
 

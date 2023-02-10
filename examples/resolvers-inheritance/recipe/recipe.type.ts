@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from "../../../src";
+import { ObjectType, Field, Int } from "type-graphql";
 
 import { Resource } from "../resource/resource";
 

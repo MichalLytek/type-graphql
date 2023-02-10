@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int, Float, UseMiddleware } from "../../../src";
+import { Field, ID, ObjectType, Int, Float, UseMiddleware } from "type-graphql";
 
 import { LogAccessMiddleware } from "../middlewares/log-access";
 import { NumberInterceptor } from "../middlewares/number-interceptor";

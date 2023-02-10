@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Resolver, FieldResolver, Root } from "../../../src";
+import { Resolver, FieldResolver, Root } from "type-graphql";
 
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";

@@ -1,4 +1,4 @@
-import { ObjectType, Field, Arg } from "../../../src";
+import { ObjectType, Field, Arg } from "type-graphql";
 
 import { IPerson } from "./person.interface";
 
