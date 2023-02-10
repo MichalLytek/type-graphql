@@ -4,8 +4,8 @@ import {
   TypeValueThunk,
   TypeValue,
   RecursiveArray,
-} from "~/decorators/types";
-import { NoExplicitTypeError } from "~/errors";
+} from "@/decorators/types";
+import { NoExplicitTypeError } from "@/errors";
 import { bannedTypes } from "./returnTypes";
 
 export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";

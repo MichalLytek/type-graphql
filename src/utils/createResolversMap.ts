@@ -9,7 +9,7 @@ import {
   GraphQLTypeResolver,
   GraphQLAbstractType,
 } from "graphql";
-import { ResolversMap, EnumResolver, ResolverObject } from "~/interfaces";
+import { ResolversMap, EnumResolver, ResolverObject } from "@/interfaces";
 
 function generateTypeResolver(
   abstractType: GraphQLAbstractType,

@@ -7,7 +7,7 @@
     "sourceMap": true,
     "outDir": "./build",
     "paths": {
-      "~/*": ["./src/*"]
+      "@/*": ["./src/*"]
     },
     "removeComments": false,
     "importHelpers": true,

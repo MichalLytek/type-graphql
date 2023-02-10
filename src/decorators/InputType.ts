@@ -1,5 +1,5 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { getNameDecoratorParams } from "~/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getNameDecoratorParams } from "@/helpers/decorators";
 import { DescriptionOptions, AbstractClassOptions } from "./types";
 
 export type InputTypeOptions = DescriptionOptions & AbstractClassOptions;

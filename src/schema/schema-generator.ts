@@ -20,22 +20,22 @@ import {
 } from "graphql";
 import { withFilter, ResolverFn } from "graphql-subscriptions";
 
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   ResolverMetadata,
   ParamMetadata,
   ClassMetadata,
   SubscriptionResolverMetadata,
   FieldMetadata,
-} from "~/metadata/definitions";
-import { TypeOptions, TypeValue } from "~/decorators/types";
-import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "~/helpers/types";
+} from "@/metadata/definitions";
+import { TypeOptions, TypeValue } from "@/decorators/types";
+import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "@/helpers/types";
 import {
   createHandlerResolver,
   createAdvancedFieldResolver,
   createBasicFieldResolver,
   wrapResolverWithAuthChecker,
-} from "~/resolvers/create";
+} from "@/resolvers/create";
 import {
   UnionResolveTypeError,
   GeneratingSchemaError,
@@ -43,11 +43,11 @@ import {
   ConflictingDefaultValuesError,
   InterfaceResolveTypeError,
   CannotDetermineGraphQLTypeError,
-} from "~/errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "~/interfaces";
-import { ensureInstalledCorrectGraphQLPackage } from "~/utils/graphql-version";
-import { ObjectClassMetadata } from "~/metadata/definitions/object-class-metadata";
-import { InterfaceClassMetadata } from "~/metadata/definitions/interface-class-metadata";
+} from "@/errors";
+import { ResolverFilterData, ResolverTopicData, TypeResolver } from "@/interfaces";
+import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
+import { ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
+import { InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
 import { BuildContext, BuildContextOptions } from "./build-context";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import {

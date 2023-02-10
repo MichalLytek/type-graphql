@@ -1,5 +1,5 @@
 import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
-import { outputFile, outputFileSync } from "~/helpers/filesystem";
+import { outputFile, outputFileSync } from "@/helpers/filesystem";
 
 export interface PrintSchemaOptions {
   sortedSchema: boolean;

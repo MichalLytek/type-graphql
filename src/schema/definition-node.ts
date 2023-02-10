@@ -13,8 +13,8 @@ import {
   ConstArgumentNode,
   parseConstValue,
 } from "graphql";
-import { InvalidDirectiveError } from "~/errors";
-import { DirectiveMetadata } from "~/metadata/definitions";
+import { InvalidDirectiveError } from "@/errors";
+import { DirectiveMetadata } from "@/metadata/definitions";
 
 export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNode {
   const { nameOrDefinition, args } = directive;

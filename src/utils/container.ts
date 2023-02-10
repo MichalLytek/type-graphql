@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { ResolverData } from "~/interfaces";
+import { ResolverData } from "@/interfaces";
 
 export type SupportedType<T> = { new (...args: any[]): T } | Function;
 

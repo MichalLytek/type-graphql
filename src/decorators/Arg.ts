@@ -1,6 +1,6 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { getParamInfo } from "~/helpers/params";
-import { getTypeDecoratorParams } from "~/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getParamInfo } from "@/helpers/params";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
 import {
   ReturnTypeFunc,
   DecoratorTypeOptions,

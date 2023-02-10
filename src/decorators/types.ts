@@ -5,8 +5,8 @@ import {
   ResolverTopicData,
   Complexity,
   TypeResolver,
-} from "~/interfaces";
-import { ValidateSettings } from "~/schema/build-context";
+} from "@/interfaces";
+import { ValidateSettings } from "@/schema/build-context";
 
 export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 

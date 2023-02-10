@@ -1,5 +1,5 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { SymbolKeysNotSupportedError } from "~/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { SymbolKeysNotSupportedError } from "@/errors";
 
 export function PubSub(triggerKey?: string): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {

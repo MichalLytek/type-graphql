@@ -1,6 +1,6 @@
-import { Middleware } from "~/interfaces/Middleware";
-import { isThrowing } from "~/helpers/isThrowing";
-import { ReflectMetadataMissingError } from "~/errors";
+import { Middleware } from "@/interfaces/Middleware";
+import { isThrowing } from "@/helpers/isThrowing";
+import { ReflectMetadataMissingError } from "@/errors";
 import {
   ResolverClassMetadata,
   BaseResolverMetadata,

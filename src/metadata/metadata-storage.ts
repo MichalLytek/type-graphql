@@ -1,6 +1,6 @@
-import { ClassType } from "~/interfaces";
-import { NoExplicitTypeError } from "~/errors";
-import { SchemaGeneratorOptions } from "~/schema/schema-generator";
+import { ClassType } from "@/interfaces";
+import { NoExplicitTypeError } from "@/errors";
+import { SchemaGeneratorOptions } from "@/schema/schema-generator";
 import {
   ResolverMetadata,
   ClassMetadata,

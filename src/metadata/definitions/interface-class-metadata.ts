@@ -1,4 +1,4 @@
-import { TypeResolver } from "~/interfaces";
+import { TypeResolver } from "@/interfaces";
 import { ClassMetadata } from "./class-metadata";
 
 export interface InterfaceClassMetadata extends ClassMetadata {

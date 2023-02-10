@@ -1,6 +1,6 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { SymbolKeysNotSupportedError } from "~/errors";
-import { getArrayFromOverloadedRest } from "~/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getArrayFromOverloadedRest } from "@/helpers/decorators";
 import { MethodAndPropDecorator } from "./types";
 
 export function Authorized(): MethodAndPropDecorator;

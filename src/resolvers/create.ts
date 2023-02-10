@@ -1,11 +1,11 @@
 import { GraphQLFieldResolver } from "graphql";
-import { FieldResolverMetadata, FieldMetadata, BaseResolverMetadata } from "~/metadata/definitions";
-import { convertToType } from "~/helpers/types";
-import { BuildContext } from "~/schema/build-context";
-import { ResolverData } from "~/interfaces";
-import { isPromiseLike } from "~/utils/isPromiseLike";
-import { AuthMiddleware } from "~/helpers/auth-middleware";
-import { IOCContainer } from "~/utils/container";
+import { FieldResolverMetadata, FieldMetadata, BaseResolverMetadata } from "@/metadata/definitions";
+import { convertToType } from "@/helpers/types";
+import { BuildContext } from "@/schema/build-context";
+import { ResolverData } from "@/interfaces";
+import { isPromiseLike } from "@/utils/isPromiseLike";
+import { AuthMiddleware } from "@/helpers/auth-middleware";
+import { IOCContainer } from "@/utils/container";
 import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
 
 export function createHandlerResolver(

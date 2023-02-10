@@ -1,7 +1,7 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { findType } from "~/helpers/findType";
-import { getTypeDecoratorParams } from "~/helpers/decorators";
-import { SymbolKeysNotSupportedError } from "~/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { findType } from "@/helpers/findType";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { SymbolKeysNotSupportedError } from "@/errors";
 import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "./types";
 
 export type FieldOptions = AdvancedOptions & {

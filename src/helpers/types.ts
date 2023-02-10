@@ -8,11 +8,11 @@ import {
   GraphQLBoolean,
 } from "graphql";
 
-import { TypeOptions } from "~/decorators/types";
-import { GraphQLTimestamp } from "~/scalars/timestamp";
-import { GraphQLISODateTime } from "~/scalars/isodate";
-import { BuildContext } from "~/schema/build-context";
-import { WrongNullableListOptionError } from "~/errors";
+import { TypeOptions } from "@/decorators/types";
+import { GraphQLTimestamp } from "@/scalars/timestamp";
+import { GraphQLISODateTime } from "@/scalars/isodate";
+import { BuildContext } from "@/schema/build-context";
+import { WrongNullableListOptionError } from "@/errors";
 
 function wrapTypeInNestedList(
   targetType: GraphQLType,

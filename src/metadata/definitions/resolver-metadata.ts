@@ -5,9 +5,9 @@ import {
   ClassTypeResolver,
   SubscriptionFilterFunc,
   SubscriptionTopicFunc,
-} from "~/decorators/types";
-import { Middleware } from "~/interfaces/Middleware";
-import { Complexity } from "~/interfaces";
+} from "@/decorators/types";
+import { Middleware } from "@/interfaces/Middleware";
+import { Complexity } from "@/interfaces";
 import { ParamMetadata } from "./param-metadata";
 import { DirectiveMetadata } from "./directive-metadata";
 import { ExtensionsMetadata } from "./extensions-metadata";

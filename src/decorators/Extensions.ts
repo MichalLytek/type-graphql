@@ -1,6 +1,6 @@
-import { SymbolKeysNotSupportedError } from "~/errors";
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { ExtensionsMetadata } from "~/metadata/definitions";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { ExtensionsMetadata } from "@/metadata/definitions";
 import { MethodAndPropDecorator } from "./types";
 
 export function Extensions(extensions: ExtensionsMetadata): MethodAndPropDecorator & ClassDecorator;

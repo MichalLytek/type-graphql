@@ -1,4 +1,4 @@
-import { EnumValuesConfig } from "~/decorators/types";
+import { EnumValuesConfig } from "@/decorators/types";
 
 export interface EnumMetadata {
   enumObj: object;

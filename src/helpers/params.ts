@@ -1,6 +1,6 @@
-import { ReturnTypeFunc, TypeOptions, ValidateOptions } from "~/decorators/types";
-import { CommonArgMetadata } from "~/metadata/definitions";
-import { SymbolKeysNotSupportedError } from "~/errors";
+import { ReturnTypeFunc, TypeOptions, ValidateOptions } from "@/decorators/types";
+import { CommonArgMetadata } from "@/metadata/definitions";
+import { SymbolKeysNotSupportedError } from "@/errors";
 import { findType } from "./findType";
 
 export interface ParamInfo {

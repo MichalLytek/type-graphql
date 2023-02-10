@@ -1,8 +1,8 @@
 import { GraphQLSchema } from "graphql";
 import path from "node:path";
-import { SchemaGenerator, SchemaGeneratorOptions } from "~/schema/schema-generator";
-import { loadResolversFromGlob } from "~/helpers/loadResolversFromGlob";
-import { NonEmptyArray } from "~/interfaces/NonEmptyArray";
+import { SchemaGenerator, SchemaGeneratorOptions } from "@/schema/schema-generator";
+import { loadResolversFromGlob } from "@/helpers/loadResolversFromGlob";
+import { NonEmptyArray } from "@/interfaces/NonEmptyArray";
 import {
   emitSchemaDefinitionFileSync,
   emitSchemaDefinitionFile,
@@ -14,7 +14,9 @@ interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
   path?: string;
 }
 
-function getEmitSchemaDefinitionFileOptions(buildSchemaOptions: BuildSchemaOptions): {
+function getEmitSchemaDefinitionFileOptions(
+  buildSchemaOptions: BuildSchemaOptions,
+): {
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {

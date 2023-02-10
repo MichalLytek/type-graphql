@@ -1,4 +1,4 @@
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { EnumConfig } from "./types";
 
 export function registerEnumType<TEnum extends object>(

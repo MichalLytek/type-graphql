@@ -1,6 +1,6 @@
-import { ClassType } from "~/interfaces";
-import { getMetadataStorage } from "~/metadata/getMetadataStorage";
-import { UnionFromClasses } from "~/helpers/utils";
+import { ClassType } from "@/interfaces";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { UnionFromClasses } from "@/helpers/utils";
 import { ResolveTypeOptions } from "./types";
 
 export interface UnionTypeConfig<TClassTypes extends readonly ClassType[]>
