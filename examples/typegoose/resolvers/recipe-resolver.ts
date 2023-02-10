@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx } from "../../../src";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx } from "type-graphql";
 
 import { Recipe, RecipeModel } from "../entities/recipe";
 import { Rate } from "../entities/rate";

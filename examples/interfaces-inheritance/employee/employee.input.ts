@@ -1,4 +1,4 @@
-import { InputType, Field } from "../../../src";
+import { InputType, Field } from "type-graphql";
 
 import { PersonInput } from "../person/person.input";
 

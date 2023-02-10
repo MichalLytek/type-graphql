@@ -1,4 +1,4 @@
-import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "../../../src";
+import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "type-graphql";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";

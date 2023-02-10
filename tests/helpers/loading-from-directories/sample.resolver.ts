@@ -1,4 +1,4 @@
-import { Query } from "../../../src";
+import { Query } from "type-graphql";
 
 import { SampleObject } from "./sample.type";
 

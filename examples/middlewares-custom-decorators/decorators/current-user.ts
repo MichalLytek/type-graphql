@@ -1,4 +1,4 @@
-import { createParamDecorator } from "../../../src";
+import { createParamDecorator } from "type-graphql";
 import { Context } from "../context";
 
 export default function CurrentUser() {

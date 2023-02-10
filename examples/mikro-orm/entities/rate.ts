@@ -1,5 +1,5 @@
 import { Entity, Property, ManyToOne, PrimaryKey, OptionalProps } from "@mikro-orm/core";
-import { ObjectType, Field, Int } from "../../../src";
+import { ObjectType, Field, Int } from "type-graphql";
 
 import { User } from "./user";
 import { Recipe } from "./recipe";

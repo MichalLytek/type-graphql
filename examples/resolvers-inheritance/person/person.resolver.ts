@@ -1,4 +1,4 @@
-import { Resolver, Arg, Int, Mutation } from "../../../src";
+import { Resolver, Arg, Int, Mutation } from "type-graphql";
 
 import { ResourceResolver } from "../resource/resource.resolver";
 import { Person } from "./person.type";

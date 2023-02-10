@@ -1,5 +1,5 @@
 import { IsPositive, Max, Min } from "class-validator";
-import { ArgsType, Field, Int } from "../../../src";
+import { ArgsType, Field, Int } from "type-graphql";
 
 @ArgsType()
 export class RecipesArgs {

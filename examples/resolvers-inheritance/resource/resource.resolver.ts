@@ -10,7 +10,7 @@ import {
   FieldResolver,
   Root,
   ClassType,
-} from "../../../src";
+} from "type-graphql";
 
 import { Resource } from "./resource";
 import { ResourceService, ResourceServiceFactory } from "./resource.service";

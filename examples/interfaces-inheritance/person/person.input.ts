@@ -1,4 +1,4 @@
-import { InputType, Field } from "../../../src";
+import { InputType, Field } from "type-graphql";
 
 @InputType()
 export class PersonInput {

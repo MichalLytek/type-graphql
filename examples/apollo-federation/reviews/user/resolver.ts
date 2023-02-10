@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root } from "../../../../src";
+import { Resolver, FieldResolver, Root } from "type-graphql";
 
 import User from "./user";
 import Review from "../review/review";

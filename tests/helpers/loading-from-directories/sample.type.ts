@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "../../../src";
+import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class SampleObject {

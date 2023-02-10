@@ -1,5 +1,5 @@
 import { PrimaryKey, Property, ManyToOne, OneToMany, Collection, Entity } from "@mikro-orm/core";
-import { Field, ID, ObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "type-graphql";
 
 import { Rate } from "./rate";
 import { User } from "./user";

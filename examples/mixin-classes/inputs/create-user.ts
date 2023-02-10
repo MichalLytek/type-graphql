@@ -1,4 +1,4 @@
-import { InputType } from "../../../src";
+import { InputType } from "type-graphql";
 
 import withPassword from "../mixins/with-password";
 import UserDetails from "../types/user-details";
