@@ -9,7 +9,7 @@ import {
   InputType,
   Query,
   Resolver,
-} from "../../src";
+} from "type-graphql";
 
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

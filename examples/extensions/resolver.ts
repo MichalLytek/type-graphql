@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from "../../src";
+import { Resolver, Query, Mutation, Arg } from "type-graphql";
 
 import { LogMessage } from "./log-message.decorator";
 import { Recipe } from "./recipe.type";

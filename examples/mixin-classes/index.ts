@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import * as path from "path";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import UserResolver from "./resolver";
 

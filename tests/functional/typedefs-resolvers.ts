@@ -23,7 +23,6 @@ import { MinLength } from "class-validator";
 import Container, { Service } from "typedi";
 import gql from "graphql-tag";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   Resolver,
   Query,
@@ -45,7 +44,8 @@ import {
   ResolversMap,
   ResolverObject,
   ResolverOptions,
-} from "../../src";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("typeDefs and resolvers", () => {
   describe("buildTypeDefsAndResolvers", () => {

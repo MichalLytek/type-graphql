@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { connect, Types } from "mongoose";
 import * as path from "path";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { RateResolver } from "./resolvers/rate-resolver";

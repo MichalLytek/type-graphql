@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg } from "../../src";
+import { Resolver, Query, Arg } from "type-graphql";
 
 import { Recipe } from "./recipe-type";
 import { createRecipeSamples } from "./recipe-samples";

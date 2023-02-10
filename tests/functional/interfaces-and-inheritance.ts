@@ -11,10 +11,8 @@ import {
   TypeKind,
 } from "graphql";
 
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { GeneratingSchemaError } from "../../src/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { GeneratingSchemaError } from "@/errors";
 import {
   InterfaceType,
   ObjectType,
@@ -29,7 +27,9 @@ import {
   buildSchema,
   Int,
   Resolver,
-} from "../../src";
+} from "type-graphql";
+import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Interfaces and inheritance", () => {
   describe("Schema", () => {

@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import gql from "graphql-tag";
 import { GraphQLSchema, execute } from "graphql";
-import { MiddlewareFn, ObjectType, Field, buildSchema, Resolver, Query } from "../../src";
+import { MiddlewareFn, ObjectType, Field, buildSchema, Resolver, Query } from "type-graphql";
 
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Simple resolvers", () => {
   let schema: GraphQLSchema;

@@ -1,4 +1,4 @@
-import { Resolver, Query, Authorized, Mutation, Arg } from "../../src";
+import { Resolver, Query, Authorized, Mutation, Arg } from "type-graphql";
 
 import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./recipe.helpers";

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { IntrospectionObjectType } from "graphql";
-import { Args, ArgsType, Field, ObjectType, Query, Resolver } from "../../src";
+import { Args, ArgsType, Field, ObjectType, Query, Resolver } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("manual decorators", () => {

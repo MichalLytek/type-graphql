@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query } from "../../src";
+import { Resolver, Mutation, Arg, Query } from "type-graphql";
 
 import CreateUserInput from "./inputs/create-user";
 import AmendUserInput from "./inputs/amend-user";

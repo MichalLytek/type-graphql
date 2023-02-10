@@ -1,4 +1,4 @@
-import { createUnionType } from "../../src";
+import { createUnionType } from "type-graphql";
 
 import { Recipe } from "./recipe.type";
 import { Cook } from "./cook.type";

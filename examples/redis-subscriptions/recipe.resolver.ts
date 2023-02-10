@@ -10,7 +10,7 @@ import {
   ID,
   ResolverFilterData,
   Args,
-} from "../../src";
+} from "type-graphql";
 
 import { Recipe } from "./recipe.type";
 import { CommentInput } from "./comment.input";

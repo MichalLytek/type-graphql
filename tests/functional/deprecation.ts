@@ -11,7 +11,7 @@ import {
   Arg,
   ArgsType,
   Args,
-} from "../../src";
+} from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Deprecation", () => {

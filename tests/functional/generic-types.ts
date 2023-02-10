@@ -12,8 +12,6 @@ import {
   IntrospectionInputObjectType,
 } from "graphql";
 
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
   ObjectType,
   Field,
@@ -24,7 +22,9 @@ import {
   Int,
   InputType,
   Arg,
-} from "../../src";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Generic types", () => {
   beforeEach(() => {

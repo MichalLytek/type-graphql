@@ -1,4 +1,4 @@
-import { AuthChecker } from "../../src";
+import { AuthChecker } from "type-graphql";
 
 import { Context } from "./context.interface";
 

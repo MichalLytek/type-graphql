@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from "../../src";
+import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class Notification {

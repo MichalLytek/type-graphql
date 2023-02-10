@@ -9,13 +9,13 @@ import {
   TypeKind,
 } from "graphql";
 
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { Field, InputType, Query, Arg, registerEnumType } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
 } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { Field, InputType, Query, Arg, registerEnumType } from "../../src";
 
 describe("Enums", () => {
   let schemaIntrospection: IntrospectionSchema;

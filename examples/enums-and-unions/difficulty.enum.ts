@@ -1,4 +1,4 @@
-import { registerEnumType } from "../../src";
+import { registerEnumType } from "type-graphql";
 
 export enum Difficulty {
   Beginner,

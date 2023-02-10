@@ -1,5 +1,5 @@
-import { ensureInstalledCorrectGraphQLPackage } from "../../src/utils/graphql-version";
-import { UnmetGraphQLPeerDependencyError } from "../../src/errors";
+import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
+import { UnmetGraphQLPeerDependencyError } from "@/errors";
 
 describe("`graphql` package peer dependency", () => {
   it("should have installed correct version", async () => {
@@ -12,7 +12,7 @@ describe("`graphql` package peer dependency", () => {
     jest.mock("graphql/package.json", () => ({
       version: "14.0.2",
     }));
-    const graphqlVersion = require("../../src/utils/graphql-version");
+    const graphqlVersion = require("@/utils/graphql-version");
 
     try {
       graphqlVersion.ensureInstalledCorrectGraphQLPackage();

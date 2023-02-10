@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import * as TypeORM from "typeorm";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { Recipe } from "./entities/recipe";

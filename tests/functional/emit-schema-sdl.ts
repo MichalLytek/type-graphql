@@ -15,8 +15,8 @@ import {
   Resolver,
   PrintSchemaOptions,
   defaultPrintSchemaOptions,
-} from "../../src";
-import * as filesystem from "../../src/helpers/filesystem";
+} from "type-graphql";
+import * as filesystem from "@/helpers/filesystem";
 
 const TEST_DIR = path.resolve(process.cwd(), "tests", "test-output-dir");
 

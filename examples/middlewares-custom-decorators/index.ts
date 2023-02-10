@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import Container from "typedi";
 import { ApolloServer } from "apollo-server";
-import { buildSchema } from "../../src";
+import { buildSchema } from "type-graphql";
 
 import { RecipeResolver } from "./recipe/recipe.resolver";
 import { ResolveTimeMiddleware } from "./middlewares/resolve-time";

@@ -8,7 +8,6 @@ import {
   IntrospectionNamedTypeRef,
 } from "graphql";
 
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   Arg,
   Args,
@@ -21,8 +20,9 @@ import {
   Resolver,
   buildSchema,
   FieldResolver,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Interfaces with resolvers and arguments", () => {
   describe("Schema", () => {

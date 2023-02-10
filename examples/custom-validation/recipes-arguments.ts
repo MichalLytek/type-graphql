@@ -1,5 +1,5 @@
 import * as Joiful from "joiful";
-import { ArgsType, Field, Int } from "../../src";
+import { ArgsType, Field, Int } from "type-graphql";
 
 @ArgsType()
 export class RecipesArguments {
