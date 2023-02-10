@@ -14,9 +14,7 @@ interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
   path?: string;
 }
 
-function getEmitSchemaDefinitionFileOptions(
-  buildSchemaOptions: BuildSchemaOptions,
-): {
+function getEmitSchemaDefinitionFileOptions(buildSchemaOptions: BuildSchemaOptions): {
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {
