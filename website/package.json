@@ -1,11 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version"
+    "start": "npx docusaurus-start",
+    "build": "npx docusaurus-build",
+    "publish-gh-pages": "npx docusaurus-publish",
+    "version": "npx docusaurus-version",
+    "rename-version": "npx docusaurus-rename-version"
   },
   "devDependencies": {
     "docusaurus": "^1.14.7"

@@ -1,0 +1,206 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Read package.json version
+        uses: sergeysova/jq-action@v2
+        id: version_package
+        with:
+          cmd: jq --raw-output .version package.json
+
+      - name: Read GitHub version
+        uses: pozetroninc/github-action-get-latest-release@master
+        id: version_v_github
+        with:
+          owner: MichalLytek
+          repo: type-graphql
+          excludes: prerelease, draft
+
+      - name: Remove leading v* from GitHub version
+        id: version_github
+        run: |
+          _version="${{ steps.version_v_github.outputs.release }}"
+          printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
+
+      - name: Read Git tag version
+        id: version_gittag
+        run: |
+          _version="${{ github.ref_name }}"
+          printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
+
+      - name: Compare package.json with Git tag
+        uses: madhead/semver-utils@latest
+        id: comparison_package_gittag
+        with:
+          version: ${{ steps.version_package.outputs.value }}
+          compare-to: ${{ steps.version_gittag.outputs.value }}
+          lenient: false
+
+      - name: Compare Git tag with GitHub
+        uses: madhead/semver-utils@latest
+        id: comparison_gittag_github
+        with:
+          version: ${{ steps.version_gittag.outputs.value }}
+          compare-to: ${{ steps.version_github.outputs.value }}
+          lenient: false
+
+      - name: Check package.json == Git tag
+        run: |
+          if [ ! "${{ steps.comparison_package_gittag.comparison-result }}" = "=" ]; then
+            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "${{ steps.version_package.outputs.value }}" "${{ steps.version_gittag.outputs.value }}"
+            exit 1
+          fi
+
+      - name: Check Git tag > GitHub
+        run: |
+          if [ ! "${{ steps.comparison_gittag_github.comparison-result }}" = ">" ]; then
+            printf '[ERROR]: Git tag (%s) !> GitHub (%s)\n' "${{ steps.version_gittag.outputs.value }}" "${{ steps.version_github.outputs.value }}"
+            exit 1
+          fi
+
+  check:
+    needs: version
+    if: always() && (needs.version.result == 'success' || needs.version.result == 'skipped')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Check
+        run: |
+          npm run check
+
+      - name: Test
+        run: npm run test:ci
+        env:
+          CI: true
+
+  integration:
+    needs: check
+    if: needs.check.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Test
+        run: npm run test:ci
+        env:
+          CI: true
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v3
+
+  release:
+    needs: integration
+    if: needs.integration.result == 'success' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          configuration: "./.github/configs/changelog.json"
+          owner: MichalLytek
+          repo: type-graphql
+          failOnError: true
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
+
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  website:
+    needs: integration
+    if: needs.integration.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        working-directory: ./website
+        run: |
+          npm ci
+
+      - name: Build
+        working-directory: ./website
+        run: |
+          npm run build
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/build/type-graphql
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: |
+            Deploy website
