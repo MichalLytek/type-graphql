@@ -113,34 +113,13 @@ jobs:
         env:
           CI: true
 
-  integration:
-    needs: check
-    if: needs.check.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-
-      - name: Install dependencies
-        run: |
-          npm ci
-
-      - name: Test
-        run: npm run test:ci
-        env:
-          CI: true
-
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
+        if: matrix.node-version == '18.x'
 
   release:
-    needs: integration
-    if: needs.integration.result == 'success' && startsWith(github.ref, 'refs/tags/v')
+    needs: check
+    if: needs.check.result == 'success' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -176,8 +155,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   website:
-    needs: integration
-    if: needs.integration.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
+    needs: check
+    if: needs.check.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
