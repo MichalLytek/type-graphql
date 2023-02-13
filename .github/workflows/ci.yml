@@ -98,7 +98,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm --prefix . ci
           npm --prefix ./examples ci
 
       - name: Build
