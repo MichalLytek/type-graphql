@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm --prefix examples ci
+          npm --prefix ./examples ci
 
       - name: Build
         run: |
