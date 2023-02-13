@@ -1,12 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "lib": ["es2018"],
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
+  "extends": "../tsconfig.json",
+  "compilerOptions": { "declaration": false, "sourceMap": false },
+  "include": [".", "../src"]
 }

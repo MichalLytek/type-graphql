@@ -8,7 +8,7 @@ import {
   Int,
   FieldResolver,
   Root,
-} from "../../../build";
+} from "type-graphql";
 import { runBenchmark, ARRAY_ITEMS } from "../run";
 
 @ObjectType()

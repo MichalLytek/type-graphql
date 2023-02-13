@@ -5,6 +5,27 @@
 jest.config.ts
 
 # FIXME: Remove
-examples/
+examples/apollo-cache/
+examples/apollo-client/
+examples/apollo-federation/
+examples/authorization/
+examples/automatic-validation/
+examples/custom-validation/
+examples/enums-and-unions/
+examples/extensions/
+examples/generic-types/
+examples/interfaces-inheritance/
+examples/middlewares-custom-decorators/
+examples/mikro-orm/
+examples/mixin-classes/
+examples/query-complexity/
+examples/redis-subscriptions/
+examples/resolvers-inheritance/
+examples/simple-subscriptions/
+examples/typegoose/
+examples/typeorm-basic-usage/
+examples/typeorm-lazy-relations/
+examples/using-container/
+examples/using-scoped-container/
 website/
 babel.config.js

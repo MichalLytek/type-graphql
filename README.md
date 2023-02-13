@@ -144,7 +144,7 @@ The [Tests folder](./tests) might also give you some tips on how to get various 
 
 ## The future
 
-The currently released version is a stable 1.0.0 release. It is well-tested (97% coverage, 428 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.
+The currently released version is a stable 1.0.0 release. It is well-tested (97% coverage, ~500 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.
 
 However, there are also plans for a lot more features like better TypeORM, Prisma and DataLoader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on the project board](https://github.com/MichalLytek/type-graphql/projects/1).
 

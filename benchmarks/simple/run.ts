@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { GraphQLSchema, execute } from "graphql";
-import { gql } from "apollo-server";
+import { gql } from "graphql-tag";
 
 const BENCHMARK_ITERATIONS = 100000;
 

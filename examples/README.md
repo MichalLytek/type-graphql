@@ -1,8 +1,7 @@
 # Examples
 
-This folder consist of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
-
-All examples has a `examples.gql` file with sample queries/mutations/subscriptions that you can execute.
+This folder consists of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
+All examples have an `examples.graphql` file with sample queries/mutations/subscriptions that you can execute.
 
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
 > So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
@@ -43,4 +42,4 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 - [Apollo Cache Control](./apollo-cache)
 - [Apollo Client local state](./apollo-client)
 
-_\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
+_\* Note that you need to edit the `TypeORM` examples `index.ts` with credentials to your local database_
