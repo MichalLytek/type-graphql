@@ -98,12 +98,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm --prefix . ci
-          npm --prefix ./examples ci
+          npm ci
 
       - name: Build
         run: |
           npm run build
+
+      - name: Install examples dependencies
+        run: |
+          npm --prefix ./examples ci
 
       - name: Check
         run: |
