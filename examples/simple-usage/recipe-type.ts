@@ -6,7 +6,7 @@ export class Recipe {
   @Field()
   title: string;
 
-  @Field(() => String, { nullable: true, deprecationReason: "Use 'description' field instead" })
+  @Field(_type => String, { nullable: true, deprecationReason: "Use 'description' field instead" })
   get specification(): string | undefined {
     return this.description;
   }
@@ -14,16 +14,16 @@ export class Recipe {
   @Field({ nullable: true, description: "The recipe description with preparation info" })
   description?: string;
 
-  @Field(() => [GraphQLInt])
+  @Field(_type => [GraphQLInt])
   ratings: number[];
 
   @Field()
   creationDate: Date;
 
-  @Field(() => GraphQLInt)
+  @Field(_type => GraphQLInt)
   ratingsCount: number;
 
-  @Field(() => GraphQLFloat, { nullable: true })
+  @Field(_type => GraphQLFloat, { nullable: true })
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;
     if (ratingsCount === 0) return null;

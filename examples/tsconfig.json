@@ -4,5 +4,5 @@
     "declaration": false,
     "sourceMap": false
   },
-  "include": ["."]
+  "include": ["./simple-usage"]
 }
