@@ -1,9 +1,9 @@
 import { Resolver, Query, Authorized, Mutation, Arg } from "type-graphql";
 import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./recipe.helpers";
+import { sampleRecipes } from "./recipe.data";
 
 @Resolver()
-export class ExampleResolver {
+export class RecipeResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
   // Anyone can read recipes collection

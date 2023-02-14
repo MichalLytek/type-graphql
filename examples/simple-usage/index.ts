@@ -3,7 +3,7 @@ import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import { RecipeResolver } from "./recipe-resolver";
+import { RecipeResolver } from "./recipe.resolver";
 
 async function bootstrap() {
   // Build TypeGraphQL executable schema

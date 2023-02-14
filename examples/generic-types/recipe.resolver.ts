@@ -2,7 +2,7 @@
 import { ObjectType, Query, Mutation, Arg, Int, Resolver } from "type-graphql";
 import { PaginatedResponse } from "./paginated-response.type";
 import { Recipe } from "./recipe.type";
-import { createSampleRecipes } from "./recipe.samples";
+import { createSampleRecipes } from "./recipe.data";
 
 // Create a temporary class for the abstract generic class 'instance'
 @ObjectType()

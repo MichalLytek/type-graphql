@@ -8,9 +8,9 @@ import {
   ResolverInterface,
   Int,
 } from "type-graphql";
-import { Recipe } from "./recipe-type";
-import { RecipeInput } from "./recipe-input";
-import { createRecipeSamples } from "./recipe-samples";
+import { Recipe } from "./recipe.type";
+import { RecipeInput } from "./recipe.input";
+import { createRecipeSamples } from "./recipe.data";
 
 @Resolver(_of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {

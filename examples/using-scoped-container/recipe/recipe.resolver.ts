@@ -3,7 +3,7 @@ import { Resolver, Query, Arg, Ctx, Mutation } from "type-graphql";
 import { Recipe } from "./recipe.type";
 import { RecipeService } from "./recipe.service";
 import { Logger } from "../logger";
-import { Context } from "../types";
+import { Context } from "../context.type";
 import { RecipeInput } from "./recipe.input";
 
 const delay = (time: number) =>

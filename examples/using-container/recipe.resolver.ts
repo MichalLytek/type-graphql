@@ -1,8 +1,8 @@
 import { Inject, Service } from "typedi";
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "type-graphql";
-import { Recipe } from "./recipe-type";
-import { RecipeService } from "./recipe-service";
-import { RecipeInput } from "./recipe-input";
+import { Recipe } from "./recipe.type";
+import { RecipeService } from "./recipe.service";
+import { RecipeInput } from "./recipe.input";
 
 @Service()
 @Resolver(_of => Recipe)

@@ -1,5 +1,5 @@
 import { Service, Inject } from "typedi";
-import { Context } from "./types";
+import { Context } from "./context.type";
 
 // Service is recreated for each request (scoped)
 @Service()

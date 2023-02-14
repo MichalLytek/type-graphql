@@ -2,15 +2,15 @@ import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import { ExampleResolver } from "./resolver";
-import { Context } from "./context.interface";
+import { RecipeResolver } from "./recipe.resolver";
+import { Context } from "./context.type";
 import { authChecker } from "./auth-checker";
 
 async function bootstrap() {
   // Build TypeGraphQL executable schema
   const schema = await buildSchema({
     // Array of resolvers
-    resolvers: [ExampleResolver],
+    resolvers: [RecipeResolver],
     // Register auth function
     authChecker,
   });

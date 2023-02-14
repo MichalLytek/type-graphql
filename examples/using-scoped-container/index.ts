@@ -4,8 +4,8 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { Container, ContainerInstance } from "typedi";
 import { buildSchema, ResolverData } from "type-graphql";
 import { RecipeResolver } from "./recipe/recipe.resolver";
-import { setSamplesInContainer } from "./recipe/recipe.samples";
-import { Context } from "./types";
+import { setSamplesInContainer } from "./recipe/recipe.data";
+import { Context } from "./context.type";
 
 async function bootstrap() {
   setSamplesInContainer();
