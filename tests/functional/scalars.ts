@@ -249,7 +249,7 @@ describe("Scalars", () => {
     });
   });
 
-  describe("Bulit-in scalars", () => {
+  describe("Built-in scalars", () => {
     let sampleResolver: any;
     let localArgDate: Date | undefined;
 

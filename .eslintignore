@@ -8,7 +8,6 @@ jest.config.ts
 examples/apollo-cache/
 examples/apollo-client/
 examples/apollo-federation/
-examples/custom-validation/
 examples/enums-and-unions/
 examples/extensions/
 examples/interfaces-inheritance/

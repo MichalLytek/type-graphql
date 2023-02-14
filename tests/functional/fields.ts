@@ -55,11 +55,11 @@ describe("Fields - schema", () => {
       @Field(type => [SampleNestedObject], { nullable: true })
       nullableObjectArrayField: SampleNestedObject[] | null;
 
-      @Field(typoe => [String], { nullable: "itemsAndList" })
+      @Field(type => [String], { nullable: "itemsAndList" })
       arrayWithNullableItemField: string[];
 
-      @Field(typoe => [String], { nullable: "items" })
-      nonnullArrayWithNullableItemField: string[];
+      @Field(type => [String], { nullable: "items" })
+      nonNullArrayWithNullableItemField: string[];
 
       @Field({ name: "overwrittenName", nullable: true })
       overwrittenStringField: string;
@@ -285,23 +285,23 @@ describe("Fields - schema", () => {
     expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
   });
 
-  it("should generate nullable item array with nullalbe option 'itemAndList'", async () => {
+  it("should generate nullable item array with nullable option 'itemAndList'", async () => {
     const arrayWithNullableItemField = sampleObjectType.fields.find(
       field => field.name === "arrayWithNullableItemField",
     )!;
     const nullableArrayType = arrayWithNullableItemField.type as IntrospectionListTypeRef;
-    const nullableItemtype = nullableArrayType.ofType as IntrospectionNamedTypeRef;
+    const nullableItemType = nullableArrayType.ofType as IntrospectionNamedTypeRef;
 
     expect(nullableArrayType.kind).toEqual(TypeKind.LIST);
-    expect(nullableItemtype.kind).toEqual(TypeKind.SCALAR);
-    expect(nullableItemtype.name).toEqual("String");
+    expect(nullableItemType.kind).toEqual(TypeKind.SCALAR);
+    expect(nullableItemType.name).toEqual("String");
   });
 
-  it("should generate nullable element nonnull array with nullable option 'item'", async () => {
-    const nonnullArrayWithNullableItemField = sampleObjectType.fields.find(
-      field => field.name === "nonnullArrayWithNullableItemField",
+  it("should generate nullable element nonNull array with nullable option 'item'", async () => {
+    const nonNullArrayWithNullableItemField = sampleObjectType.fields.find(
+      field => field.name === "nonNullArrayWithNullableItemField",
     )!;
-    const nonNullArrayType = nonnullArrayWithNullableItemField.type as IntrospectionNonNullTypeRef;
+    const nonNullArrayType = nonNullArrayWithNullableItemField.type as IntrospectionNonNullTypeRef;
     const arrayType = nonNullArrayType.ofType as IntrospectionListTypeRef;
     const elementType = arrayType.ofType as IntrospectionNamedTypeRef;
 

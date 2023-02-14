@@ -1,22 +1,21 @@
 import { Resolver, Query, Arg, Mutation, Args } from "type-graphql";
-
-import { Recipe } from "./recipe-type";
-import { RecipeInput } from "./recipe-input";
-import { RecipesArguments } from "./recipes-arguments";
+import { Recipe } from "./recipe.type";
+import { RecipeInput } from "./recipe.input";
+import { RecipesArguments } from "./recipes.arguments";
 import { generateRecipes } from "./helpers";
 
-@Resolver(of => Recipe)
+@Resolver(_of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = generateRecipes(100);
 
-  @Query(returns => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(@Args() options: RecipesArguments): Promise<Recipe[]> {
     const start: number = options.skip;
     const end: number = options.skip + options.take;
     return this.items.slice(start, end);
   }
 
-  @Mutation(returns => Recipe)
+  @Mutation(_returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
     const recipe = new Recipe();
     recipe.description = recipeInput.description;

@@ -13,7 +13,7 @@ describe("Simple resolvers", () => {
     getMetadataStorage().clear();
 
     const testMiddleware: MiddlewareFn = async ({}, next) => {
-      middlewareLogs.push("middleware extecuted");
+      middlewareLogs.push("middleware executed");
       return next();
     };
 

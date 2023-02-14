@@ -345,7 +345,7 @@ describe("Authorization", () => {
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
 
-    it("should throw UnauthorizedError when guest accessing autherd object field", async () => {
+    it("should throw UnauthorizedError when guest accessing authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,

@@ -331,7 +331,7 @@ describe("Unions", () => {
     });
   });
 
-  describe("Mutliple schemas", () => {
+  describe("Multiple schemas", () => {
     it("should correctly return data from union query for all schemas that uses the same union", async () => {
       getMetadataStorage().clear();
 

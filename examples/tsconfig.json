@@ -7,6 +7,7 @@
   "include": [
     "./authorization",
     "./automatic-validation",
+    "./custom-validation",
     "./generic-types",
     "./simple-usage",
     "./using-container",

@@ -1,22 +1,24 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import * as joiful from "joiful";
-import * as path from "path";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import joiful from "joiful";
 import { buildSchema } from "type-graphql";
-
-import { RecipeResolver } from "./recipe-resolver";
+import { RecipeResolver } from "./recipe.resolver";
 
 async function bootstrap() {
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
-    // custom validate function
-    validate: (argValue, argType) => {
-      // call joiful validate
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Custom validate function
+    validate: (argValue, _argType) => {
+      // Call joiful validate
       const { error } = joiful.validate(argValue);
       if (error) {
-        // throw error on failed validation
+        // Throw error if validation failed
         throw error;
       }
     },
@@ -25,9 +27,9 @@ async function bootstrap() {
   // Create GraphQL server
   const server = new ApolloServer({ schema });
 
-  // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`GraphQL server ready at ${url}`);
 }
 
 bootstrap();

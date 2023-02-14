@@ -366,7 +366,7 @@ describe("Interfaces and inheritance", () => {
       expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
-    it("should generate object type implicitly implementing mutliple interfaces correctly", async () => {
+    it("should generate object type implicitly implementing multiple interfaces correctly", async () => {
       expect(sampleMultiImplementingObjectType).toBeDefined();
       expect(sampleMultiImplementingObjectType.fields).toHaveLength(4);
 
@@ -1129,7 +1129,7 @@ describe("Interfaces and inheritance", () => {
           if ("two" in value) {
             return "Two";
           }
-          throw new Error("Unkown resolveType error");
+          throw new Error("Unknown resolveType error");
         },
       })
       class BaseInterface {
@@ -1207,7 +1207,7 @@ describe("Interfaces and inheritance", () => {
           if ("two" in value) {
             return Two;
           }
-          throw new Error("Unkown resolveType error");
+          throw new Error("Unknown resolveType error");
         },
       })
       class BaseInterface {
