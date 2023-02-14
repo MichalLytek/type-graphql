@@ -1,4 +1,4 @@
-import { Recipe } from "./recipe-type";
+import { Recipe } from "./recipe.type";
 
 export function generateRecipes(count: number): Recipe[] {
   return new Array(count).fill(null).map(

@@ -6,6 +6,7 @@
   },
   "include": [
     "./authorization",
+    "./automatic-validation",
     "./generic-types",
     "./simple-usage",
     "./using-container",
