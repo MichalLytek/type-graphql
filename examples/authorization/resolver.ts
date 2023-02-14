@@ -1,5 +1,4 @@
 import { Resolver, Query, Authorized, Mutation, Arg } from "type-graphql";
-
 import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./recipe.helpers";
 
@@ -7,13 +6,13 @@ import { sampleRecipes } from "./recipe.helpers";
 export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
-  // anyone can read recipes collection
-  @Query(returns => [Recipe])
+  // Anyone can read recipes collection
+  @Query(_returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipesData;
   }
 
-  @Authorized() // only logged users can add new recipe
+  @Authorized() // Only authenticated users can add new recipe
   @Mutation()
   addRecipe(
     @Arg("title") title: string,
@@ -25,10 +24,11 @@ export class ExampleResolver {
       ratings: [],
     });
     this.recipesData.push(newRecipe);
+
     return newRecipe;
   }
 
-  @Authorized("ADMIN") // only admin can remove the published recipe
+  @Authorized("ADMIN") // Only 'ADMIN' users can remove published recipe
   @Mutation()
   deleteRecipe(@Arg("title") title: string): boolean {
     const foundRecipeIndex = this.recipesData.findIndex(it => it.title === title);
@@ -36,6 +36,7 @@ export class ExampleResolver {
       return false;
     }
     this.recipesData.splice(foundRecipeIndex, 1);
+
     return true;
   }
 }

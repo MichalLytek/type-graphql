@@ -1,5 +1,5 @@
 import { User } from "./user.interface";
 
-export interface Context {
+export type Context = {
   user?: User;
-}
+};

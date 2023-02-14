@@ -8,15 +8,15 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Authorized() // restrict access to ingredients only for logged users (paid subscription?)
-  @Field(type => [String])
+  @Authorized() // Restrict access only for authenticated users
+  @Field(_type => [String])
   ingredients: string[];
 
-  @Authorized("ADMIN") // restrict access to rates details for admin only
-  @Field(type => [Int])
+  @Authorized("ADMIN") // Restrict access only for 'ADMIN' users
+  @Field(_type => [Int])
   ratings: number[];
 
-  @Field(type => Float, { nullable: true })
+  @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {
     return this.ratings.reduce((a, b) => a + b, 0) / this.ratings.length;
   }
