@@ -35,6 +35,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
       creationDate: new Date(),
     });
     await this.items.push(recipe);
+
     return recipe;
   }
 

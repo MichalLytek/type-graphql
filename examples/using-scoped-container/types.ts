@@ -1,6 +1,6 @@
 import { ContainerInstance } from "typedi";
 
-export interface Context {
+export type Context = {
   requestId: number;
   container: ContainerInstance;
-}
+};

@@ -1,9 +1,8 @@
 import { Service, Inject } from "typedi";
-
 import { Recipe } from "./recipe.type";
 import { RecipeInput } from "./recipe.input";
 
-// this service will be global - shared by every request
+// Service is global, shared by every request
 @Service({ global: true })
 export class RecipeService {
   private autoIncrementValue: number;
@@ -24,6 +23,7 @@ export class RecipeService {
   async add(data: RecipeInput) {
     const recipe = this.createRecipe(data);
     this.items.push(recipe);
+
     return recipe;
   }
 
@@ -32,10 +32,13 @@ export class RecipeService {
       ...recipeData,
       id: this.getId(),
     });
+
     return recipe;
   }
 
   private getId(): string {
-    return (++this.autoIncrementValue).toString();
+    this.autoIncrementValue += 1;
+
+    return this.autoIncrementValue.toString();
   }
 }

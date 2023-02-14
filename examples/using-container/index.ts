@@ -22,7 +22,7 @@ async function bootstrap() {
 
   // Start server
   const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
-  console.info(`GraphQL server ready at ${url}`);
+  console.log(`GraphQL server ready at ${url}`);
 }
 
 bootstrap();

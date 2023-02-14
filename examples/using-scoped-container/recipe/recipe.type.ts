@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field(_type => ID)
   id: string;
 
   @Field()
@@ -11,6 +11,6 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [String])
+  @Field(_type => [String])
   ingredients: string[];
 }

@@ -25,6 +25,5 @@ examples/simple-subscriptions/
 examples/typegoose/
 examples/typeorm-basic-usage/
 examples/typeorm-lazy-relations/
-examples/using-scoped-container/
 website/
 babel.config.js
