@@ -12,7 +12,7 @@ type Query {
 }
 
 type Recipe {
-  description: String!
+  description: String
   ratings: [Int!]!
   title: String!
 }

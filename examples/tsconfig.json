@@ -4,5 +4,11 @@
     "declaration": false,
     "sourceMap": false
   },
-  "include": ["./authorization", "./simple-usage", "./using-container", "./using-scoped-container"]
+  "include": [
+    "./authorization",
+    "./generic-types",
+    "./simple-usage",
+    "./using-container",
+    "./using-scoped-container"
+  ]
 }

@@ -1,6 +1,6 @@
-import Recipe from "./recipe.type";
+import { Recipe } from "./recipe.type";
 
-export default function createSampleRecipes(): Recipe[] {
+export function createSampleRecipes(): Recipe[] {
   return [
     {
       description: "Desc 1",

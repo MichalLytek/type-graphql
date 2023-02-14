@@ -12,7 +12,6 @@ examples/automatic-validation/
 examples/custom-validation/
 examples/enums-and-unions/
 examples/extensions/
-examples/generic-types/
 examples/interfaces-inheritance/
 examples/middlewares-custom-decorators/
 examples/mikro-orm/
