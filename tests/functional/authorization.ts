@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
-
 import {
   Field,
   ObjectType,
@@ -52,7 +51,7 @@ describe("Authorization", () => {
       inlineAuthedResolvedField: string;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {
@@ -74,9 +73,9 @@ describe("Authorization", () => {
         return ctx.user !== undefined;
       }
 
-      @Query(type => Boolean, { nullable: true })
+      @Query(() => Boolean, { nullable: true })
       @Authorized()
-      nullableAuthedQuery(@Ctx() ctx: any) {
+      nullableAuthedQuery() {
         return true;
       }
 
@@ -562,11 +561,13 @@ describe("Authorization", () => {
     });
 
     it("should not throw an error", async () => {
-      await buildSchema({
-        resolvers: [testResolver],
-        // dummy auth checker
-        authChecker: () => false,
-      });
+      await expect(
+        buildSchema({
+          resolvers: [testResolver],
+          // dummy auth checker
+          authChecker: () => false,
+        }),
+      ).resolves.not.toThrow();
     });
   });
 });

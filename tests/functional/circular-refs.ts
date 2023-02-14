@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "graphql";
-
+import { IntrospectionObjectType, TypeKind, graphql } from "graphql";
 import { Query, ObjectType, Field, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -14,10 +13,10 @@ describe("Circular references", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field(type => CircularRef1)
+      @Field(() => CircularRef1)
       ref1: any;
 
-      @Field(type => CircularRef2)
+      @Field(() => CircularRef2)
       ref2: any;
     }
     @Resolver()
@@ -75,10 +74,10 @@ describe("Circular references", () => {
       @Field()
       stringField: string;
 
-      @Field(type => SampleObject, { nullable: true })
+      @Field(() => SampleObject, { nullable: true })
       selfReferenceField?: SampleObject;
 
-      @Field(type => [SampleObject])
+      @Field(() => [SampleObject])
       selfReferenceArrayField: SampleObject[];
     }
     @Resolver()

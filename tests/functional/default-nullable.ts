@@ -7,7 +7,6 @@ import {
   TypeKind,
   IntrospectionListTypeRef,
 } from "graphql";
-
 import { Field, ObjectType, Resolver, Query } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -24,7 +23,7 @@ describe("buildSchema -> nullableByDefault", () => {
       @Field()
       normalField: string;
 
-      @Field(type => [String])
+      @Field(() => [String])
       normalArrayField: string[];
 
       @Field({ nullable: true })
@@ -35,19 +34,19 @@ describe("buildSchema -> nullableByDefault", () => {
     }
     SampleObjectClass = SampleObject;
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): string {
         return "normalQuery";
       }
 
-      @Query(returns => [String])
+      @Query(() => [String])
       normalArrayQuery(): string[] {
         return ["normalArrayQuery"];
       }
 
-      @Query(type => String, { nullable: true })
+      @Query(() => String, { nullable: true })
       nullableQuery() {
         return null;
       }

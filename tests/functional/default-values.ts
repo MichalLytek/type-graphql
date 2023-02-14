@@ -10,7 +10,6 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("default values", () => {

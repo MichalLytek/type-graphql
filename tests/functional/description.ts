@@ -4,7 +4,6 @@ import {
   IntrospectionObjectType,
   IntrospectionInputObjectType,
 } from "graphql";
-
 import {
   ObjectType,
   ArgsType,
@@ -25,7 +24,7 @@ describe("Description", () => {
     let queryType: IntrospectionObjectType;
 
     beforeAll(async () => {
-      // create sample definitions
+      // Create sample definitions
 
       @ObjectType({ description: "sample object description" })
       class SampleObject {
@@ -42,7 +41,7 @@ describe("Description", () => {
 
         @Field({ description: "sample object method field description" })
         methodField(
-          @Arg("arg", { description: "sample object method arg description" }) arg: string,
+          @Arg("arg", { description: "sample object method arg description" }) _arg: string,
         ): string {
           return "methodField";
         }
@@ -66,7 +65,7 @@ describe("Description", () => {
         describedField: string;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {
@@ -75,20 +74,20 @@ describe("Description", () => {
 
         @Query({ description: "sample query description" })
         describedQuery(
-          @Arg("normalArg") normalArg: string,
+          @Arg("normalArg") _normalArg: string,
           @Arg("describedArg", { description: "sample query arg description" })
-          describedArg: string,
+          _describedArg: string,
         ): string {
           return "describedQuery";
         }
 
         @Query()
-        argumentedQuery(@Args() args: SampleArguments): string {
+        argumentedQuery(@Args() _args: SampleArguments): string {
           return "argumentedQuery";
         }
 
         @Query()
-        inputQuery(@Arg("input") input: SampleInput): string {
+        inputQuery(@Arg("input") _input: SampleInput): string {
           return "inputQuery";
         }
 
@@ -99,25 +98,25 @@ describe("Description", () => {
 
         @Mutation({ description: "sample mutation description" })
         describedMutation(
-          @Arg("normalArg") normalArg: string,
+          @Arg("normalArg") _normalArg: string,
           @Arg("describedArg", { description: "sample mutation arg description" })
-          describedArg: string,
+          _describedArg: string,
         ): string {
           return "describedMutation";
         }
 
         @Mutation()
-        argumentedMutation(@Args() args: SampleArguments): string {
+        argumentedMutation(@Args() _args: SampleArguments): string {
           return "argumentedMutation";
         }
 
         @Mutation()
-        inputMutation(@Arg("input") input: SampleInput): string {
+        inputMutation(@Arg("input") _input: SampleInput): string {
           return "inputMutation";
         }
       }
 
-      // get builded schema info from retrospection
+      // Get builded schema info from retrospection
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
         orphanedTypes: [SampleObject],

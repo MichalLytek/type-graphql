@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { IntrospectionSchema, IntrospectionObjectType, GraphQLSchema, printType } from "graphql";
-
 import {
   ObjectType,
   Resolver,
@@ -22,7 +21,7 @@ describe("Deprecation", () => {
     let queryType: IntrospectionObjectType;
 
     beforeAll(async () => {
-      // create sample definitions
+      // Create sample definitions
 
       @ObjectType()
       class SampleObject {
@@ -67,7 +66,7 @@ describe("Deprecation", () => {
         deprecatedArg: string;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): SampleObject {
@@ -75,12 +74,12 @@ describe("Deprecation", () => {
         }
 
         @Query()
-        inputQuery(@Arg("input") input: SampleInput): SampleObject {
+        inputQuery(@Arg("input") _input: SampleInput): SampleObject {
           return {} as SampleObject;
         }
 
         @Query()
-        argsQuery(@Args() args: SampleArgs): SampleObject {
+        argsQuery(@Args() _args: SampleArgs): SampleObject {
           return {} as SampleObject;
         }
 
@@ -90,7 +89,7 @@ describe("Deprecation", () => {
             deprecationReason: "sample query arg deprecation reason",
             nullable: true,
           })
-          arg?: string,
+          _arg?: string,
         ): SampleObject {
           return {} as SampleObject;
         }
