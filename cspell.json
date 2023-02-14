@@ -13,7 +13,7 @@
     "**/dist/",
     "**/coverage/",
     "**/node_modules/",
-    "./img/",
+    "./images/",
     "./package.json",
     // FIXME: Remove
     "README.md",

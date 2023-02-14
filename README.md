@@ -1,6 +1,6 @@
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable-next-line MD041 -->
-![logo](./img/logo.png)
+![logo](./images/logo.png)
 <!-- prettier-ignore-end -->
 
 # TypeGraphQL
@@ -166,9 +166,9 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 <!-- markdownlint-disable MD033 -->
 
-| [<img src="./img/lovd.png" width="150" alt="lovd" />](https://www.lovd.com) |
-| :-------------------------------------------------------------------------: |
-|                      [**Lovd**](https://www.lovd.com/)                      |
+| [<img src="./images/lovd.png" width="150" alt="lovd" />](https://www.lovd.com) |
+| :----------------------------------------------------------------------------: |
+|                       [**Lovd**](https://www.lovd.com/)                        |
 
 <!-- markdownlint-enable MD033 -->
 
@@ -176,9 +176,9 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 <!-- markdownlint-disable MD033 -->
 
-| [<img src="./img/live-graphics-system.png" width="55" alt="live graphic systems" />](https://www.ligrsystems.com) | [<img src="./img/lifex.png" width="60" alt="lifeX aps" />](https://www.joinlifex.com) | [<img src="./img/instinctools.svg" width="100" alt="instinctools" />](https://instinctools.com/manufacturing) | [<img src="./img/vps-server.png" width="125" alt="vps server" />](https://www.vpsserver.com) |
-| :---------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: |
-|                              [**Live Graphic Systems**](https://www.ligrsystems.com)                              |                      [**LifeX Aps**](https://www.joinlifex.com/)                      |                          [**instinctools**](https://instinctools.com/manufacturing)                           |                         [**VPS Server**](https://www.vpsserver.com)                          |
+| [<img src="./images/live-graphics-system.png" width="55" alt="live graphic systems" />](https://www.ligrsystems.com) | [<img src="./images/lifex.png" width="60" alt="lifeX aps" />](https://www.joinlifex.com) | [<img src="./images/instinctools.svg" width="100" alt="instinctools" />](https://instinctools.com/manufacturing) | [<img src="./images/vps-server.png" width="125" alt="vps server" />](https://www.vpsserver.com) |
+| :------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------: |
+|                               [**Live Graphic Systems**](https://www.ligrsystems.com)                                |                       [**LifeX Aps**](https://www.joinlifex.com/)                        |                            [**instinctools**](https://instinctools.com/manufacturing)                            |                           [**VPS Server**](https://www.vpsserver.com)                           |
 
 <!-- markdownlint-enable MD033 -->
 
