@@ -1,9 +1,11 @@
-#!/usr/bin/env sh
+# shellcheck shell=sh
 
 # Fail on error
 set -o errexit
 # Disable wildcard character expansion
 set -o noglob
+# Disable undefined variable reference
+set -o nounset
 
 # ================
 # LOGGER
