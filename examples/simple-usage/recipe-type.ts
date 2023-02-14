@@ -1,5 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
-import { GraphQLInt, GraphQLFloat } from "graphql";
+import { Field, Float, Int, ObjectType } from "type-graphql";
 
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
@@ -14,16 +13,16 @@ export class Recipe {
   @Field({ nullable: true, description: "The recipe description with preparation info" })
   description?: string;
 
-  @Field(_type => [GraphQLInt])
+  @Field(_type => [Int])
   ratings: number[];
 
   @Field()
   creationDate: Date;
 
-  @Field(_type => GraphQLInt)
+  @Field(_type => Int)
   ratingsCount: number;
 
-  @Field(_type => GraphQLFloat, { nullable: true })
+  @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;
     if (ratingsCount === 0) return null;

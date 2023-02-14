@@ -6,8 +6,8 @@ import {
   Root,
   Mutation,
   ResolverInterface,
+  Int,
 } from "type-graphql";
-import { GraphQLInt } from "graphql";
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 import { createRecipeSamples } from "./recipe-samples";
@@ -41,7 +41,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   @FieldResolver()
   ratingsCount(
     @Root() recipe: Recipe,
-    @Arg("minRate", _type => GraphQLInt, { defaultValue: 0.0 }) minRate: number,
+    @Arg("minRate", _type => Int, { defaultValue: 0 }) minRate: number,
   ): number {
     return recipe.ratings.filter(rating => rating >= minRate).length;
   }

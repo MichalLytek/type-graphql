@@ -77,6 +77,7 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
+    "@apollo/server": "^4.3.3",
     "@cspell/dict-node": "^4.0.2",
     "@cspell/dict-npm": "^5.0.3",
     "@cspell/dict-shell": "^1.0.1",

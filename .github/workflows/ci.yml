@@ -104,10 +104,6 @@ jobs:
         run: |
           npm run build
 
-      - name: Install examples dependencies
-        run: |
-          npm --prefix ./examples ci
-
       - name: Check
         run: |
           npm run check
