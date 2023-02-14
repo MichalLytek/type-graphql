@@ -7,9 +7,11 @@ import { RecipeInput } from "./recipe-input";
 @Service()
 @Resolver(_of => Recipe)
 export class RecipeResolver {
-  // Inject service
-  @Inject()
-  private readonly recipeService!: RecipeService;
+  constructor(
+    // Inject service
+    @Inject()
+    private readonly recipeService: RecipeService,
+  ) {}
 
   @Query(_returns => Recipe, { nullable: true })
   async recipe(@Arg("recipeId") recipeId: string) {

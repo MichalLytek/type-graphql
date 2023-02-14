@@ -4,12 +4,12 @@ import { RecipeInput } from "./recipe-input";
 
 @Service()
 export class RecipeService {
-  @Inject("SAMPLE_RECIPES")
-  private readonly items: Recipe[];
-
   private autoIncrementValue: number;
 
-  constructor() {
+  constructor(
+    @Inject("SAMPLE_RECIPES")
+    private readonly items: Recipe[],
+  ) {
     this.autoIncrementValue = this.items.length;
   }
 
