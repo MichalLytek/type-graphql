@@ -1,5 +1,5 @@
-// tslint:disable:member-ordering
 import "reflect-metadata";
+import path from "node:path";
 import {
   IntrospectionSchema,
   IntrospectionObjectType,
@@ -11,10 +11,7 @@ import {
   graphql,
   TypeKind,
   IntrospectionInputObjectType,
-  GraphQLError,
 } from "graphql";
-import * as path from "path";
-
 import {
   ObjectType,
   Field,
@@ -87,7 +84,7 @@ describe("Resolvers", () => {
         @Field()
         stringArg: string;
 
-        @Field(type => Int, { nullable: true })
+        @Field(() => Int, { nullable: true })
         numberArg: number;
 
         @Field()
@@ -130,25 +127,26 @@ describe("Resolvers", () => {
           return "simpleMethodField";
         }
 
-        @Field(type => String)
+        @Field(() => String)
         argMethodField(
-          @Arg("stringArg") stringArg: string,
-          @Arg("booleanArg") booleanArg: boolean,
-          @Arg("numberArg") numberArg: number,
-          @Arg("inputArg") inputArg: SampleInput,
-          @Arg("inputChildArg") inputChildArg: SampleInputChild,
-          @Arg("explicitNullableArg", type => String, { nullable: true })
-          explicitNullableArg: any,
-          @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
+          @Arg("stringArg") _stringArg: string,
+          @Arg("booleanArg") _booleanArg: boolean,
+          @Arg("numberArg") _numberArg: number,
+          @Arg("inputArg") _inputArg: SampleInput,
+          @Arg("inputChildArg") _inputChildArg: SampleInputChild,
+          @Arg("explicitNullableArg", _type => String, { nullable: true })
+          _explicitNullableArg: any,
+          @Arg("explicitArrayArg", () => [String]) _explicitArrayArg: any,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
-          defaultStringArg: string,
-          @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
+          _defaultStringArg: string,
+          @Arg("nullableStringArg", { nullable: true }) _nullableStringArg?: string,
         ): any {
           return "argMethodField";
         }
       }
 
       @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class LambdaResolver {
         @Query()
         lambdaQuery(): boolean {
@@ -157,6 +155,7 @@ describe("Resolvers", () => {
       }
 
       @Resolver(SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class ClassResolver {
         @Query()
         classQuery(): boolean {
@@ -164,7 +163,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         emptyQuery(): boolean {
@@ -176,32 +175,32 @@ describe("Resolvers", () => {
           return "implicitStringQuery";
         }
 
-        @Query(returns => String)
+        @Query(() => String)
         explicitStringQuery(): any {
           return "explicitStringQuery";
         }
 
-        @Query(returns => String, { nullable: true })
+        @Query(() => String, { nullable: true })
         nullableStringQuery(): string | null {
           return Math.random() > 0.5 ? "explicitStringQuery" : null;
         }
 
-        @Query(returnType => [String])
+        @Query(() => [String])
         explicitStringArrayQuery(): any {
           return [];
         }
 
-        @Query(returnType => [String], { nullable: "items" })
+        @Query(() => [String], { nullable: "items" })
         explicitNullableItemArrayQuery(): any {
           return [];
         }
 
-        @Query(returnType => [String], { nullable: "itemsAndList" })
+        @Query(() => [String], { nullable: "itemsAndList" })
         explicitNullableArrayWithNullableItemsQuery(): any {
           return [];
         }
 
-        @Query(returns => String)
+        @Query(() => String)
         async promiseStringQuery(): Promise<string> {
           return "promiseStringQuery";
         }
@@ -211,33 +210,33 @@ describe("Resolvers", () => {
           return {} as SampleObject;
         }
 
-        @Query(returns => SampleObject)
+        @Query(() => SampleObject)
         async asyncObjectQuery(): Promise<SampleObject> {
           return {} as SampleObject;
         }
 
         @Query()
-        rootCtxQuery(@Root() root: any, @Ctx() ctx: any): boolean {
+        rootCtxQuery(@Root() _root: any, @Ctx() _ctx: any): boolean {
           return true;
         }
 
-        @Query(returns => String)
-        argQuery(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean): any {
+        @Query(() => String)
+        argQuery(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean): any {
           return "argQuery";
         }
 
-        @Query(returns => String)
-        argsQuery(@Args() args: SampleArgs): any {
+        @Query(() => String)
+        argsQuery(@Args() _args: SampleArgs): any {
           return "argsQuery";
         }
 
-        @Query(returns => String)
-        argAndArgsQuery(@Arg("arg1") arg1: string, @Args() args: SampleArgs): any {
+        @Query(() => String)
+        argAndArgsQuery(@Arg("arg1") _arg1: string, @Args() _args: SampleArgs): any {
           return "argAndArgsQuery";
         }
 
-        @Query(returns => String)
-        argsInheritanceQuery(@Args() args: SampleArgsChild): any {
+        @Query(() => String)
+        argsInheritanceQuery(@Args() _args: SampleArgsChild): any {
           return "argsInheritanceQuery";
         }
 
@@ -247,16 +246,16 @@ describe("Resolvers", () => {
         }
 
         @FieldResolver()
-        resolverFieldWithArgs(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+        resolverFieldWithArgs(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean) {
           return "resolverFieldWithArgs";
         }
 
-        @FieldResolver(type => String, { nullable: true, description: "independent" })
-        independentFieldResolver(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+        @FieldResolver(() => String, { nullable: true, description: "independent" })
+        independentFieldResolver(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean) {
           return "resolverFieldWithArgs";
         }
 
-        @FieldResolver(type => String, { name: "overwrittenField", nullable: true })
+        @FieldResolver(() => String, { name: "overwrittenField", nullable: true })
         overwrittenFieldResolver() {
           return "overwrittenFieldResolver";
         }
@@ -889,9 +888,10 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
-            @Query(returns => String)
-            sampleQuery(@Arg("arg") arg: any): string {
+            @Query(() => String)
+            sampleQuery(@Arg("arg") _arg: any): string {
               return "sampleQuery";
             }
           }
@@ -910,6 +910,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
             sampleQuery() {
@@ -931,6 +932,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
             sampleQuery(): any {
@@ -952,6 +954,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
             sampleMutation() {
@@ -973,6 +976,7 @@ describe("Resolvers", () => {
 
         try {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
             sampleMutation(): any {
@@ -991,12 +995,6 @@ describe("Resolvers", () => {
 
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
         expect.assertions(2);
-
-        @ObjectType()
-        class SampleObjectWithError {
-          @Field()
-          sampleField: string;
-        }
 
         try {
           @Resolver()
@@ -1033,7 +1031,7 @@ describe("Resolvers", () => {
         }
 
         try {
-          @Resolver(of => SampleObjectWithError)
+          @Resolver(() => SampleObjectWithError)
           class SampleResolverWithError {
             @Query()
             sampleQuery(): string {
@@ -1068,7 +1066,7 @@ describe("Resolvers", () => {
         try {
           @Resolver()
           class SampleResolverWithError {
-            @Query(returns => SampleUndecoratedObject)
+            @Query(() => SampleUndecoratedObject)
             sampleQuery(): string {
               return "sampleQuery";
             }
@@ -1099,7 +1097,7 @@ describe("Resolvers", () => {
           @Resolver()
           class SampleResolverWithError {
             @Query()
-            sampleQuery(@Arg("input") input: SampleObject): string {
+            sampleQuery(@Arg("input") _input: SampleObject): string {
               return "sampleQuery";
             }
           }
@@ -1129,7 +1127,7 @@ describe("Resolvers", () => {
           @Resolver()
           class SampleResolverWithError {
             @Query()
-            sampleQuery(@Args() args: SampleObject): string {
+            sampleQuery(@Args() _args: SampleObject): string {
               return "sampleQuery";
             }
           }
@@ -1158,7 +1156,7 @@ describe("Resolvers", () => {
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }
@@ -1186,7 +1184,7 @@ describe("Resolvers", () => {
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }
@@ -1215,11 +1213,11 @@ describe("Resolvers", () => {
     let querySecondCustom: any;
     let descriptorEvaluated: boolean;
     let sampleObjectConstructorCallCount: number;
-    let validationErrors: GraphQLError[];
 
     function DescriptorDecorator(): MethodDecorator {
       return (obj, methodName, descriptor: any) => {
         const originalMethod: Function = descriptor.value;
+        // eslint-disable-next-line func-names
         descriptor.value = function () {
           descriptorEvaluated = true;
           // eslint-disable-next-line prefer-rest-params
@@ -1238,7 +1236,6 @@ describe("Resolvers", () => {
       descriptorEvaluated = false;
       sampleObjectConstructorCallCount = 0;
       mutationInputValue = undefined;
-      validationErrors = [];
     });
 
     beforeAll(async () => {
@@ -1297,10 +1294,10 @@ describe("Resolvers", () => {
         @Field({ nullable: true })
         optionalNestedField?: SampleInput;
 
-        @Field(type => [SampleInput])
+        @Field(() => [SampleInput])
         nestedArrayField: SampleInput[];
 
-        @Field(type => [SampleInput], { nullable: "itemsAndList" })
+        @Field(() => [SampleInput], { nullable: "itemsAndList" })
         nestedOptionalArrayField?: Array<SampleInput | undefined>;
       }
       classes.SampleNestedInput = SampleNestedInput;
@@ -1309,7 +1306,7 @@ describe("Resolvers", () => {
       class SampleTripleNestedInput {
         instanceField = Math.random();
 
-        @Field(type => [[[SampleInput]]])
+        @Field(() => [[[SampleInput]]])
         deeplyNestedInputArrayField: SampleInput[][][];
       }
       classes.SampleTripleNestedInput = SampleTripleNestedInput;
@@ -1366,7 +1363,7 @@ describe("Resolvers", () => {
           return this.instanceValue;
         }
 
-        @Field(type => String)
+        @Field(() => String)
         async asyncMethodField() {
           return "asyncMethodField";
         }
@@ -1377,7 +1374,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
 
@@ -1483,7 +1480,7 @@ describe("Resolvers", () => {
         }
 
         @Mutation()
-        mutationWithInputs(@Arg("inputs", type => [SampleInput]) inputs: SampleInput[]): number {
+        mutationWithInputs(@Arg("inputs", () => [SampleInput]) inputs: SampleInput[]): number {
           // eslint-disable-next-line prefer-destructuring
           mutationInputValue = inputs[0];
           return inputs[0].factor;
@@ -1491,7 +1488,7 @@ describe("Resolvers", () => {
 
         @Mutation()
         mutationWithTripleArrayInputs(
-          @Arg("inputs", type => [[[SampleInput]]]) inputs: SampleInput[][][],
+          @Arg("inputs", () => [[[SampleInput]]]) inputs: SampleInput[][][],
         ): number {
           mutationInputValue = inputs;
           return inputs[0][0][0].factor;
@@ -2011,6 +2008,7 @@ describe("Resolvers", () => {
         omittedField: string;
       }
       @Resolver()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class OmittedResolver {
         @Query()
         omittedQuery(): OmittedObject {
@@ -2117,7 +2115,8 @@ describe("Resolvers", () => {
           return { sampleField: "sampleField", resolvedField: "resolvedField" };
         }
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2161,7 +2160,8 @@ describe("Resolvers", () => {
           return { sampleField: "sampleField" };
         }
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2197,7 +2197,7 @@ describe("Resolvers", () => {
         }
       }
       function createResolver() {
-        @Resolver(of => SampleObject)
+        @Resolver(() => SampleObject)
         class SampleObjectResolver {
           @FieldResolver()
           resolvedField(): string {
@@ -2227,14 +2227,11 @@ describe("Resolvers", () => {
     let mutationType: IntrospectionObjectType;
     let subscriptionType: IntrospectionObjectType;
     let thisVar: any;
-    let baseResolver: any;
     let childResolver: any;
     let overrideResolver: any;
-    let validationErrors: GraphQLError[];
 
     beforeEach(() => {
       thisVar = null;
-      validationErrors = [];
     });
 
     beforeAll(async () => {
@@ -2253,29 +2250,29 @@ describe("Resolvers", () => {
       }
 
       function createResolver(name: string, objectType: ClassType) {
-        @Resolver(of => objectType, { isAbstract: true })
+        @Resolver(() => objectType, { isAbstract: true })
         class BaseResolver {
           protected name = "baseName";
 
           @Query({ name: `${name}Query` })
-          baseQuery(@Arg("arg") arg: boolean): boolean {
+          baseQuery(@Arg("arg") _arg: boolean): boolean {
             thisVar = this;
             return true;
           }
 
           @Mutation({ name: `${name}Mutation` })
-          baseMutation(@Arg("arg") arg: boolean): boolean {
+          baseMutation(@Arg("arg") _arg: boolean): boolean {
             thisVar = this;
             return true;
           }
 
           @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
-          baseSubscription(@Arg("arg") arg: boolean): boolean {
+          baseSubscription(@Arg("arg") _arg: boolean): boolean {
             thisVar = this;
             return true;
           }
 
-          @Mutation(returns => Boolean, { name: `${name}Trigger` })
+          @Mutation(() => Boolean, { name: `${name}Trigger` })
           async baseTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
             await pubSub.publish("baseTopic", null);
             return true;
@@ -2287,7 +2284,6 @@ describe("Resolvers", () => {
             return "resolverField";
           }
         }
-        baseResolver = BaseResolver;
 
         return BaseResolver;
       }
@@ -2317,7 +2313,7 @@ describe("Resolvers", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async childTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
           await pubSub.publish("childTopic", null);
           return true;
@@ -2328,13 +2324,13 @@ describe("Resolvers", () => {
       @Resolver()
       class OverrideResolver extends createResolver("overridden", DummyObject) {
         @Query()
-        overriddenQuery(@Arg("overriddenArg") arg: boolean): string {
+        overriddenQuery(@Arg("overriddenArg") _arg: boolean): string {
           thisVar = this;
           return "overriddenQuery";
         }
 
         @Mutation({ name: "overriddenMutation" })
-        overriddenMutationHandler(@Arg("overriddenArg") arg: boolean): string {
+        overriddenMutationHandler(@Arg("overriddenArg") _arg: boolean): string {
           thisVar = this;
           return "overriddenMutationHandler";
         }
@@ -2403,7 +2399,6 @@ describe("Resolvers", () => {
       const overriddenQuery = queryType.fields.find(it => it.name === "overriddenQuery")!;
       const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
       const overriddenMutation = mutationType.fields.find(it => it.name === "overriddenMutation")!;
-      const t = getInnerTypeOfNonNullableType(prefixQuery);
 
       expect(prefixQuery.args).toHaveLength(1);
       expect(prefixQuery.args[0].name).toEqual("arg");

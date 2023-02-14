@@ -199,7 +199,7 @@ describe("typeDefs and resolvers", () => {
           return type1;
         }
 
-        @Query(returns => SampleUnion)
+        @Query(() => SampleUnion)
         sampleUnionQuery(): typeof SampleUnion {
           const type3 = new SampleType3();
           type3.sampleInterfaceStringField = "sampleInterfaceStringField";
@@ -208,7 +208,7 @@ describe("typeDefs and resolvers", () => {
           return type3;
         }
 
-        @Query(returns => SampleResolveUnion)
+        @Query(() => SampleResolveUnion)
         sampleResolveUnionQuery(): typeof SampleResolveUnion {
           return {
             sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -216,17 +216,17 @@ describe("typeDefs and resolvers", () => {
           };
         }
 
-        @Query(returns => SampleNumberEnum)
+        @Query(() => SampleNumberEnum)
         sampleNumberEnumQuery(
-          @Arg("numberEnum", type => SampleNumberEnum) numberEnum: SampleNumberEnum,
+          @Arg("numberEnum", () => SampleNumberEnum) numberEnum: SampleNumberEnum,
         ): SampleNumberEnum {
           enumValue = numberEnum;
           return numberEnum;
         }
 
-        @Query(returns => SampleStringEnum)
+        @Query(() => SampleStringEnum)
         sampleStringEnumQuery(
-          @Arg("stringEnum", type => SampleStringEnum) stringEnum: SampleStringEnum,
+          @Arg("stringEnum", () => SampleStringEnum) stringEnum: SampleStringEnum,
         ): SampleStringEnum {
           enumValue = stringEnum;
           return stringEnum;

@@ -78,19 +78,19 @@ describe("Unions", () => {
 
     @ObjectType()
     class ObjectUnion {
-      @Field(type => OneTwoThreeUnion)
+      @Field(() => OneTwoThreeUnion)
       unionField: typeof OneTwoThreeUnion;
     }
 
     class SampleResolver {
-      @Query(returns => OneTwoThreeUnion)
+      @Query(() => OneTwoThreeUnion)
       getObjectOneFromUnion(): typeof OneTwoThreeUnion {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
         return oneInstance;
       }
 
-      @Query(returns => OneTwoThreeUnionFn)
+      @Query(() => OneTwoThreeUnionFn)
       getObjectOneFromUnionFn(): typeof OneTwoThreeUnionFn {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
@@ -106,21 +106,21 @@ describe("Unions", () => {
         };
       }
 
-      @Query(returns => OneTwoThreeUnion)
+      @Query(() => OneTwoThreeUnion)
       getPlainObjectFromUnion(): typeof OneTwoThreeUnion {
         return {
           fieldTwo: "fieldTwo",
         };
       }
 
-      @Query(returns => UnionWithStringResolveType)
+      @Query(() => UnionWithStringResolveType)
       getObjectOneFromStringResolveTypeUnion(): typeof UnionWithStringResolveType {
         return {
           fieldTwo: "fieldTwo",
         };
       }
 
-      @Query(returns => UnionWithClassResolveType)
+      @Query(() => UnionWithClassResolveType)
       getObjectOneFromClassResolveTypeUnion(): typeof UnionWithClassResolveType {
         return {
           fieldTwo: "fieldTwo",
@@ -324,10 +324,13 @@ describe("Unions", () => {
         @Field()
         extended: string;
       }
-      const ExtendedBase = createUnionType({
-        name: "ExtendedBase",
-        types: () => [Base, Extended] as const,
-      });
+
+      expect(() => {
+        createUnionType({
+          name: "ExtendedBase",
+          types: () => [Base, Extended] as const,
+        });
+      }).not.toThrow();
     });
   });
 
@@ -351,7 +354,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -421,7 +424,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -491,7 +494,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -555,7 +558,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";

@@ -8,7 +8,6 @@ import {
   GraphQLSchema,
   TypeKind,
 } from "graphql";
-
 import {
   ObjectType,
   InputType,

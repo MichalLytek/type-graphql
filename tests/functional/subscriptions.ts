@@ -2,7 +2,6 @@ import "reflect-metadata";
 import {
   GraphQLSchema,
   IntrospectionObjectType,
-  IntrospectionSchema,
   TypeKind,
   graphql,
   subscribe,
@@ -40,7 +39,6 @@ import { sleep } from "../helpers/sleep";
 describe("Subscriptions", () => {
   describe("Schema", () => {
     let schema: GraphQLSchema;
-    let schemaIntrospection: IntrospectionSchema;
     let subscriptionType: IntrospectionObjectType;
 
     beforeAll(async () => {
@@ -66,13 +64,13 @@ describe("Subscriptions", () => {
 
         @Subscription({ topics: "STH" })
         subscriptionWithArgs(
-          @Arg("stringArg") stringArg: string,
-          @Arg("booleanArg") booleanArg: boolean,
+          @Arg("stringArg") _stringArg: string,
+          @Arg("booleanArg") _booleanArg: boolean,
         ): boolean {
           return true;
         }
 
-        @Subscription(returns => [SampleObject], { topics: "STH" })
+        @Subscription(() => [SampleObject], { topics: "STH" })
         subscriptionWithExplicitType(): any {
           return true;
         }
@@ -81,7 +79,6 @@ describe("Subscriptions", () => {
         resolvers: [SampleResolver],
       });
       schema = schemaInfo.schema;
-      schemaIntrospection = schemaInfo.schemaIntrospection;
       subscriptionType = schemaInfo.subscriptionType!;
     });
 
@@ -137,7 +134,7 @@ describe("Subscriptions", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Float)
+        @Field(() => Float)
         value: number;
       }
 
@@ -151,7 +148,7 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubMutation(
           @Arg("value") value: number,
           @PubSub() pubSub: PubSubEngine,
@@ -160,13 +157,13 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubMutationCustomSubscription(@Arg("value") value: number): Promise<boolean> {
           await localPubSub.publish(CUSTOM_SUBSCRIBE_TOPIC, value);
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubMutationDynamicTopic(
           @Arg("value") value: number,
           @Arg("topic") topic: string,
@@ -176,7 +173,7 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubPublisherMutation(
           @Arg("value") value: number,
           @PubSub(SAMPLE_TOPIC) publish: Publisher<number>,
@@ -185,7 +182,7 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubOtherMutation(
           @Arg("value") value: number,
           @PubSub() pubSub: PubSubEngine,
@@ -213,7 +210,10 @@ describe("Subscriptions", () => {
         }
 
         @Subscription({ topics: ({ args }) => args.topic })
-        dynamicTopicSubscription(@Root() value: number, @Arg("topic") topic: string): SampleObject {
+        dynamicTopicSubscription(
+          @Root() value: number,
+          @Arg("topic") _topic: string,
+        ): SampleObject {
           return { value };
         }
 
@@ -565,12 +565,6 @@ describe("Subscriptions", () => {
       let pubSub: any;
       getMetadataStorage().clear();
 
-      @ObjectType()
-      class SampleObject {
-        @Field()
-        sampleField: string;
-      }
-
       class SampleResolver {
         @Query()
         dumbQuery(): boolean {
@@ -601,11 +595,6 @@ describe("Subscriptions", () => {
 
     it("should create PubSub instance with provided emitter options", async () => {
       getMetadataStorage().clear();
-      @ObjectType()
-      class SampleObject {
-        @Field()
-        sampleField: string;
-      }
       class SampleResolver {
         @Query()
         dumbQuery(): boolean {
@@ -639,18 +628,13 @@ describe("Subscriptions", () => {
       getMetadataStorage().clear();
       expect.assertions(5);
       try {
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
         class SampleResolver {
           @Query()
           dumbQuery(): boolean {
             return true;
           }
 
-          @Mutation(returns => Boolean)
+          @Mutation(() => Boolean)
           async pubSubMutation(
             @Arg("value") value: number,
             @PubSub() pubSub: PubSubEngine,
