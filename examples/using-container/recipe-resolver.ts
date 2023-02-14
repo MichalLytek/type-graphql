@@ -1,29 +1,27 @@
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation } from "type-graphql";
-
 import { Recipe } from "./recipe-type";
 import { RecipeService } from "./recipe-service";
 import { RecipeInput } from "./recipe-input";
 
 @Service()
-@Resolver(of => Recipe)
+@Resolver(_of => Recipe)
 export class RecipeResolver {
-  constructor(
-    // constructor injection of service
-    private readonly recipeService: RecipeService,
-  ) {}
+  // Inject service
+  @Inject()
+  private readonly recipeService!: RecipeService;
 
-  @Query(returns => Recipe, { nullable: true })
+  @Query(_returns => Recipe, { nullable: true })
   async recipe(@Arg("recipeId") recipeId: string) {
     return this.recipeService.getOne(recipeId);
   }
 
-  @Query(returns => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipeService.getAll();
   }
 
-  @Mutation(returns => Recipe)
+  @Mutation(_returns => Recipe)
   async addRecipe(@Arg("recipe") recipe: RecipeInput): Promise<Recipe> {
     return this.recipeService.add(recipe);
   }

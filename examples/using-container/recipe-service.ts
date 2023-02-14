@@ -1,13 +1,15 @@
 import { Service, Inject } from "typedi";
-
 import { Recipe } from "./recipe-type";
 import { RecipeInput } from "./recipe-input";
 
 @Service()
 export class RecipeService {
+  @Inject("SAMPLE_RECIPES")
+  private readonly items: Recipe[];
+
   private autoIncrementValue: number;
 
-  constructor(@Inject("SAMPLE_RECIPES") private readonly items: Recipe[]) {
+  constructor() {
     this.autoIncrementValue = this.items.length;
   }
 
@@ -22,6 +24,7 @@ export class RecipeService {
   async add(data: RecipeInput) {
     const recipe = this.createRecipe(data);
     this.items.push(recipe);
+
     return recipe;
   }
 
@@ -32,10 +35,13 @@ export class RecipeService {
   private createRecipe(recipeData: Partial<Recipe>): Recipe {
     const recipe = Object.assign(new Recipe(), recipeData);
     recipe.id = this.getId();
+
     return recipe;
   }
 
   private getId(): string {
-    return (++this.autoIncrementValue).toString();
+    this.autoIncrementValue += 1;
+
+    return this.autoIncrementValue.toString();
   }
 }

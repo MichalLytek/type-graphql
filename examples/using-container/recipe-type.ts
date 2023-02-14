@@ -2,7 +2,7 @@ import { Field, ID, ObjectType, Int } from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field(_type => ID)
   id: string;
 
   @Field()
@@ -11,13 +11,13 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [String])
+  @Field(_type => [String])
   ingredients: string[];
 
-  @Field(type => Int)
+  @Field(_type => Int)
   protected numberInCollection: number;
 
-  @Field(type => Int)
+  @Field(_type => Int)
   protected get ingredientsLength(): number {
     return this.ingredients.length;
   }
