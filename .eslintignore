@@ -5,7 +5,6 @@
 jest.config.ts
 
 # FIXME: Remove
-examples/apollo-cache/
 examples/apollo-client/
 examples/apollo-federation/
 examples/interfaces-inheritance/

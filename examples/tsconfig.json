@@ -5,6 +5,7 @@
     "sourceMap": false
   },
   "include": [
+    "./apollo-cache",
     "./authorization",
     "./automatic-validation",
     "./custom-validation",
