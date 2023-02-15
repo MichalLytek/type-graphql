@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# shellcheck source=./_/husky.sh
-. "$(dirname -- "$0")/_/husky.sh"
+# shellcheck disable=SC1007 source=SCRIPTDIR/_/husky.sh
+. "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/_/husky.sh"
 
 npx --no -- lint-staged
