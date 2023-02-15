@@ -6,6 +6,7 @@ export const CustomScalar = new GraphQLScalarType({
   parseValue: () => "TypeGraphQL parseValue",
   serialize: () => "TypeGraphQL serialize",
 });
+
 export class CustomType {}
 
 export const ObjectScalar = new GraphQLScalarType({

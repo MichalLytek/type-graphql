@@ -1,18 +1,13 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
-
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   Field,
   ObjectType,
-  Ctx,
-  Authorized,
   Query,
   Resolver,
   buildSchema,
   FieldResolver,
-  UnauthorizedError,
-  ForbiddenError,
   MiddlewareFn,
   UseMiddleware,
   Arg,
@@ -26,8 +21,10 @@ describe("Middlewares", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
   let middlewareLogs: string[] = [];
-  // eslint-disable-next-line no-promise-executor-return
-  const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+  const sleep = (time: number) =>
+    new Promise(resolve => {
+      setTimeout(resolve, time);
+    });
 
   beforeEach(() => {
     middlewareLogs = [];
@@ -76,7 +73,7 @@ describe("Middlewares", () => {
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowMiddleware: MiddlewareFn = async ({}) => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
     };
@@ -88,7 +85,7 @@ describe("Middlewares", () => {
     };
     const doubleNextMiddleware: MiddlewareFn = async ({}, next) => {
       const result1 = await next();
-      const result2 = await next();
+      await next();
       return result1;
     };
     class ClassMiddleware implements MiddlewareInterface {
@@ -119,7 +116,7 @@ describe("Middlewares", () => {
       middlewareField: string;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {
@@ -134,7 +131,7 @@ describe("Middlewares", () => {
         } as SampleObject;
       }
 
-      @Query(returns => String)
+      @Query(() => String)
       @UseMiddleware(middleware1, middleware2, middleware3)
       async middlewareOrderQuery() {
         middlewareLogs.push("middlewareOrderQuery");
@@ -145,7 +142,7 @@ describe("Middlewares", () => {
       @UseMiddleware(middleware1)
       @UseMiddleware(middleware2)
       @UseMiddleware(middleware3)
-      @Query(returns => String)
+      @Query(() => String)
       async multipleMiddlewareDecoratorsQuery() {
         middlewareLogs.push("multipleMiddlewareDecoratorsQuery");
         return "multipleMiddlewareDecoratorsQueryResult";

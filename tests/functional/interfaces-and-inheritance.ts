@@ -10,7 +10,6 @@ import {
   graphql,
   TypeKind,
 } from "graphql";
-
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { GeneratingSchemaError } from "@/errors";
 import {
@@ -36,6 +35,7 @@ describe("Interfaces and inheritance", () => {
     let schemaIntrospection: IntrospectionSchema;
     let queryType: IntrospectionObjectType;
     let sampleInterface1Type: IntrospectionInterfaceType;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let sampleInterface2Type: IntrospectionInterfaceType;
     let sampleInterfaceImplementing1: IntrospectionInterfaceType;
     let sampleMultiImplementingObjectType: IntrospectionObjectType;
@@ -50,7 +50,7 @@ describe("Interfaces and inheritance", () => {
 
       @InterfaceType()
       abstract class SampleInterface1 {
-        @Field(type => ID)
+        @Field(() => ID)
         id: string;
 
         @Field()
@@ -58,7 +58,7 @@ describe("Interfaces and inheritance", () => {
       }
       @InterfaceType()
       abstract class SampleInterface2 {
-        @Field(type => ID)
+        @Field(() => ID)
         id: string;
 
         @Field()
@@ -90,7 +90,7 @@ describe("Interfaces and inheritance", () => {
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
-        @Field(type => ID)
+        @Field(() => ID)
         id: string;
 
         @Field()
@@ -175,12 +175,12 @@ describe("Interfaces and inheritance", () => {
         }
 
         @Query()
-        queryWithArgs(@Args() args: SampleExtendingArgs): boolean {
+        queryWithArgs(@Args() _args: SampleExtendingArgs): boolean {
           return true;
         }
 
         @Mutation()
-        mutationWithInput(@Arg("input") input: SampleExtendingInput): boolean {
+        mutationWithInput(@Arg("input") _input: SampleExtendingInput): boolean {
           return true;
         }
       }
@@ -460,7 +460,7 @@ describe("Interfaces and inheritance", () => {
       @Resolver()
       class SampleResolver {
         @Query()
-        sampleQuery(@Args() args: SampleArgs): boolean {
+        sampleQuery(@Args() _args: SampleArgs): boolean {
           return true;
         }
       }
@@ -487,7 +487,7 @@ describe("Interfaces and inheritance", () => {
         }
         @ObjectType({ implements: IBase })
         class ChildObject implements IBase {
-          @Field(type => Number, { nullable: true })
+          @Field(() => Number, { nullable: true })
           baseField: string;
 
           @Field()
@@ -574,7 +574,7 @@ describe("Interfaces and inheritance", () => {
         @Field()
         baseArgField: string;
 
-        @Field(type => Int, { nullable: true })
+        @Field(() => Int, { nullable: true })
         optionalBaseArgField: number = 255;
       }
       @ArgsType()
@@ -588,7 +588,7 @@ describe("Interfaces and inheritance", () => {
         @Field()
         baseInputField: string;
 
-        @Field(type => Int, { nullable: true })
+        @Field(() => Int, { nullable: true })
         optionalBaseInputField: number = 255;
       }
       @InputType()
@@ -1070,7 +1070,7 @@ describe("Interfaces and inheritance", () => {
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -1148,7 +1148,7 @@ describe("Interfaces and inheritance", () => {
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -1226,7 +1226,7 @@ describe("Interfaces and inheritance", () => {
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -1283,6 +1283,7 @@ describe("Interfaces and inheritance", () => {
         sampleField: string;
       }
       @ObjectType({ implements: SampleUnusedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleUnusedObjectType implements SampleUnusedInterface {
         @Field()
         sampleField: string;
@@ -1340,10 +1341,12 @@ describe("Interfaces and inheritance", () => {
         fooBarKind: string;
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Foo extends IFooBar {
         fooBarKind = "Foo";
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Bar extends IFooBar {
         fooBarKind = "Bar";
       }
@@ -1398,6 +1401,7 @@ describe("Interfaces and inheritance", () => {
         sampleFirstAdditionalField: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SecondSampleObject implements SampleUsedInterface {
         @Field()
         sampleField: string;

@@ -11,7 +11,6 @@ import {
   IntrospectionSchema,
   IntrospectionInputObjectType,
 } from "graphql";
-
 import {
   ObjectType,
   Field,
@@ -128,7 +127,7 @@ describe("Generic types", () => {
     @Resolver()
     class SampleResolver {
       @Query()
-      sampleQuery(@Arg("input") input: SampleInput): boolean {
+      sampleQuery(@Arg("input") _input: SampleInput): boolean {
         return true;
       }
     }
@@ -155,10 +154,10 @@ describe("Generic types", () => {
       function Connection<TItem>(TItemClass: ClassType<TItem>) {
         @ObjectType(`${TItemClass.name}Connection`, { isAbstract: true })
         class ConnectionClass {
-          @Field(type => Int)
+          @Field(() => Int)
           count: number;
 
-          @Field(type => [TItemClass])
+          @Field(() => [TItemClass])
           items: TItem[];
         }
         return ConnectionClass;
@@ -189,7 +188,7 @@ describe("Generic types", () => {
 
       @Resolver()
       class GenericConnectionResolver {
-        @Query(returns => UserConnection)
+        @Query(() => UserConnection)
         users(): UserConnection {
           return {
             count: 2,
@@ -197,7 +196,7 @@ describe("Generic types", () => {
           };
         }
 
-        @Query(returns => DogConnection)
+        @Query(() => DogConnection)
         dogs(): DogConnection {
           return dogsResponseMock;
         }
@@ -267,7 +266,7 @@ describe("Generic types", () => {
       function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
         @ObjectType({ isAbstract: true })
         abstract class EdgeClass {
-          @Field(type => NodeClass)
+          @Field(() => NodeClass)
           node: TNodeClass;
 
           @Field()
@@ -413,7 +412,7 @@ describe("Generic types", () => {
       function Base<TType>(TTypeClass: ClassType<TType>) {
         @ObjectType({ isAbstract: true })
         class BaseClass {
-          @Field(type => TTypeClass)
+          @Field(() => TTypeClass)
           baseField: TType;
         }
         return BaseClass;
@@ -437,7 +436,7 @@ describe("Generic types", () => {
       @ObjectType()
       class Child extends Base(BaseSample) {
         @Field()
-        baseField: ChildSample; // overwriting field with a up compatible type
+        baseField: ChildSample; // Overwriting field with a up compatible type
       }
 
       @Resolver()

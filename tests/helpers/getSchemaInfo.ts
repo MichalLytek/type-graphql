@@ -4,18 +4,17 @@ import {
   IntrospectionObjectType,
   IntrospectionSchema,
 } from "graphql";
-
 import { buildSchema, BuildSchemaOptions } from "type-graphql";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
-  // build schema from definitions
+  // Build schema from definitions
   const schema = await buildSchema({
     ...options,
     validate: false,
     skipCheck: true,
   });
 
-  // get built schema info from retrospection
+  // Get built schema info from retrospection
   const result = await graphql({
     schema,
     source: getIntrospectionQuery({

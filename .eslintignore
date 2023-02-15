@@ -20,4 +20,3 @@ examples/typegoose/
 examples/typeorm-basic-usage/
 examples/typeorm-lazy-relations/
 website/
-babel.config.js

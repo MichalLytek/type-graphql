@@ -1,12 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
-
 import { CircularRef2 } from "./CircularRef2";
 
 let hasModuleFinishedInitialLoad = false;
 
 @ObjectType()
 export class CircularRef1 {
-  @Field(type => {
+  @Field(() => {
     if (!hasModuleFinishedInitialLoad) {
       throw new Error("Field type function was called synchronously during module load");
     }

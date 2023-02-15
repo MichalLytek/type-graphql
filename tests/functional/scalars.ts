@@ -33,7 +33,9 @@ describe("Scalars", () => {
   let schema: GraphQLSchema;
 
   let argScalar: string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let argDate: Date | undefined;
+
   beforeEach(() => {
     argScalar = undefined;
     argDate = undefined;
@@ -44,77 +46,77 @@ describe("Scalars", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field(type => ID)
+      @Field(() => ID)
       idField: any;
 
       @Field()
       implicitFloatField: number;
 
-      @Field(type => Float)
+      @Field(() => Float)
       explicitFloatField: any;
 
-      @Field(type => Int)
+      @Field(() => Int)
       intField: any;
 
       @Field()
       implicitStringField: string;
 
-      @Field(type => String)
+      @Field(() => String)
       explicitStringField: any;
 
       @Field()
       implicitBooleanField: boolean;
 
-      @Field(type => Boolean)
+      @Field(() => Boolean)
       explicitBooleanField: any;
 
       @Field()
       implicitDateField: Date;
 
-      @Field(type => Date)
+      @Field(() => Date)
       explicitDateField: any;
 
-      @Field(type => GraphQLISODateTime)
+      @Field(() => GraphQLISODateTime)
       ISODateField: any;
 
-      @Field(type => GraphQLTimestamp)
+      @Field(() => GraphQLTimestamp)
       timestampField: any;
 
-      @Field(type => CustomScalar)
+      @Field(() => CustomScalar)
       customScalarField: any;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
         return {} as any;
       }
 
-      @Query(returns => CustomScalar)
+      @Query(() => CustomScalar)
       returnScalar(): string {
         return "returnScalar";
       }
 
-      @Query(returns => Boolean)
-      argScalar(@Arg("scalar", type => CustomScalar) scalar: any): any {
+      @Query(() => Boolean)
+      argScalar(@Arg("scalar", () => CustomScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Boolean)
-      objectArgScalar(@Arg("scalar", type => ObjectScalar) scalar: any): any {
+      @Query(() => Boolean)
+      objectArgScalar(@Arg("scalar", () => ObjectScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Date)
+      @Query(() => Date)
       returnDate(): any {
         return new Date();
       }
 
       @Query()
-      argDate(@Arg("date", type => Date) date: any): boolean {
+      argDate(@Arg("date", () => Date) date: any): boolean {
         argDate = date;
         return true;
       }
@@ -257,39 +259,39 @@ describe("Scalars", () => {
 
       @InputType()
       class DateInput {
-        @Field(type => Date)
+        @Field(() => Date)
         date: any;
 
-        @Field(type => Date, { nullable: true })
+        @Field(() => Date, { nullable: true })
         nullableDate?: any;
       }
 
       @Resolver()
       class SampleResolver {
-        @Query(returns => Date)
+        @Query(() => Date)
         returnDate(): any {
           return new Date();
         }
 
-        @Query(returns => Date, { nullable: true })
+        @Query(() => Date, { nullable: true })
         nullableReturnDate(): Date | null {
           return null;
         }
 
-        @Query(returns => Date)
+        @Query(() => Date)
         returnStringAsDate(): any {
           return new Date().toISOString();
         }
 
         @Query()
-        argDate(@Arg("date", type => Date) date: any): boolean {
+        argDate(@Arg("date", () => Date) date: any): boolean {
           localArgDate = date;
           return true;
         }
 
         @Query()
         nullableArgDate(
-          @Arg("date", type => Date, { nullable: true })
+          @Arg("date", () => Date, { nullable: true })
           date: any,
         ): boolean {
           localArgDate = date;
@@ -297,7 +299,7 @@ describe("Scalars", () => {
         }
 
         @Query()
-        inputDate(@Arg("input", type => DateInput) dateInput: any): boolean {
+        inputDate(@Arg("input", () => DateInput) dateInput: any): boolean {
           localArgDate = dateInput.date;
           return true;
         }
@@ -655,11 +657,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -710,7 +712,7 @@ describe("Scalars", () => {
         customField: CustomType;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -733,11 +735,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

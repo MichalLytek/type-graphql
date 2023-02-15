@@ -8,16 +8,12 @@ import {
   TypeKind,
   IntrospectionScalarType,
 } from "graphql";
-
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "type-graphql";
-import { NullableListOptions } from "@/decorators/types";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
-  let queryType: IntrospectionObjectType;
-  let mutationType: IntrospectionObjectType;
   let sampleObjectType: IntrospectionObjectType;
 
   beforeAll(async () => {
@@ -34,31 +30,31 @@ describe("Fields - schema", () => {
       @Field()
       implicitStringField: string;
 
-      @Field(type => String)
+      @Field(() => String)
       explicitStringField: any;
 
       @Field()
       implicitObjectField: SampleNestedObject;
 
-      @Field(type => String, { nullable: true })
+      @Field(() => String, { nullable: true })
       explicitNullableStringField: any;
 
       @Field({ nullable: true })
       implicitNullableStringField: string;
 
-      @Field(type => [String])
+      @Field(() => [String])
       explicitStringArrayField: string[];
 
-      @Field(type => [String], { nullable: true })
+      @Field(() => [String], { nullable: true })
       nullableArrayFieldNew: string[] | null;
 
-      @Field(type => [SampleNestedObject], { nullable: true })
+      @Field(() => [SampleNestedObject], { nullable: true })
       nullableObjectArrayField: SampleNestedObject[] | null;
 
-      @Field(type => [String], { nullable: "itemsAndList" })
+      @Field(() => [String], { nullable: "itemsAndList" })
       arrayWithNullableItemField: string[];
 
-      @Field(type => [String], { nullable: "items" })
+      @Field(() => [String], { nullable: "items" })
       nonNullArrayWithNullableItemField: string[];
 
       @Field({ name: "overwrittenName", nullable: true })
@@ -67,20 +63,20 @@ describe("Fields - schema", () => {
       @Field({ name: "complexField", complexity: 10 })
       complexField: string;
 
-      @Field(type => [[String]], { nullable: true })
+      @Field(() => [[String]], { nullable: true })
       nullableNestedArrayField: string[][] | null;
 
-      @Field(type => [[String]], { nullable: "items" })
+      @Field(() => [[String]], { nullable: "items" })
       nonNullNestedArrayWithNullableItemField: Array<Array<string | null> | null>;
 
-      @Field(type => [[String]], { nullable: "itemsAndList" })
+      @Field(() => [[String]], { nullable: "itemsAndList" })
       nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
 
-      @Field(type => GraphQLISODateTime)
+      @Field(() => GraphQLISODateTime)
       overwrittenArrayScalarField: string[];
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {
@@ -93,8 +89,6 @@ describe("Fields - schema", () => {
       resolvers: [SampleResolver],
     });
     schemaIntrospection = schemaInfo.schemaIntrospection;
-    queryType = schemaInfo.queryType;
-    mutationType = schemaInfo.mutationType!;
     sampleObjectType = schemaIntrospection.types.find(
       type => type.name === "SampleObject",
     ) as IntrospectionObjectType;
@@ -124,6 +118,7 @@ describe("Fields - schema", () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleField: any;
@@ -142,6 +137,7 @@ describe("Fields - schema", () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleArrayField: string[];
@@ -160,6 +156,7 @@ describe("Fields - schema", () => {
 
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         invalidSampleNullableField: string | null;
@@ -179,6 +176,7 @@ describe("Fields - schema", () => {
     const symbolKey = Symbol("symbolKey");
     try {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         [symbolKey]: string | null;

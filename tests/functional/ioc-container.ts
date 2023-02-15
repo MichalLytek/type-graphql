@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { graphql } from "graphql";
 import { Container, Service } from "typedi";
-
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   ObjectType,
@@ -33,7 +32,7 @@ describe("IOC container", () => {
       field?: string;
     }
     @Service()
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
 
@@ -67,7 +66,7 @@ describe("IOC container", () => {
       @Field({ nullable: true })
       field?: string;
     }
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       value = Math.random();
 

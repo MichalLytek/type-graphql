@@ -58,7 +58,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleObjectTypeInfo = schema.getType("SampleObject") as GraphQLObjectType;
 
-        assertValidDirective(sampleObjectTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleObjectTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -100,7 +102,9 @@ describe("Directives", () => {
           schema.getType("SampleObject") as GraphQLObjectType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -147,7 +151,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleInterfaceTypeInfo = schema.getType("SampleInterface") as GraphQLInterfaceType;
 
-        assertValidDirective(sampleInterfaceTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleInterfaceTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -194,7 +200,9 @@ describe("Directives", () => {
           schema.getType("SampleInterface") as GraphQLInterfaceType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -220,7 +228,7 @@ describe("Directives", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
+          sampleQuery(@Arg("input") _input: SampleInput): boolean {
             return true;
           }
         }
@@ -236,7 +244,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleInputTypeInfo = schema.getType("SampleInput") as GraphQLInputObjectType;
 
-        assertValidDirective(sampleInputTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleInputTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -260,7 +270,7 @@ describe("Directives", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
+          sampleQuery(@Arg("input") _input: SampleInput): boolean {
             return true;
           }
         }
@@ -278,7 +288,9 @@ describe("Directives", () => {
           schema.getType("SampleInput") as GraphQLInputObjectType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -317,7 +329,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.QUERY)!
           .getFields().sampleQuery;
 
-        assertValidDirective(sampleQueryInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleQueryInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -361,7 +375,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.MUTATION)!
           .getFields().sampleMutation;
 
-        assertValidDirective(sampleMutationInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleMutationInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -405,7 +421,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.SUBSCRIPTION)!
           .getFields().sampleSubscription;
 
-        assertValidDirective(sampleSubscriptionInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleSubscriptionInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {

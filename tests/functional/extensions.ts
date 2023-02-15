@@ -1,5 +1,4 @@
 import "reflect-metadata";
-
 import { GraphQLSchema, GraphQLInputObjectType, GraphQLObjectType, GraphQLFieldMap } from "graphql";
 import {
   Field,
@@ -137,7 +136,7 @@ describe("Extensions", () => {
         }
       }
 
-      @Resolver(of => SampleObjectType)
+      @Resolver(() => SampleObjectType)
       class SampleObjectTypeResolver {
         @FieldResolver()
         @Extensions({ some: "extension" })
@@ -332,7 +331,7 @@ describe("Extensions", () => {
           @Extensions({ childField: true })
           childField!: string;
         }
-        @Resolver(of => Child)
+        @Resolver(() => Child)
         class ChildResolver {
           @Query()
           sampleQuery(): Child {

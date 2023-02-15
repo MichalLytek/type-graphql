@@ -1,5 +1,4 @@
 import { Field, ObjectType } from "type-graphql";
-
 import { CircularRef2 } from "./CircularRef2";
 
 @ObjectType()

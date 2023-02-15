@@ -1,5 +1,4 @@
 import { Query } from "type-graphql";
-
 import { SampleObject } from "./sample.type";
 
 export class Resolver {

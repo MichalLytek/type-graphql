@@ -7,7 +7,6 @@ import {
   IntrospectionNonNullTypeRef,
   IntrospectionNamedTypeRef,
 } from "graphql";
-
 import {
   Arg,
   Args,

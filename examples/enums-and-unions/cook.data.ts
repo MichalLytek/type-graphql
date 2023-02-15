@@ -6,7 +6,7 @@ export const sampleCooks = [
     yearsOfExperience: 21,
   }),
   createCook({
-    name: "Kim Kardashian",
+    name: "Marilyn Monroe",
     yearsOfExperience: 1,
   }),
 ];

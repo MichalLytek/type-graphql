@@ -1,9 +1,8 @@
 import "reflect-metadata";
+import fs from "node:fs";
+import path from "node:path";
 import { GraphQLSchema } from "graphql";
-import fs from "fs";
-import path from "path";
 import shelljs from "shelljs";
-
 import {
   buildSchema,
   buildSchemaSync,

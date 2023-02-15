@@ -6,7 +6,6 @@ import {
   ObjectTypeDefinitionNode,
   parseValue,
 } from "graphql";
-
 import { Maybe } from "@/interfaces/Maybe";
 
 export function assertValidDirective(

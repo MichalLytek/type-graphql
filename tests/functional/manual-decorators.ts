@@ -11,14 +11,14 @@ describe("manual decorators", () => {
       manualField: string;
     }
 
-    // dynamically register field
+    // Dynamically register field
     Field(() => String)(SampleObject.prototype, "dynamicField");
     @ArgsType()
     class SampleArgs {
       @Field()
       sampleField: string;
     }
-    // dynamically register field args
+    // Dynamically register field args
     Args(() => SampleArgs)(SampleObject.prototype, "dynamicField", 0);
 
     @Resolver()
@@ -29,7 +29,7 @@ describe("manual decorators", () => {
       }
     }
 
-    // get builded schema info from retrospection
+    // Get builded schema info from retrospection
     const schemaInfo = await getSchemaInfo({
       resolvers: [SampleResolver],
     });

@@ -8,7 +8,6 @@ import {
   GraphQLSchema,
   TypeKind,
 } from "graphql";
-
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { Field, InputType, Query, Arg, registerEnumType } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
@@ -54,39 +53,39 @@ describe("Enums", () => {
 
     @InputType()
     class NumberEnumInput {
-      @Field(type => NumberEnum)
+      @Field(() => NumberEnum)
       numberEnumField: NumberEnum;
     }
 
     @InputType()
     class StringEnumInput {
-      @Field(type => StringEnum)
+      @Field(() => StringEnum)
       stringEnumField: StringEnum;
     }
 
     class SampleResolver {
-      @Query(returns => NumberEnum)
-      getNumberEnumValue(@Arg("input") input: NumberEnumInput): NumberEnum {
+      @Query(_returns => NumberEnum)
+      getNumberEnumValue(@Arg("input") _input: NumberEnumInput): NumberEnum {
         return NumberEnum.Two;
       }
 
-      @Query(returns => StringEnum)
-      getStringEnumValue(@Arg("input") input: StringEnumInput): StringEnum {
+      @Query(() => StringEnum)
+      getStringEnumValue(@Arg("input") _input: StringEnumInput): StringEnum {
         return StringEnum.Two;
       }
 
-      @Query(returns => AdvancedEnum)
+      @Query(() => AdvancedEnum)
       getAdvancedEnumValue(): AdvancedEnum {
         return AdvancedEnum.DescriptionProperty;
       }
 
       @Query()
-      isNumberEnumEqualOne(@Arg("enum", type => NumberEnum) numberEnum: NumberEnum): boolean {
+      isNumberEnumEqualOne(@Arg("enum", () => NumberEnum) numberEnum: NumberEnum): boolean {
         return numberEnum === NumberEnum.One;
       }
 
       @Query()
-      isStringEnumEqualOne(@Arg("enum", type => StringEnum) stringEnum: StringEnum): boolean {
+      isStringEnumEqualOne(@Arg("enum", () => StringEnum) stringEnum: StringEnum): boolean {
         return stringEnum === StringEnum.One;
       }
     }
