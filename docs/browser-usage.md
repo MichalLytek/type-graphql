@@ -10,9 +10,9 @@ Since TypeGraphQL is a Node.js framework, it doesn't work in a browser environme
 
 ```js
 module.exports = {
-  // ... the rest of the webpack config
+  // ... Rest of Webpack configuration
   plugins: [
-    // ... here are any other existing plugins that we already have
+    // ... Other existing plugins
     new webpack.NormalModuleReplacementPlugin(/type-graphql$/, resource => {
       resource.request = resource.request.replace(/type-graphql/, "type-graphql/dist/browser-shim.js");
     }),
