@@ -1,19 +1,18 @@
 import { Resolver, Query, FieldResolver, Root, ResolverInterface, Arg } from "type-graphql";
+import { Recipe } from "./recipe.type";
+import { createRecipeSamples } from "./recipe.data";
 
-import { Recipe } from "./recipe-type";
-import { createRecipeSamples } from "./recipe-samples";
-
-@Resolver(of => Recipe)
+@Resolver(_of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   private readonly items: Recipe[] = createRecipeSamples();
 
-  @Query(returns => [Recipe], {
+  @Query(_returns => [Recipe], {
     /*
-      You can also pass a calculation function in the complexity option
-      to determine a custom complexity. This function will provide the
+      Pass also a calculation function in the complexity option
+      to determine a custom complexity. This function provide the
       complexity of the child nodes as well as the field input arguments.
-      That way you can make a more realistic estimation of individual field
-      complexity values, e.g. by multiplying childComplexity by the number of items in array
+      That way a more realistic estimation of individual field
+      complexity values is made, e.g. by multiplying childComplexity by the number of items in array
     */
     complexity: ({ childComplexity, args }) => args.count * childComplexity,
   })

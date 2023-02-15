@@ -12,6 +12,7 @@ Container.set({ id: "SAMPLE_RECIPES", factory: () => sampleRecipes.slice() });
 async function bootstrap() {
   // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
     // Registry 3rd party IOC container
     container: Container,

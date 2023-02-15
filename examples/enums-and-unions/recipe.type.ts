@@ -1,5 +1,4 @@
 import { Field, ObjectType } from "type-graphql";
-
 import { Difficulty } from "./difficulty.enum";
 import { Cook } from "./cook.type";
 
@@ -11,10 +10,10 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [String])
+  @Field(_type => [String])
   ingredients: string[];
 
-  @Field(type => Difficulty)
+  @Field(_type => Difficulty)
   preparationDifficulty: Difficulty;
 
   @Field()

@@ -12,6 +12,7 @@ async function bootstrap() {
 
   // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
     // Registry custom, scoped IOC container from resolver data function
     container: ({ context }: ResolverData<Context>) => context.container,

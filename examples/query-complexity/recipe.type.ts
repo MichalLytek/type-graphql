@@ -2,15 +2,15 @@ import { Field, ObjectType, Int, Float } from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  /* By default, every field gets a complexity of 1. */
+  /* By default, every field gets a complexity of 1 */
   @Field()
   title: string;
 
   /* Which can be customized by passing the complexity parameter */
-  @Field(type => Int, { complexity: 2 })
+  @Field(_type => Int, { complexity: 2 })
   ratingsCount: number;
 
-  @Field(type => Float, {
+  @Field(_type => Float, {
     nullable: true,
     complexity: 10,
   })
@@ -23,6 +23,6 @@ export class Recipe {
     return ratingsSum / ratingsCount;
   }
 
-  // internal property, not exposed in schema
+  // Internal property, not exposed in schema
   ratings: number[];
 }

@@ -8,7 +8,9 @@
     "./authorization",
     "./automatic-validation",
     "./custom-validation",
+    "./enums-and-unions",
     "./generic-types",
+    "./query-complexity",
     "./simple-usage",
     "./using-container",
     "./using-scoped-container"
