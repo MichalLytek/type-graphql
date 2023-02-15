@@ -2,9 +2,9 @@
 title: Directives
 ---
 
-> A directive is an identifier preceded by a @ character, optionally followed by a list of named arguments, which can appear after almost any form of syntax in the GraphQL query or schema languages.
+> A directive is an identifier preceded by a `@` character, optionally followed by a list of named arguments, which can appear after almost any form of syntax in the GraphQL query or schema languages.
 
-Though the [GraphQL directives](https://www.apollographql.com/docs/graphql-tools/schema-directives/) syntax is similar to TS decorators, they are purely an SDL (Schema Definition Language) feature that allows you to add metadata to a selected type or its field:
+Though the [GraphQL directives](https://www.apollographql.com/docs/graphql-tools/schema-directives) syntax is similar to TS decorators, they are purely an SDL (Schema Definition Language) feature that allows you to add metadata to a selected type or its field:
 
 ```graphql
 type Foo @auth(requires: USER) {
@@ -26,7 +26,7 @@ That metadata can be read at runtime to modify the structure and behavior of a G
 
 Basically, we declare the usage of directives just like in SDL, with the `@` syntax:
 
-```typescript
+```ts
 @Directive('@deprecated(reason: "Use newField")')
 ```
 
@@ -34,7 +34,7 @@ Currently, you can use the directives only on object types, input types, interfa
 
 So the `@Directive` decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:
 
-```typescript
+```ts
 @Directive("@auth(requires: USER)")
 @ObjectType()
 class Foo {
@@ -69,7 +69,7 @@ class FooBarResolver {
 
 Also please note that `@Directive` can only contain a single GraphQL directive name or declaration. If you need to have multiple directives declared, just place multiple decorators:
 
-```typescript
+```ts
 @ObjectType()
 class Foo {
   @Directive("@lowercase")
@@ -84,20 +84,24 @@ class Foo {
 
 Besides declaring the usage of directives, you also have to register the runtime part of the used directives.
 
-> Be aware that TypeGraphQL doesn't have any special way for implementing schema directives. You should use some [3rd party libraries](https://www.apollographql.com/docs/graphql-tools/schema-directives/#implementing-schema-directives) depending on the tool set you use in your project, e.g. `graphql-tools` or `ApolloServer`.
+> Be aware that TypeGraphQL doesn't have any special way for implementing schema directives. You should use some [3rd party libraries](https://the-guild.dev/graphql/tools/docs/schema-directives#implementing-schema-directives) depending on the tool set you use in your project, e.g. `@graphql-tools/*` or `ApolloServer`.
 
-Here is an example using the [`graphql-tools`](https://github.com/apollographql/graphql-tools):
+Here is an example using the [`@graphql-tools/*`](https://the-guild.dev/graphql/tools):
 
-```typescript
-import { SchemaDirectiveVisitor } from "graphql-tools";
+```ts
+import { mergeSchemas } from "@graphql-tools/schema";
 
-// build the schema as always
-const schema = buildSchemaSync({
+// Build TypeGraphQL executable schema
+const schemaSimple = await buildSchema({
   resolvers: [SampleResolver],
 });
 
-// register the used directives implementations
-SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
-  sample: SampleDirective,
+// Merge schema with sample directive type definitions
+const schemaMerged = mergeSchemas({
+  schemas: [schemaSimple],
+  typeDefs: [sampleDirective.typeDefs],
 });
+
+// Transform and obtain the final schema
+const schema = sampleDirective.transformer(schemaMerged);
 ```
