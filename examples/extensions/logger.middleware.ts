@@ -3,7 +3,7 @@ import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from 
 import { MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
 
 import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.extractors";
-import { Context } from "./context.interface";
+import { Context } from "./context.type";
 import { Logger } from "./logger.service";
 
 type LoggerConfig = {

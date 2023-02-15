@@ -1,9 +1,8 @@
 import { ObjectType, Extensions, Field, Int, Float } from "type-graphql";
-
 import { LogMessage } from "./log-message.decorator";
 
 @ObjectType()
-// log a message when any Recipe field is accessed
+// Log a message when any Recipe field is accessed
 @LogMessage("Recipe field accessed")
 export class Recipe {
   @Field()
@@ -12,17 +11,17 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [String])
-  // We can use raw Extensions decorator if we want
-  @Extensions({ log: { message: "ingredients field accessed", level: 0 } })
+  @Field(_type => [String])
+  // Use raw 'Extensions' decorator
+  @Extensions({ log: { message: "Ingredients field accessed", level: 0 } })
   ingredients: string[];
 
-  // this will override the object type log message
+  // Override the object type log message
   @LogMessage("Ratings accessed")
-  @Field(type => [Int])
+  @Field(_type => [Int])
   ratings: number[];
 
-  @Field(type => Float, { nullable: true })
+  @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {
     return this.ratings.reduce((a, b) => a + b, 0) / this.ratings.length;
   }

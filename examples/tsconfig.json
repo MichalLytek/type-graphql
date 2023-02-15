@@ -9,6 +9,7 @@
     "./automatic-validation",
     "./custom-validation",
     "./enums-and-unions",
+    "./extensions",
     "./generic-types",
     "./query-complexity",
     "./simple-usage",

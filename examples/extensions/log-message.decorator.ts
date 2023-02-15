@@ -1,12 +1,12 @@
 import { Extensions } from "type-graphql";
 
-interface LogOptions {
+type LogOptions = {
   message: string;
   level?: number;
-}
+};
 
 export function LogMessage(messageOrOptions: string | LogOptions) {
-  // parse the parameters of the custom decorator
+  // Parse the parameters of the custom decorator
   const log: LogOptions =
     typeof messageOrOptions === "string"
       ? {
@@ -15,6 +15,6 @@ export function LogMessage(messageOrOptions: string | LogOptions) {
         }
       : messageOrOptions;
 
-  // return the `@Extensions` decorator with a prepared property
+  // Return the '@Extensions' decorator with a prepared property
   return Extensions({ log });
 }

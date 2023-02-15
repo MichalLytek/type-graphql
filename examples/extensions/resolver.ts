@@ -1,14 +1,13 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
-
 import { LogMessage } from "./log-message.decorator";
 import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./helpers/recipe";
+import { sampleRecipes } from "./recipe.data";
 
 @Resolver()
 export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
-  @Query(returns => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return this.recipesData;
   }
