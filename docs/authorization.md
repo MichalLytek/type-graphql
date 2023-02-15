@@ -145,7 +145,7 @@ import express from "express";
 import jwt from "express-jwt";
 import bodyParser from "body-parser";
 import { schema } from "./graphql/schema";
-import { User } from "./User.type"
+import { User } from "./User.type";
 
 // GraphQL path
 const GRAPHQL_PATH = "/graphql";
@@ -153,7 +153,7 @@ const GRAPHQL_PATH = "/graphql";
 // GraphQL context
 type Context = {
   user?: User;
-}
+};
 
 // Express
 const app = express();
@@ -176,13 +176,14 @@ app.use(
   GRAPHQL_PATH,
   bodyParser.json(),
   expressMiddleware(server, {
-  // Build context
-  // 'req.user' comes from 'express-jwt'
-  context: astnc ({ req }) => ({ user: req.user }),
-}));
+    // Build context
+    // 'req.user' comes from 'express-jwt'
+    context: async ({ req }) => ({ user: req.user }),
+  }),
+);
 
 // Start server
-await new Promise<void>((resolve) => app.listen({ port: 4000 }, resolve));
+await new Promise<void>(resolve => app.listen({ port: 4000 }, resolve));
 console.log(`GraphQL server ready at http://localhost:4000/${GRAPHQL_PATH}`);
 ```
 
