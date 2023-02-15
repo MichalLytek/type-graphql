@@ -43,6 +43,8 @@
   ],
   "scripts": {
     "build": "npx tsc --build tsconfig.json",
+    "build:benchmarks": "npx tsc --build ./benchmarks/tsconfig.json",
+    "build:examples": "npx tsc --build ./examples/tsconfig.json",
     "build:watch": "npx tsc --build --watch tsconfig.json",
     "check": "npx npm-run-all --npm-path npm check:*",
     "check:format": "npx prettier --check .",
@@ -59,6 +61,8 @@
     "fix:markdown": "npx markdownlint --fix \"**/*.md\"",
     "postbuild": "npx shx rm ./build/browser-shim.d.ts && npx shx cp ./src/browser-shim.ts ./build",
     "prebuild": "npm run clean",
+    "prebuild:benchmarks": "npm run clean",
+    "prebuild:examples": "npm run clean",
     "prebuild:watch": "npm run clean",
     "prepare": "npx ts-patch install -s && npx husky install",
     "prepublishOnly": "npm run build",
