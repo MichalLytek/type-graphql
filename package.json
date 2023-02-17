@@ -71,10 +71,8 @@
     "test:watch": "npx jest --watch"
   },
   "dependencies": {
-    "@types/glob": "^8.0.1",
     "@types/node": "*",
     "@types/semver": "^7.3.13",
-    "glob": "^8.1.0",
     "graphql-query-complexity": "^0.12.0",
     "graphql-subscriptions": "^2.0.0",
     "semver": "^7.3.8",

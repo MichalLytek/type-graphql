@@ -9,7 +9,7 @@ After creating our resolvers, type classes, and other business-related code, we 
 To create an executable schema from type and resolver definitions, we need to use the `buildSchema` function.
 It takes a configuration object as a parameter and returns a promise of a `GraphQLSchema` object.
 
-In the configuration object we must provide a `resolvers` property, which can be an array of resolver classes:
+In the configuration object we must provide a `resolvers` property, which is supposed to be an array of resolver classes:
 
 ```ts
 import { FirstResolver, SecondResolver } from "./resolvers";
@@ -46,17 +46,6 @@ import { resolvers } from "./resolvers";
 const schema = await buildSchema({ resolvers });
 ```
 
-However, when there are several resolver classes, manual imports can be cumbersome.
-So we can also provide an array of paths to resolver module files instead, which can include globs:
-
-```ts
-const schema = await buildSchema({
-  resolvers: [__dirname + "/modules/**/*.resolver.{ts,js}", __dirname + "/resolvers/**/*.{ts,js}"],
-});
-```
-
-> Be aware that in case of providing paths to resolvers files, TypeGraphQL will emit all the operations and types that are imported in the resolvers files or their dependencies.
-
 There are also other options related to advanced features like [authorization](./authorization.md) or [validation](./validation.md) - you can read about them in docs.
 
 To make `await` work, we need to declare it as an async function. Example of `main.ts` file:
@@ -66,7 +55,9 @@ import { buildSchema } from "type-graphql";
 
 async function bootstrap() {
   const schema = await buildSchema({
-    resolvers: [__dirname + "/**/*.resolver.{ts,js}"],
+    resolvers: [
+      // ... Resolvers classes
+    ],
   });
 
   // ...

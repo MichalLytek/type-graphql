@@ -142,6 +142,12 @@ You can also check the [examples folder](./examples) in this repository for more
 
 The [Tests folder](./tests) might also give you some tips on how to get various things done.
 
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
+
 ## The future
 
 The currently released version is a stable 1.0.0 release. It is well-tested (97% coverage, ~500 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.

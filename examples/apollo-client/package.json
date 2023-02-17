@@ -18,7 +18,6 @@
   },
   "alias": {
     "util": "./mocks/utils.js",
-    "glob": "./mocks/empty-module.js",
     "fs": "./mocks/empty-module.js",
     "path": "./mocks/empty-module.js"
   },
