@@ -54,5 +54,4 @@ async function main() {
   await runBenchmark(schema);
 }
 
-// eslint-disable-next-line no-console
 main().catch(console.error);

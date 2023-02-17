@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { GraphQLSchema, execute } from "graphql";
 import { gql } from "graphql-tag";
 
