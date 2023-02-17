@@ -181,5 +181,5 @@ jobs:
           publish_dir: ./website/build/type-graphql
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
-          commit_message: |
-            Deploy website
+          full_commit_message: |
+            Deploy website based on ${{ github.sha }}
