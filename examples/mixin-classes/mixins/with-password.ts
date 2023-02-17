@@ -3,8 +3,8 @@ import { InputType, ClassType, Field, ObjectType } from "type-graphql";
 
 // adds password property with validation to the base, extended class
 export default function withPassword<TClassType extends ClassType>(BaseClass: TClassType) {
-  @ObjectType({ isAbstract: true })
-  @InputType({ isAbstract: true })
+  @ObjectType()
+  @InputType()
   class PasswordTrait extends BaseClass {
     @MinLength(8)
     @Field()

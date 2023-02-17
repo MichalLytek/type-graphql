@@ -7,7 +7,6 @@ export interface ClassMetadata {
   target: Function;
   fields?: FieldMetadata[];
   description?: string;
-  isAbstract?: boolean;
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
   simpleResolvers?: boolean;

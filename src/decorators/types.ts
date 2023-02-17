@@ -52,9 +52,6 @@ export interface ComplexityOptions {
 export interface SchemaNameOptions {
   name?: string;
 }
-export interface AbstractClassOptions {
-  isAbstract?: boolean;
-}
 export interface ImplementsClassOptions {
   implements?: Function | Function[];
 }

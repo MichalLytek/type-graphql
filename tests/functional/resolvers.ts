@@ -2233,7 +2233,7 @@ describe("Resolvers", () => {
       }
 
       function createResolver(name: string, objectType: ClassType) {
-        @Resolver(() => objectType, { isAbstract: true })
+        @Resolver(() => objectType)
         class BaseResolver {
           protected name = "baseName";
 

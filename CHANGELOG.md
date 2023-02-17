@@ -30,6 +30,7 @@
 - **Breaking Change**: update `class-validator` peer dependency to `>=0.14.0`
 - **Breaking Change**: change build config to ES2019 - drop support for Node.js < 14.5
 - **Breaking Change**: remove support for loading resolvers by glob paths (`resolvers: string[]` build schema option)
+- **Breaking Change**: remove `isAbstract` legacy decorator option
 
 ## v1.1.1
 

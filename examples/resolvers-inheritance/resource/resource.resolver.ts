@@ -30,8 +30,7 @@ export function ResourceResolver<TResource extends Resource>(
 ) {
   const resourceName = ResourceCls.name.toLocaleLowerCase();
 
-  // `isAbstract` decorator option is mandatory to prevent multiple registering in schema
-  @Resolver(of => ResourceCls, { isAbstract: true })
+  @Resolver(of => ResourceCls)
   @Service()
   abstract class ResourceResolverClass {
     protected resourceService: ResourceService<TResource>;

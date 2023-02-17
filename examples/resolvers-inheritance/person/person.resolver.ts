@@ -1,5 +1,5 @@
+import { Service } from "typedi";
 import { Resolver, Arg, Int, Mutation } from "type-graphql";
-
 import { ResourceResolver } from "../resource/resource.resolver";
 import { Person } from "./person.type";
 import { PersonRole } from "./person.role";
@@ -20,6 +20,7 @@ const persons: Person[] = [
 ];
 
 @Resolver()
+@Service()
 export class PersonResolver extends ResourceResolver(Person, persons) {
   // here you can add resource-specific operations
 
