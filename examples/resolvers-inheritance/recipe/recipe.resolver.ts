@@ -1,3 +1,4 @@
+import { Service } from "typedi";
 import { Resolver, FieldResolver, Root } from "../../../src";
 
 import { ResourceResolver } from "../resource/resource.resolver";
@@ -12,6 +13,7 @@ const recipes: Recipe[] = [
 ];
 
 @Resolver(of => Recipe)
+@Service()
 export class RecipeResolver extends ResourceResolver(Recipe, recipes) {
   // here you can add resource-specific operations
 

@@ -1,4 +1,5 @@
 import { Resolver, Arg, Int, Mutation } from "../../../src";
+import { Service } from "typedi";
 
 import { ResourceResolver } from "../resource/resource.resolver";
 import { Person } from "./person.type";
@@ -20,6 +21,7 @@ const persons: Person[] = [
 ];
 
 @Resolver()
+@Service()
 export class PersonResolver extends ResourceResolver(Person, persons) {
   // here you can add resource-specific operations
 
