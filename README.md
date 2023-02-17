@@ -140,6 +140,12 @@ You can also check the [examples folder](https://github.com/MichalLytek/type-gra
 
 The [Tests folder](https://github.com/MichalLytek/type-graphql/tree/master/tests) might also give you some tips how to get various things done.
 
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
+
 ## The future
 
 The currently released version is a stable 1.0.0 release. It is well tested (95% coverage, 428 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.
