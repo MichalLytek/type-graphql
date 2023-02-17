@@ -6,26 +6,27 @@ TypeGraphQL's main feature is creating the schema using only TypeScript classes 
 
 The first one is to generate it automatically on every build of the schema - just pass `emitSchemaFile: true` to the `buildSchema` options in order to emit the `schema.gql` in the root of the project's working directory. You can also manually specify the path and the file name where the schema definition should be written or even specify `PrintSchemaOptions` to configure the look and format of the schema definition.
 
-```typescript
+```ts
 const schema = await buildSchema({
   resolvers: [ExampleResolver],
-  // automatically create `schema.gql` file with schema definition in project's working directory
+  // Automatically create `schema.gql` file with schema definition in project's working directory
   emitSchemaFile: true,
-  // or create the file with schema in selected path
+  // Or create the file with schema in selected path
   emitSchemaFile: path.resolve(__dirname, "__snapshots__/schema/schema.gql"),
-  // or pass a config object
+  // Or pass a config object
   emitSchemaFile: {
     path: __dirname + "/schema.gql",
     commentDescriptions: true,
-    sortedSchema: false, // by default the printed schema is sorted alphabetically
+    sortedSchema: false, // By default the printed schema is sorted alphabetically
   },
 });
 ```
 
 The second way to emit the schema definition file is by doing it programmatically. We would use the `emitSchemaDefinitionFile` function (or it's sync version `emitSchemaDefinitionFileSync`) and pass in the path, along with the schema object. We can use this among others as part of a testing script that checks if the snapshot of the schema definition is correct or to automatically generate it on every file change during local development.
 
-```typescript
+```ts
 import { emitSchemaDefinitionFile } from "type-graphql";
+
 // ...
 hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async () => {
   const schema = getSchemaNotFromBuildSchemaFunction();
@@ -41,7 +42,7 @@ If we want the custom directives to appear in the generated schema definition fi
 
 Below there is an example that uses the `printSchemaWithDirectives` function from [`@graphql-tools/utils`](https://www.graphql-tools.com/docs/api/modules/utils):
 
-```typescript
+```ts
 import { GraphQLSchema, lexicographicSortSchema } from "graphql";
 import { printSchemaWithDirectives } from "@graphql-tools/utils";
 import { outputFile } from "type-graphql/dist/helpers/filesystem";
@@ -57,7 +58,7 @@ export async function emitSchemaDefinitionWithDirectivesFile(
 
 The usage of `emitSchemaDefinitionWithDirectivesFile` function is the same as with standard `emitSchemaDefinitionFile`:
 
-```typescript
+```ts
 const schema = await buildSchema(/*...*/);
 
 await emitSchemaDefinitionWithDirectivesFile("/path/to/folder/schema.gql", schema);

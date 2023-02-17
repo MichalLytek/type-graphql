@@ -1,6 +1,7 @@
 # Examples
 
 This folder consists of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
+
 All examples have an `examples.graphql` file with sample queries/mutations/subscriptions that you can execute.
 
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.

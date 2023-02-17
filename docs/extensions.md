@@ -13,26 +13,26 @@ For such use cases, **TypeGraphQL** provides the `@Extensions` decorator, which 
 
 Adding extensions to the schema type is as simple as using the `@Extensions` decorator and passing it an object of the custom data we want:
 
-```typescript
+```ts
 @Extensions({ complexity: 2 })
 ```
 
 We can pass several fields to the decorator:
 
-```typescript
+```ts
 @Extensions({ logMessage: "Restricted access", logLevel: 1 })
 ```
 
 And we can also decorate a type several times. The snippet below shows that this attaches the exact same extensions data to the schema type as the snippet above:
 
-```typescript
+```ts
 @Extensions({ logMessage: "Restricted access" })
 @Extensions({ logLevel: 1 })
 ```
 
 If we decorate the same type several times with the same extensions key, the one defined at the bottom takes precedence:
 
-```typescript
+```ts
 @Extensions({ logMessage: "Restricted access" })
 @Extensions({ logMessage: "Another message" })
 ```
@@ -50,7 +50,7 @@ TypeGraphQL classes with the following decorators can be annotated with `@Extens
 
 So the `@Extensions` decorator can be placed over the class property/method or over the type class itself, and multiple times if necessary, depending on what we want to do with the extensions data:
 
-```typescript
+```ts
 @Extensions({ roles: ["USER"] })
 @ObjectType()
 class Foo {
@@ -95,7 +95,7 @@ Once we have decorated the necessary types with extensions, the executable schem
 
 Here is a simple example of a global middleware that will be logging a message on field resolver execution whenever the field is decorated appropriately with `@Extensions`:
 
-```typescript
+```ts
 export class LoggerMiddleware implements MiddlewareInterface<Context> {
   constructor(private readonly logger: Logger) {}
 
@@ -114,4 +114,4 @@ export class LoggerMiddleware implements MiddlewareInterface<Context> {
 
 ## Examples
 
-You can see more detailed examples of usage [here](https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions).
+You can see more detailed examples of usage [here](../examples/extensions).
