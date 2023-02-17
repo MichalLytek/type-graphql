@@ -26,10 +26,6 @@ Otherwise, `graphql-js` will not be able to correctly detect the underlying Grap
 
 ## Bootstrapping
 
-### Should I use an array of manually imported resolver classes or a glob path string?
-
-Using a path to resolver module files compels us to structure our project folders or consistently name files with a prefix/suffix and when there are several resolver classes, this might be easier than having to remember to import and register every new class.
-
 ### How do I fix this error? `Cannot use GraphQLSchema "[object Object]" from another module or realm`
 
 This error occurs mostly when there are more than one version of the `graphql-js` module in the project.

@@ -1947,22 +1947,6 @@ describe("Resolvers", () => {
   });
 
   describe("buildSchema", () => {
-    it("should load resolvers from glob paths", async () => {
-      getMetadataStorage().clear();
-
-      const { queryType } = await getSchemaInfo({
-        resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
-      });
-
-      const directoryQueryReturnType = getInnerTypeOfNonNullableType(
-        queryType.fields.find(field => field.name === "sampleQuery")!,
-      );
-
-      expect(queryType.fields).toHaveLength(1);
-      expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
-      expect(directoryQueryReturnType.name).toEqual("SampleObject");
-    });
-
     it("should emit only things from provided `resolvers` property", async () => {
       getMetadataStorage().clear();
 
