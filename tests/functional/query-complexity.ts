@@ -98,7 +98,7 @@ describe("Query complexity", () => {
       }
 
       function createResolver(name: string, objectType: ClassType) {
-        @Resolver(of => objectType, { isAbstract: true })
+        @Resolver(of => objectType)
         class BaseResolver {
           protected name = "baseName";
 

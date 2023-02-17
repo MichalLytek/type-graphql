@@ -77,11 +77,11 @@ function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: 
 }
 ```
 
-It's very important to mark the `BaseResolver` class using the `@Resolver` decorator with the `{ isAbstract: true }` option that will prevent throwing an error due to registering multiple queries/mutations with the same name.
+It's very important to mark the `BaseResolver` class using the `@Resolver` decorator:
 
 ```typescript
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
-  @Resolver({ isAbstract: true })
+  @Resolver()
   abstract class BaseResolver {}
 
   return BaseResolver;
@@ -92,7 +92,7 @@ We can then implement the resolver methods as usual. The only difference is that
 
 ```typescript
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
-  @Resolver({ isAbstract: true })
+  @Resolver()
   abstract class BaseResolver {
     protected items: T[] = [];
 

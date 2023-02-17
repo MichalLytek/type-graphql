@@ -31,8 +31,8 @@ describe("Generic types", () => {
     getMetadataStorage().clear();
   });
 
-  it("shouldn't emit abstract object type", async () => {
-    @ObjectType({ isAbstract: true })
+  it("shouldn't emit unused abstract object type", async () => {
+    @ObjectType()
     abstract class BaseType {
       @Field()
       baseField: string;
@@ -66,8 +66,8 @@ describe("Generic types", () => {
     expect(baseTypeInfo).toBeUndefined();
   });
 
-  it("shouldn't emit abstract interface type", async () => {
-    @InterfaceType({ isAbstract: true })
+  it("shouldn't emit unused abstract interface type", async () => {
+    @InterfaceType()
     abstract class BaseInterfaceType {
       @Field()
       baseField: string;
@@ -111,8 +111,8 @@ describe("Generic types", () => {
     expect(baseInterfaceTypeInfo).toBeUndefined();
   });
 
-  it("shouldn't emit abstract input object type", async () => {
-    @InputType({ isAbstract: true })
+  it("shouldn't emit unused abstract input object type", async () => {
+    @InputType()
     abstract class BaseInput {
       @Field()
       baseField: string;
@@ -152,7 +152,7 @@ describe("Generic types", () => {
 
     beforeEach(async () => {
       function Connection<TItem>(TItemClass: ClassType<TItem>) {
-        @ObjectType(`${TItemClass.name}Connection`, { isAbstract: true })
+        @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
           @Field(type => Int)
           count: number;
@@ -263,7 +263,7 @@ describe("Generic types", () => {
 
     beforeEach(async () => {
       function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
-        @ObjectType({ isAbstract: true })
+        @ObjectType()
         abstract class EdgeClass {
           @Field(type => NodeClass)
           node: TNodeClass;
@@ -409,7 +409,7 @@ describe("Generic types", () => {
 
     beforeAll(async () => {
       function Base<TType>(TTypeClass: ClassType<TType>) {
-        @ObjectType({ isAbstract: true })
+        @ObjectType()
         class BaseClass {
           @Field(type => TTypeClass)
           baseField: TType;

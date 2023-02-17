@@ -12,7 +12,7 @@ Unfortunately, the limited reflection capabilities of TypeScript don't allow for
 
 ### Basic usage
 
-Start by defining a `PaginatedResponse` function that creates and returns a `PaginatedResponseClass`:
+Start by defining a `PaginatedResponse` function that creates and returns an abstract `PaginatedResponseClass`:
 
 ```typescript
 export default function PaginatedResponse() {
@@ -34,12 +34,11 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 }
 ```
 
-Then, add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`.
-It also should have set `isAbstract: true` to prevent getting registered in the schema:
+Then, add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
-  @ObjectType({ isAbstract: true })
+  @ObjectType()
   abstract class PaginatedResponseClass {
     // ...
   }
@@ -51,8 +50,7 @@ After that, add fields like in a normal class but using the generic type and par
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
-  // `isAbstract` decorator option is mandatory to prevent registering in schema
-  @ObjectType({ isAbstract: true })
+  @ObjectType()
   abstract class PaginatedResponseClass {
     // here we use the runtime argument
     @Field(type => [TItemClass])
@@ -110,7 +108,7 @@ So if we want to return an array of strings as the `items` field, we need to add
 export default function PaginatedResponse<TItemsFieldValue>(
   itemsFieldValue: ClassType<TItemsFieldValue> | GraphQLScalarType | String | Number | Boolean,
 ) {
-  @ObjectType({ isAbstract: true })
+  @ObjectType()
   abstract class PaginatedResponseClass {
     @Field(type => [itemsFieldValue])
     items: TItemsFieldValue[];
@@ -132,14 +130,14 @@ class PaginatedStringsResponse extends PaginatedResponse<string>(String) {
 
 ### Types factory
 
-We can also create a generic class without using the `isAbstract` option or the `abstract` keyword.
-But types created with this kind of factory will be registered in the schema, so this way is not recommended to extend the types for adding fields.
+We can also create a generic class without using the `abstract` keyword.
+But with this approach, types created with this kind of factory will be registered in the schema, so this way is not recommended to extend the types for adding fields.
 
 To avoid generating schema errors of duplicated `PaginatedResponseClass` type names, we must provide our own unique, generated type name:
 
 ```typescript
 export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
-  // instead of `isAbstract`, we have to provide a unique type name used in schema
+  // we have to provide a unique type name used in schema
   @ObjectType(`Paginated${TItemClass.name}Response`)
   class PaginatedResponseClass {
     // the same fields as in the earlier code snippet

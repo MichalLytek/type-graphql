@@ -51,6 +51,5 @@ export interface SubscriptionResolverMetadata extends ResolverMetadata {
 export interface ResolverClassMetadata {
   target: Function;
   getObjectType: ClassTypeResolver;
-  isAbstract?: boolean;
   superResolver?: ResolverClassMetadata;
 }
