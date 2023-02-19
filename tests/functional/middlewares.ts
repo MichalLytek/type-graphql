@@ -1,21 +1,21 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
+  Arg,
   Field,
+  FieldResolver,
+  MiddlewareFn,
+  MiddlewareInterface,
+  NextFn,
   ObjectType,
   Query,
   Resolver,
-  buildSchema,
-  FieldResolver,
-  MiddlewareFn,
-  UseMiddleware,
-  Arg,
-  MiddlewareInterface,
-  NextFn,
   ResolverData,
+  UseMiddleware,
+  buildSchema,
 } from "type-graphql";
 import { createMethodDecorator } from "@/decorators/createMethodDecorator";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Middlewares", () => {
   let schema: GraphQLSchema;

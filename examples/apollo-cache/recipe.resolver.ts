@@ -1,8 +1,8 @@
-import { Resolver, Query, Arg } from "type-graphql";
-import { Recipe } from "./recipe.type";
-import { createRecipeSamples } from "./recipe.data";
+import { Arg, Query, Resolver } from "type-graphql";
 import { CacheControl } from "./cache-control";
 import { getTime } from "./helpers/getTime";
+import { createRecipeSamples } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
 @Resolver(_of => Recipe)
 export class RecipeResolver {

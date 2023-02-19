@@ -1,18 +1,18 @@
 import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
 import {
-  Field,
-  ObjectType,
-  Ctx,
+  AuthCheckerInterface,
   Authorized,
+  Ctx,
+  Field,
+  FieldResolver,
+  ForbiddenError,
+  ObjectType,
   Query,
   Resolver,
-  buildSchema,
-  FieldResolver,
-  UnauthorizedError,
-  ForbiddenError,
-  AuthCheckerInterface,
   ResolverData,
+  UnauthorizedError,
+  buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 

@@ -1,12 +1,12 @@
 import { ResolverFn } from "graphql-subscriptions";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getResolverMetadata } from "@/helpers/resolver-metadata";
-import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { MissingSubscriptionTopicsError } from "@/errors";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { getResolverMetadata } from "@/helpers/resolver-metadata";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { MergeExclusive } from "@/utils/types";
 import {
-  ReturnTypeFunc,
   AdvancedOptions,
+  ReturnTypeFunc,
   SubscriptionFilterFunc,
   SubscriptionTopicFunc,
 } from "./types";

@@ -2,9 +2,9 @@ import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import { RecipeResolver } from "./recipe.resolver";
-import { Context } from "./context.type";
 import { authChecker } from "./auth-checker";
+import { Context } from "./context.type";
+import { RecipeResolver } from "./recipe.resolver";
 
 async function bootstrap() {
   // Build TypeGraphQL executable schema

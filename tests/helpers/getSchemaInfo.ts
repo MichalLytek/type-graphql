@@ -1,10 +1,10 @@
 import {
-  graphql,
-  getIntrospectionQuery,
   IntrospectionObjectType,
   IntrospectionSchema,
+  getIntrospectionQuery,
+  graphql,
 } from "graphql";
-import { buildSchema, BuildSchemaOptions } from "type-graphql";
+import { BuildSchemaOptions, buildSchema } from "type-graphql";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
   // Build schema from definitions

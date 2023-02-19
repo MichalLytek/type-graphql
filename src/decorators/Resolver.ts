@@ -1,5 +1,5 @@
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { ClassType } from "@/interfaces";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { ClassTypeResolver } from "./types";
 
 export function Resolver(): ClassDecorator;

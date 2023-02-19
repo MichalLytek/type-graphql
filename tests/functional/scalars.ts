@@ -1,31 +1,31 @@
 import "reflect-metadata";
 import {
-  graphql,
-  IntrospectionSchema,
-  IntrospectionObjectType,
+  GraphQLSchema,
   IntrospectionNamedTypeRef,
   IntrospectionNonNullTypeRef,
-  GraphQLSchema,
+  IntrospectionObjectType,
+  IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
 import {
-  ObjectType,
-  InputType,
-  Resolver,
-  Field,
-  Query,
   Arg,
-  buildSchema,
-  ID,
+  Field,
   Float,
-  Int,
   GraphQLISODateTime,
   GraphQLTimestamp,
+  ID,
+  InputType,
+  Int,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { IntrospectionObjectType, TypeKind, graphql } from "graphql";
-import { Query, ObjectType, Field, Resolver, buildSchema } from "type-graphql";
+import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

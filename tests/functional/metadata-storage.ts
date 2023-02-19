@@ -1,16 +1,16 @@
 import "reflect-metadata";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
-  Resolver,
-  Query,
-  buildSchema,
-  Mutation,
-  Subscription,
-  FieldResolver,
-  ObjectType,
   ClassType,
   Field,
+  FieldResolver,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
 } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("MetadataStorage", () => {
   describe("resolvers inheritance", () => {

@@ -1,18 +1,17 @@
 import {
+  GraphQLBoolean,
+  GraphQLFloat,
+  GraphQLList,
+  GraphQLNonNull,
   GraphQLScalarType,
   GraphQLString,
-  GraphQLFloat,
   GraphQLType,
-  GraphQLNonNull,
-  GraphQLList,
-  GraphQLBoolean,
 } from "graphql";
-
 import { TypeOptions } from "@/decorators/types";
-import { GraphQLTimestamp } from "@/scalars/timestamp";
-import { GraphQLISODateTime } from "@/scalars/isodate";
-import { BuildContext } from "@/schema/build-context";
 import { WrongNullableListOptionError } from "@/errors";
+import { GraphQLISODateTime } from "@/scalars/isodate";
+import { GraphQLTimestamp } from "@/scalars/timestamp";
+import { BuildContext } from "@/schema/build-context";
 
 function wrapTypeInNestedList(
   targetType: GraphQLType,

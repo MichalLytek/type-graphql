@@ -1,4 +1,4 @@
-import { Service, Inject } from "typedi";
+import { Inject, Service } from "typedi";
 import { Context } from "./context.type";
 
 // Service is recreated for each request (scoped)

@@ -1,4 +1,4 @@
-import { Kind, GraphQLScalarType } from "graphql";
+import { GraphQLScalarType, Kind } from "graphql";
 
 function convertTimestampToDate(value: number) {
   try {

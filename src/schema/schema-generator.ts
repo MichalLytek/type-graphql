@@ -1,55 +1,53 @@
 import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNamedType,
-  GraphQLFieldConfigMap,
-  GraphQLOutputType,
-  GraphQLInputObjectType,
-  GraphQLFieldConfigArgumentMap,
-  GraphQLInputType,
-  GraphQLInputFieldConfigMap,
-  GraphQLInterfaceType,
-  graphql,
-  getIntrospectionQuery,
+  GraphQLDirective,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
-  GraphQLUnionType,
-  GraphQLTypeResolver,
-  GraphQLDirective,
+  GraphQLFieldConfigArgumentMap,
+  GraphQLFieldConfigMap,
   GraphQLFieldResolver,
+  GraphQLInputFieldConfigMap,
+  GraphQLInputObjectType,
+  GraphQLInputType,
+  GraphQLInterfaceType,
+  GraphQLNamedType,
+  GraphQLObjectType,
+  GraphQLOutputType,
+  GraphQLSchema,
+  GraphQLTypeResolver,
+  GraphQLUnionType,
+  getIntrospectionQuery,
+  graphql,
 } from "graphql";
-import { withFilter, ResolverFn } from "graphql-subscriptions";
-
+import { ResolverFn, withFilter } from "graphql-subscriptions";
+import { TypeOptions, TypeValue } from "@/decorators/types";
+import {
+  CannotDetermineGraphQLTypeError,
+  ConflictingDefaultValuesError,
+  GeneratingSchemaError,
+  InterfaceResolveTypeError,
+  MissingSubscriptionTopicsError,
+  UnionResolveTypeError,
+} from "@/errors";
+import { convertTypeIfScalar, getEnumValuesMap, wrapWithTypeOptions } from "@/helpers/types";
+import { ResolverFilterData, ResolverTopicData, TypeResolver } from "@/interfaces";
+import {
+  ClassMetadata,
+  FieldMetadata,
+  ParamMetadata,
+  ResolverMetadata,
+  SubscriptionResolverMetadata,
+} from "@/metadata/definitions";
+import { InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
+import { ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
-  ResolverMetadata,
-  ParamMetadata,
-  ClassMetadata,
-  SubscriptionResolverMetadata,
-  FieldMetadata,
-} from "@/metadata/definitions";
-import { TypeOptions, TypeValue } from "@/decorators/types";
-import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "@/helpers/types";
-import {
-  createHandlerResolver,
   createAdvancedFieldResolver,
   createBasicFieldResolver,
+  createHandlerResolver,
   wrapResolverWithAuthChecker,
 } from "@/resolvers/create";
-import {
-  UnionResolveTypeError,
-  GeneratingSchemaError,
-  MissingSubscriptionTopicsError,
-  ConflictingDefaultValuesError,
-  InterfaceResolveTypeError,
-  CannotDetermineGraphQLTypeError,
-} from "@/errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "@/interfaces";
 import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
-import { ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
-import { InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
 import { BuildContext, BuildContextOptions } from "./build-context";
-import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 import {
   getFieldDefinitionNode,
   getInputObjectTypeDefinitionNode,
@@ -57,6 +55,7 @@ import {
   getInterfaceTypeDefinitionNode,
   getObjectTypeDefinitionNode,
 } from "./definition-node";
+import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
   target: Function;

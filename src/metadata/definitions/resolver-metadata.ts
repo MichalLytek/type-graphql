@@ -1,16 +1,16 @@
 import { ResolverFn } from "graphql-subscriptions";
 import {
-  TypeValueThunk,
-  TypeOptions,
   ClassTypeResolver,
   SubscriptionFilterFunc,
   SubscriptionTopicFunc,
+  TypeOptions,
+  TypeValueThunk,
 } from "@/decorators/types";
-import { Middleware } from "@/interfaces/Middleware";
 import { Complexity } from "@/interfaces";
-import { ParamMetadata } from "./param-metadata";
+import { Middleware } from "@/interfaces/Middleware";
 import { DirectiveMetadata } from "./directive-metadata";
 import { ExtensionsMetadata } from "./extensions-metadata";
+import { ParamMetadata } from "./param-metadata";
 
 export interface BaseResolverMetadata {
   methodName: string;

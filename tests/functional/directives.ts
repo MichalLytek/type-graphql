@@ -1,28 +1,28 @@
 import "reflect-metadata";
 import {
-  GraphQLSchema,
   GraphQLInputObjectType,
   GraphQLInterfaceType,
   GraphQLObjectType,
+  GraphQLSchema,
   OperationTypeNode,
 } from "graphql";
 import {
-  Field,
-  InputType,
-  Resolver,
-  Query,
   Arg,
   Directive,
-  buildSchema,
-  ObjectType,
-  Mutation,
-  Subscription,
+  Field,
+  InputType,
   InterfaceType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
 } from "type-graphql";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
-import { assertValidDirective } from "../helpers/directives/assertValidDirective";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
+import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 
 describe("Directives", () => {
   describe("Schema", () => {

@@ -1,19 +1,19 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
   IntrospectionInputObjectType,
+  IntrospectionObjectType,
+  IntrospectionSchema,
 } from "graphql";
 import {
-  ObjectType,
-  ArgsType,
-  InputType,
-  Resolver,
-  Field,
-  Query,
-  Mutation,
   Arg,
   Args,
+  ArgsType,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
 } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

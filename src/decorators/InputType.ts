@@ -1,5 +1,5 @@
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getNameDecoratorParams } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { DescriptionOptions } from "./types";
 
 export type InputTypeOptions = DescriptionOptions;

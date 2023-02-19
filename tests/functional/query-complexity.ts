@@ -2,14 +2,14 @@ import "reflect-metadata";
 import { GraphQLSchema, parse } from "graphql";
 import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
   Arg,
-  buildSchema,
-  Subscription,
   ClassType,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";

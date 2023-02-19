@@ -1,5 +1,5 @@
 import Joiful from "joiful";
-import { InputType, Field } from "type-graphql";
+import { Field, InputType } from "type-graphql";
 import { Recipe } from "./recipe.type";
 
 @InputType()

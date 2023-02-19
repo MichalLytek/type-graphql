@@ -1,7 +1,7 @@
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getResolverMetadata } from "@/helpers/resolver-metadata";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
-import { ReturnTypeFunc, AdvancedOptions } from "./types";
+import { getResolverMetadata } from "@/helpers/resolver-metadata";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { AdvancedOptions, ReturnTypeFunc } from "./types";
 
 export function Mutation(): MethodDecorator;
 export function Mutation(options: AdvancedOptions): MethodDecorator;

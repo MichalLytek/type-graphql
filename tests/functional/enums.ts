@@ -1,20 +1,20 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionEnumType,
-  graphql,
   GraphQLSchema,
+  IntrospectionEnumType,
+  IntrospectionInputObjectType,
+  IntrospectionObjectType,
+  IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
+import { Arg, Field, InputType, Query, registerEnumType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { Field, InputType, Query, Arg, registerEnumType } from "type-graphql";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
 } from "../helpers/getInnerFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Enums", () => {
   let schemaIntrospection: IntrospectionSchema;

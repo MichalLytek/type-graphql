@@ -1,5 +1,5 @@
-import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
 import { UnmetGraphQLPeerDependencyError } from "@/errors";
+import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
 
 describe("`graphql` package peer dependency", () => {
   it("should have installed correct version", async () => {

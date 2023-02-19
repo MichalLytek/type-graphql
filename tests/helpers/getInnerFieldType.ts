@@ -1,9 +1,9 @@
 import {
-  IntrospectionObjectType,
-  IntrospectionInterfaceType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
   IntrospectionInputObjectType,
+  IntrospectionInterfaceType,
+  IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
+  IntrospectionObjectType,
   IntrospectionTypeRef,
 } from "graphql";
 

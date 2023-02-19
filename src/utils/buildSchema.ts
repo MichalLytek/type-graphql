@@ -1,12 +1,12 @@
-import { GraphQLSchema } from "graphql";
 import path from "node:path";
-import { SchemaGenerator, SchemaGeneratorOptions } from "@/schema/schema-generator";
+import { GraphQLSchema } from "graphql";
 import { NonEmptyArray } from "@/interfaces/NonEmptyArray";
+import { SchemaGenerator, SchemaGeneratorOptions } from "@/schema/schema-generator";
 import {
-  emitSchemaDefinitionFileSync,
-  emitSchemaDefinitionFile,
-  defaultPrintSchemaOptions,
   PrintSchemaOptions,
+  defaultPrintSchemaOptions,
+  emitSchemaDefinitionFile,
+  emitSchemaDefinitionFileSync,
 } from "./emitSchemaDefinitionFile";
 
 interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {

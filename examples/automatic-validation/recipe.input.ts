@@ -1,5 +1,5 @@
-import { MaxLength, Length } from "class-validator";
-import { InputType, Field } from "type-graphql";
+import { Length, MaxLength } from "class-validator";
+import { Field, InputType } from "type-graphql";
 import { Recipe } from "./recipe.type";
 
 @InputType()

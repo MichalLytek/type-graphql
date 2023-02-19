@@ -1,32 +1,32 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionInterfaceType,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionInputObjectType,
   GraphQLSchema,
-  graphql,
+  IntrospectionInputObjectType,
+  IntrospectionInterfaceType,
+  IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
+  IntrospectionObjectType,
+  IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { GeneratingSchemaError } from "@/errors";
 import {
-  InterfaceType,
-  ObjectType,
+  Arg,
+  Args,
+  ArgsType,
   Field,
   ID,
-  Query,
-  ArgsType,
-  Args,
   InputType,
-  Arg,
-  Mutation,
-  buildSchema,
   Int,
+  InterfaceType,
+  Mutation,
+  ObjectType,
+  Query,
   Resolver,
+  buildSchema,
 } from "type-graphql";
+import { GeneratingSchemaError } from "@/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

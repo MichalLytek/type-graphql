@@ -1,33 +1,33 @@
-import { ClassType } from "@/interfaces";
 import { NoExplicitTypeError } from "@/errors";
+import { ClassType } from "@/interfaces";
 import { SchemaGeneratorOptions } from "@/schema/schema-generator";
 import {
-  ResolverMetadata,
-  ClassMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  FieldMetadata,
-  ParamMetadata,
-  FieldResolverMetadata,
   AuthorizedMetadata,
   BaseResolverMetadata,
+  ClassMetadata,
   EnumMetadata,
+  ExtensionsClassMetadata,
+  ExtensionsFieldMetadata,
+  ExtensionsMetadata,
+  FieldMetadata,
+  FieldResolverMetadata,
+  MiddlewareMetadata,
+  ParamMetadata,
+  ResolverClassMetadata,
+  ResolverMetadata,
+  SubscriptionResolverMetadata,
   UnionMetadata,
   UnionMetadataWithSymbol,
-  ResolverClassMetadata,
-  SubscriptionResolverMetadata,
-  MiddlewareMetadata,
-  ExtensionsMetadata,
 } from "./definitions";
+import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
+import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
+import { ObjectClassMetadata } from "./definitions/object-class-metadata";
 import {
-  mapSuperResolverHandlers,
+  ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
-  ensureReflectMetadataExists,
+  mapSuperResolverHandlers,
 } from "./utils";
-import { ObjectClassMetadata } from "./definitions/object-class-metadata";
-import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
-import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];

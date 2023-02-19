@@ -1,10 +1,10 @@
-import { Resolver, Query, Arg } from "type-graphql";
-import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./recipe.data";
-import { Difficulty } from "./difficulty.enum";
-import { SearchResult } from "./search-result.union";
-import { Cook } from "./cook.type";
+import { Arg, Query, Resolver } from "type-graphql";
 import { sampleCooks } from "./cook.data";
+import { Cook } from "./cook.type";
+import { Difficulty } from "./difficulty.enum";
+import { sampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
+import { SearchResult } from "./search-result.union";
 
 @Resolver()
 export class ExampleResolver {

@@ -1,7 +1,7 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { LogMessage } from "./log-message.decorator";
-import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
 @Resolver()
 export class ExampleResolver {

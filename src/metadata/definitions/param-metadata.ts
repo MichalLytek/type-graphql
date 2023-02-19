@@ -1,4 +1,4 @@
-import { TypeValueThunk, TypeOptions } from "@/decorators/types";
+import { TypeOptions, TypeValueThunk } from "@/decorators/types";
 import { ResolverData } from "@/interfaces";
 import { ValidateSettings } from "@/schema/build-context";
 

@@ -1,6 +1,6 @@
-import { Resolver, Query, FieldResolver, Root, ResolverInterface, Arg } from "type-graphql";
-import { Recipe } from "./recipe.type";
+import { Arg, FieldResolver, Query, Resolver, ResolverInterface, Root } from "type-graphql";
 import { createRecipeSamples } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
 @Resolver(_of => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {

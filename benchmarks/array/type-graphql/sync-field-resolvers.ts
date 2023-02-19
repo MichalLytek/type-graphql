@@ -1,15 +1,15 @@
 import "reflect-metadata";
 import {
-  buildSchema,
   Field,
-  ObjectType,
-  Resolver,
-  Query,
-  Int,
   FieldResolver,
+  Int,
+  ObjectType,
+  Query,
+  Resolver,
   Root,
+  buildSchema,
 } from "type-graphql";
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType()
 class SampleObject {

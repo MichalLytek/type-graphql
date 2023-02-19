@@ -1,8 +1,8 @@
-import { Resolver, Query, Arg, Mutation, Args } from "type-graphql";
-import { Recipe } from "./recipe.type";
-import { RecipeInput } from "./recipe.input";
-import { RecipesArguments } from "./recipes.arguments";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import { generateRecipes } from "./helpers";
+import { RecipeInput } from "./recipe.input";
+import { Recipe } from "./recipe.type";
+import { RecipesArguments } from "./recipes.arguments";
 
 @Resolver(_of => Recipe)
 export class RecipeResolver {

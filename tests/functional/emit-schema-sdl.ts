@@ -4,16 +4,16 @@ import path from "node:path";
 import { GraphQLSchema } from "graphql";
 import shelljs from "shelljs";
 import {
-  buildSchema,
-  buildSchemaSync,
-  emitSchemaDefinitionFile,
-  emitSchemaDefinitionFileSync,
   Field,
   ObjectType,
+  PrintSchemaOptions,
   Query,
   Resolver,
-  PrintSchemaOptions,
+  buildSchema,
+  buildSchemaSync,
   defaultPrintSchemaOptions,
+  emitSchemaDefinitionFile,
+  emitSchemaDefinitionFileSync,
 } from "type-graphql";
 import * as filesystem from "@/helpers/filesystem";
 

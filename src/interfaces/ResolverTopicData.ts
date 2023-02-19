@@ -1,5 +1,5 @@
-import { ResolverFilterData } from "./ResolverFilterData";
 import { ArgsDictionary } from "./ResolverData";
+import { ResolverFilterData } from "./ResolverFilterData";
 
 export type ResolverTopicData<
   TPayload = any,

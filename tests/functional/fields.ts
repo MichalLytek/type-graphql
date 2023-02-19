@@ -1,15 +1,15 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
   IntrospectionListTypeRef,
-  TypeKind,
+  IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
+  IntrospectionObjectType,
   IntrospectionScalarType,
+  IntrospectionSchema,
+  TypeKind,
 } from "graphql";
+import { Field, GraphQLISODateTime, ObjectType, Query, Resolver } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Fields - schema", () => {

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { getComplexity, simpleEstimator, fieldExtensionsEstimator } from "graphql-query-complexity";
+import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
 import { buildSchema } from "type-graphql";
 import { RecipeResolver } from "./recipe.resolver";
 

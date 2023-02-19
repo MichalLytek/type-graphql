@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { ResolverData, buildSchema } from "type-graphql";
 import { Container, ContainerInstance } from "typedi";
-import { buildSchema, ResolverData } from "type-graphql";
-import { RecipeResolver } from "./recipe/recipe.resolver";
-import { setSamplesInContainer } from "./recipe/recipe.data";
 import { Context } from "./context.type";
+import { setSamplesInContainer } from "./recipe/recipe.data";
+import { RecipeResolver } from "./recipe/recipe.resolver";
 
 async function bootstrap() {
   setSamplesInContainer();

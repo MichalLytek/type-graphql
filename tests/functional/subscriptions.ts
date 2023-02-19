@@ -1,39 +1,38 @@
 import "reflect-metadata";
+import { EventEmitter } from "events";
 import {
+  DocumentNode,
+  ExecutionResult,
   GraphQLSchema,
   IntrospectionObjectType,
   TypeKind,
+  execute,
   graphql,
   subscribe,
-  ExecutionResult,
-  execute,
-  DocumentNode,
 } from "graphql";
-import gql from "graphql-tag";
-import { EventEmitter } from "events";
 import { PubSub as LocalPubSub } from "graphql-subscriptions";
-
+import gql from "graphql-tag";
 import {
-  Subscription,
-  Resolver,
-  Query,
   Arg,
-  ObjectType,
-  Field,
-  PubSub,
-  Mutation,
-  Root,
-  Publisher,
-  PubSubEngine,
-  Float,
-  buildSchema,
-  MissingSubscriptionTopicsError,
   Authorized,
+  Field,
+  Float,
   Int,
+  MissingSubscriptionTopicsError,
+  Mutation,
+  ObjectType,
+  PubSub,
+  PubSubEngine,
+  Publisher,
+  Query,
+  Resolver,
+  Root,
+  Subscription,
+  buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { sleep } from "../helpers/sleep";
 
 describe("Subscriptions", () => {

@@ -1,4 +1,4 @@
-import { ClassType, Field, ObjectType, Int } from "type-graphql";
+import { ClassType, Field, Int, ObjectType } from "type-graphql";
 
 export function PaginatedResponse<TItemsFieldValue>(
   itemsFieldValue: ClassType<TItemsFieldValue> | string | number | boolean,

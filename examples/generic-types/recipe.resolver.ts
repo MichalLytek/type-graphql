@@ -1,8 +1,8 @@
 /* eslint-disable max-classes-per-file */
-import { ObjectType, Query, Mutation, Arg, Int, Resolver } from "type-graphql";
+import { Arg, Int, Mutation, ObjectType, Query, Resolver } from "type-graphql";
 import { PaginatedResponse } from "./paginated-response.type";
-import { Recipe } from "./recipe.type";
 import { createSampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
 // Create a temporary class for the abstract generic class 'instance'
 @ObjectType()

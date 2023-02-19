@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int } from "type-graphql";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Recipe {

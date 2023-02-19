@@ -1,10 +1,10 @@
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Inject, Service } from "typedi";
-import { Resolver, Query, Arg, Ctx, Mutation } from "type-graphql";
-import { Recipe } from "./recipe.type";
-import { RecipeService } from "./recipe.service";
-import { Logger } from "../logger";
-import { Context } from "../context.type";
 import { RecipeInput } from "./recipe.input";
+import { RecipeService } from "./recipe.service";
+import { Recipe } from "./recipe.type";
+import { Context } from "../context.type";
+import { Logger } from "../logger";
 
 const delay = (time: number) =>
   new Promise(resolve => {

@@ -1,9 +1,9 @@
 import {
+  RecursiveArray,
   ReturnTypeFunc,
   TypeOptions,
-  TypeValueThunk,
   TypeValue,
-  RecursiveArray,
+  TypeValueThunk,
 } from "@/decorators/types";
 import { NoExplicitTypeError } from "@/errors";
 import { bannedTypes } from "./returnTypes";

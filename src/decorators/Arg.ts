@@ -1,12 +1,12 @@
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getParamInfo } from "@/helpers/params";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { getParamInfo } from "@/helpers/params";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
-  ReturnTypeFunc,
   DecoratorTypeOptions,
-  DescriptionOptions,
-  ValidateOptions,
   DeprecationOptions,
+  DescriptionOptions,
+  ReturnTypeFunc,
+  ValidateOptions,
 } from "./types";
 
 export type ArgOptions = DecoratorTypeOptions &

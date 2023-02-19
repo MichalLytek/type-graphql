@@ -1,16 +1,16 @@
 import "reflect-metadata";
-import { GraphQLSchema, GraphQLInputObjectType, GraphQLObjectType, GraphQLFieldMap } from "graphql";
+import { GraphQLFieldMap, GraphQLInputObjectType, GraphQLObjectType, GraphQLSchema } from "graphql";
 import {
-  Field,
-  InputType,
-  Resolver,
-  Query,
   Arg,
   Extensions,
-  buildSchema,
-  ObjectType,
-  Mutation,
+  Field,
   FieldResolver,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 

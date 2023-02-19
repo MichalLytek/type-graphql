@@ -1,8 +1,8 @@
 import {
-  GraphQLScalarType,
   GraphQLFieldResolver,
-  GraphQLTypeResolver,
   GraphQLIsTypeOfFn,
+  GraphQLScalarType,
+  GraphQLTypeResolver,
 } from "graphql";
 
 export interface ResolversMap<TSource = any, TContext = any> {

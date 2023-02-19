@@ -1,16 +1,16 @@
 import {
-  ObjectTypeDefinitionNode,
-  InputObjectTypeDefinitionNode,
-  GraphQLOutputType,
+  ConstArgumentNode,
+  ConstDirectiveNode,
+  DocumentNode,
   FieldDefinitionNode,
   GraphQLInputType,
+  GraphQLOutputType,
+  InputObjectTypeDefinitionNode,
   InputValueDefinitionNode,
-  DocumentNode,
-  parse,
   InterfaceTypeDefinitionNode,
   Kind,
-  ConstDirectiveNode,
-  ConstArgumentNode,
+  ObjectTypeDefinitionNode,
+  parse,
   parseConstValue,
 } from "graphql";
 import { InvalidDirectiveError } from "@/errors";

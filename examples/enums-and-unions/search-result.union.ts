@@ -1,6 +1,6 @@
 import { createUnionType } from "type-graphql";
-import { Recipe } from "./recipe.type";
 import { Cook } from "./cook.type";
+import { Recipe } from "./recipe.type";
 
 export const SearchResult = createUnionType({
   name: "SearchResult",

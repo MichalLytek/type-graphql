@@ -1,8 +1,8 @@
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "@/errors";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { findType } from "@/helpers/findType";
-import { ReturnTypeFunc, AdvancedOptions, TypeValueThunk, TypeOptions } from "./types";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { AdvancedOptions, ReturnTypeFunc, TypeOptions, TypeValueThunk } from "./types";
 
 export function FieldResolver(): MethodDecorator;
 export function FieldResolver(options: AdvancedOptions): MethodDecorator;

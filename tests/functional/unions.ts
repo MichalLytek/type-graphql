@@ -1,17 +1,16 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  graphql,
   GraphQLSchema,
+  IntrospectionObjectType,
+  IntrospectionSchema,
   IntrospectionUnionType,
   TypeKind,
+  graphql,
 } from "graphql";
-
+import { Field, ObjectType, Query, Resolver, buildSchema, createUnionType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "type-graphql";
+import { getInnerFieldType, getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;

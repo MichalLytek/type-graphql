@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { Container } from "typedi";
 import { buildSchema } from "type-graphql";
-import { RecipeResolver } from "./recipe.resolver";
+import { Container } from "typedi";
 import { sampleRecipes } from "./recipe.data";
+import { RecipeResolver } from "./recipe.resolver";
 
 // Add sample recipes in container
 Container.set({ id: "SAMPLE_RECIPES", factory: () => sampleRecipes.slice() });

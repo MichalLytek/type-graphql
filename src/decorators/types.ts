@@ -1,9 +1,9 @@
 import { GraphQLScalarType } from "graphql";
 import {
-  ResolverFilterData,
   ClassType,
-  ResolverTopicData,
   Complexity,
+  ResolverFilterData,
+  ResolverTopicData,
   TypeResolver,
 } from "@/interfaces";
 import { ValidateSettings } from "@/schema/build-context";

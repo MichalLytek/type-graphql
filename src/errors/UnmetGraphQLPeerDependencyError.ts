@@ -1,6 +1,6 @@
 import {
-  getPeerDependencyGraphQLRequirement,
   getInstalledGraphQLVersion,
+  getPeerDependencyGraphQLRequirement,
 } from "@/utils/graphql-version";
 
 export class UnmetGraphQLPeerDependencyError extends Error {

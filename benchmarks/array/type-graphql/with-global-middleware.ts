@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int, MiddlewareFn } from "type-graphql";
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+import { Field, Int, MiddlewareFn, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType()
 class SampleObject {

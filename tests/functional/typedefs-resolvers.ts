@@ -1,50 +1,49 @@
 import "reflect-metadata";
-import {
-  IntrospectionSchema,
-  graphql,
-  getIntrospectionQuery,
-  IntrospectionQuery,
-  IntrospectionInterfaceType,
-  TypeKind,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionEnumType,
-  IntrospectionUnionType,
-  IntrospectionScalarType,
-  execute,
-  GraphQLSchema,
-  subscribe,
-  ExecutionResult,
-} from "graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { PubSub } from "graphql-subscriptions";
 import { MinLength } from "class-validator";
-import Container, { Service } from "typedi";
-import gql from "graphql-tag";
-
 import {
-  Resolver,
-  Query,
-  buildTypeDefsAndResolvers,
-  buildTypeDefsAndResolversSync,
-  InterfaceType,
-  ObjectType,
-  Field,
-  registerEnumType,
-  Subscription,
-  PubSubEngine,
+  ExecutionResult,
+  GraphQLSchema,
+  IntrospectionEnumType,
+  IntrospectionInputObjectType,
+  IntrospectionInterfaceType,
+  IntrospectionNamedTypeRef,
+  IntrospectionObjectType,
+  IntrospectionQuery,
+  IntrospectionScalarType,
+  IntrospectionSchema,
+  IntrospectionUnionType,
+  TypeKind,
+  execute,
+  getIntrospectionQuery,
+  graphql,
+  subscribe,
+} from "graphql";
+import { PubSub } from "graphql-subscriptions";
+import gql from "graphql-tag";
+import {
   Arg,
-  createUnionType,
-  Mutation,
-  Root,
-  InputType,
   Authorized,
-  UseMiddleware,
-  ResolversMap,
+  Field,
+  InputType,
+  InterfaceType,
+  Mutation,
+  ObjectType,
+  PubSubEngine,
+  Query,
+  Resolver,
   ResolverObject,
   ResolverOptions,
+  ResolversMap,
+  Root,
+  Subscription,
+  UseMiddleware,
+  buildTypeDefsAndResolvers,
+  buildTypeDefsAndResolversSync,
+  createUnionType,
+  registerEnumType,
 } from "type-graphql";
+import Container, { Service } from "typedi";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("typeDefs and resolvers", () => {

@@ -1,4 +1,4 @@
-import { Field, ObjectType, Int, Float } from "type-graphql";
+import { Field, Float, Int, ObjectType } from "type-graphql";
 import { CacheControl } from "./cache-control";
 import { getTime } from "./helpers/getTime";
 

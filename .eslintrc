@@ -49,6 +49,21 @@
   "rules": {
     "prettier/prettier": "error",
     "tsdoc/syntax": "warn",
+    "sort-imports": ["warn", { "ignoreDeclarationSort": true }],
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", ["sibling", "parent"], "index", "unknown"],
+        "pathGroups": [
+          { "pattern": "@/**", "group": "internal", "position": "before" },
+          { "pattern": "type-graphql", "group": "external" }
+        ],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-unused-vars": [

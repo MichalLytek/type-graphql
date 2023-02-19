@@ -2,13 +2,13 @@ import "reflect-metadata";
 import { GraphQLSchema, printType } from "graphql";
 import {
   Arg,
-  buildSchema,
   ClassType,
   Field,
-  getMetadataStorage,
   InputType,
   Query,
   Resolver,
+  buildSchema,
+  getMetadataStorage,
 } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

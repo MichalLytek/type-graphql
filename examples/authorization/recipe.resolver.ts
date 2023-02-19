@@ -1,6 +1,6 @@
-import { Resolver, Query, Authorized, Mutation, Arg } from "type-graphql";
-import { Recipe } from "./recipe.type";
+import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { sampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
 @Resolver()
 export class RecipeResolver {

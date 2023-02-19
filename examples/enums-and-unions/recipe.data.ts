@@ -1,6 +1,6 @@
-import { Recipe } from "./recipe.type";
-import { Difficulty } from "./difficulty.enum";
 import { sampleCooks } from "./cook.data";
+import { Difficulty } from "./difficulty.enum";
+import { Recipe } from "./recipe.type";
 
 export const sampleRecipes = [
   createRecipe({

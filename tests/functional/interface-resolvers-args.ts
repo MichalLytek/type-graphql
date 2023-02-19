@@ -1,24 +1,24 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionInterfaceType,
   GraphQLSchema,
-  graphql,
-  IntrospectionNonNullTypeRef,
+  IntrospectionInterfaceType,
   IntrospectionNamedTypeRef,
+  IntrospectionNonNullTypeRef,
+  IntrospectionSchema,
+  graphql,
 } from "graphql";
 import {
   Arg,
   Args,
   ArgsType,
   Field,
+  FieldResolver,
   Int,
   InterfaceType,
   ObjectType,
   Query,
   Resolver,
   buildSchema,
-  FieldResolver,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";

@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { Container } from "typedi";
 import { buildSchema } from "type-graphql";
-import { ExampleResolver } from "./resolver";
+import { Container } from "typedi";
 import { Context } from "./context.type";
 import { LoggerMiddleware } from "./logger.middleware";
+import { ExampleResolver } from "./resolver";
 
 async function bootstrap() {
   // Build TypeGraphQL executable schema

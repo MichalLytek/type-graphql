@@ -1,10 +1,10 @@
 import {
-  GraphQLInputObjectType,
-  GraphQLInputFieldConfigMap,
-  GraphQLObjectType,
-  GraphQLInterfaceType,
-  GraphQLFieldConfigMap,
   GraphQLFieldConfigArgumentMap,
+  GraphQLFieldConfigMap,
+  GraphQLInputFieldConfigMap,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
 } from "graphql";
 
 export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
