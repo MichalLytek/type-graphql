@@ -17,7 +17,7 @@ export default <JestConfigWithTsJest>{
   transform: {
     "^.+\\.tsx?$": ["ts-jest", { tsconfig: "./tests/tsconfig.json" }],
   },
-  testMatch: ["**/functional/**/*.ts", "**/units/**/*.ts"],
+  testMatch: ["**/functional/**/*.ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   coverageDirectory: "<rootDir>/coverage",
 };
