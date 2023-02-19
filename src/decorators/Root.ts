@@ -19,7 +19,7 @@ export function Root(propertyName?: string): ParameterDecorator {
       });
       getType = typeInfo.getType;
     } catch {
-      // tslint:disable-next-line:no-empty
+      /* empty */
     }
 
     getMetadataStorage().collectHandlerParamMetadata({
