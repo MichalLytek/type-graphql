@@ -12,7 +12,7 @@ Read more about the GraphQL Interface Type in the [official GraphQL docs](https:
 
 TypeScript has first class support for interfaces. Unfortunately, they only exist at compile-time, so we can't use them to build GraphQL schema at runtime by using decorators.
 
-Luckily, we can use an abstract class for this purpose. It behaves almost like an interface as it can't be "newed" but it can be implemented by another class. The only difference is that it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat the abstract class like an interface, we can safely use it.
+Luckily, we can use an abstract class for this purpose. It behaves almost like an interface as it can't be instantiated but it can be implemented by another class. The only difference is that it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat the abstract class like an interface, we can safely use it.
 
 ## Defining interface type
 

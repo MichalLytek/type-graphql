@@ -17,10 +17,10 @@
     "./package.json",
     // FIXME: Remove
     "website/",
-    "examples",
-    "docs/"
+    "examples"
   ],
   "words": [
+    "amet",
     "argumented",
     "asynciterable",
     "authed",
@@ -29,11 +29,14 @@
     "codecov",
     "codegen",
     "codeql",
+    "graphiql",
     "graphqlgen",
     "graphqlid",
     "graphqlisodate",
     "graphqlisodatetime",
+    "instanceof",
     "instinctools",
+    "inversifyjs",
     "isodate",
     "joiful",
     "lifex",
@@ -41,12 +44,21 @@
     "lytek",
     "michał",
     "middlewares",
+    "mikroorm",
+    "nestjs",
     "netrc",
+    "overfetching",
     "paramtypes",
+    "realpath",
     "returntype",
     "shellcheck",
     "sindresorhus",
+    "todos",
     "typedi",
-    "typegraphql"
+    "typegql",
+    "typegraphql",
+    "typeof",
+    "typeorm",
+    "underfetching"
   ]
 }

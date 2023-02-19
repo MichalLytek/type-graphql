@@ -158,7 +158,7 @@ And that's it! Now all subscriptions attached to the `NOTIFICATIONS` topic will 
 
 ## Using a custom PubSub system
 
-By default, TypeGraphQL uses a simple `PubSub` system from `grapqhl-subscriptions` which is based on EventEmitter.
+By default, TypeGraphQL uses a simple `PubSub` system from `graphql-subscriptions` which is based on EventEmitter.
 This solution has a big drawback in that it will work correctly only when we have a single instance (process) of our Node.js app.
 
 For better scalability we'll want to use one of the [`PubSub implementations`](https://github.com/apollographql/graphql-subscriptions#pubsub-implementations) backed by an external store like Redis with the [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.

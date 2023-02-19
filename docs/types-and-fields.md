@@ -58,7 +58,7 @@ So for nullable properties like `averageRating` which might not be defined when 
 
 In the case of lists, we may also need to define their nullability in a more detailed form. The basic `{ nullable: true | false }` setting only applies to the whole list (`[Item!]` or `[Item!]!`), so if we need a sparse array, we can control the list items' nullability via `nullable: "items"` (for `[Item]!`) or `nullable: "itemsAndList"` (for the `[Item]`) option. Be aware that setting `nullableByDefault: true` option will also apply to lists, so it will produce `[Item]` type, just like with `nullable: "itemsAndList"`.
 
-For nested lists, those options apply to the whole depth of the array: `@Field(() => [[Item]]` would by defaut produce `[[Item!]!]!`, setting `nullable: "itemsAndList"` would produce `[[Item]]` while `nullable: "items"` would produce `[[Item]]!`
+For nested lists, those options apply to the whole depth of the array: `@Field(() => [[Item]]` would by default produce `[[Item!]!]!`, setting `nullable: "itemsAndList"` would produce `[[Item]]` while `nullable: "items"` would produce `[[Item]]!`
 
 In the config object we can also provide the `description` and `deprecationReason` properties for GraphQL schema purposes.
 
