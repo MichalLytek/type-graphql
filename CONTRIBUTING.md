@@ -136,11 +136,11 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 - All features or bug fixes **must be covered by tests**.
 
-- The code must pass type checking and fullfil all the TSLint rules.
+- The code must pass type checking and fullfil all the ESLint rules.
 
 <h2 id="commit">Commit Message Guidelines</h2>
 
-For more information checkout this [commit rules guide](https://www.conventionalcommits.org/en/v1.0.0/).
+For more information checkout this [commit rules guide](https://www.conventionalcommits.org/en/v1.0.0).
 
 [github]: https://github.com/MichalLytek/type-graphql
 [discussions]: https://github.com/MichalLytek/type-graphql/discussions

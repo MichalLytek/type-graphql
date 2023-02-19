@@ -12,7 +12,7 @@ It allows to use TypeGraphQL features while integrating with NestJS modules syst
 The usage is similar to the official `@nestjs/graphql` package.
 First you need to register your resolver classes in `providers` of the `@Module` :
 
-```typescript
+```ts
 @Module({
   providers: [RecipeResolver, RecipeService],
 })
@@ -21,7 +21,7 @@ export default class RecipeModule {}
 
 Then you need to register the TypeGraphQL module in your root module - you can pass there all standard `buildSchema` options:
 
-```typescript
+```ts
 @Module({
   imports: [
     TypeGraphQLModule.forRoot({
@@ -45,4 +45,4 @@ To achieve the same goals, you can use standard TypeGraphQL equivalents - middle
 
 ## Documentation and examples
 
-You can find some examples and more detailed info about the installation and the usage [in the separate GitHub repository](https://github.com/MichalLytek/typegraphql-nestjs/).
+You can find some examples and more detailed info about the installation and the usage [in the separate GitHub repository](https://github.com/MichalLytek/typegraphql-nestjs).

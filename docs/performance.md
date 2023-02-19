@@ -8,7 +8,7 @@ While this enable easy and convenient development, it's sometimes a tradeoff in 
 
 ## Benchmarks
 
-To measure the overhead of the abstraction, a few demo examples were made to compare the usage of TypeGraphQL against the implementations using "bare metal" - raw `graphql-js` library. The benchmarks are located in a [folder on the GitHub repo](https://github.com/MichalLytek/type-graphql/tree/master/benchmarks).
+To measure the overhead of the abstraction, a few demo examples were made to compare the usage of TypeGraphQL against the implementations using "bare metal" - raw `graphql-js` library. The benchmarks are located in a [folder on the GitHub repo](../benchmarks).
 
 The most demanding cases like returning an array of 25 000 nested objects showed that in some cases it might be about 5 times slower.
 
@@ -38,7 +38,7 @@ The whole middleware stack will be soon redesigned with a performance in mind an
 
 When we have a query that returns a huge amount of JSON-like data and we don't need any field-level access control or other custom middlewares, we can turn off the whole authorization and middlewares stack for selected field resolver using a `{ simple: true }` decorator option, e.g.:
 
-```typescript
+```ts
 @ObjectType()
 class SampleObject {
   @Field()
@@ -51,7 +51,7 @@ class SampleObject {
 
 Moreover, we can also apply this behavior for all the fields of the object type by using a `{ simpleResolvers: true }` decorator option, e.g.:
 
-```typescript
+```ts
 @ObjectType({ simpleResolvers: true })
 class Post {
   @Field()
@@ -65,14 +65,14 @@ class Post {
 }
 ```
 
-This simple trick can speed up the execution up to 76%! The benchmarks show that using simple resolvers allows for as fast execution as with bare `graphql-js` - the measured overhead is only about ~13%, which is a much more reasonable value than 500%. Below you can see [the benchmarks results](https://github.com/MichalLytek/type-graphql/tree/master/benchmarks):
+This simple trick can speed up the execution up to 76%! The benchmarks show that using simple resolvers allows for as fast execution as with bare `graphql-js` - the measured overhead is only about ~13%, which is a much more reasonable value than 500%. Below you can see [the benchmarks results](../benchmarks):
 
-|                                                                               | 25 000 array items |
-| ----------------------------------------------------------------------------- | :----------------: |
-| `graphql-js`                                                                  |     265.52 ms      |
-| Standard TypeGraphQL                                                          |     310.36 ms      |
-| TypeGraphQL with a global middleware                                          |     1253.28 ms     |
-| **TypeGraphQL with "simpleResolvers" applied <br> (and a global middleware)** |   **299.61 ms**    |
+|                                                                          | 25 000 array items |
+| ------------------------------------------------------------------------ | :----------------: |
+| `graphql-js`                                                             |     265.52 ms      |
+| Standard TypeGraphQL                                                     |     310.36 ms      |
+| TypeGraphQL with a global middleware                                     |     1253.28 ms     |
+| **TypeGraphQL with "simpleResolvers" applied (and a global middleware)** |   **299.61 ms**    |
 
 > This optimization **is not turned on by default** mostly because of the global middlewares and authorization feature.
 

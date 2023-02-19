@@ -6,7 +6,7 @@ The main idea of TypeGraphQL is to automatically create GraphQL schema definitio
 
 Let's start by defining our example TypeScript class which represents our `Recipe` model with fields for storing the recipe data:
 
-```typescript
+```ts
 class Recipe {
   id: string;
   title: string;
@@ -17,7 +17,7 @@ class Recipe {
 
 The first thing we must do is decorate the class with the `@ObjectType` decorator. It marks the class as the `type` known from the GraphQL SDL or `GraphQLObjectType` from `graphql-js`:
 
-```typescript
+```ts
 @ObjectType()
 class Recipe {
   id: string;
@@ -30,7 +30,7 @@ class Recipe {
 Then we declare which class properties should be mapped to the GraphQL fields.
 To do this, we use the `@Field` decorator, which is also used to collect metadata from the TypeScript reflection system:
 
-```typescript
+```ts
 @ObjectType()
 class Recipe {
   @Field()
@@ -64,7 +64,7 @@ In the config object we can also provide the `description` and `deprecationReaso
 
 So after these changes our example class would look like this:
 
-```typescript
+```ts
 @ObjectType({ description: "The recipe model" })
 class Recipe {
   @Field(type => ID)
@@ -94,7 +94,7 @@ type Recipe {
 
 Similarly, the `Rate` type class would look like this:
 
-```typescript
+```ts
 @ObjectType()
 class Rate {
   @Field(type => Int)
@@ -116,18 +116,18 @@ type Rate {
 }
 ```
 
-As we can see, for the `id` property of `Recipe` we passed `type => ID` and for the `value` field of `Rate` we passed `type => Int`. This way we can overwrite the inferred type from the reflection metadata. We can read more about the ID and Int scalars in [the scalars docs](scalars.md). There is also a section about the built-in `Date` scalar.
+As we can see, for the `id` property of `Recipe` we passed `type => ID` and for the `value` field of `Rate` we passed `type => Int`. This way we can overwrite the inferred type from the reflection metadata. We can read more about the ID and Int scalars in [the scalars docs](./scalars.md). There is also a section about the built-in `Date` scalar.
 
 Also the `user` property doesn't have a `@Field()` decorator - this way we can hide some properties of our data model. In this case, we need to store the `user` field of the `Rate` object to the database in order to prevent multiple rates, but we don't want to make it publicly accessible.
 
-Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](resolvers.md)).
+Note that if a field of an object type is purely calculable (e.g. `averageRating` from `ratings` array) and we don't want to pollute the class signature, we can omit it and just implement the field resolver (described in [resolvers doc](./resolvers.md)).
 
 Be aware that **defining constructors is strictly forbidden** and we shouldn't use them there, as TypeGraphQL creates instances of object type classes under the hood by itself.
 
 In some case we may want to expose our classes or properties under a different types or fields name.
 To accomplish this, we can use the `name` parameter or `name` property of decorator's options, e.g.:
 
-```typescript
+```ts
 @ObjectType("ExternalTypeName")
 class InternalClassName {
   @Field({ name: "externalFieldName" })

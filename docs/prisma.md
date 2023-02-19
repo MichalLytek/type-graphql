@@ -11,7 +11,7 @@ It generates the type classes and CRUD resolvers based on the Prisma schema, so 
 
 To make use of the prisma integration, first we need to add a new generator to the `schema.prisma` file:
 
-```sh
+```prisma
 generator typegraphql {
   provider = "typegraphql-prisma"
 }
@@ -19,7 +19,7 @@ generator typegraphql {
 
 Then, after running `prisma generate` we can import the generated resolvers classes and use them to build our schema:
 
-```typescript
+```ts
 import { resolvers } from "@generated/type-graphql";
 
 const schema = await buildSchema({
@@ -47,6 +47,6 @@ query GetSomeUsers {
 
 ## Documentation and examples
 
-To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the dedicated website](https://prisma.typegraphql.com/).
+To read about all the `typegraphql-prisma` features, like exposing selected Prisma actions or changing exposed model type name, as well as how to write a custom query or how to add some fields to model type, please check the docs [on the dedicated website](https://prisma.typegraphql.com).
 
 There also can be found the links to some examples and more detailed info about the installation and the configuration.

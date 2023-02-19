@@ -12,7 +12,7 @@ One of the most known principles of software development is DRY - Don't Repeat Y
 
 While creating a GraphQL API, it's a common pattern to have pagination args in resolvers, like `skip` and `take`. So instead of repeating ourselves, we declare it once:
 
-```typescript
+```ts
 @ArgsType()
 class PaginationArgs {
   @Field(type => Int)
@@ -25,7 +25,7 @@ class PaginationArgs {
 
 and then reuse it everywhere:
 
-```typescript
+```ts
 @ArgsType()
 class GetTodosArgs extends PaginationArgs {
   @Field()
@@ -35,7 +35,7 @@ class GetTodosArgs extends PaginationArgs {
 
 This technique also works with input type classes, as well as with object type classes:
 
-```typescript
+```ts
 @ObjectType()
 class Person {
   @Field()
@@ -57,7 +57,7 @@ A special kind of inheritance in TypeGraphQL is resolver class inheritance. This
 
 Since we need to generate unique query/mutation names, we have to create a factory function for our base class:
 
-```typescript
+```ts
 function createBaseResolver() {
   abstract class BaseResolver {}
 
@@ -69,7 +69,7 @@ Be aware that with some `tsconfig.json` settings (like `declarations: true`) we 
 
 This factory should take a parameter that we can use to generate the query/mutation names, as well as the type that we would return from the resolvers:
 
-```typescript
+```ts
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   abstract class BaseResolver {}
 
@@ -79,7 +79,7 @@ function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: 
 
 It's very important to mark the `BaseResolver` class using the `@Resolver` decorator:
 
-```typescript
+```ts
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   @Resolver()
   abstract class BaseResolver {}
@@ -90,7 +90,7 @@ function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: 
 
 We can then implement the resolver methods as usual. The only difference is that we can use the `name` decorator option for `@Query`, `@Mutation` and `@Subscription` decorators to overwrite the name that will be emitted in schema:
 
-```typescript
+```ts
 function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: T) {
   @Resolver()
   abstract class BaseResolver {
@@ -108,7 +108,7 @@ function createBaseResolver<T extends ClassType>(suffix: string, objectTypeCls: 
 
 Now we can create a specific resolver class that will extend the base resolver class:
 
-```typescript
+```ts
 const PersonBaseResolver = createBaseResolver("person", Person);
 
 @Resolver(of => Person)
@@ -119,7 +119,7 @@ export class PersonResolver extends PersonBaseResolver {
 
 We can also add specific queries and mutations in our resolver class, as always:
 
-```typescript
+```ts
 const PersonBaseResolver = createBaseResolver("person", Person);
 
 @Resolver(of => Person)
@@ -138,6 +138,6 @@ We must be aware that if we want to overwrite the query/mutation/subscription fr
 
 ## Examples
 
-More advanced usage examples of type inheritance (and interfaces) can be found in [the example folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).
+More advanced usage examples of type inheritance (and interfaces) can be found in [the example folder](../examples/interfaces-inheritance).
 
-For a more advanced resolver inheritance example, please go to [this example folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance).
+For a more advanced resolver inheritance example, please go to [this example folder](../examples/resolvers-inheritance).

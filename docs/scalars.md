@@ -12,8 +12,8 @@ TypeGraphQL provides aliases for 3 basic scalars:
 
 This shorthand allows you to save keystrokes when declaring field types:
 
-```typescript
-// import the aliases
+```ts
+// Import the aliases
 import { ID, Float, Int } from "type-graphql";
 
 @ObjectType()
@@ -33,7 +33,7 @@ In the last case you can omit the `type => Float` since JavaScript `Number` will
 
 Other scalars - i.e. `GraphQLString` and `GraphQLBoolean` - do not need aliases. When possible, they will be reflected automatically:
 
-```typescript
+```ts
 @ObjectType()
 class User {
   @Field()
@@ -46,7 +46,7 @@ class User {
 
 However in some cases we must explicitly declare the string/bool scalar type. Use JS constructor functions (`String`, `Boolean`) then:
 
-```typescript
+```ts
 @ObjectType()
 class SampleObject {
   @Field(type => String, { nullable: true })
@@ -70,7 +70,7 @@ They are exported from the `type-graphql` package as `GraphQLISODateTime` and `G
 
 By default, TypeGraphQL uses the ISO date format, however you can change it in the `buildSchema` options:
 
-```typescript
+```ts
 import { buildSchema } from "type-graphql";
 
 const schema = await buildSchema({
@@ -81,7 +81,7 @@ const schema = await buildSchema({
 
 There's no need then to explicitly declare the field type:
 
-```typescript
+```ts
 @ObjectType()
 class User {
   @Field()
@@ -95,7 +95,7 @@ TypeGraphQL also supports custom scalar types!
 
 First of all, we need to create our own `GraphQLScalarType` instance or import a scalar type from a 3rd-party npm library. For example, Mongo's ObjectId:
 
-```typescript
+```ts
 import { GraphQLScalarType, Kind } from "graphql";
 import { ObjectId } from "mongodb";
 
@@ -103,38 +103,38 @@ export const ObjectIdScalar = new GraphQLScalarType({
   name: "ObjectId",
   description: "Mongo object id scalar type",
   serialize(value: unknown): string {
-    // check the type of received value
+    // Check type of value
     if (!(value instanceof ObjectId)) {
       throw new Error("ObjectIdScalar can only serialize ObjectId values");
     }
-    return value.toHexString(); // value sent to the client
+    return value.toHexString(); // Value sent to client
   },
   parseValue(value: unknown): ObjectId {
-    // check the type of received value
+    // Check type of value
     if (typeof value !== "string") {
       throw new Error("ObjectIdScalar can only parse string values");
     }
-    return new ObjectId(value); // value from the client input variables
+    return new ObjectId(value); // Value from client input variables
   },
   parseLiteral(ast): ObjectId {
-    // check the type of received value
+    // Check type of value
     if (ast.kind !== Kind.STRING) {
       throw new Error("ObjectIdScalar can only parse string values");
     }
-    return new ObjectId(ast.value); // value from the client query
+    return new ObjectId(ast.value); // Value from client query
   },
 });
 ```
 
 Then we can just use it in our field decorators:
 
-```typescript
-// import the earlier created const
+```ts
+// Import earlier created const
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 
 @ObjectType()
 class User {
-  @Field(type => ObjectIdScalar) // and explicitly use it
+  @Field(type => ObjectIdScalar) // Explicitly use it
   readonly id: ObjectId;
 
   @Field()
@@ -147,17 +147,17 @@ class User {
 
 Optionally, we can declare the association between the reflected property type and our scalars to automatically map them (no need for explicit type annotation!):
 
-```typescript
+```ts
 @ObjectType()
 class User {
-  @Field() // magic goes here - no type annotation for custom scalar
+  @Field() // Magic goes here - no type annotation for custom scalar
   readonly id: ObjectId;
 }
 ```
 
 All we need to do is register the association map in the `buildSchema` options:
 
-```typescript
+```ts
 import { ObjectId } from "mongodb";
 import { ObjectIdScalar } from "../my-scalars/ObjectId";
 import { buildSchema } from "type-graphql";

@@ -5,12 +5,12 @@ sidebar_label: Validation
 
 ## Scalars
 
-The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](./scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
 That's why TypeGraphQL has built-in support for argument and input validation.
 By default, we can use the [`class-validator`](https://github.com/typestack/class-validator) library and easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters) thanks to the awesomeness of decorators.
 
-We can also use other libraries or our own custom solution, as described in [custom validators](#custom-validators) section.
+We can also use other libraries or our own custom solution, as described in [custom validators](#custom-validator) section.
 
 ## `class-validator`
 
@@ -19,7 +19,7 @@ We can also use other libraries or our own custom solution, as described in [cus
 First we decorate the input/arguments class with the appropriate decorators from `class-validator`.
 So we take this:
 
-```typescript
+```ts
 @InputType()
 export class RecipeInput {
   @Field()
@@ -32,7 +32,7 @@ export class RecipeInput {
 
 ...and turn it into this:
 
-```typescript
+```ts
 import { MaxLength, Length } from "class-validator";
 
 @InputType()
@@ -51,12 +51,12 @@ And that's it! 😉
 
 TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
 
-```typescript
+```ts
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
-    // you can be 100% sure that the input is correct
+    // 100% sure that the input is correct
     console.assert(recipeInput.title.length <= 30);
     console.assert(recipeInput.description.length >= 30);
     console.assert(recipeInput.description.length <= 255);
@@ -68,16 +68,16 @@ Of course, [there are many more decorators](https://github.com/typestack/class-v
 
 This feature is enabled by default. However, we can disable it if we must:
 
-```typescript
+```ts
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
-  validate: false, // disable automatic validation or pass the default config object
+  validate: false, // Disable automatic validation or pass the default config object
 });
 ```
 
 And we can still enable it per resolver's argument if we need to:
 
-```typescript
+```ts
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
@@ -88,7 +88,7 @@ class RecipeResolver {
 
 The `ValidatorOptions` object used for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups) can also be passed:
 
-```typescript
+```ts
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(
@@ -114,7 +114,7 @@ When a client sends incorrect data to the server:
 mutation ValidationMutation {
   addRecipe(
     input: {
-      # too long!
+      # Too long!
       title: "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
     }
   ) {
@@ -126,7 +126,7 @@ mutation ValidationMutation {
 
 the [`ArgumentValidationError`](https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
 
-By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
+By default, the `apollo-server` package from the [bootstrap guide](./bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
 
 ```json
 {
@@ -175,7 +175,7 @@ Of course we can also create our own custom implementation of the `formatError` 
 
 ### Example
 
-To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](../examples/automatic-validation).
 
 ### Caveats
 
@@ -200,12 +200,12 @@ Example using [decorators library for Joi validators (`joiful`)](https://github.
 
 ```ts
 const schema = await buildSchema({
-  // ...other options
+  // ... Options
   validate: argValue => {
-    // call joiful validate
+    // Call joiful validate
     const { error } = joiful.validate(argValue);
     if (error) {
-      // throw error on failed validation
+      // Throw error on failed validation
       throw error;
     }
   },
@@ -214,6 +214,9 @@ const schema = await buildSchema({
 
 > Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.
 
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable-next-line MD024 -->
 ### Example
+<!-- prettier-ignore-end -->
 
-To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation).
+To see how this works, check out the [simple custom validation integration example](../examples/custom-validation).

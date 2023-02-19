@@ -24,7 +24,7 @@ npm i reflect-metadata
 
 We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
-```typescript
+```ts
 import "reflect-metadata";
 ```
 
@@ -43,7 +43,7 @@ It's important to set these options in the `tsconfig.json` file of our project:
 
 ```js
 {
-  "target": "es2019" // or newer if your node.js version supports this
+  "target": "es2019" // Or newer if Node.js version supports it
 }
 ```
 
