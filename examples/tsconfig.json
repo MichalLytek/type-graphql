@@ -12,6 +12,7 @@
     "./enums-and-unions",
     "./extensions",
     "./generic-types",
+    "./graphql-scalars",
     "./query-complexity",
     "./simple-usage",
     "./using-container",

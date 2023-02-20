@@ -42,5 +42,6 @@ All examples have an `examples.graphql` file with sample queries/mutations/subsc
 - [Apollo federation](../examples/apollo-federation)
 - [Apollo Cache Control](../examples/apollo-cache)
 - [Apollo Client local state](../examples/apollo-client)
+- [GraphQL Scalars](../examples/graphql-scalars)
 
 _\* Note that we need to edit the `TypeORM` example's `index.ts` with the credentials of our local database_
