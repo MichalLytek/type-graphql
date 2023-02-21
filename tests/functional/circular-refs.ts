@@ -8,8 +8,8 @@ describe("Circular references", () => {
   it("should resolve circular type dependencies when type functions are used", async () => {
     getMetadataStorage().clear();
 
-    const { CircularRef1 } = require("../helpers/circular-refs/good/CircularRef1");
-    const { CircularRef2 } = require("../helpers/circular-refs/good/CircularRef2");
+    const { CircularRef1 } = await import("../helpers/circular-refs/good/CircularRef1");
+    const { CircularRef2 } = await import("../helpers/circular-refs/good/CircularRef2");
 
     @ObjectType()
     class SampleObject {
@@ -48,7 +48,7 @@ describe("Circular references", () => {
     getMetadataStorage().clear();
 
     try {
-      require("../helpers/circular-refs/wrong/CircularRef1").CircularRef1;
+      (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1;
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
       const error: Error = err;
@@ -58,7 +58,7 @@ describe("Circular references", () => {
     }
 
     try {
-      require("../helpers/circular-refs/wrong/CircularRef2").CircularRef2;
+      (await import("../helpers/circular-refs/wrong/CircularRef2")).CircularRef2;
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
       const error: Error = err;

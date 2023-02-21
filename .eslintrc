@@ -91,8 +91,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-var-requires": "off",
     // FIXME: Remove
-    "global-require": "off",
-    // FIXME: Remove
     "import/no-cycle": "off",
     // FIXME: Remove
     "no-param-reassign": "off",

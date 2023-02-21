@@ -2,11 +2,13 @@ import semVer from "semver";
 import { UnmetGraphQLPeerDependencyError } from "@/errors";
 
 export function getInstalledGraphQLVersion(): string {
+  // eslint-disable-next-line global-require
   const graphqlPackageJson = require("graphql/package.json");
   return graphqlPackageJson.version;
 }
 
 export function getPeerDependencyGraphQLRequirement(): string {
+  // eslint-disable-next-line global-require
   const ownPackageJson = require("../../package.json");
   return ownPackageJson.peerDependencies.graphql;
 }
