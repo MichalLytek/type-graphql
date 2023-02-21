@@ -113,8 +113,6 @@
     // FIXME: Remove
     "vars-on-top": "off",
     // FIXME: Remove
-    "no-return-assign": "off",
-    // FIXME: Remove
     "array-callback-return": "off"
   }
 }

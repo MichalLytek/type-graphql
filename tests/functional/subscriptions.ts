@@ -609,7 +609,9 @@ describe("Subscriptions", () => {
 
       let emittedValue: any;
       const customEmitter = new EventEmitter();
-      customEmitter.on("TEST", payload => (emittedValue = payload));
+      customEmitter.on("TEST", payload => {
+        emittedValue = payload;
+      });
       const mutation = `mutation {
         pubSubMutation
       }`;
