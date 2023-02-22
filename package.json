@@ -50,7 +50,7 @@
     "check:format": "npx prettier --check .",
     "check:lint": "npx eslint .",
     "check:markdown": "npx markdownlint \"**/*.md\"",
-    "check:script": "npx ts-node ./scripts/shellchek.ts \"./scripts/**/*.sh\" \".husky/pre-commit\"",
+    "check:script": "npx shellcheck ./.husky/pre-commit",
     "check:spell": "npx cspell lint --config cspell.json --no-progress --show-context \"**\"",
     "check:type": "npx tsc --noEmit && npx tsc --noEmit --project ./benchmarks/tsconfig.json && npx tsc --noEmit --project ./examples/tsconfig.json",
     "clean": "npx shx rm -rf build",

@@ -1,5 +1,5 @@
 {
-  "{src,tests,examples}/**/*.ts": ["eslint --fix", "prettier --write"],
-  "{src,tests,examples}/**/*.js": ["prettier --write"],
+  "**/*.ts": ["eslint --fix", "prettier --write"],
+  "**/*.js": ["prettier --write"],
   "*.md": ["markdownlint --fix", "prettier --write"]
 }
