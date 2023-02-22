@@ -14,6 +14,20 @@ import {
   GraphQLSchema,
 } from "graphql";
 
+function mapConfig(
+  config:
+    | GraphQLFieldConfig<any, any, any>
+    | GraphQLObjectTypeConfig<any, any>
+    | GraphQLInterfaceTypeConfig<any, any>
+    | GraphQLInputObjectTypeConfig
+    | GraphQLInputFieldConfig,
+) {
+  config.extensions ??= {};
+  (config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
+    isMappedByDirective: true,
+  };
+}
+
 export const testDirective = new GraphQLDirective({
   name: "test",
   locations: [
@@ -76,18 +90,4 @@ export function testDirectiveTransformer(schema: GraphQLSchema): GraphQLSchema {
       return fieldConfig;
     },
   });
-}
-
-function mapConfig(
-  config:
-    | GraphQLFieldConfig<any, any, any>
-    | GraphQLObjectTypeConfig<any, any>
-    | GraphQLInterfaceTypeConfig<any, any>
-    | GraphQLInputObjectTypeConfig
-    | GraphQLInputFieldConfig,
-) {
-  config.extensions ??= {};
-  (config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
-    isMappedByDirective: true,
-  };
 }

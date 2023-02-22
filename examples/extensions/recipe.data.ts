@@ -1,5 +1,9 @@
 import { Recipe } from "./recipe.type";
 
+function createRecipe(recipeData: Partial<Recipe>): Recipe {
+  return Object.assign(new Recipe(), recipeData);
+}
+
 export const sampleRecipes = [
   createRecipe({
     title: "Recipe 1",
@@ -19,7 +23,3 @@ export const sampleRecipes = [
     ratings: [4, 4, 5, 5, 4],
   }),
 ];
-
-function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return Object.assign(new Recipe(), recipeData);
-}

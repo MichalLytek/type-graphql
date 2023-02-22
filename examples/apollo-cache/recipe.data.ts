@@ -1,5 +1,9 @@
 import { Recipe } from "./recipe.type";
 
+function createRecipe(recipeData: Partial<Recipe>) {
+  return Object.assign(new Recipe(), recipeData);
+}
+
 export function createRecipeSamples() {
   return [
     createRecipe({
@@ -21,8 +25,4 @@ export function createRecipeSamples() {
       creationDate: new Date(),
     }),
   ];
-}
-
-function createRecipe(recipeData: Partial<Recipe>) {
-  return Object.assign(new Recipe(), recipeData);
 }

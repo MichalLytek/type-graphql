@@ -655,9 +655,11 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({
         resolveType: value => {
           if ("firstField" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return FirstInterfaceWithClassResolveTypeObject;
           }
           if ("secondField" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return SecondInterfaceWithClassResolveTypeObject;
           }
           return;
@@ -1202,9 +1204,11 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({
         resolveType: value => {
           if ("one" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return One;
           }
           if ("two" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return Two;
           }
           throw new Error("Unknown resolveType error");

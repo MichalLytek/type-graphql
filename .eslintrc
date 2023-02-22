@@ -109,8 +109,6 @@
     // FIXME: Remove
     "no-prototype-builtins": "off",
     // FIXME: Remove
-    "@typescript-eslint/no-use-before-define": "off",
-    // FIXME: Remove
     "vars-on-top": "off",
     // FIXME: Remove
     "array-callback-return": "off"

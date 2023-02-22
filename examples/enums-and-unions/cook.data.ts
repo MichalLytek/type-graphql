@@ -1,5 +1,9 @@
 import { Cook } from "./cook.type";
 
+function createCook(cookData: Partial<Cook>): Cook {
+  return Object.assign(new Cook(), cookData);
+}
+
 export const sampleCooks = [
   createCook({
     name: "Gordon Ramsay",
@@ -10,7 +14,3 @@ export const sampleCooks = [
     yearsOfExperience: 1,
   }),
 ];
-
-function createCook(cookData: Partial<Cook>): Cook {
-  return Object.assign(new Cook(), cookData);
-}

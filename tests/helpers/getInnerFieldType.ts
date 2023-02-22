@@ -7,6 +7,10 @@ import {
   IntrospectionTypeRef,
 } from "graphql";
 
+export function getInnerTypeOfNonNullableType(definition: { type: IntrospectionTypeRef }) {
+  return (definition.type as IntrospectionNonNullTypeRef).ofType! as IntrospectionNamedTypeRef;
+}
+
 export function getInnerFieldType(
   type: IntrospectionObjectType | IntrospectionInterfaceType,
   name: string,
@@ -16,10 +20,6 @@ export function getInnerFieldType(
 
 export function getInnerInputFieldType(type: IntrospectionInputObjectType, name: string) {
   return getInnerTypeOfNonNullableType(type.inputFields.find(field => field.name === name)!);
-}
-
-export function getInnerTypeOfNonNullableType(definition: { type: IntrospectionTypeRef }) {
-  return (definition.type as IntrospectionNonNullTypeRef).ofType! as IntrospectionNamedTypeRef;
 }
 
 export function getItemTypeOfList(definition: { type: IntrospectionTypeRef }) {

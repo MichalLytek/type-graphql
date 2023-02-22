@@ -2,6 +2,10 @@ import { sampleCooks } from "./cook.data";
 import { Difficulty } from "./difficulty.enum";
 import { Recipe } from "./recipe.type";
 
+function createRecipe(recipeData: Partial<Recipe>): Recipe {
+  return Object.assign(new Recipe(), recipeData);
+}
+
 export const sampleRecipes = [
   createRecipe({
     title: "Recipe 1",
@@ -37,7 +41,3 @@ export const sampleRecipes = [
     cook: sampleCooks[0],
   }),
 ];
-
-function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return Object.assign(new Recipe(), recipeData);
-}

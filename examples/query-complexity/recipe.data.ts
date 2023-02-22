@@ -1,5 +1,9 @@
 import { Recipe } from "./recipe.type";
 
+function createRecipe(recipeData: Partial<Recipe>): Recipe {
+  return Object.assign(new Recipe(), recipeData);
+}
+
 export function createRecipeSamples() {
   return [
     createRecipe({
@@ -15,8 +19,4 @@ export function createRecipeSamples() {
       ratings: [5, 4],
     }),
   ];
-}
-
-function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return Object.assign(new Recipe(), recipeData);
 }

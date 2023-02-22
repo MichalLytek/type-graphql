@@ -24,6 +24,17 @@ export interface GetTypeParams {
   returnTypeFunc?: ReturnTypeFunc;
   typeOptions?: TypeOptions;
 }
+
+function findTypeValueArrayDepth(
+  [typeValueOrArray]: RecursiveArray<TypeValue>,
+  innerDepth = 1,
+): { depth: number; returnType: TypeValue } {
+  if (!Array.isArray(typeValueOrArray)) {
+    return { depth: innerDepth, returnType: typeValueOrArray };
+  }
+  return findTypeValueArrayDepth(typeValueOrArray, innerDepth + 1);
+}
+
 export function findType({
   metadataKey,
   prototype,
@@ -75,14 +86,4 @@ export function findType({
     };
   }
   throw new Error("Ops... this should never happen :)");
-}
-
-function findTypeValueArrayDepth(
-  [typeValueOrArray]: RecursiveArray<TypeValue>,
-  innerDepth = 1,
-): { depth: number; returnType: TypeValue } {
-  if (!Array.isArray(typeValueOrArray)) {
-    return { depth: innerDepth, returnType: typeValueOrArray };
-  }
-  return findTypeValueArrayDepth(typeValueOrArray, innerDepth + 1);
 }
