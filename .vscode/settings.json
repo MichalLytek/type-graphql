@@ -4,5 +4,8 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }

@@ -21,8 +21,8 @@ import {
 } from "type-graphql";
 import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
+import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
 
 describe("Directives", () => {
   describe("Schema", () => {
