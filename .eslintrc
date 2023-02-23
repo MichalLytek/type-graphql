@@ -47,9 +47,11 @@
   "rules": {
     "prettier/prettier": "error",
     "tsdoc/syntax": "warn",
-    "sort-imports": ["warn", { "ignoreDeclarationSort": true }],
+    "curly": ["error", "all"],
+    "nonblock-statement-body-position": ["error", "below"],
+    "sort-imports": ["error", { "ignoreDeclarationSort": true }],
     "import/order": [
-      "warn",
+      "error",
       {
         "groups": ["builtin", "external", "internal", ["sibling", "parent"], "index", "unknown"],
         "pathGroups": [
@@ -65,7 +67,7 @@
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_",

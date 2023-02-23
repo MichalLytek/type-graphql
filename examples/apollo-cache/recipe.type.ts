@@ -28,7 +28,9 @@ export class Recipe {
   get averageRating(): number | null {
     console.log(`Called 'averageRating' for recipe '${this.title}' on ${getTime()}`);
     const ratingsCount = this.ratings.length;
-    if (ratingsCount === 0) return null;
+    if (ratingsCount === 0) {
+      return null;
+    }
     const ratingsSum = this.ratings.reduce((a, b) => a + b, 0);
 
     return ratingsSum / ratingsCount;

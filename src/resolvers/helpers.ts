@@ -38,7 +38,9 @@ export function getParams(
           );
 
         case "context":
-          if (paramInfo.propertyName) return resolverData.context[paramInfo.propertyName];
+          if (paramInfo.propertyName) {
+            return resolverData.context[paramInfo.propertyName];
+          }
           return resolverData.context;
 
         case "root": {
@@ -46,7 +48,9 @@ export function getParams(
             ? resolverData.root[paramInfo.propertyName]
             : resolverData.root;
 
-          if (!paramInfo.getType) return rootValue;
+          if (!paramInfo.getType) {
+            return rootValue;
+          }
           return convertToType(paramInfo.getType(), rootValue);
         }
 
@@ -54,8 +58,9 @@ export function getParams(
           return resolverData.info;
 
         case "pubSub":
-          if (paramInfo.triggerKey)
+          if (paramInfo.triggerKey) {
             return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
+          }
           return pubSub;
 
         case "custom":

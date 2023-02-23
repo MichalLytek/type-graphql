@@ -7,7 +7,9 @@ declare global {
 }
 
 export function getMetadataStorage(): MetadataStorage {
-  if (!global.TypeGraphQLMetadataStorage) global.TypeGraphQLMetadataStorage = new MetadataStorage();
+  if (!global.TypeGraphQLMetadataStorage) {
+    global.TypeGraphQLMetadataStorage = new MetadataStorage();
+  }
 
   return global.TypeGraphQLMetadataStorage;
 }
