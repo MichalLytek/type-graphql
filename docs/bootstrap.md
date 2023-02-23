@@ -68,7 +68,9 @@ bootstrap(); // Actually run the async function
 
 ## Create an HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by an HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`@apollo/server`](https://github.com/apollographql/apollo-server). Here is an example using [`@apollo/server`](https://github.com/apollographql/apollo-server):
+In most cases, the GraphQL app is served by an HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/dotansimha/graphql-yoga) or [`@apollo/server`](https://github.com/apollographql/apollo-server).
+
+Below is an example using [`@apollo/server`](https://github.com/apollographql/apollo-server):
 
 ```ts
 import { ApolloServer } from "@apollo/server";
