@@ -18,8 +18,8 @@ export function getParams(
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
+    // eslint-disable-next-line array-callback-return
     .map(paramInfo => {
-      // eslint-disable-next-line default-case
       switch (paramInfo.kind) {
         case "args":
           return validateArg(
@@ -28,6 +28,7 @@ export function getParams(
             globalValidate,
             paramInfo.validate,
           );
+
         case "arg":
           return validateArg(
             convertArgToInstance(paramInfo, resolverData.args),
@@ -35,31 +36,35 @@ export function getParams(
             globalValidate,
             paramInfo.validate,
           );
+
         case "context":
-          if (paramInfo.propertyName) {
-            return resolverData.context[paramInfo.propertyName];
-          }
+          if (paramInfo.propertyName) return resolverData.context[paramInfo.propertyName];
           return resolverData.context;
-        case "root":
-          // eslint-disable-next-line no-case-declarations
+
+        case "root": {
           const rootValue = paramInfo.propertyName
             ? resolverData.root[paramInfo.propertyName]
             : resolverData.root;
-          if (!paramInfo.getType) {
-            return rootValue;
-          }
+
+          if (!paramInfo.getType) return rootValue;
           return convertToType(paramInfo.getType(), rootValue);
+        }
+
         case "info":
           return resolverData.info;
+
         case "pubSub":
-          if (paramInfo.triggerKey) {
+          if (paramInfo.triggerKey)
             return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
-          }
           return pubSub;
+
         case "custom":
           return paramInfo.resolver(resolverData);
+
+        // no default
       }
     });
+
   if (paramValues.some(isPromiseLike)) {
     return Promise.all(paramValues);
   }

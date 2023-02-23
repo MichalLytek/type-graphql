@@ -107,8 +107,6 @@
     // FIXME: Remove
     "no-prototype-builtins": "off",
     // FIXME: Remove
-    "vars-on-top": "off",
-    // FIXME: Remove
-    "array-callback-return": "off"
+    "vars-on-top": "off"
   }
 }
