@@ -11,7 +11,7 @@ It generates the type classes and CRUD resolvers based on the Prisma schema, so 
 
 To make use of the prisma integration, first we need to add a new generator to the `schema.prisma` file:
 
-```prisma
+```sh
 generator typegraphql {
   provider = "typegraphql-prisma"
 }
