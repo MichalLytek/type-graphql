@@ -168,4 +168,4 @@ Of course you can replace this with your own custom implementation of function t
 
 ## Example
 
-You can see how this fits together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+You can see how this fits together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples/automatic-validation).

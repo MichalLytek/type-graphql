@@ -336,4 +336,4 @@ Inheritance of resolver classes is an advanced topic covered in [inheritance doc
 ## Examples
 
 These code samples are made up just for tutorial purposes.
-You can find more advanced, real examples in the repository [examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples).
+You can find more advanced, real examples in the repository [examples folder](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).

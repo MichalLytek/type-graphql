@@ -140,6 +140,6 @@ We must be aware that if we want to overwrite the query/mutation/subscription fr
 
 ## Examples
 
-More advanced usage examples of type inheritance (and interfaces) can be found in [the example folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).
+More advanced usage examples of type inheritance (and interfaces) can be found in [the example folder](https://github.com/MichalLytek/type-graphql/tree/v0.17.1/examples/interfaces-inheritance).
 
-For a more advanced resolver inheritance example, please go to [this example folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance).
+For a more advanced resolver inheritance example, please go to [this example folder](https://github.com/MichalLytek/type-graphql/tree/v0.17.1/examples/resolvers-inheritance).

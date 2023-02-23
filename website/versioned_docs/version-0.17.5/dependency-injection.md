@@ -70,7 +70,7 @@ export class RecipeService {
 
 ### Example
 
-You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container).
+You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/v0.17.5/examples/using-container).
 
 ## Scoped containers
 
