@@ -96,7 +96,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           npm ci
 
@@ -130,9 +130,13 @@ jobs:
         with:
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           npm ci
+
+      - name: Build
+        run: |
+          npm run build
 
       - name: Build Changelog
         id: changelog
@@ -165,7 +169,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
-      - name: Install dependencies
+      - name: Install Dependencies
         working-directory: ./website
         run: |
           npm ci
@@ -175,7 +179,8 @@ jobs:
         run: |
           npm run build
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./website/build/type-graphql
