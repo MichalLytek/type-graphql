@@ -324,11 +324,11 @@ export class MetadataStorage {
 
   private buildExtendedResolversMetadata() {
     this.resolverClasses.forEach(def => {
-      const { target } = def;
-      let superResolver = Object.getPrototypeOf(target);
+      let superResolver = Object.getPrototypeOf(def.target);
 
       // copy and modify metadata of resolver from parent resolver class
       while (superResolver.prototype) {
+        // eslint-disable-next-line @typescript-eslint/no-loop-func
         const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
         if (superResolverMetadata) {
           this.queries = mapSuperResolverHandlers(this.queries, superResolver, def);

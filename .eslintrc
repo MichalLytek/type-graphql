@@ -100,8 +100,6 @@
     // FIXME: Remove
     "no-await-in-loop": "off",
     // FIXME: Remove
-    "@typescript-eslint/no-loop-func": "off",
-    // FIXME: Remove
     "prefer-spread": "off",
     // FIXME: Remove
     "no-restricted-syntax": "off",

@@ -708,6 +708,7 @@ export abstract class SchemaGenerator {
         let superClass = Object.getPrototypeOf(argumentType.target);
         while (superClass.prototype !== undefined) {
           const superArgumentType = getMetadataStorage().argumentTypes.find(
+            // eslint-disable-next-line @typescript-eslint/no-loop-func
             it => it.target === superClass,
           );
           if (superArgumentType) {
