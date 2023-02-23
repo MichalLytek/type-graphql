@@ -98,8 +98,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-non-null-assertion": "off",
     // FIXME: Remove
-    "consistent-return": "off",
-    // FIXME: Remove
     "no-await-in-loop": "off",
     // FIXME: Remove
     "@typescript-eslint/no-loop-func": "off",

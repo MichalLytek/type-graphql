@@ -630,7 +630,7 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return "SecondInterfaceWithStringResolveTypeObject";
           }
-          return;
+          return undefined;
         },
       })
       abstract class InterfaceWithStringResolveType {
@@ -662,7 +662,7 @@ describe("Interfaces and inheritance", () => {
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return SecondInterfaceWithClassResolveTypeObject;
           }
-          return;
+          return undefined;
         },
       })
       abstract class InterfaceWithClassResolveType {

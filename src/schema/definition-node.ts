@@ -71,7 +71,7 @@ export function getObjectTypeDefinitionNode(
   directiveMetadata?: DirectiveMetadata[],
 ): ObjectTypeDefinitionNode | undefined {
   if (!directiveMetadata || !directiveMetadata.length) {
-    return;
+    return undefined;
   }
 
   return {
@@ -90,7 +90,7 @@ export function getInputObjectTypeDefinitionNode(
   directiveMetadata?: DirectiveMetadata[],
 ): InputObjectTypeDefinitionNode | undefined {
   if (!directiveMetadata || !directiveMetadata.length) {
-    return;
+    return undefined;
   }
 
   return {
@@ -110,7 +110,7 @@ export function getFieldDefinitionNode(
   directiveMetadata?: DirectiveMetadata[],
 ): FieldDefinitionNode | undefined {
   if (!directiveMetadata || !directiveMetadata.length) {
-    return;
+    return undefined;
   }
 
   return {
@@ -136,7 +136,7 @@ export function getInputValueDefinitionNode(
   directiveMetadata?: DirectiveMetadata[],
 ): InputValueDefinitionNode | undefined {
   if (!directiveMetadata || !directiveMetadata.length) {
-    return;
+    return undefined;
   }
 
   return {
@@ -161,7 +161,7 @@ export function getInterfaceTypeDefinitionNode(
   directiveMetadata?: DirectiveMetadata[],
 ): InterfaceTypeDefinitionNode | undefined {
   if (!directiveMetadata || !directiveMetadata.length) {
-    return;
+    return undefined;
   }
 
   return {

@@ -350,7 +350,7 @@ export class MetadataStorage {
       authField => authField.target === target && authField.fieldName === fieldName,
     );
     if (!authorizedField) {
-      return;
+      return undefined;
     }
     return authorizedField.roles;
   }

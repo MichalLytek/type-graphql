@@ -556,7 +556,7 @@ export abstract class SchemaGenerator {
       resolvers,
     );
     if (mutationsHandlers.length === 0) {
-      return;
+      return undefined;
     }
 
     return new GraphQLObjectType({
@@ -571,7 +571,7 @@ export abstract class SchemaGenerator {
       resolvers,
     );
     if (subscriptionsHandlers.length === 0) {
-      return;
+      return undefined;
     }
 
     return new GraphQLObjectType({

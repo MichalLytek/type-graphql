@@ -18,7 +18,7 @@ export function getParams(
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
-    // eslint-disable-next-line array-callback-return
+    // eslint-disable-next-line array-callback-return, consistent-return
     .map(paramInfo => {
       switch (paramInfo.kind) {
         case "args":

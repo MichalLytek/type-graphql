@@ -144,7 +144,7 @@ describe("typeDefs and resolvers", () => {
           if ("sampleType3StringField" in value) {
             return "SampleType3";
           }
-          return;
+          return undefined;
         },
       });
 
