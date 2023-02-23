@@ -53,15 +53,17 @@
     "import/order": [
       "error",
       {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
         "groups": ["builtin", "external", "internal", ["sibling", "parent"], "index", "unknown"],
+        "newlines-between": "never",
         "pathGroups": [
           { "pattern": "@/**", "group": "internal", "position": "before" },
           { "pattern": "type-graphql", "group": "external" }
         ],
-        "newlines-between": "never",
-        "alphabetize": {
-          "order": "asc"
-        }
+        "pathGroupsExcludedImportTypes": ["builtin"]
       }
     ],
     "import/no-default-export": "error",
