@@ -1,5 +1,3 @@
 # Documentation
 
-:warning: **The documentation has been moved to [TypeGraphQL website](https://typegraphql.com), please update your bookmarks!**
-
-<https://typegraphql.com/docs/introduction.html>
+**The documentation has been prepared to be viewed on [TypeGraphQL website](https://typegraphql.com), please read it there.**
