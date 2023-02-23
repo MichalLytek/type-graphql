@@ -47,14 +47,6 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-Due to using the `graphql-subscription` dependency that relies on an `AsyncIterator`, we may also have to provide the `esnext.asynciterable` to the `lib` option:
-
-```json
-{
-  "lib": ["es2019", "esnext.asynciterable"]
-}
-```
-
 All in all, the minimal `tsconfig.json` file example looks like this:
 
 ```json
@@ -62,7 +54,6 @@ All in all, the minimal `tsconfig.json` file example looks like this:
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "lib": ["es2019", "esnext.asynciterable"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

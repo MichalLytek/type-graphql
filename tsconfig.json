@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "lib": ["es2019", "esnext.asynciterable"],
     "declaration": true,
     "sourceMap": true,
     "outDir": "./build",
