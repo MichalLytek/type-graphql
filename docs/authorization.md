@@ -89,9 +89,8 @@ Auth checker can be also defined as a class - this way we can leverage the depen
 
 ```ts
 export class CustomAuthChecker implements AuthCheckerInterface<ContextType> {
-  // Inject dependency
   constructor(
-    @Inject()
+    // Dependency injection
     private readonly userRepository: Repository<User>,
   ) {}
 

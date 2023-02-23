@@ -36,8 +36,7 @@ import { Service } from "typedi";
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(
-    // Inject service
-    @Inject()
+    // Dependency injection
     private readonly recipeService: RecipeService,
   ) {}
 

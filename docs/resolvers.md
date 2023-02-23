@@ -325,8 +325,8 @@ import { Repository } from "typeorm";
 @Resolver(of => Recipe)
 class RecipeResolver implements ResolverInterface<Recipe> {
   constructor(
-    @Inject()
-    private readonly userRepository: Repository<User>, // Dependency injection
+    // Dependency injection
+    private readonly userRepository: Repository<User>,
   ) {}
 
   @FieldResolver()
