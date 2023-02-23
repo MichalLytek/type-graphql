@@ -101,4 +101,4 @@ export class RecipeResolver {
 
 ## Example
 
-See how different kinds of custom decorators work in the [custom decorators and middlewares example](../examples/middlewares-custom-decorators).
+See how different kinds of custom decorators work in the [custom decorators and middlewares example](https://github.com/MichalLytek/type-graphql/tree/master/examples/middlewares-custom-decorators).

@@ -9,39 +9,39 @@ All examples have an `examples.graphql` file with sample queries/mutations/subsc
 
 ## Basics
 
-- [Simple usage of fields, basic types and resolvers](../examples/simple-usage)
+- [Simple usage of fields, basic types and resolvers](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-usage)
 
 ## Advanced
 
-- [Enums and unions](../examples/enums-and-unions)
-- [Subscriptions (simple)](../examples/simple-subscriptions)
-- [Subscriptions (using Redis)](../examples/redis-subscriptions)
-- [Interfaces](../examples/interfaces-inheritance)
-- [Extensions (metadata)](../examples/extensions)
+- [Enums and unions](https://github.com/MichalLytek/type-graphql/tree/master/examples/enums-and-unions)
+- [Subscriptions (simple)](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions)
+- [Subscriptions (using Redis)](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions)
+- [Interfaces](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
+- [Extensions (metadata)](https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions)
 
 ## Features usage
 
-- [Dependency injection (IoC container)](../examples/using-container)
-  - [Scoped containers](../examples/using-scoped-container)
-- [Authorization](../examples/authorization)
-- [Validation](../examples/automatic-validation)
-  - [Custom validation](../examples/custom-validation)
-- [Types inheritance](../examples/interfaces-inheritance)
-- [Resolvers inheritance](../examples/resolvers-inheritance)
-- [Generic types](../examples/generic-types)
-- [Mixin classes](../examples/mixin-classes)
-- [Middlewares and Custom Decorators](../examples/middlewares-custom-decorators)
-- [Query complexity](../examples/query-complexity)
+- [Dependency injection (IoC container)](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container)
+  - [Scoped containers](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container)
+- [Authorization](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization)
+- [Validation](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation)
+  - [Custom validation](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation)
+- [Types inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance)
+- [Resolvers inheritance](https://github.com/MichalLytek/type-graphql/tree/master/examples/resolvers-inheritance)
+- [Generic types](https://github.com/MichalLytek/type-graphql/tree/master/examples/generic-types)
+- [Mixin classes](https://github.com/MichalLytek/type-graphql/tree/master/examples/mixin-classes)
+- [Middlewares and Custom Decorators](https://github.com/MichalLytek/type-graphql/tree/master/examples/middlewares-custom-decorators)
+- [Query complexity](https://github.com/MichalLytek/type-graphql/tree/master/examples/query-complexity)
 
 ## 3rd party libs integration
 
-- [TypeORM (manual, synchronous) \*](../examples/typeorm-basic-usage)
-- [TypeORM (automatic, lazy relations) \*](../examples/typeorm-lazy-relations)
-- [MikroORM](../examples/mikro-orm)
-- [Typegoose](../examples/typegoose)
-- [Apollo federation](../examples/apollo-federation)
-- [Apollo Cache Control](../examples/apollo-cache)
-- [Apollo Client local state](../examples/apollo-client)
-- [GraphQL Scalars](../examples/graphql-scalars)
+- [TypeORM (manual, synchronous) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-basic-usage)
+- [TypeORM (automatic, lazy relations) \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-lazy-relations)
+- [MikroORM](https://github.com/MichalLytek/type-graphql/tree/master/examples/mikro-orm)
+- [Typegoose](https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose)
+- [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
+- [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache)
+- [Apollo Client local state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
+- [GraphQL Scalars](https://github.com/MichalLytek/type-graphql/tree/master/examples/graphql-scalars)
 
 _\* Note that we need to edit the `TypeORM` example's `index.ts` with the credentials of our local database_

@@ -253,4 +253,4 @@ However in case of interfaces, it might be a little bit more tricky than with un
 
 ## Examples
 
-For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](../examples/interfaces-inheritance).
+For more advanced usage examples of interfaces (and type inheritance), e.g. with query returning an interface type, go to [this examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).

@@ -190,4 +190,4 @@ Then we can use standard, token based authorization in the HTTP header like in c
 
 ## Example
 
-See how this works in the [simple real life example](../examples/authorization).
+See how this works in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization).

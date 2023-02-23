@@ -183,7 +183,7 @@ However, beginning in Apollo Server 3, subscriptions are not supported by the "b
 
 ## Examples
 
-See how subscriptions work in a [simple example](../examples/simple-subscriptions).
+See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions).
 
-For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](../examples/redis-subscriptions).
+For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions).
 However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection parameters.
