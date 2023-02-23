@@ -31,7 +31,7 @@
       }
     }
   },
-  "plugins": ["import", "@typescript-eslint", "eslint-plugin-tsdoc", "prettier", "jest"],
+  "plugins": ["import", "@typescript-eslint", "eslint-plugin-tsdoc", "jest"],
   "extends": [
     "airbnb-base",
     "airbnb-typescript/base",
@@ -41,11 +41,10 @@
     // "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:prettier/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error",
     "tsdoc/syntax": "warn",
     "curly": ["error", "all"],
     "nonblock-statement-body-position": ["error", "below"],
