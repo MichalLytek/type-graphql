@@ -107,6 +107,8 @@ jobs:
       - name: Check
         run: |
           npm run check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test
         run: npm run test:ci
