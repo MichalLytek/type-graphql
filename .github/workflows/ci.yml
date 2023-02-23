@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   version:
+    name: Ensure package version match
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
@@ -78,6 +79,7 @@ jobs:
           fi
 
   check:
+    name: Build & Lint & Tests
     needs: version
     if: always() && (needs.version.result == 'success' || needs.version.result == 'skipped')
     runs-on: ubuntu-latest
@@ -118,6 +120,7 @@ jobs:
         if: matrix.node-version == '18.x'
 
   release:
+    name: Release package on NPM
     needs: check
     if: needs.check.result == 'success' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
@@ -128,15 +131,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
+          node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install Dependencies
         run: |
           npm ci
 
-      - name: Build
+      - name: Prepare package
         run: |
-          npm run build
+          npm run prepublishOnly
 
       - name: Build Changelog
         id: changelog
@@ -154,11 +158,12 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
 
       - name: Publish
-        run: npm publish --ignore-scripts
+        run: npm publish --ignore-scripts # disabled prepublishOnly script
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   website:
+    name: Publish website
     needs: check
     if: needs.check.result == 'success' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
@@ -168,6 +173,8 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
 
       - name: Install Dependencies
         working-directory: ./website
