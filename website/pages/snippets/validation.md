@@ -1,4 +1,6 @@
-```typescript
+<!-- markdownlint-disable MD041 -->
+
+```ts
 @InputType()
 export class RecipeInput {
   @Field()
