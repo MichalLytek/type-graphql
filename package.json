@@ -36,6 +36,9 @@
     "name": "Michał Lytek",
     "url": "https://github.com/MichalLytek"
   },
+  "engines": {
+    "node": ">= 14.5.0"
+  },
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
@@ -69,6 +72,10 @@
     "test": "npx jest --verbose --coverage",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "npx jest --watch"
+  },
+  "peerDependencies": {
+    "class-validator": ">=0.14.0",
+    "graphql": "^16.6.0"
   },
   "dependencies": {
     "@types/node": "*",
@@ -127,12 +134,5 @@
     "typedi": "^0.10.0",
     "typescript": "^4.9.3",
     "typescript-transform-paths": "^3.4.6"
-  },
-  "peerDependencies": {
-    "class-validator": ">=0.14.0",
-    "graphql": "^16.6.0"
-  },
-  "engines": {
-    "node": ">= 14.5.0"
   }
 }
