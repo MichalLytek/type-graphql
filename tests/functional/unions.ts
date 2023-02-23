@@ -551,9 +551,7 @@ describe("Unions", () => {
       const OneTwo = createUnionType({
         name: "OneTwo",
         types: () => [One, Two],
-        resolveType: () => {
-          return undefined;
-        },
+        resolveType: () => undefined,
       });
       @Resolver()
       class OneTwoResolver {

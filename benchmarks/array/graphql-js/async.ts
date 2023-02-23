@@ -14,27 +14,19 @@ const SampleObjectType: GraphQLObjectType = new GraphQLObjectType({
   fields: () => ({
     stringField: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: async source => {
-        return source.stringField;
-      },
+      resolve: async source => source.stringField,
     },
     numberField: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: async source => {
-        return source.numberField;
-      },
+      resolve: async source => source.numberField,
     },
     booleanField: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: async source => {
-        return source.booleanField;
-      },
+      resolve: async source => source.booleanField,
     },
     nestedField: {
       type: SampleObjectType,
-      resolve: async source => {
-        return source.nestedField;
-      },
+      resolve: async source => source.nestedField,
     },
   }),
 });
