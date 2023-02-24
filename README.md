@@ -190,13 +190,9 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 [![become a sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
-### Members 💪
+### Sponsors
 
-[![members](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
-
-### Backers ☕
-
-[![backers](https://opencollective.com/typegraphql/tiers/backers.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
+![sponsors](./images/sponsors.svg)
 
 ## Want to help?
 
