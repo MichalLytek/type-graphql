@@ -9,6 +9,7 @@
     "project": [
       "tsconfig.json",
       "tests/tsconfig.json",
+      "scripts/tsconfig.json",
       "examples/tsconfig.json",
       "benchmarks/tsconfig.json"
     ],
@@ -25,6 +26,7 @@
         "project": [
           "tsconfig.json",
           "tests/tsconfig.json",
+          "scripts/tsconfig.json",
           "examples/tsconfig.json",
           "benchmarks/tsconfig.json"
         ]
