@@ -182,11 +182,11 @@ It doesn't have a large company that sits behind - its ongoing development is po
 
 ### Members 💪
 
-[![](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
+[![](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false)](https://opencollective.com/typegraphql#contributors)
 
-### Backers ☕
+### GitHub Sponsors
 
-[![](https://opencollective.com/typegraphql/tiers/backers.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
+![sponsors](./img/github-sponsors.svg)
 
 ## Want to help?
 
