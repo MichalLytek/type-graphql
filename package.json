@@ -16,7 +16,9 @@
     "lint": "echo TODO: add ESLint",
     "verify": "npm run check && npm run lint",
     "package": "echo TODO: bash script",
-    "docs": "npm run --prefix website start"
+    "docs": "npm run --prefix website start",
+    "generate:sponsorkit": "npx sponsorkit --width=320 --dir=./img --name=github-sponsors",
+    "postgenerate:sponsorkit": "npx shx cp ./img/github-sponsors.svg ./website/static/img/github-sponsors.svg"
   },
   "peerDependencies": {
     "class-validator": ">=0.14.0",
@@ -63,6 +65,7 @@
     "prettier": "^2.8.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.1.2",
+    "sponsorkit": "^0.8.2",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typedi": "^0.10.0",

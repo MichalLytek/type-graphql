@@ -13,3 +13,9 @@ coverage
 
 # parcel cache
 .cache
+
+# sponsorkit cache
+img/.cache.json
+
+# env
+.env
