@@ -43,13 +43,17 @@
   "module": "./build/esm/index.js",
   "exports": {
     ".": {
+      "require": {
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
+      },
       "import": {
         "types": "./build/esm/index.d.ts",
         "default": "./build/esm/index.js"
       },
-      "require": {
-        "types": "./build/cjs/index.d.ts",
-        "default": "./build/cjs/index.js"
+      "default": {
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
       }
     }
   },
