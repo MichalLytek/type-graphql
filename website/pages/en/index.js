@@ -285,11 +285,11 @@ const CollectiveSection = props => (
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
-          <img src="https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=48&width=1024&button=false" />
+          <img src="https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false" />
         </a>
-        <h3 className="title">Backers ☕</h3>
-        <a href="https://opencollective.com/typegraphql#contributors">
-          <img src="https://opencollective.com/typegraphql/tiers/backers.svg?avatarHeight=48&width=1024&button=false" />
+        <h3 className="title">GitHub Sponsors 🐙</h3>
+        <a href="https://github.com/sponsors/TypeGraphQL">
+          <img src={imgUrl("github-sponsors.svg")} />
         </a>
       </div>
     </div>
