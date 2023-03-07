@@ -81,6 +81,7 @@
     "fix:format": "npx prettier --write .",
     "fix:lint": "npx eslint --fix .",
     "fix:markdown": "npx markdownlint --fix \"**/*.md\"",
+    "generate:readme": "npx ts-node ./scripts/readme.md.ts",
     "generate:sponsorkit": "npx sponsorkit --width=320 --dir=./images --name=github-sponsors",
     "postbuild": "npx shx rm ./build/cjs/browser-shim.d.ts ./build/esm/browser-shim.d.ts && npx shx cp ./src/browser-shim.ts ./build/cjs && npx shx cp ./src/browser-shim.ts ./build/esm && npx ts-node ./scripts/package.json.ts",
     "postgenerate:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
@@ -88,7 +89,7 @@
     "prebuild:benchmarks": "npm run clean",
     "prebuild:examples": "npm run clean",
     "prepare": "npx ts-patch install -s && npx husky install",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build && npm run generate:readme",
     "test": "npx jest --verbose --coverage",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
     "test:watch": "npx jest --watch"

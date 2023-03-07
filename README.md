@@ -190,9 +190,9 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 [![become a sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
-### OpenCollective Sponsors
+### Members 💪
 
-[![OpenCollective Sponsors](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false)](https://opencollective.com/typegraphql#contributors)
+[![Members](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false)](https://opencollective.com/typegraphql#contributors)
 
 ### GitHub Sponsors
 
@@ -201,4 +201,4 @@ It doesn't have a large company that sits behind it - its ongoing development is
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve the documentation? Great! Please read our
-guidelines for [CONTRIBUTING](https://github.com/MichalLytek/type-graphql/blob/master/CONTRIBUTING.md) and then check out one of our [help-wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).
+guidelines for [CONTRIBUTING](./CONTRIBUTING.md) and then check out one of our [help-wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).
