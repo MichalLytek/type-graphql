@@ -13,3 +13,9 @@
 
 # parcel cache
 .cache
+
+# sponsorkit cache
+./images/.cache.json
+
+# env
+.env
