@@ -1,6 +1,5 @@
-export * from "./ArgumentValidationError";
+export * from "./graphql";
 export * from "./CannotDetermineGraphQLTypeError";
-export * from "./ForbiddenError";
 export * from "./GeneratingSchemaError";
 export * from "./ConflictingDefaultValuesError";
 export * from "./InterfaceResolveTypeError";
@@ -9,7 +8,6 @@ export * from "./MissingSubscriptionTopicsError";
 export * from "./NoExplicitTypeError";
 export * from "./ReflectMetadataMissingError";
 export * from "./SymbolKeysNotSupportedError";
-export * from "./UnauthorizedError";
 export * from "./UnionResolveTypeError";
 export * from "./UnmetGraphQLPeerDependencyError";
 export * from "./WrongNullableListOptionError";

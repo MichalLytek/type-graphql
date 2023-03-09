@@ -1,4 +1,4 @@
-import { ForbiddenError, UnauthorizedError } from "@/errors";
+import { AuthenticationError, AuthorizationError } from "@/errors";
 import { AuthChecker, AuthCheckerFn, AuthMode } from "@/interfaces";
 import { MiddlewareFn } from "@/interfaces/Middleware";
 import { IOCContainer } from "@/utils/container";
@@ -23,7 +23,7 @@ export function AuthMiddleware(
         return null;
       }
       if (authMode === "error") {
-        throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+        throw roles.length === 0 ? new AuthenticationError() : new AuthorizationError();
       }
     }
     return next();

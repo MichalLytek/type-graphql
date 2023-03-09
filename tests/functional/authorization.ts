@@ -2,16 +2,16 @@ import "reflect-metadata";
 import { GraphQLSchema, graphql } from "graphql";
 import {
   AuthCheckerInterface,
+  AuthenticationError,
+  AuthorizationError,
   Authorized,
   Ctx,
   Field,
   FieldResolver,
-  ForbiddenError,
   ObjectType,
   Query,
   Resolver,
   ResolverData,
-  UnauthorizedError,
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
@@ -276,7 +276,7 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.originalError).toBeInstanceOf(AuthenticationError);
       expect(error.path).toContain("authedQuery");
     });
 
@@ -294,7 +294,7 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.originalError).toBeInstanceOf(AuthorizationError);
       expect(error.path).toContain("adminQuery");
     });
 
@@ -360,7 +360,7 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.originalError).toBeInstanceOf(AuthenticationError);
       expect(error.path).toContain("authedField");
     });
 
@@ -380,7 +380,7 @@ describe("Authorization", () => {
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.originalError).toBeInstanceOf(AuthorizationError);
       expect(error.path).toContain("adminField");
     });
 

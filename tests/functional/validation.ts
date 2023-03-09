@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Max, MaxLength, Min, ValidateNested } from "class-validator";
+import { Max, MaxLength, Min, ValidateNested, ValidationError } from "class-validator";
 import { GraphQLSchema, graphql } from "graphql";
 import {
   Arg,
@@ -158,8 +158,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("numberField");
     });
 
     it("should throw validation error when nested input field is incorrect", async () => {
@@ -182,8 +184,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("nestedField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("nestedField");
     });
 
     it("should throw validation error when nested array input field is incorrect", async () => {
@@ -206,8 +210,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("arrayField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("arrayField");
     });
 
     it("should throw validation error when one of input array is incorrect", async () => {
@@ -232,8 +238,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("numberField");
     });
 
     it("should not throw error when one of optional items in the input array is null", async () => {
@@ -277,8 +285,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("numberField");
     });
 
     it("should throw validation error when optional input field is incorrect", async () => {
@@ -298,8 +308,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("optionalField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("optionalField");
     });
 
     it("should pass input validation when arguments data without optional field is correct", async () => {
@@ -347,8 +359,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("numberField");
     });
 
     it("should throw validation error when optional argument is incorrect", async () => {
@@ -368,8 +382,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("optionalField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("optionalField");
     });
   });
 
@@ -495,8 +511,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("field");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("field");
     });
 
     it("should throw validation error for incorrect args when applied local validation settings", async () => {
@@ -539,8 +557,10 @@ describe("Validation", () => {
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("field");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(
+        (validationError.extensions.validationErrors as ValidationError[])[0].property,
+      ).toEqual("field");
     });
 
     it("should pass validation of incorrect args when applied local validation settings", async () => {
@@ -619,7 +639,7 @@ describe("Validation", () => {
       const error = errors![0].originalError! as ArgumentValidationError;
 
       expect(localArgsData).toBeUndefined();
-      expect(error.validationErrors[0].target).toBeUndefined();
+      expect((error.extensions.validationErrors as ValidationError[])[0].target).toBeUndefined();
     });
   });
 });
