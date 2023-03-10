@@ -66,6 +66,19 @@ class FooBarResolver {
 ```
 
 > Note that even as directives are a purely SDL thing, they won't appear in the generated schema definition file. Current implementation of directives in TypeGraphQL is using some crazy workarounds because [`graphql-js` doesn't support setting them by code](https://github.com/graphql/graphql-js/issues/1343) and the built-in `printSchema` utility omits the directives while printing.
+> You can still use 3rd party libraries such as graphql-tools to print schema with directives:
+
+```typescript
+import { printSchemaWithDirectives } from '@graphql-tools/utils';
+
+// build the schema as always
+const schema = buildSchemaSync({
+  resolvers: [SampleResolver],
+});
+
+// Get the schema as String with directives 
+const schemaWithDirectives = printSchemaWithDirectives(schema);
+```
 
 Also please note that `@Directive` can only contain a single GraphQL directive name or declaration. If you need to have multiple directives declared, just place multiple decorators:
 
