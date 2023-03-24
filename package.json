@@ -21,8 +21,9 @@
     "postgenerate:sponsorkit": "npx shx cp ./img/github-sponsors.svg ./website/static/img/github-sponsors.svg"
   },
   "peerDependencies": {
+    "class-validator": ">=0.14.0",
     "graphql": "^16.6.0",
-    "class-validator": ">=0.14.0"
+    "graphql-scalars": "^1.22.0"
   },
   "peerDependenciesMeta": {
     "class-validator": {
@@ -60,6 +61,7 @@
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
     "graphql-redis-subscriptions": "^2.6.0",
+    "graphql-scalars": "^1.22.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.12.1",
     "husky": "^4.3.8",

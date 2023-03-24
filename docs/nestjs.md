@@ -27,7 +27,6 @@ Then you need to register the TypeGraphQL module in your root module - you can p
     TypeGraphQLModule.forRoot({
       emitSchemaFile: true,
       authChecker,
-      dateScalarMode: "timestamp",
       context: ({ req }) => ({ currentUser: req.user }),
     }),
     RecipeModule,

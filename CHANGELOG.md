@@ -13,6 +13,8 @@
 - **Breaking Change**: `buildSchemaSync` is now also checking the generated schema for errors
 - **Breaking Change**: `validate` option of `buildSchema` is set to `false` by default - integration with `class-validator` has to be turned on explicitly
 - **Breaking Change**: `validate` option of `buildSchema` doesn't accept anymore a custom validation function - use `validateFn` option instead
+- **Breaking Change**: removed `dateScalarMode` option from `buildSchema`
+- **Breaking Change**: make `graphql-scalars` package a peer dependency and use date scalars from it instead of custom ones
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)
