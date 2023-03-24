@@ -5,6 +5,7 @@
 ### Features
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.6.0`
+- **Breaking Change**: `buildSchemaSync` is now also checking the generated schema for errors
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)

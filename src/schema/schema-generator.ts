@@ -9,7 +9,7 @@ import {
   GraphQLInputType,
   GraphQLInputFieldConfigMap,
   GraphQLInterfaceType,
-  graphql,
+  graphqlSync,
   getIntrospectionQuery,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
@@ -108,18 +108,7 @@ export abstract class SchemaGenerator {
   private static unionTypesInfo: UnionTypeInfo[] = [];
   private static usedInterfaceTypes = new Set<Function>();
 
-  static async generateFromMetadata(options: SchemaGeneratorOptions): Promise<GraphQLSchema> {
-    const schema = this.generateFromMetadataSync(options);
-    if (!options.skipCheck) {
-      const { errors } = await graphql({ schema, source: getIntrospectionQuery() });
-      if (errors) {
-        throw new GeneratingSchemaError(errors);
-      }
-    }
-    return schema;
-  }
-
-  static generateFromMetadataSync(options: SchemaGeneratorOptions): GraphQLSchema {
+  static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
     this.checkForErrors(options);
     BuildContext.create(options);
     getMetadataStorage().build(options);
@@ -140,6 +129,14 @@ export abstract class SchemaGenerator {
 
     BuildContext.reset();
     this.usedInterfaceTypes = new Set<Function>();
+
+    if (!options.skipCheck) {
+      const { errors } = graphqlSync({ schema: finalSchema, source: getIntrospectionQuery() });
+      if (errors) {
+        throw new GeneratingSchemaError(errors);
+      }
+    }
+
     return finalSchema;
   }
 
