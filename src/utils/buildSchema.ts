@@ -56,7 +56,7 @@ export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolv
 
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   const resolvers = loadResolvers(options);
-  const schema = await SchemaGenerator.generateFromMetadata({ ...options, resolvers });
+  const schema = SchemaGenerator.generateFromMetadata({ ...options, resolvers });
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     await emitSchemaDefinitionFile(schemaFileName, schema, printSchemaOptions);
@@ -67,7 +67,7 @@ export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLS
 
 export function buildSchemaSync(options: BuildSchemaOptions): GraphQLSchema {
   const resolvers = loadResolvers(options);
-  const schema = SchemaGenerator.generateFromMetadataSync({ ...options, resolvers });
+  const schema = SchemaGenerator.generateFromMetadata({ ...options, resolvers });
   if (options.emitSchemaFile) {
     const { schemaFileName, printSchemaOptions } = getEmitSchemaDefinitionFileOptions(options);
     emitSchemaDefinitionFileSync(schemaFileName, schema, printSchemaOptions);
