@@ -1,14 +1,15 @@
 import fs from "node:fs";
+import module from "node:module";
 import path from "node:path";
 import url from "node:url";
-import tsconfig from "../tsconfig.cjs.json" assert { type: "json" };
+// FIXME Prefer import assertions Node.js >= v16.14.0
+const tsconfig = module.createRequire(import.meta.url)("../tsconfig.cjs.json");
+// import tsconfig from "../tsconfig.cjs.json" assert { type: "json" };
 
 const PACKAGE_JSON = { type: "commonjs" };
 const PACKAGE_JSON_FILE = path.join(
-  typeof __dirname !== "undefined" ? __dirname : path.dirname(url.fileURLToPath(import.meta.url)),
-  "..",
-  tsconfig.compilerOptions.outDir,
-  "package.json",
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  `../${tsconfig.compilerOptions.outDir}/package.json`,
 );
 
 if (fs.existsSync(PACKAGE_JSON_FILE)) {

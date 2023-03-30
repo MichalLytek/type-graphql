@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./build/typings",
+    "emitDeclarationOnly": true,
     "declaration": true,
-    "sourceMap": true,
     "removeComments": false
   }
 }
