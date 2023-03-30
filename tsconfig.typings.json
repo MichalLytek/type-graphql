@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build/typings",
+    "declaration": true,
+    "sourceMap": true,
+    "removeComments": false
+  }
+}
