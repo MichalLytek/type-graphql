@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "target": "es2019",
-    "module": "esnext",
-    "declaration": false,
-    "sourceMap": false,
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
     "outDir": "./build",
     "paths": {
       "@/*": ["./src/*"],
       "type-graphql": ["./src/index.ts"]
     },
-    "removeComments": true,
+    "removeComments": false,
     "importHelpers": true,
     "strict": false,
     "noImplicitAny": true,
@@ -41,6 +41,5 @@
     ]
   },
   "exclude": ["./node_modules", "./build"],
-  "include": ["./src"],
-  "ts-node": { "esm": true }
+  "include": ["./src"]
 }

@@ -1,5 +1,9 @@
 {
   "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "sourceMap": false
+  },
   "include": [
     "./apollo-cache",
     "./authorization",

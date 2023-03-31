@@ -1,11 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import url from "node:url";
 
-const README_MD_FILE = path.join(
-  typeof __dirname !== "undefined" ? __dirname : path.dirname(url.fileURLToPath(import.meta.url)),
-  "../README.md",
-);
+const README_MD_FILE = path.join(__dirname, "../README.md");
 const GITHUB_IMAGES_URL =
   "https://raw.githubusercontent.com/MichalLytek/type-graphql/master/images";
 
