@@ -2,14 +2,14 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
+    "declaration": false,
+    "sourceMap": false,
     "outDir": "./build",
     "paths": {
       "@/*": ["./src/*"],
       "type-graphql": ["./src/index.ts"]
     },
-    "removeComments": false,
+    "removeComments": true,
     "importHelpers": true,
     "strict": false,
     "noImplicitAny": true,
