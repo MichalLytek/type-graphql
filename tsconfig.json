@@ -37,6 +37,10 @@
       {
         "transform": "typescript-transform-paths",
         "afterDeclarations": true
+      },
+      {
+        "transform": "typescript-transformer-esm",
+        "after": true
       }
     ]
   },
