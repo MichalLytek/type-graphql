@@ -1,17 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const README_MD_FILE = path.join(__dirname, "../README.md");
-const GITHUB_IMAGES_URL =
-  "https://raw.githubusercontent.com/MichalLytek/type-graphql/master/images";
+const readmeMdFile = path.resolve(__dirname, "../README.md");
+const gitHubImagesUrl = "https://raw.githubusercontent.com/MichalLytek/type-graphql/master/images";
 
-if (!fs.existsSync(README_MD_FILE)) {
-  throw new Error(`README.md '${README_MD_FILE}' does not exists`);
+if (!fs.existsSync(readmeMdFile)) {
+  throw new Error(`README.md '${readmeMdFile}' does not exists`);
 }
 
 const readme = fs
-  .readFileSync(README_MD_FILE, { encoding: "utf8", flag: "r" })
-  .replace(/!\[([^\]]*)\]\((\.\/)?images\/(.*?)\)/gm, `![$1](${GITHUB_IMAGES_URL}/$3)`) // ![alt](path)
-  .replace(/<img[^>]+src="(\.\/)?images\/([^">]+)"/gm, `<img src="${GITHUB_IMAGES_URL}/$2"`); // <img src="path"
+  .readFileSync(readmeMdFile, { encoding: "utf8", flag: "r" })
+  .replace(/!\[([^\]]*)\]\((\.\/)?images\/(.*?)\)/gm, `![$1](${gitHubImagesUrl}/$3)`) // ![alt](path)
+  .replace(/<img[^>]+src="(\.\/)?images\/([^">]+)"/gm, `<img src="${gitHubImagesUrl}/$2"`); // <img src="path"
 
-fs.writeFileSync(README_MD_FILE, readme, { encoding: "utf8", flag: "w" });
+fs.writeFileSync(readmeMdFile, readme, { encoding: "utf8", flag: "w" });

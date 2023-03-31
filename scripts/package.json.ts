@@ -2,14 +2,14 @@ import fs from "node:fs";
 import path from "node:path";
 import tsconfig from "../tsconfig.esm.json";
 
-const PACKAGE_JSON = { type: "module" };
-const PACKAGE_JSON_FILE = path.join(
+const packageJson = { type: "module" };
+const packageJsonFile = path.resolve(
   __dirname,
   `../${tsconfig.compilerOptions.outDir}/package.json`,
 );
 
-if (fs.existsSync(PACKAGE_JSON_FILE)) {
-  throw new Error(`ESM package.json '${PACKAGE_JSON_FILE}' already exists`);
+if (fs.existsSync(packageJsonFile)) {
+  throw new Error(`ESM package.json '${packageJsonFile}' already exists`);
 }
 
-fs.writeFileSync(PACKAGE_JSON_FILE, JSON.stringify(PACKAGE_JSON), { encoding: "utf8", flag: "w" });
+fs.writeFileSync(packageJsonFile, JSON.stringify(packageJson), { encoding: "utf8", flag: "w" });
