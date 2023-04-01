@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {
+import type {
   GraphQLSchema,
   IntrospectionField,
   IntrospectionInputObjectType,
@@ -8,15 +8,14 @@ import {
   IntrospectionNonNullTypeRef,
   IntrospectionObjectType,
   IntrospectionSchema,
-  TypeKind,
-  graphql,
 } from "graphql";
+import { TypeKind, graphql } from "graphql";
+import type { ClassType, ResolverInterface } from "type-graphql";
 import {
   Arg,
   Args,
   ArgsType,
   CannotDetermineGraphQLTypeError,
-  ClassType,
   ConflictingDefaultValuesError,
   Ctx,
   Field,
@@ -31,7 +30,6 @@ import {
   PubSubEngine,
   Query,
   Resolver,
-  ResolverInterface,
   Root,
   Subscription,
   WrongNullableListOptionError,

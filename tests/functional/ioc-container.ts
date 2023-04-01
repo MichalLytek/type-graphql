@@ -1,15 +1,7 @@
 import "reflect-metadata";
 import { graphql } from "graphql";
-import {
-  Arg,
-  ContainerType,
-  Field,
-  ObjectType,
-  Query,
-  Resolver,
-  ResolverData,
-  buildSchema,
-} from "type-graphql";
+import type { ContainerType, ResolverData } from "type-graphql";
+import { Arg, Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { Container, Service } from "typedi";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 

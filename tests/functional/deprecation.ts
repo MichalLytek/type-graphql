@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { GraphQLSchema, IntrospectionObjectType, IntrospectionSchema, printType } from "graphql";
+import type { GraphQLSchema, IntrospectionObjectType, IntrospectionSchema } from "graphql";
+import { printType } from "graphql";
 import {
   Arg,
   Args,

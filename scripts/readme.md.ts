@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const readmeMdFile = path.resolve(__dirname, "../README.md");
 const gitHubImagesUrl = "https://raw.githubusercontent.com/MichalLytek/type-graphql/master/images";
+const readmeMdFile = path.resolve(__dirname, "../README.md");
 
 if (!fs.existsSync(readmeMdFile)) {
   throw new Error(`README.md '${readmeMdFile}' does not exists`);

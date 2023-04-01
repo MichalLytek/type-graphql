@@ -1,4 +1,4 @@
-import { MiddlewareFn } from "@/interfaces/Middleware";
+import type { MiddlewareFn } from "@/typings/Middleware";
 import { UseMiddleware } from "./UseMiddleware";
 
 export function createMethodDecorator<TContextType = {}>(

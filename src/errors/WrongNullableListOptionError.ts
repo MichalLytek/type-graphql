@@ -1,4 +1,4 @@
-import { NullableListOptions } from "@/decorators/types";
+import type { NullableListOptions } from "@/decorators/types";
 
 export class WrongNullableListOptionError extends Error {
   constructor(

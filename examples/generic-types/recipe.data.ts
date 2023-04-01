@@ -1,4 +1,4 @@
-import { Recipe } from "./recipe.type";
+import type { Recipe } from "./recipe.type";
 
 export function createSampleRecipes(): Recipe[] {
   return [

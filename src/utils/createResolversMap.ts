@@ -1,15 +1,17 @@
-import {
+import type {
   GraphQLAbstractType,
-  GraphQLEnumType,
   GraphQLFieldMap,
+  GraphQLSchema,
+  GraphQLTypeResolver,
+} from "graphql";
+import {
+  GraphQLEnumType,
   GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLScalarType,
-  GraphQLSchema,
-  GraphQLTypeResolver,
   GraphQLUnionType,
 } from "graphql";
-import { EnumResolver, ResolverObject, ResolversMap } from "@/interfaces";
+import type { EnumResolver, ResolverObject, ResolversMap } from "@/typings";
 
 function generateTypeResolver(
   abstractType: GraphQLAbstractType,

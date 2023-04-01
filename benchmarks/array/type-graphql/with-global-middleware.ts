@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { Field, Int, MiddlewareFn, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import type { MiddlewareFn } from "type-graphql";
+import { Field, Int, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType()

@@ -1,7 +1,7 @@
 import type { ValidatorOptions } from "class-validator";
-import { TypeValue } from "@/decorators/types";
+import type { TypeValue } from "@/decorators/types";
 import { ArgumentValidationError } from "@/errors";
-import { ValidateSettings } from "@/schema/build-context";
+import type { ValidateSettings } from "@/schema/build-context";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";

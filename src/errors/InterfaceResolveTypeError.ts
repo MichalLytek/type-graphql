@@ -1,4 +1,4 @@
-import { ClassMetadata } from "@/metadata/definitions";
+import type { ClassMetadata } from "@/metadata/definitions";
 
 export class InterfaceResolveTypeError extends Error {
   constructor(interfaceMetadata: ClassMetadata) {

@@ -1,5 +1,5 @@
-import { ClassType } from "./ClassType";
-import { ResolverData } from "./ResolverData";
+import type { ClassType } from "./ClassType";
+import type { ResolverData } from "./ResolverData";
 
 export type AuthCheckerFn<TContextType = {}, TRoleType = string> = (
   resolverData: ResolverData<TContextType>,

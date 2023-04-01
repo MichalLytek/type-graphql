@@ -1,25 +1,28 @@
-import {
+import type {
   GraphQLDirective,
-  GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLFieldConfigArgumentMap,
   GraphQLFieldConfigMap,
   GraphQLFieldResolver,
   GraphQLInputFieldConfigMap,
-  GraphQLInputObjectType,
   GraphQLInputType,
-  GraphQLInterfaceType,
   GraphQLNamedType,
-  GraphQLObjectType,
   GraphQLOutputType,
-  GraphQLSchema,
   GraphQLTypeResolver,
+} from "graphql";
+import {
+  GraphQLEnumType,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+  GraphQLSchema,
   GraphQLUnionType,
   getIntrospectionQuery,
   graphqlSync,
 } from "graphql";
-import { ResolverFn, withFilter } from "graphql-subscriptions";
-import { TypeOptions, TypeValue } from "@/decorators/types";
+import type { ResolverFn } from "graphql-subscriptions";
+import { withFilter } from "graphql-subscriptions";
+import type { TypeOptions, TypeValue } from "@/decorators/types";
 import {
   CannotDetermineGraphQLTypeError,
   ConflictingDefaultValuesError,
@@ -29,16 +32,15 @@ import {
   UnionResolveTypeError,
 } from "@/errors";
 import { convertTypeIfScalar, getEnumValuesMap, wrapWithTypeOptions } from "@/helpers/types";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "@/interfaces";
-import {
+import type {
   ClassMetadata,
   FieldMetadata,
   ParamMetadata,
   ResolverMetadata,
   SubscriptionResolverMetadata,
 } from "@/metadata/definitions";
-import { InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
-import { ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
+import type { InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
+import type { ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   createAdvancedFieldResolver,
@@ -46,8 +48,10 @@ import {
   createHandlerResolver,
   wrapResolverWithAuthChecker,
 } from "@/resolvers/create";
+import type { ResolverFilterData, ResolverTopicData, TypeResolver } from "@/typings";
 import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
-import { BuildContext, BuildContextOptions } from "./build-context";
+import type { BuildContextOptions } from "./build-context";
+import { BuildContext } from "./build-context";
 import {
   getFieldDefinitionNode,
   getInputObjectTypeDefinitionNode,

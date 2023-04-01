@@ -77,6 +77,8 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/consistent-type-exports": "error",
     // FIXME: Remove
     "@typescript-eslint/ban-types": [
       "error",

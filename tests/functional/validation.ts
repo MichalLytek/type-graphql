@@ -1,6 +1,8 @@
 import "reflect-metadata";
-import { Max, MaxLength, Min, ValidateNested, ValidationError } from "class-validator";
-import { GraphQLSchema, graphql } from "graphql";
+import type { ValidationError } from "class-validator";
+import { Max, MaxLength, Min, ValidateNested } from "class-validator";
+import type { GraphQLSchema } from "graphql";
+import { graphql } from "graphql";
 import {
   Arg,
   Args,
@@ -14,7 +16,7 @@ import {
   Resolver,
   buildSchema,
 } from "type-graphql";
-import { TypeValue } from "@/decorators/types";
+import type { TypeValue } from "@/decorators/types";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Validation", () => {

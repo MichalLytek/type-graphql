@@ -1,4 +1,4 @@
-import { ContainerInstance } from "typedi";
+import type { ContainerInstance } from "typedi";
 
 export type Context = {
   requestId: number;

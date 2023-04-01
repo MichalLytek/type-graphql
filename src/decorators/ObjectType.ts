@@ -1,6 +1,6 @@
 import { getNameDecoratorParams } from "@/helpers/decorators";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { DescriptionOptions, ImplementsClassOptions } from "./types";
+import type { DescriptionOptions, ImplementsClassOptions } from "./types";
 
 export type ObjectTypeOptions = DescriptionOptions &
   ImplementsClassOptions & {

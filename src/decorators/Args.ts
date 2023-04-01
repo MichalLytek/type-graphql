@@ -1,7 +1,7 @@
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { getParamInfo } from "@/helpers/params";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { ReturnTypeFunc, ValidateOptions } from "./types";
+import type { ReturnTypeFunc, ValidateOptions } from "./types";
 
 export function Args(): ParameterDecorator;
 export function Args(options: ValidateOptions): ParameterDecorator;

@@ -1,16 +1,14 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
+import type { GraphQLSchema } from "graphql";
+import { graphql } from "graphql";
+import type { MiddlewareFn, MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
 import {
   Arg,
   Field,
   FieldResolver,
-  MiddlewareFn,
-  MiddlewareInterface,
-  NextFn,
   ObjectType,
   Query,
   Resolver,
-  ResolverData,
   UseMiddleware,
   buildSchema,
 } from "type-graphql";

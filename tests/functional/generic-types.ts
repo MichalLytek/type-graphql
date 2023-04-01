@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {
+import type {
   GraphQLSchema,
   IntrospectionInputObjectType,
   IntrospectionInterfaceType,
@@ -8,12 +8,11 @@ import {
   IntrospectionObjectType,
   IntrospectionScalarType,
   IntrospectionSchema,
-  TypeKind,
-  graphql,
 } from "graphql";
+import { TypeKind, graphql } from "graphql";
+import type { ClassType } from "type-graphql";
 import {
   Arg,
-  ClassType,
   Field,
   InputType,
   Int,

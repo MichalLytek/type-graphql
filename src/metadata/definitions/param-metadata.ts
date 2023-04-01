@@ -1,6 +1,6 @@
-import { TypeOptions, TypeValueThunk } from "@/decorators/types";
-import { ResolverData } from "@/interfaces";
-import { ValidateSettings } from "@/schema/build-context";
+import type { TypeOptions, TypeValueThunk } from "@/decorators/types";
+import type { ValidateSettings } from "@/schema/build-context";
+import type { ResolverData } from "@/typings";
 
 export interface BasicParamMetadata {
   target: Function;

@@ -1,17 +1,19 @@
 import { MapperKind, getDirective, mapSchema } from "@graphql-tools/utils";
-import {
-  DirectiveLocation,
-  GraphQLDirective,
+import type {
   GraphQLFieldConfig,
   GraphQLFieldExtensions,
   GraphQLInputFieldConfig,
-  GraphQLInputObjectType,
   GraphQLInputObjectTypeConfig,
-  GraphQLInterfaceType,
   GraphQLInterfaceTypeConfig,
-  GraphQLObjectType,
   GraphQLObjectTypeConfig,
   GraphQLSchema,
+} from "graphql";
+import {
+  DirectiveLocation,
+  GraphQLDirective,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
 } from "graphql";
 
 function mapConfig(

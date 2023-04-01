@@ -1,5 +1,5 @@
-import { GraphQLResolveInfo } from "graphql";
-import { ArgsDictionary } from "./ResolverData";
+import type { GraphQLResolveInfo } from "graphql";
+import type { ArgsDictionary } from "./ResolverData";
 
 export interface ResolverFilterData<TPayload = any, TArgs = ArgsDictionary, TContext = {}> {
   payload: TPayload;

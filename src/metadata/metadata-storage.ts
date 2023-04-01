@@ -1,7 +1,7 @@
 import { NoExplicitTypeError } from "@/errors";
-import { ClassType } from "@/interfaces";
-import { SchemaGeneratorOptions } from "@/schema/schema-generator";
-import {
+import type { SchemaGeneratorOptions } from "@/schema/schema-generator";
+import type { ClassType } from "@/typings";
+import type {
   AuthorizedMetadata,
   BaseResolverMetadata,
   ClassMetadata,
@@ -19,9 +19,12 @@ import {
   UnionMetadata,
   UnionMetadataWithSymbol,
 } from "./definitions";
-import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
-import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
-import { ObjectClassMetadata } from "./definitions/object-class-metadata";
+import type {
+  DirectiveClassMetadata,
+  DirectiveFieldMetadata,
+} from "./definitions/directive-metadata";
+import type { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
+import type { ObjectClassMetadata } from "./definitions/object-class-metadata";
 import {
   ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,

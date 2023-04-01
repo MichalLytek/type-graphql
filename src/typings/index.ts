@@ -2,7 +2,7 @@ export * from "./AuthChecker";
 export * from "./ClassType";
 export * from "./Complexity";
 export * from "./Maybe";
-export { MiddlewareFn, NextFn, MiddlewareInterface } from "./Middleware";
+export type { MiddlewareFn, NextFn, MiddlewareInterface } from "./Middleware";
 export * from "./NonEmptyArray";
 export * from "./Publisher";
 export * from "./ResolverData";

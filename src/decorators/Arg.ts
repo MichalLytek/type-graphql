@@ -1,7 +1,7 @@
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { getParamInfo } from "@/helpers/params";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import {
+import type {
   DecoratorTypeOptions,
   DeprecationOptions,
   DescriptionOptions,

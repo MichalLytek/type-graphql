@@ -1,4 +1,4 @@
-import {
+import type {
   RecursiveArray,
   ReturnTypeFunc,
   TypeOptions,

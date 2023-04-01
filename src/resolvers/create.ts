@@ -1,10 +1,14 @@
-import { GraphQLFieldResolver } from "graphql";
+import type { GraphQLFieldResolver } from "graphql";
 import { AuthMiddleware } from "@/helpers/auth-middleware";
 import { convertToType } from "@/helpers/types";
-import { ResolverData } from "@/interfaces";
-import { BaseResolverMetadata, FieldMetadata, FieldResolverMetadata } from "@/metadata/definitions";
+import type {
+  BaseResolverMetadata,
+  FieldMetadata,
+  FieldResolverMetadata,
+} from "@/metadata/definitions";
 import { BuildContext } from "@/schema/build-context";
-import { IOCContainer } from "@/utils/container";
+import type { ResolverData } from "@/typings";
+import type { IOCContainer } from "@/utils/container";
 import { isPromiseLike } from "@/utils/isPromiseLike";
 import { applyAuthChecker, applyMiddlewares, getParams } from "./helpers";
 

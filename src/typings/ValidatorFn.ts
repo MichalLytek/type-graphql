@@ -1,4 +1,4 @@
-import { TypeValue } from "@/decorators/types";
+import type { TypeValue } from "@/decorators/types";
 
 export type ValidatorFn<T extends object> = (
   argValue: T | undefined,

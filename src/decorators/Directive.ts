@@ -1,6 +1,6 @@
 import { SymbolKeysNotSupportedError } from "@/errors";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { MethodAndPropDecorator } from "./types";
+import type { MethodAndPropDecorator } from "./types";
 
 export function Directive(sdl: string): MethodAndPropDecorator & ClassDecorator;
 export function Directive(

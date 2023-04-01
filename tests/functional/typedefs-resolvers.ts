@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { MinLength } from "class-validator";
-import {
+import type {
   ExecutionResult,
   GraphQLSchema,
   IntrospectionEnumType,
@@ -13,14 +13,11 @@ import {
   IntrospectionScalarType,
   IntrospectionSchema,
   IntrospectionUnionType,
-  TypeKind,
-  execute,
-  getIntrospectionQuery,
-  graphql,
-  subscribe,
 } from "graphql";
+import { TypeKind, execute, getIntrospectionQuery, graphql, subscribe } from "graphql";
 import { PubSub } from "graphql-subscriptions";
 import gql from "graphql-tag";
+import type { PubSubEngine, ResolverObject, ResolverOptions, ResolversMap } from "type-graphql";
 import {
   Arg,
   Authorized,
@@ -29,12 +26,8 @@ import {
   InterfaceType,
   Mutation,
   ObjectType,
-  PubSubEngine,
   Query,
   Resolver,
-  ResolverObject,
-  ResolverOptions,
-  ResolversMap,
   Root,
   Subscription,
   UseMiddleware,

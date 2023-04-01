@@ -1,12 +1,12 @@
-import { GraphQLScalarType } from "graphql";
-import {
+import type { GraphQLScalarType } from "graphql";
+import type { ValidateSettings } from "@/schema/build-context";
+import type {
   ClassType,
   Complexity,
   ResolverFilterData,
   ResolverTopicData,
   TypeResolver,
-} from "@/interfaces";
-import { ValidateSettings } from "@/schema/build-context";
+} from "@/typings";
 
 export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 

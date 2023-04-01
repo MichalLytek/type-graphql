@@ -1,4 +1,4 @@
-import {
+import type {
   IntrospectionInputObjectType,
   IntrospectionInterfaceType,
   IntrospectionNamedTypeRef,

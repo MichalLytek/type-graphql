@@ -1,4 +1,4 @@
-import { DescriptionOptions, ReturnTypeFunc } from "@/decorators/types";
+import type { DescriptionOptions, ReturnTypeFunc } from "@/decorators/types";
 
 export interface TypeDecoratorParams<T> {
   options: Partial<T>;

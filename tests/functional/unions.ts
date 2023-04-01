@@ -1,12 +1,11 @@
 import "reflect-metadata";
-import {
+import type {
   GraphQLSchema,
   IntrospectionObjectType,
   IntrospectionSchema,
   IntrospectionUnionType,
-  TypeKind,
-  graphql,
 } from "graphql";
+import { TypeKind, graphql } from "graphql";
 import { Field, ObjectType, Query, Resolver, buildSchema, createUnionType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getInnerFieldType, getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";

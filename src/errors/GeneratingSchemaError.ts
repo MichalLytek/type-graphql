@@ -1,4 +1,4 @@
-import { GraphQLError } from "graphql";
+import type { GraphQLError } from "graphql";
 
 export class GeneratingSchemaError extends Error {
   details: ReadonlyArray<GraphQLError>;

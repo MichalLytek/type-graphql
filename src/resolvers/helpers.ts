@@ -1,11 +1,11 @@
-import { PubSubEngine } from "graphql-subscriptions";
+import type { PubSubEngine } from "graphql-subscriptions";
 import { AuthMiddleware } from "@/helpers/auth-middleware";
 import { convertToType } from "@/helpers/types";
-import { AuthChecker, AuthMode, ResolverData } from "@/interfaces";
-import { Middleware, MiddlewareClass, MiddlewareFn } from "@/interfaces/Middleware";
-import { ParamMetadata } from "@/metadata/definitions";
-import { ValidateSettings } from "@/schema/build-context";
-import { IOCContainer } from "@/utils/container";
+import type { ParamMetadata } from "@/metadata/definitions";
+import type { ValidateSettings } from "@/schema/build-context";
+import type { AuthChecker, AuthMode, ResolverData } from "@/typings";
+import type { Middleware, MiddlewareClass, MiddlewareFn } from "@/typings/Middleware";
+import type { IOCContainer } from "@/utils/container";
 import { isPromiseLike } from "@/utils/isPromiseLike";
 import { convertArgToInstance, convertArgsToInstance } from "./convert-args";
 import { validateArg } from "./validate-arg";

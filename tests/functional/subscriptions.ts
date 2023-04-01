@@ -1,15 +1,12 @@
 import "reflect-metadata";
 import { EventEmitter } from "events";
-import {
+import type {
   DocumentNode,
   ExecutionResult,
   GraphQLSchema,
   IntrospectionObjectType,
-  TypeKind,
-  execute,
-  graphql,
-  subscribe,
 } from "graphql";
+import { TypeKind, execute, graphql, subscribe } from "graphql";
 import { PubSub as LocalPubSub } from "graphql-subscriptions";
 import gql from "graphql-tag";
 import {

@@ -1,13 +1,5 @@
-import {
-  Arg,
-  FieldResolver,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-  ResolverInterface,
-  Root,
-} from "type-graphql";
+import type { ResolverInterface } from "type-graphql";
+import { Arg, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { createRecipeSamples } from "./recipe.data";
 import { RecipeInput } from "./recipe.input";
 import { Recipe } from "./recipe.type";

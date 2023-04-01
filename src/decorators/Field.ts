@@ -2,7 +2,7 @@ import { SymbolKeysNotSupportedError } from "@/errors";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { findType } from "@/helpers/findType";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { AdvancedOptions, MethodAndPropDecorator, ReturnTypeFunc } from "./types";
+import type { AdvancedOptions, MethodAndPropDecorator, ReturnTypeFunc } from "./types";
 
 export type FieldOptions = AdvancedOptions & {
   /** Set to `true` to disable auth and all middlewares stack for this field resolver */

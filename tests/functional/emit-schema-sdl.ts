@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import fs from "node:fs";
 import path from "node:path";
-import { GraphQLSchema } from "graphql";
+import type { GraphQLSchema } from "graphql";
 import shelljs from "shelljs";
+import type { PrintSchemaOptions } from "type-graphql";
 import {
   Field,
   ObjectType,
-  PrintSchemaOptions,
   Query,
   Resolver,
   buildSchema,

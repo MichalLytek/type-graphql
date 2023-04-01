@@ -1,10 +1,12 @@
 import type { ValidatorOptions } from "class-validator";
-import { GraphQLScalarType } from "graphql";
-import { PubSub, PubSubEngine, PubSubOptions } from "graphql-subscriptions";
-import { AuthChecker, AuthMode } from "@/interfaces";
-import { Middleware } from "@/interfaces/Middleware";
-import { ValidatorFn } from "@/interfaces/ValidatorFn";
-import { ContainerGetter, ContainerType, IOCContainer } from "@/utils/container";
+import type { GraphQLScalarType } from "graphql";
+import type { PubSubEngine, PubSubOptions } from "graphql-subscriptions";
+import { PubSub } from "graphql-subscriptions";
+import type { AuthChecker, AuthMode } from "@/typings";
+import type { Middleware } from "@/typings/Middleware";
+import type { ValidatorFn } from "@/typings/ValidatorFn";
+import type { ContainerGetter, ContainerType } from "@/utils/container";
+import { IOCContainer } from "@/utils/container";
 
 export type DateScalarMode = "isoDate" | "timestamp";
 

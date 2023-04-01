@@ -1,5 +1,7 @@
+import type { MetadataStorage } from "@/metadata/metadata-storage";
+
 declare namespace NodeJS {
   interface Global {
-    TypeGraphQLMetadataStorage: import("@/metadata/metadata-storage").MetadataStorage;
+    TypeGraphQLMetadataStorage: MetadataStorage;
   }
 }

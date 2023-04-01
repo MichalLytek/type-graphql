@@ -1,9 +1,11 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { ResolverData, buildSchema } from "type-graphql";
-import { Container, ContainerInstance } from "typedi";
-import { Context } from "./context.type";
+import type { ResolverData } from "type-graphql";
+import { buildSchema } from "type-graphql";
+import type { ContainerInstance } from "typedi";
+import { Container } from "typedi";
+import type { Context } from "./context.type";
 import { setSamplesInContainer } from "./recipe/recipe.data";
 import { RecipeResolver } from "./recipe/recipe.resolver";
 
