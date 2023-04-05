@@ -1,3 +1,5 @@
+# FIXME Simplify the check job when Node.js 14.x will no longer be supported
+
 name: ci
 
 on:
@@ -101,19 +103,27 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
-
-      - name: Install Examples Dependencies
-        working-directory: ./examples
-        run: |
-          npm ci
+          [ "${{ matrix.node-version }}" != "14.x" ] && npm --prefix examples ci
 
       - name: Build
         run: |
           npm run build
+          npm run build:benchmarks
+          [ "${{ matrix.node-version }}" != "14.x" ] && npm run build:examples
 
       - name: Check
         run: |
-          npm run check
+          npm run check:format
+          npm run check:lint
+          npm run check:markdown
+          npm run check:script
+          npm run check:spell
+          npm run check:type:cjs
+          npm run check:type:esm
+          npm run check:type:typings
+          npm run check:type:benchmarks
+          [ "${{ matrix.node-version }}" != "14.x" ] && check:type:examples
+          npm run check:type:scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
