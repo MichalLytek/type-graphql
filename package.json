@@ -68,7 +68,9 @@
     "check:type:esm": "npx tsc --project ./tsconfig.esm.json --noEmit",
     "check:type:benchmarks": "npx tsc --project ./benchmarks/tsconfig.json --noEmit",
     "check:type:examples": "npx tsc --project ./examples/tsconfig.json --noEmit",
-    "clean": "npx shx rm -rf build",
+    "clean": "npx npm-run-all --npm-path npm \"clean:*\"",
+    "clean:build": "npx shx rm -rf build",
+    "clean:coverage": "npx shx rm -rf coverage",
     "docs": "npm run --prefix website start",
     "fix": "npx npm-run-all --npm-path npm \"fix:*\"",
     "fix:format": "npx prettier --write .",
@@ -80,8 +82,11 @@
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
     "prepare": "npx ts-patch install -s && npx husky install",
     "prepublishOnly": "npm run build && npm run gen:readme",
+    "pretest": "npm run clean",
     "test": "npx jest --verbose --coverage",
+    "pretest:ci": "npm run clean",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --detectOpenHandles --runInBand",
+    "pretest:watch": "npm run clean",
     "test:watch": "npx jest --watch"
   },
   "dependencies": {
