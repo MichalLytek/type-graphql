@@ -1,7 +1,10 @@
 {
   "private": true,
   "scripts": {
+    "gen:docs": "npm run --prefix ../ gen:docs",
+    "prestart": "npm run gen:docs",
     "start": "npx docusaurus-start",
+    "prebuild": "npm run gen:docs",
     "build": "npx docusaurus-build",
     "publish-gh-pages": "npx docusaurus-publish",
     "version": "npx docusaurus-version",

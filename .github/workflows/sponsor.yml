@@ -27,7 +27,7 @@ jobs:
           npm ci
 
       - name: Regenerate sponsors images
-        run: npm run generate:sponsorkit
+        run: npm run gen:sponsorkit
         env:
           SPONSORKIT_GITHUB_TOKEN: ${{ secrets.SPONSORKIT_GITHUB_TOKEN }}
           # SPONSORKIT_OPENCOLLECTIVE_KEY: ${{ secrets.SPONSORKIT_GITHUB_TOKEN_OPENCOLLECTIVE_TOKEN }}
