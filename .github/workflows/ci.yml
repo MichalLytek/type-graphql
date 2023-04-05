@@ -101,6 +101,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
+          npm --prefix examples ci
 
       - name: Build
         run: |
