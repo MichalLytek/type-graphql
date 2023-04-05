@@ -102,8 +102,13 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          npm ci
-          [ "${{ matrix.node-version }}" != "14.x" ] && npm --prefix examples ci
+          if [ "${{ matrix.node-version }}" != "14.x" ]; then
+            npm ci
+            npm --prefix examples ci
+          else
+            npm install
+            npm --prefix examples install
+          fi
 
       - name: Build
         run: |
