@@ -12,6 +12,7 @@
     "./graphql-scalars",
     "./query-complexity",
     "./simple-usage",
+    "./tsyringe",
     "./using-container",
     "./using-scoped-container"
   ]

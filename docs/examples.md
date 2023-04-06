@@ -43,5 +43,6 @@ All examples have an `examples.graphql` file with sample queries/mutations/subsc
 - [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache)
 - [Apollo Client local state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
 - [GraphQL Scalars](https://github.com/MichalLytek/type-graphql/tree/master/examples/graphql-scalars)
+- [TSyringe](https://github.com/MichalLytek/type-graphql/tree/master/examples/tsyringe)
 
 _\* Note that we need to edit the `TypeORM` example's `index.ts` with the credentials of our local database_

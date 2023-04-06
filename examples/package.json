@@ -10,6 +10,7 @@
     "@apollo/server": "^4.6.0",
     "@apollo/server-plugin-response-cache": "^4.1.2",
     "joiful": "^3.0.2",
+    "tsyringe": "^4.7.0",
     "type-graphql": "file:.."
   }
 }
