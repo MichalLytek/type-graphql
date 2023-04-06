@@ -3,6 +3,9 @@
   "scripts": {
     "start": "parcel ./src/index.html"
   },
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
   "dependencies": {
     "@apollo/client": "^3.5.7",
     "@types/react": "^17.0.38",
@@ -20,8 +23,5 @@
     "util": "./mocks/utils.js",
     "fs": "./mocks/empty-module.js",
     "path": "./mocks/empty-module.js"
-  },
-  "browserslist": [
-    "last 1 Chrome version"
-  ]
+  }
 }
