@@ -2,22 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
-    "outDir": "./build/esm",
-    "paths": {
-      "@/utils/graphql-version": ["./src/utils/graphql-version.mts"],
-      "@/*": ["./src/*"]
-    },
-    "plugins": [
-      // {
-      //   "transform": "typescript-transformer-esm",
-      //   "after": true
-      // },
-      // {
-      //   "transform": "typescript-transformer-esm",
-      //   "afterDeclarations": true
-      // }
-    ]
-  },
-  "exclude": ["./node_modules", "./build", "./src/**/*.cts"],
-  "include": ["./src", "./src/**/*.mts"]
+    "outDir": "./build/esm"
+  }
 }

@@ -2,12 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./build/cjs",
-    "paths": {
-      "@/utils/graphql-version": ["./src/utils/graphql-version.cts"],
-      "@/*": ["./src/*"]
-    }
-  },
-  "exclude": ["./node_modules", "./build", "./src/**/*.mts"],
-  "include": ["./src", "./src/**/*.cts"]
+    "outDir": "./build/cjs"
+  }
 }
