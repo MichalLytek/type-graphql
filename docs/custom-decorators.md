@@ -52,14 +52,17 @@ Or might be a more advanced one that performs some calculations and encapsulates
 
 ```ts
 function Fields(level = 1): ParameterDecorator {
-  return createParamDecorator(({ info }) => {
+  return createParamDecorator(async ({ info }) => {
     const fieldsMap: FieldsMap = {};
     // Calculate an object with info about requested fields
     // based on GraphQL 'info' parameter of the resolver and the level parameter
+    // or even call some async service, as it can be a regular async function and we can just 'await'
     return fieldsMap;
   });
 }
 ```
+
+> Be aware, that `async` function as a custom param decorators logic can make the GraphQL resolver execution slower, so try to avoid them, if possible.
 
 Then we can use our custom param decorators in the resolvers just like the built-in decorators:
 
