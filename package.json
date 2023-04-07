@@ -78,7 +78,6 @@
     "fix:format": "npx prettier --write .",
     "fix:lint": "npx eslint --fix .",
     "fix:markdown": "npx markdownlint --fix \"**/*.md\"",
-    "gen:docs": "npx ts-node ./scripts/markdown.ts --skip-readme",
     "gen:readme": "npx ts-node ./scripts/markdown.ts --skip-docs",
     "gen:sponsorkit": "npx sponsorkit --width=320 --dir=./images --name=github-sponsors",
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
@@ -89,7 +88,9 @@
     "pretest:ci": "npm run clean",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand",
     "pretest:watch": "npm run clean",
-    "test:watch": "npx jest --watch"
+    "test:watch": "npx jest --watch",
+    "release": "npm version -m \"release: %s\"",
+    "version": "npm run --prefix website version --release=$npm_package_version"
   },
   "dependencies": {
     "@types/node": "*",

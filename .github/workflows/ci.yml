@@ -198,8 +198,6 @@ jobs:
         working-directory: ./website
         run: |
           npm run build
-        env:
-          TYPE_GRAPHQL_REF: ${{ github.ref_name }}
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
