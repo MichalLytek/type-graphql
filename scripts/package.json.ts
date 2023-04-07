@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import fs from "node:fs";
 import path from "node:path";
 import tsconfig from "../tsconfig.esm.json";

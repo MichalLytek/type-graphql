@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import { graphQLPeerDependencyVersion } from "@/utils/graphql-version";
 import packageJson from "../package.json";
 
