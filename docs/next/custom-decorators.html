@@ -96,14 +96,19 @@
 </code></pre>
 <p>Or might be a more advanced one that performs some calculations and encapsulates some logic. Compared to middlewares, they allows for a more granular control on executing the code, like calculating fields map based on GraphQL info only when it's really needed (requested by using the <code>@Fields()</code> decorator):</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">function</span> <span class="token function">Fields</span><span class="token punctuation">(</span>level <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">:</span> ParameterDecorator <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token function">createParamDecorator</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">{</span> info <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">createParamDecorator</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> info <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> fieldsMap<span class="token operator">:</span> FieldsMap <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
     <span class="token comment">// calculate an object with info about requested fields</span>
     <span class="token comment">// based on GraphQL `info` parameter of the resolver and the level parameter</span>
+
+    <span class="token comment">// or even call some async service, as it can be a regular async function and we can just `await`</span>
     <span class="token keyword">return</span> fieldsMap<span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<blockquote>
+<p>Be aware, that async function as a custom param decorators logic can make the GraphQL resolver execution slower, so try to avoid them, if possible.</p>
+</blockquote>
 <p>Then we can use our custom param decorators in the resolvers just like the built-in decorators:</p>
 <pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
