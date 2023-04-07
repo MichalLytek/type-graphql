@@ -83,7 +83,7 @@
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
     "prepare": "npx ts-patch install -s && npx husky install",
     "prepublishOnly": "npm run build && npm run gen:readme",
-    "release": "npm version -m \"release: %s\"",
+    "release": "npm version --message \"release: %s\"",
     "pretest": "npm run clean",
     "test": "npx jest --verbose --coverage",
     "pretest:ci": "npm run clean",
