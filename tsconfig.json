@@ -6,7 +6,8 @@
     "sourceMap": false,
     "outDir": "./build",
     "paths": {
-      "@/*": ["./src/*"],
+      // "@/utils/graphql-version": ["./src/utils/graphql-version.cts"],
+      // "@/*": ["./src/*"],
       "type-graphql": ["./src/index.ts"]
     },
     "removeComments": true,
@@ -36,14 +37,6 @@
       },
       {
         "transform": "typescript-transform-paths",
-        "afterDeclarations": true
-      },
-      {
-        "transform": "typescript-transformer-esm",
-        "after": true
-      },
-      {
-        "transform": "typescript-transformer-esm",
         "afterDeclarations": true
       }
     ]
