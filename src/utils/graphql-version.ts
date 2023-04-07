@@ -1,23 +1,10 @@
+import * as graphql from "graphql";
 import semVer from "semver";
 import { UnmetGraphQLPeerDependencyError } from "@/errors";
-
-export function getInstalledGraphQLVersion(): string {
-  // eslint-disable-next-line global-require
-  const graphqlPackageJson = require("graphql/package.json");
-  return graphqlPackageJson.version;
-}
-
-export function getPeerDependencyGraphQLRequirement(): string {
-  // eslint-disable-next-line global-require
-  const ownPackageJson = require("../../package.json");
-  return ownPackageJson.peerDependencies.graphql;
-}
+import { versionPeerDependencies } from "@/version";
 
 export function ensureInstalledCorrectGraphQLPackage() {
-  const installedVersion = getInstalledGraphQLVersion();
-  const versionRequirement = getPeerDependencyGraphQLRequirement();
-
-  if (!semVer.satisfies(installedVersion, versionRequirement)) {
+  if (!semVer.satisfies(graphql.version, versionPeerDependencies.graphql)) {
     throw new UnmetGraphQLPeerDependencyError();
   }
 }

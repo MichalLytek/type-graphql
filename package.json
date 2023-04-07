@@ -50,7 +50,7 @@
     "./build"
   ],
   "scripts": {
-    "prebuild": "npm run clean",
+    "prebuild": "npm run clean && npm run check:version",
     "build": "npx tsc --build ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.typings.json",
     "postbuild": "npx shx rm ./build/typings/browser-shim.d.ts && npx shx cp ./src/browser-shim.ts ./build/typings && npx ts-node ./scripts/package.json.ts",
     "prebuild:benchmarks": "npm run clean",
@@ -70,6 +70,7 @@
     "precheck:type:examples": "npx tsc --project ./tsconfig.typings.json",
     "check:type:examples": "npx tsc --project ./examples/tsconfig.json --noEmit",
     "check:type:scripts": "npx tsc --project ./scripts/tsconfig.json --noEmit",
+    "check:version": "npx ts-node ./scripts/version.ts",
     "clean": "npx npm-run-all --npm-path npm \"clean:*\"",
     "clean:build": "npx shx rm -rf build",
     "clean:coverage": "npx shx rm -rf coverage",
