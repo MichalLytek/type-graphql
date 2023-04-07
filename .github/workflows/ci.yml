@@ -190,9 +190,9 @@ jobs:
           node-version: "18.x"
 
       - name: Install Dependencies
-        working-directory: ./website
         run: |
           npm ci
+          npm --prefix website ci
 
       - name: Build
         working-directory: ./website
