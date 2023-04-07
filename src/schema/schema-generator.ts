@@ -254,9 +254,9 @@ export abstract class SchemaGenerator {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
       const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () => {
-        const superClassTypeInfo = this.objectTypesInfo.find(
-          type => type.target === objectSuperClass,
-        );
+        const superClassTypeInfo =
+          this.objectTypesInfo.find(type => type.target === objectSuperClass) ??
+          this.interfaceTypesInfo.find(type => type.target === objectSuperClass);
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const interfaceClasses = objectType.interfaceClasses || [];

@@ -80,10 +80,10 @@ class Person extends Node {
 }
 ```
 
-Also, when we implement the interface that already implements other interface, we need to put them all in `implements` array in `@ObjectType` decorator option, e.g.:
+Also, when we implement the interface that already implements other interface, there's no need to put them all in `implements` array in `@ObjectType` decorator option - only the closest one in the inheritance chain is required, e.g.:
 
 ```ts
-@ObjectType({ implements: [Person, Node] })
+@ObjectType({ implements: [Person] })
 class Student extends Person {
   @Field()
   universityName: string;
