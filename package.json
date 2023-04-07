@@ -83,13 +83,13 @@
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
     "prepare": "npx ts-patch install -s && npx husky install",
     "prepublishOnly": "npm run build && npm run gen:readme",
+    "release": "npm version -m \"release: %s\"",
     "pretest": "npm run clean",
     "test": "npx jest --verbose --coverage",
     "pretest:ci": "npm run clean",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand",
     "pretest:watch": "npm run clean",
     "test:watch": "npx jest --watch",
-    "release": "npm version -m \"release: %s\"",
     "version": "npm run --prefix website version --release=$npm_package_version"
   },
   "dependencies": {
