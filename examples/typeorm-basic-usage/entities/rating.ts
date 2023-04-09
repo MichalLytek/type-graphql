@@ -1,40 +1,39 @@
+import { Field, Int, ObjectType } from "type-graphql";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   RelationId,
 } from "typeorm";
-import { ObjectType, Field, Int } from "type-graphql";
-
-import { User } from "./user";
 import { Recipe } from "./recipe";
+import { User } from "./user";
 
 @Entity()
 @ObjectType()
-export class Rate {
+export class Rating {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Field(type => Int)
+  @Field(_type => Int)
   @Column({ type: "int" })
   value: number;
 
-  @Field(type => User)
-  @ManyToOne(type => User)
+  @Field(_type => User)
+  @ManyToOne(_type => User)
   user: User;
 
-  @RelationId((rate: Rate) => rate.user)
+  @RelationId((rate: Rating) => rate.user)
   userId: number;
 
   @Field()
   @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(type => Recipe)
+  @ManyToOne(_type => Recipe)
   recipe: Recipe;
 
-  @RelationId((rate: Rate) => rate.recipe)
+  @RelationId((rate: Rating) => rate.recipe)
   recipeId: number;
 }

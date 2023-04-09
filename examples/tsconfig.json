@@ -13,6 +13,7 @@
     "./query-complexity",
     "./simple-usage",
     "./tsyringe",
+    "./typeorm-basic-usage",
     "./using-container",
     "./using-scoped-container"
   ]
