@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": { "outDir": "./build", "paths": {} },
+  "compilerOptions": { "outDir": "./build", "rootDir": ".", "paths": {} },
   "include": [
     "./apollo-cache",
     "./authorization",

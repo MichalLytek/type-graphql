@@ -10,6 +10,7 @@ All examples have an `examples.graphql` file with sample queries/mutations/subsc
 ## Basics
 
 - [Simple usage of fields, basic types and resolvers](./simple-usage)
+- [ECMAScript modules (ESM)](./esm)
 
 ## Advanced
 

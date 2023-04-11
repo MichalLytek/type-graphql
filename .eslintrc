@@ -11,6 +11,7 @@
       "tests/tsconfig.json",
       "scripts/tsconfig.json",
       "examples/tsconfig.json",
+      "examples/tsconfig.esm.json",
       "benchmarks/tsconfig.json"
     ],
     "ecmaVersion": "latest",
@@ -28,6 +29,7 @@
           "tests/tsconfig.json",
           "scripts/tsconfig.json",
           "examples/tsconfig.json",
+          "examples/tsconfig.esm.json",
           "benchmarks/tsconfig.json"
         ]
       }

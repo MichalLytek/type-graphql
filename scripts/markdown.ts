@@ -6,22 +6,32 @@ import glob from "glob";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
 
+function toUrlPath(
+  filePath: string,
+  relativePath: string,
+  rootPath: string,
+  basePath: string,
+): string {
+  return path.resolve(path.dirname(filePath), relativePath).replace(rootPath, basePath);
+}
+
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 const gitHubUrl = `https://github.com/MichalLytek/type-graphql/tree`;
 const gitHubUrlRaw = `https://raw.githubusercontent.com/MichalLytek/type-graphql`;
 const rootPath = path.resolve(`${__dirname}/..`);
 const argv = yargs(hideBin(process.argv))
   .strict()
-  .parserConfiguration({
-    "sort-commands": true,
-  })
   .env("TYPE_GRAPHQL")
   .usage("Markdown\n\nUsage: $0 [options]")
   .example([
     ["$0", "Use 'master' as Git reference"],
     ["$0 --ref v1.2.3", "Use 'v1.2.3' as Git reference"],
     ["TYPE_GRAPHQL_REF=v1.2.3 $0", "Use 'v1.2.3' as Git reference"],
-    ["$0 --skip-readme", "Skip README.md"],
-    ["$0 --skip-docs", "Skip docs/**/*.md"],
+    ["$0 --skip-readme", "Skip 'README.md'"],
+    ["$0 --skip-docs", "Skip 'docs/**/*.md'"],
   ])
   .option("ref", {
     type: "string",
@@ -32,7 +42,7 @@ const argv = yargs(hideBin(process.argv))
   .option("skip-docs", { type: "boolean", default: false, description: "Skip docs/**/*.md" })
   .check(({ ref }) => {
     if (!/^v[0-9]+.[0-9]+.[0-9]+$|^master$/.test(ref)) {
-      throw new Error("Invalid Git reference");
+      throw new Error(`Invalid Git reference '${ref}'`);
     }
 
     return true;
@@ -40,14 +50,6 @@ const argv = yargs(hideBin(process.argv))
   .parseSync();
 const gitHubUrlRef = `${gitHubUrl}/${argv.ref}`;
 const gitHubUrlRawRef = `${gitHubUrlRaw}/${argv.ref}`;
-
-function toUrlPath(filePath: string, relativePath: string, basePath: string): string {
-  return path.resolve(path.dirname(filePath), relativePath).replace(rootPath, basePath);
-}
-
-function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 // README.md
 if (!argv.skipReadme) {
@@ -58,22 +60,22 @@ if (!argv.skipReadme) {
     .replace(
       /!\[([^\]]*)\]\(((?:\.\/|\.\.\/).*?)\)/gm, // ![altText](relativePath)
       (_, altText, relativePath) =>
-        `![${altText}](${toUrlPath(readmeFile, relativePath, gitHubUrlRawRef)})`,
+        `![${altText}](${toUrlPath(readmeFile, relativePath, rootPath, gitHubUrlRawRef)})`,
     )
     .replace(
       /<img([^>]*)\ssrc="((?:\.\/|\.\.\/)[^">]+)"/gm, // <img attributes src="relativePath"
       (_, attributes, relativePath) =>
-        `<img${attributes} src="${toUrlPath(readmeFile, relativePath, gitHubUrlRawRef)}"`,
+        `<img${attributes} src="${toUrlPath(readmeFile, relativePath, rootPath, gitHubUrlRawRef)}"`,
     )
     .replace(
       /(?!\\!)\[([^\]]*)\]\(((?:\.\/|\.\.\/).*?)\)/gm, // [linkText](relativePath)
       (_, linkText, relativePath) =>
-        `[${linkText}](${toUrlPath(readmeFile, relativePath, gitHubUrlRef)})`,
+        `[${linkText}](${toUrlPath(readmeFile, relativePath, rootPath, gitHubUrlRef)})`,
     )
     .replace(
       /<a([^>]*)\shref="((?:\.\/|\.\.\/)[^">]+)"/gm, // <a attributes href="relativePath"
       (_, attributes, relativePath) =>
-        `<a${attributes} href="${toUrlPath(readmeFile, relativePath, gitHubUrlRef)}"`,
+        `<a${attributes} href="${toUrlPath(readmeFile, relativePath, rootPath, gitHubUrlRef)}"`,
     );
 
   fs.writeFileSync(readmeFile, readme, { encoding: "utf8", flag: "w" });

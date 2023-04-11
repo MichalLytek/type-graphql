@@ -2,8 +2,9 @@
   "private": true,
   "scripts": {
     "prebuild": "npm run --prefix ../ build && npm run clean",
-    "build": "npx tsc --build ./tsconfig.json",
-    "clean": "npx shx rm -rf build"
+    "build": "npx tsc --build ./tsconfig.json ./tsconfig.esm.json",
+    "postbuild": "npx ts-node ../scripts/package.json.ts --skip-root",
+    "clean": "npx shx rm -rf ./build"
   },
   "dependencies": {
     "@apollo/cache-control-types": "^1.0.2",
