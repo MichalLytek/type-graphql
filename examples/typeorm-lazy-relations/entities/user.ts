@@ -1,13 +1,11 @@
-import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Recipe } from "./recipe";
-import { Lazy } from "../helpers";
 
 @ObjectType()
 @Entity()
 export class User {
-  @Field(type => ID)
+  @Field(_type => ID)
   @PrimaryGeneratedColumn()
   readonly id: number;
 
@@ -22,7 +20,7 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(type => Recipe, recipe => recipe.author, { lazy: true })
-  @Field(type => [Recipe])
-  recipes: Lazy<Recipe[]>;
+  @OneToMany(_type => Recipe, recipe => recipe.author, { lazy: true })
+  @Field(_type => [Recipe])
+  recipes: Recipe[] | Promise<Recipe[]>;
 }

@@ -14,6 +14,7 @@
     "./simple-usage",
     "./tsyringe",
     "./typeorm-basic-usage",
+    "./typeorm-lazy-relations",
     "./using-container",
     "./using-scoped-container"
   ]

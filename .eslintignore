@@ -16,5 +16,4 @@ examples/redis-subscriptions/
 examples/resolvers-inheritance/
 examples/simple-subscriptions/
 examples/typegoose/
-examples/typeorm-lazy-relations/
 website/

@@ -1,22 +1,19 @@
-import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
 import type { Repository } from "typeorm";
 import { RatingInput, RecipeInput } from "./types";
 import { Context } from "../context.type";
 import { dataSource } from "../datasource";
-import { Rating, Recipe, User } from "../entities";
+import { Rating, Recipe } from "../entities";
 
-@Resolver(_of => Recipe)
+@Resolver(Recipe)
 export class RecipeResolver {
   private readonly ratingRepository: Repository<Rating>;
 
   private readonly recipeRepository: Repository<Recipe>;
 
-  private readonly userRepository: Repository<User>;
-
   constructor() {
     this.ratingRepository = dataSource.getRepository(Rating);
     this.recipeRepository = dataSource.getRepository(Recipe);
-    this.userRepository = dataSource.getRepository(User);
   }
 
   @Query(_returns => Recipe, { nullable: true })
@@ -30,19 +27,16 @@ export class RecipeResolver {
   }
 
   @Mutation(_returns => Recipe)
-  async addRecipe(
-    @Arg("recipe") recipeInput: RecipeInput,
-    @Ctx() { user }: Context,
-  ): Promise<Recipe> {
+  addRecipe(@Arg("recipe") recipeInput: RecipeInput, @Ctx() { user }: Context): Promise<Recipe> {
     const recipe = this.recipeRepository.create({
       ...recipeInput,
-      authorId: user.id,
+      author: user,
     });
     return this.recipeRepository.save(recipe);
   }
 
   @Mutation(_returns => Recipe)
-  async rate(@Arg("rate") rateInput: RatingInput, @Ctx() { user }: Context): Promise<Recipe> {
+  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RatingInput): Promise<Recipe> {
     // Find the recipe
     const recipe = await this.recipeRepository.findOne({
       where: { id: rateInput.recipeId },
@@ -55,26 +49,14 @@ export class RecipeResolver {
     // Set the new recipe rate
     const newRating = this.ratingRepository.create({
       recipe,
-      value: rateInput.value,
       user,
+      value: rateInput.value,
     });
 
-    recipe.ratings.push(newRating);
+    // Add the new recipe rate
+    (await recipe.ratings).push(newRating);
 
     // Update and return recipe
     return this.recipeRepository.save(recipe);
-  }
-
-  @FieldResolver()
-  ratings(@Root() recipe: Recipe) {
-    return this.ratingRepository.find({
-      cache: 1000,
-      where: { recipe: { id: recipe.id } },
-    });
-  }
-
-  @FieldResolver()
-  async author(@Root() recipe: Recipe): Promise<User> {
-    return (await this.userRepository.findOne({ where: { id: recipe.authorId }, cache: 1000 }))!;
   }
 }
