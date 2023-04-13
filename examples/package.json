@@ -3,7 +3,7 @@
   "scripts": {
     "prebuild": "npm run --prefix ../ build && npm run clean",
     "build": "npx tsc --build ./tsconfig.json ./tsconfig.esm.json",
-    "postbuild": "npx ts-node ../scripts/package.json.ts --skip-root",
+    "postbuild": "npx ts-node ../scripts/package.json.ts --on examples",
     "clean": "npx shx rm -rf ./build"
   },
   "dependencies": {

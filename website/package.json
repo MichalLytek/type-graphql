@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "npx docusaurus-build",
-    "gen:docs": "npx ts-node ../scripts/markdown.ts --skip-readme",
+    "gen:docs": "npx ts-node ../scripts/markdown.ts --on docs",
     "publish-gh-pages": "npx docusaurus-publish",
     "rename-version": "npx docusaurus-rename-version",
     "prestart": "npm run gen:docs",

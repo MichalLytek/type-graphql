@@ -19,6 +19,11 @@ function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+const enum ANALYZE {
+  DOCS = "docs",
+  README = "readme",
+}
+
 const gitHubUrl = `https://github.com/MichalLytek/type-graphql/tree`;
 const gitHubUrlRaw = `https://raw.githubusercontent.com/MichalLytek/type-graphql`;
 const rootPath = path.resolve(`${__dirname}/..`);
@@ -30,19 +35,30 @@ const argv = yargs(hideBin(process.argv))
     ["$0", "Use 'master' as Git reference"],
     ["$0 --ref v1.2.3", "Use 'v1.2.3' as Git reference"],
     ["TYPE_GRAPHQL_REF=v1.2.3 $0", "Use 'v1.2.3' as Git reference"],
-    ["$0 --skip-readme", "Skip 'README.md'"],
-    ["$0 --skip-docs", "Skip 'docs/**/*.md'"],
+    [`$0 --on ${ANALYZE.README}`, `Analyze '${ANALYZE.README}'`],
+    [
+      `$0 --on ${ANALYZE.README} ${ANALYZE.DOCS}`,
+      `Analyze '${ANALYZE.README}' and '${ANALYZE.DOCS}'`,
+    ],
   ])
   .option("ref", {
     type: "string",
     default: "master",
     description: "Git reference",
   })
-  .option("skip-readme", { type: "boolean", default: false, description: "Skip README.md" })
-  .option("skip-docs", { type: "boolean", default: false, description: "Skip docs/**/*.md" })
-  .check(({ ref }) => {
+  .option("on", {
+    type: "array",
+    default: [] as ANALYZE[],
+    requiresArg: true,
+    choices: [ANALYZE.DOCS, ANALYZE.README],
+    description: "Analysis to be performed",
+  })
+  .check(({ ref, on }) => {
     if (!/^v[0-9]+.[0-9]+.[0-9]+$|^master$/.test(ref)) {
       throw new Error(`Invalid Git reference '${ref}'`);
+    }
+    if (on.length === 0) {
+      throw new Error(`Empty analysis`);
     }
 
     return true;
@@ -52,7 +68,7 @@ const gitHubUrlRef = `${gitHubUrl}/${argv.ref}`;
 const gitHubUrlRawRef = `${gitHubUrlRaw}/${argv.ref}`;
 
 // README.md
-if (!argv.skipReadme) {
+if (argv.on.includes(ANALYZE.README)) {
   const readmeFile = path.resolve(`${rootPath}/README.md`);
 
   const readme = fs
@@ -82,7 +98,7 @@ if (!argv.skipReadme) {
 }
 
 // docs/**/*.md
-if (!argv.skipDocs) {
+if (argv.on.includes(ANALYZE.DOCS)) {
   const docFiles = glob.globSync(`${rootPath}/docs/**/*.md`, { absolute: true });
   const gitHubUrlRefMasterEscaped = escapeRegExp(`${gitHubUrl}/master`);
 

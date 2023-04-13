@@ -45,6 +45,11 @@ function writePackageJson(fileName: string, fileContent: string | NodeJS.ArrayBu
   });
 }
 
+const enum ANALYZE {
+  ROOT = "root",
+  EXAMPLES = "examples",
+}
+
 const packageJson = JSON.stringify({ type: "module" });
 const tsconfigRoot = readTsConfig(path.resolve(__dirname, "../tsconfig.esm.json"));
 const tsconfigExamples = readTsConfig(path.resolve(__dirname, "../examples/tsconfig.esm.json"));
@@ -57,25 +62,35 @@ const argv = yargs(hideBin(process.argv))
   .env("TYPE_GRAPHQL")
   .usage("Package.json\n\nUsage: $0 [options]")
   .example([
-    ["$0"],
-    ["$0 --skip-root", "Skip 'tsconfig.esm.json'"],
-    ["$0 --skip-examples", "Skip 'examples/tsconfig.esm.json'"],
+    [`$0 --on ${ANALYZE.ROOT}`, `Analyze '${ANALYZE.ROOT}'`],
+    [
+      `$0 --on ${ANALYZE.ROOT} ${ANALYZE.EXAMPLES}`,
+      `Analyze '${ANALYZE.ROOT}' and '${ANALYZE.EXAMPLES}'`,
+    ],
   ])
-  .option("skip-root", { type: "boolean", default: false, description: "Skip 'tsconfig.esm.json'" })
-  .option("skip-examples", {
-    type: "boolean",
-    default: false,
-    description: "Skip 'examples/tsconfig.esm.json'",
+  .option("on", {
+    type: "array",
+    default: [] as ANALYZE[],
+    requiresArg: true,
+    choices: [ANALYZE.ROOT, ANALYZE.EXAMPLES],
+    description: "Analysis to be performed",
+  })
+  .check(({ on }) => {
+    if (on.length === 0) {
+      throw new Error(`Empty analysis`);
+    }
+
+    return true;
   })
   .parseSync();
 
 // tsconfig.esm.json
-if (!argv.skipRoot) {
+if (argv.on.includes(ANALYZE.ROOT)) {
   writePackageJson(packageJsonRoot, packageJson);
 }
 
 // examples/tsconfig.esm.json
-if (!argv.skipExamples) {
+if (argv.on.includes(ANALYZE.EXAMPLES)) {
   for (const packageJsonExamples of packagesJsonExamples) {
     writePackageJson(packageJsonExamples, packageJson);
   }
