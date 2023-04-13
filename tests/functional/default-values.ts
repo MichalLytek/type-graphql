@@ -88,7 +88,7 @@ describe("default values", () => {
       `);
     });
 
-    it("should not infer default value from a property initializer", async () => {
+    it("should read default value from a decorator option", async () => {
       const sampleOptionInputType = schema.getType("SampleOptionInput")!;
       const sampleOptionInputSDL = printType(sampleOptionInputType);
 

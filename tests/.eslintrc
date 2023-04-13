@@ -14,8 +14,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-inferrable-types": "off",
     // FIXME: Remove
-    "jest/no-identical-title": "off",
-    // FIXME: Remove
     "jest/no-conditional-expect": "off",
     // FIXME: Remove
     "no-underscore-dangle": "off",
