@@ -38,6 +38,7 @@ import {
   createParamDecorator,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -881,9 +882,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when arg type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -892,20 +891,17 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for argument named 'arg' of 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for argument named 'arg' of 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when query return type not provided", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -914,20 +910,17 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when provided query return type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -936,20 +929,17 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when mutation return type not provided", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -958,20 +948,17 @@ describe("Resolvers", () => {
               return "sampleMutation";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error provided mutation return type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -980,20 +967,17 @@ describe("Resolvers", () => {
               return "sampleMutation";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
-        expect.assertions(2);
-
-        try {
+        const error = await getError(async () => {
           @Resolver()
           class SampleResolverWithError {
             @Query()
@@ -1006,28 +990,25 @@ describe("Resolvers", () => {
               return "sampleField";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"No provided object type in '@Resolver' decorator for class 'SampleResolverWithError!'"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toMatchInlineSnapshot(
+          `"No provided object type in '@Resolver' decorator for class 'SampleResolverWithError!'"`,
+        );
       });
 
       it("should throw error when creating independent field resolver with no type info", async () => {
-        expect.assertions(3);
-
-        @ObjectType()
-        class SampleObjectWithError {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await getError(async () => {
+          @ObjectType()
+          class SampleObjectWithError {
+            @Field()
+            sampleField: string;
+          }
           @Resolver(() => SampleObjectWithError)
           class SampleResolverWithError {
             @Query()
@@ -1040,27 +1021,24 @@ describe("Resolvers", () => {
               return "independentField";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'independentField' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'independentField' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when using undecorated class as an explicit type", async () => {
-        expect.assertions(3);
-
-        class SampleUndecoratedObject {
-          sampleField: string;
-        }
-
-        try {
+        const error = await getError(async () => {
+          class SampleUndecoratedObject {
+            sampleField: string;
+          }
           @Resolver()
           class SampleResolverWithError {
             @Query(() => SampleUndecoratedObject)
@@ -1068,29 +1046,26 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
-          const error = err as CannotDetermineGraphQLTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper output value?"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper output value?"`,
+        );
       });
 
       it("should throw error when using object type class is used as explicit type in place of input type", async () => {
-        expect.assertions(3);
-
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await getError(async () => {
+          @ObjectType()
+          class SampleObject {
+            @Field()
+            sampleField: string;
+          }
           @Resolver()
           class SampleResolverWithError {
             @Query()
@@ -1098,29 +1073,26 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
-          const error = err as CannotDetermineGraphQLTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper input value?"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper input value?"`,
+        );
       });
 
       it("should throw error when using object type class is used as explicit type in place of args type", async () => {
-        expect.assertions(2);
-
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await getError(async () => {
+          @ObjectType()
+          class SampleObject {
+            @Field()
+            sampleField: string;
+          }
           @Resolver()
           class SampleResolverWithError {
             @Query()
@@ -1128,22 +1100,20 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toMatchInlineSnapshot(
-            `"The value used as a type of '@Args' for 'sampleQuery' of 'SampleResolverWithError' is not a class decorated with '@ArgsType' decorator!"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toMatchInlineSnapshot(
+          `"The value used as a type of '@Args' for 'sampleQuery' of 'SampleResolverWithError' is not a class decorated with '@ArgsType' decorator!"`,
+        );
       });
 
       it("should throw error when declared default values are not equal", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(async () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "decoratorDefaultValue" })
@@ -1157,21 +1127,19 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
+
           await buildSchema({ resolvers: [SampleResolver] });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
-          const error = err as ConflictingDefaultValuesError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"The 'inputField' field of 'SampleInput' has conflicting default values. Default value from decorator ('decoratorDefaultValue') is not equal to the property initializer value ('initializerDefaultValue')."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ConflictingDefaultValuesError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"The 'inputField' field of 'SampleInput' has conflicting default values. Default value from decorator ('decoratorDefaultValue') is not equal to the property initializer value ('initializerDefaultValue')."`,
+        );
       });
 
       it("should throw error when list nullable option is combined with non-list type", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await getError(async () => {
           @InputType()
           class SampleInput {
             @Field({ nullable: "items" })
@@ -1185,16 +1153,16 @@ describe("Resolvers", () => {
               return "sampleQuery";
             }
           }
+
           const resolvers = [SampleResolver] as const;
           await buildSchema({ resolvers });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(WrongNullableListOptionError);
-          const error = err as WrongNullableListOptionError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Wrong nullable option set for SampleInput#inputField. You cannot combine non-list type with nullable 'items'."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(WrongNullableListOptionError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Wrong nullable option set for SampleInput#inputField. You cannot combine non-list type with nullable 'items'."`,
+        );
       });
     });
   });
@@ -2066,14 +2034,11 @@ describe("Resolvers", () => {
 
     it("should throw errors when no resolvers provided", async () => {
       getMetadataStorage().clear();
-      expect.assertions(2);
 
-      try {
-        await buildSchema({ resolvers: [] as any });
-      } catch (err) {
-        expect(err.message).toContain("Empty");
-        expect(err.message).toContain("resolvers");
-      }
+      const error = await getError(() => buildSchema({ resolvers: [] as any }));
+
+      expect(error.message).toContain("Empty");
+      expect(error.message).toContain("resolvers");
     });
   });
 

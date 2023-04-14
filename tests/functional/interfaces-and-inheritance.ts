@@ -26,6 +26,7 @@ import {
 } from "type-graphql";
 import { GeneratingSchemaError } from "@/errors";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -477,8 +478,7 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should throw error when field type doesn't match with interface", async () => {
-      expect.assertions(3);
-      try {
+      const error = await getError(async () => {
         @InterfaceType()
         class IBase {
           @Field()
@@ -498,31 +498,31 @@ describe("Interfaces and inheritance", () => {
             return {} as ChildObject;
           }
         }
+
         await buildSchema({
           resolvers: [SampleResolver],
           validate: false,
         });
-      } catch (err) {
-        expect(err).toBeInstanceOf(GeneratingSchemaError);
-        const schemaError = err as GeneratingSchemaError;
-        expect(schemaError.message).toMatchInlineSnapshot(`
+      });
+
+      expect(error).toBeInstanceOf(GeneratingSchemaError);
+      expect(error.message).toMatchInlineSnapshot(`
           "Some errors occurred while generating GraphQL schema:
             Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.
           Please check the \`details\` property of the error to get more detailed info."
         `);
-        expect(JSON.stringify(schemaError.details, null, 2)).toMatchInlineSnapshot(`
+      expect(JSON.stringify((error as GeneratingSchemaError).details, null, 2))
+        .toMatchInlineSnapshot(`
           "[
             {
               "message": "Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float."
             }
           ]"
         `);
-      }
     });
 
     it("should throw error when not interface type is provided as `implements` option", async () => {
-      expect.assertions(2);
-      try {
+      const error = await getError(async () => {
         @ObjectType()
         class SampleNotInterface {
           @Field()
@@ -540,16 +540,17 @@ describe("Interfaces and inheritance", () => {
             return {} as SampleImplementingObject;
           }
         }
+
         await buildSchema({
           resolvers: [SampleResolver],
           validate: false,
         });
-      } catch (err) {
-        expect(err).toBeInstanceOf(Error);
-        expect(err.message).toMatchInlineSnapshot(
-          `"Cannot find interface type metadata for class 'SampleNotInterface' provided in 'implements' option for 'SampleImplementingObject' object type class. Please make sure that class is annotated with an '@InterfaceType()' decorator."`,
-        );
-      }
+      });
+
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toMatchInlineSnapshot(
+        `"Cannot find interface type metadata for class 'SampleNotInterface' provided in 'implements' option for 'SampleImplementingObject' object type class. Please make sure that class is annotated with an '@InterfaceType()' decorator."`,
+      );
     });
   });
 

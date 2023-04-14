@@ -10,6 +10,7 @@ import type {
 import { TypeKind } from "graphql";
 import { Field, GraphQLISODateTime, ObjectType, Query, Resolver } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Fields - schema", () => {
@@ -113,77 +114,70 @@ describe("Fields - schema", () => {
   });
 
   it("should throw error when field type not provided", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await getError(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleField: any;
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleField");
   });
 
   it("should throw error when field type is array and no explicit type provided", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await getError(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleArrayField: string[];
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleArrayField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleArrayField");
   });
 
   it("should throw error when cannot determine field type", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await getError(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         invalidSampleNullableField: string | null;
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleNullableField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleNullableField");
   });
 
   it("should throw error when object type property key is symbol", async () => {
-    expect.assertions(1);
     getMetadataStorage().clear();
 
     const symbolKey = Symbol("symbolKey");
-    try {
+    const error = await getError(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
         [symbolKey]: string | null;
       }
-    } catch (err) {
-      expect(err.message).toContain("Symbol keys are not supported yet!");
-    }
+    });
+
+    expect(error.message).toContain("Symbol keys are not supported yet!");
   });
 
   it("should generate non-nullable field type by default", async () => {

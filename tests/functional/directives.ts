@@ -23,6 +23,7 @@ import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
+import { getError } from "../helpers/getError";
 
 describe("Directives", () => {
   describe("Schema", () => {
@@ -444,8 +445,6 @@ describe("Directives", () => {
     });
 
     it("throws error on multiple directive definitions", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -455,20 +454,15 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
-        );
-      }
+      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain(
+        'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
+      );
     });
 
     it("throws error when parsing invalid directives", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -478,20 +472,13 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          'Error parsing directive definition "@invalid(@directive)"',
-        );
-      }
+      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain('Error parsing directive definition "@invalid(@directive)"');
     });
 
     it("throws error when no directives are defined", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -501,15 +488,12 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          "Please pass at-least one directive name or definition to the @Directive decorator",
-        );
-      }
+      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain(
+        "Please pass at-least one directive name or definition to the @Directive decorator",
+      );
     });
   });
 });

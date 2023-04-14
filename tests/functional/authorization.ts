@@ -15,6 +15,7 @@ import {
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;
@@ -172,15 +173,14 @@ describe("Authorization", () => {
 
   describe("Errors", () => {
     it("should throw error when `@Authorized` is used and no `authChecker` provided", async () => {
-      expect.assertions(2);
-      try {
-        await buildSchema({
+      const error = await getError(() =>
+        buildSchema({
           resolvers: [sampleResolver],
-        });
-      } catch (err) {
-        expect(err).toBeDefined();
-        expect(err.message).toContain("authChecker");
-      }
+        }),
+      );
+
+      expect(error).toBeDefined();
+      expect(error.message).toContain("authChecker");
     });
 
     // TODO: check for wrong `@Authorized` usage

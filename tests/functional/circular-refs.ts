@@ -3,6 +3,7 @@ import type { IntrospectionObjectType } from "graphql";
 import { TypeKind, graphql } from "graphql";
 import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Circular references", () => {
@@ -45,28 +46,23 @@ describe("Circular references", () => {
   });
 
   it("should throw error when not providing type function for circular type references", async () => {
-    expect.assertions(6);
     getMetadataStorage().clear();
 
-    try {
-      (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1;
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("ref1Field");
-      jest.resetModules();
-    }
+    const errorRef1 = await getError(
+      async () => (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1,
+    );
+    expect(errorRef1).toBeInstanceOf(Error);
+    expect(errorRef1.message).toContain("provide explicit type");
+    expect(errorRef1.message).toContain("ref1Field");
+    jest.resetModules();
 
-    try {
-      (await import("../helpers/circular-refs/wrong/CircularRef2")).CircularRef2;
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("ref2Field");
-      jest.resetModules();
-    }
+    const errorRef2 = await getError(
+      async () => (await import("../helpers/circular-refs/wrong/CircularRef2")).CircularRef2,
+    );
+    expect(errorRef2).toBeInstanceOf(Error);
+    expect(errorRef2.message).toContain("provide explicit type");
+    expect(errorRef2.message).toContain("ref2Field");
+    jest.resetModules();
   });
 
   it("should allow to have self-reference fields in object type", async () => {

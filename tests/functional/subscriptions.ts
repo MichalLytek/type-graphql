@@ -28,6 +28,7 @@ import {
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getError } from "../helpers/getError";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { sleep } from "../helpers/sleep";
@@ -624,8 +625,7 @@ describe("Subscriptions", () => {
 
     it("should throw error while passing empty topics array to Subscription", async () => {
       getMetadataStorage().clear();
-      expect.assertions(5);
-      try {
+      const error = await getError(async () => {
         class SampleResolver {
           @Query()
           dumbQuery(): boolean {
@@ -650,13 +650,13 @@ describe("Subscriptions", () => {
         await buildSchema({
           resolvers: [SampleResolver],
         });
-      } catch (err) {
-        expect(err).toBeDefined();
-        expect(err).toBeInstanceOf(MissingSubscriptionTopicsError);
-        expect(err.message).toContain("SampleResolver");
-        expect(err.message).toContain("sampleSubscription");
-        expect(err.message).not.toContain("class SampleResolver");
-      }
+      });
+
+      expect(error).toBeDefined();
+      expect(error).toBeInstanceOf(MissingSubscriptionTopicsError);
+      expect(error.message).toContain("SampleResolver");
+      expect(error.message).toContain("sampleSubscription");
+      expect(error.message).not.toContain("class SampleResolver");
     });
 
     it("should throw authorization error just on subscribe", async () => {
