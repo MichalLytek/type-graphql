@@ -1,3 +1,4 @@
+/* eslint "@typescript-eslint/no-this-alias": ["error", { "allowedNames": ["self"] }] */
 import "reflect-metadata";
 import type {
   GraphQLSchema,
@@ -2172,12 +2173,12 @@ describe("Resolvers", () => {
     let queryType: IntrospectionObjectType;
     let mutationType: IntrospectionObjectType;
     let subscriptionType: IntrospectionObjectType;
-    let thisVar: any;
+    let self: any;
     let childResolver: any;
     let overrideResolver: any;
 
     beforeEach(() => {
-      thisVar = null;
+      self = null;
     });
 
     beforeAll(async () => {
@@ -2202,19 +2203,19 @@ describe("Resolvers", () => {
 
           @Query({ name: `${name}Query` })
           baseQuery(@Arg("arg") _arg: boolean): boolean {
-            thisVar = this;
+            self = this;
             return true;
           }
 
           @Mutation({ name: `${name}Mutation` })
           baseMutation(@Arg("arg") _arg: boolean): boolean {
-            thisVar = this;
+            self = this;
             return true;
           }
 
           @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
           baseSubscription(@Arg("arg") _arg: boolean): boolean {
-            thisVar = this;
+            self = this;
             return true;
           }
 
@@ -2226,7 +2227,7 @@ describe("Resolvers", () => {
 
           @FieldResolver()
           resolverField(): string {
-            thisVar = this;
+            self = this;
             return "resolverField";
           }
         }
@@ -2238,7 +2239,7 @@ describe("Resolvers", () => {
       class ChildResolver extends createResolver("prefix", SampleObject) {
         @Query()
         childQuery(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
@@ -2249,13 +2250,13 @@ describe("Resolvers", () => {
 
         @Mutation()
         childMutation(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
         @Subscription({ topics: "childTopic", complexity: 4 })
         childSubscription(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
@@ -2271,13 +2272,13 @@ describe("Resolvers", () => {
       class OverrideResolver extends createResolver("overridden", DummyObject) {
         @Query()
         overriddenQuery(@Arg("overriddenArg") _arg: boolean): string {
-          thisVar = this;
+          self = this;
           return "overriddenQuery";
         }
 
         @Mutation({ name: "overriddenMutation" })
         overriddenMutationHandler(@Arg("overriddenArg") _arg: boolean): string {
-          thisVar = this;
+          self = this;
           return "overriddenMutationHandler";
         }
       }
@@ -2384,7 +2385,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: query });
 
       expect(data!.prefixQuery).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from base resolver class", async () => {
@@ -2395,7 +2396,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.prefixMutation).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call query handler from child resolver class", async () => {
@@ -2406,7 +2407,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: query });
 
       expect(data!.childQuery).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from child resolver class", async () => {
@@ -2417,7 +2418,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.childMutation).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call field resolver handler from base resolver class", async () => {
@@ -2430,7 +2431,7 @@ describe("Resolvers", () => {
       const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.objectQuery.resolverField).toEqual("resolverField");
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call overridden query handler from child resolver class", async () => {
@@ -2441,7 +2442,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: query });
 
       expect(data!.overriddenQuery).toEqual("overriddenQuery");
-      expect(thisVar.constructor).toEqual(overrideResolver);
+      expect(self.constructor).toEqual(overrideResolver);
     });
 
     it("should correctly call overridden mutation handler from child resolver class", async () => {
@@ -2452,7 +2453,7 @@ describe("Resolvers", () => {
       const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.overriddenMutation).toEqual("overriddenMutationHandler");
-      expect(thisVar.constructor).toEqual(overrideResolver);
+      expect(self.constructor).toEqual(overrideResolver);
     });
 
     it("should have access to inherited properties from base resolver class", async () => {
@@ -2462,7 +2463,7 @@ describe("Resolvers", () => {
 
       await graphql({ schema, source: query });
 
-      expect(thisVar.name).toEqual("baseName");
+      expect(self.name).toEqual("baseName");
     });
 
     it("should get child class instance when calling base resolver handler", async () => {
@@ -2472,7 +2473,7 @@ describe("Resolvers", () => {
 
       await graphql({ schema, source: query });
 
-      expect(thisVar).toBeInstanceOf(childResolver);
+      expect(self).toBeInstanceOf(childResolver);
     });
   });
 });

@@ -1,3 +1,4 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import type { IntrospectionObjectType, IntrospectionSchema } from "graphql";
 import { getIntrospectionQuery, graphql } from "graphql";
 import type { BuildSchemaOptions } from "type-graphql";

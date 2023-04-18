@@ -15,8 +15,6 @@ and limitations under the License.
 
 // Definitions copied from 'reflect-metadata' (https://github.com/rbuckton/reflect-metadata/blob/master/index.d.ts)
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 declare namespace Reflect {
   /**
    * Applies a set of decorators to a target object.

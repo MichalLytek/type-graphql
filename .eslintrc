@@ -34,6 +34,7 @@
       }
     }
   },
+  "reportUnusedDisableDirectives": true,
   "plugins": ["import", "@typescript-eslint", "eslint-plugin-tsdoc", "jest"],
   "extends": [
     "airbnb-base",
@@ -80,6 +81,10 @@
     ],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/no-inferrable-types": [
+      "error",
+      { "ignoreParameters": true, "ignoreProperties": true }
+    ],
     // FIXME: Remove
     "@typescript-eslint/ban-types": [
       "error",

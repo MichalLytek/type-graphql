@@ -1,3 +1,4 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import "reflect-metadata";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { MinLength } from "class-validator";

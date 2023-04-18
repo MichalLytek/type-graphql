@@ -4,20 +4,12 @@
   },
   "rules": {
     "max-classes-per-file": "off",
+    "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": true
       }
-    ],
-    "no-underscore-dangle": ["error", { "allow": ["__schema", "__typename"] }],
-    // FIXME: Remove
-    "class-methods-use-this": "off",
-    // FIXME: Remove
-    "@typescript-eslint/no-inferrable-types": "off",
-    // FIXME: Remove
-    "@typescript-eslint/no-this-alias": "off",
-    // FIXME: Remove
-    "no-promise-executor-return": "off"
+    ]
   }
 }

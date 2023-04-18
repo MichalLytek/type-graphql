@@ -1,3 +1,4 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__typename"] }] */
 import "reflect-metadata";
 import type {
   GraphQLSchema,
