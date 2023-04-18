@@ -31,34 +31,34 @@ describe("Middlewares", () => {
   beforeAll(async () => {
     getMetadataStorage().clear();
 
-    const middleware1: MiddlewareFn = async ({}, next) => {
+    const middleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware1 before");
       const result = await next();
       middlewareLogs.push("middleware1 after");
       return result;
     };
-    const middleware2: MiddlewareFn = async ({}, next) => {
+    const middleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware2 before");
       const result = await next();
       middlewareLogs.push("middleware2 after");
       return result;
     };
-    const middleware3: MiddlewareFn = async ({}, next) => {
+    const middleware3: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware3 before");
       const result = await next();
       middlewareLogs.push("middleware3 after");
       return result;
     };
-    const interceptMiddleware: MiddlewareFn = async ({}, next) => {
+    const interceptMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
-    const returnUndefinedMiddleware: MiddlewareFn = async ({}, next) => {
+    const returnUndefinedMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
     };
-    const errorCatchMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorCatchMiddleware: MiddlewareFn = async (_, next) => {
       try {
         return await next();
       } catch (err) {
@@ -66,22 +66,22 @@ describe("Middlewares", () => {
         return "errorCatchMiddleware";
       }
     };
-    const errorThrowAfterMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowAfterMiddleware: MiddlewareFn = async (_, next) => {
       await next();
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: MiddlewareFn = async ({}) => {
+    const errorThrowMiddleware: MiddlewareFn = async _ => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
     };
-    const fieldResolverMiddleware: MiddlewareFn = async ({}, next) => {
+    const fieldResolverMiddleware: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("fieldResolverMiddlewareBefore");
       const result = await next();
       middlewareLogs.push("fieldResolverMiddlewareAfter");
       return result;
     };
-    const doubleNextMiddleware: MiddlewareFn = async ({}, next) => {
+    const doubleNextMiddleware: MiddlewareFn = async (_, next) => {
       const result1 = await next();
       await next();
       return result1;
@@ -427,13 +427,13 @@ describe("Middlewares", () => {
   });
 
   it("should correctly call global middlewares before local ones", async () => {
-    const globalMiddleware1: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware1 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware1 after");
       return result;
     };
-    const globalMiddleware2: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware2 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware2 after");

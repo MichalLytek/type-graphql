@@ -20,8 +20,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-this-alias": "off",
     // FIXME: Remove
-    "no-empty-pattern": "off",
-    // FIXME: Remove
     "no-promise-executor-return": "off",
     // FIXME: Remove
     "@typescript-eslint/no-throw-literal": "off",
