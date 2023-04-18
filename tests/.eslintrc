@@ -12,18 +12,12 @@
     ],
     "no-underscore-dangle": ["error", { "allow": ["__schema", "__typename"] }],
     // FIXME: Remove
-    "no-useless-return": "off",
-    // FIXME: Remove
     "class-methods-use-this": "off",
     // FIXME: Remove
     "@typescript-eslint/no-inferrable-types": "off",
     // FIXME: Remove
     "@typescript-eslint/no-this-alias": "off",
     // FIXME: Remove
-    "no-promise-executor-return": "off",
-    // FIXME: Remove
-    "@typescript-eslint/no-throw-literal": "off",
-    // FIXME: Remove
-    "@typescript-eslint/no-unused-expressions": "off"
+    "no-promise-executor-return": "off"
   }
 }

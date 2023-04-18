@@ -16,6 +16,7 @@ import {
   emitSchemaDefinitionFileSync,
 } from "type-graphql";
 import * as filesystem from "@/helpers/filesystem";
+import { getError } from "../helpers/getError";
 
 const TEST_DIR = path.resolve(process.cwd(), "tests", "test-output-dir");
 
@@ -130,33 +131,25 @@ describe("Emitting schema definition file", () => {
       checkSchemaSDL(fs.readFileSync(targetPath).toString(), options);
     });
 
-    it("should throw error when unknown error occur while writing file with schema SDL", () => {
+    it("should throw error when unknown error occur while writing file with schema SDL", async () => {
       jest.spyOn(fs, "writeFileSync").mockImplementationOnce(() => {
-        throw { code: "TEST ERROR" };
+        throw new Error("TYPE_GRAPHQL_WRITE_FILE_SYNC_ERROR");
       });
       const targetPath = path.join(TEST_DIR, "schemas", "fail3", "schema.gql");
-      let error;
-      try {
-        emitSchemaDefinitionFileSync(targetPath, schema);
-      } catch (e) {
-        error = e;
-      }
-      expect(error).toEqual({ code: "TEST ERROR" });
+      const error = await getError(() => emitSchemaDefinitionFileSync(targetPath, schema));
+
+      expect(error.message).toStrictEqual("TYPE_GRAPHQL_WRITE_FILE_SYNC_ERROR");
       expect(fs.existsSync(targetPath)).toEqual(false);
     });
 
-    it("should throw error when unknown error occur while creating directory with schema SDL", () => {
+    it("should throw error when unknown error occur while creating directory with schema SDL", async () => {
       jest.spyOn(fs, "mkdirSync").mockImplementationOnce(() => {
-        throw { code: "TEST ERROR" };
+        throw new Error("TYPE_GRAPHQL_MKDIR_SYNC_ERROR");
       });
       const targetPath = path.join(TEST_DIR, "schemas", "fail4", "schema.gql");
-      let error;
-      try {
-        emitSchemaDefinitionFileSync(targetPath, schema);
-      } catch (e) {
-        error = e;
-      }
-      expect(error).toEqual({ code: "TEST ERROR" });
+      const error = await getError(() => emitSchemaDefinitionFileSync(targetPath, schema));
+
+      expect(error.message).toStrictEqual("TYPE_GRAPHQL_MKDIR_SYNC_ERROR");
       expect(fs.existsSync(targetPath)).toEqual(false);
     });
   });
