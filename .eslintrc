@@ -50,6 +50,7 @@
   ],
   "rules": {
     "tsdoc/syntax": "warn",
+    "no-restricted-syntax": "off",
     "curly": ["error", "all"],
     "nonblock-statement-body-position": ["error", "below"],
     "sort-imports": ["error", { "ignoreDeclarationSort": true }],
@@ -104,10 +105,6 @@
     // FIXME: Remove
     "import/no-cycle": "off",
     // FIXME: Remove
-    "@typescript-eslint/no-non-null-assertion": "off",
-    // FIXME: Remove
-    "no-restricted-syntax": "off",
-    // FIXME: Remove
-    "vars-on-top": "off"
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }

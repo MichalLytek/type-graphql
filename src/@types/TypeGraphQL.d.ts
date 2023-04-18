@@ -1,7 +1,6 @@
 import type { MetadataStorage } from "@/metadata/metadata-storage";
 
-declare namespace NodeJS {
-  interface Global {
-    TypeGraphQLMetadataStorage: MetadataStorage;
-  }
+declare global {
+  // eslint-disable-next-line vars-on-top, no-var
+  var TypeGraphQLMetadataStorage: MetadataStorage;
 }
