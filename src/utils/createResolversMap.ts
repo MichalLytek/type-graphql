@@ -24,6 +24,7 @@ function generateTypeResolver(
   const possibleObjectTypes = schema.getPossibleTypes(abstractType);
   return async (source, context, info) => {
     for (const objectType of possibleObjectTypes) {
+      // eslint-disable-next-line no-await-in-loop
       if (objectType.isTypeOf && (await objectType.isTypeOf(source, context, info))) {
         return objectType.name;
       }

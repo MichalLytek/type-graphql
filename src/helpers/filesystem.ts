@@ -24,6 +24,7 @@ export async function mkdirRecursive(filePath: string) {
   const directories = parsePath(filePath);
   for (const directory of directories) {
     try {
+      // eslint-disable-next-line no-await-in-loop
       await fsMkdir(directory);
     } catch (err) {
       if (err.code !== "EEXIST") {

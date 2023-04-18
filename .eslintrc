@@ -108,8 +108,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-non-null-assertion": "off",
     // FIXME: Remove
-    "no-await-in-loop": "off",
-    // FIXME: Remove
     "prefer-spread": "off",
     // FIXME: Remove
     "no-restricted-syntax": "off",
