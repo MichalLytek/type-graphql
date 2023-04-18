@@ -1,4 +1,7 @@
 {
+  "env": {
+    "jest/globals": true
+  },
   "rules": {
     "max-classes-per-file": "off",
     "import/no-extraneous-dependencies": [
@@ -7,14 +10,13 @@
         "devDependencies": true
       }
     ],
+    "no-underscore-dangle": ["error", { "allow": ["__schema", "__typename"] }],
     // FIXME: Remove
     "no-useless-return": "off",
     // FIXME: Remove
     "class-methods-use-this": "off",
     // FIXME: Remove
     "@typescript-eslint/no-inferrable-types": "off",
-    // FIXME: Remove
-    "no-underscore-dangle": "off",
     // FIXME: Remove
     "@typescript-eslint/no-this-alias": "off",
     // FIXME: Remove

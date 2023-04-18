@@ -1,8 +1,7 @@
 {
   "root": true,
   "env": {
-    "node": true,
-    "jest/globals": true
+    "node": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
