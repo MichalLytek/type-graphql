@@ -22,6 +22,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   `;
   console.time("multipleNestedObjects");
   for (let i = 0; i < BENCHMARK_ITERATIONS; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
     const result = await execute({ schema, document: multipleNestedObjectsQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(

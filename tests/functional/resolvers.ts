@@ -1181,13 +1181,12 @@ describe("Resolvers", () => {
     let sampleObjectConstructorCallCount: number;
 
     function DescriptorDecorator(): MethodDecorator {
-      return (obj, methodName, descriptor: any) => {
+      return (_, __, descriptor: any) => {
         const originalMethod: Function = descriptor.value;
-        // eslint-disable-next-line func-names
-        descriptor.value = function () {
+        // eslint-disable-next-line no-param-reassign
+        descriptor.value = (...args: unknown[]) => {
           descriptorEvaluated = true;
-          // eslint-disable-next-line prefer-rest-params
-          return originalMethod.apply(this, arguments);
+          return originalMethod.apply(null, args);
         };
       };
     }

@@ -24,7 +24,9 @@ function mapConfig(
     | GraphQLInputObjectTypeConfig
     | GraphQLInputFieldConfig,
 ) {
+  // eslint-disable-next-line no-param-reassign
   config.extensions ??= {};
+  // eslint-disable-next-line no-param-reassign
   (config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
     isMappedByDirective: true,
   };

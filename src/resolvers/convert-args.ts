@@ -93,10 +93,13 @@ function convertToInput(tree: TransformationTree, data: any): any {
     // don't create property for nullable field
     if (value !== undefined) {
       if (value === null || !siblings) {
+        // eslint-disable-next-line no-param-reassign
         fields[field.name] = convertToType(field.target, value);
       } else if (Array.isArray(value)) {
+        // eslint-disable-next-line no-param-reassign
         fields[field.name] = value.map(itemValue => convertToInput(siblings, itemValue));
       } else {
+        // eslint-disable-next-line no-param-reassign
         fields[field.name] = convertToInput(siblings, value);
       }
     }
@@ -144,6 +147,7 @@ export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: Arg
     // don't create property for nullable field
     if (fieldValue !== undefined) {
       const fieldTarget = field.getType();
+      // eslint-disable-next-line no-param-reassign
       fields[field.name] = convertValuesToInstances(fieldTarget, fieldValue);
     }
     return fields;

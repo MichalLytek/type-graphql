@@ -113,6 +113,7 @@ export function convertToType(Target: any, data?: object): object | undefined {
 export function getEnumValuesMap<T extends object>(enumObject: T) {
   const enumKeys = Object.keys(enumObject).filter(key => Number.isNaN(parseInt(key, 10)));
   const enumMap = enumKeys.reduce<any>((map, key) => {
+    // eslint-disable-next-line no-param-reassign
     map[key] = enumObject[key as keyof T];
     return map;
   }, {});

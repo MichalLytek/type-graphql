@@ -104,8 +104,6 @@
     // FIXME: Remove
     "import/no-cycle": "off",
     // FIXME: Remove
-    "no-param-reassign": "off",
-    // FIXME: Remove
     "@typescript-eslint/no-non-null-assertion": "off",
     // FIXME: Remove
     "prefer-spread": "off",

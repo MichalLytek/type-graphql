@@ -239,6 +239,7 @@ export abstract class SchemaGenerator {
           description: enumMetadata.description,
           values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
             const valueConfig = enumMetadata.valuesConfig[enumKey] || {};
+            // eslint-disable-next-line no-param-reassign
             enumConfig[enumKey] = {
               value: enumMap[enumKey],
               description: valueConfig.description,
@@ -329,6 +330,7 @@ export abstract class SchemaGenerator {
                     : objectType.simpleResolvers !== undefined
                     ? objectType.simpleResolvers === true
                     : false;
+                // eslint-disable-next-line no-param-reassign
                 fieldsMap[field.schemaName] = {
                   type,
                   args: this.generateHandlerArgs(field.target, field.name, field.params!),
@@ -438,6 +440,7 @@ export abstract class SchemaGenerator {
                     field.getType(),
                     field.typeOptions,
                   );
+                  // eslint-disable-next-line no-param-reassign
                   fieldsMap[field.schemaName] = {
                     type,
                     args: this.generateHandlerArgs(field.target, field.name, field.params!),
@@ -514,6 +517,7 @@ export abstract class SchemaGenerator {
                   ...field.typeOptions,
                   defaultValue,
                 });
+                // eslint-disable-next-line no-param-reassign
                 fieldsMap[field.name] = {
                   description: field.description,
                   type,
@@ -617,6 +621,7 @@ export abstract class SchemaGenerator {
         handler.getReturnType(),
         handler.returnTypeOptions,
       );
+      // eslint-disable-next-line no-param-reassign
       fields[handler.schemaName] = {
         type,
         args: this.generateHandlerArgs(handler.target, handler.methodName, handler.params!),
@@ -667,6 +672,7 @@ export abstract class SchemaGenerator {
           : pubSubIterator;
       }
 
+      // eslint-disable-next-line no-param-reassign
       fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
         subscribeFn,
         container,
@@ -683,6 +689,7 @@ export abstract class SchemaGenerator {
   ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
+        // eslint-disable-next-line no-param-reassign
         args[param.name] = {
           description: param.description,
           type: this.getGraphQLInputType(
@@ -735,6 +742,7 @@ export abstract class SchemaGenerator {
         field.name,
         argumentType.name,
       );
+      // eslint-disable-next-line no-param-reassign
       args[field.schemaName] = {
         description: field.description,
         type: this.getGraphQLInputType(field.target, field.name, field.getType(), {

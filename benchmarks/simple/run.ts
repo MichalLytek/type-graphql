@@ -14,6 +14,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   `;
   console.time("singleObject");
   for (let i = 0; i < BENCHMARK_ITERATIONS; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
     const result = await execute({ schema, document: singleObjectQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(result.data?.singleObject !== undefined, "data singleObject is undefined");
@@ -41,6 +42,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   `;
   console.time("nestedObject");
   for (let i = 0; i < BENCHMARK_ITERATIONS; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
     const result = await execute({ schema, document: nestedObjectQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(
