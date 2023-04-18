@@ -43,9 +43,11 @@ export function createHandlerResolver(
           );
           if (isPromiseLike(params)) {
             return params.then(resolvedParams =>
+              // eslint-disable-next-line prefer-spread
               targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
             );
           }
+          // eslint-disable-next-line prefer-spread
           return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
         }),
       );
@@ -60,9 +62,11 @@ export function createHandlerResolver(
       const targetInstance = targetInstanceOrPromise;
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
+          // eslint-disable-next-line prefer-spread
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
         );
       }
+      // eslint-disable-next-line prefer-spread
       return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };

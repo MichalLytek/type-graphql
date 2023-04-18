@@ -106,8 +106,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-non-null-assertion": "off",
     // FIXME: Remove
-    "prefer-spread": "off",
-    // FIXME: Remove
     "no-restricted-syntax": "off",
     // FIXME: Remove
     "vars-on-top": "off"

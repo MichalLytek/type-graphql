@@ -1186,7 +1186,7 @@ describe("Resolvers", () => {
         // eslint-disable-next-line no-param-reassign
         descriptor.value = (...args: unknown[]) => {
           descriptorEvaluated = true;
-          return originalMethod.apply(null, args);
+          return originalMethod.apply(null, ...args);
         };
       };
     }
