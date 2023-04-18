@@ -2,7 +2,7 @@ import type { TypeValue } from "@/decorators/types";
 import { convertToType } from "@/helpers/types";
 import type { ArgParamMetadata, ArgsParamMetadata, ClassMetadata } from "@/metadata/definitions";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { ArgsDictionary, ClassType } from "@/typings";
+import type { ArgsDictionary, Class } from "@/typings";
 
 interface TransformationTreeField {
   name: string;
@@ -129,7 +129,7 @@ function convertValuesToInstances(target: TypeValue, value: any): any {
 }
 
 export function convertArgsToInstance(argsMetadata: ArgsParamMetadata, args: ArgsDictionary) {
-  const ArgsClass = argsMetadata.getType() as ClassType;
+  const ArgsClass = argsMetadata.getType() as Class;
   const argsType = getArgsType(ArgsClass)!;
 
   let argsFields = argsType.fields!;

@@ -13,6 +13,7 @@ import type {
 import { Kind, parse, parseConstValue } from "graphql";
 import { InvalidDirectiveError } from "@/errors";
 import type { DirectiveMetadata } from "@/metadata/definitions";
+import type { SetRequired } from "@/typings";
 
 export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNode {
   const { nameOrDefinition, args } = directive;
@@ -52,15 +53,19 @@ export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNo
 
   const definitions = parsed.definitions as ObjectTypeDefinitionNode[];
   const directives = definitions
-    .filter(it => it.directives && it.directives.length > 0)
-    .map(it => it.directives!)
-    .reduce((acc, item) => [...acc, ...item]); // flatten the array
+    .filter(
+      (it): it is SetRequired<ObjectTypeDefinitionNode, "directives"> =>
+        !!it.directives && it.directives.length > 0,
+    )
+    .map(it => it.directives)
+    .flat();
 
   if (directives.length !== 1) {
     throw new InvalidDirectiveError(
       `Please pass only one directive name or definition at a time to the @Directive decorator "${directive.nameOrDefinition}"`,
     );
   }
+
   return directives[0];
 }
 

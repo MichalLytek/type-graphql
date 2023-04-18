@@ -3,7 +3,7 @@ import { MissingSubscriptionTopicsError } from "@/errors";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { getResolverMetadata } from "@/helpers/resolver-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { MergeExclusive } from "@/utils/types";
+import type { MergeExclusive } from "@/typings";
 import type {
   AdvancedOptions,
   ReturnTypeFunc,

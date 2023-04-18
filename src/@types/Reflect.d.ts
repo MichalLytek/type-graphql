@@ -1,3 +1,5 @@
+// Copied from 'reflect-metadata' (https://github.com/rbuckton/reflect-metadata/blob/master/index.d.ts)
+
 /*! *****************************************************************************
 Copyright (C) Microsoft. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -12,8 +14,6 @@ MERCHANTABILITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-
-// Definitions copied from 'reflect-metadata' (https://github.com/rbuckton/reflect-metadata/blob/master/index.d.ts)
 
 declare namespace Reflect {
   /**

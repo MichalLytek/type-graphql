@@ -1,7 +1,6 @@
 import type { GraphQLTypeResolver } from "graphql";
-import type { ClassType } from "./ClassType";
-import type { Maybe, MaybePromise } from "./Maybe";
+import type { Class, Maybe, MaybePromise } from "./utils";
 
 export type TypeResolver<TSource, TContext> = (
   ...args: Parameters<GraphQLTypeResolver<TSource, TContext>>
-) => MaybePromise<Maybe<string | ClassType>>;
+) => MaybePromise<Maybe<string | Class>>;

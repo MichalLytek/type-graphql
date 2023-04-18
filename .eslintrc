@@ -101,10 +101,6 @@
     // FIXME: Remove
     "@typescript-eslint/no-explicit-any": "off",
     // FIXME: Remove
-    "@typescript-eslint/no-var-requires": "off",
-    // FIXME: Remove
-    "import/no-cycle": "off",
-    // FIXME: Remove
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "import/no-cycle": "off"
   }
 }

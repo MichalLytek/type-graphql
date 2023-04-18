@@ -11,7 +11,7 @@ import type {
   IntrospectionSchema,
 } from "graphql";
 import { TypeKind, graphql } from "graphql";
-import type { ClassType, ResolverInterface } from "type-graphql";
+import type { Class, ResolverInterface } from "type-graphql";
 import {
   Arg,
   Args,
@@ -2195,7 +2195,7 @@ describe("Resolvers", () => {
         normalField: string;
       }
 
-      function createResolver(name: string, objectType: ClassType) {
+      function createResolver(name: string, objectType: Class) {
         @Resolver(() => objectType)
         class BaseResolver {
           protected name = "baseName";

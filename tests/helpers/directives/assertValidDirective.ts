@@ -6,7 +6,7 @@ import type {
   ObjectTypeDefinitionNode,
 } from "graphql";
 import { parseValue } from "graphql";
-import type { Maybe } from "@/typings/Maybe";
+import type { Maybe } from "@/typings";
 
 export function assertValidDirective(
   astNode: Maybe<

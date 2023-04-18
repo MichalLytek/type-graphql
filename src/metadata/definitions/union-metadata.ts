@@ -1,7 +1,7 @@
-import type { ClassType, TypeResolver } from "@/typings";
+import type { Class, TypeResolver } from "@/typings";
 
 export interface UnionMetadata {
-  getClassTypes: () => ClassType[];
+  getClassTypes: () => Class[];
   name: string;
   description?: string;
   resolveType?: TypeResolver<any, any>;
