@@ -114,8 +114,6 @@
     // FIXME: Remove
     "no-restricted-syntax": "off",
     // FIXME: Remove
-    "no-prototype-builtins": "off",
-    // FIXME: Remove
     "vars-on-top": "off"
   }
 }

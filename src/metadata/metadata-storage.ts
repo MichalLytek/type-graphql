@@ -286,7 +286,9 @@ export class MetadataStorage {
           const shouldCollectFieldMetadata =
             !options.resolvers ||
             options.resolvers.some(
-              resolverCls => resolverCls === def.target || def.target.isPrototypeOf(resolverCls),
+              resolverCls =>
+                resolverCls === def.target ||
+                Object.prototype.isPrototypeOf.call(def.target, resolverCls),
             );
           if (!def.getType || !def.typeOptions) {
             throw new NoExplicitTypeError(def.target.name, def.methodName);
@@ -365,7 +367,7 @@ export class MetadataStorage {
     return storedExtensions
       .filter(
         entry =>
-          (entry.target === target || entry.target.isPrototypeOf(target)) &&
+          (entry.target === target || Object.prototype.isPrototypeOf.call(entry.target, target)) &&
           (!("fieldName" in entry) || entry.fieldName === fieldName),
       )
       .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});
