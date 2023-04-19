@@ -9,7 +9,7 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
   @Field(_type => GraphQLNonEmptyString)
-  title: string;
+  title!: string;
 
   @Field(_type => GraphQLNonEmptyString, {
     nullable: true,
@@ -26,13 +26,13 @@ export class Recipe {
   description?: string;
 
   @Field(_type => [GraphQLNonNegativeInt])
-  ratings: number[];
+  ratings!: number[];
 
   @Field(_type => GraphQLTimestamp)
-  creationDate: Date;
+  creationDate!: Date;
 
   @Field(_type => GraphQLNonNegativeInt)
-  ratingsCount: number;
+  ratingsCount!: number;
 
   @Field(_type => GraphQLNonNegativeFloat, { nullable: true })
   get averageRating(): number | null {

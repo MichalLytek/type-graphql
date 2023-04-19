@@ -27,7 +27,7 @@ export async function mkdirRecursive(filePath: string) {
       // eslint-disable-next-line no-await-in-loop
       await fsMkdir(directory);
     } catch (err) {
-      if (err.code !== "EEXIST") {
+      if ((err as NodeJS.ErrnoException).code !== "EEXIST") {
         throw err;
       }
     }
@@ -47,7 +47,7 @@ export async function outputFile(filePath: string, fileContent: any) {
   try {
     await fsWriteFile(filePath, fileContent);
   } catch (err) {
-    if (err.code !== "ENOENT") {
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
       throw err;
     }
     await mkdirRecursive(filePath);
@@ -58,9 +58,9 @@ export async function outputFile(filePath: string, fileContent: any) {
 export function outputFileSync(filePath: string, fileContent: any) {
   try {
     fs.writeFileSync(filePath, fileContent);
-  } catch (e) {
-    if (e.code !== "ENOENT") {
-      throw e;
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw err;
     }
     mkdirRecursiveSync(filePath);
     fs.writeFileSync(filePath, fileContent);

@@ -6,16 +6,16 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class User {
   @Field(_type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Column()
-  email: string;
+  email!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   nickname?: string;
 
   @Column()
-  password: string;
+  password!: string;
 }

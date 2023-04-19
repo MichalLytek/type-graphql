@@ -8,20 +8,20 @@ import { User } from "./user";
 @ObjectType()
 export class Rating {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field(_type => Int)
   @Column({ type: "int" })
-  value: number;
+  value!: number;
 
   @Field(_type => User)
   @ManyToOne(_type => User, { lazy: true })
-  user: User | Promise<User>;
+  user!: User | Promise<User>;
 
   @Field()
   @CreateDateColumn()
-  date: Date;
+  date!: Date;
 
   @ManyToOne(_type => Recipe, { lazy: true })
-  recipe: Recipe | Promise<Recipe>;
+  recipe!: Recipe | Promise<Recipe>;
 }

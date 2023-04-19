@@ -10,11 +10,11 @@ import { User } from "./user";
 export class Recipe {
   @Field(_type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Column()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -22,9 +22,9 @@ export class Recipe {
 
   @Field(_type => [Rating])
   @OneToMany(_type => Rating, rate => rate.recipe, { lazy: true, cascade: ["insert"] })
-  ratings: Rating[] | Promise<Rating[]>;
+  ratings!: Rating[] | Promise<Rating[]>;
 
   @Field(_type => User)
   @ManyToOne(_type => User, { lazy: true })
-  author: User | Promise<User>;
+  author!: User | Promise<User>;
 }

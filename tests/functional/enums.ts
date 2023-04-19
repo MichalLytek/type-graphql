@@ -53,13 +53,13 @@ describe("Enums", () => {
     @InputType()
     class NumberEnumInput {
       @Field(() => NumberEnum)
-      numberEnumField: NumberEnum;
+      numberEnumField!: NumberEnum;
     }
 
     @InputType()
     class StringEnumInput {
       @Field(() => StringEnum)
-      stringEnumField: StringEnum;
+      stringEnumField!: StringEnum;
     }
 
     class SampleResolver {

@@ -5,16 +5,16 @@ import { getTime } from "./helpers/getTime";
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Field(_type => [Int])
-  ratings: number[];
+  ratings!: number[];
 
   @Field()
-  creationDate: Date;
+  creationDate!: Date;
 
   @Field(_type => Float, { nullable: true })
   // Invalidate 'cachedRecipe' cache with maxAge of 60 to 10 (if requested)

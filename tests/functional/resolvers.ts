@@ -57,10 +57,10 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInput {
         @Field()
-        field: string;
+        field!: string;
 
         @Field({ defaultValue: "defaultStringFieldDefaultValue" })
-        defaultStringField: string;
+        defaultStringField!: string;
 
         @Field()
         implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
@@ -72,25 +72,25 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInputChild extends SampleInput {
         @Field({ defaultValue: "defaultValueOverwritten" })
-        defaultStringField: string;
+        override defaultStringField!: string;
 
         @Field()
-        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
+        override implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
       class SampleArgs {
         @Field()
-        stringArg: string;
+        stringArg!: string;
 
         @Field(() => Int, { nullable: true })
-        numberArg: number;
+        numberArg!: number;
 
         @Field()
-        inputObjectArg: SampleInput;
+        inputObjectArg!: SampleInput;
 
         @Field({ defaultValue: "defaultStringArgDefaultValue" })
-        defaultStringArg: string;
+        defaultStringArg!: string;
 
         @Field()
         implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
@@ -102,19 +102,19 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleArgsChild extends SampleArgs {
         @Field({ defaultValue: "defaultValueOverwritten" })
-        defaultStringArg: string;
+        override defaultStringArg!: string;
 
         @Field()
-        implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
+        override implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
       }
 
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field()
-        resolverFieldWithArgs: string;
+        resolverFieldWithArgs!: string;
 
         @Field()
         get getterField(): string {
@@ -1008,7 +1008,7 @@ describe("Resolvers", () => {
           @ObjectType()
           class SampleObjectWithError {
             @Field()
-            sampleField: string;
+            sampleField!: string;
           }
           @Resolver(() => SampleObjectWithError)
           class SampleResolverWithError {
@@ -1038,7 +1038,7 @@ describe("Resolvers", () => {
       it("should throw error when using undecorated class as an explicit type", async () => {
         const error = await getError(async () => {
           class SampleUndecoratedObject {
-            sampleField: string;
+            sampleField!: string;
           }
           @Resolver()
           class SampleResolverWithError {
@@ -1065,7 +1065,7 @@ describe("Resolvers", () => {
           @ObjectType()
           class SampleObject {
             @Field()
-            sampleField: string;
+            sampleField!: string;
           }
           @Resolver()
           class SampleResolverWithError {
@@ -1092,7 +1092,7 @@ describe("Resolvers", () => {
           @ObjectType()
           class SampleObject {
             @Field()
-            sampleField: string;
+            sampleField!: string;
           }
           @Resolver()
           class SampleResolverWithError {
@@ -1144,7 +1144,7 @@ describe("Resolvers", () => {
           @InputType()
           class SampleInput {
             @Field({ nullable: "items" })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()
@@ -1216,7 +1216,7 @@ describe("Resolvers", () => {
         instanceField = Math.random();
 
         @Field()
-        factor: number;
+        factor!: number;
 
         isTrue() {
           return this.TRUE;
@@ -1227,7 +1227,7 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleOptionalArgs {
         @Field()
-        stringField: string;
+        stringField!: string;
 
         @Field({ nullable: true })
         optionalField?: string;
@@ -1241,7 +1241,7 @@ describe("Resolvers", () => {
         instanceField = Math.random();
 
         @Field()
-        factor: number;
+        factor!: number;
 
         isTrue() {
           return this.TRUE;
@@ -1254,13 +1254,13 @@ describe("Resolvers", () => {
         instanceField = Math.random();
 
         @Field()
-        nestedField: SampleInput;
+        nestedField!: SampleInput;
 
         @Field({ nullable: true })
         optionalNestedField?: SampleInput;
 
         @Field(() => [SampleInput])
-        nestedArrayField: SampleInput[];
+        nestedArrayField!: SampleInput[];
 
         @Field(() => [SampleInput], { nullable: "itemsAndList" })
         nestedOptionalArrayField?: Array<SampleInput | undefined>;
@@ -1272,17 +1272,17 @@ describe("Resolvers", () => {
         instanceField = Math.random();
 
         @Field(() => [[[SampleInput]]])
-        deeplyNestedInputArrayField: SampleInput[][][];
+        deeplyNestedInputArrayField!: SampleInput[][][];
       }
       classes.SampleTripleNestedInput = SampleTripleNestedInput;
 
       @ArgsType()
       class SampleNestedArgs {
         @Field()
-        factor: number;
+        factor!: number;
 
         @Field()
-        input: SampleInput;
+        input!: SampleInput;
       }
       classes.SampleNestedArgs = SampleNestedArgs;
 
@@ -1301,22 +1301,22 @@ describe("Resolvers", () => {
         instanceValue = Math.random();
 
         @Field()
-        fieldResolverField: number;
+        fieldResolverField!: number;
 
         @Field()
-        fieldResolverGetter: number;
+        fieldResolverGetter!: number;
 
         @Field({ complexity: 5 })
-        fieldResolverMethod: number;
+        fieldResolverMethod!: number;
 
         @Field()
-        fieldResolverMethodWithArgs: number;
+        fieldResolverMethodWithArgs!: number;
 
         @Field()
-        fieldResolverWithRoot: number;
+        fieldResolverWithRoot!: number;
 
         @Field({ complexity: 10 })
-        complexResolverMethod: number;
+        complexResolverMethod!: number;
 
         @Field()
         get getterField(): number {
@@ -1492,7 +1492,7 @@ describe("Resolvers", () => {
         }
 
         @FieldResolver()
-        fieldResolverMethodWithArgs(@Root() root: SampleObject, @Arg("arg") arg: number): number {
+        fieldResolverMethodWithArgs(@Root() _: SampleObject, @Arg("arg") arg: number): number {
           return arg;
         }
       }
@@ -1942,7 +1942,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -1954,7 +1954,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class OmittedObject {
         @Field()
-        omittedField: string;
+        omittedField!: string;
       }
       @Resolver()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -1987,7 +1987,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleFieldSync: string;
+        sampleFieldSync!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2049,10 +2049,10 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        resolvedField: string;
+        resolvedField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2097,7 +2097,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2133,7 +2133,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2186,13 +2186,13 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       @ObjectType()
       class DummyObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       function createResolver(name: string, objectType: Class) {

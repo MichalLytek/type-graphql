@@ -9,11 +9,11 @@ import { User } from "./user";
 export class Recipe {
   @Field(_type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Column()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -21,12 +21,12 @@ export class Recipe {
 
   @Field(_type => [Rating])
   @OneToMany(_type => Rating, rate => rate.recipe, { cascade: ["insert"] })
-  ratings: Rating[];
+  ratings!: Rating[];
 
   @Field(_type => User)
   @ManyToOne(_type => User)
-  author: User;
+  author!: User;
 
   @RelationId((recipe: Recipe) => recipe.author)
-  authorId: number;
+  authorId!: number;
 }

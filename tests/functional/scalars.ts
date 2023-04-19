@@ -30,14 +30,10 @@ describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;
   let sampleObject: IntrospectionObjectType;
   let schema: GraphQLSchema;
-
   let argScalar: string | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let argDate: Date | undefined;
 
   beforeEach(() => {
     argScalar = undefined;
-    argDate = undefined;
   });
 
   beforeAll(async () => {
@@ -49,7 +45,7 @@ describe("Scalars", () => {
       idField: any;
 
       @Field()
-      implicitFloatField: number;
+      implicitFloatField!: number;
 
       @Field(() => Float)
       explicitFloatField: any;
@@ -58,19 +54,19 @@ describe("Scalars", () => {
       intField: any;
 
       @Field()
-      implicitStringField: string;
+      implicitStringField!: string;
 
       @Field(() => String)
       explicitStringField: any;
 
       @Field()
-      implicitBooleanField: boolean;
+      implicitBooleanField!: boolean;
 
       @Field(() => Boolean)
       explicitBooleanField: any;
 
       @Field()
-      implicitDateField: Date;
+      implicitDateField!: Date;
 
       @Field(() => Date)
       explicitDateField: any;
@@ -115,8 +111,7 @@ describe("Scalars", () => {
       }
 
       @Query()
-      argDate(@Arg("date", () => Date) date: any): boolean {
-        argDate = date;
+      argDate(@Arg("date", () => Date) _date: any): boolean {
         return true;
       }
     }
@@ -305,10 +300,6 @@ describe("Scalars", () => {
       }
 
       sampleResolver = SampleResolver;
-    });
-
-    beforeEach(() => {
-      argDate = undefined;
     });
 
     describe("GraphQLISODate", () => {
@@ -708,7 +699,7 @@ describe("Scalars", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        customField: CustomType;
+        customField!: CustomType;
       }
 
       @Resolver(() => SampleObject)

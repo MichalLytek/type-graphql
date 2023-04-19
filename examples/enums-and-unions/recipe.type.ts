@@ -5,17 +5,17 @@ import { Difficulty } from "./difficulty.enum";
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Field(_type => [String])
-  ingredients: string[];
+  ingredients!: string[];
 
   @Field(_type => Difficulty)
-  preparationDifficulty: Difficulty;
+  preparationDifficulty!: Difficulty;
 
   @Field()
-  cook: Cook;
+  cook!: Cook;
 }

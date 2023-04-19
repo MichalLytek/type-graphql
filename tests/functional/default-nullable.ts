@@ -21,16 +21,16 @@ describe("buildSchema -> nullableByDefault", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field(() => [String])
-      normalArrayField: string[];
+      normalArrayField!: string[];
 
       @Field({ nullable: true })
-      nullableField: string;
+      nullableField!: string;
 
       @Field({ nullable: false })
-      nonNullableField: string;
+      nonNullableField!: string;
     }
     SampleObjectClass = SampleObject;
 

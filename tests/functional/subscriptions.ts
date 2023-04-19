@@ -44,7 +44,7 @@ describe("Subscriptions", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @Resolver()
@@ -132,7 +132,7 @@ describe("Subscriptions", () => {
       @ObjectType()
       class SampleObject {
         @Field(() => Float)
-        value: number;
+        value!: number;
       }
 
       const SAMPLE_TOPIC = "SAMPLE";

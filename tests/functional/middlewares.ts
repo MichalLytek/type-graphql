@@ -62,7 +62,7 @@ describe("Middlewares", () => {
       try {
         return await next();
       } catch (err) {
-        middlewareLogs.push(err.message);
+        middlewareLogs.push((err as Error).message);
         return "errorCatchMiddleware";
       }
     };
@@ -89,14 +89,14 @@ describe("Middlewares", () => {
     class ClassMiddleware implements MiddlewareInterface {
       private logName = "ClassMiddleware";
 
-      async use(action: ResolverData, next: NextFn) {
+      async use(_: ResolverData, next: NextFn) {
         middlewareLogs.push(`${this.logName} before`);
         const result = await next();
         middlewareLogs.push(`${this.logName} after`);
         return result;
       }
     }
-    const CustomMethodDecorator = createMethodDecorator(async (resolverData, next) => {
+    const CustomMethodDecorator = createMethodDecorator(async (_, next) => {
       middlewareLogs.push("CustomMethodDecorator");
       return next();
     });
@@ -104,14 +104,14 @@ describe("Middlewares", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field()
-      resolverField: string;
+      resolverField!: string;
 
       @Field()
       @UseMiddleware(fieldResolverMiddleware)
-      middlewareField: string;
+      middlewareField!: string;
     }
 
     @Resolver(() => SampleObject)

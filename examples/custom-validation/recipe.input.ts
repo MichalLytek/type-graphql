@@ -7,7 +7,7 @@ export class RecipeInput implements Partial<Recipe> {
   @Field()
   // Joi decorator
   @Joiful.string().required().max(30)
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   // Joi decorator

@@ -8,7 +8,7 @@ describe("manual decorators", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      manualField: string;
+      manualField!: string;
     }
 
     // Dynamically register field
@@ -16,7 +16,7 @@ describe("manual decorators", () => {
     @ArgsType()
     class SampleArgs {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
     // Dynamically register field args
     Args(() => SampleArgs)(SampleObject.prototype, "dynamicField", 0);

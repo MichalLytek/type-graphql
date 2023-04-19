@@ -23,58 +23,58 @@ describe("Fields - schema", () => {
     @ObjectType()
     class SampleNestedObject {
       @Field()
-      stringField: string;
+      stringField!: string;
     }
 
     @ObjectType()
     class SampleObject {
       @Field()
-      implicitStringField: string;
+      implicitStringField!: string;
 
       @Field(() => String)
       explicitStringField: any;
 
       @Field()
-      implicitObjectField: SampleNestedObject;
+      implicitObjectField!: SampleNestedObject;
 
       @Field(() => String, { nullable: true })
       explicitNullableStringField: any;
 
       @Field({ nullable: true })
-      implicitNullableStringField: string;
+      implicitNullableStringField!: string;
 
       @Field(() => [String])
-      explicitStringArrayField: string[];
+      explicitStringArrayField!: string[];
 
       @Field(() => [String], { nullable: true })
-      nullableArrayFieldNew: string[] | null;
+      nullableArrayFieldNew!: string[] | null;
 
       @Field(() => [SampleNestedObject], { nullable: true })
-      nullableObjectArrayField: SampleNestedObject[] | null;
+      nullableObjectArrayField!: SampleNestedObject[] | null;
 
       @Field(() => [String], { nullable: "itemsAndList" })
-      arrayWithNullableItemField: string[];
+      arrayWithNullableItemField!: string[];
 
       @Field(() => [String], { nullable: "items" })
-      nonNullArrayWithNullableItemField: string[];
+      nonNullArrayWithNullableItemField!: string[];
 
       @Field({ name: "overwrittenName", nullable: true })
-      overwrittenStringField: string;
+      overwrittenStringField!: string;
 
       @Field({ name: "complexField", complexity: 10 })
-      complexField: string;
+      complexField!: string;
 
       @Field(() => [[String]], { nullable: true })
-      nullableNestedArrayField: string[][] | null;
+      nullableNestedArrayField!: string[][] | null;
 
       @Field(() => [[String]], { nullable: "items" })
-      nonNullNestedArrayWithNullableItemField: Array<Array<string | null> | null>;
+      nonNullNestedArrayWithNullableItemField!: Array<Array<string | null> | null>;
 
       @Field(() => [[String]], { nullable: "itemsAndList" })
-      nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
+      nestedArrayWithNullableItemField!: Array<Array<string | null> | null> | null;
 
       @Field(() => GraphQLISODateTime)
-      overwrittenArrayScalarField: string[];
+      overwrittenArrayScalarField!: string[];
     }
 
     @Resolver(() => SampleObject)
@@ -138,7 +138,7 @@ describe("Fields - schema", () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
-        invalidSampleArrayField: string[];
+        invalidSampleArrayField!: string[];
       }
     });
 
@@ -155,7 +155,7 @@ describe("Fields - schema", () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
-        invalidSampleNullableField: string | null;
+        invalidSampleNullableField!: string | null;
       }
     });
 
@@ -173,7 +173,7 @@ describe("Fields - schema", () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
-        [symbolKey]: string | null;
+        [symbolKey]!: string | null;
       }
     });
 

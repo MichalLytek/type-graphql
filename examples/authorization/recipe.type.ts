@@ -3,18 +3,18 @@ import { Authorized, Field, Float, Int, ObjectType } from "type-graphql";
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Authorized() // Restrict access only for authenticated users
   @Field(_type => [String])
-  ingredients: string[];
+  ingredients!: string[];
 
   @Authorized("ADMIN") // Restrict access only for 'ADMIN' users
   @Field(_type => [Int])
-  ratings: number[];
+  ratings!: number[];
 
   @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {

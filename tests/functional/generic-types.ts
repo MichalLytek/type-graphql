@@ -33,13 +33,13 @@ describe("Generic types", () => {
     @ObjectType()
     abstract class BaseType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @ObjectType()
     class SampleType extends BaseType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -68,22 +68,22 @@ describe("Generic types", () => {
     @InterfaceType()
     abstract class BaseInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InterfaceType()
     abstract class SampleInterfaceType extends BaseInterfaceType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @ObjectType({ implements: SampleInterfaceType })
     class SampleType implements SampleInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
 
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -114,13 +114,13 @@ describe("Generic types", () => {
     @InputType()
     abstract class BaseInput {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InputType()
     class SampleInput extends BaseInput {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -154,10 +154,10 @@ describe("Generic types", () => {
         @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
           @Field(() => Int)
-          count: number;
+          count!: number;
 
           @Field(() => [TItemClass])
-          items: TItem[];
+          items!: TItem[];
         }
         return ConnectionClass;
       }
@@ -165,13 +165,13 @@ describe("Generic types", () => {
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class Dog {
         @Field()
-        canBark: boolean;
+        canBark!: boolean;
       }
 
       const UserConnection = Connection(User);
@@ -266,10 +266,10 @@ describe("Generic types", () => {
         @ObjectType()
         abstract class EdgeClass {
           @Field(() => NodeClass)
-          node: TNodeClass;
+          node!: TNodeClass;
 
           @Field()
-          cursor: string;
+          cursor!: string;
         }
         return EdgeClass;
       }
@@ -277,19 +277,19 @@ describe("Generic types", () => {
       @ObjectType()
       class Recipe {
         @Field()
-        title: string;
+        title!: string;
       }
 
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class RecipeEdge extends Edge(Recipe) {
         @Field()
-        personalNotes: string;
+        personalNotes!: string;
       }
       recipeEdgeResponse = {
         cursor: "recipeCursor",
@@ -302,7 +302,7 @@ describe("Generic types", () => {
       @ObjectType()
       class FriendshipEdge extends Edge(User) {
         @Field()
-        friendedAt: Date;
+        friendedAt!: Date;
       }
       friendshipEdgeResponse = {
         cursor: "friendshipCursor",
@@ -412,7 +412,7 @@ describe("Generic types", () => {
         @ObjectType()
         class BaseClass {
           @Field(() => TTypeClass)
-          baseField: TType;
+          baseField!: TType;
         }
         return BaseClass;
       }
@@ -420,22 +420,22 @@ describe("Generic types", () => {
       @ObjectType()
       class BaseSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @ObjectType()
       class ChildSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        childField: string;
+        childField!: string;
       }
 
       @ObjectType()
       class Child extends Base(BaseSample) {
         @Field()
-        baseField: ChildSample; // Overwriting field with a up compatible type
+        override baseField!: ChildSample; // Overwriting field with a up compatible type
       }
 
       @Resolver()

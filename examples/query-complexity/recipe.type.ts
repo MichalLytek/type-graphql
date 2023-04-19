@@ -4,11 +4,11 @@ import { Field, Float, Int, ObjectType } from "type-graphql";
 export class Recipe {
   /* By default, every field gets a complexity of 1 */
   @Field()
-  title: string;
+  title!: string;
 
   /* Which can be customized by passing the complexity parameter */
   @Field(_type => Int, { complexity: 2 })
-  ratingsCount: number;
+  ratingsCount!: number;
 
   @Field(_type => Float, {
     nullable: true,
@@ -24,5 +24,5 @@ export class Recipe {
   }
 
   // Internal property, not exposed in schema
-  ratings: number[];
+  ratings!: number[];
 }

@@ -6,7 +6,7 @@ import type { Recipe } from "./recipe.type";
 export class RecipeInput implements Partial<Recipe> {
   @Field()
   @MaxLength(30)
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Length(30, 255)

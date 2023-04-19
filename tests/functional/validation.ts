@@ -43,11 +43,11 @@ describe("Validation", () => {
       class SampleInput {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
@@ -66,11 +66,11 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
@@ -409,7 +409,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {
@@ -447,7 +447,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {
@@ -485,7 +485,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {
@@ -531,7 +531,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {
@@ -577,7 +577,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["not-test"] })
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {
@@ -615,7 +615,7 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
       @Resolver(() => SampleObject)
       class SampleResolver {

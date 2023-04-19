@@ -15,26 +15,26 @@ import { User } from "./user";
 @ObjectType()
 export class Rating {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field(_type => Int)
   @Column({ type: "int" })
-  value: number;
+  value!: number;
 
   @Field(_type => User)
   @ManyToOne(_type => User)
-  user: User;
+  user!: User;
 
   @RelationId((rate: Rating) => rate.user)
-  userId: number;
+  userId!: number;
 
   @Field()
   @CreateDateColumn()
-  date: Date;
+  date!: Date;
 
   @ManyToOne(_type => Recipe)
-  recipe: Recipe;
+  recipe!: Recipe;
 
   @RelationId((rate: Rating) => rate.recipe)
-  recipeId: number;
+  recipeId!: number;
 }

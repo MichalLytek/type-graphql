@@ -21,22 +21,22 @@ describe("Simple resolvers", () => {
     @ObjectType()
     class NormalObject {
       @Field()
-      normalField: string;
+      normalField!: string;
     }
     @ObjectType()
     class ObjectWithSimpleField {
       @Field({ simple: true })
-      simpleField: string;
+      simpleField!: string;
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObject {
       @Field()
-      simpleField: string;
+      simpleField!: string;
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObjectWithNormalField {
       @Field({ simple: false })
-      normalField: string;
+      normalField!: string;
     }
 
     @Resolver()

@@ -33,10 +33,10 @@ describe("Interfaces with resolvers and arguments", () => {
       @ArgsType()
       class SampleArgs1 {
         @Field(_type => Int)
-        classArg1: number;
+        classArg1!: number;
 
         @Field(_type => Int)
-        classArg2: number;
+        classArg2!: number;
       }
 
       @InterfaceType()
@@ -228,7 +228,7 @@ describe("Interfaces with resolvers and arguments", () => {
 
       @ObjectType({ implements: SampleInterfaceWithArgs })
       class SampleImplementingObjectWithArgsAndOwnResolver extends SampleInterfaceWithArgs {
-        sampleFieldWithArgs(sampleArg: string) {
+        override sampleFieldWithArgs(sampleArg: string) {
           return `SampleImplementingObjectWithArgsAndOwnResolver: ${sampleArg}`;
         }
       }

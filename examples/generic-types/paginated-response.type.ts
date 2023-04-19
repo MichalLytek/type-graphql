@@ -7,13 +7,13 @@ export function PaginatedResponse<TItemsFieldValue>(
   @ObjectType()
   abstract class PaginatedResponseClass {
     @Field(_type => [itemsFieldValue])
-    items: TItemsFieldValue[];
+    items!: TItemsFieldValue[];
 
     @Field(_type => Int)
-    total: number;
+    total!: number;
 
     @Field()
-    hasMore: boolean;
+    hasMore!: boolean;
   }
 
   return PaginatedResponseClass;

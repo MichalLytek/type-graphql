@@ -8,20 +8,20 @@ import { Recipe } from "./recipe";
 export class User {
   @Field(_type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Column()
-  email: string;
+  email!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   nickname?: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @OneToMany(_type => Recipe, recipe => recipe.author, { lazy: true })
   @Field(_type => [Recipe])
-  recipes: Recipe[] | Promise<Recipe[]>;
+  recipes!: Recipe[] | Promise<Recipe[]>;
 }

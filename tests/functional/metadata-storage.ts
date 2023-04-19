@@ -51,10 +51,10 @@ describe("MetadataStorage", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: boolean;
+        sampleField!: boolean;
 
         @Field({ name: INHERITED_FIELD_RESOLVER_NAME })
-        abstractSampleField: boolean;
+        abstractSampleField!: boolean;
       }
 
       @Resolver(() => SampleObject)

@@ -29,10 +29,10 @@ describe("Description", () => {
       @ObjectType({ description: "sample object description" })
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample object field description" })
-        describedField: string;
+        describedField!: string;
 
         @Field({ description: "sample object getter field description" })
         get describedGetterField(): string {
@@ -50,19 +50,19 @@ describe("Description", () => {
       @InputType({ description: "sample input description" })
       class SampleInput {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample input field description" })
-        describedField: string;
+        describedField!: string;
       }
 
       @ArgsType()
       class SampleArguments {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample argument field description" })
-        describedField: string;
+        describedField!: string;
       }
 
       @Resolver(() => SampleObject)

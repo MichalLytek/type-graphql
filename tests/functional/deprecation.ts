@@ -27,10 +27,10 @@ describe("Deprecation", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ deprecationReason: "sample object field deprecation reason" })
-        deprecatedField: string;
+        deprecatedField!: string;
 
         @Field({ deprecationReason: "sample object getter field deprecation reason" })
         get deprecatedGetterField(): string {
@@ -46,25 +46,25 @@ describe("Deprecation", () => {
       @InputType()
       class SampleInput {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({
           deprecationReason: "sample input field deprecation reason",
           nullable: true,
         })
-        deprecatedField: string;
+        deprecatedField!: string;
       }
 
       @ArgsType()
       class SampleArgs {
         @Field()
-        normalArg: string;
+        normalArg!: string;
 
         @Field({
           deprecationReason: "sample args field deprecation reason",
           nullable: true,
         })
-        deprecatedArg: string;
+        deprecatedArg!: string;
       }
 
       @Resolver(() => SampleObject)

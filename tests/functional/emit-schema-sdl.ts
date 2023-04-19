@@ -28,10 +28,10 @@ describe("Emitting schema definition file", () => {
     @ObjectType()
     class MyObject {
       @Field()
-      normalProperty: string;
+      normalProperty!: string;
 
       @Field({ description: "Description test" })
-      descriptionProperty: boolean;
+      descriptionProperty!: boolean;
     }
 
     @Resolver()

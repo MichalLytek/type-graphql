@@ -70,41 +70,41 @@ describe("typeDefs and resolvers", () => {
       @InterfaceType()
       abstract class SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType1 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
 
         @Field({ description: "sampleType1StringFieldDescription" })
-        sampleType1StringField: string;
+        sampleType1StringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType2 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
 
         @Field({ deprecationReason: "sampleType2StringFieldDeprecation" })
-        sampleType2StringField: string;
+        sampleType2StringField!: string;
       }
 
       @ObjectType()
       class SampleType3 {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
 
         @Field()
-        sampleType3StringField: string;
+        sampleType3StringField!: string;
       }
 
       @InputType()
       class SampleInput {
         @Field()
         @MinLength(10)
-        sampleInputStringField: string;
+        sampleInputStringField!: string;
 
         @Field()
         sampleInputDefaultStringField: string = "sampleInputDefaultStringField";
@@ -613,10 +613,10 @@ describe("typeDefs and resolvers", () => {
       @ObjectType()
       class SampleType {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
 
         @Field({ description: "sampleTypeStringFieldDescription" })
-        sampleTypeStringField: string;
+        sampleTypeStringField!: string;
       }
 
       @Resolver()

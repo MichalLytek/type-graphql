@@ -23,17 +23,17 @@ describe("Unions", () => {
     @ObjectType()
     class ObjectOne {
       @Field()
-      fieldOne: string;
+      fieldOne!: string;
     }
     @ObjectType()
     class ObjectTwo {
       @Field()
-      fieldTwo: string;
+      fieldTwo!: string;
     }
     @ObjectType()
     class ObjectThree {
       @Field()
-      fieldThree: string;
+      fieldThree!: string;
     }
 
     const OneTwoThreeUnion = createUnionType({
@@ -78,7 +78,7 @@ describe("Unions", () => {
     @ObjectType()
     class ObjectUnion {
       @Field(() => OneTwoThreeUnion)
-      unionField: typeof OneTwoThreeUnion;
+      unionField!: typeof OneTwoThreeUnion;
     }
 
     class SampleResolver {
@@ -316,12 +316,12 @@ describe("Unions", () => {
       @ObjectType()
       class Base {
         @Field()
-        base: string;
+        base!: string;
       }
       @ObjectType()
       class Extended extends Base {
         @Field()
-        extended: string;
+        extended!: string;
       }
 
       expect(() => {
@@ -340,12 +340,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -401,12 +401,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -471,12 +471,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -541,12 +541,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",

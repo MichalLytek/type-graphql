@@ -38,8 +38,7 @@ class SampleResolver {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const log = (...args: unknown[]) => undefined; // noop
+const log = (..._: unknown[]) => undefined; // noop
 
 const loggingMiddleware: MiddlewareFn = ({ info }, next) => {
   log(`${info.parentType.name}.${info.fieldName} accessed`);

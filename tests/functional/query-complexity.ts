@@ -28,7 +28,7 @@ describe("Query complexity", () => {
       @ObjectType()
       class SampleObject {
         @Field({ complexity: 10 })
-        complexResolverMethod: number;
+        complexResolverMethod!: number;
       }
 
       @Resolver(() => SampleObject)
@@ -73,7 +73,7 @@ describe("Query complexity", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       function createResolver(name: string, objectType: Class) {

@@ -27,29 +27,29 @@ describe("Authorization", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field()
       @Authorized()
-      authedField: string;
+      authedField!: string;
 
       @Field({ nullable: true })
       @Authorized()
-      nullableAuthedField: string;
+      nullableAuthedField!: string;
 
       @Field()
       @Authorized("ADMIN")
-      adminField: string;
+      adminField!: string;
 
       @Field()
-      normalResolvedField: string;
+      normalResolvedField!: string;
 
       @Field()
-      authedResolvedField: string;
+      authedResolvedField!: string;
 
       @Field()
       @Authorized()
-      inlineAuthedResolvedField: string;
+      inlineAuthedResolvedField!: string;
     }
 
     @Resolver(() => SampleObject)
@@ -454,7 +454,7 @@ describe("Authorization", () => {
       let authCheckerRoles: string[] | undefined;
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
-        authChecker: (resolverData, roles) => {
+        authChecker: (_, roles) => {
           authCheckerRoles = roles;
           return true;
         },

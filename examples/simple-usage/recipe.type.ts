@@ -3,7 +3,7 @@ import { Field, Float, Int, ObjectType } from "type-graphql";
 @ObjectType({ description: "Object representing cooking recipe" })
 export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
   @Field(_type => String, { nullable: true, deprecationReason: "Use 'description' field instead" })
   get specification(): string | undefined {
@@ -14,13 +14,13 @@ export class Recipe {
   description?: string;
 
   @Field(_type => [Int])
-  ratings: number[];
+  ratings!: number[];
 
   @Field()
-  creationDate: Date;
+  creationDate!: Date;
 
   @Field(_type => Int)
-  ratingsCount: number;
+  ratingsCount!: number;
 
   @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {

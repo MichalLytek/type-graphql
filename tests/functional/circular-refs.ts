@@ -51,6 +51,7 @@ describe("Circular references", () => {
     const errorRef1 = await getError(
       async () => (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1,
     );
+
     expect(errorRef1).toBeInstanceOf(Error);
     expect(errorRef1.message).toContain("provide explicit type");
     expect(errorRef1.message).toContain("ref1Field");
@@ -69,13 +70,13 @@ describe("Circular references", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      stringField: string;
+      stringField!: string;
 
       @Field(() => SampleObject, { nullable: true })
       selfReferenceField?: SampleObject;
 
       @Field(() => [SampleObject])
-      selfReferenceArrayField: SampleObject[];
+      selfReferenceArrayField!: SampleObject[];
     }
     @Resolver()
     class SampleResolver {

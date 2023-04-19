@@ -12,7 +12,7 @@ export class CircularRef1 {
     }
     return [CircularRef2];
   })
-  ref2Field: any[];
+  ref2Field!: any[];
 }
 
 hasModuleFinishedInitialLoad = true;

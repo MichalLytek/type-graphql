@@ -1,4 +1,4 @@
-import type { ValidatorOptions } from "class-validator";
+import type { ValidationError, ValidatorOptions } from "class-validator";
 import type { TypeValue } from "@/decorators/types";
 import { ArgumentValidationError } from "@/errors";
 import type { ValidateSettings } from "@/schema/build-context";
@@ -46,6 +46,6 @@ export async function validateArg<T extends object>(
     }
     return argValue;
   } catch (err) {
-    throw new ArgumentValidationError(err);
+    throw new ArgumentValidationError(err as ValidationError[]);
   }
 }

@@ -30,21 +30,21 @@ describe("Extensions", () => {
       class ExtensionsOnFieldInput {
         @Field()
         @Extensions({ role: "admin" })
-        withExtensions: string;
+        withExtensions!: string;
       }
 
       @InputType()
       @Extensions({ roles: ["admin", "user"] })
       class ExtensionsOnClassInput {
         @Field()
-        regularField: string;
+        regularField!: string;
       }
 
       @ObjectType()
       @Extensions({ id: 1234 })
       class ExtensionsOnClassObjectType {
         @Field()
-        regularField: string;
+        regularField!: string;
       }
 
       @ObjectType()

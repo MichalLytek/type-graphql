@@ -35,7 +35,6 @@ describe("Interfaces and inheritance", () => {
     let schemaIntrospection: IntrospectionSchema;
     let queryType: IntrospectionObjectType;
     let sampleInterface1Type: IntrospectionInterfaceType;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let sampleInterface2Type: IntrospectionInterfaceType;
     let sampleInterfaceImplementing1: IntrospectionInterfaceType;
     let sampleMultiImplementingObjectType: IntrospectionObjectType;
@@ -51,64 +50,64 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       abstract class SampleInterface1 {
         @Field(() => ID)
-        id: string;
+        id!: string;
 
         @Field()
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
       }
       @InterfaceType()
       abstract class SampleInterface2 {
         @Field(() => ID)
-        id: string;
+        id!: string;
 
         @Field()
-        interfaceStringField2: string;
+        interfaceStringField2!: string;
       }
       @InterfaceType()
       abstract class SampleInterfaceExtending1 extends SampleInterface1 {
         @Field()
-        ownStringField1: string;
+        ownStringField1!: string;
       }
       @InterfaceType({ implements: [SampleInterface1] })
       abstract class SampleInterfaceImplementing1 implements SampleInterface1 {
-        id: string;
+        id!: string;
 
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
 
         @Field()
-        ownStringField1: string;
+        ownStringField1!: string;
       }
 
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject1 implements SampleInterface1 {
-        id: string;
+        id!: string;
 
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
 
         @Field()
-        ownField1: number;
+        ownField1!: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
         @Field(() => ID)
-        id: string;
+        id!: string;
 
         @Field()
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
 
         @Field()
-        ownField2: number;
+        ownField2!: number;
       }
       @ObjectType({ implements: [SampleInterface1, SampleInterface2] })
       class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
-        id: string;
+        id!: string;
 
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
 
-        interfaceStringField2: string;
+        interfaceStringField2!: string;
 
         @Field()
-        ownField3: number;
+        ownField3!: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject
@@ -116,56 +115,56 @@ describe("Interfaces and inheritance", () => {
         implements SampleInterface1
       {
         @Field()
-        ownField4: number;
+        ownField4!: number;
       }
       @ObjectType()
       class SampleExtendingObject2 extends SampleImplementingObject2 {
         @Field()
-        ownExtendingField2: number;
+        ownExtendingField2!: number;
       }
 
       @ArgsType()
       class SampleBaseArgs {
         @Field()
-        baseArgField: string;
+        baseArgField!: string;
       }
       @ArgsType()
       class SampleExtendingArgs extends SampleBaseArgs {
         @Field()
-        extendingArgField: boolean;
+        extendingArgField!: boolean;
       }
 
       @InputType()
       class SampleBaseInput {
         @Field()
-        baseInputField: string;
+        baseInputField!: string;
       }
       @InputType()
       class SampleExtendingInput extends SampleBaseInput {
         @Field()
-        extendingInputField: boolean;
+        extendingInputField!: boolean;
       }
 
       // overwriting fields case
       @InputType()
       class SampleFirstBaseInput {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @InputType()
       class SampleFirstExtendedInput extends SampleFirstBaseInput {
         @Field()
-        extendedField: string;
+        extendedField!: string;
       }
       @InputType()
       class SampleSecondBaseInput {
         @Field()
-        baseInputField: SampleFirstBaseInput;
+        baseInputField!: SampleFirstBaseInput;
       }
       @InputType()
       class SampleSecondExtendedInput extends SampleSecondBaseInput {
         @Field()
-        baseInputField: SampleFirstExtendedInput;
+        override baseInputField!: SampleFirstExtendedInput;
       }
 
       class SampleResolver {
@@ -242,14 +241,27 @@ describe("Interfaces and inheritance", () => {
 
     it("should generate interface type correctly", async () => {
       expect(sampleInterface1Type).toBeDefined();
+      expect(sampleInterface2Type).toBeDefined();
       expect(sampleInterface1Type.kind).toEqual(TypeKind.INTERFACE);
+      expect(sampleInterface2Type.kind).toEqual(TypeKind.INTERFACE);
       expect(sampleInterface1Type.fields).toHaveLength(2);
+      expect(sampleInterface2Type.fields).toHaveLength(2);
 
-      const idFieldType = getInnerFieldType(sampleInterface1Type, "id");
-      const interfaceStringField = getInnerFieldType(sampleInterface1Type, "interfaceStringField1");
+      const idFieldType1 = getInnerFieldType(sampleInterface1Type, "id");
+      const idFieldType2 = getInnerFieldType(sampleInterface1Type, "id");
+      const interfaceStringField1 = getInnerFieldType(
+        sampleInterface1Type,
+        "interfaceStringField1",
+      );
+      const interfaceStringField2 = getInnerFieldType(
+        sampleInterface2Type,
+        "interfaceStringField2",
+      );
 
-      expect(idFieldType.name).toEqual("ID");
-      expect(interfaceStringField.name).toEqual("String");
+      expect(idFieldType1.name).toEqual("ID");
+      expect(idFieldType2.name).toEqual("ID");
+      expect(interfaceStringField1.name).toEqual("String");
+      expect(interfaceStringField2.name).toEqual("String");
     });
 
     it("should generate type of interface extending other interface correctly", async () => {
@@ -450,12 +462,12 @@ describe("Interfaces and inheritance", () => {
       @InputType()
       class SampleInput {
         @Field()
-        inputField: string;
+        inputField!: string;
       }
       @ArgsType()
       class SampleArgs extends SampleInput {
         @Field()
-        argField: string;
+        argField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -482,15 +494,15 @@ describe("Interfaces and inheritance", () => {
         @InterfaceType()
         class IBase {
           @Field()
-          baseField: string;
+          baseField!: string;
         }
         @ObjectType({ implements: IBase })
         class ChildObject implements IBase {
           @Field(() => Number, { nullable: true })
-          baseField: string;
+          baseField!: string;
 
           @Field()
-          argField: string;
+          argField!: string;
         }
         class SampleResolver {
           @Query()
@@ -526,12 +538,12 @@ describe("Interfaces and inheritance", () => {
         @ObjectType()
         class SampleNotInterface {
           @Field()
-          sampleField: string;
+          sampleField!: string;
         }
         @ObjectType({ implements: [SampleNotInterface] })
         class SampleImplementingObject implements SampleNotInterface {
           @Field()
-          sampleField: string;
+          sampleField!: string;
         }
         @Resolver()
         class SampleResolver {
@@ -572,7 +584,7 @@ describe("Interfaces and inheritance", () => {
       @ArgsType()
       class BaseArgs {
         @Field()
-        baseArgField: string;
+        baseArgField!: string;
 
         @Field(() => Int, { nullable: true })
         optionalBaseArgField: number = 255;
@@ -580,13 +592,13 @@ describe("Interfaces and inheritance", () => {
       @ArgsType()
       class ChildArgs extends BaseArgs {
         @Field()
-        childArgField: string;
+        childArgField!: string;
       }
 
       @InputType()
       class BaseInput {
         @Field()
-        baseInputField: string;
+        baseInputField!: string;
 
         @Field(() => Int, { nullable: true })
         optionalBaseInputField: number = 255;
@@ -594,32 +606,32 @@ describe("Interfaces and inheritance", () => {
       @InputType()
       class ChildInput extends BaseInput {
         @Field()
-        childInputField: string;
+        childInputField!: string;
       }
 
       @InterfaceType()
       abstract class BaseInterface {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field({ name: "renamedInterfaceField", nullable: true })
         interfaceFieldToBeRenamed?: string;
       }
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         interfaceFieldToBeRenamed?: string;
 
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       @InterfaceType({
@@ -635,21 +647,21 @@ describe("Interfaces and inheritance", () => {
       })
       abstract class InterfaceWithStringResolveType {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
       }
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class FirstInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class SecondInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       @InterfaceType({
@@ -667,21 +679,21 @@ describe("Interfaces and inheritance", () => {
       })
       abstract class InterfaceWithClassResolveType {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
       }
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class FirstInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class SecondInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       class SampleBaseClass {
@@ -692,39 +704,39 @@ describe("Interfaces and inheritance", () => {
       @ObjectType()
       class SampleExtendingNormalClassObject extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @InputType()
       class SampleExtendingNormalClassInput extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ArgsType()
       class SampleExtendingNormalClassArgs extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       // overwriting fields case
       @InputType()
       class SampleFirstBaseInput {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @InputType()
       class SampleFirstExtendedInput extends SampleFirstBaseInput {
         @Field()
-        extendedField: string;
+        extendedField!: string;
       }
       @InputType()
       class SampleSecondBaseInput {
         @Field()
-        baseInputField: SampleFirstBaseInput;
+        baseInputField!: SampleFirstBaseInput;
       }
       @InputType()
       class SampleSecondExtendedInput extends SampleSecondBaseInput {
         @Field()
-        baseInputField: SampleFirstExtendedInput;
+        override baseInputField!: SampleFirstExtendedInput;
       }
 
       @Resolver()
@@ -1058,17 +1070,17 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
@@ -1136,17 +1148,17 @@ describe("Interfaces and inheritance", () => {
       })
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
@@ -1216,17 +1228,17 @@ describe("Interfaces and inheritance", () => {
       })
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
@@ -1284,29 +1296,29 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       abstract class SampleUnusedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUnusedInterface })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleUnusedObjectType implements SampleUnusedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        sampleUnusedInterfaceField: SampleUnusedInterface;
+        sampleUnusedInterfaceField!: SampleUnusedInterface;
       }
       @InterfaceType()
       abstract class SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
       class SampleObjectTypeImplementingUsedInterface implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        sampleAdditionalField: string;
+        sampleAdditionalField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -1342,22 +1354,22 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       class IFooBar {
         @Field(() => String)
-        fooBarKind: string;
+        fooBarKind!: string;
       }
       @ObjectType({ implements: IFooBar })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Foo extends IFooBar {
-        fooBarKind = "Foo";
+        override fooBarKind = "Foo";
       }
       @ObjectType({ implements: IFooBar })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Bar extends IFooBar {
-        fooBarKind = "Bar";
+        override fooBarKind = "Bar";
       }
       @ObjectType()
       class FooBar {
         @Field(() => IFooBar)
-        iFooBarField: IFooBar;
+        iFooBarField!: IFooBar;
       }
       @Resolver()
       class TestResolver {
@@ -1394,24 +1406,24 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({ autoRegisterImplementations: false })
       abstract class SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
       class FirstSampleObject implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        sampleFirstAdditionalField: string;
+        sampleFirstAdditionalField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SecondSampleObject implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
 
         @Field()
-        sampleSecondAdditionalField: string;
+        sampleSecondAdditionalField!: string;
       }
       @Resolver()
       class SampleResolver {

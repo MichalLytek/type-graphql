@@ -58,7 +58,7 @@ describe("default values", () => {
       @InputType()
       class SampleOptionInput {
         @Field({ defaultValue: "defaultValueFromOption" })
-        inputField: string;
+        inputField!: string;
       }
 
       @Resolver()
@@ -109,7 +109,7 @@ describe("default values", () => {
         @InputType()
         class SampleInput {
           @Field({ defaultValue: "stringDefaultValue", nullable: false })
-          inputField: string;
+          inputField!: string;
         }
 
         @Resolver()
@@ -142,7 +142,7 @@ describe("default values", () => {
         @InputType()
         class SampleInput {
           @Field({ defaultValue: "stringDefaultValue", nullable: true })
-          inputField: string;
+          inputField!: string;
         }
 
         @Resolver()
@@ -176,7 +176,7 @@ describe("default values", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "stringDefaultValue" })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()
@@ -212,7 +212,7 @@ describe("default values", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "stringDefaultValue", nullable: false })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()

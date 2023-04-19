@@ -3,19 +3,19 @@ import { Field, ID, Int, ObjectType } from "type-graphql";
 @ObjectType()
 export class Recipe {
   @Field(_type => ID)
-  id: string;
+  id!: string;
 
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Field(_type => [String])
-  ingredients: string[];
+  ingredients!: string[];
 
   @Field(_type => Int)
-  protected numberInCollection: number;
+  protected numberInCollection!: number;
 
   @Field(_type => Int)
   protected get ingredientsLength(): number {
