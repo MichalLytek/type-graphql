@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+// eslint-disable-next-line import/no-cycle
 import { CircularRef1 } from "./CircularRef1";
 
 let hasModuleFinishedInitialLoad = false;

@@ -82,6 +82,7 @@
     ],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-inferrable-types": [
       "error",
       { "ignoreParameters": true, "ignoreProperties": true }
@@ -99,8 +100,6 @@
       }
     ],
     // FIXME: Remove
-    "@typescript-eslint/no-explicit-any": "off",
-    // FIXME: Remove
-    "import/no-cycle": "off"
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

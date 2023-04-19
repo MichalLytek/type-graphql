@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+// eslint-disable-next-line import/no-cycle
 import { Recipe } from "./recipe";
 import { User } from "./user";
 
