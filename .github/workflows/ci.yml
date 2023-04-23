@@ -135,6 +135,9 @@ jobs:
     needs: check
     if: needs.check.result == 'success' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -144,6 +147,10 @@ jobs:
         with:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Install latest npm
+        run: |
+          npm install -g npm@latest
 
       - name: Install Dependencies
         run: |
@@ -171,7 +178,7 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
 
       - name: Publish
-        run: npm publish --ignore-scripts # disabled prepublishOnly script
+        run: npm publish --ignore-scripts # Disabled prepublishOnly script
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
