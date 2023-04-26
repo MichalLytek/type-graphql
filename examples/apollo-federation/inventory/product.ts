@@ -2,6 +2,7 @@ import { ObjectType, Directive, Field } from "../../../src";
 
 @ObjectType()
 @Directive("@extends")
+@Directive("@interfaceObject")
 @Directive(`@key(fields: "upc")`)
 export default class Product {
   @Field()

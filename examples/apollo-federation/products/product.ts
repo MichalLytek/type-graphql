@@ -1,8 +1,8 @@
-import { ObjectType, Directive, Field } from "../../../src";
+import { Directive, Field, InterfaceType } from "../../../src";
 
 @Directive(`@key(fields: "upc")`)
-@ObjectType()
-export default class Product {
+@InterfaceType()
+export default abstract class Product {
   @Field()
   upc: string;
 
