@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "removeComments": true,
+    "outDir": "./build",
+    "paths": {
+      "@/*": ["./src/*"],
+      "type-graphql": ["./src/index.ts"]
+    }
+  },
+  "exclude": ["./node_modules", "./build"],
+  "include": ["./src"]
+}

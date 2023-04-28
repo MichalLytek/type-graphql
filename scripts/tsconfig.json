@@ -1,5 +1,10 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": { "noEmit": true },
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@/*": ["../packages/type-graphql/src/*"]
+    }
+  },
   "include": [".", "../src"]
 }

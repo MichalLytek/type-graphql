@@ -1,5 +1,10 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": { "outDir": "./build" },
+  "compilerOptions": {
+    "outDir": "./build",
+    "paths": {
+      "type-graphql": ["../packages/type-graphql"]
+    }
+  },
   "include": [".", "../src"]
 }

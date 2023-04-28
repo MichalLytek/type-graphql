@@ -1,0 +1,117 @@
+{
+  "name": "type-graphql",
+  "version": "2.0.0",
+  "private": false,
+  "description": "Create GraphQL schema and resolvers with TypeScript, using classes and decorators!",
+  "keywords": [
+    "typescript",
+    "graphql",
+    "schema",
+    "resolvers",
+    "api",
+    "decorators",
+    "controllers",
+    "apollo"
+  ],
+  "homepage": "https://typegraphql.com",
+  "bugs": {
+    "url": "https://github.com/MichalLytek/type-graphql/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichalLytek/type-graphql.git"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/TypeGraphQL"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/typegraphql"
+    }
+  ],
+  "license": "MIT",
+  "author": "Michał Lytek (https://github.com/MichalLytek)",
+  "exports": {
+    ".": {
+      "require": "./build/cjs/index.js",
+      "import": "./build/esm/index.js",
+      "types": "./build/typings/index.d.ts"
+    }
+  },
+  "main": "./build/cjs/index.js",
+  "module": "./build/esm/index.js",
+  "types": "./build/typings/index.d.ts",
+  "files": [
+    "./build"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean && npm run --prefix ../../ check:version",
+    "build": "npx tsc --build ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.typings.json",
+    "postbuild": "npx shx rm ./build/typings/browser-shim.d.ts && npx shx cp ./src/browser-shim.ts ./build/typings && npx ts-node ../../scripts/package.json.ts --on root",
+    "check": "npx npm-run-all --npm-path npm \"check:*\"",
+    "check:format": "npx prettier --check .",
+    "check:spell": "npx cspell lint --config cspell.json --no-progress --show-context \"**\"",
+    "check:type": "npx npm-run-all --npm-path npm \"check:type:*\"",
+    "check:type:cjs": "npx tsc --project ./tsconfig.cjs.json --noEmit",
+    "check:type:esm": "npx tsc --project ./tsconfig.esm.json --noEmit",
+    "check:type:typings": "npx tsc --project ./tsconfig.typings.json --noEmit --emitDeclarationOnly false",
+    "clean": "npx npm-run-all --npm-path npm \"clean:*\"",
+    "clean:build": "npx shx rm -rf ./build",
+    "clean:coverage": "npx shx rm -rf ./coverage",
+    "fix": "npx npm-run-all --npm-path npm \"fix:*\"",
+    "fix:format": "npx prettier --write .",
+    "fix:lint": "npx eslint --fix .",
+    "prepublishOnly": "npm run build && npm run --prefix ../../ gen:readme",
+    "release": "npm version --message \"release: %s\"",
+    "pretest": "npm run clean",
+    "test": "npx jest --verbose --coverage",
+    "pretest:ci": "npm run clean",
+    "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand",
+    "pretest:watch": "npm run clean",
+    "test:watch": "npx jest --watch",
+    "version": "npm run --prefix website version --release=$npm_package_version"
+  },
+  "dependencies": {
+    "@types/node": "*",
+    "@types/semver": "^7.3.13",
+    "graphql-query-complexity": "^0.12.0",
+    "graphql-subscriptions": "^2.0.0",
+    "semver": "^7.3.8",
+    "tslib": "^2.5.0"
+  },
+  "devDependencies": {
+    "@graphql-tools/schema": "^9.0.17",
+    "@graphql-tools/utils": "^9.2.1",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "@types/shelljs": "^0.8.11",
+    "class-validator": "^0.14.0",
+    "graphql": "^16.6.0",
+    "graphql-scalars": "^1.21.3",
+    "graphql-tag": "^2.12.6",
+    "npm-run-all": "^4.1.5",
+    "reflect-metadata": "^0.1.13",
+    "shelljs": "^0.8.5",
+    "shx": "^0.3.4",
+    "sponsorkit": "^0.8.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typedi": "^0.10.0",
+    "typescript": "^4.9.5",
+    "typescript-transform-paths": "^3.4.6",
+    "typescript-transformer-esm": "^1.0.0"
+  },
+  "peerDependencies": {
+    "class-validator": ">=0.14.0",
+    "graphql": "^16.6.0"
+  },
+  "engines": {
+    "node": ">= 14.5.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

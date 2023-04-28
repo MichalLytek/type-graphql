@@ -1,21 +1,22 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": { "outDir": "./build", "rootDir": ".", "paths": {} },
-  "include": [
-    "./apollo-cache",
-    "./authorization",
-    "./automatic-validation",
-    "./custom-validation",
-    "./enums-and-unions",
-    "./extensions",
-    "./generic-types",
-    "./graphql-scalars",
-    "./query-complexity",
-    "./simple-usage",
-    "./tsyringe",
-    "./typeorm-basic-usage",
-    "./typeorm-lazy-relations",
-    "./using-container",
-    "./using-scoped-container"
+  "compilerOptions": {
+    "paths": {
+      "type-graphql": ["../packages/type-graphql/src/index.ts"],
+      "@/*": ["../packages/type-graphql/src/*"]
+    }
+  },
+  "exclude": [
+    "./apollo-client",
+    "./apollo-federation",
+    "./esm",
+    "./interfaces-inheritance",
+    "./middlewares-custom-decorators",
+    "./mikro-orm",
+    "./mixin-classes",
+    "./redis-subscriptions",
+    "./resolvers-inheritance",
+    "./simple-subscriptions",
+    "./typegoose"
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "dependencies": {
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "file:../packages/type-graphql"
+  }
+}

@@ -3,14 +3,7 @@
     "target": "es2019",
     "module": "commonjs",
     "declaration": false,
-    "sourceMap": false,
-    "outDir": "./build",
     "moduleResolution": "node",
-    "paths": {
-      "@/*": ["./src/*"],
-      "type-graphql": ["./src/index.ts"]
-    },
-    "removeComments": true,
     "importHelpers": true,
     "strict": true,
     "allowUnreachableCode": false,
@@ -44,7 +37,5 @@
         "afterDeclarations": true
       }
     ]
-  },
-  "exclude": ["./node_modules", "./build"],
-  "include": ["./src"]
+  }
 }

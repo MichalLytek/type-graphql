@@ -10,10 +10,17 @@
     "@apollo/cache-control-types": "^1.0.2",
     "@apollo/server": "^4.6.0",
     "@apollo/server-plugin-response-cache": "^4.1.2",
+    "class-validator": "^0.14.0",
+    "graphql": "^16.6.0",
+    "graphql-query-complexity": "^0.12.0",
+    "graphql-scalars": "^1.21.3",
+    "graphql-tag": "^2.12.6",
     "joiful": "^3.0.2",
     "pg": "^8.10.0",
+    "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.7.0",
-    "type-graphql": "file:..",
+    "type-graphql": "file:../packages/type-graphql",
+    "typedi": "^0.10.0",
     "typeorm": "^0.3.14"
   }
 }

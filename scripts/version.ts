@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
 import { graphQLPeerDependencyVersion } from "@/utils/graphql-version";
-import packageJson from "../package.json";
+import packageJson from "../packages/type-graphql/package.json";
 
 if (graphQLPeerDependencyVersion !== packageJson.peerDependencies.graphql) {
   throw new Error(

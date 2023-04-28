@@ -1,13 +1,13 @@
-{
-  "rules": {
+module.exports = {
+  rules: {
     "no-console": "off",
     "max-classes-per-file": "off",
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": true
-      }
-    ]
-  }
-}
+        devDependencies: true,
+      },
+    ],
+  },
+};
