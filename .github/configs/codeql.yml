@@ -1,7 +1,5 @@
 name: CodeQL Configuration
 
-paths:
-  - src
-
 paths-ignore:
-  - src/**/*.test.ts
+  - "**/node_modules"
+  - "**/*.test.ts"
