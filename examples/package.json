@@ -1,15 +1,17 @@
 {
   "private": true,
   "scripts": {
-    "prebuild": "npm run --prefix ../ build && npm run clean",
+    "prebuild": "npm run clean",
     "build": "npx tsc --build ./tsconfig.json ./tsconfig.esm.json",
     "postbuild": "npx ts-node ../scripts/package.json.ts --on examples",
+    "check": "npx tsc --project ./tsconfig.json --noEmit",
     "clean": "npx shx rm -rf ./build"
   },
   "dependencies": {
     "@apollo/cache-control-types": "^1.0.2",
     "@apollo/server": "^4.6.0",
     "@apollo/server-plugin-response-cache": "^4.1.2",
+    "@graphql-tools/utils": "^9.2.1",
     "class-validator": "^0.14.0",
     "graphql": "^16.6.0",
     "graphql-query-complexity": "^0.12.0",
@@ -22,5 +24,8 @@
     "type-graphql": "file:../packages/type-graphql",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.14"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3"
   }
 }

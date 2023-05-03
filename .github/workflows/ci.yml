@@ -26,7 +26,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: version_package
         with:
-          cmd: jq --raw-output .version package.json
+          cmd: jq --raw-output .version packages/type-graphql/package.json
 
       - name: Read GitHub version
         uses: pozetroninc/github-action-get-latest-release@master
@@ -86,7 +86,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -99,21 +99,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        # FIXME Simplify when Node.js 14.x will no longer be supported
         run: |
-          if [ "${{ matrix.node-version }}" != "14.x" ]; then
-            npm ci
-            npm --prefix examples ci
-          else
-            npm install
-            npm --prefix examples install
-          fi
+          npm ci
 
       - name: Build
         run: |
           npm run build
-          npm run build:benchmarks
-          npm run build:examples
 
       - name: Check
         run: |
@@ -158,7 +149,7 @@ jobs:
 
       - name: Prepare package
         run: |
-          npm run prepublishOnly
+          npm run prepublishOnly --workspace type-graphql
         env:
           TYPE_GRAPHQL_REF: ${{ github.ref_name }}
 
@@ -178,7 +169,8 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
 
       - name: Publish
-        run: npm publish --ignore-scripts # Disabled prepublishOnly script
+        run: |
+          npm publish --ignore-scripts --workspace type-graphql
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import expect from "expect";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import typescript from "typescript";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";

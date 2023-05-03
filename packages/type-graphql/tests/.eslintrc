@@ -2,6 +2,7 @@
   "env": {
     "jest/globals": true
   },
+  "extends": "../.eslintrc",
   "rules": {
     "max-classes-per-file": "off",
     "class-methods-use-this": "off",

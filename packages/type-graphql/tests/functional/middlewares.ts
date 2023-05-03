@@ -60,7 +60,8 @@ describe("Middlewares", () => {
     };
     const errorCatchMiddleware: MiddlewareFn = async (_, next) => {
       try {
-        return await next();
+        const result = await next();
+        return result;
       } catch (err) {
         middlewareLogs.push((err as Error).message);
         return "errorCatchMiddleware";

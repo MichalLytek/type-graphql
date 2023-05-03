@@ -1,5 +1,9 @@
 {
   "private": true,
+  "scripts": {
+    "build": "npx tsc --build ./tsconfig.json",
+    "check": "npx tsc --project ./tsconfig.json --noEmit"
+  },
   "dependencies": {
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",

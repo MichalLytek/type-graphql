@@ -1,20 +1,19 @@
-**/build/**
-**/dist/**
-**/coverage/**
-**/node_modules/**
+**/build/
+**/dist/
+**/coverage/
+**/node_modules/
 jest.config.ts
 sponsorkit.config.ts
-**/.eslintrc.js
 
 # FIXME: Remove
-examples/apollo-client/**
-examples/apollo-federation/**
-examples/interfaces-inheritance/**
-examples/middlewares-custom-decorators/**
-examples/mikro-orm/**
-examples/mixin-classes/**
-examples/redis-subscriptions/**
-examples/resolvers-inheritance/**
-examples/simple-subscriptions/**
-examples/typegoose/**
+examples/apollo-client/
+examples/apollo-federation/
+examples/interfaces-inheritance/
+examples/middlewares-custom-decorators/
+examples/mikro-orm/
+examples/mixin-classes/
+examples/redis-subscriptions/
+examples/resolvers-inheritance/
+examples/simple-subscriptions/
+examples/typegoose/
 website/

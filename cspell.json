@@ -13,8 +13,8 @@
     "**/dist/",
     "**/coverage/",
     "**/node_modules/",
-    "./images/",
-    "./package.json",
+    "**/package.json",
+    "./images/**/*.svg",
     // FIXME: Remove
     "website/",
     "examples"
@@ -50,6 +50,7 @@
     "opencollective",
     "overfetching",
     "paramtypes",
+    "postbuild",
     "realpath",
     "returntype",
     "shellcheck",
