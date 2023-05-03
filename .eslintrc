@@ -5,17 +5,16 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": [
-      "tsconfig.json",
-      "packages/type-graphql/tsconfig.json",
-      "packages/type-graphql/tests/tsconfig.json",
-      "scripts/tsconfig.json",
-      "examples/tsconfig.json",
-      "examples/tsconfig.esm.json",
-      "benchmarks/tsconfig.json"
-    ],
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": [
+      "./tsconfig.json",
+      "./benchmarks/tsconfig.json",
+      "./examples/tsconfig.json",
+      "./examples/tsconfig.esm.json",
+      "./scripts/tsconfig.json",
+      "./packages/**/tsconfig.json"
+    ]
   },
   "settings": {
     "import/parsers": {
@@ -25,13 +24,12 @@
       "typescript": {
         "alwaysTryTypes": true,
         "project": [
-          "tsconfig.json",
-          "packages/type-graphql/tsconfig.json",
-          "packages/type-graphql/tests/tsconfig.json",
-          "scripts/tsconfig.json",
-          "examples/tsconfig.json",
-          "examples/tsconfig.esm.json",
-          "benchmarks/tsconfig.json"
+          "./tsconfig.json",
+          "./benchmarks/tsconfig.json",
+          "./examples/tsconfig.json",
+          "./examples/tsconfig.esm.json",
+          "./scripts/tsconfig.json",
+          "./packages/**/tsconfig.json"
         ]
       }
     }

@@ -1,5 +1,4 @@
 {
-  "extends": "../.eslintrc",
   "rules": {
     "no-console": "off",
     "class-methods-use-this": "off"
