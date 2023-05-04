@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import type { Class } from "type-graphql";
+import type { ClassType } from "type-graphql";
 import {
   Field,
   FieldResolver,
@@ -22,7 +22,7 @@ describe("MetadataStorage", () => {
     beforeAll(async () => {
       getMetadataStorage().clear();
 
-      function createAbstractResolver(classType: Class) {
+      function createAbstractResolver(classType: ClassType) {
         @Resolver(() => classType)
         abstract class AbstractResolver {
           @Query({ name: INHERITED_QUERY_NAME })

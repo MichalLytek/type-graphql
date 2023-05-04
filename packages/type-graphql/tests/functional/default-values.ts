@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import type { GraphQLSchema } from "graphql";
 import { printType } from "graphql";
-import type { Class } from "type-graphql";
+import type { ClassType } from "type-graphql";
 import {
   Arg,
   Field,
@@ -15,7 +15,7 @@ import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("default values", () => {
   describe("dynamic default value", () => {
-    let sampleResolver: Class;
+    let sampleResolver: ClassType;
     beforeAll(async () => {
       getMetadataStorage().clear();
 

@@ -10,7 +10,7 @@ import type {
   IntrospectionSchema,
 } from "graphql";
 import { TypeKind, graphql } from "graphql";
-import type { Class } from "type-graphql";
+import type { ClassType } from "type-graphql";
 import {
   Arg,
   Field,
@@ -150,7 +150,7 @@ describe("Generic types", () => {
     let dogsResponseMock: any;
 
     beforeEach(async () => {
-      function Connection<TItem>(TItemClass: Class<TItem>) {
+      function Connection<TItem>(TItemClass: ClassType<TItem>) {
         @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
           @Field(() => Int)
@@ -262,7 +262,7 @@ describe("Generic types", () => {
     let friendshipEdgeResponse: any;
 
     beforeEach(async () => {
-      function Edge<TNodeClass>(NodeClass: Class<TNodeClass>) {
+      function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
         @ObjectType()
         abstract class EdgeClass {
           @Field(() => NodeClass)
@@ -408,7 +408,7 @@ describe("Generic types", () => {
     let schemaIntrospection: IntrospectionSchema;
 
     beforeAll(async () => {
-      function Base<TType>(TTypeClass: Class<TType>) {
+      function Base<TType>(TTypeClass: ClassType<TType>) {
         @ObjectType()
         class BaseClass {
           @Field(() => TTypeClass)
