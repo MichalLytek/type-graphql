@@ -16,6 +16,7 @@
     "check:script": "npx shellcheck ./.husky/pre-commit",
     "check:spell": "npx cspell lint --config cspell.json --no-progress --show-context \"**\"",
     "check:version": "npx ts-node ./scripts/version.ts",
+    "clean": "npm run clean --workspaces --if-present",
     "docs": "npm run start --workspace website",
     "fix": "npx npm-run-all --npm-path npm \"fix:*\" && npm run fix --workspaces --if-present",
     "fix:format": "npx prettier --write .",

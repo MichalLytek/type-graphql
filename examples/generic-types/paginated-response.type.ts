@@ -1,8 +1,8 @@
-import type { Class } from "type-graphql";
+import type { ClassType } from "type-graphql";
 import { Field, Int, ObjectType } from "type-graphql";
 
 export function PaginatedResponse<TItemsFieldValue>(
-  itemsFieldValue: Class<TItemsFieldValue> | string | number | boolean,
+  itemsFieldValue: ClassType<TItemsFieldValue> | string | number | boolean,
 ) {
   @ObjectType()
   abstract class PaginatedResponseClass {
