@@ -1,5 +1,5 @@
 import type { ResolverData } from "./ResolverData";
-import type { Class } from "./utils";
+import type { ClassType } from "./utils";
 
 export type AuthCheckerFn<TContextType = {}, TRoleType = string> = (
   resolverData: ResolverData<TContextType>,
@@ -12,6 +12,6 @@ export type AuthCheckerInterface<TContextType = {}, TRoleType = string> = {
 
 export type AuthChecker<TContextType = {}, TRoleType = string> =
   | AuthCheckerFn<TContextType, TRoleType>
-  | Class<AuthCheckerInterface<TContextType, TRoleType>>;
+  | ClassType<AuthCheckerInterface<TContextType, TRoleType>>;
 
 export type AuthMode = "error" | "null";

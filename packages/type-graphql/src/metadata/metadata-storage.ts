@@ -1,6 +1,6 @@
 import { NoExplicitTypeError } from "@/errors";
 import type { SchemaGeneratorOptions } from "@/schema/schema-generator";
-import type { Class } from "@/typings";
+import type { ClassType } from "@/typings";
 import type {
   AuthorizedMetadata,
   BaseResolverMetadata,
@@ -286,7 +286,7 @@ export class MetadataStorage {
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
-          : () => def.target as Class;
+          : () => def.target as ClassType;
       if (def.kind === "external") {
         const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!
           .getObjectType!();

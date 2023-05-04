@@ -1,4 +1,4 @@
-export * from "./Class";
+export * from "./ClassType";
 export * from "./Constructor";
 export * from "./Except";
 export * from "./IsEqual";

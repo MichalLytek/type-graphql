@@ -1,16 +1,16 @@
 import type { UnionFromClasses } from "@/helpers/utils";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { Class } from "@/typings";
+import type { ClassType } from "@/typings";
 import type { ResolveTypeOptions } from "./types";
 
-export interface UnionTypeConfig<TClassTypes extends readonly Class[]>
+export interface UnionTypeConfig<TClassTypes extends readonly ClassType[]>
   extends ResolveTypeOptions<UnionFromClasses<TClassTypes>> {
   name: string;
   description?: string;
   types: () => TClassTypes;
 }
 
-export function createUnionType<T extends readonly Class[]>(
+export function createUnionType<T extends readonly ClassType[]>(
   config: UnionTypeConfig<T>,
 ): UnionFromClasses<T>;
 export function createUnionType({
@@ -18,7 +18,7 @@ export function createUnionType({
   description,
   types,
   resolveType,
-}: UnionTypeConfig<Class[]>): any {
+}: UnionTypeConfig<ClassType[]>): any {
   const unionMetadataSymbol = getMetadataStorage().collectUnionMetadata({
     name,
     description,

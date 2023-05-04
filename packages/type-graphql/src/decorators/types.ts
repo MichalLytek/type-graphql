@@ -1,7 +1,7 @@
 import type { GraphQLScalarType } from "graphql";
 import type { ValidateSettings } from "@/schema/build-context";
 import type {
-  Class,
+  ClassType,
   Complexity,
   ResolverFilterData,
   ResolverTopicData,
@@ -10,11 +10,11 @@ import type {
 
 export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 
-export type TypeValue = Class | GraphQLScalarType | Function | object | symbol;
+export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;
 
 export type TypeValueThunk = (type?: void) => TypeValue;
-export type ClassTypeResolver = (of?: void) => Class | Function;
+export type ClassTypeResolver = (of?: void) => ClassType | Function;
 
 export type ReturnTypeFunc = (returns?: void) => ReturnTypeFuncValue;
 
