@@ -170,7 +170,7 @@ jobs:
 
       - name: Publish
         run: |
-          npm publish --ignore-scripts --workspace type-graphql
+          npm publish --workspace type-graphql --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -191,12 +191,10 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
-          npm --prefix website ci
 
       - name: Build
-        working-directory: ./website
         run: |
-          npm run build
+          npm run build --workspace website
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3

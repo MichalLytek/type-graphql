@@ -4,7 +4,8 @@
     "benchmarks",
     "examples",
     "packages/type-graphql",
-    "scripts"
+    "scripts",
+    "website"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
@@ -15,11 +16,12 @@
     "check:script": "npx shellcheck ./.husky/pre-commit",
     "check:spell": "npx cspell lint --config cspell.json --no-progress --show-context \"**\"",
     "check:version": "npx ts-node ./scripts/version.ts",
-    "docs": "npm run --prefix website start",
+    "docs": "npm run start --workspace website",
     "fix": "npx npm-run-all --npm-path npm \"fix:*\" && npm run fix --workspaces --if-present",
     "fix:format": "npx prettier --write .",
     "fix:lint": "npx eslint --fix .",
     "fix:markdown": "npx markdownlint --fix \"**/*.md\"",
+    "gen:docs": "npx ts-node ./scripts/markdown.ts --on docs",
     "gen:readme": "npx ts-node ./scripts/markdown.ts --on readme",
     "gen:sponsorkit": "npx sponsorkit --width=320 --dir=./images --name=github-sponsors",
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
@@ -27,7 +29,7 @@
     "release": "npm version --message \"release: %s\"",
     "test": "npm run test --workspaces --if-present",
     "test:ci": "npm run test:ci --workspaces --if-present",
-    "version": "npm run --prefix website version --release=$npm_package_version"
+    "version": "npm run version --workspace website --release=$npm_package_version"
   },
   "devDependencies": {
     "@cspell/dict-node": "^4.0.2",
