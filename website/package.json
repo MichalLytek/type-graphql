@@ -2,13 +2,13 @@
   "private": true,
   "scripts": {
     "build": "npx docusaurus-build",
+    "prenew-release": "npm run --prefix ../ gen:docs -- --ref v$npm_config_release",
+    "new-release": "npx docusaurus-version $npm_config_release",
+    "postnew-release": "git restore ../docs",
     "publish-gh-pages": "npx docusaurus-publish",
     "rename-version": "npx docusaurus-rename-version",
     "prestart": "npm run --prefix ../ gen:docs",
-    "start": "npx docusaurus-start",
-    "preversion": "npm run --prefix ../ gen:docs -- --ref v$npm_config_release",
-    "version": "npx docusaurus-version $npm_config_release",
-    "postversion": "git restore ../docs && git add ."
+    "start": "npx docusaurus-start"
   },
   "devDependencies": {
     "docusaurus": "^1.14.7"

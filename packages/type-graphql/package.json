@@ -62,7 +62,9 @@
     "pretest": "npm run clean",
     "test": "npx jest --verbose --coverage",
     "pretest:ci": "npm run clean",
-    "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand"
+    "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand",
+    "version": "npm run --prefix ../../website new-release --release=$npm_package_version",
+    "postversion": "git add -A ../../ && git commit -m \"release: $npm_package_version\" && git tag v$npm_package_version"
   },
   "dependencies": {
     "@types/semver": "^7.3.13",

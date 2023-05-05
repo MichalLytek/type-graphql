@@ -27,10 +27,9 @@
     "gen:sponsorkit": "npx sponsorkit --width=320 --dir=./images --name=github-sponsors",
     "postgen:sponsorkit": "npx shx cp ./images/github-sponsors.svg ./website/static/img/github-sponsors.svg",
     "prepare": "npx ts-patch install -s && npx husky install && npm run build --workspace type-graphql",
-    "release": "npm version --message \"release: %s\"",
     "test": "npm run test --workspaces --if-present",
     "test:ci": "npm run test:ci --workspaces --if-present",
-    "version": "npm run version --workspace website --release=$npm_package_version"
+    "release": "npm version --workspace packages/type-graphql"
   },
   "devDependencies": {
     "@cspell/dict-node": "^4.0.2",
