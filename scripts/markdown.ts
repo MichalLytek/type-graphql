@@ -2,7 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import glob from "glob";
+import * as glob from "glob";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
 
