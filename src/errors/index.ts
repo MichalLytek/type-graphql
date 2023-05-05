@@ -5,6 +5,7 @@ export * from "./GeneratingSchemaError";
 export * from "./ConflictingDefaultValuesError";
 export * from "./InterfaceResolveTypeError";
 export * from "./InvalidDirectiveError";
+export * from "./InvalidParamDecoratorError";
 export * from "./MissingSubscriptionTopicsError";
 export * from "./NoExplicitTypeError";
 export * from "./ReflectMetadataMissingError";
