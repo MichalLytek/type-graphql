@@ -8,6 +8,7 @@ import {
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getParamInfo } from "../helpers/params";
 import { getTypeDecoratorParams } from "../helpers/decorators";
+import { ParameterDecorator } from "../interfaces/LegacyDecorators";
 
 export type ArgOptions = DecoratorTypeOptions &
   DescriptionOptions &

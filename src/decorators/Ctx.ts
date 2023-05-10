@@ -1,5 +1,6 @@
 import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { SymbolKeysNotSupportedError } from "../errors";
+import { ParameterDecorator } from "../interfaces/LegacyDecorators";
 
 export function Ctx(propertyName?: string): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {

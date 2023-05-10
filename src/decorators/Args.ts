@@ -2,6 +2,7 @@ import { getMetadataStorage } from "../metadata/getMetadataStorage";
 import { getParamInfo } from "../helpers/params";
 import { ValidateOptions, ReturnTypeFunc } from "./types";
 import { getTypeDecoratorParams } from "../helpers/decorators";
+import { ParameterDecorator } from "../interfaces/LegacyDecorators";
 
 export function Args(): ParameterDecorator;
 export function Args(options: ValidateOptions): ParameterDecorator;
