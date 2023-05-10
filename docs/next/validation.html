@@ -69,7 +69,10 @@ By default, we can use the <a href="https://github.com/typestack/class-validator
 <p>We can also use other libraries or our own custom solution, as described in <a href="#custom-validators">custom validators</a> section.</p>
 <h2><a class="anchor" aria-hidden="true" id="class-validator"></a><a href="#class-validator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>class-validator</code></h2>
 <h3><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use</h3>
-<p>First we decorate the input/arguments class with the appropriate decorators from <code>class-validator</code>.
+<p>First, we need to install the <code>class-validator</code> package:</p>
+<pre><code class="hljs css language-sh"><span class="token function">npm</span> i class-validator
+</code></pre>
+<p>Then we decorate the input/arguments class with the appropriate decorators from <code>class-validator</code>.
 So we take this:</p>
 <pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">InputType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeInput</span> <span class="token punctuation">{</span>
@@ -94,6 +97,12 @@ So we take this:</p>
   description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<p>Then we need to enable the auto-validate feature (as it's disabled by default) by simply setting <code>validate: true</code> in <code>buildSchema</code> options, e.g.:</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  validate<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// enable `class-validator` integration</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 <p>And that's it! 😉</p>
 <p>TypeGraphQL will automatically validate our inputs and arguments based on the definitions:</p>
 <pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
@@ -108,13 +117,8 @@ So we take this:</p>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>Of course, <a href="https://github.com/typestack/class-validator#validation-decorators">there are many more decorators</a> we have access to, not just the simple <code>@Length</code> decorator used in the example above, so take a look at the <code>class-validator</code> documentation.</p>
-<p>This feature is enabled by default. However, we can disable it if we must:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  validate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// disable automatic validation or pass the default config object</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<p>And we can still enable it per resolver's argument if we need to:</p>
+<p>We don't have to enable this feature for all resolvers.
+It's also possible to keep <code>validate: false</code> in <code>buildSchema</code> options but still enable it per resolver's argument if we need to:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
   <span class="token keyword">async</span> <span class="token function">addRecipe</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> validate<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> recipeInput<span class="token operator">:</span> RecipeInput<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -133,7 +137,8 @@ So we take this:</p>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Note that by default, the <code>skipMissingProperties</code> setting of the <code>class-validator</code> is set to <code>true</code> because GraphQL will independently check whether the params/fields exist or not.</p>
+<p>Note that by default, the <code>skipMissingProperties</code> setting of the <code>class-validator</code> is set to <code>true</code> because GraphQL will independently check whether the params/fields exist or not.
+Same goes to <code>forbidUnknownValues</code> setting which is set to <code>false</code> because the GraphQL runtime checks for additional data, not described in schema.</p>
 <p>GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the <code>@IsOptional</code>, <code>@Allow</code>, <code>@IsString</code> or the <code>@IsInt</code> decorators at all!</p>
 <p>However, when using nested input or arrays, we always have to use <a href="https://github.com/typestack/class-validator#validating-nested-objects"><code>@ValidateNested()</code> decorator</a> or <a href="https://github.com/typestack/class-validator#validating-arrays"><code>{ each: true }</code> option</a> to make nested validation work properly.</p>
 <h3><a class="anchor" aria-hidden="true" id="response-to-the-client"></a><a href="#response-to-the-client" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Response to the Client</h3>
@@ -207,12 +212,12 @@ It receives two parameters:</p>
 <li><code>argValue</code> which is the injected value of <code>@Arg()</code> or <code>@Args()</code></li>
 <li><code>argType</code> which is a runtime type information (e.g. <code>String</code> or <code>RecipeInput</code>).</li>
 </ul>
-<p>The <code>validate</code> function can be async and should return nothing (<code>void</code>) when validation passes or throw an error when validation fails.
-So be aware of this while trying to wrap another library in <code>validate</code> function for TypeGraphQL.</p>
+<p>The <code>validateFn</code> option can be an async function and should return nothing (<code>void</code>) when validation passes or throw an error when validation fails.
+So be aware of this while trying to wrap another library in <code>validateFn</code> function for TypeGraphQL.</p>
 <p>Example using <a href="https://github.com/joiful-ts/joiful">decorators library for Joi validators (<code>joiful</code>)</a>:</p>
 <pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// ...other options</span>
-  <span class="token function-variable function">validate</span><span class="token operator">:</span> argValue <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">validateFn</span><span class="token operator">:</span> argValue <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token comment">// call joiful validate</span>
     <span class="token keyword">const</span> <span class="token punctuation">{</span> error <span class="token punctuation">}</span> <span class="token operator">=</span> joiful<span class="token punctuation">.</span><span class="token function">validate</span><span class="token punctuation">(</span>argValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
