@@ -382,7 +382,45 @@ describe("Validation", () => {
       localArgsData = undefined;
     });
 
-    it("should pass incorrect args when validation is turned off", async () => {
+    it("should pass incorrect args when validation is turned off by default", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field({ nullable: true })
+        field?: string;
+      }
+      @ArgsType()
+      class SampleArguments {
+        @Field()
+        @MaxLength(5)
+        field: string;
+      }
+      @Resolver(of => SampleObject)
+      class SampleResolver {
+        @Query()
+        sampleQuery(@Args() args: SampleArguments): SampleObject {
+          localArgsData = args;
+          return {};
+        }
+      }
+      const localSchema = await buildSchema({
+        resolvers: [SampleResolver],
+        // default - `validate: false,`
+      });
+
+      const query = `query {
+        sampleQuery(
+          field: "12345678",
+        ) {
+          field
+        }
+      }`;
+      await graphql({ schema: localSchema, source: query });
+      expect(localArgsData).toEqual({ field: "12345678" });
+    });
+
+    it("should pass incorrect args when validation is turned off explicitly", async () => {
       getMetadataStorage().clear();
 
       @ObjectType()
@@ -667,10 +705,10 @@ describe("Custom validation", () => {
     sampleQueryArgs = [];
   });
 
-  it("should call `validate` function provided in option with proper params", async () => {
+  it("should call `validateFn` function provided in option with proper params", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: (arg, type) => {
+      validateFn: (arg, type) => {
         validateArgs.push(arg);
         validateTypes.push(type);
       },
@@ -686,7 +724,7 @@ describe("Custom validation", () => {
   it("should inject validated arg as resolver param", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: () => {
+      validateFn: () => {
         // do nothing
       },
     });
@@ -699,7 +737,7 @@ describe("Custom validation", () => {
   it("should rethrow wrapped error when error thrown in `validate`", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: () => {
+      validateFn: () => {
         throw new Error("Test validate error");
       },
     });

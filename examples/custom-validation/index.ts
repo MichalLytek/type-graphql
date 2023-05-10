@@ -12,7 +12,7 @@ async function bootstrap() {
     resolvers: [RecipeResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     // custom validate function
-    validate: (argValue, argType) => {
+    validateFn: (argValue, argType) => {
       // call joiful validate
       const { error } = joiful.validate(argValue);
       if (error) {

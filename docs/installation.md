@@ -10,10 +10,10 @@ Before getting started with TypeGraphQL we need to install some additional depen
 
 ## Packages installation
 
-First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) and [`class-validator`](https://github.com/typestack/class-validator) which are peer dependencies of TypeGraphQL:
+First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) which is a peer dependency of TypeGraphQL:
 
 ```sh
-npm i graphql class-validator type-graphql
+npm i graphql type-graphql
 ```
 
 Also, the `reflect-metadata` shim is required to make the type reflection work:

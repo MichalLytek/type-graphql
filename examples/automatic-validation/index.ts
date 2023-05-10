@@ -10,6 +10,8 @@ async function bootstrap() {
   const schema = await buildSchema({
     resolvers: [RecipeResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // remember to turn on validation!
+    validate: true,
   });
 
   // Create GraphQL server

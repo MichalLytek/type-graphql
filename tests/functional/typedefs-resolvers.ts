@@ -243,6 +243,7 @@ describe("typeDefs and resolvers", () => {
         pubSub,
         container: Container,
         orphanedTypes: [SampleType1],
+        validate: true,
       }));
       schema = makeExecutableSchema({
         typeDefs,

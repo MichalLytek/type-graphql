@@ -16,7 +16,13 @@ We can also use other libraries or our own custom solution, as described in [cus
 
 ### How to use
 
-First we decorate the input/arguments class with the appropriate decorators from `class-validator`.
+First, we need to install the `class-validator` package:
+
+```sh
+npm i class-validator
+```
+
+Then we decorate the input/arguments class with the appropriate decorators from `class-validator`.
 So we take this:
 
 ```typescript
@@ -47,6 +53,15 @@ export class RecipeInput {
 }
 ```
 
+Then we need to enable the auto-validate feature (as it's disabled by default) by simply setting `validate: true` in `buildSchema` options, e.g.:
+
+```typescript
+const schema = await buildSchema({
+  resolvers: [RecipeResolver],
+  validate: true, // enable `class-validator` integration
+});
+```
+
 And that's it! 😉
 
 TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
@@ -66,16 +81,8 @@ export class RecipeResolver {
 
 Of course, [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators) we have access to, not just the simple `@Length` decorator used in the example above, so take a look at the `class-validator` documentation.
 
-This feature is enabled by default. However, we can disable it if we must:
-
-```typescript
-const schema = await buildSchema({
-  resolvers: [RecipeResolver],
-  validate: false, // disable automatic validation or pass the default config object
-});
-```
-
-And we can still enable it per resolver's argument if we need to:
+We don't have to enable this feature for all resolvers.
+It's also possible to keep `validate: false` in `buildSchema` options but still enable it per resolver's argument if we need to:
 
 ```typescript
 class RecipeResolver {
@@ -101,6 +108,7 @@ class RecipeResolver {
 ```
 
 Note that by default, the `skipMissingProperties` setting of the `class-validator` is set to `true` because GraphQL will independently check whether the params/fields exist or not.
+Same goes to `forbidUnknownValues` setting which is set to `false` because the GraphQL runtime checks for additional data, not described in schema.
 
 GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the `@IsOptional`, `@Allow`, `@IsString` or the `@IsInt` decorators at all!
 
@@ -193,15 +201,15 @@ It receives two parameters:
 - `argValue` which is the injected value of `@Arg()` or `@Args()`
 - `argType` which is a runtime type information (e.g. `String` or `RecipeInput`).
 
-The `validate` function can be async and should return nothing (`void`) when validation passes or throw an error when validation fails.
-So be aware of this while trying to wrap another library in `validate` function for TypeGraphQL.
+The `validateFn` option can be an async function and should return nothing (`void`) when validation passes or throw an error when validation fails.
+So be aware of this while trying to wrap another library in `validateFn` function for TypeGraphQL.
 
 Example using [decorators library for Joi validators (`joiful`)](https://github.com/joiful-ts/joiful):
 
 ```ts
 const schema = await buildSchema({
   // ...other options
-  validate: argValue => {
+  validateFn: argValue => {
     // call joiful validate
     const { error } = joiful.validate(argValue);
     if (error) {

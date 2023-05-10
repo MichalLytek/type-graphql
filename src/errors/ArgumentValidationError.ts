@@ -1,3 +1,4 @@
+// @ts-ignore `class-validator` might not be installed by user
 import type { ValidationError } from "class-validator";
 
 export class ArgumentValidationError extends Error {

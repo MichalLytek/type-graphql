@@ -10,11 +10,13 @@ import { AuthMiddleware } from "../helpers/auth-middleware";
 import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
 import isPromiseLike from "../utils/isPromiseLike";
 import { ValidateSettings } from "../schema/build-context";
+import { ValidatorFn } from "../interfaces/ValidatorFn";
 
 export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
+  validateFn: ValidatorFn<object> | undefined,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
@@ -27,6 +29,7 @@ export function getParams(
             paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
+            validateFn,
           );
         case "arg":
           return validateArg(
@@ -34,6 +37,7 @@ export function getParams(
             paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
+            validateFn,
           );
         case "context":
           if (paramInfo.propertyName) {

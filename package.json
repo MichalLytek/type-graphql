@@ -21,8 +21,13 @@
     "postgenerate:sponsorkit": "npx shx cp ./img/github-sponsors.svg ./website/static/img/github-sponsors.svg"
   },
   "peerDependencies": {
-    "class-validator": ">=0.14.0",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "class-validator": ">=0.14.0"
+  },
+  "peerDependenciesMeta": {
+    "class-validator": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@types/node": "*",
