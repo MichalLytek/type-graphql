@@ -2,6 +2,8 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import * as TypeORM from "typeorm";
+import path from "path";
+import dotenv from "dotenv";
 import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
@@ -10,6 +12,9 @@ import { Recipe } from "./entities/recipe";
 import { Rate } from "./entities/rate";
 import { User } from "./entities/user";
 import { seedDatabase } from "./helpers";
+
+// read .env file
+dotenv.config();
 
 export interface Context {
   user: User;
@@ -23,11 +28,7 @@ async function bootstrap() {
     // create TypeORM connection
     await TypeORM.createConnection({
       type: "postgres",
-      database: "type-graphql-basic",
-      username: "postgres", // fill this with your username
-      password: "qwerty", // and password
-      port: 5434, // and port
-      host: "localhost", // and host
+      url: process.env.DB_CONNECTION_URL,
       entities: [Recipe, Rate, User],
       synchronize: true,
       logger: "advanced-console",
@@ -43,6 +44,7 @@ async function bootstrap() {
     const schema = await buildSchema({
       resolvers: [RecipeResolver, RateResolver],
       container: Container,
+      emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     });
 
     // create mocked context

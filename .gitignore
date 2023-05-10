@@ -13,6 +13,7 @@ coverage
 
 # parcel cache
 .cache
+.parcel-cache
 
 # sponsorkit cache
 img/.cache.json

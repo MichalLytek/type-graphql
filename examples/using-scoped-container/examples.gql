@@ -20,14 +20,7 @@ query GetRecipes {
 }
 
 mutation AddRecipe {
-  addRecipe(recipe: {
-    title: "New recipe",
-    ingredients: [
-      "One",
-      "Two",
-      "Three",
-    ],
-  }) {
+  addRecipe(recipe: { title: "New recipe", ingredients: ["One", "Two", "Three"] }) {
     id
     title
   }

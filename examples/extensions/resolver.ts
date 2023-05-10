@@ -1,11 +1,13 @@
+import { Service } from "typedi";
 import { Resolver, Query, Mutation, Arg } from "../../src";
 
 import { LogMessage } from "./log-message.decorator";
 import { Recipe } from "./recipe.type";
 import { sampleRecipes } from "./helpers/recipe";
 
+@Service()
 @Resolver()
-export class ExampleResolver {
+export class RecipeResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
   @Query(returns => [Recipe])

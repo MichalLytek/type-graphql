@@ -10,6 +10,7 @@ scalar DateTime
 
 type Employee implements IPerson {
   age: Int!
+  avatar(size: Float!): String!
   companyName: String!
   id: ID!
   name: String!
@@ -23,6 +24,7 @@ input EmployeeInput {
 
 interface IPerson {
   age: Int!
+  avatar(size: Float!): String!
   id: ID!
   name: String!
 }
@@ -34,6 +36,7 @@ type Mutation {
 
 type Person implements IPerson {
   age: Int!
+  avatar(size: Float!): String!
   id: ID!
   name: String!
 }
@@ -44,6 +47,7 @@ type Query {
 
 type Student implements IPerson {
   age: Int!
+  avatar(size: Float!): String!
   id: ID!
   name: String!
   universityName: String!

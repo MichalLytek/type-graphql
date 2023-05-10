@@ -1,5 +1,5 @@
 query FirstRecipe {
-  recipe(id:"1") {
+  recipe(id: "1") {
     title
     description
     comments {
@@ -11,19 +11,11 @@ query FirstRecipe {
 }
 
 mutation AddCommentToRecipe1 {
-	addNewComment(comment: {
-    recipeId: "1",
-    nickname: "MichalLytek",
-    content: "Nice one!"
-  })
+  addNewComment(comment: { recipeId: "1", nickname: "MichalLytek", content: "Nice one!" })
 }
 
 mutation AddCommentToRecipe2 {
-	addNewComment(comment: {
-    recipeId: "2",
-    nickname: "MichalLytek",
-    content: "Nice two!"
-  })
+  addNewComment(comment: { recipeId: "2", nickname: "MichalLytek", content: "Nice two!" })
 }
 
 subscription NewCommentsForRecipe2 {

@@ -1,10 +1,12 @@
 import { Resolver, FieldResolver, Root } from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
+import { Service } from "typedi";
 
 import { Rate } from "../entities/rate";
 import { User } from "../entities/user";
 
+@Service()
 @Resolver(of => Rate)
 export class RateResolver {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}

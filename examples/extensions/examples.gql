@@ -1,21 +1,4 @@
-query GetPublicRecipes {
-  recipes {
-    title
-    description
-    averageRating
-  }
-}
-
-query GetRecipesForAuthedUser {
-  recipes {
-    title
-    description
-    ingredients
-    averageRating
-  }
-}
-
-query GetRecipesForAdmin {
+query GetRecipes {
   recipes {
     title
     description
@@ -25,12 +8,12 @@ query GetRecipesForAdmin {
   }
 }
 
-mutation AddRecipeByAuthedUser {
+mutation AddRecipe {
   addRecipe(title: "Sample Recipe") {
     averageRating
   }
 }
 
-mutation DeleteRecipeByAdmin {
+mutation DeleteRecipe {
   deleteRecipe(title: "Recipe 1")
 }

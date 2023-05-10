@@ -2,6 +2,8 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import * as TypeORM from "typeorm";
+import path from "path";
+import dotenv from "dotenv";
 import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
@@ -11,6 +13,9 @@ import { User } from "./entities/user";
 import { seedDatabase } from "./helpers";
 import { Context } from "./resolvers/types/context";
 
+// read .env file
+dotenv.config();
+
 // register 3rd party IOC container
 TypeORM.useContainer(Container);
 
@@ -19,11 +24,7 @@ async function bootstrap() {
     // create TypeORM connection
     await TypeORM.createConnection({
       type: "postgres",
-      database: "type-graphql-lazy",
-      username: "postgres", // fill this with your username
-      password: "qwerty", // and password
-      port: 5434, // and port
-      host: "localhost", // and host
+      url: process.env.DB_CONNECTION_URL,
       entities: [Recipe, Rate, User],
       synchronize: true,
       logger: "advanced-console",
@@ -39,6 +40,7 @@ async function bootstrap() {
     const schema = await buildSchema({
       resolvers: [RecipeResolver],
       container: Container,
+      emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     });
 
     // create mocked context

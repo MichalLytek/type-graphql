@@ -7,27 +7,24 @@ query GetRecipes {
 }
 
 mutation CorrectAddRecipe {
-  addRecipe(input: {
-    title: "Correct title"
-    description: "Very very very very very very very very long description"
-  }) {
+  addRecipe(
+    input: {
+      title: "Correct title"
+      description: "Very very very very very very very very long description"
+    }
+  ) {
     creationDate
   }
 }
 
 mutation AddRecipeWithoutDesc {
-  addRecipe(input: {
-    title: "Correct title"
-  }) {
+  addRecipe(input: { title: "Correct title" }) {
     creationDate
   }
 }
 
 mutation IncorrectAddRecipe {
-  addRecipe(input: {
-    title: "Correct title"
-    description: "Too short description"
-  }) {
+  addRecipe(input: { title: "Correct title", description: "Too short description" }) {
     creationDate
   }
 }

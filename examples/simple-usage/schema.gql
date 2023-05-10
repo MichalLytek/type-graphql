@@ -27,7 +27,7 @@ type Recipe {
   """The recipe description with preparation info"""
   description: String
   ratings: [Int!]!
-  ratingsCount(minRate: Int = 0): Int!
+  ratingsCount(minRate: Int! = 0): Int!
   specification: String @deprecated(reason: "Use `description` field instead")
   title: String!
 }

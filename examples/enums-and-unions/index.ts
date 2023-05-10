@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
+import path from "path";
 import { buildSchema } from "../../src";
 
 import { ExampleResolver } from "./resolver";
@@ -8,6 +9,7 @@ async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [ExampleResolver],
+    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
   // Create GraphQL server

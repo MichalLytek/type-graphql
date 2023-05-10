@@ -1,9 +1,10 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import Container from "typedi";
+import path from "path";
 import { buildSchema } from "../../src";
 
-import { ExampleResolver } from "./resolver";
+import { RecipeResolver } from "./resolver";
 import { Context } from "./context.interface";
 import { LoggerMiddleware } from "./logger.middleware";
 
@@ -11,8 +12,9 @@ void (async function bootstrap() {
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     container: Container,
-    resolvers: [ExampleResolver],
+    resolvers: [RecipeResolver],
     globalMiddlewares: [LoggerMiddleware],
+    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
   // Create GraphQL server

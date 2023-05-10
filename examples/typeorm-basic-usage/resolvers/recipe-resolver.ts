@@ -1,6 +1,7 @@
 import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx, Int } from "../../../src";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
+import { Service } from "typedi";
 
 import { Recipe } from "../entities/recipe";
 import { Rate } from "../entities/rate";
@@ -9,6 +10,7 @@ import { RecipeInput } from "./types/recipe-input";
 import { Context } from "../index";
 import { RateInput } from "./types/rate-input";
 
+@Service()
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(

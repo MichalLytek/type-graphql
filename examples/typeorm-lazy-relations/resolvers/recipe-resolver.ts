@@ -7,7 +7,9 @@ import { Rate } from "../entities/rate";
 import { RecipeInput } from "./types/recipe-input";
 import { RateInput } from "./types/rate-input";
 import { Context } from "./types/context";
+import { Service } from "typedi";
 
+@Service()
 @Resolver(Recipe)
 export class RecipeResolver {
   constructor(

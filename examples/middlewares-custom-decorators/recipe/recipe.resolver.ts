@@ -1,3 +1,4 @@
+import { Service } from "typedi";
 import { Resolver, Query, Args } from "../../../src";
 
 import recipeSamples from "./recipe.samples";
@@ -7,6 +8,7 @@ import { ValidateArgs } from "../decorators/validate-args";
 import CurrentUser from "../decorators/current-user";
 import User from "../user";
 
+@Service()
 @Resolver(of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = recipeSamples;

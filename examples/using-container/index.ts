@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
+import path from "path";
 import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./recipe-resolver";
@@ -15,6 +16,7 @@ async function bootstrap() {
     resolvers: [RecipeResolver],
     // register 3rd party IOC container
     container: Container,
+    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
   // Create GraphQL server

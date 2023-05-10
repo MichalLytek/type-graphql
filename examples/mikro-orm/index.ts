@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import * as path from "path";
 import { MikroORM, ReflectMetadataProvider } from "@mikro-orm/core";
+import dotenv from "dotenv";
 import { buildSchema } from "../../src";
 
 import { RecipeResolver } from "./resolvers/recipe-resolver";
@@ -12,19 +13,17 @@ import { User } from "./entities/user";
 import { ContextType } from "./types";
 import { seedDatabase } from "./helpers";
 
+// read .env file
+dotenv.config();
+
 async function bootstrap() {
   console.log(`Initializing database connection...`);
   const orm = await MikroORM.init({
     metadataProvider: ReflectMetadataProvider,
     cache: { enabled: false },
     entities: [Rate, Recipe, User],
-    dbName: "mikro-orm",
+    clientUrl: process.env.DB_CONNECTION_URL,
     type: "postgresql",
-    user: "postgres", // fill this with your username
-    password: "qwerty", // and password
-    host: "localhost", // and host
-    port: 5434, // and port
-    // baseDir: __dirname, // defaults to `process.cwd()`
   });
 
   console.log(`Setting up the database...`);
@@ -34,9 +33,9 @@ async function bootstrap() {
   await generator.createSchema();
   await generator.updateSchema();
   // seed database with some data
-  const { defaultUser } = await seedDatabase(orm.em);
+  const { defaultUser } = await seedDatabase(orm.em.fork());
 
-  console.log(`Bootstraping schema and server...`);
+  console.log(`Bootstrapping schema and server...`);
   const schema = await buildSchema({
     resolvers: [RecipeResolver, RateResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
