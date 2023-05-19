@@ -21,7 +21,7 @@ import {
 } from "../../src";
 import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
-import { InvalidDirectiveError } from "../../src/errors/InvalidDirectiveError";
+import { InvalidDirectiveError } from "../../src/errors";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
 
 describe("Directives", () => {

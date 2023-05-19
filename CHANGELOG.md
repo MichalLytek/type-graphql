@@ -3,6 +3,10 @@
 ## Unreleased
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
+- **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
+
+## v2.0.0-beta.2
+### Features
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.6.0`
 - **Breaking Change**: `buildSchemaSync` is now also checking the generated schema for errors
