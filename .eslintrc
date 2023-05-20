@@ -12,8 +12,7 @@
       "./benchmarks/tsconfig.json",
       "./examples/tsconfig.json",
       "./examples/tsconfig.esm.json",
-      "./scripts/tsconfig.json",
-      "./packages/**/tsconfig.json"
+      "./scripts/tsconfig.json"
     ]
   },
   "settings": {
@@ -28,8 +27,7 @@
           "./benchmarks/tsconfig.json",
           "./examples/tsconfig.json",
           "./examples/tsconfig.esm.json",
-          "./scripts/tsconfig.json",
-          "./packages/**/tsconfig.json"
+          "./scripts/tsconfig.json"
         ]
       }
     }

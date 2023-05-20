@@ -52,9 +52,7 @@ const enum ANALYZE {
 }
 
 const packageJson = JSON.stringify({ type: "module" });
-const tsconfigRoot = readTsConfig(
-  path.resolve(__dirname, "../packages/type-graphql/tsconfig.esm.json"),
-);
+const tsconfigRoot = readTsConfig(path.resolve(__dirname, "../tsconfig.esm.json"));
 const tsconfigExamples = readTsConfig(path.resolve(__dirname, "../examples/tsconfig.esm.json"));
 const packageJsonRoot = path.resolve(`${tsconfigRoot.options.outDir}/package.json`);
 const packagesJsonExamples = tsconfigExamples.raw.include.map(include =>

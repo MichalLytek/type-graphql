@@ -39,6 +39,12 @@
         "transform": "typescript-transformer-esm",
         "afterDeclarations": true
       }
-    ]
-  }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "type-graphql": ["./src/index.ts"]
+    }
+  },
+  "exclude": ["./node_modules", "./build"],
+  "include": ["./src"]
 }

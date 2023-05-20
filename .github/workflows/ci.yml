@@ -26,7 +26,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: version_package
         with:
-          cmd: jq --raw-output .version packages/type-graphql/package.json
+          cmd: jq --raw-output .version package.json
 
       - name: Read GitHub version
         uses: pozetroninc/github-action-get-latest-release@master
