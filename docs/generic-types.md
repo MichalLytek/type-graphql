@@ -26,7 +26,7 @@ export default function PaginatedResponse() {
 To achieve generic-like behavior, the function has to be generic and take some runtime argument related to the type parameter:
 
 ```typescript
-export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
+export default function PaginatedResponse<TItem extends object>(TItemClass: ClassType<TItem>) {
   abstract class PaginatedResponseClass {
     // ...
   }
@@ -37,7 +37,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 Then, add proper decorators to the class which might be `@ObjectType`, `@InterfaceType` or `@InputType`:
 
 ```typescript
-export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
+export default function PaginatedResponse<TItem extends object>(TItemClass: ClassType<TItem>) {
   @ObjectType()
   abstract class PaginatedResponseClass {
     // ...
@@ -49,7 +49,7 @@ export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
 After that, add fields like in a normal class but using the generic type and parameters:
 
 ```typescript
-export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
+export default function PaginatedResponse<TItem extends object>(TItemClass: ClassType<TItem>) {
   @ObjectType()
   abstract class PaginatedResponseClass {
     // here we use the runtime argument
@@ -105,7 +105,7 @@ Basically, the parameter that the `PaginatedResponse` function accepts is the va
 So if we want to return an array of strings as the `items` field, we need to add proper types to the function signature, like `GraphQLScalarType` or `String`:
 
 ```typescript
-export default function PaginatedResponse<TItemsFieldValue>(
+export default function PaginatedResponse<TItemsFieldValue extends object>(
   itemsFieldValue: ClassType<TItemsFieldValue> | GraphQLScalarType | String | Number | Boolean,
 ) {
   @ObjectType()
@@ -136,7 +136,7 @@ But with this approach, types created with this kind of factory will be register
 To avoid generating schema errors of duplicated `PaginatedResponseClass` type names, we must provide our own unique, generated type name:
 
 ```typescript
-export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
+export default function PaginatedResponse<TItem extends object>(TItemClass: ClassType<TItem>) {
   // we have to provide a unique type name used in schema
   @ObjectType(`Paginated${TItemClass.name}Response`)
   class PaginatedResponseClass {

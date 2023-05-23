@@ -151,7 +151,7 @@ describe("Generic types", () => {
     let dogsResponseMock: any;
 
     beforeEach(async () => {
-      function Connection<TItem>(TItemClass: ClassType<TItem>) {
+      function Connection<TItem extends object>(TItemClass: ClassType<TItem>) {
         @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
           @Field(type => Int)
@@ -262,11 +262,11 @@ describe("Generic types", () => {
     let friendshipEdgeResponse: any;
 
     beforeEach(async () => {
-      function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
+      function Edge<TNode extends object>(TNodeClass: ClassType<TNode>) {
         @ObjectType()
         abstract class EdgeClass {
-          @Field(type => NodeClass)
-          node: TNodeClass;
+          @Field(type => TNodeClass)
+          node: TNode;
 
           @Field()
           cursor: string;
@@ -408,7 +408,7 @@ describe("Generic types", () => {
     let schemaIntrospection: IntrospectionSchema;
 
     beforeAll(async () => {
-      function Base<TType>(TTypeClass: ClassType<TType>) {
+      function Base<TType extends object>(TTypeClass: ClassType<TType>) {
         @ObjectType()
         class BaseClass {
           @Field(type => TTypeClass)

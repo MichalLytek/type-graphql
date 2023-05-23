@@ -1,6 +1,6 @@
 import { ClassType, Field, ObjectType, Int } from "../../src";
 
-export default function PaginatedResponse<TItemsFieldValue>(
+export default function PaginatedResponse<TItemsFieldValue extends object>(
   itemsFieldValue: ClassType<TItemsFieldValue> | String | Number | Boolean,
 ) {
   @ObjectType()

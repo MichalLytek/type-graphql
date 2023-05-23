@@ -1,3 +1,3 @@
-export interface ClassType<T = any> {
-  new (...args: any[]): T;
+export interface ClassType<TInstance extends object = object> {
+  new (...args: any[]): TInstance;
 }

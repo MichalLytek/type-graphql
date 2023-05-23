@@ -4,6 +4,7 @@
 <!-- here goes all the unreleased changes descriptions -->
 ### Features
 - **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
+- **Breaking Change**: change `ClassType` constraint from `ClassType<T = any>` to `ClassType<T extends object = object>` in order to make it work properly with new TS features
 
 ## v2.0.0-beta.2
 ### Features
