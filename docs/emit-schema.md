@@ -16,7 +16,6 @@ const schema = await buildSchema({
   // Or pass a config object
   emitSchemaFile: {
     path: __dirname + "/schema.gql",
-    commentDescriptions: true,
     sortedSchema: false, // By default the printed schema is sorted alphabetically
   },
 });

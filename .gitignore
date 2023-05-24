@@ -13,6 +13,7 @@
 
 # Parcel cache
 .cache
+.parcel-cache
 
 # Sponsorkit cache
 ./images/.cache.json

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import path from 'node:path';
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import type { ResolverData } from "type-graphql";
@@ -18,6 +19,8 @@ async function bootstrap() {
     resolvers: [RecipeResolver],
     // Registry custom, scoped IOC container from resolver data function
     container: ({ context }: ResolverData<Context>) => context.container,
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
   // Create GraphQL server

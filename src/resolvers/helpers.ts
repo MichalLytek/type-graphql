@@ -3,7 +3,7 @@ import { AuthMiddleware } from "@/helpers/auth-middleware";
 import { convertToType } from "@/helpers/types";
 import type { ParamMetadata } from "@/metadata/definitions";
 import type { ValidateSettings } from "@/schema/build-context";
-import type { AuthChecker, AuthMode, ResolverData } from "@/typings";
+import type { AuthChecker, AuthMode, ResolverData, ValidatorFn } from "@/typings";
 import type { Middleware, MiddlewareClass, MiddlewareFn } from "@/typings/Middleware";
 import type { IOCContainer } from "@/utils/container";
 import { isPromiseLike } from "@/utils/isPromiseLike";
@@ -14,6 +14,7 @@ export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
+  validateFn: ValidatorFn<object> | undefined,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
@@ -27,6 +28,7 @@ export function getParams(
             paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
+            validateFn,
           );
 
         case "arg":
@@ -35,6 +37,7 @@ export function getParams(
             paramInfo.getType(),
             globalValidate,
             paramInfo.validate,
+            validateFn,
           );
 
         case "context":
@@ -108,7 +111,7 @@ export function applyMiddlewares(
       handlerFn = resolverHandlerFunction;
     } else {
       const currentMiddleware = middlewares[currentIndex];
-      // arrow function or class
+      // Arrow function or class
       if (currentMiddleware.prototype !== undefined) {
         const middlewareClassInstance = await container.getInstance(
           currentMiddleware as MiddlewareClass<any>,

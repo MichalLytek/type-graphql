@@ -2,8 +2,8 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { connect, Types } from "mongoose";
 import * as path from "path";
+import dotenv from "dotenv";
 import { buildSchema } from "type-graphql";
-
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { RateResolver } from "./resolvers/rate-resolver";
 import { User } from "./entities/user";
@@ -11,17 +11,17 @@ import { seedDatabase } from "./helpers";
 import { TypegooseMiddleware } from "./typegoose-middleware";
 import { ObjectIdScalar } from "./object-id.scalar";
 
+dotenv.config();
+
 export interface Context {
   user: User;
 }
 
-// replace with your values if needed
-const MONGO_DB_URL = "mongodb://localhost:27017/type-graphql";
-
 async function bootstrap() {
   try {
+    console.log("DB_CONNECTION_URL", process.env.DB_CONNECTION_URL);
     // create mongoose connection
-    const mongoose = await connect(MONGO_DB_URL);
+    const mongoose = await connect(process.env.DB_CONNECTION_URL!);
 
     // clean and seed database with some data
     await mongoose.connection.db.dropDatabase();

@@ -16,6 +16,6 @@ query OneRecipe {
   }
 }
 
-mutation PromotePeronsOne {
+mutation PromotePersonOne {
   promote(personId: 1)
 }

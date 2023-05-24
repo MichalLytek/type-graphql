@@ -1,9 +1,9 @@
 import "reflect-metadata";
+import "dotenv/config";
 import { ApolloServer } from "apollo-server";
 import * as path from "path";
 import { MikroORM, ReflectMetadataProvider } from "@mikro-orm/core";
 import { buildSchema } from "type-graphql";
-
 import { RecipeResolver } from "./resolvers/recipe-resolver";
 import { RateResolver } from "./resolvers/rate-resolver";
 import { Rate } from "./entities/rate";
@@ -18,13 +18,8 @@ async function bootstrap() {
     metadataProvider: ReflectMetadataProvider,
     cache: { enabled: false },
     entities: [Rate, Recipe, User],
-    dbName: "mikro-orm",
+    clientUrl: process.env.DATABASE_URL,
     type: "postgresql",
-    user: "postgres", // fill this with your username
-    password: "qwerty", // and password
-    host: "localhost", // and host
-    port: 5434, // and port
-    // baseDir: __dirname, // defaults to `process.cwd()`
   });
 
   console.log(`Setting up the database...`);
@@ -34,12 +29,14 @@ async function bootstrap() {
   await generator.createSchema();
   await generator.updateSchema();
   // seed database with some data
-  const { defaultUser } = await seedDatabase(orm.em);
+  const { defaultUser } = await seedDatabase(orm.em.fork());
 
-  console.log(`Bootstraping schema and server...`);
+  console.log(`Bootstrapping schema and server...`);
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver, RateResolver],
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
     validate: false,
   });
   const server = new ApolloServer({

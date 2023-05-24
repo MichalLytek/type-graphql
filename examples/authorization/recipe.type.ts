@@ -18,6 +18,9 @@ export class Recipe {
 
   @Field(_type => Float, { nullable: true })
   get averageRating(): number | null {
+    if (!this.ratings.length) {
+      return null;
+    }
     return this.ratings.reduce((a, b) => a + b, 0) / this.ratings.length;
   }
 }

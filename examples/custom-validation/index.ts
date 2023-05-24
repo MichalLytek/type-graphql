@@ -14,7 +14,7 @@ async function bootstrap() {
     // Create 'schema.graphql' file with schema definition in current directory
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
     // Custom validate function
-    validate: (argValue, _argType) => {
+    validateFn: (argValue, _argType) => {
       // Call joiful validate
       const { error } = joiful.validate(argValue);
       if (error) {

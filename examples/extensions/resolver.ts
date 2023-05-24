@@ -1,10 +1,12 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Service } from "typedi";
 import { LogMessage } from "./log-message.decorator";
 import { sampleRecipes } from "./recipe.data";
 import { Recipe } from "./recipe.type";
 
+@Service()
 @Resolver()
-export class ExampleResolver {
+export class RecipeResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
   @Query(_returns => [Recipe])

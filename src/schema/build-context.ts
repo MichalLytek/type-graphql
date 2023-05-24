@@ -1,3 +1,4 @@
+// @ts-ignore 'class-validator' might not be installed by user
 import type { ValidatorOptions } from "class-validator";
 import type { GraphQLScalarType } from "graphql";
 import type { PubSubEngine, PubSubOptions } from "graphql-subscriptions";
@@ -15,7 +16,7 @@ export interface ScalarsTypeMap {
   scalar: GraphQLScalarType;
 }
 
-export type ValidateSettings = boolean | ValidatorOptions | ValidatorFn<object>;
+export type ValidateSettings = boolean | ValidatorOptions;
 
 export interface BuildContextOptions {
   dateScalarMode?: DateScalarMode;
@@ -23,9 +24,12 @@ export interface BuildContextOptions {
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
    * You can directly pass validator options to enable validator with a given options.
-   * Also, you can provide your own validation function to check the args.
    */
   validate?: ValidateSettings;
+  /**
+   * Own validation function to check the args and inputs.
+   */
+  validateFn?: ValidatorFn<object>;
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
@@ -47,6 +51,8 @@ export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
 
   static validate: ValidateSettings;
+
+  static validateFn?: ValidatorFn<object>;
 
   static authChecker?: AuthChecker<any, any>;
 
@@ -76,6 +82,10 @@ export abstract class BuildContext {
 
     if (options.validate !== undefined) {
       this.validate = options.validate;
+    }
+
+    if (options.validateFn !== undefined) {
+      this.validateFn = options.validateFn;
     }
 
     if (options.authChecker !== undefined) {
@@ -115,7 +125,8 @@ export abstract class BuildContext {
   static reset() {
     this.dateScalarMode = "isoDate";
     this.scalarsMaps = [];
-    this.validate = true;
+    this.validate = false;
+    this.validateFn = undefined;
     this.authChecker = undefined;
     this.authMode = "error";
     this.pubSub = new PubSub();
@@ -126,5 +137,5 @@ export abstract class BuildContext {
   }
 }
 
-// initialize fields
+// Initialize fields
 BuildContext.reset();

@@ -7,17 +7,19 @@
     "last 1 Chrome version"
   ],
   "dependencies": {
-    "@apollo/client": "^3.5.7",
-    "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11",
-    "graphql": "^16.2.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@apollo/client": "^3.7.14",
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.3",
+    "graphql": "^16.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@parcel/config-default": "^2.2.1",
-    "@parcel/transformer-typescript-tsc": "^2.2.1",
-    "parcel": "^2.2.1"
+    "@parcel/config-default": "^2.8.3",
+    "@parcel/transformer-typescript-tsc": "^2.8.3",
+    "events": "^3.3.0",
+    "parcel": "^2.8.3",
+    "process": "^0.11.10"
   },
   "alias": {
     "util": "./mocks/utils.js",

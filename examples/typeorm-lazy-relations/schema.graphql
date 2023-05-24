@@ -46,4 +46,5 @@ type User {
   email: String!
   id: ID!
   nickname: String
+  recipes: [Recipe!]!
 }

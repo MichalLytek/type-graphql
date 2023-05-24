@@ -4,11 +4,7 @@ import { Rating, Recipe, User } from "./entities";
 // Create TypeORM dataSource
 export const dataSource = new TypeORM.DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "",
-  database: "type-graphql-basic",
+  url: process.env.DATABASE_URL,
   synchronize: true,
   dropSchema: true,
   cache: true,

@@ -262,7 +262,7 @@ describe("Authorization", () => {
       expect(result.errors).toBeUndefined();
     });
 
-    it("should throw UnauthorizedError when guest accessing authed query", async () => {
+    it("should throw AuthenticationError when guest accessing authed query", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -280,7 +280,7 @@ describe("Authorization", () => {
       expect(error.path).toContain("authedQuery");
     });
 
-    it("should throw ForbiddenError when guest accessing query authed with roles", async () => {
+    it("should throw AuthorizationError when guest accessing query authed with roles", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -344,7 +344,7 @@ describe("Authorization", () => {
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
 
-    it("should throw UnauthorizedError when guest accessing authed object field", async () => {
+    it("should throw AuthenticationError when guest accessing authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -364,7 +364,7 @@ describe("Authorization", () => {
       expect(error.path).toContain("authedField");
     });
 
-    it("should throw ForbiddenError when guest accessing object field authed with roles", async () => {
+    it("should throw AuthorizationError when guest accessing object field authed with roles", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,

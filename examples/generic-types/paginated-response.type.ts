@@ -1,7 +1,7 @@
 import type { ClassType } from "type-graphql";
 import { Field, Int, ObjectType } from "type-graphql";
 
-export function PaginatedResponse<TItemsFieldValue>(
+export function PaginatedResponse<TItemsFieldValue extends object>(
   itemsFieldValue: ClassType<TItemsFieldValue> | string | number | boolean,
 ) {
   @ObjectType()

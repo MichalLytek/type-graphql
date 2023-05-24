@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import path from 'node:path';
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
@@ -11,7 +12,10 @@ const MAX_COMPLEXITY = 20;
 async function bootstrap() {
   // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
   // Create GraphQL server

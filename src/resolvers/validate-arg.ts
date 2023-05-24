@@ -1,7 +1,9 @@
+// @ts-ignore 'class-validator' might not be installed by user
 import type { ValidationError, ValidatorOptions } from "class-validator";
 import type { TypeValue } from "@/decorators/types";
 import { ArgumentValidationError } from "@/errors";
 import type { ValidateSettings } from "@/schema/build-context";
+import type { ValidatorFn } from '@/typings';
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";
@@ -11,14 +13,15 @@ export async function validateArg<T extends object>(
   argType: TypeValue,
   globalValidate: ValidateSettings,
   argValidate: ValidateSettings | undefined,
+  validateFn: ValidatorFn<object> | undefined,
 ): Promise<T | undefined> {
-  const validate = argValidate !== undefined ? argValidate : globalValidate;
-  if (validate === false || !shouldArgBeValidated(argValue)) {
+  if (typeof validateFn === "function") {
+    await validateFn(argValue, argType);
     return argValue;
   }
 
-  if (typeof validate === "function") {
-    await validate(argValue, argType);
+  const validate = argValidate !== undefined ? argValidate : globalValidate;
+  if (validate === false || !shouldArgBeValidated(argValue)) {
     return argValue;
   }
 
@@ -33,6 +36,7 @@ export async function validateArg<T extends object>(
     validatorOptions.forbidUnknownValues = false;
   }
 
+  // Dynamic import to avoid making 'class-validator' a peer dependency when `validate: true` is not set
   const { validateOrReject } = await import("class-validator");
   try {
     if (Array.isArray(argValue)) {

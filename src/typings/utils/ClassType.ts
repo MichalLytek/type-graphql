@@ -5,7 +5,7 @@ import type { Constructor } from "./Constructor";
 /**
 Matches a [`class`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes).
 */
-export type ClassType<T = unknown, Arguments extends unknown[] = any[]> = Constructor<
+export type ClassType<T extends object = object, Arguments extends unknown[] = any[]> = Constructor<
   T,
   Arguments
 > & {

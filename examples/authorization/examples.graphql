@@ -6,7 +6,7 @@ query GetPublicRecipes {
   }
 }
 
-query GetRecipesForAuthedUser {
+query GetRecipesForAuthorizedUser {
   recipes {
     title
     description
@@ -25,7 +25,7 @@ query GetRecipesForAdmin {
   }
 }
 
-mutation AddRecipeByAuthedUser {
+mutation AddRecipeByAuthorizedUser {
   addRecipe(title: "Sample Recipe") {
     averageRating
   }

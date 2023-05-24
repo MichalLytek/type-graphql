@@ -1,5 +1,5 @@
 import { Resolver, Query, Args } from "type-graphql";
-
+import { Service } from "typedi";
 import recipeSamples from "./recipe.samples";
 import { Recipe } from "./recipe.type";
 import { RecipesArgs } from "./recipe.args";
@@ -7,7 +7,8 @@ import { ValidateArgs } from "../decorators/validate-args";
 import CurrentUser from "../decorators/current-user";
 import User from "../user";
 
-@Resolver(of => Recipe)
+@Service()
+@Resolver(_of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = recipeSamples;
 

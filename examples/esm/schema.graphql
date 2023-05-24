@@ -33,7 +33,7 @@ type Recipe {
   """
   description: String
   ratings: [Int!]!
-  ratingsCount(minRate: Int = 0): Int!
+  ratingsCount(minRate: Int! = 0): Int!
   specification: String @deprecated(reason: "Use `description` field instead")
   title: String!
 }

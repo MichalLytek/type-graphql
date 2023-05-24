@@ -83,10 +83,11 @@
     "prepare": "npx ts-patch install -s && npx husky install && npm run build"
   },
   "dependencies": {
-    "@types/semver": "^7.3.13",
+    "@types/node": "*",
+    "@types/semver": "^7.5.0",
     "graphql-query-complexity": "^0.12.0",
     "graphql-subscriptions": "^2.0.0",
-    "semver": "^7.3.8",
+    "semver": "^7.5.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
@@ -129,7 +130,7 @@
     "shelljs": "^0.8.5",
     "shx": "^0.3.4",
     "sponsorkit": "^0.8.3",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "ts-patch": "^2.1.0",
     "tsconfig-paths": "^4.2.0",
@@ -141,6 +142,11 @@
   "peerDependencies": {
     "class-validator": ">=0.14.0",
     "graphql": "^16.6.0"
+  },
+  "peerDependenciesMeta": {
+    "class-validator": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">= 16.16.0"

@@ -2,13 +2,22 @@
 
 ## Unreleased
 
-<!-- here goes all the unreleased changes descriptions -->
+<!-- Here goes all the unreleased changes descriptions -->
+
+### Features
+
+- **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
+- **Breaking Change**: change `ClassType` constraint from `ClassType<T = any>` to `ClassType<T extends object = object>` in order to make it work properly with new TS features
+
+## v2.0.0-beta.2
 
 ### Features
 
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.6.0`
 - **Breaking Change**: `buildSchemaSync` is now also checking the generated schema for errors
+- **Breaking Change**: `validate` option of `buildSchema` is set to `false` by default - integration with `class-validator` has to be turned on explicitly
+- **Breaking Change**: `validate` option of `buildSchema` doesn't accept anymore a custom validation function - use `validateFn` option instead
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)
@@ -33,6 +42,7 @@
 - **Breaking Change**: change build config to ES2021 - drop support for Node.js < 16.16.0
 - **Breaking Change**: remove support for loading resolvers by glob paths (`resolvers: string[]` build schema option)
 - **Breaking Change**: remove `isAbstract` legacy decorator option
+- **Breaking Change**: remove the `commentDescriptions` option from `PrintSchemaOptions` (no more support for `#` comments in SDL by GraphQL v16)
 
 ## v1.1.1
 

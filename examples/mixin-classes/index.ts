@@ -11,6 +11,7 @@ async function bootstrap() {
     resolvers: [UserResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     skipCheck: true,
+    validate: true,
   });
 
   // Create GraphQL server
