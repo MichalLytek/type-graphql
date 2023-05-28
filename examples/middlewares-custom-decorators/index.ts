@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import path from 'node:path';
+import path from "node:path";
 import Container from "typedi";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";

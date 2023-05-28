@@ -1,9 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore 'class-validator' might not be installed by user
 import type { ValidationError, ValidatorOptions } from "class-validator";
 import type { TypeValue } from "@/decorators/types";
 import { ArgumentValidationError } from "@/errors";
 import type { ValidateSettings } from "@/schema/build-context";
-import type { ValidatorFn } from '@/typings';
+import type { ValidatorFn } from "@/typings";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";

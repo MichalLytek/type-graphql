@@ -3,7 +3,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import expect from "expect";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import typescript from "typescript";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
@@ -55,9 +54,11 @@ const packageJson = JSON.stringify({ type: "module" });
 const tsconfigRoot = readTsConfig(path.resolve(__dirname, "../tsconfig.esm.json"));
 const tsconfigExamples = readTsConfig(path.resolve(__dirname, "../examples/tsconfig.esm.json"));
 const packageJsonRoot = path.resolve(`${tsconfigRoot.options.outDir}/package.json`);
-const packagesJsonExamples = tsconfigExamples.raw.include.map(include =>
-  path.resolve(`${tsconfigExamples.options.outDir}/${include}/package.json`),
-);
+const packagesJsonExamples = tsconfigExamples.raw.include
+  .filter(include => include !== "../src")
+  .map(include =>
+    path.resolve(`${tsconfigExamples.options.outDir}/examples/${include}/package.json`),
+  );
 const argv = yargs(hideBin(process.argv))
   .strict()
   .env("TYPE_GRAPHQL")

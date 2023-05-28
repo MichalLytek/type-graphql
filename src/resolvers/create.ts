@@ -85,7 +85,7 @@ export function createAdvancedFieldResolver(
   const targetType = fieldResolverMetadata.getObjectType!();
   const {
     validate: globalValidate,
-    validateFn: validateFn,
+    validateFn,
     authChecker,
     authMode,
     pubSub,

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import path from 'node:path';
+import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 import { startStandaloneServer } from "@apollo/server/standalone";

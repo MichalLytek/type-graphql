@@ -1,24 +1,20 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./build",
-    "rootDir": "."
+    "outDir": "./build/cjs"
   },
-  "include": [
-    "./apollo-cache",
-    "./authorization",
-    "./automatic-validation",
-    "./custom-validation",
-    "./enums-and-unions",
-    "./extensions",
-    "./generic-types",
-    "./graphql-scalars",
-    "./query-complexity",
-    "./simple-usage",
-    "./tsyringe",
-    "./typeorm-basic-usage",
-    "./typeorm-lazy-relations",
-    "./using-container",
-    "./using-scoped-container"
+  "include": [".", "../src"],
+  "exclude": [
+    "esm",
+    "apollo-client",
+    "apollo-federation",
+    "interfaces-inheritance",
+    "middlewares-custom-decorators",
+    "mikro-orm",
+    "mixin-classes",
+    "redis-subscriptions",
+    "resolvers-inheritance",
+    "simple-subscriptions",
+    "typegoose"
   ]
 }

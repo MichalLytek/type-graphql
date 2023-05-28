@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore `class-validator` might not be installed by user
 import type { ValidationError } from "class-validator";
 import { GraphQLError } from "graphql";

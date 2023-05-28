@@ -8,7 +8,9 @@ type Cook {
   yearsOfExperience: Int!
 }
 
-"""All possible preparation difficulty levels"""
+"""
+All possible preparation difficulty levels
+"""
 enum Difficulty {
   Beginner
   Easy
