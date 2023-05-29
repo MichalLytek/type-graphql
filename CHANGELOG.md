@@ -15,6 +15,7 @@
 - **Breaking Change**: `validate` option of `buildSchema` doesn't accept anymore a custom validation function - use `validateFn` option instead
 - **Breaking Change**: removed `dateScalarMode` option from `buildSchema`
 - **Breaking Change**: make `graphql-scalars` package a peer dependency and use date scalars from it instead of custom ones
+- **Breaking Change**: exported `GraphQLISODateTime` scalar has now a name `DateTimeISO`
 - support class-based auth checker, which allows for dependency injection
 - allow defining directives for interface types and theirs fields, with inheritance for object types fields (#744)
 - allow deprecating input fields and args (#794)

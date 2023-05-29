@@ -187,21 +187,21 @@ describe("Scalars", () => {
       const explicitDateFieldType = getFieldType("explicitDateField");
 
       expect(explicitDateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(explicitDateFieldType.name).toEqual("DateTime");
+      expect(explicitDateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate Date scalar field type when prop type is Date", async () => {
       const implicitStringFieldType = getFieldType("implicitDateField");
 
       expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(implicitStringFieldType.name).toEqual("DateTime");
+      expect(implicitStringFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate ISODate scalar field type", async () => {
       const ISODateFieldType = getFieldType("ISODateField");
 
       expect(ISODateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(ISODateFieldType.name).toEqual("DateTime");
+      expect(ISODateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate Timestamp scalar field type", async () => {
@@ -278,7 +278,7 @@ describe("Scalars", () => {
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(dateFieldType.name).toEqual("DateTime");
+      expect(dateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate DateTime scalar field type when scalarsMap is using GraphQLISODateTime", async () => {
@@ -289,7 +289,7 @@ describe("Scalars", () => {
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(dateFieldType.name).toEqual("DateTime");
+      expect(dateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate Timestamp scalar field type when scalarsMap is using GraphQLTimestamp", async () => {

@@ -1,3 +1,2 @@
 export * from "./aliases";
-export { default as GraphQLISODateTime } from "./GraphQLISODateTime";
-export { GraphQLTimestamp } from "graphql-scalars";
+export { GraphQLTimestamp, GraphQLDateTimeISO as GraphQLISODateTime } from "graphql-scalars";
