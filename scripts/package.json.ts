@@ -54,11 +54,7 @@ const packageJson = JSON.stringify({ type: "module" });
 const tsconfigRoot = readTsConfig(path.resolve(__dirname, "../tsconfig.esm.json"));
 const tsconfigExamples = readTsConfig(path.resolve(__dirname, "../examples/tsconfig.esm.json"));
 const packageJsonRoot = path.resolve(`${tsconfigRoot.options.outDir}/package.json`);
-const packagesJsonExamples = tsconfigExamples.raw.include
-  .filter(include => include !== "../src")
-  .map(include =>
-    path.resolve(`${tsconfigExamples.options.outDir}/examples/${include}/package.json`),
-  );
+const packageJsonExamples = path.resolve(`${tsconfigExamples.options.outDir}/package.json`);
 const argv = yargs(hideBin(process.argv))
   .strict()
   .env("TYPE_GRAPHQL")
@@ -93,7 +89,5 @@ if (argv.on.includes(ANALYZE.ROOT)) {
 
 // examples/tsconfig.esm.json
 if (argv.on.includes(ANALYZE.EXAMPLES)) {
-  for (const packageJsonExamples of packagesJsonExamples) {
-    writePackageJson(packageJsonExamples, packageJson);
-  }
+  writePackageJson(packageJsonExamples, packageJson);
 }
