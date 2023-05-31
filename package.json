@@ -18,7 +18,8 @@
     "package": "echo TODO: bash script",
     "docs": "npm run --prefix website start",
     "generate:sponsorkit": "npx sponsorkit --width=320 --dir=./img --name=github-sponsors",
-    "postgenerate:sponsorkit": "npx shx cp ./img/github-sponsors.svg ./website/static/img/github-sponsors.svg"
+    "postgenerate:sponsorkit": "npx shx cp ./img/github-sponsors.svg ./website/static/img/github-sponsors.svg",
+    "example": "ts-node ./examples/${npm_config_example}/index.ts"
   },
   "peerDependencies": {
     "graphql": "^16.6.0",
