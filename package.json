@@ -38,8 +38,8 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@apollo/gateway": "^2.4.3",
-    "@apollo/subgraph": "^2.4.3",
+    "@apollo/gateway": "^2.4.7",
+    "@apollo/subgraph": "^2.4.7",
     "@babel/plugin-syntax-decorators": "^7.21.0",
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-typescript": "^7.21.5",
