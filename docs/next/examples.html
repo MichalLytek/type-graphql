@@ -63,7 +63,8 @@
               }
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/examples.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Examples</h1></header><article><div><span><p>On the <a href="https://github.com/MichalLytek/type-graphql">GitHub repository</a> there are a few simple examples of how to use different TypeGraphQL features and how well they integrate with 3rd party libraries.</p>
-<p>All examples have an <code>examples.gql</code> file with sample queries/mutations/subscriptions that we can execute.</p>
+<p>To run some example, simply go to the subdirectory (e.g. <code>cd examples/simple-usage</code>), and then start the server (<code>ts-node ./index.ts</code>).</p>
+<p>Each subdirectory contains a <code>examples.gql</code> file with a predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (<a href="http://localhost:4000">http://localhost:4000</a>) and play with them by modifying its shape and data.</p>
 <h2><a class="anchor" aria-hidden="true" id="basics"></a><a href="#basics" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basics</h2>
 <ul>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-usage">Simple usage of fields, basic types and resolvers</a></li>
@@ -72,7 +73,7 @@
 <ul>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/enums-and-unions">Enums and unions</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions">Subscriptions (simple)</a></li>
-<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions">Subscriptions (using Redis)</a></li>
+<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions">Subscriptions (using Redis) **</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance">Interfaces</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions">Extensions (metadata)</a></li>
 </ul>
@@ -98,13 +99,14 @@
 <ul>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-basic-usage">TypeORM (manual, synchronous) *</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/typeorm-lazy-relations">TypeORM (automatic, lazy relations) *</a></li>
-<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/mikro-orm">MikroORM</a></li>
-<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose">Typegoose</a></li>
+<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/mikro-orm">MikroORM *</a></li>
+<li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose">Typegoose *</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation">Apollo federation</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache">Apollo Cache Control</a></li>
 <li><a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client">Apollo Client local state</a></li>
 </ul>
-<p><em>* Note that we need to edit the TypeORM example's <code>index.ts</code> with the credentials of our local database</em></p>
+<p><em>* Note that we need to provide env variable with connection settings to your local database</em>
+<em>** Note that we need to provide env variable with connection settings to your Redis instance</em></p>
 </span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#basics">Basics</a></li><li><a href="#advanced">Advanced</a></li><li><a href="#features-usage">Features usage</a></li><li><a href="#3rd-party-libs-integration">3rd party libs integration</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
             const html = document.querySelector("html");
 
