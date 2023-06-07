@@ -379,6 +379,6 @@ describe("Fields - schema", () => {
 
     expect(overwrittenArrayScalarFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(overwrittenArrayScalarFieldInnerType.kind).toEqual(TypeKind.SCALAR);
-    expect(overwrittenArrayScalarFieldInnerType.name).toEqual("DateTime");
+    expect(overwrittenArrayScalarFieldInnerType.name).toEqual("DateTimeISO");
   });
 });

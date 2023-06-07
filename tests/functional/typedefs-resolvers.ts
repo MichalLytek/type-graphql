@@ -370,7 +370,7 @@ describe("typeDefs and resolvers", () => {
 
       it("should emit Date scalar", async () => {
         const dateScalar = schemaIntrospection.types.find(
-          it => it.name === "DateTime",
+          it => it.name === "DateTimeISO",
         ) as IntrospectionScalarType;
 
         expect(dateScalar.kind).toBe(TypeKind.SCALAR);

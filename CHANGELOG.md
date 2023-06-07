@@ -8,6 +8,9 @@
 
 - **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
 - **Breaking Change**: change `ClassType` constraint from `ClassType<T = any>` to `ClassType<T extends object = object>` in order to make it work properly with new TS features
+- **Breaking Change**: removed `dateScalarMode` option from `buildSchema`
+- **Breaking Change**: make `graphql-scalars` package a peer dependency and use date scalars from it instead of custom ones
+- **Breaking Change**: exported `GraphQLISODateTime` scalar has now a name `DateTimeISO`
 
 ## v2.0.0-beta.2
 

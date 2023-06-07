@@ -9,8 +9,7 @@ import {
 } from "graphql";
 import type { TypeOptions } from "@/decorators/types";
 import { WrongNullableListOptionError } from "@/errors";
-import { GraphQLISODateTime } from "@/scalars/isodate";
-import { GraphQLTimestamp } from "@/scalars/timestamp";
+import { GraphQLISODateTime } from "@/scalars";
 import { BuildContext } from "@/schema/build-context";
 
 function wrapTypeInNestedList(
@@ -43,7 +42,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
     case Number:
       return GraphQLFloat;
     case Date:
-      return BuildContext.dateScalarMode === "isoDate" ? GraphQLISODateTime : GraphQLTimestamp;
+      return GraphQLISODateTime;
     default:
       return undefined;
   }
