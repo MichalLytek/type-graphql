@@ -78,7 +78,6 @@ First you need to register your resolver classes in <code>providers</code> of th
     TypeGraphQLModule<span class="token punctuation">.</span><span class="token function">forRoot</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
       emitSchemaFile<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
       authChecker<span class="token punctuation">,</span>
-      dateScalarMode<span class="token operator">:</span> <span class="token string">"timestamp"</span><span class="token punctuation">,</span>
       <span class="token function-variable function">context</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> req <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> currentUser<span class="token operator">:</span> req<span class="token punctuation">.</span>user <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
     RecipeModule<span class="token punctuation">,</span>
