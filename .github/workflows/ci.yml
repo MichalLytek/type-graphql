@@ -121,7 +121,7 @@ jobs:
 
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
-        if: matrix.node-version == '20.x'
+        if: matrix.node-version == '18.x'
 
   release:
     name: Release package on NPM
@@ -138,7 +138,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.x"
+          node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install latest npm
@@ -188,7 +188,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.x"
+          node-version: "18.x"
 
       - name: Install Dependencies
         run: |
