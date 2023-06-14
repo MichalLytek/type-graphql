@@ -1,4 +1,4 @@
-import type { GraphQLSchema } from "graphql";
+import type { ExecutionResult, GraphQLSchema } from "graphql";
 import { execute } from "graphql";
 import { gql } from "graphql-tag";
 
@@ -15,7 +15,7 @@ export async function runBenchmark(schema: GraphQLSchema) {
   console.time("singleObject");
   for (let i = 0; i < BENCHMARK_ITERATIONS; i += 1) {
     // eslint-disable-next-line no-await-in-loop
-    const result = await execute({ schema, document: singleObjectQuery });
+    const result: ExecutionResult<any> = await execute({ schema, document: singleObjectQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(result.data?.singleObject !== undefined, "data singleObject is undefined");
   }
@@ -43,11 +43,11 @@ export async function runBenchmark(schema: GraphQLSchema) {
   console.time("nestedObject");
   for (let i = 0; i < BENCHMARK_ITERATIONS; i += 1) {
     // eslint-disable-next-line no-await-in-loop
-    const result = await execute({ schema, document: nestedObjectQuery });
+    const result: ExecutionResult<any> = await execute({ schema, document: nestedObjectQuery });
     console.assert(result.data !== undefined, "result data is undefined");
     console.assert(
-      (result.data?.nestedObject as any).nestedField.nestedField.nestedField.nestedField
-        .sampleField !== undefined,
+      result.data.nestedObject.nestedField.nestedField.nestedField.nestedField.sampleField !==
+        undefined,
       "data nestedField are incorrect",
     );
   }

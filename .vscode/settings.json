@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "${workspaceFolder}/node_modules/typescript/lib",
+  "prettier.prettierPath": "${workspaceFolder}/node_modules/prettier",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[jsonc]": {

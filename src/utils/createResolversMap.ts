@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import type {
   GraphQLAbstractType,
   GraphQLFieldMap,
@@ -37,13 +38,11 @@ function generateFieldsResolvers(fields: GraphQLFieldMap<any, any>): ResolverObj
   return Object.keys(fields).reduce<ResolverObject>((fieldsMap, fieldName) => {
     const field = fields[fieldName];
     if (field.subscribe) {
-      // eslint-disable-next-line no-param-reassign
       fieldsMap[fieldName] = {
         subscribe: field.subscribe,
         resolve: field.resolve,
       };
     } else if (field.resolve) {
-      // eslint-disable-next-line no-param-reassign
       fieldsMap[fieldName] = field.resolve;
     }
     return fieldsMap;
@@ -57,7 +56,6 @@ export function createResolversMap(schema: GraphQLSchema): ResolversMap {
     .reduce<ResolversMap>((resolversMap, typeName) => {
       const type = typeMap[typeName];
       if (type instanceof GraphQLObjectType) {
-        // eslint-disable-next-line no-param-reassign
         resolversMap[typeName] = {
           ...(type.isTypeOf && {
             __isTypeOf: type.isTypeOf,
@@ -66,27 +64,22 @@ export function createResolversMap(schema: GraphQLSchema): ResolversMap {
         };
       }
       if (type instanceof GraphQLInterfaceType) {
-        // eslint-disable-next-line no-param-reassign
         resolversMap[typeName] = {
           __resolveType: generateTypeResolver(type, schema),
           ...generateFieldsResolvers(type.getFields()),
         };
       }
       if (type instanceof GraphQLScalarType) {
-        // eslint-disable-next-line no-param-reassign
         resolversMap[typeName] = type;
       }
       if (type instanceof GraphQLEnumType) {
         const enumValues = type.getValues();
-        // eslint-disable-next-line no-param-reassign
         resolversMap[typeName] = enumValues.reduce<EnumResolver>((enumMap, { name, value }) => {
-          // eslint-disable-next-line no-param-reassign
           enumMap[name] = value;
           return enumMap;
         }, {});
       }
       if (type instanceof GraphQLUnionType) {
-        // eslint-disable-next-line no-param-reassign
         resolversMap[typeName] = {
           __resolveType: generateTypeResolver(type, schema),
         };

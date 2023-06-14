@@ -1,7 +1,7 @@
 import { pathsToModuleNameMapper, JestConfigWithTsJest } from "ts-jest";
 import tsconfig from "./tsconfig.json";
 
-export default <JestConfigWithTsJest>{
+export default {
   preset: "ts-jest",
   verbose: false,
   rootDir: "./",
@@ -20,4 +20,4 @@ export default <JestConfigWithTsJest>{
   testMatch: ["**/functional/**/*.ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   coverageDirectory: "<rootDir>/coverage",
-};
+} satisfies JestConfigWithTsJest;

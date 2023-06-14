@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { NoExplicitTypeError } from "@/errors";
 import type { SchemaGeneratorOptions } from "@/schema/schema-generator";
 import type { ClassType } from "@/typings";
@@ -204,37 +205,29 @@ export class MetadataStorage {
       if (!def.fields) {
         const fields = this.fields.filter(field => field.target === def.target);
         fields.forEach(field => {
-          // eslint-disable-next-line no-param-reassign
           field.roles = this.findFieldRoles(field.target, field.name);
-          // eslint-disable-next-line no-param-reassign
           field.params = this.params.filter(
             param => param.target === field.target && field.name === param.methodName,
           );
-          // eslint-disable-next-line no-param-reassign
           field.middlewares = mapMiddlewareMetadataToArray(
             this.middlewares.filter(
               middleware =>
                 middleware.target === field.target && middleware.fieldName === field.name,
             ),
           );
-          // eslint-disable-next-line no-param-reassign
           field.directives = this.fieldDirectives
             .filter(it => it.target === field.target && it.fieldName === field.name)
             .map(it => it.directive);
-          // eslint-disable-next-line no-param-reassign
           field.extensions = this.findExtensions(field.target, field.name);
         });
-        // eslint-disable-next-line no-param-reassign
         def.fields = fields;
       }
       if (!def.directives) {
-        // eslint-disable-next-line no-param-reassign
         def.directives = this.classDirectives
           .filter(it => it.target === def.target)
           .map(it => it.directive);
       }
       if (!def.extensions) {
-        // eslint-disable-next-line no-param-reassign
         def.extensions = this.findExtensions(def.target);
       }
     });
@@ -245,25 +238,19 @@ export class MetadataStorage {
       const resolverClassMetadata = this.resolverClasses.find(
         resolver => resolver.target === def.target,
       )!;
-      // eslint-disable-next-line no-param-reassign
       def.resolverClassMetadata = resolverClassMetadata;
-      // eslint-disable-next-line no-param-reassign
       def.params = this.params.filter(
         param => param.target === def.target && def.methodName === param.methodName,
       );
-      // eslint-disable-next-line no-param-reassign
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      // eslint-disable-next-line no-param-reassign
       def.middlewares = mapMiddlewareMetadataToArray(
         this.middlewares.filter(
           middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
         ),
       );
-      // eslint-disable-next-line no-param-reassign
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
-      // eslint-disable-next-line no-param-reassign
       def.extensions = this.findExtensions(def.target, def.methodName);
     });
   }
@@ -274,15 +261,11 @@ export class MetadataStorage {
   ) {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
-      // eslint-disable-next-line no-param-reassign
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      // eslint-disable-next-line no-param-reassign
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
-      // eslint-disable-next-line no-param-reassign
       def.extensions = this.findExtensions(def.target, def.methodName);
-      // eslint-disable-next-line no-param-reassign
       def.getObjectType =
         def.kind === "external"
           ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
@@ -338,7 +321,6 @@ export class MetadataStorage {
           if (def.roles) {
             typeField.roles = def.roles;
           } else if (typeField.roles) {
-            // eslint-disable-next-line no-param-reassign
             def.roles = typeField.roles;
           }
         }

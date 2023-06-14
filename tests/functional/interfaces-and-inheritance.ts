@@ -26,7 +26,7 @@ import {
 } from "type-graphql";
 import { GeneratingSchemaError } from "@/errors";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -490,7 +490,7 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should throw error when field type doesn't match with interface", async () => {
-      const error = await getError(async () => {
+      const error = await expectToThrow(async () => {
         @InterfaceType()
         class IBase {
           @Field()
@@ -534,7 +534,7 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should throw error when not interface type is provided as `implements` option", async () => {
-      const error = await getError(async () => {
+      const error = await expectToThrow(async () => {
         @ObjectType()
         class SampleNotInterface {
           @Field()

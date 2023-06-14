@@ -10,7 +10,7 @@ import type {
 import { TypeKind } from "graphql";
 import { Field, GraphQLISODateTime, ObjectType, Query, Resolver } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Fields - schema", () => {
@@ -116,7 +116,7 @@ describe("Fields - schema", () => {
   it("should throw error when field type not provided", async () => {
     getMetadataStorage().clear();
 
-    const error = await getError(() => {
+    const error = await expectToThrow(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
@@ -133,7 +133,7 @@ describe("Fields - schema", () => {
   it("should throw error when field type is array and no explicit type provided", async () => {
     getMetadataStorage().clear();
 
-    const error = await getError(() => {
+    const error = await expectToThrow(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
@@ -150,7 +150,7 @@ describe("Fields - schema", () => {
   it("should throw error when cannot determine field type", async () => {
     getMetadataStorage().clear();
 
-    const error = await getError(() => {
+    const error = await expectToThrow(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
@@ -168,7 +168,7 @@ describe("Fields - schema", () => {
     getMetadataStorage().clear();
 
     const symbolKey = Symbol("symbolKey");
-    const error = await getError(() => {
+    const error = await expectToThrow(() => {
       @ObjectType()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {

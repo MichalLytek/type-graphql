@@ -28,7 +28,7 @@ import {
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import { sleep } from "../helpers/sleep";
@@ -625,7 +625,7 @@ describe("Subscriptions", () => {
 
     it("should throw error while passing empty topics array to Subscription", async () => {
       getMetadataStorage().clear();
-      const error = await getError(async () => {
+      const error = await expectToThrow(async () => {
         class SampleResolver {
           @Query()
           dumbQuery(): boolean {

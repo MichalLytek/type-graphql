@@ -39,7 +39,7 @@ import {
   createParamDecorator,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
@@ -883,7 +883,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when arg type is not correct", async () => {
-        const error = await getError(() => {
+        const error = await expectToThrow(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -902,7 +902,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when query return type not provided", async () => {
-        const error = await getError(() => {
+        const error = await expectToThrow(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -921,7 +921,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when provided query return type is not correct", async () => {
-        const error = await getError(() => {
+        const error = await expectToThrow(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -940,7 +940,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when mutation return type not provided", async () => {
-        const error = await getError(() => {
+        const error = await expectToThrow(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -959,7 +959,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error provided mutation return type is not correct", async () => {
-        const error = await getError(() => {
+        const error = await expectToThrow(() => {
           @Resolver()
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
@@ -978,7 +978,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @Resolver()
           class SampleResolverWithError {
             @Query()
@@ -1004,7 +1004,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when creating independent field resolver with no type info", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @ObjectType()
           class SampleObjectWithError {
             @Field()
@@ -1036,7 +1036,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when using undecorated class as an explicit type", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           class SampleUndecoratedObject {
             sampleField!: string;
           }
@@ -1061,7 +1061,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when using object type class is used as explicit type in place of input type", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @ObjectType()
           class SampleObject {
             @Field()
@@ -1088,7 +1088,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when using object type class is used as explicit type in place of args type", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @ObjectType()
           class SampleObject {
             @Field()
@@ -1114,7 +1114,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when declared default values are not equal", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "decoratorDefaultValue" })
@@ -1140,7 +1140,7 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when list nullable option is combined with non-list type", async () => {
-        const error = await getError(async () => {
+        const error = await expectToThrow(async () => {
           @InputType()
           class SampleInput {
             @Field({ nullable: "items" })
@@ -2035,7 +2035,7 @@ describe("Resolvers", () => {
     it("should throw errors when no resolvers provided", async () => {
       getMetadataStorage().clear();
 
-      const error = await getError(() => buildSchema({ resolvers: [] as any }));
+      const error = await expectToThrow(() => buildSchema({ resolvers: [] as any }));
 
       expect(error.message).toContain("Empty");
       expect(error.message).toContain("resolvers");

@@ -3,7 +3,7 @@ import type { IntrospectionObjectType } from "graphql";
 import { TypeKind, graphql } from "graphql";
 import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Circular references", () => {
@@ -48,7 +48,7 @@ describe("Circular references", () => {
   it("should throw error when not providing type function for circular type references", async () => {
     getMetadataStorage().clear();
 
-    const errorRef1 = await getError(
+    const errorRef1 = await expectToThrow(
       async () => (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1,
     );
 
@@ -57,7 +57,7 @@ describe("Circular references", () => {
     expect(errorRef1.message).toContain("ref1Field");
     jest.resetModules();
 
-    const errorRef2 = await getError(
+    const errorRef2 = await expectToThrow(
       async () => (await import("../helpers/circular-refs/wrong/CircularRef2")).CircularRef2,
     );
     expect(errorRef2).toBeInstanceOf(Error);

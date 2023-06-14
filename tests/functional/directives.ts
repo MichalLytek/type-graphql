@@ -23,7 +23,7 @@ import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 
 describe("Directives", () => {
   describe("Schema", () => {
@@ -454,7 +454,7 @@ describe("Directives", () => {
         }
       }
 
-      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
 
       expect(error).toBeInstanceOf(InvalidDirectiveError);
       expect(error.message).toContain(
@@ -472,7 +472,7 @@ describe("Directives", () => {
         }
       }
 
-      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
 
       expect(error).toBeInstanceOf(InvalidDirectiveError);
       expect(error.message).toContain('Error parsing directive definition "@invalid(@directive)"');
@@ -488,7 +488,7 @@ describe("Directives", () => {
         }
       }
 
-      const error = await getError(() => buildSchema({ resolvers: [InvalidQuery] }));
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
 
       expect(error).toBeInstanceOf(InvalidDirectiveError);
       expect(error.message).toContain(

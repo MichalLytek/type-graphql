@@ -189,7 +189,7 @@ By default, the `apollo-server` package from the [bootstrap guide](./bootstrap.m
 
 Of course we can also create our own custom implementation of the `formatError` function provided in the `ApolloServer` config options which will transform the `GraphQLError` with a `ValidationError` array in the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
 
-### Example
+### Automatic Validation Example
 
 To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
 
@@ -230,9 +230,6 @@ const schema = await buildSchema({
 
 > Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.
 
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable-next-line MD024 -->
-### Example
-<!-- prettier-ignore-end -->
+### Custom Validation Example
 
 To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation).

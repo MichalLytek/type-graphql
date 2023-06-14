@@ -1,4 +1,4 @@
-export async function getError<TError extends Error>(call: () => unknown): Promise<TError> {
+export async function expectToThrow<TError extends Error>(call: () => unknown): Promise<TError> {
   try {
     await call();
   } catch (error: unknown) {

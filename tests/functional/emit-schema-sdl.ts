@@ -16,7 +16,7 @@ import {
   emitSchemaDefinitionFileSync,
 } from "type-graphql";
 import * as filesystem from "@/helpers/filesystem";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 
 const TEST_DIR = path.resolve(process.cwd(), "tests", "test-output-dir");
 
@@ -136,7 +136,7 @@ describe("Emitting schema definition file", () => {
         throw new Error("TYPE_GRAPHQL_WRITE_FILE_SYNC_ERROR");
       });
       const targetPath = path.join(TEST_DIR, "schemas", "fail3", "schema.gql");
-      const error = await getError(() => emitSchemaDefinitionFileSync(targetPath, schema));
+      const error = await expectToThrow(() => emitSchemaDefinitionFileSync(targetPath, schema));
 
       expect(error.message).toStrictEqual("TYPE_GRAPHQL_WRITE_FILE_SYNC_ERROR");
       expect(fs.existsSync(targetPath)).toEqual(false);
@@ -147,7 +147,7 @@ describe("Emitting schema definition file", () => {
         throw new Error("TYPE_GRAPHQL_MKDIR_SYNC_ERROR");
       });
       const targetPath = path.join(TEST_DIR, "schemas", "fail4", "schema.gql");
-      const error = await getError(() => emitSchemaDefinitionFileSync(targetPath, schema));
+      const error = await expectToThrow(() => emitSchemaDefinitionFileSync(targetPath, schema));
 
       expect(error.message).toStrictEqual("TYPE_GRAPHQL_MKDIR_SYNC_ERROR");
       expect(fs.existsSync(targetPath)).toEqual(false);

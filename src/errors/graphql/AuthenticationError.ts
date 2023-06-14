@@ -6,9 +6,7 @@ export class AuthenticationError extends GraphQLError {
     [attributeName: string]: unknown; // GraphQLErrorExtensions
   };
 
-  public constructor(
-    message = "Access denied! You need to be authenticated to perform this action!",
-  ) {
+  constructor(message = "Access denied! You need to be authenticated to perform this action!") {
     super(message, {
       extensions: {
         code: "UNAUTHENTICATED",

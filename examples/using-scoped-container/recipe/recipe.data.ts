@@ -26,7 +26,7 @@ export const sampleRecipes = [
 ];
 
 export function setSamplesInContainer() {
-  // Sdd sample recipes to container
+  // Add sample recipes to container
   Container.set({
     id: "SAMPLE_RECIPES",
     transient: true, // Create a fresh copy for each 'get' of samples

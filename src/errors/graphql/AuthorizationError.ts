@@ -6,7 +6,7 @@ export class AuthorizationError extends GraphQLError {
     [attributeName: string]: unknown; // GraphQLErrorExtensions
   };
 
-  public constructor(message = "Access denied! You don't have permission for this action!") {
+  constructor(message = "Access denied! You don't have permission for this action!") {
     super(message, {
       extensions: {
         code: "UNAUTHORIZED",

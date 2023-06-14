@@ -15,7 +15,7 @@ import {
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { getError } from "../helpers/getError";
+import { expectToThrow } from "../helpers/expectToThrow";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;
@@ -173,7 +173,7 @@ describe("Authorization", () => {
 
   describe("Errors", () => {
     it("should throw error when `@Authorized` is used and no `authChecker` provided", async () => {
-      const error = await getError(() =>
+      const error = await expectToThrow(() =>
         buildSchema({
           resolvers: [sampleResolver],
         }),

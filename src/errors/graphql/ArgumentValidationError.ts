@@ -10,7 +10,7 @@ export class ArgumentValidationError extends GraphQLError {
     [attributeName: string]: unknown; // GraphQLErrorExtensions
   };
 
-  public constructor(validationErrors: ValidationError[]) {
+  constructor(validationErrors: ValidationError[]) {
     super("Argument Validation Error", {
       extensions: {
         code: "BAD_USER_INPUT",
