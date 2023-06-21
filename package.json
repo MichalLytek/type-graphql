@@ -70,6 +70,7 @@
     "check:type:cjs": "npx tsc --project ./tsconfig.cjs.json --noEmit",
     "check:type:esm": "npx tsc --project ./tsconfig.esm.json --noEmit",
     "check:type:typings": "npx tsc --project ./tsconfig.typings.json --noEmit --emitDeclarationOnly false",
+    "check:type:tests": "npx tsc --project ./tests/tsconfig.json --noEmit",
     "check:version": "npx ts-node ./scripts/version.ts",
     "clean": "npx npm-run-all --npm-path npm \"clean:*\"",
     "clean:build": "npx shx rm -rf ./build",
