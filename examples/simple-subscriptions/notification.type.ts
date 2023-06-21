@@ -2,14 +2,14 @@ import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class Notification {
-  @Field(type => ID)
-  id: number;
+  @Field(() => ID)
+  id!: number;
 
   @Field({ nullable: true })
   message?: string;
 
-  @Field(type => Date)
-  date: Date;
+  @Field(() => Date)
+  date!: Date;
 }
 
 export interface NotificationPayload {

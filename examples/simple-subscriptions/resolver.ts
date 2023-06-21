@@ -17,12 +17,12 @@ import { Notification, NotificationPayload } from "./notification.type";
 export class SampleResolver {
   private autoIncrement = 0;
 
-  @Query(returns => Date)
+  @Query(() => Date)
   currentDate() {
     return new Date();
   }
 
-  @Mutation(returns => Boolean)
+  @Mutation(() => Boolean)
   async pubSubMutation(
     @PubSub() pubSub: PubSubEngine,
     @Arg("message", { nullable: true }) message?: string,
@@ -32,7 +32,7 @@ export class SampleResolver {
     return true;
   }
 
-  @Mutation(returns => Boolean)
+  @Mutation(() => Boolean)
   async publisherMutation(
     @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
     @Arg("message", { nullable: true }) message?: string,
@@ -46,7 +46,7 @@ export class SampleResolver {
     return { id, message, date: new Date() };
   }
 
-  @Subscription(returns => Notification, {
+  @Subscription(() => Notification, {
     topics: "NOTIFICATIONS",
     filter: ({ payload }: ResolverFilterData<NotificationPayload>) => payload.id % 2 === 0,
   })
@@ -57,7 +57,7 @@ export class SampleResolver {
 
   // dynamic topic
 
-  @Mutation(returns => Boolean)
+  @Mutation(() => Boolean)
   async pubSubMutationToDynamicTopic(
     @PubSub() pubSub: PubSubEngine,
     @Arg("topic") topic: string,
@@ -72,7 +72,7 @@ export class SampleResolver {
     topics: ({ args }) => args.topic,
   })
   subscriptionWithFilterToDynamicTopic(
-    @Arg("topic") topic: string,
+    @Arg("topic") _topic: string,
     @Root() { id, message }: NotificationPayload,
   ): Notification {
     return { id, message, date: new Date() };

@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import path from "path";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { createServer } from "http";
+import cors from "cors";
+import bodyParser from "body-parser";
 import express from "express";
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from "apollo-server-core";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { buildSchema } from "type-graphql";
@@ -55,14 +56,12 @@ async function bootstrap() {
     ],
   });
   await server.start();
-  server.applyMiddleware({ app });
+  app.use("/graphql", cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
 
   const PORT = 4000;
   // Now that our HTTP server is fully set up, we can listen to it.
   httpServer.listen(PORT, () => {
-    console.log(
-      `Server is running, GraphQL Playground available atn http://localhost:${PORT}${server.graphqlPath}`,
-    );
+    console.log(`GraphQL server ready at http://localhost:${PORT}/graphql`);
   });
 }
 

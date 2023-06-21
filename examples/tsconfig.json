@@ -14,6 +14,7 @@
     "./generic-types",
     "./graphql-scalars",
     "./query-complexity",
+    "./simple-subscriptions",
     "./simple-usage",
     "./tsyringe",
     "./typegoose",
