@@ -24,6 +24,7 @@
         "apollo-cache",
         "apollo-client",
         "apollo-federation",
+        "apollo-federation-2",
         "authorization",
         "automatic-validation",
         "custom-validation",

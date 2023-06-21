@@ -6,6 +6,7 @@ export default class User {
   @Field(type => ID)
   id: string;
 
+  @Directive("@shareable")
   @Field()
   username: string;
 

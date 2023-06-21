@@ -1,26 +1,27 @@
+import Seating from "./seating";
+import Dining from "./dining";
 import Product from "./product";
 
 export const products: Product[] = [
-  createProduct({
+  Object.assign(new Dining(), {
     upc: "1",
     name: "Table",
     price: 899,
     weight: 100,
+    height: "3ft",
   }),
-  createProduct({
+  Object.assign(new Seating(), {
     upc: "2",
     name: "Couch",
     price: 1299,
     weight: 1000,
+    seats: 2,
   }),
-  createProduct({
+  Object.assign(new Seating(), {
     upc: "3",
     name: "Chair",
     price: 54,
     weight: 50,
+    seats: 1,
   }),
 ];
-
-function createProduct(productData: Partial<Product>) {
-  return Object.assign(new Product(), productData);
-}

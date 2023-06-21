@@ -16,7 +16,22 @@ export async function buildFederatedSchema(
 
   // build Apollo Subgraph schema
   const federatedSchema = buildSubgraphSchema({
-    typeDefs: gql(printSchemaWithDirectives(schema)),
+    typeDefs: gql`
+      extend schema
+        @link(
+          url: "https://specs.apollo.dev/federation/v2.3"
+          import: [
+            "@key"
+            "@shareable"
+            "@provides"
+            "@extends"
+            "@requires"
+            "@external"
+            "@interfaceObject"
+          ]
+        )
+      ${printSchemaWithDirectives(schema)}
+    `,
     // merge schema's resolvers with reference resolvers
     resolvers: deepMerge(createResolversMap(schema) as any, referenceResolvers),
   });
