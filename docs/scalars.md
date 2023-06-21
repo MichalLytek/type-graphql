@@ -59,36 +59,6 @@ class SampleObject {
 }
 ```
 
-## Date Scalars
-
-TypeGraphQL provides built-in scalars for the `Date` type. There are two versions of this scalar:
-
-- timestamp based (`"timestamp"`) - `1518037458374`
-- ISO format (`"isoDate"`) - `"2018-02-07T21:04:39.573Z"`
-
-They are exported from the `type-graphql` package as `GraphQLISODateTime` and `GraphQLTimestamp`.
-
-By default, TypeGraphQL uses the ISO date format, however you can change it in the `buildSchema` options:
-
-```typescript
-import { buildSchema } from "type-graphql";
-
-const schema = await buildSchema({
-  resolvers,
-  dateScalarMode: "timestamp", // "timestamp" or "isoDate"
-});
-```
-
-There's no need then to explicitly declare the field type:
-
-```typescript
-@ObjectType()
-class User {
-  @Field()
-  registrationDate: Date;
-}
-```
-
 ## Custom Scalars
 
 TypeGraphQL also supports custom scalar types!
@@ -169,3 +139,35 @@ const schema = await buildSchema({
 ```
 
 However, we must be aware that this will only work when the TypeScript reflection mechanism can handle it. So our class property type must be a `class`, not an enum, union or interface.
+
+## Date Scalars
+
+TypeGraphQL provides built-in scalars for the `Date` type. There are two versions of this scalar:
+
+- ISO-formatted string: `"2023-05-19T21:04:39.573Z"`
+- timestamp-based number: `1518037458374`
+
+They are exported from the `type-graphql` package as `GraphQLISODateTime` and `GraphQLTimestamp` but comes from `graphql-scalars` npm package.
+
+By default, TypeGraphQL uses the ISO date format, however we can change it to timestamp format using the mentioned above `scalarsMap` option of `buildSchema` configuration:
+
+```typescript
+import { buildSchema, GraphQLTimestamp } from "type-graphql";
+
+const schema = await buildSchema({
+  resolvers,
+  scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
+});
+```
+
+There's no need then to explicitly declare the field type:
+
+```typescript
+@ObjectType()
+class User {
+  @Field()
+  registrationDate: Date;
+}
+```
+
+We can of course use any other `Date` scalar from `graphql-scalars` or any other npm package.

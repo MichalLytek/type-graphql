@@ -370,7 +370,7 @@ describe("Generic types", () => {
       expect(friendshipEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT);
       expect(friendshipEdgeNodeFieldType.name).toBe("User");
       expect(friendshipEdgeFriendedAtFieldType.kind).toBe(TypeKind.SCALAR);
-      expect(friendshipEdgeFriendedAtFieldType.name).toBe("DateTime");
+      expect(friendshipEdgeFriendedAtFieldType.name).toBe("DateTimeISO");
     });
 
     it("should return child classes data from queries", async () => {

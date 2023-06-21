@@ -8,8 +8,6 @@ import { Middleware } from "../interfaces/Middleware";
 import { ContainerType, ContainerGetter, IOCContainer } from "../utils/container";
 import { ValidatorFn } from "../interfaces/ValidatorFn";
 
-export type DateScalarMode = "isoDate" | "timestamp";
-
 export interface ScalarsTypeMap {
   type: Function;
   scalar: GraphQLScalarType;
@@ -18,7 +16,6 @@ export interface ScalarsTypeMap {
 export type ValidateSettings = boolean | ValidatorOptions;
 
 export interface BuildContextOptions {
-  dateScalarMode?: DateScalarMode;
   scalarsMap?: ScalarsTypeMap[];
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
@@ -45,7 +42,6 @@ export interface BuildContextOptions {
 }
 
 export abstract class BuildContext {
-  static dateScalarMode: DateScalarMode;
   static scalarsMaps: ScalarsTypeMap[];
   static validate: ValidateSettings;
   static validateFn?: ValidatorFn<object>;
@@ -61,10 +57,6 @@ export abstract class BuildContext {
    * Set static fields with current building context data
    */
   static create(options: BuildContextOptions) {
-    if (options.dateScalarMode !== undefined) {
-      this.dateScalarMode = options.dateScalarMode;
-    }
-
     if (options.scalarsMap !== undefined) {
       this.scalarsMaps = options.scalarsMap;
     }
@@ -112,7 +104,6 @@ export abstract class BuildContext {
    * Restore default settings
    */
   static reset() {
-    this.dateScalarMode = "isoDate";
     this.scalarsMaps = [];
     this.validate = false;
     this.validateFn = undefined;
