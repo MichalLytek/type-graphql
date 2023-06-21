@@ -9,19 +9,19 @@ import { RateInput } from "./types/rate-input";
 import { Context } from "../index";
 import { ObjectIdScalar } from "../object-id.scalar";
 
-@Resolver(of => Recipe)
+@Resolver(() => Recipe)
 export class RecipeResolver {
-  @Query(returns => Recipe, { nullable: true })
-  recipe(@Arg("recipeId", type => ObjectIdScalar) recipeId: Types.ObjectId) {
+  @Query(() => Recipe, { nullable: true })
+  recipe(@Arg("recipeId", () => ObjectIdScalar) recipeId: Types.ObjectId) {
     return RecipeModel.findById(recipeId);
   }
 
-  @Query(returns => [Recipe])
+  @Query(() => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return RecipeModel.find({});
   }
 
-  @Mutation(returns => Recipe)
+  @Mutation(() => Recipe)
   async addRecipe(
     @Arg("recipe") recipeInput: RecipeInput,
     @Ctx() { user }: Context,
@@ -35,7 +35,7 @@ export class RecipeResolver {
     return recipe;
   }
 
-  @Mutation(returns => Recipe)
+  @Mutation(() => Recipe)
   async rate(@Arg("rate") rateInput: RateInput, @Ctx() { user }: Context): Promise<Recipe> {
     // find the recipe
     const recipe = await RecipeModel.findById(rateInput.recipeId);

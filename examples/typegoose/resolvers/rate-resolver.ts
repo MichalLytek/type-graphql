@@ -3,7 +3,7 @@ import { Resolver, FieldResolver, Root } from "type-graphql";
 import { Rate } from "../entities/rate";
 import { User, UserModel } from "../entities/user";
 
-@Resolver(of => Rate)
+@Resolver(() => Rate)
 export class RateResolver {
   @FieldResolver()
   async user(@Root() rate: Rate): Promise<User> {

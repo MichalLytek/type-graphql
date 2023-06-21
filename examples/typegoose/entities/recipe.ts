@@ -9,23 +9,23 @@ import { Ref } from "../types";
 @ObjectType()
 export class Recipe {
   @Field()
-  readonly _id: Types.ObjectId;
+  readonly _id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Property()
   description?: string;
 
-  @Field(type => [Rate])
+  @Field(() => [Rate])
   @Property({ type: () => Rate, default: [] })
-  ratings: Rate[];
+  ratings!: Rate[];
 
-  @Field(type => User)
+  @Field(() => User)
   @Property({ ref: User, required: true })
-  author: Ref<User>;
+  author!: Ref<User>;
 }
 
 export const RecipeModel = getModelForClass(Recipe);

@@ -16,6 +16,7 @@
     "./query-complexity",
     "./simple-usage",
     "./tsyringe",
+    "./typegoose",
     "./typeorm-basic-usage",
     "./typeorm-lazy-relations",
     "./using-container",

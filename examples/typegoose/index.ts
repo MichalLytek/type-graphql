@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { ApolloServer } from "@apollo/server";
 import { connect, Types } from "mongoose";
 import * as path from "path";
 import dotenv from "dotenv";
@@ -19,9 +20,8 @@ export interface Context {
 
 async function bootstrap() {
   try {
-    console.log("DB_CONNECTION_URL", process.env.DB_CONNECTION_URL);
     // create mongoose connection
-    const mongoose = await connect(process.env.DB_CONNECTION_URL!);
+    const mongoose = await connect(process.env.DATABASE_URL!);
 
     // clean and seed database with some data
     await mongoose.connection.db.dropDatabase();
@@ -42,11 +42,14 @@ async function bootstrap() {
     const context: Context = { user: defaultUser };
 
     // Create GraphQL server
-    const server = new ApolloServer({ schema, context });
+    const server = new ApolloServer<Context>({ schema });
 
-    // Start the server
-    const { url } = await server.listen(4000);
-    console.log(`Server is running, GraphQL Playground available at ${url}`);
+    // Start server
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: 4000 },
+      context: async () => context,
+    });
+    console.log(`GraphQL server ready at ${url}`);
   } catch (err) {
     console.error(err);
   }

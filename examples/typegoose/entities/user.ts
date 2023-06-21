@@ -5,18 +5,18 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType()
 export class User {
   @Field()
-  readonly _id: Types.ObjectId;
+  readonly _id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })
-  email: string;
+  email!: string;
 
   @Field({ nullable: true })
   @Property()
   nickname?: string;
 
   @Property({ required: true })
-  password: string;
+  password!: string;
 }
 
 export const UserModel = getModelForClass(User);

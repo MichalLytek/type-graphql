@@ -4,8 +4,8 @@ import { InputType, Field, Int } from "type-graphql";
 @InputType()
 export class RateInput {
   @Field()
-  recipeId: Types.ObjectId;
+  recipeId!: Types.ObjectId;
 
-  @Field(type => Int)
-  value: number;
+  @Field(() => Int)
+  value!: number;
 }

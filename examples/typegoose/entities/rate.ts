@@ -6,15 +6,15 @@ import { Ref } from "../types";
 
 @ObjectType()
 export class Rate {
-  @Field(type => Int)
+  @Field(() => Int)
   @Property({ required: true })
-  value: number;
+  value!: number;
 
   @Field()
   @Property({ default: new Date(), required: true })
-  date: Date;
+  date!: Date;
 
-  @Field(type => User)
+  @Field(() => User)
   @Property({ ref: User, required: true })
-  user: Ref<User>;
+  user!: Ref<User>;
 }
