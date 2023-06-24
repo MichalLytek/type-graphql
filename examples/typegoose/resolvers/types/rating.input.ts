@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
-import { InputType, Field, Int } from "type-graphql";
+import { Field, InputType, Int } from "type-graphql";
 
 @InputType()
-export class RateInput {
+export class RatingInput {
   @Field()
   recipeId!: Types.ObjectId;
 
-  @Field(() => Int)
+  @Field(_type => Int)
   value!: number;
 }

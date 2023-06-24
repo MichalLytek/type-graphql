@@ -1,58 +1,57 @@
 import { Types } from "mongoose";
-import { Resolver, Query, FieldResolver, Arg, Root, Mutation, Ctx } from "type-graphql";
-
-import { Recipe, RecipeModel } from "../entities/recipe";
-import { Rate } from "../entities/rate";
-import { User, UserModel } from "../entities/user";
-import { RecipeInput } from "./types/recipe-input";
-import { RateInput } from "./types/rate-input";
-import { Context } from "../index";
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from "type-graphql";
+import { RatingInput, RecipeInput } from "./types";
+import { Context } from "../context.type";
+import type { Rating, User } from "../entities";
+import { Recipe, RecipeModel, UserModel } from "../entities";
 import { ObjectIdScalar } from "../object-id.scalar";
 
-@Resolver(() => Recipe)
+@Resolver(_of => Recipe)
 export class RecipeResolver {
-  @Query(() => Recipe, { nullable: true })
+  @Query(_returns => Recipe, { nullable: true })
   recipe(@Arg("recipeId", () => ObjectIdScalar) recipeId: Types.ObjectId) {
     return RecipeModel.findById(recipeId);
   }
 
-  @Query(() => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
     return RecipeModel.find({});
   }
 
-  @Mutation(() => Recipe)
+  @Mutation(_returns => Recipe)
   async addRecipe(
     @Arg("recipe") recipeInput: RecipeInput,
     @Ctx() { user }: Context,
   ): Promise<Recipe> {
     const recipe = new RecipeModel({
       ...recipeInput,
-      author: user._id,
+      author: user.id,
     });
 
     await recipe.save();
+
     return recipe;
   }
 
-  @Mutation(() => Recipe)
-  async rate(@Arg("rate") rateInput: RateInput, @Ctx() { user }: Context): Promise<Recipe> {
-    // find the recipe
+  @Mutation(_returns => Recipe)
+  async rate(@Arg("rate") rateInput: RatingInput, @Ctx() { user }: Context): Promise<Recipe> {
+    // Find the recipe
     const recipe = await RecipeModel.findById(rateInput.recipeId);
     if (!recipe) {
       throw new Error("Invalid recipe ID");
     }
 
-    // set the new recipe rate
-    const newRate: Rate = {
+    // Set the new recipe rate
+    const newRating: Rating = {
       value: rateInput.value,
-      user: user._id,
+      user: user.id,
       date: new Date(),
     };
 
-    // update the recipe
-    recipe.ratings.push(newRate);
+    // Add and update the new recipe
+    recipe.ratings.push(newRating);
     await recipe.save();
+
     return recipe;
   }
 

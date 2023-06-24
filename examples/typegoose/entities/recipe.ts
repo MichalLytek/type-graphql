@@ -1,15 +1,14 @@
 import { prop as Property, getModelForClass } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { Field, ObjectType } from "type-graphql";
-
-import { Rate } from "./rate";
+import { Rating } from "./rating";
 import { User } from "./user";
 import { Ref } from "../types";
 
 @ObjectType()
 export class Recipe {
   @Field()
-  readonly _id!: Types.ObjectId;
+  readonly id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })
@@ -19,11 +18,11 @@ export class Recipe {
   @Property()
   description?: string;
 
-  @Field(() => [Rate])
-  @Property({ type: () => Rate, default: [] })
-  ratings!: Rate[];
+  @Field(_type => [Rating])
+  @Property({ type: () => Rating, default: [] })
+  ratings!: Rating[];
 
-  @Field(() => User)
+  @Field(_type => User)
   @Property({ ref: User, required: true })
   author!: Ref<User>;
 }

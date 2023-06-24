@@ -5,7 +5,7 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType()
 export class User {
   @Field()
-  readonly _id!: Types.ObjectId;
+  readonly id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })

@@ -1,6 +1,14 @@
-import { Model, Document } from "mongoose";
 import { getClass } from "@typegoose/typegoose";
-import { MiddlewareFn } from "type-graphql";
+import type { Document } from "mongoose";
+import { Model } from "mongoose";
+import type { MiddlewareFn } from "type-graphql";
+
+function convertDocument(doc: Document) {
+  const convertedDocument = doc.toObject();
+  const DocumentClass = getClass(doc)!;
+  Object.setPrototypeOf(convertedDocument, DocumentClass.prototype);
+  return convertedDocument;
+}
 
 export const TypegooseMiddleware: MiddlewareFn = async (_, next) => {
   const result = await next();
@@ -15,10 +23,3 @@ export const TypegooseMiddleware: MiddlewareFn = async (_, next) => {
 
   return result;
 };
-
-function convertDocument(doc: Document) {
-  const convertedDocument = doc.toObject();
-  const DocumentClass = getClass(doc)!;
-  Object.setPrototypeOf(convertedDocument, DocumentClass.prototype);
-  return convertedDocument;
-}
