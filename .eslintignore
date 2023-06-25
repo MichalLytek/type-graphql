@@ -14,5 +14,4 @@ examples/mikro-orm/
 examples/mixin-classes/
 examples/redis-subscriptions/
 examples/resolvers-inheritance/
-examples/simple-subscriptions/
 website/

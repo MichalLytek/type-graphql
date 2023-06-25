@@ -126,6 +126,7 @@
     "@graphql-tools/utils": "^9.2.1",
     "@typegoose/typegoose": "^11.3.0",
     "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.16.3",
     "@types/shelljs": "^0.8.12",

@@ -18,7 +18,7 @@ mutation PublishMessage {
   pubSubMutation(message: "Hello")
 }
 
-# dynamic topics
+# Dynamic topics
 
 subscription DynamicTopic {
   subscriptionWithFilterToDynamicTopic(topic: "FOO_MESSAGES") {
