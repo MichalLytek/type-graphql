@@ -13,6 +13,7 @@
     "./extensions",
     "./generic-types",
     "./graphql-scalars",
+    "./mikro-orm",
     "./query-complexity",
     "./redis-subscriptions",
     "./simple-subscriptions",

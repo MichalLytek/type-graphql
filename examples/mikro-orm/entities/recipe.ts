@@ -1,29 +1,29 @@
-import { PrimaryKey, Property, ManyToOne, OneToMany, Collection, Entity } from "@mikro-orm/core";
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Field, ID, ObjectType } from "type-graphql";
-
-import { Rate } from "./rate";
+// eslint-disable-next-line import/no-cycle
+import { Rating } from "./rating";
 import { User } from "./user";
 
 @Entity()
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field(_type => ID)
   @PrimaryKey()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Property()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Property({ nullable: true })
   description?: string;
 
-  @Field(type => [Rate])
-  @OneToMany(type => Rate, rate => rate.recipe)
-  ratings = new Collection<Rate>(this);
+  @Field(_type => [Rating])
+  @OneToMany(_type => Rating, rating => rating.recipe)
+  ratings = new Collection<Rating>(this);
 
-  @Field(type => User)
-  @ManyToOne(type => User)
-  author: User;
+  @Field(_type => User)
+  @ManyToOne(_type => User)
+  author!: User;
 }
