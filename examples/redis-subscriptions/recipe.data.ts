@@ -1,5 +1,13 @@
-import { Recipe } from "./recipe.type";
 import { Comment } from "./comment.type";
+import { Recipe } from "./recipe.type";
+
+function createRecipe(recipeData: Partial<Recipe>): Recipe {
+  return Object.assign(new Recipe(), recipeData);
+}
+
+function createComment(commentData: Partial<Comment>): Comment {
+  return Object.assign(new Comment(), commentData);
+}
 
 export const sampleRecipes = [
   createRecipe({
@@ -37,11 +45,3 @@ export const sampleRecipes = [
     comments: [],
   }),
 ];
-
-function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return Object.assign(new Recipe(), recipeData);
-}
-
-function createComment(commentData: Partial<Comment>): Comment {
-  return Object.assign(new Comment(), commentData);
-}

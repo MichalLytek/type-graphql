@@ -6,8 +6,15 @@ export class Comment {
   nickname?: string;
 
   @Field()
-  content: string;
+  content!: string;
 
   @Field()
-  date: Date;
+  date!: Date;
 }
+
+export type NewCommentPayload = {
+  recipeId: string;
+  dateString: string; // Limitation of Redis payload serialization
+  content: string;
+  nickname?: string;
+};

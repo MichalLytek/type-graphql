@@ -1,18 +1,17 @@
-import { ObjectType, Field, ID } from "type-graphql";
-
+import { Field, ID, ObjectType } from "type-graphql";
 import { Comment } from "./comment.type";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
-  id: string;
+  @Field(_type => ID)
+  id!: string;
 
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [Comment])
-  comments: Comment[];
+  @Field(_type => [Comment])
+  comments!: Comment[];
 }

@@ -12,6 +12,5 @@ examples/interfaces-inheritance/
 examples/middlewares-custom-decorators/
 examples/mikro-orm/
 examples/mixin-classes/
-examples/redis-subscriptions/
 examples/resolvers-inheritance/
 website/
