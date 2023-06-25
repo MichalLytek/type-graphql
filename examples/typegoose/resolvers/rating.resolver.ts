@@ -5,7 +5,7 @@ import { Rating, UserModel } from "../entities";
 @Resolver(_of => Rating)
 export class RatingResolver {
   @FieldResolver()
-  async user(@Root() rate: Rating): Promise<User> {
-    return (await UserModel.findById(rate.user))!;
+  async user(@Root() rating: Rating): Promise<User> {
+    return (await UserModel.findById(rating.user))!;
   }
 }

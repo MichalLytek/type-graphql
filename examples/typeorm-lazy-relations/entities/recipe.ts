@@ -21,7 +21,7 @@ export class Recipe {
   description?: string;
 
   @Field(_type => [Rating])
-  @OneToMany(_type => Rating, rate => rate.recipe, { lazy: true, cascade: ["insert"] })
+  @OneToMany(_type => Rating, rating => rating.recipe, { lazy: true, cascade: ["insert"] })
   ratings!: Rating[] | Promise<Rating[]>;
 
   @Field(_type => User)

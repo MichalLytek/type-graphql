@@ -20,7 +20,7 @@ export class Recipe {
   description?: string;
 
   @Field(_type => [Rating])
-  @OneToMany(_type => Rating, rate => rate.recipe, { cascade: ["insert"] })
+  @OneToMany(_type => Rating, rating => rating.recipe, { cascade: ["insert"] })
   ratings!: Rating[];
 
   @Field(_type => User)

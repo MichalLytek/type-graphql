@@ -12,7 +12,7 @@ export class RatingResolver {
   }
 
   @FieldResolver()
-  async user(@Root() rate: Rating): Promise<User> {
-    return (await this.userRepository.findOne({ where: { id: rate.userId }, cache: 1000 }))!;
+  async user(@Root() rating: Rating): Promise<User> {
+    return (await this.userRepository.findOne({ where: { id: rating.userId }, cache: 1000 }))!;
   }
 }

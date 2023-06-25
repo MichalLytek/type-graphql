@@ -25,7 +25,7 @@ export class Rating {
   @ManyToOne(_type => User)
   user!: User;
 
-  @RelationId((rate: Rating) => rate.user)
+  @RelationId((rating: Rating) => rating.user)
   userId!: number;
 
   @Field()
@@ -35,6 +35,6 @@ export class Rating {
   @ManyToOne(_type => Recipe)
   recipe!: Recipe;
 
-  @RelationId((rate: Rating) => rate.recipe)
+  @RelationId((rating: Rating) => rating.recipe)
   recipeId!: number;
 }

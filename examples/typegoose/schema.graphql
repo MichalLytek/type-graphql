@@ -10,7 +10,7 @@ scalar DateTime
 
 type Mutation {
   addRecipe(recipe: RecipeInput!): Recipe!
-  rate(rate: RateInput!): Recipe!
+  rating(rating: RatingInput!): Recipe!
 }
 
 """
@@ -23,13 +23,13 @@ type Query {
   recipes: [Recipe!]!
 }
 
-type Rate {
+type Rating {
   date: DateTime!
   user: User!
   value: Int!
 }
 
-input RateInput {
+input RatingInput {
   recipeId: ObjectId!
   value: Int!
 }
@@ -38,7 +38,7 @@ type Recipe {
   _id: ObjectId!
   author: User!
   description: String
-  ratings: [Rate!]!
+  ratings: [Rating!]!
   title: String!
 }
 

@@ -42,8 +42,8 @@ mutation AddRecipe {
   }
 }
 
-mutation RateRecipe {
-  rate(rate: { recipeId: 3, value: 4 }) {
+mutation RatingRecipe {
+  rating(rating: { recipeId: 3, value: 4 }) {
     id
     ratings {
       value

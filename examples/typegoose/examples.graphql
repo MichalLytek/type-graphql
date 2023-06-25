@@ -12,7 +12,7 @@ query GetRecipes {
 }
 
 query GetRecipe {
-  # fill with correct ObjectId
+  # Fill with correct ObjectId
   recipe(recipeId: "64551384aac388414b391778") {
     _id
     title
@@ -43,9 +43,9 @@ mutation AddRecipe {
   }
 }
 
-mutation RateRecipe {
-  # fill with correct ObjectId
-  rate(rate: { recipeId: "64557478aac388414b391799", value: 4 }) {
+mutation RatingRecipe {
+  # Fill with correct ObjectId
+  rating(rating: { recipeId: "64557478aac388414b391799", value: 4 }) {
     _id
     ratings {
       value

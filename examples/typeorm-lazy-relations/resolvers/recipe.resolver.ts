@@ -36,7 +36,7 @@ export class RecipeResolver {
   }
 
   @Mutation(_returns => Recipe)
-  async rate(@Ctx() { user }: Context, @Arg("rate") rateInput: RatingInput): Promise<Recipe> {
+  async rating(@Ctx() { user }: Context, @Arg("rating") rateInput: RatingInput): Promise<Recipe> {
     // Find the recipe
     const recipe = await this.recipeRepository.findOne({
       where: { id: rateInput.recipeId },
@@ -46,14 +46,14 @@ export class RecipeResolver {
       throw new Error("Invalid recipe ID");
     }
 
-    // Set the new recipe rate
+    // Set the new recipe rating
     const newRating = this.ratingRepository.create({
       recipe,
       user,
       value: rateInput.value,
     });
 
-    // Add the new recipe rate
+    // Add the new recipe rating
     (await recipe.ratings).push(newRating);
 
     // Update and return recipe
