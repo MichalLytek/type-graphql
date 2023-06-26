@@ -28,6 +28,7 @@
         "automatic-validation",
         "custom-validation",
         "enums-and-unions",
+        // "esm", -- does not work with `ts-node/register`
         "extensions",
         "generic-types",
         "graphql-scalars",
@@ -40,6 +41,7 @@
         "resolvers-inheritance",
         "simple-subscriptions",
         "simple-usage",
+        "tsyringe",
         "typegoose",
         "typeorm-basic-usage",
         "typeorm-lazy-relations",

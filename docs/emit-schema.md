@@ -2,20 +2,20 @@
 title: Emitting the schema SDL
 ---
 
-TypeGraphQL's main feature is creating the schema using only TypeScript classes and decorators. However, there might be a need for the schema to be printed into a `schema.gql` file and there are plenty of reasons for that. Mainly, the schema SDL file is needed for GraphQL ecosystem tools that perform client-side queries autocompletion and validation. Some developers also may want to use it as a kind of snapshot for detecting schema regression or they just prefer to read the SDL file to explore the API instead of reading the complicated TypeGraphQL-based app code, navigating through the GraphiQL or GraphQL Playground. To accomplish this demand, TypeGraphQL allows you to create a schema definition file in two ways.
+TypeGraphQL's main feature is creating the schema using only TypeScript classes and decorators. However, there might be a need for the schema to be printed into a `schema.graphql` file and there are plenty of reasons for that. Mainly, the schema SDL file is needed for GraphQL ecosystem tools that perform client-side queries autocompletion and validation. Some developers also may want to use it as a kind of snapshot for detecting schema regression or they just prefer to read the SDL file to explore the API instead of reading the complicated TypeGraphQL-based app code, navigating through the GraphiQL or GraphQL Playground. To accomplish this demand, TypeGraphQL allows you to create a schema definition file in two ways.
 
-The first one is to generate it automatically on every build of the schema - just pass `emitSchemaFile: true` to the `buildSchema` options in order to emit the `schema.gql` in the root of the project's working directory. You can also manually specify the path and the file name where the schema definition should be written or even specify `PrintSchemaOptions` to configure the look and format of the schema definition.
+The first one is to generate it automatically on every build of the schema - just pass `emitSchemaFile: true` to the `buildSchema` options in order to emit the `schema.graphql` in the root of the project's working directory. You can also manually specify the path and the file name where the schema definition should be written or even specify `PrintSchemaOptions` to configure the look and format of the schema definition.
 
 ```ts
 const schema = await buildSchema({
   resolvers: [ExampleResolver],
-  // Automatically create `schema.gql` file with schema definition in project's working directory
+  // Automatically create `schema.graphql` file with schema definition in project's working directory
   emitSchemaFile: true,
   // Or create the file with schema in selected path
-  emitSchemaFile: path.resolve(__dirname, "__snapshots__/schema/schema.gql"),
+  emitSchemaFile: path.resolve(__dirname, "__snapshots__/schema/schema.graphql"),
   // Or pass a config object
   emitSchemaFile: {
-    path: __dirname + "/schema.gql",
+    path: __dirname + "/schema.graphql",
     sortedSchema: false, // By default the printed schema is sorted alphabetically
   },
 });
@@ -29,7 +29,7 @@ import { emitSchemaDefinitionFile } from "type-graphql";
 // ...
 hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async () => {
   const schema = getSchemaNotFromBuildSchemaFunction();
-  await emitSchemaDefinitionFile("/path/to/folder/schema.gql", schema);
+  await emitSchemaDefinitionFile("/path/to/folder/schema.graphql", schema);
 });
 ```
 
@@ -60,5 +60,5 @@ The usage of `emitSchemaDefinitionWithDirectivesFile` function is the same as wi
 ```ts
 const schema = await buildSchema(/*...*/);
 
-await emitSchemaDefinitionWithDirectivesFile("/path/to/folder/schema.gql", schema);
+await emitSchemaDefinitionWithDirectivesFile("/path/to/folder/schema.graphql", schema);
 ```
