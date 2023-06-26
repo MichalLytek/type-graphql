@@ -1,13 +1,4 @@
-import { Service } from "typedi";
 import type { Resource } from "./resource";
-
-// we need to use factory as we need separate instance of service for each generic
-@Service()
-export class ResourceServiceFactory {
-  create<TResource extends Resource>(resources?: TResource[]) {
-    return new ResourceService(resources);
-  }
-}
 
 export class ResourceService<TResource extends Resource> {
   constructor(protected resources: TResource[] = []) {}

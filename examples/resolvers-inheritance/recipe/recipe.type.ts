@@ -4,11 +4,11 @@ import type { Resource } from "../resource/resource";
 @ObjectType()
 export class Recipe implements Resource {
   @Field()
-  id: number;
+  id!: number;
 
   @Field()
-  title: string;
+  title!: string;
 
-  @Field(type => [Int])
-  ratings: number[];
+  @Field(_type => [Int])
+  ratings!: number[];
 }
