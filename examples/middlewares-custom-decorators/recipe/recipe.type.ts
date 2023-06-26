@@ -1,21 +1,20 @@
-import { Field, ID, ObjectType, Int, Float, UseMiddleware } from "type-graphql";
-
+import { Field, Float, Int, ObjectType, UseMiddleware } from "type-graphql";
 import { LogAccessMiddleware } from "../middlewares/log-access";
 import { NumberInterceptor } from "../middlewares/number-interceptor";
 
 @ObjectType()
 export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [Int])
+  @Field(_type => [Int])
   @UseMiddleware(LogAccessMiddleware)
-  ratings: number[];
+  ratings!: number[];
 
-  @Field(type => Float, { nullable: true })
+  @Field(_type => Float, { nullable: true })
   @UseMiddleware(NumberInterceptor(3))
   get averageRating(): number | null {
     const ratingsCount = this.ratings.length;

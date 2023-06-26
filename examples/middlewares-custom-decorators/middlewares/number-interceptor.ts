@@ -1,4 +1,4 @@
-import { MiddlewareFn } from "type-graphql";
+import type { MiddlewareFn } from "type-graphql";
 
 export function NumberInterceptor(minValue: number): MiddlewareFn {
   return async (_, next) => {
