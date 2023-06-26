@@ -1,5 +1,5 @@
 import { inventory } from "./data";
-import Product from "./product";
+import { Product } from "./product";
 
 export async function resolveProductReference(
   reference: Pick<Product, "upc">,
@@ -10,6 +10,7 @@ export async function resolveProductReference(
     return;
   }
 
+  // eslint-disable-next-line consistent-return
   return Object.assign(new Product(), {
     ...reference,
     ...found,

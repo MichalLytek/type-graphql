@@ -1,11 +1,10 @@
-import { Resolver, Query } from "type-graphql";
-
-import User from "./user";
+import { Query, Resolver } from "type-graphql";
 import { users } from "./data";
+import { User } from "./user";
 
-@Resolver(of => User)
-export default class AccountsResolver {
-  @Query(returns => User)
+@Resolver(_of => User)
+export class AccountsResolver {
+  @Query(_returns => User)
   me(): User {
     return users[0];
   }

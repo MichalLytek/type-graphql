@@ -1,4 +1,8 @@
-import Product from "./product";
+import { Product } from "./product";
+
+function createProduct(productData: Partial<Product>) {
+  return Object.assign(new Product(), productData);
+}
 
 export const products: Product[] = [
   createProduct({
@@ -20,7 +24,3 @@ export const products: Product[] = [
     weight: 50,
   }),
 ];
-
-function createProduct(productData: Partial<Product>) {
-  return Object.assign(new Product(), productData);
-}

@@ -7,7 +7,7 @@
     "../src",
     "./apollo-cache",
     // "./apollo-client",
-    // "./apollo-federation",
+    "./apollo-federation",
     "./authorization",
     "./automatic-validation",
     "./custom-validation",
