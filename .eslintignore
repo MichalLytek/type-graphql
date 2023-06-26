@@ -8,5 +8,4 @@ sponsorkit.config.ts
 # FIXME: Remove
 examples/apollo-client/
 examples/apollo-federation/
-examples/interfaces-inheritance/
 website/

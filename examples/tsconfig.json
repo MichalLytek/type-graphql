@@ -15,7 +15,7 @@
     "./extensions",
     "./generic-types",
     "./graphql-scalars",
-    // "./interfaces-inheritance",
+    "./interfaces-inheritance",
     "./middlewares-custom-decorators",
     "./mikro-orm",
     "./mixin-classes",
