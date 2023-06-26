@@ -1,7 +1,6 @@
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
-
-import CreateUserInput from "./inputs/create-user";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import AmendUserInput from "./inputs/amend-user";
+import CreateUserInput from "./inputs/create-user";
 import User from "./types/user";
 
 @Resolver()

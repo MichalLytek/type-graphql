@@ -1,19 +1,19 @@
-import { Service } from "typedi";
+import type { ClassType } from "type-graphql";
 import {
-  Query,
   Arg,
-  Int,
-  Resolver,
+  Args,
   ArgsType,
   Field,
-  Args,
   FieldResolver,
+  Int,
+  Query,
+  Resolver,
   Root,
-  ClassType,
 } from "type-graphql";
-
+import { Service } from "typedi";
 import { Resource } from "./resource";
-import { ResourceService, ResourceServiceFactory } from "./resource.service";
+import type { ResourceService } from "./resource.service";
+import { ResourceServiceFactory } from "./resource.service";
 
 @ArgsType()
 export class GetAllArgs {

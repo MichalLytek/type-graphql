@@ -1,5 +1,5 @@
 import { IsEmail } from "class-validator";
-import { InputType, Field, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 
 // `UserDetails` stores base common user properties
 @ObjectType()

@@ -1,6 +1,5 @@
 import { Service } from "typedi";
-
-import { Resource } from "./resource";
+import type { Resource } from "./resource";
 
 // we need to use factory as we need separate instance of service for each generic
 @Service()

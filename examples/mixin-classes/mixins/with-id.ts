@@ -1,4 +1,5 @@
-import { InputType, ClassType, Field, Int, ObjectType } from "type-graphql";
+import type { ClassType } from "type-graphql";
+import { Field, InputType, Int, ObjectType } from "type-graphql";
 
 // adds id property to the base, extended class
 export default function withId<TClassType extends ClassType>(BaseClass: TClassType) {

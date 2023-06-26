@@ -1,8 +1,8 @@
+import { Arg, Int, Mutation, Resolver } from "type-graphql";
 import { Service } from "typedi";
-import { Resolver, Arg, Int, Mutation } from "type-graphql";
-import { ResourceResolver } from "../resource/resource.resolver";
-import { Person } from "./person.type";
 import { PersonRole } from "./person.role";
+import { Person } from "./person.type";
+import { ResourceResolver } from "../resource/resource.resolver";
 
 const persons: Person[] = [
   {

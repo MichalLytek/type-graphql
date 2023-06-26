@@ -1,5 +1,4 @@
 import { InputType } from "type-graphql";
-
 import withId from "../mixins/with-id";
 import UserDetails from "../types/user-details";
 
