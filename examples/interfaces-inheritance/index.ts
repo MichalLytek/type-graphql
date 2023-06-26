@@ -24,4 +24,4 @@ async function bootstrap() {
   console.log(`Server is running, GraphQL Playground available at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

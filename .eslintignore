@@ -9,5 +9,4 @@ sponsorkit.config.ts
 examples/apollo-client/
 examples/apollo-federation/
 examples/interfaces-inheritance/
-examples/middlewares-custom-decorators/
 website/

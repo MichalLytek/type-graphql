@@ -62,4 +62,4 @@ async function bootstrap() {
   console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

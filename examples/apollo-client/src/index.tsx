@@ -10,4 +10,4 @@ async function bootstrap() {
   ReactDOM.render(<App client={client} />, document.getElementById("root")!);
 }
 
-bootstrap();
+bootstrap().catch(console.error);
