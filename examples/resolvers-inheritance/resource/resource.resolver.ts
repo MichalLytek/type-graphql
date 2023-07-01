@@ -32,7 +32,7 @@ export function ResourceResolver<TResource extends Resource>(
       return all;
     }
 
-    // dynamically created field with resolver for all child resource classes
+    // Dynamically created field with resolver for all child resource classes
     @FieldResolver({ name: "uuid" })
     protected getUuid(@Root() resource: Resource): string {
       return `${resourceName}_${resource.id}`;

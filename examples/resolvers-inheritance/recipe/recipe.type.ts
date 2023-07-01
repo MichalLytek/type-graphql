@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import type { Resource } from "../resource/resource";
+import type { Resource } from "../resource";
 
 @ObjectType()
 export class Recipe implements Resource {

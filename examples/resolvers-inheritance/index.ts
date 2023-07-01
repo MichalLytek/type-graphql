@@ -2,16 +2,19 @@ import "reflect-metadata";
 import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
-import { PersonResolver } from "./person/person.resolver";
-import { RecipeResolver } from "./recipe/recipe.resolver";
-import { buildSchema } from "../../src";
+import { PersonResolver } from "./person";
+import { RecipeResolver } from "./recipe";
 
 async function bootstrap() {
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver, PersonResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Registry 3rd party IOC container
     container: Container,
   });
 
