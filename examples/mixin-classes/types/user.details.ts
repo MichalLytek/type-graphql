@@ -1,7 +1,7 @@
 import { IsEmail } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 
-// `UserDetails` stores base common user properties
+// 'UserDetails' stores base common user properties
 @ObjectType()
 @InputType("UserDetailsInput")
 export class UserDetails {

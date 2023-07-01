@@ -6,9 +6,11 @@ import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolver";
 
 async function bootstrap() {
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [UserResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
     skipCheck: true,
     validate: true,
@@ -16,6 +18,7 @@ async function bootstrap() {
 
   // Create GraphQL server
   const server = new ApolloServer({ schema });
+
   // Start server
   const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
   console.log(`GraphQL server ready at ${url}`);

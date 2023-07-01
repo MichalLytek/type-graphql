@@ -2,7 +2,7 @@ import { MinLength } from "class-validator";
 import type { ClassType } from "type-graphql";
 import { Field, InputType, ObjectType } from "type-graphql";
 
-// adds password property with validation to the base, extended class
+// Adds 'password' property with validation to the base, extended class
 export function withPassword<TClassType extends ClassType>(BaseClass: TClassType) {
   @ObjectType()
   @InputType()
@@ -11,5 +11,6 @@ export function withPassword<TClassType extends ClassType>(BaseClass: TClassType
     @Field()
     password!: string;
   }
+
   return PasswordTrait;
 }

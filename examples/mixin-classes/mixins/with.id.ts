@@ -1,7 +1,7 @@
 import type { ClassType } from "type-graphql";
 import { Field, InputType, Int, ObjectType } from "type-graphql";
 
-// adds id property to the base, extended class
+// Adds 'id' property to the base, extended class
 export function withId<TClassType extends ClassType>(BaseClass: TClassType) {
   @ObjectType()
   @InputType()
@@ -9,5 +9,6 @@ export function withId<TClassType extends ClassType>(BaseClass: TClassType) {
     @Field(_type => Int)
     id!: number;
   }
+
   return IDTrait;
 }
