@@ -1,13 +1,13 @@
 import "reflect-metadata";
+import path from "node:path";
 import { ApolloGateway, IntrospectAndCompose } from "@apollo/gateway";
-import { ApolloServer } from "apollo-server";
-import path from "path";
-import { emitSchemaDefinitionFile } from "../../src";
-
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { emitSchemaDefinitionFile } from "type-graphql";
 import * as accounts from "./accounts";
-import * as reviews from "./reviews";
-import * as products from "./products";
 import * as inventory from "./inventory";
+import * as products from "./products";
+import * as reviews from "./reviews";
 
 async function bootstrap() {
   const gateway = new ApolloGateway({
@@ -21,18 +21,13 @@ async function bootstrap() {
     }),
   });
 
-  const { schema, executor } = await gateway.load();
+  const server = new ApolloServer({ gateway });
 
-  await emitSchemaDefinitionFile(path.resolve(__dirname, "schema.graphql"), schema);
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`Apollo Gateway ready at ${url}`);
 
-  const server = new ApolloServer({
-    schema,
-    executor,
-  });
-
-  server.listen({ port: 4000 }).then(({ url }) => {
-    console.log(`Apollo Gateway ready at ${url}`);
-  });
+  await emitSchemaDefinitionFile(path.resolve(__dirname, "schema.graphql"), gateway.schema!);
 }
 
 bootstrap().catch(console.error);

@@ -1,14 +1,13 @@
-import { ObjectType, Field, Arg } from "type-graphql";
-
+import { Arg, Field, ObjectType } from "type-graphql";
 import { IPerson } from "./person.interface";
 
 @ObjectType({ implements: IPerson })
 export class Person implements IPerson {
-  id: string;
+  id!: string;
 
-  name: string;
+  name!: string;
 
-  age: number;
+  age!: number;
 
   @Field()
   avatar(@Arg("size") size: number): string {

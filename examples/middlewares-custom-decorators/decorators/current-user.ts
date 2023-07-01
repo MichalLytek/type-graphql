@@ -1,6 +1,6 @@
 import { createParamDecorator } from "type-graphql";
-import { Context } from "../context";
+import type { Context } from "../context";
 
-export default function CurrentUser() {
+export function CurrentUser() {
   return createParamDecorator<Context>(({ context }) => context.currentUser);
 }

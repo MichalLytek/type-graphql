@@ -1,6 +1,18 @@
-import Review from "./review";
-import User from "../user/user";
-import Product from "../product/product";
+import { Review } from "./review";
+import { Product } from "../product/product";
+import { User } from "../user/user";
+
+function createReview(reviewData: Partial<Review>) {
+  return Object.assign(new Review(), reviewData);
+}
+
+function createUser(userData: Partial<User>) {
+  return Object.assign(new User(), userData);
+}
+
+function createProduct(productData: Partial<Product>) {
+  return Object.assign(new Product(), productData);
+}
 
 export const reviews: Review[] = [
   createReview({
@@ -48,15 +60,3 @@ export const reviews: Review[] = [
     body: "Prefer something else.",
   }),
 ];
-
-function createReview(reviewData: Partial<Review>) {
-  return Object.assign(new Review(), reviewData);
-}
-
-function createUser(userData: Partial<User>) {
-  return Object.assign(new User(), userData);
-}
-
-function createProduct(productData: Partial<Product>) {
-  return Object.assign(new Product(), productData);
-}

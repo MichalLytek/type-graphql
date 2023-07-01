@@ -4,9 +4,9 @@
 # -----------------------------------------------
 
 """
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
 """
-scalar DateTime
+scalar DateTimeISO
 
 type Mutation {
   addRecipe(recipe: RecipeInput!): Recipe!
@@ -15,26 +15,20 @@ type Mutation {
 type Query {
   recipe(title: String!): Recipe
 
-  """
-  Get all the recipes from around the world
-  """
+  """Get all the recipes from around the world """
   recipes: [Recipe!]!
 }
 
-"""
-Object representing cooking recipe
-"""
+"""Object representing cooking recipe"""
 type Recipe {
   averageRating: Float
-  creationDate: DateTime!
+  creationDate: DateTimeISO!
 
-  """
-  The recipe description with preparation info
-  """
+  """The recipe description with preparation info"""
   description: String
   ratings: [Int!]!
-  ratingsCount(minRate: Int = 0): Int!
-  specification: String @deprecated(reason: "Use `description` field instead")
+  ratingsCount(minRate: Int! = 0): Int!
+  specification: String @deprecated(reason: "Use 'description' field instead")
   title: String!
 }
 

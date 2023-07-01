@@ -1,8 +1,8 @@
+import { Arg, Int, Mutation, Resolver } from "type-graphql";
 import { Service } from "typedi";
-import { Resolver, Arg, Int, Mutation } from "type-graphql";
-import { ResourceResolver } from "../resource/resource.resolver";
-import { Person } from "./person.type";
 import { PersonRole } from "./person.role";
+import { Person } from "./person.type";
+import { ResourceResolver } from "../resource/resource.resolver";
 
 const persons: Person[] = [
   {
@@ -25,7 +25,7 @@ export class PersonResolver extends ResourceResolver(Person, persons) {
   // here you can add resource-specific operations
 
   @Mutation()
-  promote(@Arg("personId", type => Int) personId: number): boolean {
+  promote(@Arg("personId", _type => Int) personId: number): boolean {
     // you have full access to base resolver class fields and methods
 
     const person = this.resourceService.getOne(personId);

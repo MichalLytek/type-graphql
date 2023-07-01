@@ -1,29 +1,29 @@
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
-
-import CreateUserInput from "./inputs/create-user";
-import AmendUserInput from "./inputs/amend-user";
-import User from "./types/user";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { AmendUserInput } from "./inputs/amend-user";
+import { CreateUserInput } from "./inputs/create-user";
+import { User } from "./types/user";
 
 @Resolver()
-export default class UserResolver {
+export class UserResolver {
   private autoIncrementId = 0;
 
   private readonly usersData: User[] = [];
 
-  @Query(returns => [User])
+  @Query(_returns => [User])
   async users(): Promise<User[]> {
     return this.usersData;
   }
 
-  @Mutation(returns => User)
+  @Mutation(_returns => User)
   async createUser(@Arg("input") userData: CreateUserInput): Promise<User> {
     // in createUser we generate the ID and store the password
-    const user: User = { ...userData, id: ++this.autoIncrementId };
+    this.autoIncrementId += 1;
+    const user: User = { ...userData, id: this.autoIncrementId };
     this.usersData.push(user);
     return user;
   }
 
-  @Mutation(returns => User)
+  @Mutation(_returns => User)
   async amendUser(@Arg("input") { id, ...userData }: AmendUserInput): Promise<User> {
     // in amendUser we use receive the ID but can't change the password
     const user = this.usersData.find(it => it.id === id);

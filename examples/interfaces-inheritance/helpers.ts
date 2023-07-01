@@ -9,6 +9,6 @@ export function getId(): string {
 
 export function calculateAge(birthday: Date) {
   const ageDiffMs = Date.now() - birthday.getTime();
-  const ageDate = new Date(ageDiffMs); // miliseconds from epoch
+  const ageDate = new Date(ageDiffMs); // milliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }

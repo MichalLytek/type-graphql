@@ -1,19 +1,18 @@
-import { ObjectType, Field, Int } from "type-graphql";
-
-import { Resource } from "../resource/resource";
+import { Field, Int, ObjectType } from "type-graphql";
 import { PersonRole } from "./person.role";
+import type { Resource } from "../resource/resource";
 
 @ObjectType()
 export class Person implements Resource {
   @Field()
-  id: number;
+  id!: number;
 
   @Field()
-  name: string;
+  name!: string;
 
-  @Field(type => Int)
-  age: number;
+  @Field(_type => Int)
+  age!: number;
 
-  @Field(type => PersonRole)
-  role: PersonRole;
+  @Field(_type => PersonRole)
+  role!: PersonRole;
 }

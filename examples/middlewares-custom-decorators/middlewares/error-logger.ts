@@ -1,7 +1,7 @@
+import type { MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
+import { ArgumentValidationError } from "type-graphql";
 import { Service } from "typedi";
-import { MiddlewareInterface, NextFn, ResolverData, ArgumentValidationError } from "type-graphql";
-
-import { Context } from "../context";
+import type { Context } from "../context";
 import { Logger } from "../logger";
 
 @Service()
@@ -13,7 +13,7 @@ export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
       return await next();
     } catch (err) {
       this.logger.log({
-        message: err.message,
+        message: (err as Error).message,
         operation: info.operation.operation,
         fieldName: info.fieldName,
         userName: context.currentUser.name,

@@ -18,7 +18,7 @@ function getEmitSchemaDefinitionFileOptions(buildSchemaOptions: BuildSchemaOptio
   schemaFileName: string;
   printSchemaOptions: PrintSchemaOptions;
 } {
-  const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.gql");
+  const defaultSchemaFilePath = path.resolve(process.cwd(), "schema.graphql");
 
   return {
     schemaFileName:
@@ -50,7 +50,7 @@ export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolv
   /**
    * Path to the file to where emit the schema
    * or config object with print schema options
-   * or `true` for the default `./schema.gql` one
+   * or `true` for the default `./schema.graphql` one
    */
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
 }

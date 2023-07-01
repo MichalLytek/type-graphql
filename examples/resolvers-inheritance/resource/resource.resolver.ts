@@ -1,28 +1,10 @@
+import type { ClassType } from "type-graphql";
+import { Arg, Args, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { Service } from "typedi";
-import {
-  Query,
-  Arg,
-  Int,
-  Resolver,
-  ArgsType,
-  Field,
-  Args,
-  FieldResolver,
-  Root,
-  ClassType,
-} from "type-graphql";
-
 import { Resource } from "./resource";
-import { ResourceService, ResourceServiceFactory } from "./resource.service";
-
-@ArgsType()
-export class GetAllArgs {
-  @Field(type => Int)
-  skip = 0;
-
-  @Field(type => Int)
-  take = 10;
-}
+import { GetAllArgs } from "./resource.args";
+import type { ResourceService } from "./resource.service";
+import { ResourceServiceFactory } from "./resource.service.factory";
 
 export function ResourceResolver<TResource extends Resource>(
   ResourceCls: ClassType<TResource>,
@@ -30,7 +12,7 @@ export function ResourceResolver<TResource extends Resource>(
 ) {
   const resourceName = ResourceCls.name.toLocaleLowerCase();
 
-  @Resolver(of => ResourceCls)
+  @Resolver(_of => ResourceCls)
   @Service()
   abstract class ResourceResolverClass {
     protected resourceService: ResourceService<TResource>;
@@ -39,12 +21,12 @@ export function ResourceResolver<TResource extends Resource>(
       this.resourceService = factory.create(resources);
     }
 
-    @Query(returns => ResourceCls, { name: `${resourceName}` })
-    protected async getOne(@Arg("id", type => Int) id: number) {
+    @Query(_returns => ResourceCls, { name: `${resourceName}` })
+    protected async getOne(@Arg("id", _type => Int) id: number) {
       return this.resourceService.getOne(id);
     }
 
-    @Query(returns => [ResourceCls], { name: `${resourceName}s` })
+    @Query(_returns => [ResourceCls], { name: `${resourceName}s` })
     protected async getAll(@Args() { skip, take }: GetAllArgs) {
       const all = this.resourceService.getAll(skip, take);
       return all;

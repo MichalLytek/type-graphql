@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { container } from "tsyringe";
@@ -16,6 +17,8 @@ async function bootstrap() {
     resolvers: [RecipeResolver],
     // Registry 3rd party IOC container
     container: { get: cls => container.resolve(cls) },
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
   // Create GraphQL server
@@ -26,4 +29,4 @@ async function bootstrap() {
   console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

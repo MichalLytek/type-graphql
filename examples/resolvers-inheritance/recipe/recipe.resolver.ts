@@ -1,7 +1,7 @@
+import { FieldResolver, Resolver, Root } from "type-graphql";
 import { Service } from "typedi";
-import { Resolver, FieldResolver, Root } from "type-graphql";
-import { ResourceResolver } from "../resource/resource.resolver";
 import { Recipe } from "./recipe.type";
+import { ResourceResolver } from "../resource/resource.resolver";
 
 const recipes: Recipe[] = [
   {
