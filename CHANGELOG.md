@@ -27,7 +27,7 @@
 - support disabling inferring default values (#793)
 - support readonly arrays for roles of `@Authorized` decorator (#935)
 - add sync version of `buildTypeDefsAndResolvers` function (#803)
-- lift restriction of listing all interfaces from inheritance chain in `implements` option of `@ObjectType` decorator (#1435)
+- lift restriction of listing all interfaces from inheritance chain in `implements` option of `@ObjectType` decorator (#1425)
 
 ### Fixes
 
