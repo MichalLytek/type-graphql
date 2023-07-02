@@ -1,10 +1,8 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { EmployeeInput } from "./employee/employee.input";
-import { Employee } from "./employee/employee.type";
+import { Employee, EmployeeInput } from "./employee";
 import { calculateAge, getId } from "./helpers";
-import { IPerson } from "./person/person.interface";
-import { StudentInput } from "./student/student.input";
-import { Student } from "./student/student.type";
+import { IPerson } from "./person";
+import { Student, StudentInput } from "./student";
 
 @Resolver()
 export class MultiResolver {
@@ -12,14 +10,14 @@ export class MultiResolver {
 
   @Query(_returns => [IPerson])
   persons(): IPerson[] {
-    // this one returns interfaces
-    // so GraphQL has to be able to resolve type of the item
+    // This one returns interfaces,
+    // GraphQL has to be able to resolve type of the item
     return this.personsRegistry;
   }
 
   @Mutation()
   addStudent(@Arg("input") input: StudentInput): Student {
-    // be sure to create real instances of classes
+    // Be sure to create real instances of classes
     const student = Object.assign(new Student(), {
       id: getId(),
       name: input.name,

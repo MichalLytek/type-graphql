@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Person } from "../person/person.type";
+import { Person } from "../person";
 
 @ObjectType()
 export class Student extends Person {
