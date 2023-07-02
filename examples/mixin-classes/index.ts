@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import * as path from "node:path";
+import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
