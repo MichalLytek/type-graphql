@@ -21,12 +21,14 @@ async function bootstrap() {
     }),
   });
 
+  // Create GraphQL server
   const server = new ApolloServer({ gateway });
 
   // Start server
   const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
   console.log(`Apollo Gateway ready at ${url}`);
 
+  // Create 'schema.graphql' file with schema definition in current directory
   await emitSchemaDefinitionFile(path.resolve(__dirname, "schema.graphql"), gateway.schema!);
 }
 

@@ -1,4 +1,5 @@
 import { FieldResolver, Resolver } from "type-graphql";
+// eslint-disable-next-line import/no-cycle
 import { reviews } from "./data";
 import { Review } from "./review";
 

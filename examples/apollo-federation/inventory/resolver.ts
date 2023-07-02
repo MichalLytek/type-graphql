@@ -6,12 +6,12 @@ export class InventoryResolver {
   @Directive(`@requires(fields: "price weight")`)
   @FieldResolver(_returns => Number)
   async shippingEstimate(@Root() product: Product): Promise<number> {
-    // free for expensive items
+    // Free for expensive items
     if (product.price > 1000) {
       return 0;
     }
 
-    // estimate is based on weight
+    // Estimate is based on weight
     return product.weight * 0.5;
   }
 }

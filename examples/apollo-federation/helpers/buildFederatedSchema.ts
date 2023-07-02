@@ -10,16 +10,17 @@ export async function buildFederatedSchema(
   options: Omit<BuildSchemaOptions, "skipCheck">,
   referenceResolvers?: IResolvers,
 ) {
-  // build TypeGraphQL schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
     ...options,
-    skipCheck: true, // disable check to allow schemas without query, etc.
+    // Disable check to allow schemas without query, etc...
+    skipCheck: true,
   });
 
-  // build Apollo Subgraph schema
+  // Build Apollo Subgraph schema
   const federatedSchema = buildSubgraphSchema({
     typeDefs: gql(printSchemaWithDirectives(schema)),
-    // merge schema's resolvers with reference resolvers
+    // Merge schema's resolvers with reference resolvers
     resolvers: deepMerge(createResolversMap(schema) as any, referenceResolvers),
   });
 

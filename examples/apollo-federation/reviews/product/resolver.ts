@@ -1,7 +1,7 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { Product } from "./product";
-import { reviews } from "../review/data";
-import { Review } from "../review/review";
+// eslint-disable-next-line import/no-cycle
+import { Review, reviews } from "../review";
 
 @Resolver(_of => Product)
 export class ProductReviewsResolver {

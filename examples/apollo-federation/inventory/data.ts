@@ -1,7 +1,7 @@
-export interface Inventory {
+export type Inventory = {
   upc: string;
   inStock: boolean;
-}
+};
 
 export const inventory: Inventory[] = [
   { upc: "1", inStock: true },

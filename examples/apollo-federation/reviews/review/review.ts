@@ -1,6 +1,7 @@
 import { Directive, Field, ID, ObjectType } from "type-graphql";
-import { Product } from "../product/product";
-import { User } from "../user/user";
+// eslint-disable-next-line import/no-cycle
+import { Product } from "../product";
+import { User } from "../user";
 
 @Directive(`@key(fields: "id")`)
 @ObjectType()

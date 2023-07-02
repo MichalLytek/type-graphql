@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-cycle
 import { Review } from "./review";
-import { Product } from "../product/product";
-import { User } from "../user/user";
+import { Product } from "../product";
+import { User } from "../user";
 
 function createReview(reviewData: Partial<Review>) {
   return Object.assign(new Review(), reviewData);
