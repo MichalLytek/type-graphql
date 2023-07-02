@@ -1,21 +1,20 @@
 import { Args, Query, Resolver } from "type-graphql";
 import { Service } from "typedi";
 import { RecipesArgs } from "./recipe.args";
-import { recipeSamples } from "./recipe.samples";
+import { recipes as recipesData } from "./recipe.data";
 import { Recipe } from "./recipe.type";
-import { CurrentUser } from "../decorators/current-user";
-import { ValidateArgs } from "../decorators/validate-args";
-import { User } from "../user";
+import { CurrentUser, ValidateArgs } from "../decorators";
+import { User } from "../user.type";
 
 @Service()
 @Resolver(_of => Recipe)
 export class RecipeResolver {
-  private readonly items: Recipe[] = recipeSamples;
+  private readonly items: Recipe[] = recipesData;
 
   @Query(_returns => [Recipe])
   @ValidateArgs(RecipesArgs)
   async recipes(
-    @Args({ validate: false }) // disable built-in validation here
+    @Args({ validate: false }) // Disable built-in validation here
     options: RecipesArgs,
     @CurrentUser() currentUser: User,
   ): Promise<Recipe[]> {

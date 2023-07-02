@@ -1,6 +1,5 @@
 import { Field, Float, Int, ObjectType, UseMiddleware } from "type-graphql";
-import { LogAccessMiddleware } from "../middlewares/log-access";
-import { NumberInterceptor } from "../middlewares/number-interceptor";
+import { LogAccessMiddleware, NumberInterceptor } from "../middlewares";
 
 @ObjectType()
 export class Recipe {

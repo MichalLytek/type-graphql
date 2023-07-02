@@ -4,7 +4,7 @@ function createRecipe(recipeData: Partial<Recipe>): Recipe {
   return Object.assign(new Recipe(), recipeData);
 }
 
-export const recipeSamples = [
+export const recipes = [
   createRecipe({
     description: "Desc 1",
     title: "Recipe 1",

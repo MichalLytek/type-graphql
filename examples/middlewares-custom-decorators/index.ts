@@ -4,32 +4,32 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
-import type { Context } from "./context";
-import { ErrorLoggerMiddleware } from "./middlewares/error-logger";
-import { ResolveTimeMiddleware } from "./middlewares/resolve-time";
-import { RecipeResolver } from "./recipe/recipe.resolver";
+import type { Context } from "./context.type";
+import { ErrorLoggerMiddleware, ResolveTimeMiddleware } from "./middlewares";
+import { RecipeResolver } from "./recipe";
 
 async function bootstrap() {
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
     // Array of resolvers
     resolvers: [RecipeResolver],
+    // Array of global middlewares
     globalMiddlewares: [ErrorLoggerMiddleware, ResolveTimeMiddleware],
-    container: Container,
     // Create 'schema.graphql' file with schema definition in current directory
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Registry 3rd party IOC container
+    container: Container,
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
-    schema,
-  });
+  const server = new ApolloServer<Context>({ schema });
 
   // Start server
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
+    // Provide context for each request
     context: async (): Promise<Context> => ({
-      // example user
+      // Create mocked user in context
       currentUser: {
         id: 123,
         name: "Sample user",

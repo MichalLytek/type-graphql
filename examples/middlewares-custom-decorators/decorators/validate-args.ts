@@ -1,8 +1,8 @@
 import { validate } from "class-validator";
 import { ArgumentValidationError, type ClassType, createMethodDecorator } from "type-graphql";
 
-// sample implementation of custom validation decorator
-// this example use `class-validator` however you can plug-in `joi` or any other lib
+// Sample implementation of custom validation decorator
+// This example use 'class-validator' however you can plug-in 'joi' or any other validation library
 export function ValidateArgs<T extends object>(Type: ClassType<T>) {
   return createMethodDecorator(async ({ args }, next) => {
     const instance = Object.assign(new Type(), args);

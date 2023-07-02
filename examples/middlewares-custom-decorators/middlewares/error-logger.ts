@@ -1,7 +1,7 @@
 import type { MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
 import { ArgumentValidationError } from "type-graphql";
 import { Service } from "typedi";
-import type { Context } from "../context";
+import type { Context } from "../context.type";
 import { Logger } from "../logger";
 
 @Service()
@@ -19,7 +19,7 @@ export class ErrorLoggerMiddleware implements MiddlewareInterface<Context> {
         userName: context.currentUser.name,
       });
       if (!(err instanceof ArgumentValidationError)) {
-        // hide errors from db like printing sql query
+        // Hide errors from db like printing sql query
         throw new Error("Unknown error occurred. Try again later!");
       }
       throw err;
