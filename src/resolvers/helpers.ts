@@ -16,7 +16,7 @@ export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
-  validateFn: ValidatorFn<object> | undefined,
+  validateFn: ValidatorFn | undefined,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params

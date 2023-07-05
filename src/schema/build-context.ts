@@ -25,7 +25,7 @@ export interface BuildContextOptions {
   /**
    * Own validation function to check the args and inputs.
    */
-  validateFn?: ValidatorFn<object>;
+  validateFn?: ValidatorFn;
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
@@ -44,7 +44,7 @@ export interface BuildContextOptions {
 export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
   static validate: ValidateSettings;
-  static validateFn?: ValidatorFn<object>;
+  static validateFn?: ValidatorFn;
   static authChecker?: AuthChecker<any, any>;
   static authMode: AuthMode;
   static pubSub: PubSubEngine;

@@ -9,6 +9,9 @@
 - **Breaking Change**: make `graphql-scalars` package a peer dependency and use date scalars from it instead of custom ones
 - **Breaking Change**: exported `GraphQLISODateTime` scalar has now a name `DateTimeISO`
 
+### Fixes
+- allow `ValidatorFn` to accept array of values (instead of only `object | undefined`)
+
 ## v2.0.0-beta.2
 ### Features
 - **Breaking Change**: `AuthChecker` type is now "function or class" - update to `AuthCheckerFn` if the function form is needed in the code

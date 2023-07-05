@@ -673,9 +673,10 @@ describe("Custom validation", () => {
     }
   `;
   let sampleArgsCls: Function;
+  let sampleInputCls: Function;
   let sampleResolverCls: Function;
 
-  let validateArgs: Array<object | undefined> = [];
+  let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
   let sampleQueryArgs: any[] = [];
 
@@ -688,11 +689,23 @@ describe("Custom validation", () => {
       sampleField!: string;
     }
     sampleArgsCls = SampleArgs;
+    @InputType()
+    class SampleInput {
+      @Field()
+      sampleField!: string;
+    }
+    sampleInputCls = SampleInput;
     @Resolver()
     class SampleResolver {
       @Query(returns => Boolean)
       sampleQuery(@Args() args: SampleArgs) {
         sampleQueryArgs.push(args);
+        return true;
+      }
+
+      @Query(returns => Boolean)
+      sampleArrayArgQuery(@Arg("arrayArg", () => [SampleInput]) arrayArg: SampleInput[]) {
+        sampleQueryArgs.push(arrayArg);
         return true;
       }
     }
@@ -719,6 +732,29 @@ describe("Custom validation", () => {
     expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
     expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
     expect(validateTypes).toEqual([sampleArgsCls]);
+  });
+
+  it("should let `validateFn` function handle array args", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validateFn: (arg, type) => {
+        validateArgs.push(arg);
+        validateTypes.push(type);
+      },
+    });
+
+    await graphql({
+      schema,
+      source: /* graphql */ `
+        query {
+          sampleArrayArgQuery(arrayArg: [{ sampleField: "sampleFieldValue" }])
+        }
+      `,
+    });
+
+    expect(validateArgs).toEqual([[{ sampleField: "sampleFieldValue" }]]);
+    expect((validateArgs[0] as object[])[0]).toBeInstanceOf(sampleInputCls);
+    expect(validateTypes).toEqual([sampleInputCls]);
   });
 
   it("should inject validated arg as resolver param", async () => {
