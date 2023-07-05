@@ -5,6 +5,7 @@ import { TypeValue } from "../decorators/types";
 import { ArgumentValidationError } from "../errors";
 import { ValidateSettings } from "../schema/build-context";
 import { ValidatorFn } from "../interfaces/ValidatorFn";
+import { ResolverData } from "../interfaces";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";
@@ -12,12 +13,13 @@ const shouldArgBeValidated = (argValue: unknown): boolean =>
 export async function validateArg(
   argValue: any | undefined,
   argType: TypeValue,
+  resolverData: ResolverData,
   globalValidate: ValidateSettings,
   argValidate: ValidateSettings | undefined,
   validateFn: ValidatorFn | undefined,
 ): Promise<any | undefined> {
   if (typeof validateFn === "function") {
-    await validateFn(argValue, argType);
+    await validateFn(argValue, argType, resolverData);
     return argValue;
   }
 

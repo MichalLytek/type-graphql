@@ -4,9 +4,9 @@ export interface ArgsDictionary {
   [argName: string]: any;
 }
 
-export interface ResolverData<ContextType = {}> {
+export interface ResolverData<TContextType extends object = object> {
   root: any;
   args: ArgsDictionary;
-  context: ContextType;
+  context: TContextType;
   info: GraphQLResolveInfo;
 }

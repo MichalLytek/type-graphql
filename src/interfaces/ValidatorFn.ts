@@ -1,6 +1,7 @@
 import { TypeValue } from "../decorators/types";
+import { ResolverData } from "./ResolverData";
 
-export type ValidatorFn = (
+export type ValidatorFn<TContext extends object = object> = (
   /**
    * The value of the argument.
    * It can by of any type, which means:
@@ -12,4 +13,5 @@ export type ValidatorFn = (
    */
   argValue: any | undefined,
   argType: TypeValue,
+  resolverData: ResolverData<TContext>,
 ) => void | Promise<void>;

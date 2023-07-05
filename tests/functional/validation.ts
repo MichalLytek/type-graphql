@@ -15,6 +15,7 @@ import {
   ArgumentValidationError,
   Args,
   ArgsType,
+  ResolverData,
 } from "../../src";
 import { TypeValue } from "../../src/decorators/types";
 
@@ -678,6 +679,7 @@ describe("Custom validation", () => {
 
   let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
+  let validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
   beforeAll(async () => {
@@ -721,17 +723,23 @@ describe("Custom validation", () => {
   it("should call `validateFn` function provided in option with proper params", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validateFn: (arg, type) => {
+      validateFn: (arg, type, resolverData) => {
         validateArgs.push(arg);
         validateTypes.push(type);
+        validateResolverData.push(resolverData);
       },
     });
 
-    await graphql({ schema, source: document });
+    await graphql({ schema, source: document, contextValue: { isContext: true } });
 
     expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
     expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
     expect(validateTypes).toEqual([sampleArgsCls]);
+    expect(validateResolverData).toEqual([
+      expect.objectContaining({
+        context: { isContext: true },
+      }),
+    ]);
   });
 
   it("should let `validateFn` function handle array args", async () => {

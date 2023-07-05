@@ -27,6 +27,7 @@ export function getParams(
           return validateArg(
             convertArgsToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
+            resolverData,
             globalValidate,
             paramInfo.validate,
             validateFn,
@@ -35,6 +36,7 @@ export function getParams(
           return validateArg(
             convertArgToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
+            resolverData,
             globalValidate,
             paramInfo.validate,
             validateFn,
