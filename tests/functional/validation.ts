@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { Max, MaxLength, Min, ValidateNested } from "class-validator";
 import type { GraphQLSchema } from "graphql";
 import { graphql } from "graphql";
+import type { ResolverData } from "type-graphql";
 import {
   Arg,
   Args,
@@ -14,9 +15,9 @@ import {
   Query,
   Resolver,
   buildSchema,
+  getMetadataStorage,
 } from "type-graphql";
 import type { TypeValue } from "@/decorators/types";
-import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Validation", () => {
   describe("Functional", () => {
@@ -671,10 +672,12 @@ describe("Custom validation", () => {
     }
   `;
   let sampleArgsCls: Function;
+  let sampleInputCls: Function;
   let sampleResolverCls: Function;
 
-  let validateArgs: Array<object | undefined> = [];
+  let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
+  const validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
   beforeAll(async () => {
@@ -686,11 +689,23 @@ describe("Custom validation", () => {
       sampleField!: string;
     }
     sampleArgsCls = SampleArgs;
+    @InputType()
+    class SampleInput {
+      @Field()
+      sampleField!: string;
+    }
+    sampleInputCls = SampleInput;
     @Resolver()
     class SampleResolver {
       @Query(() => Boolean)
       sampleQuery(@Args() args: SampleArgs) {
         sampleQueryArgs.push(args);
+        return true;
+      }
+
+      @Query(() => Boolean)
+      sampleArrayArgQuery(@Arg("arrayArg", () => [SampleInput]) arrayArg: SampleInput[]) {
+        sampleQueryArgs.push(arrayArg);
         return true;
       }
     }
@@ -706,17 +721,46 @@ describe("Custom validation", () => {
   it("should call `validateFn` function provided in option with proper params", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
+      validateFn: (arg, type, resolverData) => {
+        validateArgs.push(arg);
+        validateTypes.push(type);
+        validateResolverData.push(resolverData);
+      },
+    });
+
+    await graphql({ schema, source: document, contextValue: { isContext: true } });
+
+    expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+    expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
+    expect(validateTypes).toEqual([sampleArgsCls]);
+    expect(validateResolverData).toEqual([
+      expect.objectContaining({
+        context: { isContext: true },
+      }),
+    ]);
+  });
+
+  it("should let `validateFn` function handle array args", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
       validateFn: (arg, type) => {
         validateArgs.push(arg);
         validateTypes.push(type);
       },
     });
 
-    await graphql({ schema, source: document });
+    await graphql({
+      schema,
+      source: /* graphql */ `
+        query {
+          sampleArrayArgQuery(arrayArg: [{ sampleField: "sampleFieldValue" }])
+        }
+      `,
+    });
 
-    expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
-    expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
-    expect(validateTypes).toEqual([sampleArgsCls]);
+    expect(validateArgs).toEqual([[{ sampleField: "sampleFieldValue" }]]);
+    expect((validateArgs[0] as object[])[0]).toBeInstanceOf(sampleInputCls);
+    expect(validateTypes).toEqual([sampleInputCls]);
   });
 
   it("should inject validated arg as resolver param", async () => {

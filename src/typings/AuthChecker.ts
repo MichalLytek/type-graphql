@@ -1,16 +1,16 @@
 import type { ResolverData } from "./ResolverData";
 import type { ClassType } from "./utils";
 
-export type AuthCheckerFn<TContextType = {}, TRoleType = string> = (
+export type AuthCheckerFn<TContextType extends object = object, TRoleType = string> = (
   resolverData: ResolverData<TContextType>,
   roles: TRoleType[],
 ) => boolean | Promise<boolean>;
 
-export type AuthCheckerInterface<TContextType = {}, TRoleType = string> = {
+export type AuthCheckerInterface<TContextType extends object = object, TRoleType = string> = {
   check(resolverData: ResolverData<TContextType>, roles: TRoleType[]): boolean | Promise<boolean>;
 };
 
-export type AuthChecker<TContextType = {}, TRoleType = string> =
+export type AuthChecker<TContextType extends object = object, TRoleType = string> =
   | AuthCheckerFn<TContextType, TRoleType>
   | ClassType<AuthCheckerInterface<TContextType, TRoleType>>;
 

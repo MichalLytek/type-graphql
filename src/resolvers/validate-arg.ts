@@ -4,20 +4,21 @@ import type { ValidationError, ValidatorOptions } from "class-validator";
 import type { TypeValue } from "@/decorators/types";
 import { ArgumentValidationError } from "@/errors";
 import type { ValidateSettings } from "@/schema/build-context";
-import type { ValidatorFn } from "@/typings";
+import type { ResolverData, ValidatorFn } from "@/typings";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";
 
-export async function validateArg<T extends object>(
-  argValue: T | undefined,
+export async function validateArg(
+  argValue: any | undefined,
   argType: TypeValue,
+  resolverData: ResolverData,
   globalValidate: ValidateSettings,
   argValidate: ValidateSettings | undefined,
-  validateFn: ValidatorFn<object> | undefined,
-): Promise<T | undefined> {
+  validateFn: ValidatorFn | undefined,
+): Promise<any | undefined> {
   if (typeof validateFn === "function") {
-    await validateFn(argValue, argType);
+    await validateFn(argValue, argType, resolverData);
     return argValue;
   }
 
@@ -47,7 +48,7 @@ export async function validateArg<T extends object>(
           .map(argItem => validateOrReject(argItem, validatorOptions)),
       );
     } else {
-      await validateOrReject(argValue as T, validatorOptions);
+      await validateOrReject(argValue, validatorOptions);
     }
     return argValue;
   } catch (err) {
