@@ -13,7 +13,9 @@ export default {
     "!<rootDir>/src/**/*.d.ts",
     "!<rootDir>/src/browser-shim.ts",
   ],
-  moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths),
+  moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths, {
+    prefix: "<rootDir>",
+  }),
   transform: {
     "^.+\\.tsx?$": ["ts-jest", { tsconfig: "./tests/tsconfig.json" }],
   },

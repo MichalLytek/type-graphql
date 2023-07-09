@@ -49,7 +49,7 @@ class SampleResolver {
             booleanField: true,
             numberField: index,
           } as SampleObject,
-        } as SampleObject),
+        }) as SampleObject,
     );
   }
 }

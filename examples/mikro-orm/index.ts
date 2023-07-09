@@ -50,7 +50,7 @@ async function bootstrap() {
         user: defaultUser,
         // Create fresh instance of entity manager per request
         entityManager: orm.em.fork(),
-      } satisfies Context),
+      }) satisfies Context,
   });
   console.log(`GraphQL server ready at ${url}`);
 }
