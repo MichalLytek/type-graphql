@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "//": "FIXME: 'type-graphql' as dependency to avoid ESLint error",
+  "dependencies": {
+    "type-graphql": "file:../.."
+  }
+}
