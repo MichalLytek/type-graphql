@@ -3,32 +3,6 @@
   "compilerOptions": {
     "outDir": "./build/cjs"
   },
-  "include": [
-    "../src",
-    "./apollo-cache",
-    // "./apollo-client",
-    "./apollo-federation",
-    "./authorization",
-    "./automatic-validation",
-    "./custom-validation",
-    "./enums-and-unions",
-    "./extensions",
-    "./generic-types",
-    "./graphql-scalars",
-    "./interfaces-inheritance",
-    "./middlewares-custom-decorators",
-    "./mikro-orm",
-    "./mixin-classes",
-    "./query-complexity",
-    "./redis-subscriptions",
-    "./resolvers-inheritance",
-    "./simple-subscriptions",
-    "./simple-usage",
-    "./tsyringe",
-    "./typegoose",
-    "./typeorm-basic-usage",
-    "./typeorm-lazy-relations",
-    "./using-container",
-    "./using-scoped-container"
-  ]
+  "exclude": ["./esm"],
+  "include": ["../src"]
 }

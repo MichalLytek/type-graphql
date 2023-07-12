@@ -44,7 +44,6 @@ Each subdirectory contains a `examples.graphql` file with predefined GraphQL que
 - [Typegoose \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose)
 - [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
 - [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache)
-- [Apollo Client local state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
 - [GraphQL Scalars](https://github.com/MichalLytek/type-graphql/tree/master/examples/graphql-scalars)
 - [TSyringe](https://github.com/MichalLytek/type-graphql/tree/master/examples/tsyringe)
 

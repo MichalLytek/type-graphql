@@ -22,7 +22,6 @@
       // TODO: add new examples here
       "options": [
         "apollo-cache",
-        "apollo-client",
         "apollo-federation",
         "authorization",
         "automatic-validation",
