@@ -106,7 +106,6 @@ jobs:
         run: |
           npm run build
           npm run build:benchmarks
-          npm run build:examples
 
       - name: Check
         run: |
