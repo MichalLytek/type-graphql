@@ -4,3 +4,5 @@
 **/node_modules/
 /.husky/_/
 /.gitattributes
+website/versioned_docs
+website/versioned_sidebars

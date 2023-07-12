@@ -4,5 +4,5 @@
     "outDir": "./build/cjs"
   },
   "exclude": ["./esm"],
-  "include": ["../src"]
+  "include": ["../src", "../examples"]
 }
