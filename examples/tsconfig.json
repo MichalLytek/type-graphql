@@ -1,5 +1,5 @@
 {
   "extends": "../tsconfig.cjs.json",
-  "include": ["../src", "../examples"],
+  "include": ["../src", "./"],
   "exclude": ["./esm"]
 }

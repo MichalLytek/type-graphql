@@ -56,7 +56,7 @@
     "check:benchmarks": "npx tsc --project ./benchmarks/tsconfig.json --noEmit",
     "check:examples": "npx npm-run-all --npm-path npm \"check:examples:*\"",
     "check:examples:cjs": "npx tsc --project ./examples/tsconfig.json --noEmit",
-    "check:examples:esm": "npx tsc --project ./examples/tsconfig.esm.json --noEmit",
+    "check:examples:esm": "npx tsc --project ./examples/esm/tsconfig.json --noEmit",
     "check:format": "npx prettier --check .",
     "check:lint": "npx eslint .",
     "check:markdown": "npx markdownlint \"**/*.md\"",

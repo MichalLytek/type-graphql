@@ -11,7 +11,7 @@
       "./tsconfig.json",
       "./benchmarks/tsconfig.json",
       "./examples/tsconfig.json",
-      "./examples/tsconfig.esm.json",
+      "./examples/esm/tsconfig.json",
       "./scripts/tsconfig.json",
       "./tests/tsconfig.json"
     ]
@@ -27,7 +27,7 @@
           "./tsconfig.json",
           "./benchmarks/tsconfig.json",
           "./examples/tsconfig.json",
-          "./examples/tsconfig.esm.json",
+          "./examples/esm/tsconfig.json",
           "./scripts/tsconfig.json",
           "./tests/tsconfig.json"
         ]
