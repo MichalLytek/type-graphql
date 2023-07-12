@@ -4,8 +4,6 @@ import fs from "node:fs";
 import path from "node:path";
 import expect from "expect";
 import typescript from "typescript";
-import { hideBin } from "yargs/helpers";
-import yargs from "yargs/yargs";
 
 type TsConfig = Omit<typescript.ParsedCommandLine, "raw"> & { raw: { include: string[] } };
 
@@ -45,49 +43,8 @@ function writePackageJson(fileName: string, fileContent: string | NodeJS.ArrayBu
   });
 }
 
-const enum ANALYZE {
-  ROOT = "root",
-  EXAMPLES = "examples",
-}
-
 const packageJson = JSON.stringify({ type: "module" });
 const tsconfigRoot = readTsConfig(path.resolve(__dirname, "../tsconfig.esm.json"));
-const tsconfigExamples = readTsConfig(path.resolve(__dirname, "../examples/tsconfig.esm.json"));
 const packageJsonRoot = path.resolve(`${tsconfigRoot.options.outDir}/package.json`);
-const packageJsonExamples = path.resolve(`${tsconfigExamples.options.outDir}/package.json`);
-const argv = yargs(hideBin(process.argv))
-  .strict()
-  .env("TYPE_GRAPHQL")
-  .usage("Package.json\n\nUsage: $0 [options]")
-  .example([
-    [`$0 --on ${ANALYZE.ROOT}`, `Analyze '${ANALYZE.ROOT}'`],
-    [
-      `$0 --on ${ANALYZE.ROOT} ${ANALYZE.EXAMPLES}`,
-      `Analyze '${ANALYZE.ROOT}' and '${ANALYZE.EXAMPLES}'`,
-    ],
-  ])
-  .option("on", {
-    type: "array",
-    default: [] as ANALYZE[],
-    requiresArg: true,
-    choices: [ANALYZE.ROOT, ANALYZE.EXAMPLES],
-    description: "Analysis to be performed",
-  })
-  .check(({ on }) => {
-    if (on.length === 0) {
-      throw new Error(`Empty analysis`);
-    }
 
-    return true;
-  })
-  .parseSync();
-
-// tsconfig.esm.json
-if (argv.on.includes(ANALYZE.ROOT)) {
-  writePackageJson(packageJsonRoot, packageJson);
-}
-
-// examples/tsconfig.esm.json
-if (argv.on.includes(ANALYZE.EXAMPLES)) {
-  writePackageJson(packageJsonExamples, packageJson);
-}
+writePackageJson(packageJsonRoot, packageJson);
