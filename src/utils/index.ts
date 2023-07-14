@@ -11,3 +11,10 @@ export {
   defaultPrintSchemaOptions,
 } from "./emitSchemaDefinitionFile";
 export { ContainerType, ContainerGetter } from "./container";
+export {
+  PartialType,
+  PickType,
+  RequiredType,
+  OmitType,
+  IntersectionType,
+} from "./types-transformation";
