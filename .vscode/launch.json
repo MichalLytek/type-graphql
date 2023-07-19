@@ -27,7 +27,6 @@
         "automatic-validation",
         "custom-validation",
         "enums-and-unions",
-        // "esm", -- does not work with `ts-node/register`
         "extensions",
         "generic-types",
         "graphql-scalars",

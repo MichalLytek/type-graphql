@@ -12,7 +12,6 @@ Each subdirectory contains a `examples.graphql` file with predefined GraphQL que
 ## Basics
 
 - [Simple usage of fields, basic types and resolvers](./simple-usage)
-- [ECMAScript modules (ESM)](./esm)
 
 ## Advanced
 
