@@ -13,6 +13,7 @@
 - **Breaking Change**: exported `GraphQLISODateTime` scalar has now a name `DateTimeISO`
 - **Breaking Change**: change `ValidatorFn` signature from `ValidatorFn<TArgs>` to `ValidatorFn<TContext>`
 - support custom validation function getting resolver data on validate
+- bring compatibility with the ESM ecosystem by exposing the double bundle of the `type-graphql` package (CJS and ESM versions)
 
 ### Fixes
 

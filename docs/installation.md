@@ -39,11 +39,11 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2019 so we should set our `tsconfig.json` file appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2021 so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
-  "target": "es2019" // Or newer if Node.js version supports it
+  "target": "es2021" // Or newer if Node.js version supports it
 }
 ```
 
@@ -52,7 +52,7 @@ All in all, the minimal `tsconfig.json` file example looks like this:
 ```json
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2021",
     "module": "commonjs",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

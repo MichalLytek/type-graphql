@@ -1,7 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ES2020",
+    "moduleResolution": "node16",
     "outDir": "./build/esm"
   }
 }
