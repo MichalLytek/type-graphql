@@ -3,3 +3,5 @@ export interface AuthorizedMetadata {
   fieldName: string;
   roles: any[];
 }
+
+export type AuthorizedClassMetadata = Omit<AuthorizedMetadata, "fieldName">;

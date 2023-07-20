@@ -15,6 +15,8 @@ import {
   SubscriptionResolverMetadata,
   MiddlewareMetadata,
   ExtensionsMetadata,
+  AuthorizedClassMetadata,
+  ResolverMiddlewareMetadata,
 } from "./definitions";
 import { ClassType } from "../interfaces";
 import { NoExplicitTypeError } from "../errors";
@@ -39,9 +41,12 @@ export class MetadataStorage {
   argumentTypes: ClassMetadata[] = [];
   interfaceTypes: InterfaceClassMetadata[] = [];
   authorizedFields: AuthorizedMetadata[] = [];
+  authorizedResolver: AuthorizedClassMetadata[] = [];
+  scopeFields: AuthorizedMetadata[] = [];
   enums: EnumMetadata[] = [];
   unions: UnionMetadataWithSymbol[] = [];
   middlewares: MiddlewareMetadata[] = [];
+  resolverMiddlewares: ResolverMiddlewareMetadata[] = [];
   classDirectives: DirectiveClassMetadata[] = [];
   fieldDirectives: DirectiveFieldMetadata[] = [];
   classExtensions: ExtensionsClassMetadata[] = [];
@@ -81,6 +86,9 @@ export class MetadataStorage {
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
   }
+  collectAuthorizedResolverMetadata(definition: AuthorizedClassMetadata) {
+    this.authorizedResolver.push(definition);
+  }
   collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
   }
@@ -94,6 +102,10 @@ export class MetadataStorage {
   }
   collectMiddlewareMetadata(definition: MiddlewareMetadata) {
     this.middlewares.push(definition);
+  }
+
+  collectResolverMiddlewareMetadata(definition: ResolverMiddlewareMetadata) {
+    this.resolverMiddlewares.push(definition);
   }
 
   collectResolverClassMetadata(definition: ResolverClassMetadata) {
@@ -150,9 +162,11 @@ export class MetadataStorage {
     this.argumentTypes = [];
     this.interfaceTypes = [];
     this.authorizedFields = [];
+    this.authorizedResolver = [];
     this.enums = [];
     this.unions = [];
     this.middlewares = [];
+    this.resolverMiddlewares = [];
     this.classDirectives = [];
     this.fieldDirectives = [];
     this.classExtensions = [];
@@ -172,12 +186,17 @@ export class MetadataStorage {
           field.params = this.params.filter(
             param => param.target === field.target && field.name === param.methodName,
           );
-          field.middlewares = mapMiddlewareMetadataToArray(
-            this.middlewares.filter(
-              middleware =>
-                middleware.target === field.target && middleware.fieldName === field.name,
+          field.middlewares = [
+            ...mapMiddlewareMetadataToArray(
+              this.resolverMiddlewares.filter(middleware => middleware.target === field.target),
             ),
-          );
+            ...mapMiddlewareMetadataToArray(
+              this.middlewares.filter(
+                middleware =>
+                  middleware.target === field.target && middleware.fieldName === field.name,
+              ),
+            ),
+          ];
           field.directives = this.fieldDirectives
             .filter(it => it.target === field.target && it.fieldName === field.name)
             .map(it => it.directive);
@@ -206,11 +225,17 @@ export class MetadataStorage {
         param => param.target === def.target && def.methodName === param.methodName,
       );
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      def.middlewares = mapMiddlewareMetadataToArray(
-        this.middlewares.filter(
-          middleware => middleware.target === def.target && def.methodName === middleware.fieldName,
+      def.middlewares = [
+        ...mapMiddlewareMetadataToArray(
+          this.resolverMiddlewares.filter(middleware => middleware.target === def.target),
         ),
-      );
+        ...mapMiddlewareMetadataToArray(
+          this.middlewares.filter(
+            middleware =>
+              middleware.target === def.target && def.methodName === middleware.fieldName,
+          ),
+        ),
+      ];
       def.directives = this.fieldDirectives
         .filter(it => it.target === def.target && it.fieldName === def.methodName)
         .map(it => it.directive);
@@ -313,9 +338,10 @@ export class MetadataStorage {
   }
 
   private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
-    const authorizedField = this.authorizedFields.find(
-      authField => authField.target === target && authField.fieldName === fieldName,
-    );
+    const authorizedField =
+      this.authorizedFields.find(
+        authField => authField.target === target && authField.fieldName === fieldName,
+      ) ?? this.authorizedResolver.find(authScope => authScope.target === target);
     if (!authorizedField) {
       return;
     }

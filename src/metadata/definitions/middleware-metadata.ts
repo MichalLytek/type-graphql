@@ -5,3 +5,5 @@ export interface MiddlewareMetadata {
   fieldName: string;
   middlewares: Array<Middleware<any>>;
 }
+
+export type ResolverMiddlewareMetadata = Omit<MiddlewareMetadata, "fieldName">;
