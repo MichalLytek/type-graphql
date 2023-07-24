@@ -150,7 +150,7 @@ jobs:
 
       - name: Prepare package
         run: |
-          npm run prepublishOnly --workspace type-graphql
+          npm run prepublishOnly
         env:
           TYPE_GRAPHQL_REF: ${{ github.ref_name }}
 
@@ -171,7 +171,7 @@ jobs:
 
       - name: Publish
         run: |
-          npm publish --workspace type-graphql --ignore-scripts
+          npm publish --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -192,10 +192,11 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
+          npm ci --prefix ./website
 
       - name: Build
         run: |
-          npm run build --workspace website
+          npm run build --prefix ./website
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
