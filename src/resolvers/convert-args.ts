@@ -4,16 +4,16 @@ import type { ArgParamMetadata, ArgsParamMetadata, ClassMetadata } from "@/metad
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import type { ArgsDictionary, ClassType } from "@/typings";
 
-interface TransformationTreeField {
+type TransformationTreeField = {
   name: string;
   target: TypeValue;
   fields?: TransformationTree;
-}
+};
 
-interface TransformationTree {
+type TransformationTree = {
   target: TypeValue;
   getFields: () => TransformationTreeField[];
-}
+};
 
 const generatedTrees = new Map<TypeValue, TransformationTree | null>();
 

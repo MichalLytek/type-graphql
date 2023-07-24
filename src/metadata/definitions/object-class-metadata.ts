@@ -1,5 +1,5 @@
 import type { ClassMetadata } from "./class-metadata";
 
-export interface ObjectClassMetadata extends ClassMetadata {
+export type ObjectClassMetadata = {
   interfaceClasses: Function[] | undefined;
-}
+} & ClassMetadata;

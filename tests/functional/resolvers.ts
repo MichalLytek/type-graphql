@@ -117,6 +117,7 @@ describe("Resolvers", () => {
         resolverFieldWithArgs!: string;
 
         @Field()
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get getterField(): string {
           return "getterField";
         }
@@ -1263,7 +1264,7 @@ describe("Resolvers", () => {
         nestedArrayField!: SampleInput[];
 
         @Field(() => [SampleInput], { nullable: "itemsAndList" })
-        nestedOptionalArrayField?: Array<SampleInput | undefined>;
+        nestedOptionalArrayField?: (SampleInput | undefined)[];
       }
       classes.SampleNestedInput = SampleNestedInput;
 

@@ -2,9 +2,9 @@ import type { GraphQLSchema } from "graphql";
 import { lexicographicSortSchema, printSchema } from "graphql";
 import { outputFile, outputFileSync } from "@/helpers/filesystem";
 
-export interface PrintSchemaOptions {
+export type PrintSchemaOptions = {
   sortedSchema: boolean;
-}
+};
 
 export const defaultPrintSchemaOptions: PrintSchemaOptions = {
   sortedSchema: true,

@@ -12,7 +12,7 @@ import type { DirectiveMetadata } from "./directive-metadata";
 import type { ExtensionsMetadata } from "./extensions-metadata";
 import type { ParamMetadata } from "./param-metadata";
 
-export interface BaseResolverMetadata {
+export type BaseResolverMetadata = {
   methodName: string;
   schemaName: string;
   target: Function;
@@ -20,35 +20,35 @@ export interface BaseResolverMetadata {
   resolverClassMetadata?: ResolverClassMetadata;
   params?: ParamMetadata[];
   roles?: any[];
-  middlewares?: Array<Middleware<any>>;
+  middlewares?: Middleware<any>[];
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
-}
+};
 
-export interface ResolverMetadata extends BaseResolverMetadata {
+export type ResolverMetadata = {
   getReturnType: TypeValueThunk;
   returnTypeOptions: TypeOptions;
   description?: string;
   deprecationReason?: string;
-}
+} & BaseResolverMetadata;
 
-export interface FieldResolverMetadata extends BaseResolverMetadata {
+export type FieldResolverMetadata = {
   kind: "internal" | "external";
   description?: string;
   deprecationReason?: string;
   getType?: TypeValueThunk;
   typeOptions?: TypeOptions;
   getObjectType?: ClassTypeResolver;
-}
+} & BaseResolverMetadata;
 
-export interface SubscriptionResolverMetadata extends ResolverMetadata {
+export type SubscriptionResolverMetadata = {
   topics: string | string[] | SubscriptionTopicFunc | undefined;
   filter: SubscriptionFilterFunc | undefined;
   subscribe: ResolverFn | undefined;
-}
+} & ResolverMetadata;
 
-export interface ResolverClassMetadata {
+export type ResolverClassMetadata = {
   target: Function;
   getObjectType: ClassTypeResolver;
   superResolver?: ResolverClassMetadata;
-}
+};

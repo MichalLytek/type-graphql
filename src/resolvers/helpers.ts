@@ -82,7 +82,7 @@ export function getParams(
 }
 
 export function applyAuthChecker(
-  middlewares: Array<Middleware<any>>,
+  middlewares: Middleware<any>[],
   authChecker: AuthChecker<any, any> | undefined,
   container: IOCContainer,
   authMode: AuthMode,
@@ -96,7 +96,7 @@ export function applyAuthChecker(
 export function applyMiddlewares(
   container: IOCContainer,
   resolverData: ResolverData<any>,
-  middlewares: Array<Middleware<any>>,
+  middlewares: Middleware<any>[],
   resolverHandlerFunction: () => any,
 ): Promise<any> {
   if (middlewares.length === 0) {

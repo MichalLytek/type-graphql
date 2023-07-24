@@ -35,6 +35,7 @@ describe("Description", () => {
         describedField!: string;
 
         @Field({ description: "sample object getter field description" })
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get describedGetterField(): string {
           return "describedGetterField";
         }

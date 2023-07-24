@@ -24,7 +24,7 @@ export class ExampleResolver {
   }
 
   @Query(_returns => [SearchResult])
-  async search(@Arg("cookName") cookName: string): Promise<Array<typeof SearchResult>> {
+  async search(@Arg("cookName") cookName: string): Promise<(typeof SearchResult)[]> {
     const recipes = this.recipesData.filter(recipe => recipe.cook.name.match(cookName));
     const cooks = this.cooks.filter(cook => cook.name.match(cookName));
 

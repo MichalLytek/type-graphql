@@ -10,9 +10,9 @@ import {
   emitSchemaDefinitionFileSync,
 } from "./emitSchemaDefinitionFile";
 
-interface EmitSchemaFileOptions extends Partial<PrintSchemaOptions> {
+type EmitSchemaFileOptions = {
   path?: string;
-}
+} & Partial<PrintSchemaOptions>;
 
 function getEmitSchemaDefinitionFileOptions(buildSchemaOptions: BuildSchemaOptions): {
   schemaFileName: string;
@@ -44,7 +44,7 @@ function loadResolvers(options: BuildSchemaOptions): Function[] {
   return options.resolvers as Function[];
 }
 
-export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolvers"> {
+export type BuildSchemaOptions = {
   /** Array of resolvers classes to resolver files */
   resolvers: NonEmptyArray<Function>;
   /**
@@ -53,7 +53,7 @@ export interface BuildSchemaOptions extends Omit<SchemaGeneratorOptions, "resolv
    * or `true` for the default `./schema.graphql` one
    */
   emitSchemaFile?: string | boolean | EmitSchemaFileOptions;
-}
+} & Omit<SchemaGeneratorOptions, "resolvers">;
 
 export async function buildSchema(options: BuildSchemaOptions): Promise<GraphQLSchema> {
   const resolvers = loadResolvers(options);

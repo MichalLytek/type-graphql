@@ -33,6 +33,7 @@ describe("Deprecation", () => {
         deprecatedField!: string;
 
         @Field({ deprecationReason: "sample object getter field deprecation reason" })
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get deprecatedGetterField(): string {
           return "deprecatedGetterField";
         }

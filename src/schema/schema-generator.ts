@@ -61,30 +61,30 @@ import {
 } from "./definition-node";
 import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
-interface ObjectTypeInfo {
+type ObjectTypeInfo = {
   target: Function;
   type: GraphQLObjectType;
   metadata: ObjectClassMetadata;
-}
-interface InterfaceTypeInfo {
+};
+type InterfaceTypeInfo = {
   target: Function;
   type: GraphQLInterfaceType;
   metadata: InterfaceClassMetadata;
-}
-interface InputObjectTypeInfo {
+};
+type InputObjectTypeInfo = {
   target: Function;
   type: GraphQLInputObjectType;
-}
-interface EnumTypeInfo {
+};
+type EnumTypeInfo = {
   enumObj: object;
   type: GraphQLEnumType;
-}
-interface UnionTypeInfo {
+};
+type UnionTypeInfo = {
   unionSymbol: symbol;
   type: GraphQLUnionType;
-}
+};
 
-export interface SchemaGeneratorOptions extends BuildContextOptions {
+export type SchemaGeneratorOptions = {
   /**
    * Array of resolvers classes
    */
@@ -101,7 +101,7 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Array of graphql directives
    */
   directives?: GraphQLDirective[];
-}
+} & BuildContextOptions;
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
@@ -158,7 +158,7 @@ export abstract class SchemaGenerator {
   }
 
   private static getDefaultValue(
-    typeInstance: { [property: string]: unknown },
+    typeInstance: Record<string, unknown>,
     typeOptions: TypeOptions,
     fieldName: string,
     typeName: string,
@@ -855,7 +855,7 @@ export abstract class SchemaGenerator {
   }
 
   private static filterTypesInfoByOrphanedTypesAndExtractType(
-    typesInfo: Array<ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo>,
+    typesInfo: (ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo)[],
     orphanedTypes: Function[],
   ) {
     return typesInfo.filter(it => orphanedTypes.includes(it.target)).map(it => it.type);

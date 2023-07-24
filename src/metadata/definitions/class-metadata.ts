@@ -2,7 +2,7 @@ import type { DirectiveMetadata } from "./directive-metadata";
 import type { ExtensionsMetadata } from "./extensions-metadata";
 import type { FieldMetadata } from "./field-metadata";
 
-export interface ClassMetadata {
+export type ClassMetadata = {
   name: string;
   target: Function;
   fields?: FieldMetadata[];
@@ -10,4 +10,4 @@ export interface ClassMetadata {
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
   simpleResolvers?: boolean;
-}
+};

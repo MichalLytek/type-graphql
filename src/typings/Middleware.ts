@@ -7,12 +7,12 @@ export type MiddlewareFn<TContext extends object = object> = (
   next: NextFn,
 ) => Promise<any>;
 
-export interface MiddlewareInterface<TContext extends object = object> {
+export type MiddlewareInterface<TContext extends object = object> = {
   use: MiddlewareFn<TContext>;
-}
-export interface MiddlewareClass<TContext extends object = object> {
-  new (...args: any[]): MiddlewareInterface<TContext>;
-}
+};
+export type MiddlewareClass<TContext extends object = object> = new (
+  ...args: any[]
+) => MiddlewareInterface<TContext>;
 
 export type Middleware<TContext extends object = object> =
   | MiddlewareFn<TContext>

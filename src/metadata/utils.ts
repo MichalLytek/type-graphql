@@ -43,15 +43,10 @@ export function mapSuperFieldResolverHandlers(
   );
 }
 
-export function mapMiddlewareMetadataToArray(
-  metadata: MiddlewareMetadata[],
-): Array<Middleware<any>> {
+export function mapMiddlewareMetadataToArray(metadata: MiddlewareMetadata[]): Middleware<any>[] {
   return metadata
     .map(m => m.middlewares)
-    .reduce<Array<Middleware<any>>>(
-      (middlewares, resultArray) => resultArray.concat(middlewares),
-      [],
-    );
+    .reduce<Middleware<any>[]>((middlewares, resultArray) => resultArray.concat(middlewares), []);
 }
 
 export function ensureReflectMetadataExists() {

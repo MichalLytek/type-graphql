@@ -1,12 +1,12 @@
 export type ExtensionsMetadata = Readonly<Record<string, any>>;
 
-export interface ExtensionsClassMetadata {
+export type ExtensionsClassMetadata = {
   target: Function;
   extensions: ExtensionsMetadata;
-}
+};
 
-export interface ExtensionsFieldMetadata {
+export type ExtensionsFieldMetadata = {
   target: Function;
   fieldName: string;
   extensions: ExtensionsMetadata;
-}
+};

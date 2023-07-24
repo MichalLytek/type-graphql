@@ -11,14 +11,14 @@ import type {
   SubscriptionTopicFunc,
 } from "./types";
 
-interface PubSubOptions {
+type PubSubOptions = {
   topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
-}
+};
 
-interface SubscribeOptions {
+type SubscribeOptions = {
   subscribe: ResolverFn;
-}
+};
 
 export type SubscriptionOptions = AdvancedOptions & MergeExclusive<PubSubOptions, SubscribeOptions>;
 

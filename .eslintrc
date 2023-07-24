@@ -40,7 +40,9 @@
     "eslint:recommended",
     "plugin:@cspell/recommended",
     "plugin:@typescript-eslint/recommended",
-    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic",
+    // "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:jest/recommended",
@@ -48,6 +50,7 @@
   ],
   "rules": {
     "tsdoc/syntax": "warn",
+    "semi": "off",
     "no-restricted-syntax": "off",
     "curly": ["error", "all"],
     "nonblock-statement-body-position": ["error", "below"],
@@ -71,6 +74,7 @@
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
+    "@typescript-eslint/semi": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -81,7 +85,7 @@
     ],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/consistent-type-exports": "error",
-    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "@typescript-eslint/no-inferrable-types": [
       "error",
       { "ignoreParameters": true, "ignoreProperties": true }

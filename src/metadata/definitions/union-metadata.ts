@@ -1,11 +1,11 @@
 import type { ClassType, TypeResolver } from "@/typings";
 
-export interface UnionMetadata {
+export type UnionMetadata = {
   getClassTypes: () => ClassType[];
   name: string;
   description?: string;
   resolveType?: TypeResolver<any, any>;
-}
-export interface UnionMetadataWithSymbol extends UnionMetadata {
+};
+export type UnionMetadataWithSymbol = {
   symbol: symbol;
-}
+} & UnionMetadata;

@@ -10,12 +10,12 @@ import { bannedTypes } from "./returnTypes";
 
 export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
 
-export interface TypeInfo {
+export type TypeInfo = {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-}
+};
 
-export interface GetTypeParams {
+export type GetTypeParams = {
   metadataKey: MetadataKey;
   prototype: Object;
   propertyKey: string;
@@ -23,7 +23,7 @@ export interface GetTypeParams {
   argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   typeOptions?: TypeOptions;
-}
+};
 
 function findTypeValueArrayDepth(
   [typeValueOrArray]: RecursiveArray<TypeValue>,

@@ -10,14 +10,14 @@ import type { ValidatorFn } from "@/typings/ValidatorFn";
 import type { ContainerGetter, ContainerType } from "@/utils/container";
 import { IOCContainer } from "@/utils/container";
 
-export interface ScalarsTypeMap {
+export type ScalarsTypeMap = {
   type: Function;
   scalar: GraphQLScalarType;
-}
+};
 
 export type ValidateSettings = boolean | ValidatorOptions;
 
-export interface BuildContextOptions {
+export type BuildContextOptions = {
   scalarsMap?: ScalarsTypeMap[];
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
@@ -31,7 +31,7 @@ export interface BuildContextOptions {
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
-  globalMiddlewares?: Array<Middleware<any>>;
+  globalMiddlewares?: Middleware<any>[];
   container?: ContainerType | ContainerGetter<any>;
   /**
    * Default value for type decorators, like `@Field({ nullable: true })`
@@ -41,7 +41,7 @@ export interface BuildContextOptions {
    * Disable inferring default values from property initializers, like `created = new Date();`
    */
   disableInferringDefaultValues?: boolean;
-}
+};
 
 export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
@@ -56,7 +56,7 @@ export abstract class BuildContext {
 
   static pubSub: PubSubEngine;
 
-  static globalMiddlewares: Array<Middleware<any>>;
+  static globalMiddlewares: Middleware<any>[];
 
   static container: IOCContainer;
 

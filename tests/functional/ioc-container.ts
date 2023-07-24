@@ -134,9 +134,9 @@ describe("IOC container", () => {
       }
     }
 
-    interface TestContext {
+    type TestContext = {
       container: ContainerType;
-    }
+    };
 
     const schema = await buildSchema({
       resolvers: [SampleResolver],

@@ -3,14 +3,14 @@ import { SymbolKeysNotSupportedError } from "@/errors";
 import type { CommonArgMetadata } from "@/metadata/definitions";
 import { findType } from "./findType";
 
-export interface ParamInfo {
+export type ParamInfo = {
   prototype: Object;
   propertyKey: string | symbol;
   parameterIndex: number;
   argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   options?: TypeOptions & ValidateOptions;
-}
+};
 export function getParamInfo({
   prototype,
   propertyKey,

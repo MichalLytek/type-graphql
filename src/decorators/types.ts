@@ -8,7 +8,7 @@ import type {
   TypeResolver,
 } from "@/typings";
 
-export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
+export type RecursiveArray<TValue> = (RecursiveArray<TValue> | TValue)[];
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;
@@ -26,49 +26,49 @@ export type SubscriptionTopicFunc = (
   resolverTopicData: ResolverTopicData<any, any, any>,
 ) => string | string[];
 
-export interface DecoratorTypeOptions {
+export type DecoratorTypeOptions = {
   nullable?: boolean | NullableListOptions;
   defaultValue?: any;
-}
+};
 
 export type NullableListOptions = "items" | "itemsAndList";
 
-export interface TypeOptions extends DecoratorTypeOptions {
+export type TypeOptions = {
   array?: boolean;
   arrayDepth?: number;
-}
-export interface DescriptionOptions {
+} & DecoratorTypeOptions;
+export type DescriptionOptions = {
   description?: string;
-}
-export interface DeprecationOptions {
+};
+export type DeprecationOptions = {
   deprecationReason?: string;
-}
-export interface ValidateOptions {
+};
+export type ValidateOptions = {
   validate?: ValidateSettings;
-}
-export interface ComplexityOptions {
+};
+export type ComplexityOptions = {
   complexity?: Complexity;
-}
-export interface SchemaNameOptions {
+};
+export type SchemaNameOptions = {
   name?: string;
-}
-export interface ImplementsClassOptions {
+};
+export type ImplementsClassOptions = {
   implements?: Function | Function[];
-}
-export interface ResolveTypeOptions<TSource = any, TContext = any> {
+};
+export type ResolveTypeOptions<TSource = any, TContext = any> = {
   resolveType?: TypeResolver<TSource, TContext>;
-}
+};
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
   DeprecationOptions &
   SchemaNameOptions &
   ComplexityOptions;
 
-export interface EnumConfig<TEnum extends object> {
+export type EnumConfig<TEnum extends object> = {
   name: string;
   description?: string;
   valuesConfig?: EnumValuesConfig<TEnum>;
-}
+};
 export type EnumValuesConfig<TEnum extends object> = Partial<
   Record<keyof TEnum, DescriptionOptions & DeprecationOptions>
 >;

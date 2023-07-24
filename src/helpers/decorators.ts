@@ -1,9 +1,9 @@
 import type { DescriptionOptions, ReturnTypeFunc } from "@/decorators/types";
 
-export interface TypeDecoratorParams<T> {
+export type TypeDecoratorParams<T> = {
   options: Partial<T>;
   returnTypeFunc?: ReturnTypeFunc;
-}
+};
 export function getTypeDecoratorParams<T extends object>(
   returnTypeFuncOrOptions: ReturnTypeFunc | T | undefined,
   maybeOptions: T | undefined,
@@ -34,7 +34,7 @@ export function getNameDecoratorParams<T extends DescriptionOptions>(
   };
 }
 
-export function getArrayFromOverloadedRest<T>(overloadedArray: Array<T | readonly T[]>): T[] {
+export function getArrayFromOverloadedRest<T>(overloadedArray: (T | readonly T[])[]): T[] {
   let items: T[];
   if (Array.isArray(overloadedArray[0])) {
     items = overloadedArray[0] as T[];

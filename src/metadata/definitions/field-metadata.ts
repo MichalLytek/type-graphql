@@ -5,7 +5,7 @@ import type { DirectiveMetadata } from "./directive-metadata";
 import type { ExtensionsMetadata } from "./extensions-metadata";
 import type { ParamMetadata } from "./param-metadata";
 
-export interface FieldMetadata {
+export type FieldMetadata = {
   target: Function;
   schemaName: string;
   name: string;
@@ -16,8 +16,8 @@ export interface FieldMetadata {
   complexity: Complexity | undefined;
   params?: ParamMetadata[];
   roles?: any[];
-  middlewares?: Array<Middleware<any>>;
+  middlewares?: Middleware<any>[];
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
   simple?: boolean;
-}
+};

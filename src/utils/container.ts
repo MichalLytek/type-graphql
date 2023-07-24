@@ -1,11 +1,11 @@
 /* eslint-disable max-classes-per-file */
 import type { ResolverData } from "@/typings";
 
-export type SupportedType<T> = { new (...args: any[]): T } | Function;
+export type SupportedType<T> = (new (...args: any[]) => T) | Function;
 
-export interface ContainerType {
+export type ContainerType = {
   get(someClass: any, resolverData: ResolverData<any>): any | Promise<any>;
-}
+};
 
 export type ContainerGetter<TContext extends object> = (
   resolverData: ResolverData<TContext>,
@@ -17,7 +17,7 @@ export type ContainerGetter<TContext extends object> = (
  * container simply creates a new instance of the given class.
  */
 class DefaultContainer {
-  private instances: Array<{ type: Function; object: any }> = [];
+  private instances: { type: Function; object: any }[] = [];
 
   get<T>(someClass: SupportedType<T>): T {
     let instance = this.instances.find(it => it.type === someClass);

@@ -17,7 +17,7 @@ export function assertValidDirective(
     | InterfaceTypeDefinitionNode
   >,
   name: string,
-  args?: { [key: string]: string },
+  args?: Record<string, string>,
 ): void {
   if (!astNode) {
     throw new Error(`Directive with name ${name} does not exist`);

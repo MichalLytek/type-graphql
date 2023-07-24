@@ -68,10 +68,10 @@ describe("Fields - schema", () => {
       nullableNestedArrayField!: string[][] | null;
 
       @Field(() => [[String]], { nullable: "items" })
-      nonNullNestedArrayWithNullableItemField!: Array<Array<string | null> | null>;
+      nonNullNestedArrayWithNullableItemField!: ((string | null)[] | null)[];
 
       @Field(() => [[String]], { nullable: "itemsAndList" })
-      nestedArrayWithNullableItemField!: Array<Array<string | null> | null> | null;
+      nestedArrayWithNullableItemField!: ((string | null)[] | null)[] | null;
 
       @Field(() => GraphQLISODateTime)
       overwrittenArrayScalarField!: string[];

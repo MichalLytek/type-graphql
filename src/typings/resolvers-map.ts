@@ -5,26 +5,25 @@ import type {
   GraphQLTypeResolver,
 } from "graphql";
 
-export interface ResolversMap<TSource = any, TContext = any> {
-  [key: string]:
-    | ResolverObject<TSource, TContext>
-    | ResolverOptions<TSource, TContext>
-    | GraphQLScalarType
-    | EnumResolver;
-}
+export type ResolversMap<TSource = any, TContext = any> = Record<
+  string,
+  | ResolverObject<TSource, TContext>
+  | ResolverOptions<TSource, TContext>
+  | GraphQLScalarType
+  | EnumResolver
+>;
 
-export interface ResolverObject<TSource = any, TContext = any> {
-  [key: string]: ResolverOptions<TSource, TContext> | GraphQLFieldResolver<TSource, TContext>;
-}
+export type ResolverObject<TSource = any, TContext = any> = Record<
+  string,
+  ResolverOptions<TSource, TContext> | GraphQLFieldResolver<TSource, TContext>
+>;
 
-export interface EnumResolver {
-  [key: string]: string | number;
-}
+export type EnumResolver = Record<string, string | number>;
 
-export interface ResolverOptions<TSource = any, TContext = any> {
+export type ResolverOptions<TSource = any, TContext = any> = {
   fragment?: string;
   resolve?: GraphQLFieldResolver<TSource, TContext>;
   subscribe?: GraphQLFieldResolver<TSource, TContext>;
   __resolveType?: GraphQLTypeResolver<TSource, TContext>;
   __isTypeOf?: GraphQLIsTypeOfFn<TSource, TContext>;
-}
+};
