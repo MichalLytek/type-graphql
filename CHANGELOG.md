@@ -6,6 +6,7 @@
 
 ### Features
 
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.7.1`
 - **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
 - **Breaking Change**: change `ClassType` constraint from `ClassType<T = any>` to `ClassType<T extends object = object>` in order to make it work properly with new TS features
 - **Breaking Change**: remove `dateScalarMode` option from `buildSchema`
