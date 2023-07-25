@@ -16,7 +16,7 @@ export type FieldMetadata = {
   complexity: Complexity | undefined;
   params?: ParamMetadata[];
   roles?: any[];
-  middlewares?: Middleware<any>[];
+  middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
   simple?: boolean;

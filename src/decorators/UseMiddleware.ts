@@ -4,10 +4,10 @@ import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import type { Middleware } from "@/typings/Middleware";
 import type { MethodAndPropDecorator } from "./types";
 
-export function UseMiddleware(middlewares: Middleware<any>[]): MethodAndPropDecorator;
-export function UseMiddleware(...middlewares: Middleware<any>[]): MethodAndPropDecorator;
+export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
+export function UseMiddleware(...middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
 export function UseMiddleware(
-  ...middlewaresOrMiddlewareArray: (Middleware<any> | Middleware<any>[])[]
+  ...middlewaresOrMiddlewareArray: Array<Middleware<any> | Array<Middleware<any>>>
 ): MethodDecorator | PropertyDecorator {
   const middlewares = getArrayFromOverloadedRest(middlewaresOrMiddlewareArray);
 

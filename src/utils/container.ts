@@ -17,7 +17,7 @@ export type ContainerGetter<TContext extends object> = (
  * container simply creates a new instance of the given class.
  */
 class DefaultContainer {
-  private instances: { type: Function; object: any }[] = [];
+  private instances: Array<{ type: Function; object: any }> = [];
 
   get<T>(someClass: SupportedType<T>): T {
     let instance = this.instances.find(it => it.type === someClass);

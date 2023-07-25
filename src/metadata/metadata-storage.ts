@@ -362,7 +362,7 @@ export class MetadataStorage {
   }
 
   private findExtensions(target: Function, fieldName?: string): ExtensionsMetadata {
-    const storedExtensions: (ExtensionsClassMetadata | ExtensionsFieldMetadata)[] = fieldName
+    const storedExtensions: Array<ExtensionsClassMetadata | ExtensionsFieldMetadata> = fieldName
       ? this.fieldExtensions
       : this.classExtensions;
     return storedExtensions

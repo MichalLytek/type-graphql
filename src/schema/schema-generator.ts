@@ -855,7 +855,7 @@ export abstract class SchemaGenerator {
   }
 
   private static filterTypesInfoByOrphanedTypesAndExtractType(
-    typesInfo: (ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo)[],
+    typesInfo: Array<ObjectTypeInfo | InterfaceTypeInfo | InputObjectTypeInfo>,
     orphanedTypes: Function[],
   ) {
     return typesInfo.filter(it => orphanedTypes.includes(it.target)).map(it => it.type);

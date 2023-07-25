@@ -31,7 +31,7 @@ export type BuildContextOptions = {
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
   pubSub?: PubSubEngine | PubSubOptions;
-  globalMiddlewares?: Middleware<any>[];
+  globalMiddlewares?: Array<Middleware<any>>;
   container?: ContainerType | ContainerGetter<any>;
   /**
    * Default value for type decorators, like `@Field({ nullable: true })`
@@ -56,7 +56,7 @@ export abstract class BuildContext {
 
   static pubSub: PubSubEngine;
 
-  static globalMiddlewares: Middleware<any>[];
+  static globalMiddlewares: Array<Middleware<any>>;
 
   static container: IOCContainer;
 

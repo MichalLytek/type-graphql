@@ -9,7 +9,7 @@ export function Authorized<RoleType = string>(
   ...roles: readonly RoleType[]
 ): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(
-  ...rolesOrRolesArray: (RoleType | readonly RoleType[])[]
+  ...rolesOrRolesArray: Array<RoleType | readonly RoleType[]>
 ): MethodDecorator | PropertyDecorator {
   const roles = getArrayFromOverloadedRest(rolesOrRolesArray);
 

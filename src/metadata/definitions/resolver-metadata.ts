@@ -20,7 +20,7 @@ export type BaseResolverMetadata = {
   resolverClassMetadata?: ResolverClassMetadata;
   params?: ParamMetadata[];
   roles?: any[];
-  middlewares?: Middleware<any>[];
+  middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
 };

@@ -1264,7 +1264,7 @@ describe("Resolvers", () => {
         nestedArrayField!: SampleInput[];
 
         @Field(() => [SampleInput], { nullable: "itemsAndList" })
-        nestedOptionalArrayField?: (SampleInput | undefined)[];
+        nestedOptionalArrayField?: Array<SampleInput | undefined>;
       }
       classes.SampleNestedInput = SampleNestedInput;
 

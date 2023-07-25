@@ -67,7 +67,7 @@ declare namespace Reflect {
    *
    */
   function decorate(
-    decorators: (PropertyDecorator | MethodDecorator)[],
+    decorators: Array<PropertyDecorator | MethodDecorator>,
     target: object,
     propertyKey: string | symbol,
     attributes?: PropertyDescriptor,

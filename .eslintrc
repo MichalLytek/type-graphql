@@ -51,6 +51,7 @@
   "rules": {
     "tsdoc/syntax": "warn",
     "semi": "off",
+    "@typescript-eslint/semi": "error",
     "no-restricted-syntax": "off",
     "curly": ["error", "all"],
     "nonblock-statement-body-position": ["error", "below"],
@@ -74,7 +75,6 @@
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/semi": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -83,6 +83,7 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
+    "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/consistent-type-exports": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],

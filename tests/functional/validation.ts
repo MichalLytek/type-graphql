@@ -102,7 +102,7 @@ describe("Validation", () => {
         @Mutation()
         mutationWithOptionalInputsArray(
           @Arg("inputs", () => [SampleInput], { nullable: "items" })
-          inputs: (SampleInput | null)[],
+          inputs: Array<SampleInput | null>,
         ): SampleObject {
           argInput = inputs;
           return {};
@@ -675,7 +675,7 @@ describe("Custom validation", () => {
   let sampleInputCls: Function;
   let sampleResolverCls: Function;
 
-  let validateArgs: (any | undefined)[] = [];
+  let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
   const validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
