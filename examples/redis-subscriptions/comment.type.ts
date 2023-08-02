@@ -12,9 +12,9 @@ export class Comment {
   date!: Date;
 }
 
-export type NewCommentPayload = {
+export interface NewCommentPayload {
   recipeId: string;
   dateString: string; // Limitation of Redis payload serialization
   content: string;
   nickname?: string;
-};
+}

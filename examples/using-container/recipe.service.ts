@@ -1,5 +1,5 @@
 import { Inject, Service } from "typedi";
-import type { RecipeInput } from "./recipe.input";
+import { type RecipeInput } from "./recipe.input";
 import { Recipe } from "./recipe.type";
 
 @Service()

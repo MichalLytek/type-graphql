@@ -1,12 +1,12 @@
-import type {
-  FieldDefinitionNode,
-  InputObjectTypeDefinitionNode,
-  InputValueDefinitionNode,
-  InterfaceTypeDefinitionNode,
-  ObjectTypeDefinitionNode,
+import {
+  type FieldDefinitionNode,
+  type InputObjectTypeDefinitionNode,
+  type InputValueDefinitionNode,
+  type InterfaceTypeDefinitionNode,
+  type ObjectTypeDefinitionNode,
+  parseValue,
 } from "graphql";
-import { parseValue } from "graphql";
-import type { Maybe } from "@/typings";
+import { type Maybe } from "@/typings";
 
 export function assertValidDirective(
   astNode: Maybe<

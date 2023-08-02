@@ -1,5 +1,4 @@
-import type { ExecutionResult, GraphQLSchema } from "graphql";
-import { execute } from "graphql";
+import { type ExecutionResult, type GraphQLSchema, execute } from "graphql";
 import { gql } from "graphql-tag";
 
 const BENCHMARK_ITERATIONS = 100000;

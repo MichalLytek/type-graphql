@@ -11,7 +11,7 @@ Use-cases:
 
 @example
 ```
-import type {IsEqual} from 'type-fest';
+import {IsEqual} from 'type-fest';
 
 // This type returns a boolean for whether the given array includes the given item.
 // `IsEqual` is used to compare the given array at position 0 and the given item and then return true if they are equal.

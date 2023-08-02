@@ -1,22 +1,23 @@
 /* eslint "@typescript-eslint/no-this-alias": ["error", { "allowedNames": ["self"] }] */
 import "reflect-metadata";
-import type {
-  GraphQLSchema,
-  IntrospectionField,
-  IntrospectionInputObjectType,
-  IntrospectionListTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+import {
+  type GraphQLSchema,
+  type IntrospectionField,
+  type IntrospectionInputObjectType,
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  TypeKind,
+  graphql,
 } from "graphql";
-import { TypeKind, graphql } from "graphql";
-import type { ClassType, ResolverInterface } from "type-graphql";
 import {
   Arg,
   Args,
   ArgsType,
   CannotDetermineGraphQLTypeError,
+  type ClassType,
   ConflictingDefaultValuesError,
   Ctx,
   Field,
@@ -31,6 +32,7 @@ import {
   PubSubEngine,
   Query,
   Resolver,
+  type ResolverInterface,
   Root,
   Subscription,
   WrongNullableListOptionError,

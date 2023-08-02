@@ -1,6 +1,6 @@
 // Copied from 'type-fest' (https://github.com/sindresorhus/type-fest/blob/main/source/basic.d.ts)
 
-import type { Constructor } from "./Constructor";
+import { type Constructor } from "./Constructor";
 
 /**
 Matches a [`class`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes).

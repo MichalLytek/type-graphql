@@ -1,8 +1,8 @@
 import { SymbolKeysNotSupportedError } from "@/errors";
 import { getArrayFromOverloadedRest } from "@/helpers/decorators";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { Middleware } from "@/typings/Middleware";
-import type { MethodAndPropDecorator } from "./types";
+import { type Middleware } from "@/typings/Middleware";
+import { type MethodAndPropDecorator } from "./types";
 
 export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodAndPropDecorator;
 export function UseMiddleware(...middlewares: Array<Middleware<any>>): MethodAndPropDecorator;

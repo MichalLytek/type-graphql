@@ -5,7 +5,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { Types, connect } from "mongoose";
 import { buildSchema } from "type-graphql";
-import type { Context } from "./context.type";
+import { type Context } from "./context.type";
 import { seedDatabase } from "./helpers";
 import { ObjectIdScalar } from "./object-id.scalar";
 import { RatingResolver, RecipeResolver } from "./resolvers";

@@ -12,7 +12,7 @@ export class Notification {
   date!: Date;
 }
 
-export type NotificationPayload = {
+export interface NotificationPayload {
   id: number;
   message?: string;
-};
+}

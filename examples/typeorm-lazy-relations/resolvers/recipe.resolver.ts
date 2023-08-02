@@ -1,5 +1,5 @@
 import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
-import type { Repository } from "typeorm";
+import { type Repository } from "typeorm";
 import { RatingInput, RecipeInput } from "./types";
 import { Context } from "../context.type";
 import { dataSource } from "../datasource";

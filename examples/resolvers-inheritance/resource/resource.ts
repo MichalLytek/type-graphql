@@ -1,3 +1,3 @@
-export type Resource = {
+export interface Resource {
   id: number;
-};
+}

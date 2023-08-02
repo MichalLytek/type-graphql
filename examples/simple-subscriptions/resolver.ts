@@ -1,5 +1,4 @@
 import { PubSubEngine } from "graphql-subscriptions";
-import type { ResolverFilterData } from "type-graphql";
 import {
   Arg,
   Mutation,
@@ -7,6 +6,7 @@ import {
   Publisher,
   Query,
   Resolver,
+  type ResolverFilterData,
   Root,
   Subscription,
 } from "type-graphql";

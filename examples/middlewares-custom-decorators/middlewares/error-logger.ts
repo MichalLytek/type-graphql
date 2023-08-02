@@ -1,7 +1,11 @@
-import type { MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
-import { ArgumentValidationError } from "type-graphql";
+import {
+  ArgumentValidationError,
+  type MiddlewareInterface,
+  type NextFn,
+  type ResolverData,
+} from "type-graphql";
 import { Service } from "typedi";
-import type { Context } from "../context.type";
+import { type Context } from "../context.type";
 import { Logger } from "../logger";
 
 @Service()

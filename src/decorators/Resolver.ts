@@ -1,6 +1,6 @@
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { ClassType } from "@/typings";
-import type { ClassTypeResolver } from "./types";
+import { type ClassType } from "@/typings";
+import { type ClassTypeResolver } from "./types";
 
 export function Resolver(): ClassDecorator;
 export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;

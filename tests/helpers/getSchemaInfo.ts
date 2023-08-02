@@ -1,8 +1,11 @@
 /* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
-import type { IntrospectionObjectType, IntrospectionSchema } from "graphql";
-import { getIntrospectionQuery, graphql } from "graphql";
-import type { BuildSchemaOptions } from "type-graphql";
-import { buildSchema } from "type-graphql";
+import {
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  getIntrospectionQuery,
+  graphql,
+} from "graphql";
+import { type BuildSchemaOptions, buildSchema } from "type-graphql";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
   // Build schema from definitions

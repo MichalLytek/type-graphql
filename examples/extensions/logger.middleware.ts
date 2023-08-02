@@ -1,14 +1,18 @@
-import type { GraphQLFieldConfig, GraphQLObjectTypeConfig, GraphQLResolveInfo } from "graphql";
-import type { MiddlewareInterface, NextFn, ResolverData } from "type-graphql";
+import {
+  type GraphQLFieldConfig,
+  type GraphQLObjectTypeConfig,
+  type GraphQLResolveInfo,
+} from "graphql";
+import { type MiddlewareInterface, type NextFn, type ResolverData } from "type-graphql";
 import { Service } from "typedi";
-import type { Context } from "./context.type";
+import { type Context } from "./context.type";
 import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.extractors";
 import { Logger } from "./logger.service";
 
-type LoggerConfig = {
+interface LoggerConfig {
   message?: string;
   level?: number;
-};
+}
 
 const extractLoggerExtensionsFromConfig = (
   config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>,

@@ -1,4 +1,4 @@
-import type { EntityManager } from "@mikro-orm/core";
+import { type EntityManager } from "@mikro-orm/core";
 import { Rating, Recipe, User } from "./entities";
 
 export async function seedDatabase(em: EntityManager) {

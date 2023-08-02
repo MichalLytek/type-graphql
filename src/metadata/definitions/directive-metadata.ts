@@ -1,15 +1,15 @@
-export type DirectiveMetadata = {
+export interface DirectiveMetadata {
   nameOrDefinition: string;
   args: Record<string, any>;
-};
+}
 
-export type DirectiveClassMetadata = {
+export interface DirectiveClassMetadata {
   target: Function;
   directive: DirectiveMetadata;
-};
+}
 
-export type DirectiveFieldMetadata = {
+export interface DirectiveFieldMetadata {
   target: Function;
   fieldName: string;
   directive: DirectiveMetadata;
-};
+}

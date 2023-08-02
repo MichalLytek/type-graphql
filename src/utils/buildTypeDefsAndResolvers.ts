@@ -1,7 +1,5 @@
-import type { GraphQLSchema } from "graphql";
-import { printSchema } from "graphql";
-import type { BuildSchemaOptions } from "./buildSchema";
-import { buildSchema, buildSchemaSync } from "./buildSchema";
+import { type GraphQLSchema, printSchema } from "graphql";
+import { type BuildSchemaOptions, buildSchema, buildSchemaSync } from "./buildSchema";
 import { createResolversMap } from "./createResolversMap";
 
 function createTypeDefsAndResolversMap(schema: GraphQLSchema) {

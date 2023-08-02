@@ -1,5 +1,4 @@
-import type { User } from "./entities";
-import { RecipeModel, UserModel } from "./entities";
+import { RecipeModel, type User, UserModel } from "./entities";
 
 export async function seedDatabase() {
   const defaultUser = new UserModel({

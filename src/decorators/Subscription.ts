@@ -1,24 +1,24 @@
-import type { ResolverFn } from "graphql-subscriptions";
+import { type ResolverFn } from "graphql-subscriptions";
 import { MissingSubscriptionTopicsError } from "@/errors";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { getResolverMetadata } from "@/helpers/resolver-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { MergeExclusive } from "@/typings";
-import type {
-  AdvancedOptions,
-  ReturnTypeFunc,
-  SubscriptionFilterFunc,
-  SubscriptionTopicFunc,
+import { type MergeExclusive } from "@/typings";
+import {
+  type AdvancedOptions,
+  type ReturnTypeFunc,
+  type SubscriptionFilterFunc,
+  type SubscriptionTopicFunc,
 } from "./types";
 
-type PubSubOptions = {
+interface PubSubOptions {
   topics: string | string[] | SubscriptionTopicFunc;
   filter?: SubscriptionFilterFunc;
-};
+}
 
-type SubscribeOptions = {
+interface SubscribeOptions {
   subscribe: ResolverFn;
-};
+}
 
 export type SubscriptionOptions = AdvancedOptions & MergeExclusive<PubSubOptions, SubscribeOptions>;
 

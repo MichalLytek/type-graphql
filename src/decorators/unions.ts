@@ -1,7 +1,7 @@
-import type { UnionFromClasses } from "@/helpers/utils";
+import { type UnionFromClasses } from "@/helpers/utils";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { ClassType } from "@/typings";
-import type { ResolveTypeOptions } from "./types";
+import { type ClassType } from "@/typings";
+import { type ResolveTypeOptions } from "./types";
 
 export type UnionTypeConfig<TClassTypes extends readonly ClassType[]> = {
   name: string;

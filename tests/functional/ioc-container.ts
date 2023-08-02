@@ -1,7 +1,15 @@
 import "reflect-metadata";
 import { graphql } from "graphql";
-import type { ContainerType, ResolverData } from "type-graphql";
-import { Arg, Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import {
+  Arg,
+  type ContainerType,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
+  type ResolverData,
+  buildSchema,
+} from "type-graphql";
 import { Container, Service } from "typedi";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
@@ -134,9 +142,9 @@ describe("IOC container", () => {
       }
     }
 
-    type TestContext = {
+    interface TestContext {
       container: ContainerType;
-    };
+    }
 
     const schema = await buildSchema({
       resolvers: [SampleResolver],

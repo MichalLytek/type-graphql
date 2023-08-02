@@ -1,5 +1,5 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
-import type { Repository } from "typeorm";
+import { type Repository } from "typeorm";
 import { dataSource } from "../datasource";
 import { Rating, User } from "../entities";
 

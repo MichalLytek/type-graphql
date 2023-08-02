@@ -1,7 +1,7 @@
 import { AuthenticationError, AuthorizationError } from "@/errors";
-import type { AuthChecker, AuthCheckerFn, AuthMode } from "@/typings";
-import type { MiddlewareFn } from "@/typings/Middleware";
-import type { IOCContainer } from "@/utils/container";
+import { type AuthChecker, type AuthCheckerFn, type AuthMode } from "@/typings";
+import { type MiddlewareFn } from "@/typings/Middleware";
+import { type IOCContainer } from "@/utils/container";
 
 export function AuthMiddleware(
   authChecker: AuthChecker<any, any>,

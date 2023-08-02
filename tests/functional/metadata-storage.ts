@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import type { ClassType } from "type-graphql";
 import {
+  type ClassType,
   Field,
   FieldResolver,
   Mutation,

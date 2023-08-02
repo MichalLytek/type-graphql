@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import type { GraphQLSchema } from "graphql";
-import { execute } from "graphql";
+import { type GraphQLSchema, execute } from "graphql";
 import gql from "graphql-tag";
-import type { MiddlewareFn } from "type-graphql";
-import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { Field, type MiddlewareFn, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Simple resolvers", () => {

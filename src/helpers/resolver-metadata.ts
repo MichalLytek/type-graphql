@@ -1,6 +1,6 @@
-import type { AdvancedOptions, ReturnTypeFunc } from "@/decorators/types";
+import { type AdvancedOptions, type ReturnTypeFunc } from "@/decorators/types";
 import { SymbolKeysNotSupportedError } from "@/errors";
-import type { ResolverMetadata } from "@/metadata/definitions";
+import { type ResolverMetadata } from "@/metadata/definitions";
 import { findType } from "./findType";
 
 export function getResolverMetadata(

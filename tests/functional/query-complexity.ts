@@ -1,9 +1,16 @@
 import "reflect-metadata";
-import type { GraphQLSchema } from "graphql";
-import { parse } from "graphql";
+import { type GraphQLSchema, parse } from "graphql";
 import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
-import type { ClassType } from "type-graphql";
-import { Arg, Field, ObjectType, Query, Resolver, Subscription, buildSchema } from "type-graphql";
+import {
+  Arg,
+  type ClassType,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
+} from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

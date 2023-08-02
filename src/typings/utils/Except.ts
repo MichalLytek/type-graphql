@@ -1,6 +1,6 @@
 // Copied from 'type-fest' (https://github.com/sindresorhus/type-fest/blob/main/source/except.d.ts)
 
-import type { IsEqual } from "./IsEqual";
+import { type IsEqual } from "./IsEqual";
 
 /**
 Filter out keys from an object.
@@ -33,7 +33,7 @@ type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
   ? never
   : KeyType;
 
-type ExceptOptions = {
+interface ExceptOptions {
   /**
 	Disallow assigning non-specified properties.
 
@@ -42,7 +42,7 @@ type ExceptOptions = {
 	@defaultValue false
 	*/
   requireExactProps?: boolean;
-};
+}
 
 /**
 Create a type from an object type without certain keys.
@@ -55,7 +55,7 @@ This type was proposed to the TypeScript team, which declined it, saying they pr
 
 @example
 ```
-import type {Except} from 'type-fest';
+import {Except} from 'type-fest';
 
 type Foo = {
 	a: number;

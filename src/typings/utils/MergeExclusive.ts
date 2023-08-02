@@ -14,7 +14,7 @@ This type works with a helper type, called `Without`. `Without<FirstType, Second
 
 @example
 ```
-import type {MergeExclusive} from 'type-fest';
+import {MergeExclusive} from 'type-fest';
 
 interface ExclusiveVariation1 {
 	exclusive1: boolean;

@@ -1,4 +1,3 @@
-import type { GraphQLType } from "graphql";
 import {
   GraphQLBoolean,
   GraphQLFloat,
@@ -6,8 +5,9 @@ import {
   GraphQLNonNull,
   GraphQLScalarType,
   GraphQLString,
+  type GraphQLType,
 } from "graphql";
-import type { TypeOptions } from "@/decorators/types";
+import { type TypeOptions } from "@/decorators/types";
 import { WrongNullableListOptionError } from "@/errors";
 import { GraphQLISODateTime } from "@/scalars";
 import { BuildContext } from "@/schema/build-context";

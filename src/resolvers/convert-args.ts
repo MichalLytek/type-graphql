@@ -1,19 +1,23 @@
-import type { TypeValue } from "@/decorators/types";
+import { type TypeValue } from "@/decorators/types";
 import { convertToType } from "@/helpers/types";
-import type { ArgParamMetadata, ArgsParamMetadata, ClassMetadata } from "@/metadata/definitions";
+import {
+  type ArgParamMetadata,
+  type ArgsParamMetadata,
+  type ClassMetadata,
+} from "@/metadata/definitions";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { ArgsDictionary, ClassType } from "@/typings";
+import { type ArgsDictionary, type ClassType } from "@/typings";
 
-type TransformationTreeField = {
+interface TransformationTreeField {
   name: string;
   target: TypeValue;
   fields?: TransformationTree;
-};
+}
 
-type TransformationTree = {
+interface TransformationTree {
   target: TypeValue;
   getFields: () => TransformationTreeField[];
-};
+}
 
 const generatedTrees = new Map<TypeValue, TransformationTree | null>();
 

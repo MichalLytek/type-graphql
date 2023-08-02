@@ -1,5 +1,5 @@
 import { inject } from "tsyringe";
-import type { RecipeInput } from "./recipe.input";
+import { type RecipeInput } from "./recipe.input";
 import { Recipe } from "./recipe.type";
 
 export class RecipeService {

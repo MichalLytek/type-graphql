@@ -1,5 +1,5 @@
-import type { User } from "./user.type";
+import { type User } from "./user.type";
 
-export type Context = {
+export interface Context {
   currentUser: User;
-};
+}

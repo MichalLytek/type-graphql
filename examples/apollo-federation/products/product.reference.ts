@@ -1,5 +1,5 @@
 import { products } from "./data";
-import type { Product } from "./product";
+import { type Product } from "./product";
 
 export async function resolveProductReference(
   reference: Pick<Product, "upc">,

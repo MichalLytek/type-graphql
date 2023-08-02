@@ -1,21 +1,21 @@
-import type {
-  RecursiveArray,
-  ReturnTypeFunc,
-  TypeOptions,
-  TypeValue,
-  TypeValueThunk,
+import {
+  type RecursiveArray,
+  type ReturnTypeFunc,
+  type TypeOptions,
+  type TypeValue,
+  type TypeValueThunk,
 } from "@/decorators/types";
 import { NoExplicitTypeError } from "@/errors";
 import { bannedTypes } from "./returnTypes";
 
 export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
 
-export type TypeInfo = {
+export interface TypeInfo {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-};
+}
 
-export type GetTypeParams = {
+export interface GetTypeParams {
   metadataKey: MetadataKey;
   prototype: Object;
   propertyKey: string;
@@ -23,7 +23,7 @@ export type GetTypeParams = {
   argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   typeOptions?: TypeOptions;
-};
+}
 
 function findTypeValueArrayDepth(
   [typeValueOrArray]: RecursiveArray<TypeValue>,

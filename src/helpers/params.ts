@@ -1,16 +1,16 @@
-import type { ReturnTypeFunc, TypeOptions, ValidateOptions } from "@/decorators/types";
+import { type ReturnTypeFunc, type TypeOptions, type ValidateOptions } from "@/decorators/types";
 import { SymbolKeysNotSupportedError } from "@/errors";
-import type { CommonArgMetadata } from "@/metadata/definitions";
+import { type CommonArgMetadata } from "@/metadata/definitions";
 import { findType } from "./findType";
 
-export type ParamInfo = {
+export interface ParamInfo {
   prototype: Object;
   propertyKey: string | symbol;
   parameterIndex: number;
   argName?: string;
   returnTypeFunc?: ReturnTypeFunc;
   options?: TypeOptions & ValidateOptions;
-};
+}
 export function getParamInfo({
   prototype,
   propertyKey,

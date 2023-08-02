@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import type {
-  GraphQLFieldMap,
-  GraphQLInputObjectType,
-  GraphQLObjectType,
-  GraphQLSchema,
+import {
+  type GraphQLFieldMap,
+  type GraphQLInputObjectType,
+  type GraphQLObjectType,
+  type GraphQLSchema,
 } from "graphql";
 import {
   Arg,

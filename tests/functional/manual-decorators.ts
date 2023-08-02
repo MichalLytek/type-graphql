@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import type { IntrospectionObjectType } from "graphql";
+import { type IntrospectionObjectType } from "graphql";
 import { Args, ArgsType, Field, ObjectType, Query, Resolver } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

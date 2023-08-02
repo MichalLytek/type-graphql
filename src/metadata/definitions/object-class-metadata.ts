@@ -1,4 +1,4 @@
-import type { ClassMetadata } from "./class-metadata";
+import { type ClassMetadata } from "./class-metadata";
 
 export type ObjectClassMetadata = {
   interfaceClasses: Function[] | undefined;

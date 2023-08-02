@@ -2,23 +2,26 @@
 import "reflect-metadata";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { MinLength } from "class-validator";
-import type {
-  ExecutionResult,
-  GraphQLSchema,
-  IntrospectionEnumType,
-  IntrospectionInputObjectType,
-  IntrospectionInterfaceType,
-  IntrospectionNamedTypeRef,
-  IntrospectionObjectType,
-  IntrospectionQuery,
-  IntrospectionScalarType,
-  IntrospectionSchema,
-  IntrospectionUnionType,
+import {
+  type ExecutionResult,
+  type GraphQLSchema,
+  type IntrospectionEnumType,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionQuery,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
+  type IntrospectionUnionType,
+  TypeKind,
+  execute,
+  getIntrospectionQuery,
+  graphql,
+  subscribe,
 } from "graphql";
-import { TypeKind, execute, getIntrospectionQuery, graphql, subscribe } from "graphql";
 import { PubSub } from "graphql-subscriptions";
 import gql from "graphql-tag";
-import type { PubSubEngine, ResolverObject, ResolverOptions, ResolversMap } from "type-graphql";
 import {
   Arg,
   Authorized,
@@ -27,8 +30,12 @@ import {
   InterfaceType,
   Mutation,
   ObjectType,
+  type PubSubEngine,
   Query,
   Resolver,
+  type ResolverObject,
+  type ResolverOptions,
+  type ResolversMap,
   Root,
   Subscription,
   UseMiddleware,

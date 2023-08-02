@@ -1,18 +1,18 @@
-import type { ResolverFn } from "graphql-subscriptions";
-import type {
-  ClassTypeResolver,
-  SubscriptionFilterFunc,
-  SubscriptionTopicFunc,
-  TypeOptions,
-  TypeValueThunk,
+import { type ResolverFn } from "graphql-subscriptions";
+import {
+  type ClassTypeResolver,
+  type SubscriptionFilterFunc,
+  type SubscriptionTopicFunc,
+  type TypeOptions,
+  type TypeValueThunk,
 } from "@/decorators/types";
-import type { Complexity } from "@/typings";
-import type { Middleware } from "@/typings/Middleware";
-import type { DirectiveMetadata } from "./directive-metadata";
-import type { ExtensionsMetadata } from "./extensions-metadata";
-import type { ParamMetadata } from "./param-metadata";
+import { type Complexity } from "@/typings";
+import { type Middleware } from "@/typings/Middleware";
+import { type DirectiveMetadata } from "./directive-metadata";
+import { type ExtensionsMetadata } from "./extensions-metadata";
+import { type ParamMetadata } from "./param-metadata";
 
-export type BaseResolverMetadata = {
+export interface BaseResolverMetadata {
   methodName: string;
   schemaName: string;
   target: Function;
@@ -23,7 +23,7 @@ export type BaseResolverMetadata = {
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
-};
+}
 
 export type ResolverMetadata = {
   getReturnType: TypeValueThunk;
@@ -47,8 +47,8 @@ export type SubscriptionResolverMetadata = {
   subscribe: ResolverFn | undefined;
 } & ResolverMetadata;
 
-export type ResolverClassMetadata = {
+export interface ResolverClassMetadata {
   target: Function;
   getObjectType: ClassTypeResolver;
   superResolver?: ResolverClassMetadata;
-};
+}

@@ -1,7 +1,7 @@
-import type { Middleware } from "@/typings/Middleware";
+import { type Middleware } from "@/typings/Middleware";
 
-export type MiddlewareMetadata = {
+export interface MiddlewareMetadata {
   target: Function;
   fieldName: string;
   middlewares: Array<Middleware<any>>;
-};
+}

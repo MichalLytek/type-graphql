@@ -1,11 +1,11 @@
 import { ReflectMetadataMissingError } from "@/errors";
 import { isThrowing } from "@/helpers/isThrowing";
-import type { Middleware } from "@/typings/Middleware";
-import type {
-  BaseResolverMetadata,
-  FieldResolverMetadata,
-  MiddlewareMetadata,
-  ResolverClassMetadata,
+import { type Middleware } from "@/typings/Middleware";
+import {
+  type BaseResolverMetadata,
+  type FieldResolverMetadata,
+  type MiddlewareMetadata,
+  type ResolverClassMetadata,
 } from "./definitions";
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(

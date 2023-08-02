@@ -1,4 +1,3 @@
-import type { ResolverFilterData } from "type-graphql";
 import {
   Arg,
   Args,
@@ -8,6 +7,7 @@ import {
   Publisher,
   Query,
   Resolver,
+  type ResolverFilterData,
   Root,
   Subscription,
 } from "type-graphql";

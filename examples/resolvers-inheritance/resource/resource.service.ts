@@ -1,4 +1,4 @@
-import type { Resource } from "./resource";
+import { type Resource } from "./resource";
 
 export class ResourceService<TResource extends Resource> {
   constructor(protected resources: TResource[] = []) {}

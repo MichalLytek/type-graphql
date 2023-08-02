@@ -4,7 +4,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
-import type { Context } from "./context.type";
+import { type Context } from "./context.type";
 import { ErrorLoggerMiddleware, ResolveTimeMiddleware } from "./middlewares";
 import { RecipeResolver } from "./recipe";
 

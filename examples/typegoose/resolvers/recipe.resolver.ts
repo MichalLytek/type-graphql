@@ -2,8 +2,7 @@ import { Types } from "mongoose";
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from "type-graphql";
 import { RatingInput, RecipeInput } from "./types";
 import { Context } from "../context.type";
-import type { Rating, User } from "../entities";
-import { Recipe, RecipeModel, UserModel } from "../entities";
+import { type Rating, Recipe, RecipeModel, type User, UserModel } from "../entities";
 import { ObjectIdScalar } from "../object-id.scalar";
 
 @Resolver(_of => Recipe)

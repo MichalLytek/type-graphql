@@ -1,6 +1,6 @@
 import { Arg, Query, Resolver } from "type-graphql";
 import { sampleCooks } from "./cook.data";
-import type { Cook } from "./cook.type";
+import { type Cook } from "./cook.type";
 import { Difficulty } from "./difficulty.enum";
 import { sampleRecipes } from "./recipe.data";
 import { Recipe } from "./recipe.type";

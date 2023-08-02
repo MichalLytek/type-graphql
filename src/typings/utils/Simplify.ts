@@ -5,7 +5,7 @@ Useful to flatten the type output to improve type hints shown in editors. And al
 
 @example
 ```
-import type {Simplify} from 'type-fest';
+import {Simplify} from 'type-fest';
 
 type PositionProps = {
 	top: number;
@@ -27,7 +27,7 @@ If the type definition must be an interface (perhaps it was defined in a third-p
 
 @example
 ```
-import type {Simplify} from 'type-fest';
+import {Simplify} from 'type-fest';
 
 interface SomeInterface {
 	foo: number;

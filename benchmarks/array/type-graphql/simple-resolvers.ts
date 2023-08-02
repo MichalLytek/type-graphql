@@ -1,6 +1,13 @@
 import "reflect-metadata";
-import type { MiddlewareFn } from "type-graphql";
-import { Field, Int, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import {
+  Field,
+  Int,
+  type MiddlewareFn,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
+} from "type-graphql";
 import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType({ simpleResolvers: true })

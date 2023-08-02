@@ -1,18 +1,16 @@
 /* eslint-disable no-param-reassign */
-import type {
-  GraphQLAbstractType,
-  GraphQLFieldMap,
-  GraphQLSchema,
-  GraphQLTypeResolver,
-} from "graphql";
 import {
+  type GraphQLAbstractType,
   GraphQLEnumType,
+  type GraphQLFieldMap,
   GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLScalarType,
+  type GraphQLSchema,
+  type GraphQLTypeResolver,
   GraphQLUnionType,
 } from "graphql";
-import type { EnumResolver, ResolverObject, ResolversMap } from "@/typings";
+import { type EnumResolver, type ResolverObject, type ResolversMap } from "@/typings";
 
 function generateTypeResolver(
   abstractType: GraphQLAbstractType,

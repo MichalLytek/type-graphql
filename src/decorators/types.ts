@@ -1,11 +1,11 @@
-import type { GraphQLScalarType } from "graphql";
-import type { ValidateSettings } from "@/schema/build-context";
-import type {
-  ClassType,
-  Complexity,
-  ResolverFilterData,
-  ResolverTopicData,
-  TypeResolver,
+import { type GraphQLScalarType } from "graphql";
+import { type ValidateSettings } from "@/schema/build-context";
+import {
+  type ClassType,
+  type Complexity,
+  type ResolverFilterData,
+  type ResolverTopicData,
+  type TypeResolver,
 } from "@/typings";
 
 export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
@@ -26,49 +26,49 @@ export type SubscriptionTopicFunc = (
   resolverTopicData: ResolverTopicData<any, any, any>,
 ) => string | string[];
 
-export type DecoratorTypeOptions = {
+export interface DecoratorTypeOptions {
   nullable?: boolean | NullableListOptions;
   defaultValue?: any;
-};
+}
 
 export type NullableListOptions = "items" | "itemsAndList";
 
-export type TypeOptions = {
+export interface TypeOptions extends DecoratorTypeOptions {
   array?: boolean;
   arrayDepth?: number;
-} & DecoratorTypeOptions;
-export type DescriptionOptions = {
+}
+export interface DescriptionOptions {
   description?: string;
-};
-export type DeprecationOptions = {
+}
+export interface DeprecationOptions {
   deprecationReason?: string;
-};
-export type ValidateOptions = {
+}
+export interface ValidateOptions {
   validate?: ValidateSettings;
-};
-export type ComplexityOptions = {
+}
+export interface ComplexityOptions {
   complexity?: Complexity;
-};
-export type SchemaNameOptions = {
+}
+export interface SchemaNameOptions {
   name?: string;
-};
-export type ImplementsClassOptions = {
+}
+export interface ImplementsClassOptions {
   implements?: Function | Function[];
-};
-export type ResolveTypeOptions<TSource = any, TContext = any> = {
+}
+export interface ResolveTypeOptions<TSource = any, TContext = any> {
   resolveType?: TypeResolver<TSource, TContext>;
-};
+}
 export type BasicOptions = DecoratorTypeOptions & DescriptionOptions;
 export type AdvancedOptions = BasicOptions &
   DeprecationOptions &
   SchemaNameOptions &
   ComplexityOptions;
 
-export type EnumConfig<TEnum extends object> = {
+export interface EnumConfig<TEnum extends object> {
   name: string;
   description?: string;
   valuesConfig?: EnumValuesConfig<TEnum>;
-};
+}
 export type EnumValuesConfig<TEnum extends object> = Partial<
   Record<keyof TEnum, DescriptionOptions & DeprecationOptions>
 >;

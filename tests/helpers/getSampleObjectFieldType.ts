@@ -1,8 +1,8 @@
-import type {
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+import {
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
 } from "graphql";
 
 export function getSampleObjectFieldType(schemaIntrospection: IntrospectionSchema) {

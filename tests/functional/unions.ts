@@ -1,12 +1,13 @@
 /* eslint "no-underscore-dangle": ["error", { "allow": ["__typename"] }] */
 import "reflect-metadata";
-import type {
-  GraphQLSchema,
-  IntrospectionObjectType,
-  IntrospectionSchema,
-  IntrospectionUnionType,
+import {
+  type GraphQLSchema,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  type IntrospectionUnionType,
+  TypeKind,
+  graphql,
 } from "graphql";
-import { TypeKind, graphql } from "graphql";
 import { Field, ObjectType, Query, Resolver, buildSchema, createUnionType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getInnerFieldType, getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";

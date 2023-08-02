@@ -1,19 +1,21 @@
-import type {
-  ConstArgumentNode,
-  ConstDirectiveNode,
-  DocumentNode,
-  FieldDefinitionNode,
-  GraphQLInputType,
-  GraphQLOutputType,
-  InputObjectTypeDefinitionNode,
-  InputValueDefinitionNode,
-  InterfaceTypeDefinitionNode,
-  ObjectTypeDefinitionNode,
+import {
+  type ConstArgumentNode,
+  type ConstDirectiveNode,
+  type DocumentNode,
+  type FieldDefinitionNode,
+  type GraphQLInputType,
+  type GraphQLOutputType,
+  type InputObjectTypeDefinitionNode,
+  type InputValueDefinitionNode,
+  type InterfaceTypeDefinitionNode,
+  Kind,
+  type ObjectTypeDefinitionNode,
+  parse,
+  parseConstValue,
 } from "graphql";
-import { Kind, parse, parseConstValue } from "graphql";
 import { InvalidDirectiveError } from "@/errors";
-import type { DirectiveMetadata } from "@/metadata/definitions";
-import type { SetRequired } from "@/typings";
+import { type DirectiveMetadata } from "@/metadata/definitions";
+import { type SetRequired } from "@/typings";
 
 export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNode {
   const { nameOrDefinition, args } = directive;

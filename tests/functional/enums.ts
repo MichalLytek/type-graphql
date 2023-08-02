@@ -1,12 +1,13 @@
 import "reflect-metadata";
-import type {
-  GraphQLSchema,
-  IntrospectionEnumType,
-  IntrospectionInputObjectType,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+import {
+  type GraphQLSchema,
+  type IntrospectionEnumType,
+  type IntrospectionInputObjectType,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  TypeKind,
+  graphql,
 } from "graphql";
-import { TypeKind, graphql } from "graphql";
 import { Arg, Field, InputType, Query, registerEnumType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {

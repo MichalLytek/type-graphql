@@ -75,6 +75,7 @@
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
+    "no-duplicate-imports": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -84,9 +85,16 @@
       }
     ],
     "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
-    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "disallowTypeAnnotations": false,
+        "fixStyle": "inline-type-imports",
+        "prefer": "type-imports"
+      }
+    ],
     "@typescript-eslint/consistent-type-exports": "error",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "@typescript-eslint/no-inferrable-types": [
       "error",
       { "ignoreParameters": true, "ignoreProperties": true }

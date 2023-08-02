@@ -1,8 +1,7 @@
 import "reflect-metadata";
-import type { GraphQLSchema } from "graphql";
-import { graphql } from "graphql";
-import type { AuthCheckerInterface, ResolverData } from "type-graphql";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
+  type AuthCheckerInterface,
   AuthenticationError,
   AuthorizationError,
   Authorized,
@@ -12,6 +11,7 @@ import {
   ObjectType,
   Query,
   Resolver,
+  type ResolverData,
   buildSchema,
 } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";

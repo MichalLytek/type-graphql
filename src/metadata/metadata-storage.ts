@@ -1,31 +1,31 @@
 /* eslint-disable no-param-reassign */
 import { NoExplicitTypeError } from "@/errors";
-import type { SchemaGeneratorOptions } from "@/schema/schema-generator";
-import type { ClassType } from "@/typings";
-import type {
-  AuthorizedMetadata,
-  BaseResolverMetadata,
-  ClassMetadata,
-  EnumMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  ExtensionsMetadata,
-  FieldMetadata,
-  FieldResolverMetadata,
-  MiddlewareMetadata,
-  ParamMetadata,
-  ResolverClassMetadata,
-  ResolverMetadata,
-  SubscriptionResolverMetadata,
-  UnionMetadata,
-  UnionMetadataWithSymbol,
+import { type SchemaGeneratorOptions } from "@/schema/schema-generator";
+import { type ClassType } from "@/typings";
+import {
+  type AuthorizedMetadata,
+  type BaseResolverMetadata,
+  type ClassMetadata,
+  type EnumMetadata,
+  type ExtensionsClassMetadata,
+  type ExtensionsFieldMetadata,
+  type ExtensionsMetadata,
+  type FieldMetadata,
+  type FieldResolverMetadata,
+  type MiddlewareMetadata,
+  type ParamMetadata,
+  type ResolverClassMetadata,
+  type ResolverMetadata,
+  type SubscriptionResolverMetadata,
+  type UnionMetadata,
+  type UnionMetadataWithSymbol,
 } from "./definitions";
-import type {
-  DirectiveClassMetadata,
-  DirectiveFieldMetadata,
+import {
+  type DirectiveClassMetadata,
+  type DirectiveFieldMetadata,
 } from "./definitions/directive-metadata";
-import type { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
-import type { ObjectClassMetadata } from "./definitions/object-class-metadata";
+import { type InterfaceClassMetadata } from "./definitions/interface-class-metadata";
+import { type ObjectClassMetadata } from "./definitions/object-class-metadata";
 import {
   ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,

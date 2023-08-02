@@ -1,12 +1,13 @@
 import "reflect-metadata";
-import type {
-  GraphQLSchema,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+import {
+  type GraphQLSchema,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  TypeKind,
+  graphql,
 } from "graphql";
-import { TypeKind, graphql } from "graphql";
 import {
   Arg,
   Field,

@@ -1,8 +1,8 @@
-import type { EnumValuesConfig } from "@/decorators/types";
+import { type EnumValuesConfig } from "@/decorators/types";
 
-export type EnumMetadata = {
+export interface EnumMetadata {
   enumObj: object;
   name: string;
   description: string | undefined;
   valuesConfig: EnumValuesConfig<any>;
-};
+}

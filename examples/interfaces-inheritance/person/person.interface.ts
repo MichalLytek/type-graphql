@@ -1,5 +1,5 @@
 import { Arg, Field, ID, Int, InterfaceType } from "type-graphql";
-import type { IResource } from "../resource";
+import { type IResource } from "../resource";
 
 @InterfaceType({
   // Workaround issue #373 (https://github.com/MichalLytek/type-graphql/issues/373)

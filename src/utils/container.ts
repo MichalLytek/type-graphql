@@ -1,11 +1,11 @@
 /* eslint-disable max-classes-per-file */
-import type { ResolverData } from "@/typings";
+import { type ResolverData } from "@/typings";
 
 export type SupportedType<T> = (new (...args: any[]) => T) | Function;
 
-export type ContainerType = {
+export interface ContainerType {
   get(someClass: any, resolverData: ResolverData<any>): any | Promise<any>;
-};
+}
 
 export type ContainerGetter<TContext extends object> = (
   resolverData: ResolverData<TContext>,

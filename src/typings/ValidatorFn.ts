@@ -1,5 +1,5 @@
-import type { TypeValue } from "@/decorators/types";
-import type { ResolverData } from "./ResolverData";
+import { type TypeValue } from "@/decorators/types";
+import { type ResolverData } from "./ResolverData";
 
 export type ValidatorFn<TContext extends object = object> = (
   /**

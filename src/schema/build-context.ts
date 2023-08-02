@@ -1,23 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore 'class-validator' might not be installed by user
-import type { ValidatorOptions } from "class-validator";
-import type { GraphQLScalarType } from "graphql";
-import type { PubSubEngine, PubSubOptions } from "graphql-subscriptions";
-import { PubSub } from "graphql-subscriptions";
-import type { AuthChecker, AuthMode } from "@/typings";
-import type { Middleware } from "@/typings/Middleware";
-import type { ValidatorFn } from "@/typings/ValidatorFn";
-import type { ContainerGetter, ContainerType } from "@/utils/container";
-import { IOCContainer } from "@/utils/container";
+import { type ValidatorOptions } from "class-validator";
+import { type GraphQLScalarType } from "graphql";
+import { PubSub, type PubSubEngine, type PubSubOptions } from "graphql-subscriptions";
+import { type AuthChecker, type AuthMode } from "@/typings";
+import { type Middleware } from "@/typings/Middleware";
+import { type ValidatorFn } from "@/typings/ValidatorFn";
+import { type ContainerGetter, type ContainerType, IOCContainer } from "@/utils/container";
 
-export type ScalarsTypeMap = {
+export interface ScalarsTypeMap {
   type: Function;
   scalar: GraphQLScalarType;
-};
+}
 
 export type ValidateSettings = boolean | ValidatorOptions;
 
-export type BuildContextOptions = {
+export interface BuildContextOptions {
   scalarsMap?: ScalarsTypeMap[];
   /**
    * Indicates if class-validator should be used to auto validate objects injected into params.
@@ -41,7 +39,7 @@ export type BuildContextOptions = {
    * Disable inferring default values from property initializers, like `created = new Date();`
    */
   disableInferringDefaultValues?: boolean;
-};
+}
 
 export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];

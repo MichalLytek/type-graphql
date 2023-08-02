@@ -1,5 +1,5 @@
-import type { User } from "./entities";
+import { type User } from "./entities";
 
-export type Context = {
+export interface Context {
   user: User;
-};
+}

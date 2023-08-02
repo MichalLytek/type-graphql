@@ -1,9 +1,8 @@
-import type { ClassType } from "type-graphql";
-import { Arg, Args, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
+import { Arg, Args, type ClassType, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { Service } from "typedi";
 import { Resource } from "./resource";
 import { GetAllArgs } from "./resource.args";
-import type { ResourceService } from "./resource.service";
+import { type ResourceService } from "./resource.service";
 import { ResourceServiceFactory } from "./resource.service.factory";
 
 export function ResourceResolver<TResource extends Resource>(

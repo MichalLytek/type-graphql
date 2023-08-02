@@ -1,6 +1,6 @@
 import { SymbolKeysNotSupportedError } from "@/errors";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import type { ParameterDecorator, ResolverData } from "@/typings";
+import { type ParameterDecorator, type ResolverData } from "@/typings";
 
 export function createParamDecorator<TContextType extends object = object>(
   resolver: (resolverData: ResolverData<TContextType>) => any,

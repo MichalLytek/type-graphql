@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import type { Resource } from "./resource";
+import { type Resource } from "./resource";
 import { ResourceService } from "./resource.service";
 
 // Use factory to separate instance of service for each generic

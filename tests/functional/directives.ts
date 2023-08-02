@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import type {
-  GraphQLInputObjectType,
-  GraphQLInterfaceType,
-  GraphQLObjectType,
-  GraphQLSchema,
+import {
+  type GraphQLInputObjectType,
+  type GraphQLInterfaceType,
+  type GraphQLObjectType,
+  type GraphQLSchema,
+  OperationTypeNode,
 } from "graphql";
-import { OperationTypeNode } from "graphql";
 import {
   Arg,
   Directive,

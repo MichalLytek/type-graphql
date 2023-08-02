@@ -1,10 +1,10 @@
-import type {
-  IntrospectionInputObjectType,
-  IntrospectionInterfaceType,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionObjectType,
-  IntrospectionTypeRef,
+import {
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionTypeRef,
 } from "graphql";
 
 export function getInnerTypeOfNonNullableType(definition: { type: IntrospectionTypeRef }) {

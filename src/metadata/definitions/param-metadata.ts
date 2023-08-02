@@ -1,12 +1,12 @@
-import type { TypeOptions, TypeValueThunk } from "@/decorators/types";
-import type { ValidateSettings } from "@/schema/build-context";
-import type { ResolverData } from "@/typings";
+import { type TypeOptions, type TypeValueThunk } from "@/decorators/types";
+import { type ValidateSettings } from "@/schema/build-context";
+import { type ResolverData } from "@/typings";
 
-export type BasicParamMetadata = {
+export interface BasicParamMetadata {
   target: Function;
   methodName: string;
   index: number;
-};
+}
 
 export type InfoParamMetadata = {
   kind: "info";

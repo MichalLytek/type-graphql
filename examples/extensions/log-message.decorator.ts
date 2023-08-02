@@ -1,9 +1,9 @@
 import { Extensions } from "type-graphql";
 
-type LogOptions = {
+interface LogOptions {
   message: string;
   level?: number;
-};
+}
 
 export function LogMessage(messageOrOptions: string | LogOptions) {
   // Parse the parameters of the custom decorator

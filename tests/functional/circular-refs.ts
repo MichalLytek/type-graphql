@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import type { IntrospectionObjectType } from "graphql";
-import { TypeKind, graphql } from "graphql";
+import { type IntrospectionObjectType, TypeKind, graphql } from "graphql";
 import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { expectToThrow } from "../helpers/expectToThrow";

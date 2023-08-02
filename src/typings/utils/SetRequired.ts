@@ -1,7 +1,7 @@
 // Copied from 'type-fest' (https://github.com/sindresorhus/type-fest/blob/main/source/set-required.d.ts)
 
-import type { Except } from "./Except";
-import type { Simplify } from "./Simplify";
+import { type Except } from "./Except";
+import { type Simplify } from "./Simplify";
 
 /**
 Create a type that makes the given keys required. The remaining keys are kept as is. The sister of the `SetOptional` type.
@@ -10,7 +10,7 @@ Use-case: You want to define a single model where the only thing that changes is
 
 @example
 ```
-import type {SetRequired} from 'type-fest';
+import {SetRequired} from 'type-fest';
 
 type Foo = {
 	a?: number;

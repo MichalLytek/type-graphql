@@ -1,5 +1,5 @@
-import type { TypeResolver } from "@/typings";
-import type { ClassMetadata } from "./class-metadata";
+import { type TypeResolver } from "@/typings";
+import { type ClassMetadata } from "./class-metadata";
 
 export type InterfaceClassMetadata = {
   resolveType?: TypeResolver<any, any>;

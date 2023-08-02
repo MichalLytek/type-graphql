@@ -1,6 +1,6 @@
-import type { CacheHint } from "@apollo/cache-control-types";
+import { type CacheHint } from "@apollo/cache-control-types";
 import { Directive } from "type-graphql";
-import type { RequireAtLeastOne } from "./helpers/RequireAtLeastOne";
+import { type RequireAtLeastOne } from "./helpers/RequireAtLeastOne";
 
 export function CacheControl({ maxAge, scope }: RequireAtLeastOne<CacheHint>) {
   if (!maxAge && !scope) {

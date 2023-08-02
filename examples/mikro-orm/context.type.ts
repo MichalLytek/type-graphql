@@ -1,7 +1,7 @@
-import type { EntityManager } from "@mikro-orm/core";
-import type { User } from "./entities";
+import { type EntityManager } from "@mikro-orm/core";
+import { type User } from "./entities";
 
-export type Context = {
+export interface Context {
   entityManager: EntityManager;
   user: User;
-};
+}

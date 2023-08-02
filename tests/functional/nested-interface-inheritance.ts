@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import type { GraphQLSchema } from "graphql";
-import { printSchema } from "graphql";
+import { type GraphQLSchema, printSchema } from "graphql";
 import { Field, InterfaceType, ObjectType, Query, Resolver } from "../../src";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 

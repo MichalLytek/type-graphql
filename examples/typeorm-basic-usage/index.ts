@@ -4,7 +4,7 @@ import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import type { Context } from "./context.type";
+import { type Context } from "./context.type";
 import { dataSource } from "./datasource";
 import { seedDatabase } from "./helpers";
 import { RatingResolver, RecipeResolver } from "./resolvers";

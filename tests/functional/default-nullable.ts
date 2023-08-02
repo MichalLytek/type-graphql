@@ -1,12 +1,12 @@
 import "reflect-metadata";
-import type {
-  IntrospectionListTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+import {
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  TypeKind,
 } from "graphql";
-import { TypeKind } from "graphql";
 import { Field, ObjectType, Query, Resolver } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";

@@ -1,9 +1,8 @@
 import "reflect-metadata";
-import type { GraphQLSchema } from "graphql";
-import { printType } from "graphql";
-import type { ClassType } from "type-graphql";
+import { type GraphQLSchema, printType } from "graphql";
 import {
   Arg,
+  type ClassType,
   Field,
   InputType,
   Query,

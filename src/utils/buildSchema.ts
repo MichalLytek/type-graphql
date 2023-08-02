@@ -1,10 +1,9 @@
 import path from "node:path";
-import type { GraphQLSchema } from "graphql";
-import type { SchemaGeneratorOptions } from "@/schema/schema-generator";
-import { SchemaGenerator } from "@/schema/schema-generator";
-import type { NonEmptyArray } from "@/typings";
-import type { PrintSchemaOptions } from "./emitSchemaDefinitionFile";
+import { type GraphQLSchema } from "graphql";
+import { SchemaGenerator, type SchemaGeneratorOptions } from "@/schema/schema-generator";
+import { type NonEmptyArray } from "@/typings";
 import {
+  type PrintSchemaOptions,
   defaultPrintSchemaOptions,
   emitSchemaDefinitionFile,
   emitSchemaDefinitionFileSync,
