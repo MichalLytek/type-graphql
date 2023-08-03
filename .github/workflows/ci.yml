@@ -66,14 +66,14 @@ jobs:
 
       - name: Check package.json == Git tag
         run: |
-          if [ ! "${{ steps.comparison_package_gittag.comparison-result }}" = "=" ]; then
+          if [ ! "${{ steps.comparison_package_gittag.outputs.comparison-result }}" = "=" ]; then
             printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "${{ steps.version_package.outputs.value }}" "${{ steps.version_gittag.outputs.value }}"
             exit 1
           fi
 
       - name: Check Git tag > GitHub
         run: |
-          if [ ! "${{ steps.comparison_gittag_github.comparison-result }}" = ">" ]; then
+          if [ ! "${{ steps.comparison_gittag_github.outputs.comparison-result }}" = ">" ]; then
             printf '[ERROR]: Git tag (%s) !> GitHub (%s)\n' "${{ steps.version_gittag.outputs.value }}" "${{ steps.version_github.outputs.value }}"
             exit 1
           fi
