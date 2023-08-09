@@ -1,5 +1,5 @@
 {
   "**/*.ts": ["eslint --fix", "prettier --write"],
-  "**/*.js": ["prettier --write"],
-  "*.md": ["markdownlint --fix", "prettier --write"]
+  "**/*.md": ["markdownlint --fix", "prettier --write"],
+  "!**/*.{ts,md}": "prettier --write --ignore-unknown"
 }
