@@ -1,6 +1,6 @@
-import Seating from "./seating";
-import Dining from "./dining";
-import Product from "./product";
+import { Dining } from "./dining";
+import { type Product } from "./product";
+import { Seating } from "./seating";
 
 export const products: Product[] = [
   Object.assign(new Dining(), {

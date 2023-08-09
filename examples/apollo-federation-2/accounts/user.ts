@@ -1,18 +1,18 @@
-import { Field, ObjectType, Directive, ID } from "../../../src";
+import { Directive, Field, ID, ObjectType } from "type-graphql";
 
 @Directive(`@key(fields: "id")`)
 @ObjectType()
-export default class User {
-  @Field(type => ID)
-  id: string;
+export class User {
+  @Field(_type => ID)
+  id!: string;
 
   @Directive("@shareable")
   @Field()
-  username: string;
+  username!: string;
 
   @Field()
-  name: string;
+  name!: string;
 
   @Field()
-  birthDate: string;
+  birthDate!: string;
 }

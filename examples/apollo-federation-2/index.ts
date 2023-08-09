@@ -3,11 +3,11 @@ import path from "path";
 import { ApolloGateway, IntrospectAndCompose } from "@apollo/gateway";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { emitSchemaDefinitionFile } from "type-graphql";
 import * as accounts from "./accounts";
 import * as inventory from "./inventory";
 import * as products from "./products";
 import * as reviews from "./reviews";
-import { emitSchemaDefinitionFile } from "../../src";
 
 const startGraph = async (name: string, urlOrPromise: string | Promise<string>) => {
   const url = await urlOrPromise;

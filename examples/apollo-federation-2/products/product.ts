@@ -1,17 +1,17 @@
-import { Directive, Field, InterfaceType } from "../../../src";
+import { Directive, Field, InterfaceType } from "type-graphql";
 
 @Directive(`@key(fields: "upc")`)
 @InterfaceType()
-export default abstract class Product {
+export abstract class Product {
   @Field()
-  upc: string;
+  upc!: string;
 
   @Field()
-  name: string;
+  name!: string;
 
   @Field()
-  price: number;
+  price!: number;
 
   @Field()
-  weight: number;
+  weight!: number;
 }

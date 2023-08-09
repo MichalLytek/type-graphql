@@ -1,11 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import Product from "./product/product";
-import ProductReviewsResolver from "./product/resolver";
-import ReviewsResolver from "./review/resolver";
-import Review from "./review/review";
-import UserReviewsResolver from "./user/resolver";
-import User from "./user/user";
+import { Product } from "./product/product";
+import { ProductReviewsResolver } from "./product/resolver";
+import { ReviewsResolver } from "./review/resolver";
+import { Review } from "./review/review";
+import { UserReviewsResolver } from "./user/resolver";
+import { User } from "./user/user";
 import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
 
 export async function listen(port: number): Promise<string> {

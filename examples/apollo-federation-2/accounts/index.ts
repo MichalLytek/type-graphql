@@ -1,8 +1,8 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import AccountsResolver from "./resolver";
-import User from "./user";
-import { resolveUserReference } from "./user-reference";
+import { AccountsResolver } from "./resolver";
+import { User } from "./user";
+import { resolveUserReference } from "./user.reference";
 import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
 
 export async function listen(port: number): Promise<string> {
