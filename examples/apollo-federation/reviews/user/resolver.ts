@@ -1,6 +1,5 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
 import { User } from "./user";
-// eslint-disable-next-line import/no-cycle
 import { Review, reviews } from "../review";
 
 @Resolver(_of => User)

@@ -1,5 +1,4 @@
 import { Directive, Field, ID, ObjectType } from "type-graphql";
-// eslint-disable-next-line import/no-cycle
 import { Product } from "../product";
 import { User } from "../user";
 

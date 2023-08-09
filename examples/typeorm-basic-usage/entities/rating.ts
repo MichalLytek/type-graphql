@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from "typeorm";
-// eslint-disable-next-line import/no-cycle
 import { Recipe } from "./recipe";
 import { User } from "./user";
 

@@ -1,6 +1,5 @@
 import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Field, ID, ObjectType } from "type-graphql";
-// eslint-disable-next-line import/no-cycle
 import { Rating } from "./rating";
 import { User } from "./user";
 

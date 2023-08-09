@@ -1,6 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
-// eslint-disable-next-line import/no-cycle
 import { Rating } from "./rating";
 import { User } from "./user";
 

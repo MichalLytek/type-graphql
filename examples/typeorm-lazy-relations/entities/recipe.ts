@@ -1,8 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-// eslint-disable-next-line import/no-cycle
 import { Rating } from "./rating";
-// eslint-disable-next-line import/no-cycle
 import { User } from "./user";
 
 @Entity()

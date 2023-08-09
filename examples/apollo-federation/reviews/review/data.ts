@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { Review } from "./review";
 import { Product } from "../product";
 import { User } from "../user";

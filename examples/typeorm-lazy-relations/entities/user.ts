@@ -1,6 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-// eslint-disable-next-line import/no-cycle
 import { Recipe } from "./recipe";
 
 @ObjectType()
