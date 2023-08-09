@@ -86,10 +86,31 @@ Besides declaring the usage of directives, you also have to register the runtime
 
 > Be aware that TypeGraphQL doesn't have any special way for implementing schema directives. You should use some [3rd party libraries](https://the-guild.dev/graphql/tools/docs/schema-directives#implementing-schema-directives) depending on the tool set you use in your project, e.g. `@graphql-tools/*` or `ApolloServer`.
 
+If you write your custom GraphQL directive or import a package that exports a `GraphQLDirective` instance, you need to register the directives definitions in the `buildSchema` options:
+
+```ts
+// Build TypeGraphQL executable schema
+const tempSchema = await buildSchema({
+  resolvers: [SampleResolver],
+  // Register the directives definitions
+  directives: [myDirective],
+});
+```
+
+Then you need to apply the schema transformer for your directive, that implements the desired logic of your directive:
+
+```ts
+// Transform and obtain the final schema
+const schema = myDirectiveTransformer(tempSchema);
+```
+
+If the directive package used by you exports a string-based `typeDefs`, you need to add those typedefs to the schema and then apply directive transformer.
+
 Here is an example using the [`@graphql-tools/*`](https://the-guild.dev/graphql/tools):
 
 ```ts
 import { mergeSchemas } from "@graphql-tools/schema";
+import { renameDirective } from "fake-rename-directive-package";
 
 // Build TypeGraphQL executable schema
 const schemaSimple = await buildSchema({
@@ -99,9 +120,10 @@ const schemaSimple = await buildSchema({
 // Merge schema with sample directive type definitions
 const schemaMerged = mergeSchemas({
   schemas: [schemaSimple],
-  typeDefs: [sampleDirective.typeDefs],
+  // Register the directives definitions
+  typeDefs: [renameDirective.typeDefs],
 });
 
 // Transform and obtain the final schema
-const schema = sampleDirective.transformer(schemaMerged);
+const schema = renameDirective.transformer(schemaMerged);
 ```
