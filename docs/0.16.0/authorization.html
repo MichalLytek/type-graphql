@@ -116,14 +116,16 @@ By default the roles are <code>string</code> but you can change it easily as the
 </code></pre>
 <p>Authed users (regardless of theirs roles) will be able to read data from <code>publicQuery</code> and <code>authedQuery</code> but will receive error trying to perform <code>adminMutation</code> when their roles doesn't include <code>ADMIN</code> or <code>MODERATOR</code>.</p>
 <p>In next step, you need to create your auth checker function. Its implementation may depends on your business logic:</p>
-<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> customAuthChecker<span class="token operator">:</span> AuthChecker<span class="token operator">&lt;</span>ContextType<span class="token operator">></span> <span class="token operator">=</span> 
-  <span class="token punctuation">(</span><span class="token punctuation">{</span> root<span class="token punctuation">,</span> args<span class="token punctuation">,</span> context<span class="token punctuation">,</span> info <span class="token punctuation">}</span><span class="token punctuation">,</span> roles<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-    <span class="token comment">// here you can read user from context</span>
-    <span class="token comment">// and check his permission in db against `roles` argument</span>
-    <span class="token comment">// that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> customAuthChecker<span class="token operator">:</span> AuthChecker<span class="token operator">&lt;</span>ContextType<span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">{</span> root<span class="token punctuation">,</span> args<span class="token punctuation">,</span> context<span class="token punctuation">,</span> info <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  roles<span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// here you can read user from context</span>
+  <span class="token comment">// and check his permission in db against `roles` argument</span>
+  <span class="token comment">// that comes from `@Authorized`, eg. ["ADMIN", "MODERATOR"]</span>
 
-    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// or false if access denied</span>
-  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// or false if access denied</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <p>The second argument of <code>AuthChecker</code> generic type is <code>RoleType</code> - use it together with <code>@Authorized</code> decorator generic type.</p>
 <p>The last step is to register the function while building the schema:</p>
@@ -133,32 +135,31 @@ By default the roles are <code>string</code> but you can change it easily as the
   resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>MyResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token comment">// here we register the auth checking function</span>
   <span class="token comment">// or defining it inline</span>
-  authChecker<span class="token operator">:</span> customAuthChecker<span class="token punctuation">,</span> 
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+  authChecker<span class="token operator">:</span> customAuthChecker<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>And it's done! 😉</p>
 <p>If you need silent auth guards and you don't want to return auth errors to users, you can set <code>authMode</code> property of <code>buildSchema</code> config object to <code>&quot;null&quot;</code>:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   resolvers<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./**/*.resolver.ts"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-  authChecker<span class="token operator">:</span> customAuthChecker<span class="token punctuation">,</span> 
+  authChecker<span class="token operator">:</span> customAuthChecker<span class="token punctuation">,</span>
   authMode<span class="token operator">:</span> <span class="token string">"null"</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>It will then return <code>null</code> instead of throwing authorization error.</p>
 <h2><a class="anchor" aria-hidden="true" id="recipes"></a><a href="#recipes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recipes</h2>
 <p>You can also use <code>TypeGraphQL</code> with JWT authentication. Example using <code>apollo-server-express</code>:</p>
-<pre><code class="hljs css language-typescript">
-<span class="token keyword">import</span> express <span class="token keyword">from</span> <span class="token string">"express"</span><span class="token punctuation">;</span>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> express <span class="token keyword">from</span> <span class="token string">"express"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer<span class="token punctuation">,</span> gql <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-server-express"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> jwt <span class="token keyword">from</span> <span class="token string">"express-jwt"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> <span class="token punctuation">{</span> schema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../example/above"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token string">'/graphql'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token string">"/graphql"</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Create a GraphQL server</span>
-<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+<span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   schema<span class="token punctuation">,</span>
   <span class="token function-variable function">context</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> req <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -170,22 +171,25 @@ By default the roles are <code>string</code> but you can change it easily as the
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Mount a jwt or other authentication middleware that is run before the GraphQL execution</span>
-app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token function">jwt</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
-  secret<span class="token operator">:</span> <span class="token string">"TypeGraphQL"</span><span class="token punctuation">,</span>
-  credentialsRequired<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  path<span class="token punctuation">,</span>
+  <span class="token function">jwt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    secret<span class="token operator">:</span> <span class="token string">"TypeGraphQL"</span><span class="token punctuation">,</span>
+    credentialsRequired<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Apply the GraphQL server middleware</span>
 server<span class="token punctuation">.</span><span class="token function">applyMiddleware</span><span class="token punctuation">(</span><span class="token punctuation">{</span> app<span class="token punctuation">,</span> path <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment">// Launch the express server </span>
+<span class="token comment">// Launch the express server</span>
 app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">{</span> port<span class="token operator">:</span> <span class="token number">4000</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span>
-  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">🚀 Server ready at http://localhost:4000</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>server<span class="token punctuation">.</span>graphqlPath<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
-<span class="token punctuation">)</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">🚀 Server ready at http://localhost:4000</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>server<span class="token punctuation">.</span>graphqlPath<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Then you can use standard, token based authorization in HTTP header like in classic REST API and take advantages of <code>TypeGraphQL</code> authorization mechanism.</p>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
-<p>You can see how this works together in the <a href="https://github.com/MichalLytek/type-graphql/tree/master/examples/authorization">simple real life example</a>.</p>
+<p>You can see how this works together in the <a href="https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples/authorization">simple real life example</a>.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/0.16.0/dependency-injection.html"><span class="arrow-prev">← </span><span>Dependency injection</span></a><a class="docs-next button" href="/docs/0.16.0/validation.html"><span>Validation</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#how-to-use">How to use?</a></li><li><a href="#recipes">Recipes</a></li><li><a href="#example">Example</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
             const html = document.querySelector("html");
 

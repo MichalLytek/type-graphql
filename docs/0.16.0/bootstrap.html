@@ -76,10 +76,7 @@ It takes a configuration object as a parameter and returns a promise of a <code>
 <p>However, when there are several dozen of resolver classes, manual imports can be tedious.
 So you can also provide an array of paths to resolver module files instead, which can include globs:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>
-    __dirname <span class="token operator">+</span> <span class="token string">"/modules/**/*.resolver.ts"</span><span class="token punctuation">,</span>
-    __dirname <span class="token operator">+</span> <span class="token string">"/resolvers/**/*.ts"</span><span class="token punctuation">,</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>__dirname <span class="token operator">+</span> <span class="token string">"/modules/**/*.resolver.ts"</span><span class="token punctuation">,</span> __dirname <span class="token operator">+</span> <span class="token string">"/resolvers/**/*.ts"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>There are also other options related to advanced features like <a href="/docs/0.16.0/authorization.html">authorization</a> or <a href="/docs/0.16.0/validation.html">validation</a> - you can read about them in docs.</p>
@@ -97,7 +94,7 @@ So you can also provide an array of paths to resolver module files instead, whic
 <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// actually run the async function</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="create-http-graphql-endpoint"></a><a href="#create-http-graphql-endpoint" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create HTTP GraphQL endpoint</h2>
-<p>In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as <a href="https://github.com/prisma/graphql-yoga"><code>graphql-yoga</code></a> or <a href="https://github.com/apollographql/apollo-server"><code>apollo-server</code></a>.  Here is an example using <a href="https://github.com/apollographql/apollo-server"><code>apollo-server</code></a>:</p>
+<p>In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as <a href="https://github.com/prisma/graphql-yoga"><code>graphql-yoga</code></a> or <a href="https://github.com/apollographql/apollo-server"><code>apollo-server</code></a>. Here is an example using <a href="https://github.com/apollographql/apollo-server"><code>apollo-server</code></a>:</p>
 <pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-server"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span> <span class="token operator">||</span> <span class="token number">4000</span><span class="token punctuation">;</span>
@@ -106,7 +103,7 @@ So you can also provide an array of paths to resolver module files instead, whic
   <span class="token comment">// ... Building schema here</span>
 
   <span class="token comment">// Create GraphQL server</span>
-  <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+  <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     schema<span class="token punctuation">,</span>
     playground<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>

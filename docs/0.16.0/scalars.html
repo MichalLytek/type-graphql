@@ -86,7 +86,7 @@
 <span class="token punctuation">}</span>
 </code></pre>
 <p>In the last case you can omit the <code>type =&gt; Float</code> since JavaScript <code>Number</code> will become <code>GraphQLFloat</code> in the schema automatically.</p>
-<p>Other scalars - i.e. <code>GraphQLString</code> and <code>GraphQLBoolean</code> - do not need aliases.  When possible, they will be reflected automatically:</p>
+<p>Other scalars - i.e. <code>GraphQLString</code> and <code>GraphQLBoolean</code> - do not need aliases. When possible, they will be reflected automatically:</p>
 <pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">ObjectType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -100,7 +100,8 @@
 <pre><code class="hljs css language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">ObjectType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">SampleObject</span> <span class="token punctuation">{</span>
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> String<span class="token punctuation">,</span> <span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token keyword">get</span> <span class="token function">optionalInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token keyword">undefined</span> <span class="token punctuation">{</span> <span class="token comment">// TS reflected type is `Object` :(</span>
+  <span class="token keyword">get</span> <span class="token function">optionalInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token keyword">undefined</span> <span class="token punctuation">{</span>
+    <span class="token comment">// TS reflected type is `Object` :(</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> <span class="token string">"Gotcha!"</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>

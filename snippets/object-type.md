@@ -1,4 +1,6 @@
-```typescript
+<!-- markdownlint-disable MD041 -->
+
+```ts
 @ObjectType()
 class Recipe {
   @Field()
