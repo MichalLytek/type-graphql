@@ -1,58 +1,63 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import Container, { ContainerInstance } from "typedi";
-import path from "path";
-import { buildSchema, ResolverData } from "../../src";
-
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { type ResolverData, buildSchema } from "type-graphql";
+import { Container, type ContainerInstance } from "typedi";
+import { type Context } from "./context.type";
+import { setSamplesInContainer } from "./recipe/recipe.data";
 import { RecipeResolver } from "./recipe/recipe.resolver";
-import { Context } from "./types";
-import { setSamplesInContainer } from "./recipe/recipe.samples";
 
 async function bootstrap() {
   setSamplesInContainer();
 
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
-    // register our custom, scoped IOC container by passing a extracting from resolver data function
+    // Registry custom, scoped IOC container from resolver data function
     container: ({ context }: ResolverData<Context>) => context.container,
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
-  // create GraphQL server
-  const server = new ApolloServer({
+  // Create GraphQL server
+  const server = new ApolloServer<Context>({
     schema,
-    // we need to provide unique context with `requestId` for each request
-    context: (): Context => {
-      const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
-      const container = Container.of(requestId.toString()); // get scoped container
-      const context = { requestId, container }; // create our context
-      container.set("context", context); // place context or other data in container
-      return context;
-    },
-    // create a plugin that will allow for disposing the scoped container created for every request
+    // Create a plugin to allow for disposing the scoped container created for every request
     plugins: [
       {
         requestDidStart: async () => ({
           async willSendResponse(requestContext) {
-            // remember to dispose the scoped container to prevent memory leaks
-            Container.reset(requestContext.context.requestId.toString());
+            // Dispose the scoped container to prevent memory leaks
+            Container.reset(requestContext.contextValue.requestId.toString());
 
-            // for developers curiosity purpose, here is the logging of current scoped container instances
-            // we can make multiple parallel requests to see in console how this works
+            // For developers curiosity purpose, here is the logging of current scoped container instances
+            // Make multiple parallel requests to see in console how this works
             const instancesIds = ((Container as any).instances as ContainerInstance[]).map(
               instance => instance.id,
             );
-            console.log("instances left in memory:", instancesIds);
+            console.log("Instances left in memory: ", instancesIds);
           },
         }),
       },
     ],
   });
 
-  // start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Start server
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+    // Provide unique context with 'requestId' for each request
+    context: async () => {
+      const requestId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); // uuid-like
+      const container = Container.of(requestId.toString()); // Get scoped container
+      const context = { requestId, container }; // Create context
+      container.set("context", context); // Set context or other data in container
+
+      return context;
+    },
+  });
+  console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

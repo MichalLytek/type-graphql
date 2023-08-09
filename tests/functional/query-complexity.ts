@@ -1,36 +1,27 @@
-// tslint:disable:member-ordering
 import "reflect-metadata";
-import {
-  GraphQLSchema,
-  parse,
-  TypeInfo,
-  ValidationContext,
-  visit,
-  visitWithTypeInfo,
-  GraphQLError,
-} from "graphql";
+import { type GraphQLSchema, parse } from "graphql";
 import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
-
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
   Arg,
-  buildSchema,
+  type ClassType,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
   Subscription,
-  ClassType,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+  buildSchema,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
-// helpers
+// Helpers
 function calculateComplexityPoints(query: string, schema: GraphQLSchema) {
   const complexityPoints = getComplexity({
     query: parse(query),
     schema,
     estimators: [fieldExtensionsEstimator(), simpleEstimator({ defaultComplexity: 1 })],
   });
+
   return complexityPoints;
 }
 
@@ -44,10 +35,10 @@ describe("Query complexity", () => {
       @ObjectType()
       class SampleObject {
         @Field({ complexity: 10 })
-        complexResolverMethod: number;
+        complexResolverMethod!: number;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(): SampleObject {
@@ -82,11 +73,6 @@ describe("Query complexity", () => {
 
   describe("Subscriptions", () => {
     let schema: GraphQLSchema;
-    let validationErrors: GraphQLError[];
-
-    beforeEach(() => {
-      validationErrors = [];
-    });
 
     beforeAll(async () => {
       getMetadataStorage().clear();
@@ -94,21 +80,21 @@ describe("Query complexity", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       function createResolver(name: string, objectType: ClassType) {
-        @Resolver(of => objectType)
+        @Resolver(() => objectType)
         class BaseResolver {
           protected name = "baseName";
 
           @Query({ name: `${name}Query` })
-          baseQuery(@Arg("arg") arg: boolean): boolean {
+          baseQuery(@Arg("arg") _arg: boolean): boolean {
             return true;
           }
 
           @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
-          baseSubscription(@Arg("arg") arg: boolean): boolean {
+          baseSubscription(@Arg("arg") _arg: boolean): boolean {
             return true;
           }
         }

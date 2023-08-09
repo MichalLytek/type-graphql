@@ -1,4 +1,8 @@
-import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from "graphql";
+import {
+  type GraphQLFieldConfig,
+  type GraphQLObjectTypeConfig,
+  type GraphQLResolveInfo,
+} from "graphql";
 
 export const extractFieldConfig = (info: GraphQLResolveInfo): GraphQLFieldConfig<any, any> => {
   const { type, extensions, description, deprecationReason } =

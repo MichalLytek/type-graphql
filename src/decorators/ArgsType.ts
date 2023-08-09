@@ -1,4 +1,4 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 export function ArgsType(): ClassDecorator {
   return target => {

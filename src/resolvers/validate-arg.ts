@@ -1,11 +1,10 @@
-// @ts-ignore `class-validator` might not be installed by user
-import type { ValidatorOptions } from "class-validator";
-
-import { TypeValue } from "../decorators/types";
-import { ArgumentValidationError } from "../errors";
-import { ValidateSettings } from "../schema/build-context";
-import { ValidatorFn } from "../interfaces/ValidatorFn";
-import { ResolverData } from "../interfaces";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 'class-validator' might not be installed by user
+import { type ValidationError, type ValidatorOptions } from "class-validator";
+import { type TypeValue } from "@/decorators/types";
+import { ArgumentValidationError } from "@/errors";
+import { type ValidateSettings } from "@/schema/build-context";
+import { type ResolverData, type ValidatorFn } from "@/typings";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";
@@ -28,11 +27,10 @@ export async function validateArg(
     return argValue;
   }
 
-  const validatorOptions: ValidatorOptions = Object.assign(
-    {},
-    typeof globalValidate === "object" ? globalValidate : {},
-    typeof argValidate === "object" ? argValidate : {},
-  );
+  const validatorOptions: ValidatorOptions = {
+    ...(typeof globalValidate === "object" ? globalValidate : {}),
+    ...(typeof argValidate === "object" ? argValidate : {}),
+  };
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
   }
@@ -40,7 +38,7 @@ export async function validateArg(
     validatorOptions.forbidUnknownValues = false;
   }
 
-  // dynamic import to avoid making `class-validator` a peer dependency when `validate: true` is not set
+  // Dynamic import to avoid making 'class-validator' a peer dependency when `validate: true` is not set
   const { validateOrReject } = await import("class-validator");
   try {
     if (Array.isArray(argValue)) {
@@ -54,6 +52,6 @@ export async function validateArg(
     }
     return argValue;
   } catch (err) {
-    throw new ArgumentValidationError(err);
+    throw new ArgumentValidationError(err as ValidationError[]);
   }
 }

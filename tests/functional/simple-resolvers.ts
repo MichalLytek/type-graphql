@@ -1,9 +1,8 @@
 import "reflect-metadata";
+import { type GraphQLSchema, execute } from "graphql";
 import gql from "graphql-tag";
-import { GraphQLSchema, execute } from "graphql";
-import { MiddlewareFn, ObjectType, Field, buildSchema, Resolver, Query } from "../../src";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Field, type MiddlewareFn, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Simple resolvers", () => {
   let schema: GraphQLSchema;
@@ -12,30 +11,30 @@ describe("Simple resolvers", () => {
   beforeAll(async () => {
     getMetadataStorage().clear();
 
-    const testMiddleware: MiddlewareFn = async ({}, next) => {
-      middlewareLogs.push("middleware extecuted");
+    const testMiddleware: MiddlewareFn = async (_, next) => {
+      middlewareLogs.push("middleware executed");
       return next();
     };
 
     @ObjectType()
     class NormalObject {
       @Field()
-      normalField: string;
+      normalField!: string;
     }
     @ObjectType()
     class ObjectWithSimpleField {
       @Field({ simple: true })
-      simpleField: string;
+      simpleField!: string;
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObject {
       @Field()
-      simpleField: string;
+      simpleField!: string;
     }
     @ObjectType({ simpleResolvers: true })
     class SimpleObjectWithNormalField {
       @Field({ simple: false })
-      normalField: string;
+      normalField!: string;
     }
 
     @Resolver()

@@ -1,8 +1,6 @@
 {
   "version-1.0.0-docs": {
-    "Introduction": [
-      "version-1.0.0-introduction"
-    ],
+    "Introduction": ["version-1.0.0-introduction"],
     "Beginner guides": [
       "version-1.0.0-installation",
       "version-1.0.0-getting-started",
@@ -29,10 +27,7 @@
       "version-1.0.0-custom-decorators",
       "version-1.0.0-complexity"
     ],
-    "Integrations": [
-      "version-1.0.0-prisma",
-      "version-1.0.0-nestjs"
-    ],
+    "Integrations": ["version-1.0.0-prisma", "version-1.0.0-nestjs"],
     "Others": [
       "version-1.0.0-emit-schema",
       "version-1.0.0-performance",
@@ -40,13 +35,9 @@
     ]
   },
   "version-1.0.0-examples": {
-    "Examples": [
-      "version-1.0.0-examples"
-    ]
+    "Examples": ["version-1.0.0-examples"]
   },
   "version-1.0.0-others": {
-    "Others": [
-      "version-1.0.0-faq"
-    ]
+    "Others": ["version-1.0.0-faq"]
   }
 }

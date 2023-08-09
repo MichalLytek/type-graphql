@@ -1,14 +1,9 @@
-import {
-  getPeerDependencyGraphQLRequirement,
-  getInstalledGraphQLVersion,
-} from "../utils/graphql-version";
-
 export class UnmetGraphQLPeerDependencyError extends Error {
-  constructor() {
+  constructor(graphQLVersion: string, graphQLPeerDependencyVersion: string) {
     super(
-      `Looks like you use an incorrect version of the 'graphql' package: "${getInstalledGraphQLVersion()}". ` +
+      `Looks like you use an incorrect version of the 'graphql' package: "${graphQLVersion}". ` +
         `Please ensure that you have installed a version ` +
-        `that meets TypeGraphQL's requirement: "${getPeerDependencyGraphQLRequirement()}".`,
+        `that meets TypeGraphQL's requirement: "${graphQLPeerDependencyVersion}".`,
     );
 
     Object.setPrototypeOf(this, new.target.prototype);

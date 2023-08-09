@@ -1,7 +1,7 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.cjs.json",
+  "include": ["../src", "./"],
   "compilerOptions": {
-    "declaration": false,
-  },
-  "include": [".", "../src"]
+    "emitDecoratorMetadata": true
+  }
 }

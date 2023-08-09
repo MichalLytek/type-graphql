@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "../../src";
+import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Comment {
@@ -6,8 +6,15 @@ export class Comment {
   nickname?: string;
 
   @Field()
-  content: string;
+  content!: string;
 
   @Field()
-  date: Date;
+  date!: Date;
+}
+
+export interface NewCommentPayload {
+  recipeId: string;
+  dateString: string; // Limitation of Redis payload serialization
+  content: string;
+  nickname?: string;
 }

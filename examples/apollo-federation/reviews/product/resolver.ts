@@ -1,11 +1,9 @@
-import { Resolver, FieldResolver, Root } from "../../../../src";
+import { FieldResolver, Resolver, Root } from "type-graphql";
+import { Product } from "./product";
+import { Review, reviews } from "../review";
 
-import Product from "./product";
-import { reviews } from "../review/data";
-import Review from "../review/review";
-
-@Resolver(of => Product)
-export default class ProductReviewsResolver {
+@Resolver(_of => Product)
+export class ProductReviewsResolver {
   @FieldResolver(() => [Review])
   async reviews(@Root() product: Product): Promise<Review[]> {
     return reviews.filter(review => review.product.upc === product.upc);

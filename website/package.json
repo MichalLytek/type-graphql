@@ -1,11 +1,14 @@
 {
   "private": true,
   "scripts": {
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version"
+    "build": "npx docusaurus-build",
+    "prenew-release": "npm run --prefix ../ gen:docs -- --ref v$npm_config_release",
+    "new-release": "npx docusaurus-version $npm_config_release",
+    "postnew-release": "git restore ../docs",
+    "publish-gh-pages": "npx docusaurus-publish",
+    "rename-version": "npx docusaurus-rename-version",
+    "prestart": "npm run --prefix ../ gen:docs",
+    "start": "npx docusaurus-start"
   },
   "devDependencies": {
     "docusaurus": "^1.14.7"

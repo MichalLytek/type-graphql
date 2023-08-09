@@ -1,22 +1,21 @@
 import "reflect-metadata";
 import {
-  buildSchema,
   Field,
-  ObjectType,
-  Resolver,
-  Query,
   Int,
-  MiddlewareFn,
-} from "../../../build/package/dist";
-
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+  type MiddlewareFn,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
+} from "type-graphql";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType({ simpleResolvers: true })
 class SampleObject {
   @Field()
   stringField!: string;
 
-  @Field(type => Int)
+  @Field(() => Int)
   numberField!: number;
 
   @Field()
@@ -28,7 +27,7 @@ class SampleObject {
 
 @Resolver()
 class SampleResolver {
-  @Query(returns => [SampleObject])
+  @Query(() => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
     return Array.from(
       { length: ARRAY_ITEMS },
@@ -46,7 +45,7 @@ class SampleResolver {
   }
 }
 
-const log = (...args: any[]) => void 0; // noop
+const log = (..._: unknown[]) => undefined; // noop
 
 const loggingMiddleware: MiddlewareFn = ({ info }, next) => {
   log(`${info.parentType.name}.${info.fieldName} accessed`);

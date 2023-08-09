@@ -1,8 +1,8 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions, MethodAndPropDecorator } from "./types";
-import { findType } from "../helpers/findType";
-import { getTypeDecoratorParams } from "../helpers/decorators";
-import { SymbolKeysNotSupportedError } from "../errors";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { findType } from "@/helpers/findType";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type AdvancedOptions, type MethodAndPropDecorator, type ReturnTypeFunc } from "./types";
 
 export type FieldOptions = AdvancedOptions & {
   /** Set to `true` to disable auth and all middlewares stack for this field resolver */

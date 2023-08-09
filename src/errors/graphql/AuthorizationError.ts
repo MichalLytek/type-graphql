@@ -1,7 +1,7 @@
 import { GraphQLError } from "graphql";
 
 export class AuthorizationError extends GraphQLError {
-  extensions: {
+  override readonly extensions!: {
     code: "UNAUTHORIZED";
     [attributeName: string]: unknown; // GraphQLErrorExtensions
   };

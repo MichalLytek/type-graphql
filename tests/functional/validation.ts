@@ -1,30 +1,28 @@
 import "reflect-metadata";
-import { MaxLength, Max, Min, ValidateNested } from "class-validator";
-import { GraphQLSchema, graphql } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Max, MaxLength, Min, ValidateNested } from "class-validator";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
-  InputType,
-  Field,
-  buildSchema,
   Arg,
-  ObjectType,
-  Resolver,
-  Mutation,
-  Query,
-  ArgumentValidationError,
   Args,
   ArgsType,
-  ResolverData,
-} from "../../src";
-import { TypeValue } from "../../src/decorators/types";
+  ArgumentValidationError,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  type ResolverData,
+  buildSchema,
+  getMetadataStorage,
+} from "type-graphql";
+import { type TypeValue } from "@/decorators/types";
 
 describe("Validation", () => {
   describe("Functional", () => {
     let schema: GraphQLSchema;
     let argInput: any;
     let argsData: any;
-    let sampleResolver: any;
 
     beforeEach(() => {
       argInput = undefined;
@@ -44,21 +42,21 @@ describe("Validation", () => {
       class SampleInput {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
         optionalField?: number;
 
-        @Field(type => SampleInput, { nullable: true })
+        @Field(() => SampleInput, { nullable: true })
         @ValidateNested()
         nestedField?: SampleInput;
 
-        @Field(type => [SampleInput], { nullable: true })
+        @Field(() => [SampleInput], { nullable: true })
         @ValidateNested({ each: true })
         arrayField?: SampleInput[];
       }
@@ -67,18 +65,18 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
         optionalField?: number;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -94,7 +92,7 @@ describe("Validation", () => {
 
         @Mutation()
         mutationWithInputsArray(
-          @Arg("inputs", type => [SampleInput]) inputs: SampleInput[],
+          @Arg("inputs", () => [SampleInput]) inputs: SampleInput[],
         ): SampleObject {
           argInput = inputs;
           return {};
@@ -102,14 +100,13 @@ describe("Validation", () => {
 
         @Mutation()
         mutationWithOptionalInputsArray(
-          @Arg("inputs", type => [SampleInput], { nullable: "items" })
+          @Arg("inputs", () => [SampleInput], { nullable: "items" })
           inputs: Array<SampleInput | null>,
         ): SampleObject {
           argInput = inputs;
           return {};
         }
       }
-      sampleResolver = SampleResolver;
 
       schema = await buildSchema({
         resolvers: [SampleResolver],
@@ -395,9 +392,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -433,9 +430,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -471,9 +468,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: false }) args: SampleArguments): SampleObject {
@@ -509,9 +506,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: true }) args: SampleArguments): SampleObject {
@@ -553,9 +550,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -597,9 +594,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["not-test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -635,9 +632,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -679,7 +676,7 @@ describe("Custom validation", () => {
 
   let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
-  let validateResolverData: ResolverData[] = [];
+  const validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
   beforeAll(async () => {
@@ -699,13 +696,13 @@ describe("Custom validation", () => {
     sampleInputCls = SampleInput;
     @Resolver()
     class SampleResolver {
-      @Query(returns => Boolean)
+      @Query(() => Boolean)
       sampleQuery(@Args() args: SampleArgs) {
         sampleQueryArgs.push(args);
         return true;
       }
 
-      @Query(returns => Boolean)
+      @Query(() => Boolean)
       sampleArrayArgQuery(@Arg("arrayArg", () => [SampleInput]) arrayArg: SampleInput[]) {
         sampleQueryArgs.push(arrayArg);
         return true;

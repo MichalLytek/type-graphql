@@ -1,28 +1,27 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionInterfaceType,
-  GraphQLSchema,
+  type GraphQLSchema,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionSchema,
   graphql,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
 } from "graphql";
-
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
 import {
   Arg,
   Args,
   ArgsType,
   Field,
+  FieldResolver,
   Int,
   InterfaceType,
   ObjectType,
   Query,
   Resolver,
   buildSchema,
-  FieldResolver,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Interfaces with resolvers and arguments", () => {
   describe("Schema", () => {
@@ -34,9 +33,10 @@ describe("Interfaces with resolvers and arguments", () => {
       @ArgsType()
       class SampleArgs1 {
         @Field(_type => Int)
-        classArg1: number;
+        classArg1!: number;
+
         @Field(_type => Int)
-        classArg2: number;
+        classArg2!: number;
       }
 
       @InterfaceType()
@@ -228,7 +228,7 @@ describe("Interfaces with resolvers and arguments", () => {
 
       @ObjectType({ implements: SampleInterfaceWithArgs })
       class SampleImplementingObjectWithArgsAndOwnResolver extends SampleInterfaceWithArgs {
-        sampleFieldWithArgs(sampleArg: string) {
+        override sampleFieldWithArgs(sampleArg: string) {
           return `SampleImplementingObjectWithArgsAndOwnResolver: ${sampleArg}`;
         }
       }
@@ -259,26 +259,32 @@ describe("Interfaces with resolvers and arguments", () => {
         queryForSampleInterfaceWithArgs(): SampleInterfaceWithArgs {
           return new SampleImplementingObjectWithArgsAndOwnResolver();
         }
+
         @Query()
         queryForSampleInterfaceWithArgsAndInlineResolver(): SampleInterfaceWithArgsAndInlineResolver {
           return new SampleImplementingObjectWithArgsAndInheritedResolver();
         }
+
         @Query()
         queryForSampleInterfaceWithArgsAndFieldResolver(): SampleInterfaceWithArgsAndFieldResolver {
           return new SampleImplementingObjectWithArgsAndInheritedFieldResolver();
         }
+
         @Query()
         queryForSampleImplementingObjectWithArgsAndOwnResolver(): SampleImplementingObjectWithArgsAndOwnResolver {
           return new SampleImplementingObjectWithArgsAndOwnResolver();
         }
+
         @Query()
         queryForSampleImplementingObjectWithArgsAndInheritedResolver(): SampleImplementingObjectWithArgsAndInheritedResolver {
           return new SampleImplementingObjectWithArgsAndInheritedResolver();
         }
+
         @Query()
         queryForSampleImplementingObjectWithArgsAndInheritedFieldResolver(): SampleImplementingObjectWithArgsAndInheritedFieldResolver {
           return new SampleImplementingObjectWithArgsAndInheritedFieldResolver();
         }
+
         @Query()
         queryForSampleInterfaceImplementingInterfaceWithArgsAndInlineResolver(): SampleInterfaceImplementingInterfaceWithArgsAndInlineResolver {
           return new SampleObjectImplementingInterfaceImplementingWithArgsAndInheritedResolver();

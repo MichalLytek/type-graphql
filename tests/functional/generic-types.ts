@@ -1,30 +1,29 @@
 import "reflect-metadata";
 import {
-  IntrospectionObjectType,
-  IntrospectionInterfaceType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionScalarType,
+  type GraphQLSchema,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionListTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
   TypeKind,
-  IntrospectionListTypeRef,
   graphql,
-  GraphQLSchema,
-  IntrospectionSchema,
-  IntrospectionInputObjectType,
 } from "graphql";
-
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
-  InterfaceType,
-  ClassType,
-  Int,
-  InputType,
   Arg,
-} from "../../src";
+  type ClassType,
+  Field,
+  InputType,
+  Int,
+  InterfaceType,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Generic types", () => {
   beforeEach(() => {
@@ -35,13 +34,13 @@ describe("Generic types", () => {
     @ObjectType()
     abstract class BaseType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @ObjectType()
     class SampleType extends BaseType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -70,21 +69,22 @@ describe("Generic types", () => {
     @InterfaceType()
     abstract class BaseInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InterfaceType()
     abstract class SampleInterfaceType extends BaseInterfaceType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @ObjectType({ implements: SampleInterfaceType })
     class SampleType implements SampleInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
+
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -115,19 +115,19 @@ describe("Generic types", () => {
     @InputType()
     abstract class BaseInput {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InputType()
     class SampleInput extends BaseInput {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
     class SampleResolver {
       @Query()
-      sampleQuery(@Arg("input") input: SampleInput): boolean {
+      sampleQuery(@Arg("input") _input: SampleInput): boolean {
         return true;
       }
     }
@@ -154,11 +154,11 @@ describe("Generic types", () => {
       function Connection<TItem extends object>(TItemClass: ClassType<TItem>) {
         @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
-          @Field(type => Int)
-          count: number;
+          @Field(() => Int)
+          count!: number;
 
-          @Field(type => [TItemClass])
-          items: TItem[];
+          @Field(() => [TItemClass])
+          items!: TItem[];
         }
         return ConnectionClass;
       }
@@ -166,16 +166,17 @@ describe("Generic types", () => {
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class Dog {
         @Field()
-        canBark: boolean;
+        canBark!: boolean;
       }
 
       const UserConnection = Connection(User);
+      // eslint-disable-next-line @typescript-eslint/no-redeclare
       type UserConnection = InstanceType<typeof UserConnection>;
       @ObjectType()
       class DogConnection extends Connection(Dog) {}
@@ -187,7 +188,7 @@ describe("Generic types", () => {
 
       @Resolver()
       class GenericConnectionResolver {
-        @Query(returns => UserConnection)
+        @Query(() => UserConnection)
         users(): UserConnection {
           return {
             count: 2,
@@ -195,7 +196,7 @@ describe("Generic types", () => {
           };
         }
 
-        @Query(returns => DogConnection)
+        @Query(() => DogConnection)
         dogs(): DogConnection {
           return dogsResponseMock;
         }
@@ -265,11 +266,11 @@ describe("Generic types", () => {
       function Edge<TNode extends object>(TNodeClass: ClassType<TNode>) {
         @ObjectType()
         abstract class EdgeClass {
-          @Field(type => TNodeClass)
-          node: TNode;
+          @Field(() => TNodeClass)
+          node!: TNode;
 
           @Field()
-          cursor: string;
+          cursor!: string;
         }
         return EdgeClass;
       }
@@ -277,19 +278,19 @@ describe("Generic types", () => {
       @ObjectType()
       class Recipe {
         @Field()
-        title: string;
+        title!: string;
       }
 
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class RecipeEdge extends Edge(Recipe) {
         @Field()
-        personalNotes: string;
+        personalNotes!: string;
       }
       recipeEdgeResponse = {
         cursor: "recipeCursor",
@@ -302,7 +303,7 @@ describe("Generic types", () => {
       @ObjectType()
       class FriendshipEdge extends Edge(User) {
         @Field()
-        friendedAt: Date;
+        friendedAt!: Date;
       }
       friendshipEdgeResponse = {
         cursor: "friendshipCursor",
@@ -411,8 +412,8 @@ describe("Generic types", () => {
       function Base<TType extends object>(TTypeClass: ClassType<TType>) {
         @ObjectType()
         class BaseClass {
-          @Field(type => TTypeClass)
-          baseField: TType;
+          @Field(() => TTypeClass)
+          baseField!: TType;
         }
         return BaseClass;
       }
@@ -420,21 +421,22 @@ describe("Generic types", () => {
       @ObjectType()
       class BaseSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @ObjectType()
       class ChildSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        childField: string;
+        childField!: string;
       }
 
       @ObjectType()
       class Child extends Base(BaseSample) {
         @Field()
-        baseField: ChildSample; // overwriting field with a up compatible type
+        override baseField!: ChildSample; // Overwriting field with a up compatible type
       }
 
       @Resolver()

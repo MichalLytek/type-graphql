@@ -5,7 +5,7 @@ on:
     - cron: "0 0 * * *"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
           npm ci
 
       - name: Regenerate sponsors images
-        run: npm run generate:sponsorkit
+        run: npm run gen:sponsorkit
         env:
           SPONSORKIT_GITHUB_TOKEN: ${{ secrets.SPONSORKIT_GITHUB_TOKEN }}
           # SPONSORKIT_OPENCOLLECTIVE_KEY: ${{ secrets.SPONSORKIT_GITHUB_TOKEN_OPENCOLLECTIVE_TOKEN }}
@@ -38,7 +38,7 @@ jobs:
           add: "img/github-sponsors.svg website/static/img/github-sponsors.svg"
           message: "chore(sponsors): update sponsors image"
           push: true
-          committer_name: gh-actions
-          committer_email: actions@github.com
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

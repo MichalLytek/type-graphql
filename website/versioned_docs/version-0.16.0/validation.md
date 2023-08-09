@@ -6,12 +6,15 @@ original_id: validation
 ---
 
 ## Scalars
+
 The standard way to make sure that the input and arguments are correct, like the `email` field really has an e-mail, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However creating scalars for all single case of data type (credit card number, base64, IP, URL) might be cumbersome.
 
 And that's why TypeGraphQL has built-in support for validation of arguments and inputs using [`class-validator`](https://github.com/typestack/class-validator) features! You can use awesomeness of decorators to declare the requirement for incoming data (e.g. number is in range 0-255 or password is longer than 8 chars) in an easy way.
 
 ## How to use
+
 At first, you have to decorate the input/arguments class with appropriate decorators from `class-validator`. So we take this:
+
 ```typescript
 @InputType()
 export class RecipeInput {
@@ -22,7 +25,9 @@ export class RecipeInput {
   description?: string;
 }
 ```
+
 and produce this:
+
 ```typescript
 import { MaxLength, Length } from "class-validator";
 
@@ -37,9 +42,11 @@ export class RecipeInput {
   description?: string;
 }
 ```
+
 And that's it! 😉
 
 TypeGraphQL will automatically validate your inputs and arguments based on the definitions:
+
 ```typescript
 @Resolver(of => Recipe)
 export class RecipeResolver {
@@ -56,6 +63,7 @@ export class RecipeResolver {
 Of course [there are many more decorators](https://github.com/typestack/class-validator#validation-decorators), not only the simple `@Length` used in the example above, so take a look at `class-validator` documentation.
 
 This feature is enabled by default. However, if you need, you can disable it:
+
 ```typescript
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
@@ -64,6 +72,7 @@ const schema = await buildSchema({
 ```
 
 And if you need, you can still enable it per resolver's argument:
+
 ```typescript
 class RecipeResolver {
   @Mutation(returns => Recipe)
@@ -74,6 +83,7 @@ class RecipeResolver {
 ```
 
 You can also pass `ValidatorOptions` object, for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups):
+
 ```typescript
 class RecipeResolver {
   @Mutation(returns => Recipe)
@@ -91,19 +101,25 @@ Note that by default `skipMissingProperties` setting of `class-validator` is set
 GraphQL will also checks whether the fields have correct types (String, Int, Float, Boolean, etc.) so you don't have to use `@IsOptional`, `@Allow`, `@IsString` or `@IsInt` decorators at all!
 
 ## Response to the client
+
 When client send incorrect data to the server:
+
 ```graphql
 mutation ValidationMutation {
-  addRecipe(input: {
-    # too long!
-    title: "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
-  }) {
+  addRecipe(
+    input: {
+      # too long!
+      title: "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
+    }
+  ) {
     title
     creationDate
   }
 }
 ```
+
 the [`ArgumentValidationError`](https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be throwed. To send more detailed error info to the client than `Argument Validation Error` string, you have to format the error - `TypeGraphQL` provides a helper for this case. Example using the `apollo-server` package from [bootstrap guide](bootstrap.md):
+
 ```typescript
 import { formatArgumentValidationError } from "type-graphql";
 
@@ -116,6 +132,7 @@ const server = new ApolloServer({
 ```
 
 So when `ArgumentValidationError` occurs, client will receive this JSON with nice `validationErrors` property:
+
 ```json
 {
   "errors": [
@@ -127,9 +144,7 @@ So when `ArgumentValidationError` occurs, client will receive this JSON with nic
           "column": 3
         }
       ],
-      "path": [
-        "addRecipe"
-      ],
+      "path": ["addRecipe"],
       "validationErrors": [
         {
           "target": {
@@ -152,4 +167,5 @@ So when `ArgumentValidationError` occurs, client will receive this JSON with nic
 Of course you can replace this with your own custom implementation of function that will transform `GraphQLError` with `ValidationError` array to the desired output format.
 
 ## Example
-You can see how this fits together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+
+You can see how this fits together in the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples/automatic-validation).

@@ -1,6 +1,6 @@
-import path from "path";
-import fs from "fs";
-import { promisify } from "util";
+import fs from "node:fs";
+import path from "node:path";
+import { promisify } from "node:util";
 
 export const fsMkdir = promisify(fs.mkdir);
 export const fsWriteFile = promisify(fs.writeFile);
@@ -24,9 +24,10 @@ export async function mkdirRecursive(filePath: string) {
   const directories = parsePath(filePath);
   for (const directory of directories) {
     try {
+      // eslint-disable-next-line no-await-in-loop
       await fsMkdir(directory);
     } catch (err) {
-      if (err.code !== "EEXIST") {
+      if ((err as NodeJS.ErrnoException).code !== "EEXIST") {
         throw err;
       }
     }
@@ -46,7 +47,7 @@ export async function outputFile(filePath: string, fileContent: any) {
   try {
     await fsWriteFile(filePath, fileContent);
   } catch (err) {
-    if (err.code !== "ENOENT") {
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
       throw err;
     }
     await mkdirRecursive(filePath);
@@ -57,9 +58,9 @@ export async function outputFile(filePath: string, fileContent: any) {
 export function outputFileSync(filePath: string, fileContent: any) {
   try {
     fs.writeFileSync(filePath, fileContent);
-  } catch (e) {
-    if (e.code !== "ENOENT") {
-      throw e;
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw err;
     }
     mkdirRecursiveSync(filePath);
     fs.writeFileSync(filePath, fileContent);

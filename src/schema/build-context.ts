@@ -1,12 +1,12 @@
-import { GraphQLScalarType } from "graphql";
-// @ts-ignore `class-validator` might not be installed by user
-import type { ValidatorOptions } from "class-validator";
-import { PubSubEngine, PubSub, PubSubOptions } from "graphql-subscriptions";
-
-import { AuthChecker, AuthMode } from "../interfaces";
-import { Middleware } from "../interfaces/Middleware";
-import { ContainerType, ContainerGetter, IOCContainer } from "../utils/container";
-import { ValidatorFn } from "../interfaces/ValidatorFn";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 'class-validator' might not be installed by user
+import { type ValidatorOptions } from "class-validator";
+import { type GraphQLScalarType } from "graphql";
+import { PubSub, type PubSubEngine, type PubSubOptions } from "graphql-subscriptions";
+import { type AuthChecker, type AuthMode } from "@/typings";
+import { type Middleware } from "@/typings/Middleware";
+import { type ValidatorFn } from "@/typings/ValidatorFn";
+import { type ContainerGetter, type ContainerType, IOCContainer } from "@/utils/container";
 
 export interface ScalarsTypeMap {
   type: Function;
@@ -43,14 +43,23 @@ export interface BuildContextOptions {
 
 export abstract class BuildContext {
   static scalarsMaps: ScalarsTypeMap[];
+
   static validate: ValidateSettings;
+
   static validateFn?: ValidatorFn;
+
   static authChecker?: AuthChecker<any, any>;
+
   static authMode: AuthMode;
+
   static pubSub: PubSubEngine;
+
   static globalMiddlewares: Array<Middleware<any>>;
+
   static container: IOCContainer;
+
   static nullableByDefault: boolean;
+
   static disableInferringDefaultValues: boolean;
 
   /**
@@ -117,5 +126,5 @@ export abstract class BuildContext {
   }
 }
 
-// initialize fields
+// Initialize fields
 BuildContext.reset();

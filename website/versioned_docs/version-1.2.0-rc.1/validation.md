@@ -177,7 +177,7 @@ Of course we can also create our own custom implementation of the `formatError` 
 
 ### Example
 
-To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/examples/automatic-validation).
 
 ### Caveats
 
@@ -218,4 +218,4 @@ const schema = await buildSchema({
 
 ### Example
 
-To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation).
+To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/examples/custom-validation).

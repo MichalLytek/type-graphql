@@ -1,8 +1,7 @@
-import { Service, Inject } from "typedi";
+import { Inject, Service } from "typedi";
+import { Context } from "./context.type";
 
-import { Context } from "./types";
-
-// this service will be recreated for each request (scoped)
+// Service is recreated for each request (scoped)
 @Service()
 export class Logger {
   constructor(@Inject("context") private readonly context: Context) {

@@ -10,7 +10,7 @@ While this enable easy and convenient development, it's sometimes a tradeoff in 
 
 ## Benchmarks
 
-To measure the overhead of the abstraction, a few demo examples were made to compare the usage of TypeGraphQL against the implementations using "bare metal" - raw `graphql-js` library. The benchmarks are located in a [folder on the GitHub repo](https://github.com/MichalLytek/type-graphql/tree/master/benchmarks).
+To measure the overhead of the abstraction, a few demo examples were made to compare the usage of TypeGraphQL against the implementations using "bare metal" - raw `graphql-js` library. The benchmarks are located in a [folder on the GitHub repo](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/benchmarks).
 
 The most demanding cases like returning an array of 25 000 nested objects showed that in some cases it might be about 5 times slower.
 
@@ -67,7 +67,7 @@ class Post {
 }
 ```
 
-This simple trick can speed up the execution up to 76%! The benchmarks show that using simple resolvers allows for as fast execution as with bare `graphql-js` - the measured overhead is only about ~13%, which is a much more reasonable value than 500%. Below you can see [the benchmarks results](https://github.com/MichalLytek/type-graphql/tree/master/benchmarks):
+This simple trick can speed up the execution up to 76%! The benchmarks show that using simple resolvers allows for as fast execution as with bare `graphql-js` - the measured overhead is only about ~13%, which is a much more reasonable value than 500%. Below you can see [the benchmarks results](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/benchmarks):
 
 |                                                                               | 25 000 array items |
 | ----------------------------------------------------------------------------- | :----------------: |

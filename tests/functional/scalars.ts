@@ -1,43 +1,38 @@
 import "reflect-metadata";
 import {
-  graphql,
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  GraphQLSchema,
+  type GraphQLSchema,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
-
 import {
-  ObjectType,
-  InputType,
-  Resolver,
-  Field,
-  Query,
   Arg,
-  buildSchema,
-  ID,
+  Field,
   Float,
-  Int,
   GraphQLISODateTime,
   GraphQLTimestamp,
-} from "../../src";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
+  ID,
+  Int,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;
   let sampleObject: IntrospectionObjectType;
   let schema: GraphQLSchema;
-
   let argScalar: string | undefined;
-  let argDate: Date | undefined;
+
   beforeEach(() => {
     argScalar = undefined;
-    argDate = undefined;
   });
 
   beforeAll(async () => {
@@ -45,78 +40,77 @@ describe("Scalars", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field(type => ID)
+      @Field(() => ID)
       idField: any;
 
       @Field()
-      implicitFloatField: number;
+      implicitFloatField!: number;
 
-      @Field(type => Float)
+      @Field(() => Float)
       explicitFloatField: any;
 
-      @Field(type => Int)
+      @Field(() => Int)
       intField: any;
 
       @Field()
-      implicitStringField: string;
+      implicitStringField!: string;
 
-      @Field(type => String)
+      @Field(() => String)
       explicitStringField: any;
 
       @Field()
-      implicitBooleanField: boolean;
+      implicitBooleanField!: boolean;
 
-      @Field(type => Boolean)
+      @Field(() => Boolean)
       explicitBooleanField: any;
 
       @Field()
-      implicitDateField: Date;
+      implicitDateField!: Date;
 
-      @Field(type => Date)
+      @Field(() => Date)
       explicitDateField: any;
 
-      @Field(type => GraphQLISODateTime)
+      @Field(() => GraphQLISODateTime)
       ISODateField: any;
 
-      @Field(type => GraphQLTimestamp)
+      @Field(() => GraphQLTimestamp)
       timestampField: any;
 
-      @Field(type => CustomScalar)
+      @Field(() => CustomScalar)
       customScalarField: any;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
         return {} as any;
       }
 
-      @Query(returns => CustomScalar)
+      @Query(() => CustomScalar)
       returnScalar(): string {
         return "returnScalar";
       }
 
-      @Query(returns => Boolean)
-      argScalar(@Arg("scalar", type => CustomScalar) scalar: any): any {
+      @Query(() => Boolean)
+      argScalar(@Arg("scalar", () => CustomScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Boolean)
-      objectArgScalar(@Arg("scalar", type => ObjectScalar) scalar: any): any {
+      @Query(() => Boolean)
+      objectArgScalar(@Arg("scalar", () => ObjectScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Date)
+      @Query(() => Date)
       returnDate(): any {
         return new Date();
       }
 
       @Query()
-      argDate(@Arg("date", type => Date) date: any): boolean {
-        argDate = date;
+      argDate(@Arg("date", () => Date) _date: any): boolean {
         return true;
       }
     }
@@ -225,7 +219,7 @@ describe("Scalars", () => {
         returnScalar
       }`;
       const result: any = await graphql({ schema, source: query });
-      const returnScalar = result.data!.returnScalar;
+      const { returnScalar } = result.data!;
 
       expect(returnScalar).toEqual("TypeGraphQL serialize");
     });
@@ -257,11 +251,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -309,10 +303,10 @@ describe("Scalars", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        customField: CustomType;
+        customField!: CustomType;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -335,11 +329,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

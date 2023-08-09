@@ -6,7 +6,8 @@
       "getting-started",
       "types-and-fields",
       "resolvers",
-      "bootstrap"
+      "bootstrap",
+      "esm"
     ],
     "Advanced guides": [
       "scalars",

@@ -1,15 +1,14 @@
-import { GraphQLScalarType } from "graphql";
-
+import { type GraphQLScalarType } from "graphql";
+import { type ValidateSettings } from "@/schema/build-context";
 import {
-  ResolverFilterData,
-  ClassType,
-  ResolverTopicData,
-  Complexity,
-  TypeResolver,
-} from "../interfaces";
-import { ValidateSettings } from "../schema/build-context";
+  type ClassType,
+  type Complexity,
+  type ResolverFilterData,
+  type ResolverTopicData,
+  type TypeResolver,
+} from "@/typings";
 
-export interface RecursiveArray<TValue> extends Array<RecursiveArray<TValue> | TValue> {}
+export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;

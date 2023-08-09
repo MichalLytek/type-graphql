@@ -1,13 +1,12 @@
 import {
-  FieldDefinitionNode,
-  InputObjectTypeDefinitionNode,
-  InputValueDefinitionNode,
-  InterfaceTypeDefinitionNode,
-  ObjectTypeDefinitionNode,
+  type FieldDefinitionNode,
+  type InputObjectTypeDefinitionNode,
+  type InputValueDefinitionNode,
+  type InterfaceTypeDefinitionNode,
+  type ObjectTypeDefinitionNode,
   parseValue,
 } from "graphql";
-
-import { Maybe } from "../../../src/interfaces/Maybe";
+import { type Maybe } from "@/typings";
 
 export function assertValidDirective(
   astNode: Maybe<
@@ -18,7 +17,7 @@ export function assertValidDirective(
     | InterfaceTypeDefinitionNode
   >,
   name: string,
-  args?: { [key: string]: string },
+  args?: Record<string, string>,
 ): void {
   if (!astNode) {
     throw new Error(`Directive with name ${name} does not exist`);

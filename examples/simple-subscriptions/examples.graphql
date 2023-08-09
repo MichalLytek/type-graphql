@@ -1,0 +1,32 @@
+subscription AllNotifications {
+  normalSubscription {
+    id
+    message
+    date
+  }
+}
+
+subscription EvenNotifications {
+  subscriptionWithFilter {
+    id
+    message
+    date
+  }
+}
+
+mutation PublishMessage {
+  pubSubMutation(message: "Hello")
+}
+
+# Dynamic topics
+
+subscription DynamicTopic {
+  subscriptionWithFilterToDynamicTopic(topic: "FOO_MESSAGES") {
+    id
+    message
+  }
+}
+
+mutation PublishMessageToDynamicTopic {
+  pubSubMutationToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
+}

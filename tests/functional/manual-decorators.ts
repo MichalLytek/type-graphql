@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { IntrospectionObjectType } from "graphql";
-import { Args, ArgsType, Field, ObjectType, Query, Resolver } from "../../src";
+import { type IntrospectionObjectType } from "graphql";
+import { Args, ArgsType, Field, ObjectType, Query, Resolver } from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("manual decorators", () => {
@@ -8,17 +8,17 @@ describe("manual decorators", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      manualField: string;
+      manualField!: string;
     }
 
-    // dynamically register field
+    // Dynamically register field
     Field(() => String)(SampleObject.prototype, "dynamicField");
     @ArgsType()
     class SampleArgs {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
-    // dynamically register field args
+    // Dynamically register field args
     Args(() => SampleArgs)(SampleObject.prototype, "dynamicField", 0);
 
     @Resolver()
@@ -29,7 +29,7 @@ describe("manual decorators", () => {
       }
     }
 
-    // get builded schema info from retrospection
+    // Get builded schema info from retrospection
     const schemaInfo = await getSchemaInfo({
       resolvers: [SampleResolver],
     });

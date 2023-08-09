@@ -1,22 +1,23 @@
 import "reflect-metadata";
-import { IntrospectionObjectType, TypeKind, GraphQLObjectType, graphql } from "graphql";
-
-import { Query, ObjectType, Field, Resolver, buildSchema } from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { type IntrospectionObjectType, TypeKind, graphql } from "graphql";
+import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Circular references", () => {
   it("should resolve circular type dependencies when type functions are used", async () => {
     getMetadataStorage().clear();
 
-    const { CircularRef1 } = require("../helpers/circular-refs/good/CircularRef1");
-    const { CircularRef2 } = require("../helpers/circular-refs/good/CircularRef2");
+    const { CircularRef1 } = await import("../helpers/circular-refs/good/CircularRef1");
+    const { CircularRef2 } = await import("../helpers/circular-refs/good/CircularRef2");
 
     @ObjectType()
     class SampleObject {
-      @Field(type => CircularRef1)
+      @Field(() => CircularRef1)
       ref1: any;
-      @Field(type => CircularRef2)
+
+      @Field(() => CircularRef2)
       ref2: any;
     }
     @Resolver()
@@ -44,41 +45,37 @@ describe("Circular references", () => {
   });
 
   it("should throw error when not providing type function for circular type references", async () => {
-    expect.assertions(6);
     getMetadataStorage().clear();
 
-    try {
-      require("../helpers/circular-refs/wrong/CircularRef1").CircularRef1;
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("ref1Field");
-      jest.resetModules();
-    }
+    const errorRef1 = await expectToThrow(
+      async () => (await import("../helpers/circular-refs/wrong/CircularRef1")).CircularRef1,
+    );
 
-    try {
-      require("../helpers/circular-refs/wrong/CircularRef2").CircularRef2;
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("ref2Field");
-      jest.resetModules();
-    }
+    expect(errorRef1).toBeInstanceOf(Error);
+    expect(errorRef1.message).toContain("provide explicit type");
+    expect(errorRef1.message).toContain("ref1Field");
+    jest.resetModules();
+
+    const errorRef2 = await expectToThrow(
+      async () => (await import("../helpers/circular-refs/wrong/CircularRef2")).CircularRef2,
+    );
+    expect(errorRef2).toBeInstanceOf(Error);
+    expect(errorRef2.message).toContain("provide explicit type");
+    expect(errorRef2.message).toContain("ref2Field");
+    jest.resetModules();
   });
 
   it("should allow to have self-reference fields in object type", async () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      stringField: string;
+      stringField!: string;
 
-      @Field(type => SampleObject, { nullable: true })
+      @Field(() => SampleObject, { nullable: true })
       selfReferenceField?: SampleObject;
 
-      @Field(type => [SampleObject])
-      selfReferenceArrayField: SampleObject[];
+      @Field(() => [SampleObject])
+      selfReferenceArrayField!: SampleObject[];
     }
     @Resolver()
     class SampleResolver {

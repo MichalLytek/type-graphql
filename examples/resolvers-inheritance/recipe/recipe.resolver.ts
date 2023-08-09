@@ -1,8 +1,7 @@
+import { FieldResolver, Resolver, Root } from "type-graphql";
 import { Service } from "typedi";
-import { Resolver, FieldResolver, Root } from "../../../src";
-
-import { ResourceResolver } from "../resource/resource.resolver";
 import { Recipe } from "./recipe.type";
+import { ResourceResolver } from "../resource";
 
 const recipes: Recipe[] = [
   {
@@ -12,10 +11,10 @@ const recipes: Recipe[] = [
   },
 ];
 
-@Resolver(of => Recipe)
+@Resolver(_of => Recipe)
 @Service()
 export class RecipeResolver extends ResourceResolver(Recipe, recipes) {
-  // here you can add resource-specific operations
+  // Here you can add resource-specific operations
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe): number {

@@ -22,7 +22,6 @@
       // TODO: add new examples here
       "options": [
         "apollo-cache",
-        "apollo-client",
         "apollo-federation",
         "authorization",
         "automatic-validation",
@@ -40,6 +39,7 @@
         "resolvers-inheritance",
         "simple-subscriptions",
         "simple-usage",
+        "tsyringe",
         "typegoose",
         "typeorm-basic-usage",
         "typeorm-lazy-relations",

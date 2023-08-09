@@ -1,9 +1,9 @@
-import { MiddlewareFn } from "../../../src";
+import { type MiddlewareFn } from "type-graphql";
 
 export function NumberInterceptor(minValue: number): MiddlewareFn {
   return async (_, next) => {
     const result = await next();
-    // hide ratings below minValue
+    // Hide ratings below minValue
     if (typeof result === "number" && result < minValue) {
       return null;
     }

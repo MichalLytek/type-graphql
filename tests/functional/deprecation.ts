@@ -1,17 +1,21 @@
 import "reflect-metadata";
-import { IntrospectionSchema, IntrospectionObjectType, GraphQLSchema, printType } from "graphql";
-
 import {
-  ObjectType,
-  Resolver,
-  Field,
-  Query,
-  Mutation,
-  InputType,
+  type GraphQLSchema,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  printType,
+} from "graphql";
+import {
   Arg,
-  ArgsType,
   Args,
-} from "../../src";
+  ArgsType,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Deprecation", () => {
@@ -22,17 +26,18 @@ describe("Deprecation", () => {
     let queryType: IntrospectionObjectType;
 
     beforeAll(async () => {
-      // create sample definitions
+      // Create sample definitions
 
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ deprecationReason: "sample object field deprecation reason" })
-        deprecatedField: string;
+        deprecatedField!: string;
 
         @Field({ deprecationReason: "sample object getter field deprecation reason" })
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get deprecatedGetterField(): string {
           return "deprecatedGetterField";
         }
@@ -46,28 +51,28 @@ describe("Deprecation", () => {
       @InputType()
       class SampleInput {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({
           deprecationReason: "sample input field deprecation reason",
           nullable: true,
         })
-        deprecatedField: string;
+        deprecatedField!: string;
       }
 
       @ArgsType()
       class SampleArgs {
         @Field()
-        normalArg: string;
+        normalArg!: string;
 
         @Field({
           deprecationReason: "sample args field deprecation reason",
           nullable: true,
         })
-        deprecatedArg: string;
+        deprecatedArg!: string;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): SampleObject {
@@ -75,12 +80,12 @@ describe("Deprecation", () => {
         }
 
         @Query()
-        inputQuery(@Arg("input") input: SampleInput): SampleObject {
+        inputQuery(@Arg("input") _input: SampleInput): SampleObject {
           return {} as SampleObject;
         }
 
         @Query()
-        argsQuery(@Args() args: SampleArgs): SampleObject {
+        argsQuery(@Args() _args: SampleArgs): SampleObject {
           return {} as SampleObject;
         }
 
@@ -90,7 +95,7 @@ describe("Deprecation", () => {
             deprecationReason: "sample query arg deprecation reason",
             nullable: true,
           })
-          arg?: string,
+          _arg?: string,
         ): SampleObject {
           return {} as SampleObject;
         }

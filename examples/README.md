@@ -1,10 +1,10 @@
 # Examples
 
-This folder consist of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
+This folder consists of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
 
-To run some example, simply go to the subdirectory (e.g. `cd ./simple-usage`), and then start the server (`ts-node ./index.ts`).
+To run an example, simply go to the subdirectory (e.g. `cd ./simple-usage`), and then start the server (`npx ts-node ./index.ts`).
 
-Each subdirectory contains a `examples.gql` file with a predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (http://localhost:4000) and play with them by modifying its shape and data.
+Each subdirectory contains a `examples.graphql` file with predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (<http://localhost:4000>) and play with them by modifying their shape and data.
 
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
 > So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
@@ -43,7 +43,8 @@ Each subdirectory contains a `examples.gql` file with a predefined GraphQL queri
 - [Typegoose \*](./typegoose)
 - [Apollo federation](./apollo-federation)
 - [Apollo Cache Control](./apollo-cache)
-- [Apollo Client local state](./apollo-client)
+- [GraphQL Scalars](./graphql-scalars)
+- [TSyringe](./tsyringe)
 
-_\* Note that we need to provide env variable with connection settings to your local database_
-_\*\* Note that we need to provide env variable with connection settings to your Redis instance_
+_\* Note that we need to provide the environment variable `DATABASE_URL` with connection parameters to your local database_ \
+_\*\* Note that we need to provide the environment variable `REDIS_URL` with connection parameters to your local Redis instance_

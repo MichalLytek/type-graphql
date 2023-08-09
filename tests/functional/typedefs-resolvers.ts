@@ -1,51 +1,51 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import "reflect-metadata";
-import {
-  IntrospectionSchema,
-  graphql,
-  getIntrospectionQuery,
-  IntrospectionQuery,
-  IntrospectionInterfaceType,
-  TypeKind,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionEnumType,
-  IntrospectionUnionType,
-  IntrospectionScalarType,
-  execute,
-  GraphQLSchema,
-  subscribe,
-  ExecutionResult,
-} from "graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { PubSub } from "graphql-subscriptions";
 import { MinLength } from "class-validator";
-import Container, { Service } from "typedi";
-import gql from "graphql-tag";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  Resolver,
+  type ExecutionResult,
+  type GraphQLSchema,
+  type IntrospectionEnumType,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionQuery,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
+  type IntrospectionUnionType,
+  TypeKind,
+  execute,
+  getIntrospectionQuery,
+  graphql,
+  subscribe,
+} from "graphql";
+import { PubSub } from "graphql-subscriptions";
+import gql from "graphql-tag";
+import {
+  Arg,
+  Authorized,
+  Field,
+  InputType,
+  InterfaceType,
+  Mutation,
+  ObjectType,
+  type PubSubEngine,
   Query,
+  Resolver,
+  type ResolverObject,
+  type ResolverOptions,
+  type ResolversMap,
+  Root,
+  Subscription,
+  UseMiddleware,
   buildTypeDefsAndResolvers,
   buildTypeDefsAndResolversSync,
-  InterfaceType,
-  ObjectType,
-  Field,
-  registerEnumType,
-  Subscription,
-  PubSubEngine,
-  Arg,
   createUnionType,
-  Mutation,
-  Root,
-  InputType,
-  Authorized,
-  UseMiddleware,
-  ResolversMap,
-  ResolverObject,
-  ResolverOptions,
-} from "../../src";
+  registerEnumType,
+} from "type-graphql";
+import Container, { Service } from "typedi";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("typeDefs and resolvers", () => {
   describe("buildTypeDefsAndResolvers", () => {
@@ -77,38 +77,42 @@ describe("typeDefs and resolvers", () => {
       @InterfaceType()
       abstract class SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType1 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ description: "sampleType1StringFieldDescription" })
-        sampleType1StringField: string;
+        sampleType1StringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType2 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ deprecationReason: "sampleType2StringFieldDeprecation" })
-        sampleType2StringField: string;
+        sampleType2StringField!: string;
       }
 
       @ObjectType()
       class SampleType3 {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field()
-        sampleType3StringField: string;
+        sampleType3StringField!: string;
       }
 
       @InputType()
       class SampleInput {
         @Field()
         @MinLength(10)
-        sampleInputStringField: string;
+        sampleInputStringField!: string;
+
         @Field()
         sampleInputDefaultStringField: string = "sampleInputDefaultStringField";
       }
@@ -141,7 +145,7 @@ describe("typeDefs and resolvers", () => {
           if ("sampleType3StringField" in value) {
             return "SampleType3";
           }
-          return;
+          return undefined;
         },
       });
 
@@ -195,7 +199,7 @@ describe("typeDefs and resolvers", () => {
           return type1;
         }
 
-        @Query(returns => SampleUnion)
+        @Query(() => SampleUnion)
         sampleUnionQuery(): typeof SampleUnion {
           const type3 = new SampleType3();
           type3.sampleInterfaceStringField = "sampleInterfaceStringField";
@@ -204,7 +208,7 @@ describe("typeDefs and resolvers", () => {
           return type3;
         }
 
-        @Query(returns => SampleResolveUnion)
+        @Query(() => SampleResolveUnion)
         sampleResolveUnionQuery(): typeof SampleResolveUnion {
           return {
             sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -212,17 +216,17 @@ describe("typeDefs and resolvers", () => {
           };
         }
 
-        @Query(returns => SampleNumberEnum)
+        @Query(() => SampleNumberEnum)
         sampleNumberEnumQuery(
-          @Arg("numberEnum", type => SampleNumberEnum) numberEnum: SampleNumberEnum,
+          @Arg("numberEnum", () => SampleNumberEnum) numberEnum: SampleNumberEnum,
         ): SampleNumberEnum {
           enumValue = numberEnum;
           return numberEnum;
         }
 
-        @Query(returns => SampleStringEnum)
+        @Query(() => SampleStringEnum)
         sampleStringEnumQuery(
-          @Arg("stringEnum", type => SampleStringEnum) stringEnum: SampleStringEnum,
+          @Arg("stringEnum", () => SampleStringEnum) stringEnum: SampleStringEnum,
         ): SampleStringEnum {
           enumValue = stringEnum;
           return stringEnum;
@@ -617,9 +621,10 @@ describe("typeDefs and resolvers", () => {
       @ObjectType()
       class SampleType {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ description: "sampleTypeStringFieldDescription" })
-        sampleTypeStringField: string;
+        sampleTypeStringField!: string;
       }
 
       @Resolver()

@@ -1,28 +1,29 @@
 import "reflect-metadata";
 import {
-  GraphQLSchema,
-  GraphQLInputObjectType,
-  GraphQLInterfaceType,
-  GraphQLObjectType,
+  type GraphQLInputObjectType,
+  type GraphQLInterfaceType,
+  type GraphQLObjectType,
+  type GraphQLSchema,
   OperationTypeNode,
 } from "graphql";
 import {
-  Field,
-  InputType,
-  Resolver,
-  Query,
   Arg,
   Directive,
-  buildSchema,
-  ObjectType,
-  Mutation,
-  Subscription,
+  Field,
+  InputType,
   InterfaceType,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
+} from "type-graphql";
+import { InvalidDirectiveError } from "@/errors/InvalidDirectiveError";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { assertValidDirective } from "../helpers/directives/assertValidDirective";
-import { InvalidDirectiveError } from "../../src/errors";
 import { testDirective, testDirectiveTransformer } from "../helpers/directives/TestDirective";
+import { expectToThrow } from "../helpers/expectToThrow";
 
 describe("Directives", () => {
   describe("Schema", () => {
@@ -58,7 +59,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleObjectTypeInfo = schema.getType("SampleObject") as GraphQLObjectType;
 
-        assertValidDirective(sampleObjectTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleObjectTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -100,7 +103,9 @@ describe("Directives", () => {
           schema.getType("SampleObject") as GraphQLObjectType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -147,7 +152,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleInterfaceTypeInfo = schema.getType("SampleInterface") as GraphQLInterfaceType;
 
-        assertValidDirective(sampleInterfaceTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleInterfaceTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -194,7 +201,9 @@ describe("Directives", () => {
           schema.getType("SampleInterface") as GraphQLInterfaceType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -220,7 +229,7 @@ describe("Directives", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
+          sampleQuery(@Arg("input") _input: SampleInput): boolean {
             return true;
           }
         }
@@ -236,7 +245,9 @@ describe("Directives", () => {
       it("should properly emit directive in AST", () => {
         const sampleInputTypeInfo = schema.getType("SampleInput") as GraphQLInputObjectType;
 
-        assertValidDirective(sampleInputTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleInputTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -260,7 +271,7 @@ describe("Directives", () => {
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): boolean {
+          sampleQuery(@Arg("input") _input: SampleInput): boolean {
             return true;
           }
         }
@@ -278,7 +289,9 @@ describe("Directives", () => {
           schema.getType("SampleInput") as GraphQLInputObjectType
         ).getFields().sampleField;
 
-        assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleFieldTypeInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -317,7 +330,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.QUERY)!
           .getFields().sampleQuery;
 
-        assertValidDirective(sampleQueryInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleQueryInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -361,7 +376,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.MUTATION)!
           .getFields().sampleMutation;
 
-        assertValidDirective(sampleMutationInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleMutationInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -405,7 +422,9 @@ describe("Directives", () => {
           .getRootType(OperationTypeNode.SUBSCRIPTION)!
           .getFields().sampleSubscription;
 
-        assertValidDirective(sampleSubscriptionInfo.astNode, "test");
+        expect(() => {
+          assertValidDirective(sampleSubscriptionInfo.astNode, "test");
+        }).not.toThrow();
       });
 
       it("should properly apply directive mapper", async () => {
@@ -426,8 +445,6 @@ describe("Directives", () => {
     });
 
     it("throws error on multiple directive definitions", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -437,20 +454,15 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
-        );
-      }
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain(
+        'Please pass only one directive name or definition at a time to the @Directive decorator "@upper @append"',
+      );
     });
 
     it("throws error when parsing invalid directives", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -460,20 +472,13 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          'Error parsing directive definition "@invalid(@directive)"',
-        );
-      }
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain('Error parsing directive definition "@invalid(@directive)"');
     });
 
     it("throws error when no directives are defined", async () => {
-      expect.assertions(2);
-
       @Resolver()
       class InvalidQuery {
         @Query()
@@ -483,15 +488,12 @@ describe("Directives", () => {
         }
       }
 
-      try {
-        await buildSchema({ resolvers: [InvalidQuery] });
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidDirectiveError);
-        const error: InvalidDirectiveError = err;
-        expect(error.message).toContain(
-          "Please pass at-least one directive name or definition to the @Directive decorator",
-        );
-      }
+      const error = await expectToThrow(() => buildSchema({ resolvers: [InvalidQuery] }));
+
+      expect(error).toBeInstanceOf(InvalidDirectiveError);
+      expect(error.message).toContain(
+        "Please pass at-least one directive name or definition to the @Directive decorator",
+      );
     });
   });
 });
