@@ -170,13 +170,7 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 ### Silver Sponsors 🥈
 
-<!-- markdownlint-disable MD033 -->
-
-| [<img src="./images/lovd.png" width="150" alt="lovd" />](https://www.lovd.com) |
-| :----------------------------------------------------------------------------: |
-|                       [**Lovd**](https://www.lovd.com/)                        |
-
-<!-- markdownlint-enable MD033 -->
+> Please ask your company to support this open source project by [becoming a silver sponsor](https://opencollective.com/typegraphql/contribute/silver-sponsors-14804).
 
 ### Bronze Sponsors 🥉
 
