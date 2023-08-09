@@ -1,38 +1,44 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import Container from "typedi";
-import path from "path";
-import { buildSchema } from "../../src";
-
-import { RecipeResolver } from "./resolver";
-import { Context } from "./context.interface";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { buildSchema } from "type-graphql";
+import { Container } from "typedi";
+import { type Context } from "./context.type";
 import { LoggerMiddleware } from "./logger.middleware";
+import { RecipeResolver } from "./resolver";
 
-void (async function bootstrap() {
-  // build TypeGraphQL executable schema
+async function bootstrap() {
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
-    container: Container,
+    // Array of resolvers
     resolvers: [RecipeResolver],
+    // IOC container
+    container: Container,
+    // Global middleware
     globalMiddlewares: [LoggerMiddleware],
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
+  const server = new ApolloServer<Context>({
     schema,
-    context: () => {
-      const ctx: Context = {
-        // example user
-        user: {
-          id: 123,
-          name: "Sample user",
-        },
-      };
-      return ctx;
-    },
   });
 
-  // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
-})();
+  // Start server
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+    // Provide context
+    context: async () => ({
+      // Example user
+      user: {
+        id: 123,
+        name: "Sample user",
+      },
+    }),
+  });
+  console.log(`GraphQL server ready at ${url}`);
+}
+
+bootstrap().catch(console.error);

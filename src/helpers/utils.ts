@@ -1,9 +1,9 @@
-export type ArrayElements<TArray extends ReadonlyArray<any>> = TArray extends ReadonlyArray<
+export type ArrayElements<TArray extends readonly any[]> = TArray extends ReadonlyArray<
   infer TElement
 >
   ? TElement
   : never;
 
-export type UnionFromClasses<TClassesArray extends ReadonlyArray<any>> = InstanceType<
+export type UnionFromClasses<TClassesArray extends readonly any[]> = InstanceType<
   ArrayElements<TClassesArray>
 >;

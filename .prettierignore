@@ -1,18 +1,8 @@
-# node modules
-node_modules
-
-# builded sources
-build
-dist
-
-# coverage reports
-coverage
-
-# IntelliJ stuffs
-.idea/
-
-# parcel cache
-.cache
-
-# changelog
-CHANGELOG.md
+**/build/
+**/dist/
+**/coverage/
+**/node_modules/
+/.husky/_/
+/.gitattributes
+website/versioned_docs
+website/versioned_sidebars

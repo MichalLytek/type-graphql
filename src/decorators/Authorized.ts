@@ -1,7 +1,7 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { SymbolKeysNotSupportedError } from "../errors";
-import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodAndPropDecorator } from "./types";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getArrayFromOverloadedRest } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type MethodAndPropDecorator } from "./types";
 
 export function Authorized(): MethodAndPropDecorator;
 export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodAndPropDecorator;
@@ -13,7 +13,7 @@ export function Authorized<RoleType = string>(
 ): MethodDecorator | PropertyDecorator {
   const roles = getArrayFromOverloadedRest(rolesOrRolesArray);
 
-  return (prototype, propertyKey, descriptor) => {
+  return (prototype, propertyKey, _descriptor) => {
     if (typeof propertyKey === "symbol") {
       throw new SymbolKeysNotSupportedError();
     }

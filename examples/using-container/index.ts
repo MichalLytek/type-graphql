@@ -1,30 +1,32 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
-import path from "path";
-import { buildSchema } from "../../src";
+import { sampleRecipes } from "./recipe.data";
+import { RecipeResolver } from "./recipe.resolver";
 
-import { RecipeResolver } from "./recipe-resolver";
-import { sampleRecipes } from "./sample-recipes";
-
-// put sample recipes in container
+// Add sample recipes in container
 Container.set({ id: "SAMPLE_RECIPES", factory: () => sampleRecipes.slice() });
 
 async function bootstrap() {
-  // build TypeGraphQL executable schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
-    // register 3rd party IOC container
+    // Registry 3rd party IOC container
     container: Container,
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
   // Create GraphQL server
   const server = new ApolloServer({ schema });
 
-  // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

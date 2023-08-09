@@ -1,6 +1,5 @@
-import { GraphQLSchema, printSchema, lexicographicSortSchema } from "graphql";
-
-import { outputFile, outputFileSync } from "../helpers/filesystem";
+import { type GraphQLSchema, lexicographicSortSchema, printSchema } from "graphql";
+import { outputFile, outputFileSync } from "@/helpers/filesystem";
 
 export interface PrintSchemaOptions {
   sortedSchema: boolean;
@@ -18,6 +17,11 @@ const generatedSchemaWarning = /* graphql */ `\
 
 `;
 
+function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
+  const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
+  return generatedSchemaWarning + printSchema(schemaToEmit);
+}
+
 export function emitSchemaDefinitionFileSync(
   schemaFilePath: string,
   schema: GraphQLSchema,
@@ -34,9 +38,4 @@ export async function emitSchemaDefinitionFile(
 ) {
   const schemaFileContent = getSchemaFileContent(schema, options);
   await outputFile(schemaFilePath, schemaFileContent);
-}
-
-function getSchemaFileContent(schema: GraphQLSchema, options: PrintSchemaOptions) {
-  const schemaToEmit = options.sortedSchema ? lexicographicSortSchema(schema) : schema;
-  return generatedSchemaWarning + printSchema(schemaToEmit);
 }

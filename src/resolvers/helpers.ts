@@ -1,73 +1,84 @@
-import { PubSubEngine } from "graphql-subscriptions";
-
-import { ParamMetadata } from "../metadata/definitions";
-import { convertToType } from "../helpers/types";
+import { type PubSubEngine } from "graphql-subscriptions";
+import { AuthMiddleware } from "@/helpers/auth-middleware";
+import { convertToType } from "@/helpers/types";
+import { type ParamMetadata } from "@/metadata/definitions";
+import { type ValidateSettings } from "@/schema/build-context";
+import { type AuthChecker, type AuthMode, type ResolverData, type ValidatorFn } from "@/typings";
+import { type Middleware, type MiddlewareClass, type MiddlewareFn } from "@/typings/Middleware";
+import { type IOCContainer } from "@/utils/container";
+import { isPromiseLike } from "@/utils/isPromiseLike";
+import { convertArgToInstance, convertArgsToInstance } from "./convert-args";
 import { validateArg } from "./validate-arg";
-import { ResolverData, AuthChecker, AuthMode } from "../interfaces";
-import { Middleware, MiddlewareFn, MiddlewareClass } from "../interfaces/Middleware";
-import { IOCContainer } from "../utils/container";
-import { AuthMiddleware } from "../helpers/auth-middleware";
-import { convertArgsToInstance, convertArgToInstance } from "./convert-args";
-import isPromiseLike from "../utils/isPromiseLike";
-import { ValidateSettings } from "../schema/build-context";
-import { ValidatorFn } from "../interfaces/ValidatorFn";
 
 export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
-  validateFn: ValidatorFn<object> | undefined,
+  validateFn: ValidatorFn | undefined,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
+    // eslint-disable-next-line array-callback-return, consistent-return
     .map(paramInfo => {
       switch (paramInfo.kind) {
         case "args":
           return validateArg(
             convertArgsToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
+            resolverData,
             globalValidate,
             paramInfo.validate,
             validateFn,
           );
+
         case "arg":
           return validateArg(
             convertArgToInstance(paramInfo, resolverData.args),
             paramInfo.getType(),
+            resolverData,
             globalValidate,
             paramInfo.validate,
             validateFn,
           );
+
         case "context":
           if (paramInfo.propertyName) {
             return resolverData.context[paramInfo.propertyName];
           }
           return resolverData.context;
-        case "root":
+
+        case "root": {
           const rootValue = paramInfo.propertyName
             ? resolverData.root[paramInfo.propertyName]
             : resolverData.root;
+
           if (!paramInfo.getType) {
             return rootValue;
           }
           return convertToType(paramInfo.getType(), rootValue);
+        }
+
         case "info":
           return resolverData.info;
+
         case "pubSub":
           if (paramInfo.triggerKey) {
             return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
           }
           return pubSub;
+
         case "custom":
           return paramInfo.resolver(resolverData);
+
+        // no default
       }
     });
+
   if (paramValues.some(isPromiseLike)) {
     return Promise.all(paramValues);
-  } else {
-    return paramValues;
   }
+  return paramValues;
 }
 
 export function applyAuthChecker(
@@ -102,7 +113,7 @@ export function applyMiddlewares(
       handlerFn = resolverHandlerFunction;
     } else {
       const currentMiddleware = middlewares[currentIndex];
-      // arrow function or class
+      // Arrow function or class
       if (currentMiddleware.prototype !== undefined) {
         const middlewareClassInstance = await container.getInstance(
           currentMiddleware as MiddlewareClass<any>,

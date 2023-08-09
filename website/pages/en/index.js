@@ -255,15 +255,13 @@ const CollectiveSection = props => (
           <span>and getting a premium technical support from our core contributors.</span>
         </blockquote>
         <h3 className="title">Silver Sponsors 🥈</h3>
-        <div className="tiles">
-          <a href="https://www.lovd.com/" target="_blank">
-            <img
-              src={imgUrl("lovd.png")}
-              style={{ width: 150, backgroundColor: "#f9f9f9", padding: "0 10px" }}
-            />
-            <span>Lovd</span>
+        <blockquote className="note">
+          <span>Please ask your company to support this open source project by</span>{" "}
+          <a href="https://opencollective.com/typegraphql/contribute/silver-sponsors-14804">
+            becoming a silver sponsor
           </a>
-        </div>
+          .
+        </blockquote>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
           <a href="https://www.ligrsystems.com/" target="_blank">

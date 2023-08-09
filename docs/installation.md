@@ -13,18 +13,18 @@ Before getting started with TypeGraphQL we need to install some additional depen
 First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) and [`graphql-scalars`](https://github.com/urigo/graphql-scalars) which are peer dependencies of TypeGraphQL:
 
 ```sh
-npm i graphql graphql-scalars type-graphql
+npm install graphql graphql-scalars type-graphql
 ```
 
 Also, the `reflect-metadata` shim is required to make the type reflection work:
 
 ```sh
-npm i reflect-metadata
+npm install reflect-metadata
 ```
 
 We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
-```typescript
+```ts
 import "reflect-metadata";
 ```
 
@@ -39,19 +39,11 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2019 so we should set our `tsconfig.json` file appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2021 so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
-  "target": "es2019" // or newer if your node.js version supports this
-}
-```
-
-Due to using the `graphql-subscription` dependency that relies on an `AsyncIterator`, we may also have to provide the `esnext.asynciterable` to the `lib` option:
-
-```json
-{
-  "lib": ["es2019", "esnext.asynciterable"]
+  "target": "es2021" // Or newer if Node.js version supports it
 }
 ```
 
@@ -60,9 +52,8 @@ All in all, the minimal `tsconfig.json` file example looks like this:
 ```json
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2021",
     "module": "commonjs",
-    "lib": ["es2019", "esnext.asynciterable"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

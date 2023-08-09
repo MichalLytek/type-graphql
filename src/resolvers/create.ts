@@ -1,17 +1,16 @@
-import { GraphQLFieldResolver } from "graphql";
-
+import { type GraphQLFieldResolver } from "graphql";
+import { AuthMiddleware } from "@/helpers/auth-middleware";
+import { convertToType } from "@/helpers/types";
 import {
-  FieldResolverMetadata,
-  FieldMetadata,
-  BaseResolverMetadata,
-} from "../metadata/definitions";
-import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
-import { convertToType } from "../helpers/types";
-import { BuildContext } from "../schema/build-context";
-import { ResolverData } from "../interfaces";
-import isPromiseLike from "../utils/isPromiseLike";
-import { AuthMiddleware } from "../helpers/auth-middleware";
-import { IOCContainer } from "../utils/container";
+  type BaseResolverMetadata,
+  type FieldMetadata,
+  type FieldResolverMetadata,
+} from "@/metadata/definitions";
+import { BuildContext } from "@/schema/build-context";
+import { type ResolverData } from "@/typings";
+import { type IOCContainer } from "@/utils/container";
+import { isPromiseLike } from "@/utils/isPromiseLike";
+import { applyAuthChecker, applyMiddlewares, getParams } from "./helpers";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
@@ -46,11 +45,12 @@ export function createHandlerResolver(
           );
           if (isPromiseLike(params)) {
             return params.then(resolvedParams =>
+              // eslint-disable-next-line prefer-spread
               targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
             );
-          } else {
-            return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
           }
+          // eslint-disable-next-line prefer-spread
+          return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
         }),
       );
     }
@@ -65,11 +65,12 @@ export function createHandlerResolver(
       const targetInstance = targetInstanceOrPromise;
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
+          // eslint-disable-next-line prefer-spread
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
         );
-      } else {
-        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
       }
+      // eslint-disable-next-line prefer-spread
+      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };
 }
@@ -84,7 +85,7 @@ export function createAdvancedFieldResolver(
   const targetType = fieldResolverMetadata.getObjectType!();
   const {
     validate: globalValidate,
-    validateFn: validateFn,
+    validateFn,
     authChecker,
     authMode,
     pubSub,
@@ -115,9 +116,8 @@ export function createAdvancedFieldResolver(
         return params.then(resolvedParams =>
           handlerOrGetterValue.apply(targetInstance, resolvedParams),
         );
-      } else {
-        return handlerOrGetterValue.apply(targetInstance, params);
       }
+      return handlerOrGetterValue.apply(targetInstance, params);
     });
   };
 }

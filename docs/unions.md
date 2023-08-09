@@ -10,7 +10,7 @@ Read more about the GraphQL Union Type in the [official GraphQL docs](http://gra
 
 Let's start by creating the object types from the example above:
 
-```typescript
+```ts
 @ObjectType()
 class Movie {
   @Field()
@@ -21,7 +21,7 @@ class Movie {
 }
 ```
 
-```typescript
+```ts
 @ObjectType()
 class Actor {
   @Field()
@@ -34,11 +34,11 @@ class Actor {
 
 Now let's create an union type from the object types above - the rarely seen `[ ] as const` syntax is to inform TypeScript compiler that it's a tuple, which allows for better TS union type inference:
 
-```typescript
+```ts
 import { createUnionType } from "type-graphql";
 
 const SearchResultUnion = createUnionType({
-  name: "SearchResult", // the name of the GraphQL union
+  name: "SearchResult", // Name of the GraphQL union
   types: () => [Movie, Actor] as const, // function that returns tuple of object types classes
 });
 ```
@@ -47,7 +47,7 @@ Then we can use the union type in the query by providing the `SearchResultUnion`
 Notice, that we have to explicitly use the decorator return type annotation due to TypeScript's reflection limitations.
 For TypeScript compile-time type safety we can also use `typeof SearchResultUnion` which is equal to type `Movie | Actor`.
 
-```typescript
+```ts
 @Resolver()
 class SearchResolver {
   @Query(returns => [SearchResultUnion])
@@ -66,17 +66,17 @@ Be aware that when the query/mutation return type (or field type) is a union, we
 
 However, we can also provide our own `resolveType` function implementation to the `createUnionType` options. This way we can return plain objects in resolvers and then determine the returned object type by checking the shape of the data object, e.g.:
 
-```typescript
+```ts
 const SearchResultUnion = createUnionType({
   name: "SearchResult",
   types: () => [Movie, Actor] as const,
-  // our implementation of detecting returned object type
+  // Implementation of detecting returned object type
   resolveType: value => {
     if ("rating" in value) {
-      return Movie; // we can return object type class (the one with `@ObjectType()`)
+      return Movie; // Return object type class (the one with `@ObjectType()`)
     }
     if ("age" in value) {
-      return "Actor"; // or the schema name of the type as a string
+      return "Actor"; // Or the schema name of the type as a string
     }
     return undefined;
   },
@@ -89,12 +89,12 @@ const SearchResultUnion = createUnionType({
 query {
   search(phrase: "Holmes") {
     ... on Actor {
-      # maybe Katie Holmes?
+      # Maybe Katie Holmes?
       name
       age
     }
     ... on Movie {
-      # for sure Sherlock Holmes!
+      # For sure Sherlock Holmes!
       name
       rating
     }

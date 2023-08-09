@@ -1,18 +1,34 @@
+import { MapperKind, getDirective, mapSchema } from "@graphql-tools/utils";
 import {
-  GraphQLSchema,
-  GraphQLDirective,
   DirectiveLocation,
-  GraphQLFieldConfig,
-  GraphQLFieldExtensions,
-  GraphQLInterfaceType,
-  GraphQLObjectTypeConfig,
-  GraphQLObjectType,
-  GraphQLInterfaceTypeConfig,
+  GraphQLDirective,
+  type GraphQLFieldConfig,
+  type GraphQLFieldExtensions,
+  type GraphQLInputFieldConfig,
   GraphQLInputObjectType,
-  GraphQLInputObjectTypeConfig,
-  GraphQLInputFieldConfig,
+  type GraphQLInputObjectTypeConfig,
+  GraphQLInterfaceType,
+  type GraphQLInterfaceTypeConfig,
+  GraphQLObjectType,
+  type GraphQLObjectTypeConfig,
+  type GraphQLSchema,
 } from "graphql";
-import { mapSchema, MapperKind, getDirective } from "@graphql-tools/utils";
+
+function mapConfig(
+  config:
+    | GraphQLFieldConfig<any, any, any>
+    | GraphQLObjectTypeConfig<any, any>
+    | GraphQLInterfaceTypeConfig<any, any>
+    | GraphQLInputObjectTypeConfig
+    | GraphQLInputFieldConfig,
+) {
+  // eslint-disable-next-line no-param-reassign
+  config.extensions ??= {};
+  // eslint-disable-next-line no-param-reassign
+  (config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
+    isMappedByDirective: true,
+  };
+}
 
 export const testDirective = new GraphQLDirective({
   name: "test",
@@ -76,18 +92,4 @@ export function testDirectiveTransformer(schema: GraphQLSchema): GraphQLSchema {
       return fieldConfig;
     },
   });
-}
-
-function mapConfig(
-  config:
-    | GraphQLFieldConfig<any, any, any>
-    | GraphQLObjectTypeConfig<any, any>
-    | GraphQLInterfaceTypeConfig<any, any>
-    | GraphQLInputObjectTypeConfig
-    | GraphQLInputFieldConfig,
-) {
-  config.extensions ??= {};
-  (config.extensions as GraphQLFieldExtensions<any, any, any>).TypeGraphQL = {
-    isMappedByDirective: true,
-  };
 }

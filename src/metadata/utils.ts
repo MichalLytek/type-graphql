@@ -1,30 +1,27 @@
+import { ReflectMetadataMissingError } from "@/errors";
+import { isThrowing } from "@/helpers/isThrowing";
+import { type Middleware } from "@/typings/Middleware";
 import {
-  ResolverClassMetadata,
-  BaseResolverMetadata,
-  MiddlewareMetadata,
-  FieldResolverMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  ExtensionsMetadata,
+  type BaseResolverMetadata,
+  type FieldResolverMetadata,
+  type MiddlewareMetadata,
+  type ResolverClassMetadata,
 } from "./definitions";
-import { Middleware } from "../interfaces/Middleware";
-import { isThrowing } from "../helpers/isThrowing";
-import { ReflectMetadataMissingError } from "../errors";
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   definitions: T[],
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata,
 ): T[] {
-  return definitions.map(metadata => {
-    return metadata.target === superResolver
+  return definitions.map(metadata =>
+    metadata.target === superResolver
       ? {
           ...metadata,
           target: resolverMetadata.target,
           resolverClassMetadata: resolverMetadata,
         }
-      : metadata;
-  });
+      : metadata,
+  );
 }
 
 export function mapSuperFieldResolverHandlers(
@@ -34,16 +31,16 @@ export function mapSuperFieldResolverHandlers(
 ) {
   const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata);
 
-  return superMetadata.map(metadata => {
-    return metadata.target === superResolver
+  return superMetadata.map(metadata =>
+    metadata.target === superResolver
       ? {
           ...metadata,
           getObjectType: isThrowing(metadata.getObjectType!)
             ? resolverMetadata.getObjectType
             : metadata.getObjectType,
         }
-      : metadata;
-  });
+      : metadata,
+  );
 }
 
 export function mapMiddlewareMetadataToArray(

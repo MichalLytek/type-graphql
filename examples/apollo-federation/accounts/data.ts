@@ -1,4 +1,8 @@
-import User from "./user";
+import { User } from "./user";
+
+function createUser(userData: Partial<User>) {
+  return Object.assign(new User(), userData);
+}
 
 export const users: User[] = [
   createUser({
@@ -14,7 +18,3 @@ export const users: User[] = [
     username: "@complete",
   }),
 ];
-
-function createUser(userData: Partial<User>) {
-  return Object.assign(new User(), userData);
-}

@@ -1,17 +1,16 @@
 import "reflect-metadata";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  Resolver,
-  Query,
-  buildSchema,
-  Mutation,
-  Subscription,
-  FieldResolver,
-  ObjectType,
-  ClassType,
+  type ClassType,
   Field,
-} from "../../src";
+  FieldResolver,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("MetadataStorage", () => {
   describe("resolvers inheritance", () => {
@@ -52,10 +51,10 @@ describe("MetadataStorage", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: boolean;
+        sampleField!: boolean;
 
         @Field({ name: INHERITED_FIELD_RESOLVER_NAME })
-        abstractSampleField: boolean;
+        abstractSampleField!: boolean;
       }
 
       @Resolver(() => SampleObject)

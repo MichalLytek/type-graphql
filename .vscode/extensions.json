@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "bierner.comment-tagged-templates",
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "GitHub.vscode-github-actions",
+    "GraphQL.vscode-graphql",
+    "streetsidesoftware.code-spell-checker",
+    "timonwong.shellcheck",
+    "tlent.jest-snapshot-language-support",
+    "wayou.vscode-todo-highlight"
+  ]
+}

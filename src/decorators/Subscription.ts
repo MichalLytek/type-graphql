@@ -1,16 +1,15 @@
-import { ResolverFn } from "graphql-subscriptions";
-
+import { type ResolverFn } from "graphql-subscriptions";
+import { MissingSubscriptionTopicsError } from "@/errors";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { getResolverMetadata } from "@/helpers/resolver-metadata";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type MergeExclusive } from "@/typings";
 import {
-  ReturnTypeFunc,
-  AdvancedOptions,
-  SubscriptionFilterFunc,
-  SubscriptionTopicFunc,
+  type AdvancedOptions,
+  type ReturnTypeFunc,
+  type SubscriptionFilterFunc,
+  type SubscriptionTopicFunc,
 } from "./types";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getResolverMetadata } from "../helpers/resolver-metadata";
-import { getTypeDecoratorParams } from "../helpers/decorators";
-import { MissingSubscriptionTopicsError } from "../errors";
-import { MergeExclusive } from "../utils/types";
 
 interface PubSubOptions {
   topics: string | string[] | SubscriptionTopicFunc;

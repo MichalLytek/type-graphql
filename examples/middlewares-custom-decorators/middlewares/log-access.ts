@@ -1,7 +1,6 @@
+import { type MiddlewareInterface, type NextFn, type ResolverData } from "type-graphql";
 import { Service } from "typedi";
-import { MiddlewareInterface, NextFn, ResolverData } from "../../../src";
-
-import { Context } from "../context";
+import { type Context } from "../context.type";
 import { Logger } from "../logger";
 
 @Service()

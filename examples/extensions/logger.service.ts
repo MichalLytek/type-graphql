@@ -2,8 +2,7 @@ import { Service } from "typedi";
 
 @Service()
 export class Logger {
-  log(...args: any[]) {
-    // replace with more sophisticated solution :)
+  log(...args: unknown[]) {
     console.log(...args);
   }
 }

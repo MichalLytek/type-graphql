@@ -10,8 +10,8 @@ GraphQL also has enum type support, so TypeGraphQL allows us to use TypeScript e
 
 Let's create a TypeScript enum. It can be a numeric or string enum - the internal values of enums are taken from the enum definition values and the public names taken from the enum keys:
 
-```typescript
-// implicit value 0, 1, 2, 3
+```ts
+// Implicit value 0, 1, 2, 3
 enum Direction {
   UP,
   DOWN,
@@ -19,29 +19,29 @@ enum Direction {
   RIGHT,
 }
 
-// or explicit values
+// Or explicit values
 enum Direction {
-  UP = "up",
-  DOWN = "down",
-  LEFT = "left",
-  RIGHT = "right",
+  UP = "UP",
+  DOWN = "DOWN",
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
 }
 ```
 
 To tell TypeGraphQL about our enum, we would ideally mark the enums with the `@EnumType()` decorator. However, TypeScript decorators only work with classes, so we need to make TypeGraphQL aware of the enums manually by calling the `registerEnumType` function and providing the enum name for GraphQL:
 
-```typescript
+```ts
 import { registerEnumType } from "type-graphql";
 
 registerEnumType(Direction, {
-  name: "Direction", // this one is mandatory
-  description: "The basic directions", // this one is optional
+  name: "Direction", // Mandatory
+  description: "The basic directions", // Optional
 });
 ```
 
 In case we need to provide additional GraphQL-related config for values, like description or deprecation reason, we can use `valuesConfig` property and put the data inside it, e.g.:
 
-```typescript
+```ts
 enum Direction {
   UP = "UP",
   DOWN = "DOWN",
@@ -83,10 +83,10 @@ enum Direction {
 
 The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:
 
-```typescript
+```ts
 @InputType()
 class JourneyInput {
-  @Field(type => Direction) // it's very important
+  @Field(type => Direction) // Mandatory
   direction: Direction;
 }
 ```
@@ -95,7 +95,7 @@ Without this annotation, the generated GQL type would be `String` or `Float` (de
 
 With all that in place, we can use our enum directly in our code 😉
 
-```typescript
+```ts
 @Resolver()
 class SpriteResolver {
   private sprite = getMarioSprite();
@@ -116,7 +116,7 @@ class SpriteResolver {
         this.sprite.position.x++;
         break;
       default:
-        // it will never be hitten ;)
+        // Never reached
         return false;
     }
 
@@ -131,7 +131,7 @@ Enums in TypeGraphQL are designed with server side in mind - the runtime will ma
 
 So if we would like to share the types definition and use the enum on the client side app or use the enums directly on the server app e.g. in tests, we have to use the direct mapping of the enum member names with values, e.g.:
 
-```typescript
+```ts
 enum Direction {
   UP = "UP",
   DOWN = "DOWN",

@@ -1,0 +1,20 @@
+**/build/
+**/dist/
+**/coverage/
+**/node_modules/
+website/blog/2018-03-25-medium-article.md
+website/blog/2020-08-19-devto-article.md
+website/versioned_docs/version-0.16.0/
+website/versioned_docs/version-0.17.0/
+website/versioned_docs/version-0.17.1/
+website/versioned_docs/version-0.17.2/
+website/versioned_docs/version-0.17.4/
+website/versioned_docs/version-0.17.5/
+website/versioned_docs/version-0.17.6/
+website/versioned_docs/version-1.0.0/
+website/versioned_docs/version-1.1.0/
+website/versioned_docs/version-1.1.1/
+website/versioned_docs/version-1.2.0-rc.1/
+
+# FIXME: Remove
+CHANGELOG.md

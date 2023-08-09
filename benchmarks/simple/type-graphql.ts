@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query } from "../../build/package";
-
+import { Field, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
 import { runBenchmark } from "./run";
 
 @ObjectType()

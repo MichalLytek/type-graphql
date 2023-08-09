@@ -1,48 +1,49 @@
 import "reflect-metadata";
-import path from "path";
-import { ApolloServer } from "apollo-server-express";
-import { createServer } from "http";
+import http from "node:http";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from "apollo-server-core";
-import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
-import { buildSchema } from "../../src";
-
+import { buildSchema } from "type-graphql";
+import { WebSocketServer } from "ws";
 import { SampleResolver } from "./resolver";
 
 async function bootstrap() {
-  // Build the TypeGraphQL schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [SampleResolver],
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
-  // Create an Express app and HTTP server; we will attach both the WebSocket
-  // server and the ApolloServer to this HTTP server.
+  // Create an Express app and HTTP server
+  // The WebSocket server and the ApolloServer will be attached to this HTTP server
   const app = express();
-  const httpServer = createServer(app);
+  const httpServer = http.createServer(app);
 
-  // Create our WebSocket server using the HTTP server we just set up.
+  // Create WebSocket server using the HTTP server
   const wsServer = new WebSocketServer({
     server: httpServer,
     path: "/graphql",
   });
-  // Save the returned server's info so we can shutdown this server later
+  // Save the returned server's info so it can be shutdown later
   const serverCleanup = useServer({ schema }, wsServer);
 
-  // Set up ApolloServer.
+  // Create GraphQL server
   const server = new ApolloServer({
     schema,
     csrfPrevention: true,
     cache: "bounded",
     plugins: [
-      // Proper shutdown for the HTTP server.
+      // Proper shutdown for the HTTP server
       ApolloServerPluginDrainHttpServer({ httpServer }),
-
-      // Proper shutdown for the WebSocket server.
+      // Proper shutdown for the WebSocket server
       {
         async serverWillStart() {
           return {
@@ -55,16 +56,15 @@ async function bootstrap() {
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
     ],
   });
-  await server.start();
-  server.applyMiddleware({ app });
 
-  const PORT = 4000;
-  // Now that our HTTP server is fully set up, we can listen to it.
-  httpServer.listen(PORT, () => {
-    console.log(
-      `Server is running, GraphQL Playground available atn http://localhost:${PORT}${server.graphqlPath}`,
-    );
+  // Start server
+  await server.start();
+  app.use("/graphql", cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
+
+  // Now that the HTTP server is fully set up, we can listen to it
+  httpServer.listen(4000, () => {
+    console.log(`GraphQL server ready at http://localhost:4000/graphql`);
   });
 }
 
-bootstrap();
+bootstrap().catch(console.error);

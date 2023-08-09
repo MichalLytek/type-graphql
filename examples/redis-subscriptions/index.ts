@@ -1,61 +1,57 @@
 import "reflect-metadata";
-import Redis, { RedisOptions } from "ioredis";
-import { RedisPubSub } from "graphql-redis-subscriptions";
-import dotenv from "dotenv";
-import "reflect-metadata";
-import path from "path";
-import { ApolloServer } from "apollo-server-express";
-import { createServer } from "http";
+import "dotenv/config";
+import http from "node:http";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} from "apollo-server-core";
-import { WebSocketServer } from "ws";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import { useServer } from "graphql-ws/lib/use/ws";
-import { buildSchema } from "../../src";
-
+import Redis from "ioredis";
+import { buildSchema } from "type-graphql";
+import { WebSocketServer } from "ws";
 import { RecipeResolver } from "./recipe.resolver";
 
-// read .env file
-dotenv.config();
-
 async function bootstrap() {
-  // configure Redis connection options
-  const options: RedisOptions = {
-    host: process.env.REDIS_HOST!,
-    port: Number.parseInt(process.env.REDIS_PORT!),
-    retryStrategy: times => Math.max(times * 100, 3000),
-  };
-
-  // create Redis-based pub-sub
+  // Create Redis-based pub-sub
   const pubSub = new RedisPubSub({
-    publisher: new Redis(options),
-    subscriber: new Redis(options),
+    publisher: new Redis(process.env.REDIS_URL!, {
+      retryStrategy: times => Math.max(times * 100, 3000),
+    }),
+    subscriber: new Redis(process.env.REDIS_URL!, {
+      retryStrategy: times => Math.max(times * 100, 3000),
+    }),
   });
 
-  // Build the TypeGraphQL schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Provide Redis-based instance of pub-sub
+    pubSub,
     validate: false,
-    pubSub, // provide redis-based instance of PubSub
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
-  // Create an Express app and HTTP server; we will attach both the WebSocket
-  // server and the ApolloServer to this HTTP server.
+  // Create an Express app and HTTP server
+  // The WebSocket server and the ApolloServer will be attached to this HTTP server
   const app = express();
-  const httpServer = createServer(app);
+  const httpServer = http.createServer(app);
 
-  // Create our WebSocket server using the HTTP server we just set up.
+  // Create WebSocket server using the HTTP server
   const wsServer = new WebSocketServer({
     server: httpServer,
     path: "/graphql",
   });
-  // Save the returned server's info so we can shutdown this server later
+  // Save the returned server's info so it can be shutdown later
   const serverCleanup = useServer({ schema }, wsServer);
 
-  // Set up ApolloServer.
+  // Create GraphQL server
   const server = new ApolloServer({
     schema,
     csrfPrevention: true,
@@ -63,8 +59,7 @@ async function bootstrap() {
     plugins: [
       // Proper shutdown for the HTTP server.
       ApolloServerPluginDrainHttpServer({ httpServer }),
-
-      // Proper shutdown for the WebSocket server.
+      // Proper shutdown for the WebSocket server
       {
         async serverWillStart() {
           return {
@@ -77,16 +72,15 @@ async function bootstrap() {
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
     ],
   });
-  await server.start();
-  server.applyMiddleware({ app });
 
-  const PORT = 4000;
-  // Now that our HTTP server is fully set up, we can listen to it.
-  httpServer.listen(PORT, () => {
-    console.log(
-      `Server is running, GraphQL Playground available atn http://localhost:${PORT}${server.graphqlPath}`,
-    );
+  // Start server
+  await server.start();
+  app.use("/graphql", cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
+
+  // Now that the HTTP server is fully set up, we can listen to it
+  httpServer.listen(4000, () => {
+    console.log(`GraphQL server ready at http://localhost:4000/graphql`);
   });
 }
 
-bootstrap();
+bootstrap().catch(console.error);

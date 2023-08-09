@@ -1,53 +1,53 @@
 import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLNamedType,
-  GraphQLFieldConfigMap,
-  GraphQLOutputType,
-  GraphQLInputObjectType,
-  GraphQLFieldConfigArgumentMap,
-  GraphQLInputType,
-  GraphQLInputFieldConfigMap,
-  GraphQLInterfaceType,
-  graphqlSync,
-  getIntrospectionQuery,
+  type GraphQLDirective,
   GraphQLEnumType,
-  GraphQLEnumValueConfigMap,
+  type GraphQLEnumValueConfigMap,
+  type GraphQLFieldConfigArgumentMap,
+  type GraphQLFieldConfigMap,
+  type GraphQLFieldResolver,
+  type GraphQLInputFieldConfigMap,
+  GraphQLInputObjectType,
+  type GraphQLInputType,
+  GraphQLInterfaceType,
+  type GraphQLNamedType,
+  GraphQLObjectType,
+  type GraphQLOutputType,
+  GraphQLSchema,
+  type GraphQLTypeResolver,
   GraphQLUnionType,
-  GraphQLTypeResolver,
-  GraphQLDirective,
-  GraphQLFieldResolver,
+  getIntrospectionQuery,
+  graphqlSync,
 } from "graphql";
-import { withFilter, ResolverFn } from "graphql-subscriptions";
-
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
+import { type ResolverFn, withFilter } from "graphql-subscriptions";
+import { type TypeOptions, type TypeValue } from "@/decorators/types";
 import {
-  ResolverMetadata,
-  ParamMetadata,
-  ClassMetadata,
-  SubscriptionResolverMetadata,
-  FieldMetadata,
-} from "../metadata/definitions";
-import { TypeOptions, TypeValue } from "../decorators/types";
-import { wrapWithTypeOptions, convertTypeIfScalar, getEnumValuesMap } from "../helpers/types";
+  CannotDetermineGraphQLTypeError,
+  ConflictingDefaultValuesError,
+  GeneratingSchemaError,
+  InterfaceResolveTypeError,
+  MissingSubscriptionTopicsError,
+  UnionResolveTypeError,
+} from "@/errors";
+import { convertTypeIfScalar, getEnumValuesMap, wrapWithTypeOptions } from "@/helpers/types";
 import {
-  createHandlerResolver,
+  type ClassMetadata,
+  type FieldMetadata,
+  type ParamMetadata,
+  type ResolverMetadata,
+  type SubscriptionResolverMetadata,
+} from "@/metadata/definitions";
+import { type InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
+import { type ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import {
   createAdvancedFieldResolver,
   createBasicFieldResolver,
+  createHandlerResolver,
   wrapResolverWithAuthChecker,
-} from "../resolvers/create";
-import { BuildContext, BuildContextOptions } from "./build-context";
-import {
-  UnionResolveTypeError,
-  GeneratingSchemaError,
-  MissingSubscriptionTopicsError,
-  ConflictingDefaultValuesError,
-  InterfaceResolveTypeError,
-  CannotDetermineGraphQLTypeError,
-} from "../errors";
-import { ResolverFilterData, ResolverTopicData, TypeResolver } from "../interfaces";
-import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
-import { ensureInstalledCorrectGraphQLPackage } from "../utils/graphql-version";
+} from "@/resolvers/create";
+import { type ResolverFilterData, type ResolverTopicData, type TypeResolver } from "@/typings";
+import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
+import { BuildContext, type BuildContextOptions } from "./build-context";
 import {
   getFieldDefinitionNode,
   getInputObjectTypeDefinitionNode,
@@ -55,8 +55,7 @@ import {
   getInterfaceTypeDefinitionNode,
   getObjectTypeDefinitionNode,
 } from "./definition-node";
-import { ObjectClassMetadata } from "../metadata/definitions/object-class-metdata";
-import { InterfaceClassMetadata } from "../metadata/definitions/interface-class-metadata";
+import { getFieldMetadataFromInputType, getFieldMetadataFromObjectType } from "./utils";
 
 interface ObjectTypeInfo {
   target: Function;
@@ -81,7 +80,7 @@ interface UnionTypeInfo {
   type: GraphQLUnionType;
 }
 
-export interface SchemaGeneratorOptions extends BuildContextOptions {
+export type SchemaGeneratorOptions = {
   /**
    * Array of resolvers classes
    */
@@ -98,14 +97,19 @@ export interface SchemaGeneratorOptions extends BuildContextOptions {
    * Array of graphql directives
    */
   directives?: GraphQLDirective[];
-}
+} & BuildContextOptions;
 
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
+
   private static inputTypesInfo: InputObjectTypeInfo[] = [];
+
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
+
   private static enumTypesInfo: EnumTypeInfo[] = [];
+
   private static unionTypesInfo: UnionTypeInfo[] = [];
+
   private static usedInterfaceTypes = new Set<Function>();
 
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
@@ -150,7 +154,7 @@ export abstract class SchemaGenerator {
   }
 
   private static getDefaultValue(
-    typeInstance: { [property: string]: unknown },
+    typeInstance: Record<string, unknown>,
     typeOptions: TypeOptions,
     fieldName: string,
     typeName: string,
@@ -231,6 +235,7 @@ export abstract class SchemaGenerator {
           description: enumMetadata.description,
           values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
             const valueConfig = enumMetadata.valuesConfig[enumKey] || {};
+            // eslint-disable-next-line no-param-reassign
             enumConfig[enumKey] = {
               value: enumMap[enumKey],
               description: valueConfig.description,
@@ -301,7 +306,7 @@ export abstract class SchemaGenerator {
 
             let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const fieldResolvers = getMetadataStorage().fieldResolvers;
+                const { fieldResolvers } = getMetadataStorage();
                 const filteredFieldResolversMetadata = fieldResolvers.filter(
                   it => it.kind === "internal" || resolvers.includes(it.target),
                 );
@@ -315,14 +320,17 @@ export abstract class SchemaGenerator {
                   field.typeOptions,
                 );
                 const isSimpleResolver =
+                  // eslint-disable-next-line no-nested-ternary
                   field.simple !== undefined
                     ? field.simple === true
                     : objectType.simpleResolvers !== undefined
                     ? objectType.simpleResolvers === true
                     : false;
+                // eslint-disable-next-line no-param-reassign
                 fieldsMap[field.schemaName] = {
                   type,
                   args: this.generateHandlerArgs(field.target, field.name, field.params!),
+                  // eslint-disable-next-line no-nested-ternary
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : isSimpleResolver
@@ -346,7 +354,7 @@ export abstract class SchemaGenerator {
               const superClass = getSuperClassType();
               if (superClass) {
                 const superClassFields = getFieldMetadataFromObjectType(superClass);
-                fields = Object.assign({}, superClassFields, fields);
+                fields = { ...superClassFields, ...fields };
               }
             }
             return fields;
@@ -428,6 +436,7 @@ export abstract class SchemaGenerator {
                     field.getType(),
                     field.typeOptions,
                   );
+                  // eslint-disable-next-line no-param-reassign
                   fieldsMap[field.schemaName] = {
                     type,
                     args: this.generateHandlerArgs(field.target, field.name, field.params!),
@@ -451,7 +460,7 @@ export abstract class SchemaGenerator {
                 const superClass = getSuperClassType();
                 if (superClass) {
                   const superClassFields = getFieldMetadataFromObjectType(superClass);
-                  fields = Object.assign({}, superClassFields, fields);
+                  fields = { ...superClassFields, ...fields };
                 }
               }
               return fields;
@@ -504,6 +513,7 @@ export abstract class SchemaGenerator {
                   ...field.typeOptions,
                   defaultValue,
                 });
+                // eslint-disable-next-line no-param-reassign
                 fieldsMap[field.name] = {
                   description: field.description,
                   type,
@@ -521,7 +531,7 @@ export abstract class SchemaGenerator {
               const superClass = getSuperClassType();
               if (superClass) {
                 const superClassFields = getFieldMetadataFromInputType(superClass);
-                fields = Object.assign({}, superClassFields, fields);
+                fields = { ...superClassFields, ...fields };
               }
             }
             return fields;
@@ -547,7 +557,7 @@ export abstract class SchemaGenerator {
       resolvers,
     );
     if (mutationsHandlers.length === 0) {
-      return;
+      return undefined;
     }
 
     return new GraphQLObjectType({
@@ -562,7 +572,7 @@ export abstract class SchemaGenerator {
       resolvers,
     );
     if (subscriptionsHandlers.length === 0) {
-      return;
+      return undefined;
     }
 
     return new GraphQLObjectType({
@@ -572,22 +582,23 @@ export abstract class SchemaGenerator {
   }
 
   private static buildOtherTypes(orphanedTypes: Function[]): GraphQLNamedType[] {
-    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(typeInfo =>
-      typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
-        const implementedInterfaceInfo = this.interfaceTypesInfo.find(
-          it => it.target === interfaceClass,
-        );
-        if (!implementedInterfaceInfo) {
-          return false;
-        }
-        if (implementedInterfaceInfo.metadata.autoRegisteringDisabled) {
-          return false;
-        }
-        if (!this.usedInterfaceTypes.has(interfaceClass)) {
-          return false;
-        }
-        return true;
-      }),
+    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(
+      typeInfo =>
+        typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
+          const implementedInterfaceInfo = this.interfaceTypesInfo.find(
+            it => it.target === interfaceClass,
+          );
+          if (!implementedInterfaceInfo) {
+            return false;
+          }
+          if (implementedInterfaceInfo.metadata.autoRegisteringDisabled) {
+            return false;
+          }
+          if (!this.usedInterfaceTypes.has(interfaceClass)) {
+            return false;
+          }
+          return true;
+        }),
     );
     return [
       ...this.filterTypesInfoByOrphanedTypesAndExtractType(this.objectTypesInfo, orphanedTypes),
@@ -607,6 +618,7 @@ export abstract class SchemaGenerator {
         handler.getReturnType(),
         handler.returnTypeOptions,
       );
+      // eslint-disable-next-line no-param-reassign
       fields[handler.schemaName] = {
         type,
         args: this.generateHandlerArgs(handler.target, handler.methodName, handler.params!),
@@ -657,6 +669,7 @@ export abstract class SchemaGenerator {
           : pubSubIterator;
       }
 
+      // eslint-disable-next-line no-param-reassign
       fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
         subscribeFn,
         container,
@@ -673,6 +686,7 @@ export abstract class SchemaGenerator {
   ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
+        // eslint-disable-next-line no-param-reassign
         args[param.name] = {
           description: param.description,
           type: this.getGraphQLInputType(
@@ -699,6 +713,7 @@ export abstract class SchemaGenerator {
         let superClass = Object.getPrototypeOf(argumentType.target);
         while (superClass.prototype !== undefined) {
           const superArgumentType = getMetadataStorage().argumentTypes.find(
+            // eslint-disable-next-line @typescript-eslint/no-loop-func
             it => it.target === superClass,
           );
           if (superArgumentType) {
@@ -724,6 +739,7 @@ export abstract class SchemaGenerator {
         field.name,
         argumentType.name,
       );
+      // eslint-disable-next-line no-param-reassign
       args[field.schemaName] = {
         description: field.description,
         type: this.getGraphQLInputType(field.target, field.name, field.getType(), {

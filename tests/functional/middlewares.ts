@@ -1,28 +1,30 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
+  Arg,
   Field,
+  FieldResolver,
+  type MiddlewareFn,
+  type MiddlewareInterface,
+  type NextFn,
   ObjectType,
   Query,
   Resolver,
-  buildSchema,
-  FieldResolver,
-  MiddlewareFn,
+  type ResolverData,
   UseMiddleware,
-  Arg,
-  MiddlewareInterface,
-  NextFn,
-  ResolverData,
-} from "../../src";
-import { createMethodDecorator } from "../../src/decorators/createMethodDecorator";
+  buildSchema,
+} from "type-graphql";
+import { createMethodDecorator } from "@/decorators/createMethodDecorator";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Middlewares", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
   let middlewareLogs: string[] = [];
-  const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+  const sleep = (time: number) =>
+    new Promise(resolve => {
+      setTimeout(resolve, time);
+    });
 
   beforeEach(() => {
     middlewareLogs = [];
@@ -31,71 +33,73 @@ describe("Middlewares", () => {
   beforeAll(async () => {
     getMetadataStorage().clear();
 
-    const middleware1: MiddlewareFn = async ({}, next) => {
+    const middleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware1 before");
       const result = await next();
       middlewareLogs.push("middleware1 after");
       return result;
     };
-    const middleware2: MiddlewareFn = async ({}, next) => {
+    const middleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware2 before");
       const result = await next();
       middlewareLogs.push("middleware2 after");
       return result;
     };
-    const middleware3: MiddlewareFn = async ({}, next) => {
+    const middleware3: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware3 before");
       const result = await next();
       middlewareLogs.push("middleware3 after");
       return result;
     };
-    const interceptMiddleware: MiddlewareFn = async ({}, next) => {
+    const interceptMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
-    const returnUndefinedMiddleware: MiddlewareFn = async ({}, next) => {
+    const returnUndefinedMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
     };
-    const errorCatchMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorCatchMiddleware: MiddlewareFn = async (_, next) => {
       try {
-        return await next();
+        const result = await next();
+        return result;
       } catch (err) {
-        middlewareLogs.push(err.message);
+        middlewareLogs.push((err as Error).message);
         return "errorCatchMiddleware";
       }
     };
-    const errorThrowAfterMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowAfterMiddleware: MiddlewareFn = async (_, next) => {
       await next();
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowMiddleware: MiddlewareFn = async _ => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
     };
-    const fieldResolverMiddleware: MiddlewareFn = async ({}, next) => {
+    const fieldResolverMiddleware: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("fieldResolverMiddlewareBefore");
       const result = await next();
       middlewareLogs.push("fieldResolverMiddlewareAfter");
       return result;
     };
-    const doubleNextMiddleware: MiddlewareFn = async ({}, next) => {
+    const doubleNextMiddleware: MiddlewareFn = async (_, next) => {
       const result1 = await next();
-      const result2 = await next();
+      await next();
       return result1;
     };
     class ClassMiddleware implements MiddlewareInterface {
       private logName = "ClassMiddleware";
-      async use(action: ResolverData, next: NextFn) {
+
+      async use(_: ResolverData, next: NextFn) {
         middlewareLogs.push(`${this.logName} before`);
         const result = await next();
         middlewareLogs.push(`${this.logName} after`);
         return result;
       }
     }
-    const CustomMethodDecorator = createMethodDecorator(async (resolverData, next) => {
+    const CustomMethodDecorator = createMethodDecorator(async (_, next) => {
       middlewareLogs.push("CustomMethodDecorator");
       return next();
     });
@@ -103,17 +107,17 @@ describe("Middlewares", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field()
-      resolverField: string;
+      resolverField!: string;
 
       @Field()
       @UseMiddleware(fieldResolverMiddleware)
-      middlewareField: string;
+      middlewareField!: string;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {
@@ -128,7 +132,7 @@ describe("Middlewares", () => {
         } as SampleObject;
       }
 
-      @Query(returns => String)
+      @Query(() => String)
       @UseMiddleware(middleware1, middleware2, middleware3)
       async middlewareOrderQuery() {
         middlewareLogs.push("middlewareOrderQuery");
@@ -139,7 +143,7 @@ describe("Middlewares", () => {
       @UseMiddleware(middleware1)
       @UseMiddleware(middleware2)
       @UseMiddleware(middleware3)
-      @Query(returns => String)
+      @Query(() => String)
       async multipleMiddlewareDecoratorsQuery() {
         middlewareLogs.push("multipleMiddlewareDecoratorsQuery");
         return "multipleMiddlewareDecoratorsQueryResult";
@@ -426,13 +430,13 @@ describe("Middlewares", () => {
   });
 
   it("should correctly call global middlewares before local ones", async () => {
-    const globalMiddleware1: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware1 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware1 after");
       return result;
     };
-    const globalMiddleware2: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware2 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware2 after");

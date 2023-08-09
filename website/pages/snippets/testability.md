@@ -1,4 +1,6 @@
-```typescript
+<!-- markdownlint-disable MD041 -->
+
+```ts
 @Resolver(of => Recipe)
 export class RecipeResolver {
   constructor(

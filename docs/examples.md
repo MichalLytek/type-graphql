@@ -3,11 +3,11 @@ title: Examples
 sidebar_label: List of examples
 ---
 
-On the [GitHub repository](https://github.com/MichalLytek/type-graphql) there are a few simple examples of how to use different TypeGraphQL features and how well they integrate with 3rd party libraries.
+On the [GitHub repository](https://github.com/MichalLytek/type-graphql) there are a few simple [`examples`](https://github.com/MichalLytek/type-graphql/tree/master/examples) of how to use different `TypeGraphQL` features and how well they integrate with 3rd party libraries.
 
-To run some example, simply go to the subdirectory (e.g. `cd examples/simple-usage`), and then start the server (`ts-node ./index.ts`).
+To run an example, simply go to the subdirectory (e.g. `cd ./simple-usage`), and then start the server (`npx ts-node ./index.ts`).
 
-Each subdirectory contains a `examples.gql` file with a predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (http://localhost:4000) and play with them by modifying its shape and data.
+Each subdirectory contains a `examples.graphql` file with predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (<http://localhost:4000>) and play with them by modifying their shape and data.
 
 ## Basics
 
@@ -43,7 +43,8 @@ Each subdirectory contains a `examples.gql` file with a predefined GraphQL queri
 - [Typegoose \*](https://github.com/MichalLytek/type-graphql/tree/master/examples/typegoose)
 - [Apollo federation](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-federation)
 - [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-cache)
-- [Apollo Client local state](https://github.com/MichalLytek/type-graphql/tree/master/examples/apollo-client)
+- [GraphQL Scalars](https://github.com/MichalLytek/type-graphql/tree/master/examples/graphql-scalars)
+- [TSyringe](https://github.com/MichalLytek/type-graphql/tree/master/examples/tsyringe)
 
-_\* Note that we need to provide env variable with connection settings to your local database_
-_\*\* Note that we need to provide env variable with connection settings to your Redis instance_
+_\* Note that we need to provide the environment variable `DATABASE_URL` with connection parameters to your local database_ \
+_\*\* Note that we need to provide the environment variable `REDIS_URL` with connection parameters to your local Redis instance_

@@ -1,15 +1,14 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
-  IntrospectionListTypeRef,
 } from "graphql";
-
-import { Field, ObjectType, Resolver, Query } from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Field, ObjectType, Query, Resolver } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("buildSchema -> nullableByDefault", () => {
@@ -22,32 +21,32 @@ describe("buildSchema -> nullableByDefault", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
-      @Field(type => [String])
-      normalArrayField: string[];
+      @Field(() => [String])
+      normalArrayField!: string[];
 
       @Field({ nullable: true })
-      nullableField: string;
+      nullableField!: string;
 
       @Field({ nullable: false })
-      nonNullableField: string;
+      nonNullableField!: string;
     }
     SampleObjectClass = SampleObject;
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): string {
         return "normalQuery";
       }
 
-      @Query(returns => [String])
+      @Query(() => [String])
       normalArrayQuery(): string[] {
         return ["normalArrayQuery"];
       }
 
-      @Query(type => String, { nullable: true })
+      @Query(() => String, { nullable: true })
       nullableQuery() {
         return null;
       }

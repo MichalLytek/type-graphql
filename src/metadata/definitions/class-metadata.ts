@@ -1,6 +1,6 @@
-import { FieldMetadata } from "./field-metadata";
-import { DirectiveMetadata } from "./directive-metadata";
-import { ExtensionsMetadata } from "./extensions-metadata";
+import { type DirectiveMetadata } from "./directive-metadata";
+import { type ExtensionsMetadata } from "./extensions-metadata";
+import { type FieldMetadata } from "./field-metadata";
 
 export interface ClassMetadata {
   name: string;

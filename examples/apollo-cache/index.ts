@@ -1,30 +1,35 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import { ApolloServerPluginCacheControl } from "apollo-server-core";
-import responseCachePlugin from "apollo-server-plugin-response-cache";
-import path from "path";
-import { buildSchema } from "../../src";
-
-import { RecipeResolver } from "./recipe-resolver";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import responseCachePlugin from "@apollo/server-plugin-response-cache";
+import { buildSchema } from "type-graphql";
+import { RecipeResolver } from "./recipe.resolver";
 
 async function bootstrap() {
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
+  // Create GraphQL server
   const server = new ApolloServer({
     schema,
     plugins: [
-      // turn on cache headers
+      // Cache headers
       ApolloServerPluginCacheControl(),
-      // add in-memory cache plugin
+      // In-memory cache
       responseCachePlugin(),
     ],
   });
 
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

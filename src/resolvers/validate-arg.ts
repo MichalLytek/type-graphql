@@ -1,23 +1,24 @@
-// @ts-ignore `class-validator` might not be installed by user
-import type { ValidatorOptions } from "class-validator";
-
-import { TypeValue } from "../decorators/types";
-import { ArgumentValidationError } from "../errors";
-import { ValidateSettings } from "../schema/build-context";
-import { ValidatorFn } from "../interfaces/ValidatorFn";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 'class-validator' might not be installed by user
+import { type ValidationError, type ValidatorOptions } from "class-validator";
+import { type TypeValue } from "@/decorators/types";
+import { ArgumentValidationError } from "@/errors";
+import { type ValidateSettings } from "@/schema/build-context";
+import { type ResolverData, type ValidatorFn } from "@/typings";
 
 const shouldArgBeValidated = (argValue: unknown): boolean =>
   argValue !== null && typeof argValue === "object";
 
-export async function validateArg<T extends object>(
-  argValue: T | undefined,
+export async function validateArg(
+  argValue: any | undefined,
   argType: TypeValue,
+  resolverData: ResolverData,
   globalValidate: ValidateSettings,
   argValidate: ValidateSettings | undefined,
-  validateFn: ValidatorFn<object> | undefined,
-): Promise<T | undefined> {
+  validateFn: ValidatorFn | undefined,
+): Promise<any | undefined> {
   if (typeof validateFn === "function") {
-    await validateFn(argValue, argType);
+    await validateFn(argValue, argType, resolverData);
     return argValue;
   }
 
@@ -26,11 +27,10 @@ export async function validateArg<T extends object>(
     return argValue;
   }
 
-  const validatorOptions: ValidatorOptions = Object.assign(
-    {},
-    typeof globalValidate === "object" ? globalValidate : {},
-    typeof argValidate === "object" ? argValidate : {},
-  );
+  const validatorOptions: ValidatorOptions = {
+    ...(typeof globalValidate === "object" ? globalValidate : {}),
+    ...(typeof argValidate === "object" ? argValidate : {}),
+  };
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
   }
@@ -38,7 +38,7 @@ export async function validateArg<T extends object>(
     validatorOptions.forbidUnknownValues = false;
   }
 
-  // dynamic import to avoid making `class-validator` a peer dependency when `validate: true` is not set
+  // Dynamic import to avoid making 'class-validator' a peer dependency when `validate: true` is not set
   const { validateOrReject } = await import("class-validator");
   try {
     if (Array.isArray(argValue)) {
@@ -48,10 +48,10 @@ export async function validateArg<T extends object>(
           .map(argItem => validateOrReject(argItem, validatorOptions)),
       );
     } else {
-      await validateOrReject(argValue as T, validatorOptions);
+      await validateOrReject(argValue, validatorOptions);
     }
     return argValue;
   } catch (err) {
-    throw new ArgumentValidationError(err);
+    throw new ArgumentValidationError(err as ValidationError[]);
   }
 }

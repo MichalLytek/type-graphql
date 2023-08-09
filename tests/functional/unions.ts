@@ -1,17 +1,17 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__typename"] }] */
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  graphql,
-  GraphQLSchema,
-  IntrospectionUnionType,
+  type GraphQLSchema,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
+  type IntrospectionUnionType,
   TypeKind,
+  graphql,
 } from "graphql";
-
+import { Field, ObjectType, Query, Resolver, buildSchema, createUnionType } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getInnerFieldType, getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerTypeOfNonNullableType, getInnerFieldType } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { Field, ObjectType, Query, createUnionType, buildSchema, Resolver } from "../../src";
 
 describe("Unions", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -24,17 +24,17 @@ describe("Unions", () => {
     @ObjectType()
     class ObjectOne {
       @Field()
-      fieldOne: string;
+      fieldOne!: string;
     }
     @ObjectType()
     class ObjectTwo {
       @Field()
-      fieldTwo: string;
+      fieldTwo!: string;
     }
     @ObjectType()
     class ObjectThree {
       @Field()
-      fieldThree: string;
+      fieldThree!: string;
     }
 
     const OneTwoThreeUnion = createUnionType({
@@ -58,7 +58,7 @@ describe("Unions", () => {
         if ("fieldTwo" in value) {
           return "ObjectTwo";
         }
-        return;
+        return undefined;
       },
     });
 
@@ -72,25 +72,25 @@ describe("Unions", () => {
         if ("fieldTwo" in value) {
           return ObjectTwo;
         }
-        return;
+        return undefined;
       },
     });
 
     @ObjectType()
     class ObjectUnion {
-      @Field(type => OneTwoThreeUnion)
-      unionField: typeof OneTwoThreeUnion;
+      @Field(() => OneTwoThreeUnion)
+      unionField!: typeof OneTwoThreeUnion;
     }
 
     class SampleResolver {
-      @Query(returns => OneTwoThreeUnion)
+      @Query(() => OneTwoThreeUnion)
       getObjectOneFromUnion(): typeof OneTwoThreeUnion {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
         return oneInstance;
       }
 
-      @Query(returns => OneTwoThreeUnionFn)
+      @Query(() => OneTwoThreeUnionFn)
       getObjectOneFromUnionFn(): typeof OneTwoThreeUnionFn {
         const oneInstance = new ObjectTwo();
         oneInstance.fieldTwo = "fieldTwo";
@@ -106,21 +106,21 @@ describe("Unions", () => {
         };
       }
 
-      @Query(returns => OneTwoThreeUnion)
+      @Query(() => OneTwoThreeUnion)
       getPlainObjectFromUnion(): typeof OneTwoThreeUnion {
         return {
           fieldTwo: "fieldTwo",
         };
       }
 
-      @Query(returns => UnionWithStringResolveType)
+      @Query(() => UnionWithStringResolveType)
       getObjectOneFromStringResolveTypeUnion(): typeof UnionWithStringResolveType {
         return {
           fieldTwo: "fieldTwo",
         };
       }
 
-      @Query(returns => UnionWithClassResolveType)
+      @Query(() => UnionWithClassResolveType)
       getObjectOneFromClassResolveTypeUnion(): typeof UnionWithClassResolveType {
         return {
           fieldTwo: "fieldTwo",
@@ -317,37 +317,36 @@ describe("Unions", () => {
       @ObjectType()
       class Base {
         @Field()
-        base: string;
+        base!: string;
       }
       @ObjectType()
       class Extended extends Base {
         @Field()
-        extended: string;
+        extended!: string;
       }
-      const ExtendedBase = createUnionType({
-        name: "ExtendedBase",
-        types: () => [Base, Extended] as const,
-      });
-      const _extended: typeof ExtendedBase = {
-        base: "base",
-        extended: "extended",
-      };
+
+      expect(() => {
+        createUnionType({
+          name: "ExtendedBase",
+          types: () => [Base, Extended] as const,
+        });
+      }).not.toThrow();
     });
   });
 
-  describe("Mutliple schemas", () => {
+  describe("Multiple schemas", () => {
     it("should correctly return data from union query for all schemas that uses the same union", async () => {
       getMetadataStorage().clear();
 
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -355,7 +354,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -403,12 +402,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -425,7 +424,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -473,12 +472,12 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
@@ -495,7 +494,7 @@ describe("Unions", () => {
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";
@@ -543,23 +542,21 @@ describe("Unions", () => {
       @ObjectType()
       class One {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType()
       class Two {
         @Field()
-        two: string;
+        two!: string;
       }
       const OneTwo = createUnionType({
         name: "OneTwo",
         types: () => [One, Two],
-        resolveType: () => {
-          return undefined;
-        },
+        resolveType: () => undefined,
       });
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => OneTwo)
+        @Query(() => OneTwo)
         oneTwo(): typeof OneTwo {
           const one = new One();
           one.one = "one";

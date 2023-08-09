@@ -2,7 +2,7 @@
 title: Getting started
 ---
 
-> Make sure you've completed all the steps described in the [installation instructions](installation.md).
+> Make sure you've completed all the steps described in the [installation instructions](./installation.md).
 
 To explore all of the powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.
 
@@ -24,7 +24,7 @@ type Recipe {
 
 So we create the `Recipe` class with all its properties and types:
 
-```typescript
+```ts
 class Recipe {
   id: string;
   title: string;
@@ -36,7 +36,7 @@ class Recipe {
 
 Then we decorate the class and its properties with decorators:
 
-```typescript
+```ts
 @ObjectType()
 class Recipe {
   @Field(type => ID)
@@ -56,13 +56,13 @@ class Recipe {
 }
 ```
 
-The detailed rules of when to use `nullable`, `array` and others are described in the [fields and types docs](types-and-fields.md).
+The detailed rules of when to use `nullable`, `array` and others are described in the [fields and types docs](./types-and-fields.md).
 
 ## Resolvers
 
 After that we want to create typical crud queries and mutations. To do so, we create the resolver (controller) class that will have injected the `RecipeService` in the constructor:
 
-```typescript
+```ts
 @Resolver(Recipe)
 class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
@@ -104,13 +104,13 @@ class RecipeResolver {
 ```
 
 We use the `@Authorized()` decorator to restrict access to authorized users only or the users that fulfil the roles requirements.
-The detailed rules for when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](resolvers.md).
+The detailed rules for when and why we declare `returns => Recipe` functions and others are described in [resolvers docs](./resolvers.md).
 
 ## Inputs and Arguments
 
 Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are, of course, classes:
 
-```typescript
+```ts
 @InputType()
 class NewRecipeInput {
   @Field()
@@ -145,12 +145,12 @@ class RecipesArgs {
 
 The last step that needs to be done is to actually build the schema from the TypeGraphQL definition. We use the `buildSchema` function for this:
 
-```typescript
+```ts
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
 });
 
-// ...creating express server or sth
+// ... Server
 ```
 
 Et voilà! Now we have fully functional GraphQL schema!
@@ -185,4 +185,4 @@ That was only the tip of the iceberg - a very simple example with basic GraphQL 
 
 A lot of these topics are covered in [Ben Awad](https://github.com/benawad)'s [TypeGraphQL video series](https://www.youtube.com/playlist?list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs) on YouTube.
 
-For more complicated cases, go to the [Examples section](examples.md) where you can discover e.g. how well TypeGraphQL integrates with TypeORM.
+For more complicated cases, go to the [Examples section](./examples.md) where you can discover e.g. how well TypeGraphQL integrates with TypeORM.

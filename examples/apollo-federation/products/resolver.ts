@@ -1,11 +1,10 @@
-import { Resolver, Query, Arg } from "../../../src";
-
-import Product from "./product";
+import { Arg, Query, Resolver } from "type-graphql";
 import { products } from "./data";
+import { Product } from "./product";
 
-@Resolver(of => Product)
-export default class ProductsResolver {
-  @Query(returns => [Product])
+@Resolver(_of => Product)
+export class ProductsResolver {
+  @Query(_returns => [Product])
   async topProducts(
     @Arg("first", { defaultValue: 5 })
     first: number,

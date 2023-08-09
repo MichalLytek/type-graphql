@@ -1,16 +1,15 @@
 import "reflect-metadata";
-import { GraphQLSchema, printType } from "graphql";
+import { type GraphQLSchema, printType } from "graphql";
 import {
   Arg,
-  buildSchema,
-  ClassType,
+  type ClassType,
   Field,
-  getMetadataStorage,
   InputType,
   Query,
   Resolver,
-} from "../../src";
-
+  buildSchema,
+  getMetadataStorage,
+} from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("default values", () => {
@@ -40,7 +39,7 @@ describe("default values", () => {
     });
 
     it("should not throw error when schema with dynamic default has been built again", async () => {
-      await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrowError();
+      await expect(buildSchema({ resolvers: [sampleResolver] })).resolves.not.toThrow();
     });
   });
 
@@ -58,7 +57,7 @@ describe("default values", () => {
       @InputType()
       class SampleOptionInput {
         @Field({ defaultValue: "defaultValueFromOption" })
-        inputField: string;
+        inputField!: string;
       }
 
       @Resolver()
@@ -88,7 +87,7 @@ describe("default values", () => {
       `);
     });
 
-    it("should not infer default value from a property initializer", async () => {
+    it("should read default value from a decorator option", async () => {
       const sampleOptionInputType = schema.getType("SampleOptionInput")!;
       const sampleOptionInputSDL = printType(sampleOptionInputType);
 
@@ -109,13 +108,13 @@ describe("default values", () => {
         @InputType()
         class SampleInput {
           @Field({ defaultValue: "stringDefaultValue", nullable: false })
-          inputField: string;
+          inputField!: string;
         }
 
         @Resolver()
         class SampleResolver {
           @Query()
-          sampleQuery(@Arg("input") input: SampleInput): string {
+          sampleQuery(@Arg("input") _input: SampleInput): string {
             return "sampleQuery";
           }
         }
@@ -142,7 +141,7 @@ describe("default values", () => {
         @InputType()
         class SampleInput {
           @Field({ defaultValue: "stringDefaultValue", nullable: true })
-          inputField: string;
+          inputField!: string;
         }
 
         @Resolver()
@@ -176,7 +175,7 @@ describe("default values", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "stringDefaultValue" })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()
@@ -212,7 +211,7 @@ describe("default values", () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "stringDefaultValue", nullable: false })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()

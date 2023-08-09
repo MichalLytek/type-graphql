@@ -1,9 +1,9 @@
-import { ParamMetadata } from "./param-metadata";
-import { TypeValueThunk, TypeOptions } from "../../decorators/types";
-import { Middleware } from "../../interfaces/Middleware";
-import { Complexity } from "../../interfaces";
-import { DirectiveMetadata } from "./directive-metadata";
-import { ExtensionsMetadata } from "./extensions-metadata";
+import { type TypeOptions, type TypeValueThunk } from "@/decorators/types";
+import { type Complexity } from "@/typings";
+import { type Middleware } from "@/typings/Middleware";
+import { type DirectiveMetadata } from "./directive-metadata";
+import { type ExtensionsMetadata } from "./extensions-metadata";
+import { type ParamMetadata } from "./param-metadata";
 
 export interface FieldMetadata {
   target: Function;

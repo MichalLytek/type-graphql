@@ -1,19 +1,23 @@
 import "reflect-metadata";
-
-import { GraphQLSchema, GraphQLInputObjectType, GraphQLObjectType, GraphQLFieldMap } from "graphql";
 import {
-  Field,
-  InputType,
-  Resolver,
-  Query,
+  type GraphQLFieldMap,
+  type GraphQLInputObjectType,
+  type GraphQLObjectType,
+  type GraphQLSchema,
+} from "graphql";
+import {
   Arg,
   Extensions,
-  buildSchema,
-  ObjectType,
-  Mutation,
+  Field,
   FieldResolver,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  buildSchema,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Extensions", () => {
   let schema: GraphQLSchema;
@@ -26,21 +30,21 @@ describe("Extensions", () => {
       class ExtensionsOnFieldInput {
         @Field()
         @Extensions({ role: "admin" })
-        withExtensions: string;
+        withExtensions!: string;
       }
 
       @InputType()
       @Extensions({ roles: ["admin", "user"] })
       class ExtensionsOnClassInput {
         @Field()
-        regularField: string;
+        regularField!: string;
       }
 
       @ObjectType()
       @Extensions({ id: 1234 })
       class ExtensionsOnClassObjectType {
         @Field()
-        regularField: string;
+        regularField!: string;
       }
 
       @ObjectType()
@@ -137,7 +141,7 @@ describe("Extensions", () => {
         }
       }
 
-      @Resolver(of => SampleObjectType)
+      @Resolver(() => SampleObjectType)
       class SampleObjectTypeResolver {
         @FieldResolver()
         @Extensions({ some: "extension" })
@@ -332,7 +336,7 @@ describe("Extensions", () => {
           @Extensions({ childField: true })
           childField!: string;
         }
-        @Resolver(of => Child)
+        @Resolver(() => Child)
         class ChildResolver {
           @Query()
           sampleQuery(): Child {

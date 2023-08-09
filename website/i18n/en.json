@@ -32,6 +32,9 @@
       "enums": {
         "title": "Enums"
       },
+      "esm": {
+        "title": "ECMAScript Modules"
+      },
       "examples": {
         "title": "Examples",
         "sidebar_label": "List of examples"

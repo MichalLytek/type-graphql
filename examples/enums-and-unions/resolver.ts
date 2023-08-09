@@ -1,20 +1,20 @@
-import { Resolver, Query, Arg } from "../../src";
-
-import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./recipe.samples";
+import { Arg, Query, Resolver } from "type-graphql";
+import { sampleCooks } from "./cook.data";
+import { type Cook } from "./cook.type";
 import { Difficulty } from "./difficulty.enum";
+import { sampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 import { SearchResult } from "./search-result.union";
-import { Cook } from "./cook.type";
-import { sampleCooks } from "./cook.samples";
 
 @Resolver()
 export class ExampleResolver {
   private recipesData: Recipe[] = sampleRecipes;
+
   private cooks: Cook[] = sampleCooks;
 
-  @Query(returns => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(
-    @Arg("difficulty", type => Difficulty, { nullable: true }) difficulty?: Difficulty,
+    @Arg("difficulty", _type => Difficulty, { nullable: true }) difficulty?: Difficulty,
   ): Promise<Recipe[]> {
     if (!difficulty) {
       return this.recipesData;
@@ -23,7 +23,7 @@ export class ExampleResolver {
     return this.recipesData.filter(recipe => recipe.preparationDifficulty === difficulty);
   }
 
-  @Query(returns => [SearchResult])
+  @Query(_returns => [SearchResult])
   async search(@Arg("cookName") cookName: string): Promise<Array<typeof SearchResult>> {
     const recipes = this.recipesData.filter(recipe => recipe.cook.name.match(cookName));
     const cooks = this.cooks.filter(cook => cook.name.match(cookName));

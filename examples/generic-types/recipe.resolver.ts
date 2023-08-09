@@ -1,22 +1,22 @@
-import { ObjectType, Query, Mutation, Arg, Int, Resolver } from "../../src";
+/* eslint-disable max-classes-per-file */
+import { Arg, Int, Mutation, ObjectType, Query, Resolver } from "type-graphql";
+import { PaginatedResponse } from "./paginated-response.type";
+import { createSampleRecipes } from "./recipe.data";
+import { Recipe } from "./recipe.type";
 
-import PaginatedResponse from "./paginated-response.type";
-import Recipe from "./recipe.type";
-import createSampleRecipes from "./recipe.samples";
-
-// we need to create a temporary class for the abstract, generic class "instance"
+// Create a temporary class for the abstract generic class 'instance'
 @ObjectType()
 class RecipesResponse extends PaginatedResponse(Recipe) {
-  // you can add more fields here if you need
+  // Add more fields here if needed
 }
 
 @Resolver()
-export default class RecipeResolver {
+export class RecipeResolver {
   private readonly recipes = createSampleRecipes();
 
   @Query({ name: "recipes" })
   getRecipes(
-    @Arg("first", type => Int, { nullable: true, defaultValue: 10 }) first: number,
+    @Arg("first", _type => Int, { nullable: true, defaultValue: 10 }) first: number,
   ): RecipesResponse {
     const total = this.recipes.length;
     return {

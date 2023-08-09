@@ -1,5 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString } from "graphql";
-
+import { GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
 import { runBenchmark } from "./run";
 
 const SampleObject: GraphQLObjectType = new GraphQLObjectType({

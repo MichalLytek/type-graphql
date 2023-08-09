@@ -84,8 +84,8 @@ data: [DataPoint]
 In GraphQL, input objects have a separate type in the system because object types can contain fields that express circular references or references to interfaces and unions, neither of which are appropriate for use as input arguments.
 However, if there are only simple fields in the class definition, reuse the code between the InputType and the ObjectType by decorating the ObjectType class with `@InputType`. Remember to set a new name of the type in the decorator parameter:
 
-```typescript
-@ObjectType() // name inferred to `Person`
+```ts
+@ObjectType() // Name inferred as 'Person' from class name
 @InputType("PersonInput")
 export class Person {}
 ```

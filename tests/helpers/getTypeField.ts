@@ -1,4 +1,8 @@
-import { IntrospectionField, IntrospectionObjectType, IntrospectionInterfaceType } from "graphql";
+import {
+  type IntrospectionField,
+  type IntrospectionInterfaceType,
+  type IntrospectionObjectType,
+} from "graphql";
 
 export function getTypeField(
   type: IntrospectionObjectType | IntrospectionInterfaceType,
