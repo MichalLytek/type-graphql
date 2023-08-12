@@ -144,10 +144,10 @@ jobs:
         id: prerelease
         run: |
           _prerelease=
-          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'; then
-            _prerelease=true
-          else
+          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
             _prerelease=false
+          else
+            _prerelease=true
           fi
 
           printf 'value=%s\n' "$_prerelease" >> "$GITHUB_OUTPUT"
