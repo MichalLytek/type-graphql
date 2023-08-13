@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches: [master]
-    tags: ['^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$']
+    tags: ['^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-?.*$']
   pull_request:
     branches: [master]
 
@@ -134,6 +134,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Read package.json version
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: jq --raw-output .version package.json
+
+      - name: Determine if version is prerelease
+        id: prerelease
+        run: |
+          _prerelease=
+          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
+            _prerelease=false
+          else
+            _prerelease=true
+          fi
+
+          printf 'value=%s\n' "$_prerelease" >> "$GITHUB_OUTPUT"
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -168,10 +186,18 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ steps.changelog.outputs.changelog }}
+          prerelease: ${{ steps.prerelease.outputs.value == 'true' }}
 
       - name: Publish
         run: |
-          npm publish --ignore-scripts
+          _tag=
+          if [ "${{ steps.prerelease.outputs.value }}" = "true" ];
+            _tag="next"
+          else
+            _tag="latest"
+          fi
+
+          npm publish --ignore-scripts --tag "$_tag"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
