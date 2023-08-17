@@ -2,10 +2,13 @@ name: ci
 
 on:
   push:
-    branches: [master]
-    tags: ['^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-?.*$']
+    branches:
+      - master
+    tags:
+      - v*
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
