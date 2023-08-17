@@ -195,7 +195,7 @@ jobs:
       - name: Publish
         run: |
           _tag=
-          if [ "${{ steps.prerelease.outputs.value }}" = "true" ];
+          if [ "${{ steps.prerelease.outputs.value }}" = "true" ]; then
             _tag="next"
           else
             _tag="latest"
