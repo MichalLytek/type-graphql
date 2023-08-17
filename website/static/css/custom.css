@@ -44,6 +44,42 @@ body {
   color: var(--color-main-light);
 }
 
+.navPusher {
+  padding-top: 180px !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .navPusher {
+    padding-top: 130px !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  @supports ((position: -webkit-sticky) or (position: sticky)) {
+    .onPageNav {
+      top: 170px !important;
+    }
+  }
+}
+
+.graphql-banner {
+  position: fixed;
+  top: 0;
+  height: 80px;
+  display: block;
+  z-index: 999999;
+  width: 100%;
+  background-color: #4c204a;
+  background-image: url("../img/GraphQLConf-2023-Banner.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.fixedHeaderContainer {
+  top: 80px;
+}
+
 blockquote {
   color: var(--color-blockquote-text);
 }

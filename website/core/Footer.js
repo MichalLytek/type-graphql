@@ -75,8 +75,17 @@ const DarkModeButton = () => {
               html.classList.toggle("theme-mode--light");
             }
 
+            function addGraphQLBanner() {
+              const a = document.createElement("a");
+              a.href = "https://graphql.org/conf/";
+              a.target = "_blank";
+              a.classList.add("graphql-banner");
+              document.body.appendChild(a);
+            }
+
             appendButtonToDOM();
             setInitialColorMode();
+            addGraphQLBanner();
           `,
         }}
       />
