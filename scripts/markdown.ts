@@ -56,7 +56,7 @@ const argv = yargs(hideBin(process.argv))
     description: "Analysis to be performed",
   })
   .check(({ ref, on }) => {
-    if (!/^v[0-9]+.[0-9]+.[0-9]+(-(alpha|beta|rc)\.[0-9]+)*$/.test(ref)) {
+    if (!/^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$/.test(ref)) {
       throw new Error(`Invalid Git reference '${ref}'`);
     }
     if (on.length === 0) {
