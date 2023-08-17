@@ -30,20 +30,22 @@ const rootPath = path.resolve(`${__dirname}/..`);
 const argv = yargs(hideBin(process.argv))
   .strict()
   .env("TYPE_GRAPHQL")
-  .usage("Markdown\n\nUsage: $0 [options]")
+  .usage("Markdown\n\nUsage: $0 --ref <REF> [options]")
   .example([
-    ["$0", "Use 'master' as Git reference"],
     ["$0 --ref v1.2.3", "Use 'v1.2.3' as Git reference"],
     ["TYPE_GRAPHQL_REF=v1.2.3 $0", "Use 'v1.2.3' as Git reference"],
-    [`$0 --on ${ANALYZE.README}`, `Analyze '${ANALYZE.README}'`],
     [
-      `$0 --on ${ANALYZE.README} ${ANALYZE.DOCS}`,
-      `Analyze '${ANALYZE.README}' and '${ANALYZE.DOCS}'`,
+      `$0 --ref v1.2.3 --on ${ANALYZE.README}`,
+      `Use 'v1.2.3' as Git reference and analyze '${ANALYZE.README}'`,
+    ],
+    [
+      `$0 --ref v1.2.3 --on ${ANALYZE.README} ${ANALYZE.DOCS}`,
+      `Use 'v1.2.3' as Git reference and analyze '${ANALYZE.README}' and '${ANALYZE.DOCS}'`,
     ],
   ])
   .option("ref", {
     type: "string",
-    default: "master",
+    demandOption: true,
     description: "Git reference",
   })
   .option("on", {
@@ -54,7 +56,11 @@ const argv = yargs(hideBin(process.argv))
     description: "Analysis to be performed",
   })
   .check(({ ref, on }) => {
-    if (!/^v[0-9]+.[0-9]+.[0-9]+(-(alpha|beta|rc)\.[0-9]+)*$/.test(ref)) {
+    if (
+      !/^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$/.test(
+        ref,
+      )
+    ) {
       throw new Error(`Invalid Git reference '${ref}'`);
     }
     if (on.length === 0) {
