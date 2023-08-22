@@ -1,0 +1,94 @@
+name: release
+
+on:
+  workflow_run:
+    workflows:
+      - check
+    types:
+      - completed
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release package on NPM
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref_name, 'v')
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Read package.json version
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: jq --raw-output .version package.json
+
+      - name: Determine if version is prerelease
+        id: prerelease
+        run: |
+          _prerelease=
+          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
+            _prerelease=false
+          else
+            _prerelease=true
+          fi
+
+          printf 'value=%s\n' "$_prerelease" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install latest npm
+        run: |
+          npm install -g npm@latest
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Prepare package
+        run: |
+          npm run prepublishOnly
+        env:
+          TYPE_GRAPHQL_REF: ${{ github.ref_name }}
+
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: "./.github/configs/changelog.json"
+          owner: MichalLytek
+          repo: type-graphql
+          failOnError: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
+          prerelease: ${{ steps.prerelease.outputs.value == 'true' }}
+
+      - name: Publish
+        run: |
+          _tag=
+          if [ "${{ steps.prerelease.outputs.value }}" = "true" ]; then
+            _tag="next"
+          else
+            _tag="latest"
+          fi
+
+          npm publish --ignore-scripts --tag "$_tag"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

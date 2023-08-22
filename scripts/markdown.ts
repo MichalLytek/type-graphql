@@ -19,7 +19,7 @@ function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-const enum ANALYZE {
+const enum Analyze {
   DOCS = "docs",
   README = "readme",
 }
@@ -30,31 +30,37 @@ const rootPath = path.resolve(`${__dirname}/..`);
 const argv = yargs(hideBin(process.argv))
   .strict()
   .env("TYPE_GRAPHQL")
-  .usage("Markdown\n\nUsage: $0 [options]")
+  .usage("Markdown\n\nUsage: $0 --ref <REF> [options]")
   .example([
-    ["$0", "Use 'master' as Git reference"],
     ["$0 --ref v1.2.3", "Use 'v1.2.3' as Git reference"],
     ["TYPE_GRAPHQL_REF=v1.2.3 $0", "Use 'v1.2.3' as Git reference"],
-    [`$0 --on ${ANALYZE.README}`, `Analyze '${ANALYZE.README}'`],
     [
-      `$0 --on ${ANALYZE.README} ${ANALYZE.DOCS}`,
-      `Analyze '${ANALYZE.README}' and '${ANALYZE.DOCS}'`,
+      `$0 --ref v1.2.3 --on ${Analyze.README}`,
+      `Use 'v1.2.3' as Git reference and analyze '${Analyze.README}'`,
+    ],
+    [
+      `$0 --ref v1.2.3 --on ${Analyze.README} ${Analyze.DOCS}`,
+      `Use 'v1.2.3' as Git reference and analyze '${Analyze.README}' and '${Analyze.DOCS}'`,
     ],
   ])
   .option("ref", {
     type: "string",
-    default: "master",
+    demandOption: true,
     description: "Git reference",
   })
   .option("on", {
     type: "array",
-    default: [] as ANALYZE[],
+    default: [] as Analyze[],
     requiresArg: true,
-    choices: [ANALYZE.DOCS, ANALYZE.README],
+    choices: [Analyze.DOCS, Analyze.README],
     description: "Analysis to be performed",
   })
   .check(({ ref, on }) => {
-    if (!/^v[0-9]+.[0-9]+.[0-9]+(-(alpha|beta|rc)\.[0-9]+)*$/.test(ref)) {
+    if (
+      !/^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$/.test(
+        ref,
+      )
+    ) {
       throw new Error(`Invalid Git reference '${ref}'`);
     }
     if (on.length === 0) {
@@ -68,7 +74,7 @@ const gitHubUrlRef = `${gitHubUrl}/${argv.ref}`;
 const gitHubUrlRawRef = `${gitHubUrlRaw}/${argv.ref}`;
 
 // README.md
-if (argv.on.includes(ANALYZE.README)) {
+if (argv.on.includes(Analyze.README)) {
   const readmeFile = path.resolve(`${rootPath}/README.md`);
 
   const readme = fs
@@ -98,7 +104,7 @@ if (argv.on.includes(ANALYZE.README)) {
 }
 
 // docs/**/*.md
-if (argv.on.includes(ANALYZE.DOCS)) {
+if (argv.on.includes(Analyze.DOCS)) {
   const docFiles = glob.globSync(`${rootPath}/docs/**/*.md`, { absolute: true });
   const gitHubUrlRefMasterEscaped = escapeRegExp(`${gitHubUrl}/master`);
 

@@ -7,7 +7,8 @@
 
 # TypeGraphQL
 
-[![ci](https://github.com/MichalLytek/type-graphql/actions/workflows/ci.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/ci.yml)
+[![release](https://github.com/MichalLytek/type-graphql/actions/workflows/release.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/release.yml)
+[![website](https://github.com/MichalLytek/type-graphql/actions/workflows/website.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/website.yml)
 [![codeql](https://github.com/MichalLytek/type-graphql/actions/workflows/codeql.yml/badge.svg)](https://github.com/carlocorradini/reCluster/actions/workflows/codeql.yml)
 [![npm version](https://badge.fury.io/js/type-graphql.svg)](https://badge.fury.io/js/type-graphql)
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
