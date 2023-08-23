@@ -70,7 +70,7 @@
   <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
     <span class="token comment">// ... Other existing plugins</span>
     <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>NormalModuleReplacementPlugin</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">type-graphql$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token parameter">resource</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-      resource<span class="token punctuation">.</span>request <span class="token operator">=</span> resource<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">type-graphql</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token string">"type-graphql/dist/browser-shim.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      resource<span class="token punctuation">.</span>request <span class="token operator">=</span> resource<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">type-graphql</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token string">"type-graphql/shim"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
   <span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -81,7 +81,7 @@
   <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"baseUrl"</span><span class="token operator">:</span> <span class="token string">"."</span><span class="token punctuation">,</span>
     <span class="token property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token property">"type-graphql"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./node_modules/type-graphql/dist/browser-shim.ts"</span><span class="token punctuation">]</span>
+      <span class="token property">"type-graphql"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./node_modules/type-graphql/build/typings/shim.ts"</span><span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
