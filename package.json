@@ -38,6 +38,11 @@
       "require": "./build/cjs/index.js",
       "import": "./build/esm/index.js",
       "types": "./build/typings/index.d.ts"
+    },
+    "./shim": {
+      "require": "./build/cjs/shim.js",
+      "import": "./build/esm/shim.js",
+      "types": "./build/typings/shim.ts"
     }
   },
   "main": "./build/cjs/index.js",
@@ -49,7 +54,7 @@
   "scripts": {
     "prebuild": "npm run clean:build && npm run check:version",
     "build": "npx tsc --build ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.typings.json",
-    "postbuild": "npx shx rm ./build/typings/browser-shim.d.ts && npx shx cp ./src/browser-shim.ts ./build/typings && npx ts-node ./scripts/package.json.ts --on root",
+    "postbuild": "npx shx rm ./build/typings/shim.d.ts && npx shx cp ./src/shim.ts ./build/typings && npx ts-node ./scripts/package.json.ts --on root",
     "prebuild:benchmarks": "npm run clean:build:benchmarks",
     "build:benchmarks": "npx tsc --build ./benchmarks/tsconfig.json",
     "check": "npx npm-run-all --npm-path npm \"check:*\"",
