@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import fs from "node:fs";
+import asyncFs from "node:fs/promises";
 import path from "node:path";
 import { type GraphQLSchema } from "graphql";
 import shelljs from "shelljs";
@@ -15,7 +16,6 @@ import {
   emitSchemaDefinitionFile,
   emitSchemaDefinitionFileSync,
 } from "type-graphql";
-import * as filesystem from "@/helpers/filesystem";
 import { expectToThrow } from "../helpers/expectToThrow";
 
 const TEST_DIR = path.resolve(process.cwd(), "tests", "test-output-dir");
@@ -87,7 +87,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should throw error when unknown error occur while writing file with schema SDL", async () => {
-      jest.spyOn(filesystem, "fsWriteFile").mockRejectedValueOnce({ code: "TEST ERROR" });
+      jest.spyOn(asyncFs, "writeFile").mockRejectedValueOnce({ code: "TEST ERROR" });
       const targetPath = path.join(TEST_DIR, "schemas", "fail1", "schema.graphql");
       let error;
       try {
@@ -100,7 +100,7 @@ describe("Emitting schema definition file", () => {
     });
 
     it("should throw error when unknown error occur while creating directory with schema SDL", async () => {
-      jest.spyOn(filesystem, "fsMkdir").mockRejectedValueOnce({ code: "TEST ERROR" });
+      jest.spyOn(asyncFs, "mkdir").mockRejectedValueOnce({ code: "TEST ERROR" });
       const targetPath = path.join(TEST_DIR, "schemas", "fail2", "schema.graphql");
       let error;
       try {

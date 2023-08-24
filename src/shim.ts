@@ -9,7 +9,7 @@
   plugins: [
     // ...here are any other existing plugins that you already have
     new webpack.NormalModuleReplacementPlugin(/type-graphql$/, resource => {
-      resource.request = resource.request.replace(/type-graphql/, "type-graphql/dist/browser-shim");
+      resource.request = resource.request.replace(/type-graphql/, "type-graphql/shim");
     }),
   ]
   ```
@@ -25,9 +25,7 @@
     "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-        "type-graphql": [
-          "./node_modules/type-graphql/dist/browser-shim.ts"
-        ]
+        "type-graphql": ["./node_modules/type-graphql/build/typings/shim.ts"]
       }
     }
   }
@@ -46,7 +44,11 @@ export const Arg: typeof src.Arg = dummyDecorator;
 export const Args: typeof src.Args = dummyDecorator;
 export const ArgsType: typeof src.ArgsType = dummyDecorator;
 export const Authorized: typeof src.Authorized = dummyDecorator;
+export const createParamDecorator: typeof src.createParamDecorator = dummyFn as any;
+export const createMethodDecorator: typeof src.createMethodDecorator = dummyFn as any;
 export const Ctx: typeof src.Ctx = dummyDecorator;
+export const Directive: typeof src.Directive = dummyDecorator;
+export const Extensions: typeof src.Extensions = dummyDecorator;
 export const registerEnumType: typeof src.registerEnumType = dummyFn;
 export const Field: typeof src.Field = dummyDecorator;
 export const FieldResolver: typeof src.FieldResolver = dummyDecorator;

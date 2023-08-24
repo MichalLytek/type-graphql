@@ -11,7 +11,7 @@ export default {
   collectCoverageFrom: [
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/*.d.ts",
-    "!<rootDir>/src/browser-shim.ts",
+    "!<rootDir>/src/shim.ts",
   ],
   moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths, {
     prefix: "<rootDir>",
