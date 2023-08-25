@@ -91,5 +91,12 @@ export function testDirectiveTransformer(schema: GraphQLSchema): GraphQLSchema {
       }
       return fieldConfig;
     },
+    [MapperKind.ARGUMENT]: argConfig => {
+      const testDirectiveConfig = getDirective(schema, argConfig, testDirective.name)?.[0];
+      if (testDirectiveConfig) {
+        mapConfig(argConfig);
+      }
+      return argConfig;
+    },
   });
 }
