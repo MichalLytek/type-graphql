@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { type GraphQLSchema, graphql } from "graphql";
+import { type GraphQLSchema, graphql, printSchema } from "graphql";
 import {
   type AuthCheckerInterface,
   AuthenticationError,
@@ -14,6 +14,7 @@ import {
   type ResolverData,
   buildSchema,
 } from "type-graphql";
+import { type FieldMetadata } from "@/metadata/definitions";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { expectToThrow } from "../helpers/expectToThrow";
 
@@ -37,7 +38,7 @@ describe("Authorization", () => {
       @Authorized()
       nullableAuthedField!: string;
 
-      @Field()
+      @Field({ description: "random field description" })
       @Authorized("ADMIN")
       adminField!: string;
 
@@ -59,7 +60,7 @@ describe("Authorization", () => {
         return true;
       }
 
-      @Query()
+      @Query({ description: "random query description" })
       normalObjectQuery(): SampleObject {
         return {
           normalField: "normalField",
@@ -195,6 +196,27 @@ describe("Authorization", () => {
       });
 
       expect(localSchema).toBeDefined();
+    });
+
+    it("should publish roles via description transformer", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => true,
+        transformDescription: (metadata: FieldMetadata) => {
+          if (!metadata.roles) {
+            return metadata.description;
+          }
+          const description = metadata.description ?? "";
+          if (Array.isArray(metadata.roles) && metadata.roles.length) {
+            return `${description}\nAuthorized roles: ${metadata.roles.join(", ")}`.trim();
+          }
+          return `${description}\nAuthorization required`.trim();
+        },
+      });
+      const printedSchema = printSchema(localSchema);
+      expect(localSchema).toBeDefined();
+      expect(printedSchema).toContain(`"""Authorized roles: ADMIN, REGULAR"""`);
+      expect(printedSchema).toContain(`"""Authorization required"""`);
     });
 
     it("should allow to read not guarded query", async () => {

@@ -97,6 +97,10 @@ export type SchemaGeneratorOptions = {
    * Array of graphql directives
    */
   directives?: GraphQLDirective[];
+  /**
+   * Function to transform schema description
+   */
+  transformDescription?: Function;
 } & BuildContextOptions;
 
 export abstract class SchemaGenerator {

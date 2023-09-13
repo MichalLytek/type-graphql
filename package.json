@@ -1,6 +1,6 @@
 {
-  "name": "type-graphql",
-  "version": "2.0.0-beta.3",
+  "name": "type-graphql-v2-fork",
+  "version": "2.0.1",
   "private": false,
   "description": "Create GraphQL schema and resolvers with TypeScript, using classes and decorators!",
   "keywords": [
@@ -11,7 +11,9 @@
     "api",
     "decorators",
     "controllers",
-    "apollo"
+    "apollo",
+    "typegraphql",
+    "type-graphql"
   ],
   "homepage": "https://typegraphql.com",
   "bugs": {
@@ -97,7 +99,8 @@
   "peerDependencies": {
     "class-validator": ">=0.14.0",
     "graphql": "^16.7.1",
-    "graphql-scalars": "^1.22.2"
+    "graphql-scalars": "^1.22.2",
+    "@graphql-tools/utils": "^10.0.4"
   },
   "peerDependenciesMeta": {
     "class-validator": {
@@ -124,7 +127,6 @@
     "@cspell/dict-typescript": "^3.1.1",
     "@cspell/eslint-plugin": "^7.0.1",
     "@graphql-tools/schema": "^10.0.0",
-    "@graphql-tools/utils": "^10.0.4",
     "@mikro-orm/core": "^5.7.13",
     "@mikro-orm/postgresql": "^5.7.13",
     "@typegoose/typegoose": "^11.4.0",

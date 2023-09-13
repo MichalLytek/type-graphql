@@ -23,6 +23,7 @@ export interface BaseResolverMetadata {
   middlewares?: Array<Middleware<any>>;
   directives?: DirectiveMetadata[];
   extensions?: ExtensionsMetadata;
+  description?: string;
 }
 
 export type ResolverMetadata = {
