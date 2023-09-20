@@ -211,18 +211,20 @@ Same goes to <code>forbidUnknownValues</code> setting which is set to <code>fals
 <p>An alternative solution that allows to completely get rid off big <code>class-validator</code> from our project's <code>node_modules</code> folder is to suppress the <code>error TS2307: Cannot find module 'class-validator'</code> TS error by providing <code>&quot;skipLibCheck&quot;: true</code> setting in <code>tsconfig.json</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="custom-validator"></a><a href="#custom-validator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom validator</h2>
 <p>We can also use other libraries than <code>class-validator</code> together with TypeGraphQL.</p>
-<p>To integrate it, all we need to do is to provide a custom function as <code>validate</code> option in <code>buildSchema</code>.
-It receives two parameters:</p>
+<p>To integrate it, all we need to do is to provide a custom function.
+It receives three parameters:</p>
 <ul>
 <li><code>argValue</code> which is the injected value of <code>@Arg()</code> or <code>@Args()</code></li>
-<li><code>argType</code> which is a runtime type information (e.g. <code>String</code> or <code>RecipeInput</code>).</li>
+<li><code>argType</code> which is a runtime type information (e.g. <code>String</code> or <code>RecipeInput</code>)</li>
+<li><code>resolverData</code> which holds the resolver execution context, described as generic type <code>ResolverData&lt;TContext&gt;</code></li>
 </ul>
-<p>The <code>validateFn</code> option can be an async function and should return nothing (<code>void</code>) when validation passes or throw an error when validation fails.
+<p>This function can be an async function and should return nothing (<code>void</code>) when validation passes, or throw an error when validation fails.
 So be aware of this while trying to wrap another library in <code>validateFn</code> function for TypeGraphQL.</p>
-<p>Example using <a href="https://github.com/joiful-ts/joiful">decorators library for Joi validators (<code>joiful</code>)</a>:</p>
+<p>Then we provide this function as a <code>validateFn</code> option in <code>buildSchema</code>.
+Example using <a href="https://github.com/joiful-ts/joiful">decorators library for Joi validators (<code>joiful</code>)</a>:</p>
 <pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// ...</span>
-  <span class="token function-variable function">validate</span><span class="token operator">:</span> argValue <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">validateFn</span><span class="token operator">:</span> argValue <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token comment">// Call joiful validate</span>
     <span class="token keyword">const</span> <span class="token punctuation">{</span> error <span class="token punctuation">}</span> <span class="token operator">=</span> joiful<span class="token punctuation">.</span><span class="token function">validate</span><span class="token punctuation">(</span>argValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -231,6 +233,22 @@ So be aware of this while trying to wrap another library in <code>validateFn</co
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>The <code>validateFn</code> option is also supported as a <code>@Arg()</code> or <code>@Args()</code> decorator option, e.g.:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">SampleResolver</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">sampleQuery</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"sampleArg"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      <span class="token function-variable function">validateFn</span><span class="token operator">:</span> <span class="token punctuation">(</span>argValue<span class="token punctuation">,</span> argType<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token comment">// Do something here with arg value and type...</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    sampleArg<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <blockquote>
 <p>Be aware that when using custom validator, the error won't be wrapped with <code>ArgumentValidationError</code> like for the built-in <code>class-validator</code> validation.</p>

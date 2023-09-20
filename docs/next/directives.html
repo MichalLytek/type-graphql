@@ -81,7 +81,7 @@
 <p>Basically, we declare the usage of directives just like in SDL, with the <code>@</code> syntax:</p>
 <pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Use newField")'</span><span class="token punctuation">)</span>
 </code></pre>
-<p>Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, as well as queries, mutations and subscriptions. Other locations like scalars, enums, unions or arguments are not yet supported.</p>
+<p>Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, args type fields, as well as queries, mutations and subscriptions and the inline arguments. Other locations like scalars, enums or unions are not yet supported.</p>
 <p>So the <code>@Directive</code> decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:</p>
 <pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">"@auth(requires: USER)"</span><span class="token punctuation">)</span>
 <span class="token decorator"><span class="token at operator">@</span><span class="token function">ObjectType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -97,11 +97,18 @@
   field<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">ArgsType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">FooBarArgs</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Not used anymore")'</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  baz<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
 <span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Foo<span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">FooBarResolver</span> <span class="token punctuation">{</span>
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">"@auth(requires: ANY)"</span><span class="token punctuation">)</span>
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">foobar</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"baz"</span><span class="token punctuation">)</span> baz<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+  <span class="token function">foobar</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Args</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> baz <span class="token punctuation">}</span><span class="token operator">:</span> FooBarArgs<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"foobar"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
@@ -109,6 +116,28 @@
   <span class="token decorator"><span class="token at operator">@</span><span class="token function">FieldResolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token string">"foobar"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>In case of inline args using <code>@Arg</code> decorator, directives can be placed over the parameter of the class method:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Foo<span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">FooBarResolver</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">foo</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Not used anymore")'</span><span class="token punctuation">)</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"foobar"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> defaultValue<span class="token operator">:</span> <span class="token string">"foobar"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    foobar<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"foo"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">FieldResolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">bar</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Directive</span></span><span class="token punctuation">(</span><span class="token string">'@deprecated(reason: "Not used anymore")'</span><span class="token punctuation">)</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"foobar"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> defaultValue<span class="token operator">:</span> <span class="token string">"foobar"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    foobar<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"bar"</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
