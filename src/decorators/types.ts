@@ -6,6 +6,7 @@ import {
   type ResolverFilterData,
   type ResolverTopicData,
   type TypeResolver,
+  type ValidatorFn,
 } from "@/typings";
 
 export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
@@ -45,6 +46,7 @@ export interface DeprecationOptions {
 }
 export interface ValidateOptions {
   validate?: ValidateSettings;
+  validateFn?: ValidatorFn;
 }
 export interface ComplexityOptions {
   complexity?: Complexity;

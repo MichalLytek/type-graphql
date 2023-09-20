@@ -1,6 +1,6 @@
 import { type TypeOptions, type TypeValueThunk } from "@/decorators/types";
 import { type ValidateSettings } from "@/schema/build-context";
-import { type ResolverData } from "@/typings";
+import { type ResolverData, type ValidatorFn } from "@/typings";
 
 export interface BasicParamMetadata {
   target: Function;
@@ -31,7 +31,8 @@ export type RootParamMetadata = {
 export type CommonArgMetadata = {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-  validate: ValidateSettings | undefined;
+  validateSettings: ValidateSettings | undefined;
+  validateFn: ValidatorFn | undefined;
 } & BasicParamMetadata;
 
 export type ArgParamMetadata = {
