@@ -79,6 +79,7 @@
     "prepublishOnly": "npm run build && npm run gen:readme",
     "pretest": "npm run clean:coverage",
     "test": "npx jest --verbose --coverage",
+    "test:watch": "npx jest --watch",
     "pretest:ci": "npm run clean:coverage",
     "test:ci": "npx jest --verbose --coverage --ci --forceExit --runInBand",
     "release": "npm version --message \"release: %s\"",
