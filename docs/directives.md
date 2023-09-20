@@ -30,7 +30,7 @@ Basically, we declare the usage of directives just like in SDL, with the `@` syn
 @Directive('@deprecated(reason: "Use newField")')
 ```
 
-Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, as well as queries, mutations and subscriptions. Other locations like scalars, enums, unions or arguments are not yet supported.
+Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, args type fields, as well as queries, mutations and subscriptions. Other locations like scalars, enums, unions or inline arguments are not yet supported.
 
 So the `@Directive` decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:
 

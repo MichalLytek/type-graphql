@@ -739,14 +739,17 @@ export abstract class SchemaGenerator {
         field.name,
         argumentType.name,
       );
+      const type = this.getGraphQLInputType(field.target, field.name, field.getType(), {
+        ...field.typeOptions,
+        defaultValue,
+      });
       // eslint-disable-next-line no-param-reassign
       args[field.schemaName] = {
         description: field.description,
-        type: this.getGraphQLInputType(field.target, field.name, field.getType(), {
-          ...field.typeOptions,
-          defaultValue,
-        }),
+        type,
         defaultValue,
+        astNode: getInputValueDefinitionNode(field.name, type, field.directives),
+        extensions: field.extensions,
         deprecationReason: field.deprecationReason,
       };
     });

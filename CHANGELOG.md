@@ -7,6 +7,7 @@
 ### Features
 
 - **Breaking Change**: expose shim as a package entry point `type-graphql/shim` (and `/node_modules/type-graphql/build/typings/shim.ts`)
+- support defining directives on `@Field` of `@Args`
 
 ## v2.0.0-beta.3
 
