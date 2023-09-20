@@ -30,7 +30,7 @@ Basically, we declare the usage of directives just like in SDL, with the `@` syn
 @Directive('@deprecated(reason: "Use newField")')
 ```
 
-Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, args type fields, as well as queries, mutations and subscriptions. Other locations like scalars, enums, unions or inline arguments are not yet supported.
+Currently, you can use the directives only on object types, input types, interface types and their fields or fields resolvers, args type fields, as well as queries, mutations and subscriptions and the inline arguments. Other locations like scalars, enums or unions are not yet supported.
 
 So the `@Directive` decorator can be placed over the class property/method or over the type class itself, depending on the needs and the placements supported by the implementation:
 
@@ -49,11 +49,18 @@ class Bar {
   field: string;
 }
 
+@ArgsType()
+class FooBarArgs {
+  @Directive('@deprecated(reason: "Not used anymore")')
+  @Field({ nullable: true })
+  baz?: string;
+}
+
 @Resolver(of => Foo)
 class FooBarResolver {
   @Directive("@auth(requires: ANY)")
   @Query()
-  foobar(@Arg("baz") baz: string): string {
+  foobar(@Args() { baz }: FooBarArgs): string {
     return "foobar";
   }
 
@@ -61,6 +68,31 @@ class FooBarResolver {
   @FieldResolver()
   bar(): string {
     return "foobar";
+  }
+}
+```
+
+In case of inline args using `@Arg` decorator, directives can be placed over the parameter of the class method:
+
+```ts
+@Resolver(of => Foo)
+class FooBarResolver {
+  @Query()
+  foo(
+    @Directive('@deprecated(reason: "Not used anymore")')
+    @Arg("foobar", { defaultValue: "foobar" })
+    foobar: string,
+  ) {
+    return "foo";
+  }
+
+  @FieldResolver()
+  bar(
+    @Directive('@deprecated(reason: "Not used anymore")')
+    @Arg("foobar", { defaultValue: "foobar" })
+    foobar: string,
+  ) {
+    return "bar";
   }
 }
 ```

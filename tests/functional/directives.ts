@@ -401,7 +401,7 @@ describe("Directives", () => {
       });
     });
 
-    describe("on Query field argument", () => {
+    describe("on Query field argument using @Args", () => {
       let schema: GraphQLSchema;
       beforeAll(async () => {
         @ArgsType()
@@ -414,6 +414,48 @@ describe("Directives", () => {
         class SampleResolver {
           @Query()
           sampleQuery(@Args() { sampleArgument }: SampleArgs): string {
+            return sampleArgument;
+          }
+        }
+
+        schema = await buildSchema({
+          resolvers: [SampleResolver],
+          directives: [testDirective],
+          validate: false,
+        });
+        schema = testDirectiveTransformer(schema);
+      });
+
+      it("should properly emit directive in AST", () => {
+        const sampleQueryArgTypeInfo = (schema.getType("Query") as GraphQLObjectType).getFields()
+          .sampleQuery.args[0];
+
+        expect(() => {
+          assertValidDirective(sampleQueryArgTypeInfo.astNode, "test");
+        }).not.toThrow();
+      });
+
+      it("should properly apply directive mapper", async () => {
+        const sampleQueryArgTypeInfo = (schema.getType("Query") as GraphQLObjectType).getFields()
+          .sampleQuery.args[0];
+
+        expect(sampleQueryArgTypeInfo.extensions).toMatchObject({
+          TypeGraphQL: { isMappedByDirective: true },
+        });
+      });
+    });
+
+    describe("on Query field argument using @Arg", () => {
+      let schema: GraphQLSchema;
+      beforeAll(async () => {
+        @Resolver()
+        class SampleResolver {
+          @Query()
+          sampleQuery(
+            @Arg("sampleArgument")
+            @Directive("@test")
+            sampleArgument: string,
+          ): string {
             return sampleArgument;
           }
         }

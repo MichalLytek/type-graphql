@@ -21,6 +21,7 @@ import {
   type UnionMetadataWithSymbol,
 } from "./definitions";
 import {
+  type DirectiveArgumentMetadata,
   type DirectiveClassMetadata,
   type DirectiveFieldMetadata,
 } from "./definitions/directive-metadata";
@@ -61,6 +62,8 @@ export class MetadataStorage {
   classDirectives: DirectiveClassMetadata[] = [];
 
   fieldDirectives: DirectiveFieldMetadata[] = [];
+
+  argumentDirectives: DirectiveArgumentMetadata[] = [];
 
   classExtensions: ExtensionsClassMetadata[] = [];
 
@@ -149,6 +152,10 @@ export class MetadataStorage {
     this.fieldDirectives.push(definition);
   }
 
+  collectDirectiveArgumentMetadata(definition: DirectiveArgumentMetadata) {
+    this.argumentDirectives.push(definition);
+  }
+
   collectExtensionsClassMetadata(definition: ExtensionsClassMetadata) {
     this.classExtensions.push(definition);
   }
@@ -160,6 +167,7 @@ export class MetadataStorage {
   build(options: SchemaGeneratorOptions) {
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
+    this.argumentDirectives.reverse();
     this.classExtensions.reverse();
     this.fieldExtensions.reverse();
 
@@ -192,6 +200,7 @@ export class MetadataStorage {
     this.middlewares = [];
     this.classDirectives = [];
     this.fieldDirectives = [];
+    this.argumentDirectives = [];
     this.classExtensions = [];
     this.fieldExtensions = [];
 
