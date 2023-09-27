@@ -7,6 +7,9 @@
 ### Features
 
 - **Breaking Change**: expose shim as a package entry point `type-graphql/shim` (and `/node_modules/type-graphql/build/typings/shim.ts`)
+- support defining directives on `@Field` of `@Args`
+- support defining directives on inline `@Arg`
+- allow passing custom validation function as `validateFn` option of `@Arg` and `@Args` decorators
 
 ## v2.0.0-beta.3
 

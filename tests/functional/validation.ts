@@ -676,7 +676,7 @@ describe("Custom validation", () => {
 
   let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
-  const validateResolverData: ResolverData[] = [];
+  let validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
   beforeAll(async () => {
@@ -707,6 +707,20 @@ describe("Custom validation", () => {
         sampleQueryArgs.push(arrayArg);
         return true;
       }
+
+      @Query()
+      sampleInlineArgValidateFnQuery(
+        @Arg("arg", {
+          validateFn: (arg, type, resolverData) => {
+            validateArgs.push(arg);
+            validateTypes.push(type);
+            validateResolverData.push(resolverData);
+          },
+        })
+        arg: SampleInput,
+      ): string {
+        return arg.sampleField;
+      }
     }
     sampleResolverCls = SampleResolver;
   });
@@ -714,6 +728,7 @@ describe("Custom validation", () => {
   beforeEach(() => {
     validateArgs = [];
     validateTypes = [];
+    validateResolverData = [];
     sampleQueryArgs = [];
   });
 
@@ -773,6 +788,31 @@ describe("Custom validation", () => {
     await graphql({ schema, source: document });
 
     expect(sampleQueryArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+  });
+
+  it("should call `validateFn` function provided inline in arg option with proper params", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+    });
+
+    await graphql({
+      schema,
+      source: /* graphql */ `
+        query {
+          sampleInlineArgValidateFnQuery(arg: { sampleField: "sampleArgValue" })
+        }
+      `,
+      contextValue: { isContext: true },
+    });
+
+    expect(validateArgs).toEqual([{ sampleField: "sampleArgValue" }]);
+    expect(validateArgs[0]).toBeInstanceOf(sampleInputCls);
+    expect(validateTypes).toEqual([sampleInputCls]);
+    expect(validateResolverData).toEqual([
+      expect.objectContaining({
+        context: { isContext: true },
+      }),
+    ]);
   });
 
   it("should rethrow wrapped error when error thrown in `validate`", async () => {

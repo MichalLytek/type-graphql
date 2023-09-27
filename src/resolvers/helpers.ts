@@ -14,7 +14,7 @@ export function getParams(
   params: ParamMetadata[],
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
-  validateFn: ValidatorFn | undefined,
+  globalValidateFn: ValidatorFn | undefined,
   pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
@@ -28,8 +28,9 @@ export function getParams(
             paramInfo.getType(),
             resolverData,
             globalValidate,
-            paramInfo.validate,
-            validateFn,
+            paramInfo.validateSettings,
+            globalValidateFn,
+            paramInfo.validateFn,
           );
 
         case "arg":
@@ -38,8 +39,9 @@ export function getParams(
             paramInfo.getType(),
             resolverData,
             globalValidate,
-            paramInfo.validate,
-            validateFn,
+            paramInfo.validateSettings,
+            globalValidateFn,
+            paramInfo.validateFn,
           );
 
         case "context":
