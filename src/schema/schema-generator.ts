@@ -686,19 +686,29 @@ export abstract class SchemaGenerator {
   ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
       if (param.kind === "arg") {
+        const type = this.getGraphQLInputType(
+          target,
+          propertyName,
+          param.getType(),
+          param.typeOptions,
+          param.index,
+          param.name,
+        );
+        const argDirectives = getMetadataStorage()
+          .argumentDirectives.filter(
+            it =>
+              it.target === target &&
+              it.fieldName === propertyName &&
+              it.parameterIndex === param.index,
+          )
+          .map(it => it.directive);
         // eslint-disable-next-line no-param-reassign
         args[param.name] = {
           description: param.description,
-          type: this.getGraphQLInputType(
-            target,
-            propertyName,
-            param.getType(),
-            param.typeOptions,
-            param.index,
-            param.name,
-          ),
+          type,
           defaultValue: param.typeOptions.defaultValue,
           deprecationReason: param.deprecationReason,
+          astNode: getInputValueDefinitionNode(param.name, type, argDirectives),
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(
@@ -739,14 +749,17 @@ export abstract class SchemaGenerator {
         field.name,
         argumentType.name,
       );
+      const type = this.getGraphQLInputType(field.target, field.name, field.getType(), {
+        ...field.typeOptions,
+        defaultValue,
+      });
       // eslint-disable-next-line no-param-reassign
       args[field.schemaName] = {
         description: field.description,
-        type: this.getGraphQLInputType(field.target, field.name, field.getType(), {
-          ...field.typeOptions,
-          defaultValue,
-        }),
+        type,
         defaultValue,
+        astNode: getInputValueDefinitionNode(field.name, type, field.directives),
+        extensions: field.extensions,
         deprecationReason: field.deprecationReason,
       };
     });

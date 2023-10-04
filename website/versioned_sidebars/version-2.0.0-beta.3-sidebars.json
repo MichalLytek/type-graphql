@@ -1,0 +1,53 @@
+{
+  "version-2.0.0-beta.3-docs": {
+    "Introduction": [
+      "version-2.0.0-beta.3-introduction"
+    ],
+    "Beginner guides": [
+      "version-2.0.0-beta.3-installation",
+      "version-2.0.0-beta.3-getting-started",
+      "version-2.0.0-beta.3-types-and-fields",
+      "version-2.0.0-beta.3-resolvers",
+      "version-2.0.0-beta.3-bootstrap",
+      "version-2.0.0-beta.3-esm"
+    ],
+    "Advanced guides": [
+      "version-2.0.0-beta.3-scalars",
+      "version-2.0.0-beta.3-enums",
+      "version-2.0.0-beta.3-unions",
+      "version-2.0.0-beta.3-interfaces",
+      "version-2.0.0-beta.3-subscriptions",
+      "version-2.0.0-beta.3-directives",
+      "version-2.0.0-beta.3-extensions"
+    ],
+    "Features": [
+      "version-2.0.0-beta.3-dependency-injection",
+      "version-2.0.0-beta.3-authorization",
+      "version-2.0.0-beta.3-validation",
+      "version-2.0.0-beta.3-inheritance",
+      "version-2.0.0-beta.3-generic-types",
+      "version-2.0.0-beta.3-middlewares",
+      "version-2.0.0-beta.3-custom-decorators",
+      "version-2.0.0-beta.3-complexity"
+    ],
+    "Integrations": [
+      "version-2.0.0-beta.3-prisma",
+      "version-2.0.0-beta.3-nestjs"
+    ],
+    "Others": [
+      "version-2.0.0-beta.3-emit-schema",
+      "version-2.0.0-beta.3-performance",
+      "version-2.0.0-beta.3-browser-usage"
+    ]
+  },
+  "version-2.0.0-beta.3-examples": {
+    "Examples": [
+      "version-2.0.0-beta.3-examples"
+    ]
+  },
+  "version-2.0.0-beta.3-others": {
+    "Others": [
+      "version-2.0.0-beta.3-faq"
+    ]
+  }
+}

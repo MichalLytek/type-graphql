@@ -14,7 +14,7 @@ module.exports = {
   plugins: [
     // ... Other existing plugins
     new webpack.NormalModuleReplacementPlugin(/type-graphql$/, resource => {
-      resource.request = resource.request.replace(/type-graphql/, "type-graphql/dist/browser-shim.js");
+      resource.request = resource.request.replace(/type-graphql/, "type-graphql/shim");
     }),
   ];
 }
@@ -29,7 +29,7 @@ However, in some TypeScript projects like the ones using Angular, which AoT comp
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "type-graphql": ["./node_modules/type-graphql/dist/browser-shim.ts"]
+      "type-graphql": ["./node_modules/type-graphql/build/typings/shim.ts"]
     }
   }
 }

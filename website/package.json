@@ -7,7 +7,6 @@
     "postnew-release": "git restore ../docs",
     "publish-gh-pages": "npx docusaurus-publish",
     "rename-version": "npx docusaurus-rename-version",
-    "prestart": "npm run --prefix ../ gen:docs",
     "start": "npx docusaurus-start"
   },
   "devDependencies": {

@@ -44,14 +44,14 @@ Below there is an example that uses the `printSchemaWithDirectives` function fro
 ```ts
 import { GraphQLSchema, lexicographicSortSchema } from "graphql";
 import { printSchemaWithDirectives } from "@graphql-tools/utils";
-import { outputFile } from "type-graphql/dist/helpers/filesystem";
+import fs from "node:fs/promises";
 
 export async function emitSchemaDefinitionWithDirectivesFile(
   schemaFilePath: string,
   schema: GraphQLSchema,
 ): Promise<void> {
   const schemaFileContent = printSchemaWithDirectives(lexicographicSortSchema(schema));
-  await outputFile(schemaFilePath, schemaFileContent);
+  await fs.writeFile(schemaFilePath, schemaFileContent);
 }
 ```
 

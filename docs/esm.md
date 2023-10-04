@@ -10,8 +10,8 @@ Thanks to this, we can `import` the `type-graphql` package in the ESM projects w
 
 It's important to properly configure the project, so that it uses ESM correctly:
 
-- the `module` options should be set to `ES2020/ES2022/ESNext`
-- for the NodeJS apps, we should set `moduleResolution` to `"node16"`
+- the `module` option should be set to `NodeNext`
+- the `moduleResolution` option should be set to `"NodeNext"`
 
 All in all, the `tsconfig.json` file should looks like this:
 
@@ -19,8 +19,8 @@ All in all, the `tsconfig.json` file should looks like this:
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "es2020",
-    "moduleResolution": "node16",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

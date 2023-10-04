@@ -39,6 +39,7 @@ export function getParamInfo({
     index: parameterIndex,
     getType,
     typeOptions,
-    validate: options.validate,
+    validateSettings: options.validate,
+    validateFn: options.validateFn,
   };
 }

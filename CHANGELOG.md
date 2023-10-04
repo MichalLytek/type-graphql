@@ -6,6 +6,16 @@
 
 ### Features
 
+- **Breaking Change**: expose shim as a package entry point `type-graphql/shim` (and `/node_modules/type-graphql/build/typings/shim.ts`)
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.8.1`
+- support defining directives on `@Field` of `@Args`
+- support defining directives on inline `@Arg`
+- allow passing custom validation function as `validateFn` option of `@Arg` and `@Args` decorators
+
+## v2.0.0-beta.3
+
+### Features
+
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.7.1`
 - **Breaking Change**: upgrade `ArgumentValidationError` and replace `UnauthorizedError` and `ForbiddenError` with `AuthenticationError`, `AuthorizationError` that are extending `GraphQLError` to let the error details be accessible in the `extensions` property
 - **Breaking Change**: change `ClassType` constraint from `ClassType<T = any>` to `ClassType<T extends object = object>` in order to make it work properly with new TS features

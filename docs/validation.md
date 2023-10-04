@@ -203,21 +203,23 @@ An alternative solution that allows to completely get rid off big `class-validat
 
 We can also use other libraries than `class-validator` together with TypeGraphQL.
 
-To integrate it, all we need to do is to provide a custom function as `validate` option in `buildSchema`.
-It receives two parameters:
+To integrate it, all we need to do is to provide a custom function.
+It receives three parameters:
 
 - `argValue` which is the injected value of `@Arg()` or `@Args()`
-- `argType` which is a runtime type information (e.g. `String` or `RecipeInput`).
+- `argType` which is a runtime type information (e.g. `String` or `RecipeInput`)
+- `resolverData` which holds the resolver execution context, described as generic type `ResolverData<TContext>`
 
-The `validateFn` option can be an async function and should return nothing (`void`) when validation passes or throw an error when validation fails.
+This function can be an async function and should return nothing (`void`) when validation passes, or throw an error when validation fails.
 So be aware of this while trying to wrap another library in `validateFn` function for TypeGraphQL.
 
+Then we provide this function as a `validateFn` option in `buildSchema`.
 Example using [decorators library for Joi validators (`joiful`)](https://github.com/joiful-ts/joiful):
 
 ```ts
 const schema = await buildSchema({
   // ...
-  validate: argValue => {
+  validateFn: argValue => {
     // Call joiful validate
     const { error } = joiful.validate(argValue);
     if (error) {
@@ -226,6 +228,25 @@ const schema = await buildSchema({
     }
   },
 });
+```
+
+The `validateFn` option is also supported as a `@Arg()` or `@Args()` decorator option, e.g.:
+
+```ts
+@Resolver()
+class SampleResolver {
+  @Query()
+  sampleQuery(
+    @Arg("sampleArg", {
+      validateFn: (argValue, argType) => {
+        // Do something here with arg value and type...
+      },
+    })
+    sampleArg: string,
+  ): string {
+    // ...
+  }
+}
 ```
 
 > Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.

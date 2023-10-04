@@ -13,23 +13,25 @@ export async function validateArg(
   argValue: any | undefined,
   argType: TypeValue,
   resolverData: ResolverData,
-  globalValidate: ValidateSettings,
-  argValidate: ValidateSettings | undefined,
-  validateFn: ValidatorFn | undefined,
+  globalValidateSettings: ValidateSettings,
+  argValidateSettings: ValidateSettings | undefined,
+  globalValidateFn: ValidatorFn | undefined,
+  argValidateFn: ValidatorFn | undefined,
 ): Promise<any | undefined> {
+  const validateFn = argValidateFn ?? globalValidateFn;
   if (typeof validateFn === "function") {
     await validateFn(argValue, argType, resolverData);
     return argValue;
   }
 
-  const validate = argValidate !== undefined ? argValidate : globalValidate;
+  const validate = argValidateSettings !== undefined ? argValidateSettings : globalValidateSettings;
   if (validate === false || !shouldArgBeValidated(argValue)) {
     return argValue;
   }
 
   const validatorOptions: ValidatorOptions = {
-    ...(typeof globalValidate === "object" ? globalValidate : {}),
-    ...(typeof argValidate === "object" ? argValidate : {}),
+    ...(typeof globalValidateSettings === "object" ? globalValidateSettings : {}),
+    ...(typeof argValidateSettings === "object" ? argValidateSettings : {}),
   };
   if (validatorOptions.skipMissingProperties !== false) {
     validatorOptions.skipMissingProperties = true;
