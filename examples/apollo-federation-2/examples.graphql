@@ -1,5 +1,6 @@
 query {
   topProducts {
+    __typename
     name
     price
     shippingEstimate
@@ -11,6 +12,7 @@ query {
         birthDate
         reviews {
           product {
+            __typename
             name
           }
           body
