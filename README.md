@@ -1,9 +1,7 @@
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable-next-line MD041 -->
-[![GraphQL Conf 2023](./images/GraphQLConf-2023-Banner.png)](https://graphql.org/conf/)
-<!-- prettier-ignore-end -->
-
 ![logo](./images/logo.png)
+<!-- prettier-ignore-end -->
 
 # TypeGraphQL
 
