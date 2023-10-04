@@ -29,7 +29,8 @@
       "complexity"
     ],
     "Integrations": ["prisma", "nestjs"],
-    "Others": ["emit-schema", "performance", "browser-usage"]
+    "Others": ["emit-schema", "performance"],
+    "Recipes": ["browser-usage", "aws-lambda"]
   },
   "examples": {
     "Examples": ["examples"]
