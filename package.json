@@ -97,7 +97,7 @@
   },
   "peerDependencies": {
     "class-validator": ">=0.14.0",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.2"
   },
   "peerDependenciesMeta": {
@@ -155,7 +155,7 @@
     "expect": "^29.6.1",
     "express": "^4.18.2",
     "glob": "^10.3.3",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "graphql-redis-subscriptions": "^2.6.0",
     "graphql-scalars": "^1.22.2",
     "graphql-tag": "^2.12.6",
