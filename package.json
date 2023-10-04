@@ -142,7 +142,7 @@
     "body-parser": "^1.20.2",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
-    "cspell": "^6.31.2",
+    "cspell": "^7.3.7",
     "dotenv": "^16.3.1",
     "eslint": "^8.48.0",
     "eslint-config-airbnb-base": "^15.0.0",
