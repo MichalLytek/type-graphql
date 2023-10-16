@@ -144,7 +144,7 @@
     "cors": "^2.8.5",
     "cspell": "^7.3.7",
     "dotenv": "^16.3.1",
-    "eslint": "^8.48.0",
+    "eslint": "^8.51.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
