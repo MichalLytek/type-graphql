@@ -1,10 +1,10 @@
 export * from "./utils";
-export * from "./AuthChecker";
+export * from "./auth-checker";
 export * from "./Complexity";
-export * from "./LegacyDecorators";
-export type { MiddlewareFn, NextFn, MiddlewareInterface } from "./Middleware";
+export * from "./legacy-decorators";
+export type { MiddlewareFn, NextFn, MiddlewareInterface } from "./middleware";
 export * from "./Publisher";
-export * from "./ResolverData";
+export * from "./resolver-data";
 export * from "./ResolverFilterData";
 export * from "./ResolverInterface";
 export * from "./resolvers-map";

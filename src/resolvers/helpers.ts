@@ -4,7 +4,7 @@ import { convertToType } from "@/helpers/types";
 import { type ParamMetadata } from "@/metadata/definitions";
 import { type ValidateSettings } from "@/schema/build-context";
 import { type AuthChecker, type AuthMode, type ResolverData, type ValidatorFn } from "@/typings";
-import { type Middleware, type MiddlewareClass, type MiddlewareFn } from "@/typings/Middleware";
+import { type Middleware, type MiddlewareClass, type MiddlewareFn } from "@/typings/middleware";
 import { type IOCContainer } from "@/utils/container";
 import { isPromiseLike } from "@/utils/isPromiseLike";
 import { convertArgToInstance, convertArgsToInstance } from "./convert-args";

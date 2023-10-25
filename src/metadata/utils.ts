@@ -1,6 +1,6 @@
 import { ReflectMetadataMissingError } from "@/errors";
 import { isThrowing } from "@/helpers/isThrowing";
-import { type Middleware } from "@/typings/Middleware";
+import { type Middleware } from "@/typings/middleware";
 import {
   type BaseResolverMetadata,
   type FieldResolverMetadata,

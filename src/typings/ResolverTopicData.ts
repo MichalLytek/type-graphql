@@ -1,4 +1,4 @@
-import { type ArgsDictionary } from "./ResolverData";
+import { type ArgsDictionary } from "./resolver-data";
 import { type ResolverFilterData } from "./ResolverFilterData";
 
 export type ResolverTopicData<

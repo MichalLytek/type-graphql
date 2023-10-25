@@ -4,7 +4,7 @@ import { type ValidatorOptions } from "class-validator";
 import { type GraphQLScalarType } from "graphql";
 import { PubSub, type PubSubEngine, type PubSubOptions } from "graphql-subscriptions";
 import { type AuthChecker, type AuthMode } from "@/typings";
-import { type Middleware } from "@/typings/Middleware";
+import { type Middleware } from "@/typings/middleware";
 import { type ValidatorFn } from "@/typings/ValidatorFn";
 import { type ContainerGetter, type ContainerType, IOCContainer } from "@/utils/container";
 

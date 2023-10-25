@@ -7,7 +7,7 @@ import {
   type TypeValueThunk,
 } from "@/decorators/types";
 import { type Complexity } from "@/typings";
-import { type Middleware } from "@/typings/Middleware";
+import { type Middleware } from "@/typings/middleware";
 import { type DirectiveMetadata } from "./directive-metadata";
 import { type ExtensionsMetadata } from "./extensions-metadata";
 import { type ParamMetadata } from "./param-metadata";
