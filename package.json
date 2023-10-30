@@ -138,7 +138,7 @@
     "@types/ws": "^8.5.5",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.7.2",
+    "@typescript-eslint/parser": "^6.9.0",
     "body-parser": "^1.20.2",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
