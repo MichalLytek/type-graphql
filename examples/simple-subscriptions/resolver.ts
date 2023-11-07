@@ -14,6 +14,8 @@ import { Notification, NotificationPayload } from "./notification.type";
 
 @Resolver()
 export class SampleResolver {
+  // This simple approach won't work for applications with multiple instances because the id isn't unique between multiple processes.  
+  // If you're using Apollo Client, you can bypass the requirement for a unique id by setting the fetchPolicy option to 'no-cache' in the useSubscription hook.
   private id = 0;
 
   @Query(_returns => Date)
