@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
   type GraphQLInputObjectType,
   type GraphQLInterfaceType,
@@ -554,6 +555,7 @@ describe("Directives", () => {
           resolvers: [SampleResolver],
           directives: [testDirective],
           validate: false,
+          pubSub: createPubSub(),
         });
         schema = testDirectiveTransformer(schema);
       });

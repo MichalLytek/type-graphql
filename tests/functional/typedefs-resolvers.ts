@@ -1,6 +1,7 @@
 /* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import "reflect-metadata";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { createPubSub } from "@graphql-yoga/subscription";
 import { MinLength } from "class-validator";
 import {
   type ExecutionResult,
@@ -20,7 +21,6 @@ import {
   graphql,
   subscribe,
 } from "graphql";
-import { PubSub } from "graphql-subscriptions";
 import gql from "graphql-tag";
 import {
   Arg,
@@ -30,7 +30,7 @@ import {
   InterfaceType,
   Mutation,
   ObjectType,
-  type PubSubEngine,
+  type PubSub,
   Query,
   Resolver,
   type ResolverObject,
@@ -54,7 +54,7 @@ describe("typeDefs and resolvers", () => {
     let resolvers: ResolversMap;
     let schemaIntrospection: IntrospectionSchema;
     let schema: GraphQLSchema;
-    let pubSub: PubSubEngine;
+    let pubSub: PubSub;
     let inputValue: any;
     let enumValue: any;
     let middlewareLogs: string[];
@@ -240,7 +240,7 @@ describe("typeDefs and resolvers", () => {
         }
       }
 
-      pubSub = new PubSub();
+      pubSub = createPubSub();
       ({ typeDefs, resolvers } = await buildTypeDefsAndResolvers({
         resolvers: [SampleResolver],
         authChecker: () => false,

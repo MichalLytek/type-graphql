@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import { type GraphQLSchema, parse } from "graphql";
 import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
 import {
@@ -112,6 +113,7 @@ describe("Query complexity", () => {
 
       const schemaInfo = await getSchemaInfo({
         resolvers: [ChildResolver],
+        pubSub: createPubSub(),
       });
 
       schema = schemaInfo.schema;

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
   type ClassType,
   Field,
@@ -80,7 +81,10 @@ describe("MetadataStorage", () => {
         }
       }
 
-      await buildSchema({ resolvers: [SubClassResolver] });
+      await buildSchema({
+        resolvers: [SubClassResolver],
+        pubSub: createPubSub(),
+      });
     });
 
     it("should not have duplicated query metadata for inherited resolvers", async () => {
