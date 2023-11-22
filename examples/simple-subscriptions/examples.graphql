@@ -21,12 +21,25 @@ mutation PublishMessage {
 # Dynamic topics
 
 subscription DynamicTopic {
-  subscriptionWithFilterToDynamicTopic(topic: "FOO_MESSAGES") {
+  subscribeToTopicFromArg(topic: "FOO_MESSAGES") {
     id
     message
   }
 }
 
 mutation PublishMessageToDynamicTopic {
-  pubSubMutationToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
+  publishToDynamicTopic(topic: "FOO_MESSAGES", message: "Hi Foo!")
+}
+
+# Dynamic topic id
+
+subscription DynamicTopicId {
+  subscribeToTopicIdFromArg(topicId: 2137) {
+    id
+    message
+  }
+}
+
+mutation PublishMessageToDynamicTopicId {
+  publishWithDynamicTopicId(topicId: 2137, message: "Hi Foo!")
 }
