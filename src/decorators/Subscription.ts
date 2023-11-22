@@ -1,4 +1,3 @@
-import { type ResolverFn } from "graphql-subscriptions";
 import { MissingSubscriptionTopicsError } from "@/errors";
 import { getTypeDecoratorParams } from "@/helpers/decorators";
 import { getResolverMetadata } from "@/helpers/resolver-metadata";
@@ -8,16 +7,19 @@ import {
   type AdvancedOptions,
   type ReturnTypeFunc,
   type SubscriptionFilterFunc,
-  type SubscriptionTopicFunc,
+  type SubscriptionSubscribeFunc,
+  type SubscriptionTopicIdFunc,
+  type SubscriptionTopicsFunc,
 } from "./types";
 
 interface PubSubOptions {
-  topics: string | string[] | SubscriptionTopicFunc;
+  topics: string | string[] | SubscriptionTopicsFunc;
+  topicId?: SubscriptionTopicIdFunc | undefined;
   filter?: SubscriptionFilterFunc;
 }
 
 interface SubscribeOptions {
-  subscribe: ResolverFn;
+  subscribe: SubscriptionSubscribeFunc;
 }
 
 export type SubscriptionOptions = AdvancedOptions & MergeExclusive<PubSubOptions, SubscribeOptions>;
@@ -41,6 +43,7 @@ export function Subscription(
     getMetadataStorage().collectSubscriptionHandlerMetadata({
       ...metadata,
       topics: options.topics,
+      topicId: options.topicId,
       filter: options.filter,
       subscribe: options.subscribe,
     });

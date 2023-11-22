@@ -1,4 +1,3 @@
-import { type PubSubEngine } from "graphql-subscriptions";
 import { AuthMiddleware } from "@/helpers/auth-middleware";
 import { convertToType } from "@/helpers/types";
 import { type ParamMetadata } from "@/metadata/definitions";
@@ -15,7 +14,6 @@ export function getParams(
   resolverData: ResolverData<any>,
   globalValidate: ValidateSettings,
   globalValidateFn: ValidatorFn | undefined,
-  pubSub: PubSubEngine,
 ): Promise<any[]> | any[] {
   const paramValues = params
     .sort((a, b) => a.index - b.index)
@@ -63,12 +61,6 @@ export function getParams(
 
         case "info":
           return resolverData.info;
-
-        case "pubSub":
-          if (paramInfo.triggerKey) {
-            return (payload: any) => pubSub.publish(paramInfo.triggerKey!, payload);
-          }
-          return pubSub;
 
         case "custom":
           return paramInfo.resolver(resolverData);

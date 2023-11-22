@@ -1,3 +1,4 @@
+import { Repeater, filter, pipe } from "@graphql-yoga/subscription";
 import {
   type GraphQLDirective,
   GraphQLEnumType,
@@ -18,7 +19,6 @@ import {
   getIntrospectionQuery,
   graphqlSync,
 } from "graphql";
-import { type ResolverFn, withFilter } from "graphql-subscriptions";
 import { type TypeOptions, type TypeValue } from "@/decorators/types";
 import {
   CannotDetermineGraphQLTypeError,
@@ -45,7 +45,12 @@ import {
   createHandlerResolver,
   wrapResolverWithAuthChecker,
 } from "@/resolvers/create";
-import { type ResolverFilterData, type ResolverTopicData, type TypeResolver } from "@/typings";
+import {
+  type MaybePromise,
+  type SubscribeResolverData,
+  type SubscriptionHandlerData,
+  type TypeResolver,
+} from "@/typings";
 import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
 import { BuildContext, type BuildContextOptions } from "./build-context";
 import {
@@ -635,48 +640,87 @@ export abstract class SchemaGenerator {
     }, {});
   }
 
-  private static generateSubscriptionsFields<T = any, U = any>(
+  private static generateSubscriptionsFields<
+    TSource extends object = any,
+    TContext extends object = any,
+  >(
     subscriptionsHandlers: SubscriptionResolverMetadata[],
-  ): GraphQLFieldConfigMap<T, U> {
+  ): GraphQLFieldConfigMap<TSource, TContext> {
+    if (!subscriptionsHandlers.length) {
+      return {};
+    }
     const { pubSub, container } = BuildContext;
+    if (!pubSub) {
+      // TODO: new error
+      throw new Error("Missing PubSub implementation!");
+    }
     const basicFields = this.generateHandlerFields(subscriptionsHandlers);
-    return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<T, U>>((fields, handler) => {
-      let subscribeFn: GraphQLFieldResolver<T, U>;
-      if (handler.subscribe) {
-        subscribeFn = handler.subscribe;
-      } else {
-        let pubSubIterator: ResolverFn;
-        if (typeof handler.topics === "function") {
-          const getTopics = handler.topics;
-          pubSubIterator = (payload, args, context, info) => {
-            const resolverTopicData: ResolverTopicData = { payload, args, context, info };
-            const topics = getTopics(resolverTopicData);
-            if (Array.isArray(topics) && topics.length === 0) {
-              throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
-            }
-            return pubSub.asyncIterator(topics);
+    return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<TSource, TContext>>(
+      (fields, handler) => {
+        let subscribeFn: GraphQLFieldResolver<
+          TSource,
+          TContext,
+          any,
+          MaybePromise<AsyncIterable<unknown>>
+        >;
+        if (handler.subscribe) {
+          subscribeFn = (source, args, context, info) => {
+            const subscribeResolverData: SubscribeResolverData = { source, args, context, info };
+            return handler.subscribe!(subscribeResolverData);
           };
         } else {
-          const topics = handler.topics!;
-          pubSubIterator = () => pubSub.asyncIterator(topics);
+          subscribeFn = (source, args, context, info) => {
+            const subscribeResolverData: SubscribeResolverData = { source, args, context, info };
+
+            let topics: string | string[];
+            if (typeof handler.topics === "function") {
+              const getTopics = handler.topics;
+              topics = getTopics(subscribeResolverData);
+            } else {
+              topics = handler.topics!;
+            }
+            const topicId = handler.topicId?.(subscribeResolverData);
+
+            let pubSubIterable: AsyncIterable<any>;
+            if (!Array.isArray(topics)) {
+              pubSubIterable = pubSub.subscribe(topics, topicId);
+            } else {
+              if (topics.length === 0) {
+                throw new MissingSubscriptionTopicsError(handler.target, handler.methodName);
+              }
+              // pubSubIterable = Repeater.merge([
+              //   undefined,
+              //   ...topics.map(topic => pubSub.subscribe(topic, topicId)),
+              // ]);
+              pubSubIterable = Repeater.merge([
+                ...topics.map(topic => pubSub.subscribe(topic, topicId)),
+              ]);
+            }
+
+            if (!handler.filter) {
+              return pubSubIterable;
+            }
+
+            return pipe(
+              pubSubIterable,
+              filter(payload => {
+                const handlerData: SubscriptionHandlerData = { payload, args, context, info };
+                return handler.filter!(handlerData);
+              }),
+            );
+          };
         }
 
-        subscribeFn = handler.filter
-          ? withFilter(pubSubIterator, (payload, args, context, info) => {
-              const resolverFilterData: ResolverFilterData = { payload, args, context, info };
-              return handler.filter!(resolverFilterData);
-            })
-          : pubSubIterator;
-      }
-
-      // eslint-disable-next-line no-param-reassign
-      fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
-        subscribeFn,
-        container,
-        handler.roles,
-      );
-      return fields;
-    }, basicFields);
+        // eslint-disable-next-line no-param-reassign
+        fields[handler.schemaName].subscribe = wrapResolverWithAuthChecker(
+          subscribeFn,
+          container,
+          handler.roles,
+        );
+        return fields;
+      },
+      basicFields,
+    );
   }
 
   private static generateHandlerArgs(
