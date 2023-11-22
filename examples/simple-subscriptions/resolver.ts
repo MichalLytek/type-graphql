@@ -1,16 +1,16 @@
-import { PubSubEngine } from "graphql-subscriptions";
 import {
   Arg,
+  Int,
   Mutation,
-  PubSub,
-  Publisher,
   Query,
   Resolver,
-  type ResolverFilterData,
   Root,
+  type SubscribeResolverData,
   Subscription,
+  type SubscriptionHandlerData,
 } from "type-graphql";
 import { Notification, NotificationPayload } from "./notification.type";
+import { pubSub } from "./pubsub";
 
 @Resolver()
 export class SampleResolver {
@@ -22,23 +22,10 @@ export class SampleResolver {
   }
 
   @Mutation(_returns => Boolean)
-  async pubSubMutation(
-    @PubSub() pubSub: PubSubEngine,
-    @Arg("message", { nullable: true }) message?: string,
-  ): Promise<boolean> {
+  async pubSubMutation(@Arg("message", { nullable: true }) message?: string): Promise<boolean> {
     this.id += 1;
     const payload: NotificationPayload = { id: this.id, message };
-    await pubSub.publish("NOTIFICATIONS", payload);
-    return true;
-  }
-
-  @Mutation(_returns => Boolean)
-  async publisherMutation(
-    @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
-    @Arg("message", { nullable: true }) message?: string,
-  ): Promise<boolean> {
-    this.id += 1;
-    await publish({ id: this.id, message });
+    pubSub.publish("NOTIFICATIONS", payload);
     return true;
   }
 
@@ -49,9 +36,20 @@ export class SampleResolver {
 
   @Subscription(_returns => Notification, {
     topics: "NOTIFICATIONS",
-    filter: ({ payload }: ResolverFilterData<NotificationPayload>) => payload.id % 2 === 0,
+    filter: ({ payload }: SubscriptionHandlerData<NotificationPayload>) => payload.id % 2 === 0,
   })
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
+    const newNotification: Notification = { id, message, date: new Date() };
+    return newNotification;
+  }
+
+  // multiple topics
+
+  @Subscription(_returns => Notification, {
+    topics: ["NOTIFICATIONS", "NOTIFICATIONS_2"],
+    filter: ({ payload }: SubscriptionHandlerData<NotificationPayload>) => payload.id % 2 === 0,
+  })
+  subscriptionWithMultipleTopics(@Root() { id, message }: NotificationPayload) {
     const newNotification: Notification = { id, message, date: new Date() };
     return newNotification;
   }
@@ -59,22 +57,45 @@ export class SampleResolver {
   // Dynamic topic
 
   @Mutation(() => Boolean)
-  async pubSubMutationToDynamicTopic(
-    @PubSub() pubSub: PubSubEngine,
+  async publishToDynamicTopic(
     @Arg("topic") topic: string,
     @Arg("message", { nullable: true }) message?: string,
   ): Promise<boolean> {
     this.id += 1;
     const payload: NotificationPayload = { id: this.id, message };
-    await pubSub.publish(topic, payload);
+    pubSub.publish(topic, payload);
     return true;
   }
 
   @Subscription({
     topics: ({ args }) => args.topic,
   })
-  subscriptionWithFilterToDynamicTopic(
+  subscribeToTopicFromArg(
     @Arg("topic") _topic: string,
+    @Root() { id, message }: NotificationPayload,
+  ): Notification {
+    return { id, message, date: new Date() };
+  }
+
+  // Dynamic topic id
+
+  @Mutation(() => Boolean)
+  async publishWithDynamicTopicId(
+    @Arg("topicId", () => Int) topicId: number,
+    @Arg("message", { nullable: true }) message?: string,
+  ): Promise<boolean> {
+    this.id += 1;
+    const payload: NotificationPayload = { id: this.id, message };
+    pubSub.publish("DYNAMIC_ID_TOPIC", topicId, payload);
+    return true;
+  }
+
+  @Subscription({
+    topics: "DYNAMIC_ID_TOPIC",
+    topicId: ({ args }: SubscribeResolverData<any, { topicId: number }, any>) => args.topicId,
+  })
+  subscribeToTopicIdFromArg(
+    @Arg("topicId", () => Int) _topicId: number,
     @Root() { id, message }: NotificationPayload,
   ): Notification {
     return { id, message, date: new Date() };
