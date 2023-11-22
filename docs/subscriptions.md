@@ -4,7 +4,7 @@ title: Subscriptions
 
 GraphQL can be used to perform reads with queries and writes with mutations.
 However, oftentimes clients want to get updates pushed to them from the server when data they care about changes.
-To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) package created by [Apollo GraphQL](https://www.apollographql.com).
+To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the [`@graphql-yoga/subscriptions`](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions) package created by [`The Guild`](https://the-guild.dev/).
 
 ## Creating Subscriptions
 
@@ -30,7 +30,7 @@ class SampleResolver {
   @Subscription({
     topics: "NOTIFICATIONS", // Single topic
     topics: ["NOTIFICATIONS", "ERRORS"] // Or topics array
-    topics: ({ args, payload, context }) => args.topic // Or dynamic topic function
+    topics: ({ args, context }) => args.topic // Or dynamic topic function
   })
   newNotification(): Notification {
     // ...
@@ -56,7 +56,7 @@ class SampleResolver {
 
 We can also provide a custom subscription logic which might be useful, e.g. if we want to use the Prisma subscription functionality or something similar.
 
-All we need to do is to use the `subscribe` option which should be a function that returns an `AsyncIterator`. Example using Prisma client subscription feature:
+All we need to do is to use the `subscribe` option which should be a function that returns an `AsyncIterable` or a `Promise<AsyncIterable>`. Example using Prisma 1 subscription feature:
 
 ```ts
 class SampleResolver {
@@ -72,7 +72,7 @@ class SampleResolver {
 }
 ```
 
-> Be aware that we can't mix the `subscribe` option with the `topics` and `filter` options. If the filtering is still needed, we can use the [`withFilter` function](https://github.com/apollographql/graphql-subscriptions#filters) from the `graphql-subscriptions` package.
+> Be aware that we can't mix the `subscribe` option with the `topics` and `filter` options. If the filtering is still needed, we can use the [`filter` and `map` helpers](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#filter-and-map-values) from the `@graphql-yoga/subscriptions` package.
 
 Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There, we can transform it to the returned shape.
 
@@ -116,10 +116,34 @@ class SampleResolver {
 }
 ```
 
-We use the `@PubSub()` decorator to inject the `pubsub` into our method params.
-There we can trigger the topics and send the payload to all topic subscribers.
+First, we need to create the `PubSub` instance. In most cases, we call `createPubSub()` function from `@graphql-yoga/subscriptions` package. Optionally, we can define the used topics and payload type using the type argument, e.g.:
 
 ```ts
+import { createPubSub } from "@graphql-yoga/subscriptions";
+
+export const pubSub = createPubSub<{
+  NOTIFICATIONS: [NotificationPayload];
+  DYNAMIC_ID_TOPIC: [number, NotificationPayload];
+}>();
+```
+
+Then, we need to register the `PubSub` instance in the `buildSchema()` function options:
+
+```ts
+import { buildSchema } from "type-graphql";
+import { pubSub } from "./pubsub";
+
+const schema = await buildSchema({
+  resolver,
+  pubSub,
+});
+```
+
+Finally, we can use the created `PubSub` instance to trigger the topics and send the payload to all topic subscribers:
+
+```ts
+import { pubSub } from "./pubsub";
+
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
@@ -128,27 +152,7 @@ class SampleResolver {
     await this.commentsRepository.save(comment);
     // Trigger subscriptions topics
     const payload: NotificationPayload = { message: input.content };
-    await pubSub.publish("NOTIFICATIONS", payload);
-    return true;
-  }
-}
-```
-
-For easier testability (mocking/stubbing), we can also inject the `publish` method by itself bound to a selected topic.
-This is done by using the `@PubSub("TOPIC_NAME")` decorator and the `Publisher<TPayload>` type:
-
-```ts
-class SampleResolver {
-  // ...
-  @Mutation(returns => Boolean)
-  async addNewComment(
-    @Arg("comment") input: CommentInput,
-    @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
-  ) {
-    const comment = this.commentsService.createNew(input);
-    await this.commentsRepository.save(comment);
-    // Trigger subscriptions topics
-    await publish({ message: input.content });
+    pubSub.publish("NOTIFICATIONS", payload);
     return true;
   }
 }
@@ -156,23 +160,41 @@ class SampleResolver {
 
 And that's it! Now all subscriptions attached to the `NOTIFICATIONS` topic will be triggered when performing the `addNewComment` mutation.
 
-## Using a custom PubSub system
+## Topic with dynamic ID
 
-By default, TypeGraphQL uses a simple `PubSub` system from `graphql-subscriptions` which is based on EventEmitter.
-This solution has a big drawback in that it will work correctly only when we have a single instance (process) of our Node.js app.
-
-For better scalability we'll want to use one of the [`PubSub implementations`](https://github.com/apollographql/graphql-subscriptions#pubsub-implementations) backed by an external store like Redis with the [`graphql-redis-subscriptions`](https://github.com/davidyaha/graphql-redis-subscriptions) package.
-
-All we need to do is create an instance of PubSub according to the package instructions and then provide it to the TypeGraphQL `buildSchema` options:
+The idea of this feature is taken from the `@graphql-yoga/subscriptions` that is used under the hood.
+Basically, sometimes you only want to emit and listen for events for a specific entity (e.g. user or product). Dynamic topic ID lets you declare topics scoped to a special identifier, e.g.:
 
 ```ts
-const myRedisPubSub = getConfiguredRedisPubSub();
-
-const schema = await buildSchema({
-  resolvers: [ExampleResolver],
-  pubSub: myRedisPubSub,
-});
+@Resolver()
+class NotificationResolver {
+  @Subscription({
+    topics: "NOTIFICATIONS",
+    topicId: ({ context }) => context.userId,
+  })
+  newNotification(@Root() { message }: NotificationPayload): Notification {
+    return { message, date: new Date() };
+  }
+}
 ```
+
+Then in your mutation or services, you need to pass the topic id as the second parameter:
+
+```ts
+pubSub.publish("NOTIFICATIONS", userId, { id, message });
+```
+
+> Be aware that this feature must be supported by the pubsub system of your choice.
+> If you decide to use something different than `createPubSub()` from `@graphql-yoga/subscriptions`, the second argument might be treated as a payload, not dynamic topic id.
+
+## Using a custom PubSub system
+
+While TypeGraphQL uses the `@graphql-yoga/subscriptions` package under the hood to handle subscription, there's no requirement to use that implementation of `PubSub`.
+
+In fact, you can use any pubsub system you want, not only the `graphql-yoga` one.
+The only requirement is to comply with the exported `PubSub` interface - having proper `.subscribe()` and `.publish()` methods.
+
+This is especially helpful for production usage, where we can't rely on the in-memory event emitter, so that we [use distributed pubsub](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#distributed-pubsub-for-production).
 
 ## Creating a Subscription Server
 
@@ -183,7 +205,8 @@ However, beginning in Apollo Server 3, subscriptions are not supported by the "b
 
 ## Examples
 
-See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions).
+See how subscriptions work in a [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/simple-subscriptions). You can see there, how simple is setting up GraphQL subscriptions using `graphql-yoga` package.
 
-For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions).
-However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection parameters.
+<!-- FIXME: restore when redis example is upgraded -->
+<!-- For production usage, it's better to use something more scalable like a Redis-based pubsub system - [a working example is also available](https://github.com/MichalLytek/type-graphql/tree/master/examples/redis-subscriptions).
+However, to launch this example you need to have a running instance of Redis and you might have to modify the example code to provide your connection parameters. -->

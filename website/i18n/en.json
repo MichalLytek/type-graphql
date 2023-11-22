@@ -70,6 +70,10 @@
       "middlewares": {
         "title": "Middleware and guards"
       },
+      "migration-guide": {
+        "title": "Migration Guide",
+        "sidebar_label": "v1.x -> v2.0"
+      },
       "nestjs": {
         "title": "NestJS Integration",
         "sidebar_label": "NestJS"
@@ -657,6 +661,7 @@
       "Blog": "Blog"
     },
     "categories": {
+      "Migration guide": "Migration guide",
       "Introduction": "Introduction",
       "Beginner guides": "Beginner guides",
       "Advanced guides": "Advanced guides",

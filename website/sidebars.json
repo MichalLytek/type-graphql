@@ -9,6 +9,7 @@
       "bootstrap",
       "esm"
     ],
+    "Migration guide": ["migration-guide"],
     "Advanced guides": [
       "scalars",
       "enums",
