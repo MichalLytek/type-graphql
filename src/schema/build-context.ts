@@ -2,9 +2,9 @@
 // @ts-ignore 'class-validator' might not be installed by user
 import { type ValidatorOptions } from "class-validator";
 import { type GraphQLScalarType } from "graphql";
-import { PubSub, type PubSubEngine, type PubSubOptions } from "graphql-subscriptions";
 import { type AuthChecker, type AuthMode } from "@/typings";
 import { type Middleware } from "@/typings/middleware";
+import { type PubSub } from "@/typings/subscriptions";
 import { type ValidatorFn } from "@/typings/ValidatorFn";
 import { type ContainerGetter, type ContainerType, IOCContainer } from "@/utils/container";
 
@@ -28,7 +28,7 @@ export interface BuildContextOptions {
   validateFn?: ValidatorFn;
   authChecker?: AuthChecker<any, any>;
   authMode?: AuthMode;
-  pubSub?: PubSubEngine | PubSubOptions;
+  pubSub?: PubSub;
   globalMiddlewares?: Array<Middleware<any>>;
   container?: ContainerType | ContainerGetter<any>;
   /**
@@ -52,7 +52,7 @@ export abstract class BuildContext {
 
   static authMode: AuthMode;
 
-  static pubSub: PubSubEngine;
+  static pubSub?: PubSub;
 
   static globalMiddlewares: Array<Middleware<any>>;
 
@@ -87,11 +87,7 @@ export abstract class BuildContext {
     }
 
     if (options.pubSub !== undefined) {
-      if ("eventEmitter" in options.pubSub) {
-        this.pubSub = new PubSub(options.pubSub as PubSubOptions);
-      } else {
-        this.pubSub = options.pubSub as PubSubEngine;
-      }
+      this.pubSub = options.pubSub;
     }
 
     if (options.globalMiddlewares) {
@@ -118,7 +114,6 @@ export abstract class BuildContext {
     this.validateFn = undefined;
     this.authChecker = undefined;
     this.authMode = "error";
-    this.pubSub = new PubSub();
     this.globalMiddlewares = [];
     this.container = new IOCContainer();
     this.nullableByDefault = false;

@@ -20,7 +20,6 @@ export function createHandlerResolver(
     validateFn,
     authChecker,
     authMode,
-    pubSub,
     globalMiddlewares,
     container,
   } = BuildContext;
@@ -41,7 +40,6 @@ export function createHandlerResolver(
             resolverData,
             globalValidate,
             validateFn,
-            pubSub,
           );
           if (isPromiseLike(params)) {
             return params.then(resolvedParams =>
@@ -60,7 +58,6 @@ export function createHandlerResolver(
         resolverData,
         globalValidate,
         validateFn,
-        pubSub,
       );
       const targetInstance = targetInstanceOrPromise;
       if (isPromiseLike(params)) {
@@ -88,7 +85,6 @@ export function createAdvancedFieldResolver(
     validateFn,
     authChecker,
     authMode,
-    pubSub,
     globalMiddlewares,
     container,
   } = BuildContext;
@@ -110,7 +106,6 @@ export function createAdvancedFieldResolver(
         resolverData,
         globalValidate,
         validateFn,
-        pubSub,
       );
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>

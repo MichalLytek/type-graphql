@@ -20,7 +20,6 @@ export { InterfaceType } from "./InterfaceType";
 export { Mutation } from "./Mutation";
 export type { ObjectTypeOptions } from "./ObjectType";
 export { ObjectType } from "./ObjectType";
-export { PubSub } from "./PubSub";
 export { Query } from "./Query";
 export { Resolver } from "./Resolver";
 export { Root } from "./Root";
