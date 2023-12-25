@@ -126,7 +126,7 @@
     "@cspell/eslint-plugin": "^7.3.6",
     "@graphql-tools/schema": "^10.0.0",
     "@graphql-tools/utils": "^10.0.4",
-    "@mikro-orm/core": "^5.8.6",
+    "@mikro-orm/core": "^5.9.6",
     "@mikro-orm/postgresql": "^5.9.0",
     "@typegoose/typegoose": "^11.6.0",
     "@types/cors": "^2.8.13",
