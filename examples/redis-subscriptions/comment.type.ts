@@ -14,7 +14,10 @@ export class Comment {
 
 export interface NewCommentPayload {
   recipeId: string;
+
   dateString: string; // Limitation of Redis payload serialization
+
   content: string;
+
   nickname?: string;
 }
