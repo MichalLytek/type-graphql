@@ -281,8 +281,12 @@ const CollectiveSection = props => (
             <span>VPS Server</span>
           </a>
           <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
-            <img src={imgUrl("nongamstopbets.png")} style={{ width: 60 }} />
+            <img src={imgUrl("nongamstopbets.png")} style={{ width: 50 }} />
             <span>NonGamstopBets</span>
+          </a>
+          <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank">
+            <img src={imgUrl("casinodeps.svg")} style={{ width: 80 }} />
+            <span>CasinoDeps</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
