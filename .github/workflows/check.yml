@@ -26,8 +26,10 @@ jobs:
           fetch-depth: 0
 
       - name: Check Git tag format
+        env:
+          TYPE_GRAPHQL_REF_NAME: ${{ github.ref_name }}
         run: |
-          _tag="${{ github.ref_name }}"
+          _tag="$TYPE_GRAPHQL_REF_NAME"
           if ! printf "%s\n" "$_tag" | grep -q -P '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$'; then
             printf '[ERROR]: Git tag (%s) wrong format\n' "$_tag"
             exit 1
@@ -49,14 +51,18 @@ jobs:
 
       - name: Remove leading v* from GitHub version
         id: version_github
+        env:
+          TYPE_GRAPHQL_VERSION: ${{ steps.version_v_github.outputs.release }}
         run: |
-          _version="${{ steps.version_v_github.outputs.release }}"
+          _version="$TYPE_GRAPHQL_VERSION"
           printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
 
       - name: Read Git tag version
         id: version_gittag
+        env:
+          TYPE_GRAPHQL_REF_NAME: ${{ github.ref_name }}
         run: |
-          _version="${{ github.ref_name }}"
+          _version="$TYPE_GRAPHQL_REF_NAME"
           printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
 
       - name: Compare package.json with Git tag
@@ -76,16 +82,24 @@ jobs:
           lenient: false
 
       - name: Check package.json == Git tag
+        env:
+          TYPE_GRAPHQL_COMPARISON: ${{ steps.comparison_package_gittag.outputs.comparison-result }}
+          TYPE_GRAPHQL_VERSION_PACKAGE: ${{ steps.version_package.outputs.value }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.version_gittag.outputs.value }}
         run: |
-          if [ ! "${{ steps.comparison_package_gittag.outputs.comparison-result }}" = "=" ]; then
-            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "${{ steps.version_package.outputs.value }}" "${{ steps.version_gittag.outputs.value }}"
+          if [ ! "$TYPE_GRAPHQL_COMPARISON" = "=" ]; then
+            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "$TYPE_GRAPHQL_VERSION_PACKAGE" "$TYPE_GRAPHQL_VERSION_TAG"
             exit 1
           fi
 
       - name: Check Git tag > GitHub
+        env:
+          TYPE_GRAPHQL_COMPARISON: ${{ steps.comparison_gittag_github.outputs.comparison-result }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.version_gittag.outputs.value }}
+          TYPE_GRAPHQL_VERSION_GITHUB: ${{ steps.version_github.outputs.value }}
         run: |
-          if [ ! "${{ steps.comparison_gittag_github.outputs.comparison-result }}" = ">" ]; then
-            printf '[ERROR]: Git tag (%s) !> GitHub (%s)\n' "${{ steps.version_gittag.outputs.value }}" "${{ steps.version_github.outputs.value }}"
+          if [ ! "$TYPE_GRAPHQL_COMPARISON" = ">" ]; then
+            printf '[ERROR]: Git tag (%s) !> GitHub (%s)\n' "$TYPE_GRAPHQL_VERSION_TAG" "$TYPE_GRAPHQL_VERSION_GITHUB"
             exit 1
           fi
 

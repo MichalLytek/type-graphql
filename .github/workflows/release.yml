@@ -35,23 +35,30 @@ jobs:
 
       - name: Read Git tag version
         id: tag
+        env:
+          TYPE_GRAPHQL_REF: ${{ github.event.workflow_run.head_branch }}
         run: |
-          _ref="${{ github.event.workflow_run.head_branch }}"
+          _ref="$TYPE_GRAPHQL_REF"
           printf 'value=%s\n' "${_ref#refs/tags/}" >> "$GITHUB_OUTPUT"
 
       - name: Check package.json == Git tag
+        env:
+          TYPE_GRAPHQL_VERSION_PACKAGE: ${{ steps.version.outputs.value }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.tag.outputs.value }}
         run: |
-          _version="v${{ steps.version.outputs.value }}"
-          if [ ! "$_version" = "${{ steps.tag.outputs.value }}" ]; then
-            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "$_version" "${{ steps.tag.outputs.value }}"
+          _version="v$TYPE_GRAPHQL_VERSION_PACKAGE"
+          if [ ! "$_version" = "$TYPE_GRAPHQL_VERSION_TAG" ]; then
+            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "$_version" "$TYPE_GRAPHQL_VERSION_TAG"
             exit 1
           fi
 
       - name: Determine if version is prerelease
         id: prerelease
+        env:
+          TYPE_GRAPHQL_VERSION: ${{ steps.version.outputs.value }}
         run: |
           _prerelease=
-          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
+          if printf "%s\n" "$TYPE_GRAPHQL_VERSION" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
             _prerelease=false
           else
             _prerelease=true
@@ -95,14 +102,15 @@ jobs:
           prerelease: ${{ steps.prerelease.outputs.value == 'true' }}
 
       - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TYPE_GRAPHQL_PRERELEASE: ${{ steps.prerelease.outputs.value }}
         run: |
           _tag=
-          if [ "${{ steps.prerelease.outputs.value }}" = "true" ]; then
+          if [ "$TYPE_GRAPHQL_PRERELEASE" = "true" ]; then
             _tag="next"
           else
             _tag="latest"
           fi
 
           npm publish --ignore-scripts --tag "$_tag"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
