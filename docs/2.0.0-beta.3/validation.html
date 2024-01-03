@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Argument and Input validation · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Scalars"/><meta name="docsearch:version" content="2.0.0-beta.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Argument and Input validation · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="## Scalars"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>2.0.0-beta.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/2.0.0-beta.3/introduction.html" target="_self">Docs</a></li><li class=""><a href="/docs/2.0.0-beta.3/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/2.0.0-beta.3/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/MichalLytek/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Features</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Beginner guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/types-and-fields.html">Types and Fields</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/resolvers.html">Resolvers</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/bootstrap.html">Bootstrapping</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/esm.html">ECMAScript Modules</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/interfaces.html">Interfaces</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/subscriptions.html">Subscriptions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/directives.html">Directives</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/extensions.html">Extensions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Features</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/authorization.html">Authorization</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/2.0.0-beta.3/validation.html">Validation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/inheritance.html">Inheritance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/generic-types.html">Generic Types</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/middlewares.html">Middleware and guards</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/custom-decorators.html">Custom decorators</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/complexity.html">Query complexity</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/prisma.html">Prisma</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/nestjs.html">NestJS</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Others</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/emit-schema.html">Emitting the schema SDL</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/performance.html">Performance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/browser-usage.html">Browser usage</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/validation.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Argument and Input validation</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="scalars"></a><a href="#scalars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scalars</h2>
+<p>The standard way to ensure that inputs and arguments are correct, such as an <code>email</code> field that really contains a proper e-mail address, is to use <a href="/docs/2.0.0-beta.3/scalars.html">custom scalars</a> e.g. <code>GraphQLEmail</code> from <a href="https://github.com/stylesuxx/graphql-custom-types"><code>graphql-custom-types</code></a>. However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.</p>
+<p>That's why TypeGraphQL has built-in support for argument and input validation.
+By default, we can use the <a href="https://github.com/typestack/class-validator"><code>class-validator</code></a> library and easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters) thanks to the awesomeness of decorators.</p>
+<p>We can also use other libraries or our own custom solution, as described in <a href="#custom-validator">custom validators</a> section.</p>
+<h2><a class="anchor" aria-hidden="true" id="class-validator"></a><a href="#class-validator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>class-validator</code></h2>
+<h3><a class="anchor" aria-hidden="true" id="how-to-use"></a><a href="#how-to-use" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use</h3>
+<p>First, we need to install the <code>class-validator</code> package:</p>
+<pre><code class="hljs css language-sh"><span class="token function">npm</span> <span class="token function">install</span> class-validator
+</code></pre>
+<p>Then we decorate the input/arguments class with the appropriate decorators from <code>class-validator</code>.
+So we take this:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">InputType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeInput</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>...and turn it into this:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> MaxLength<span class="token punctuation">,</span> Length <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"class-validator"</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">InputType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeInput</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">MaxLength</span></span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Length</span></span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">)</span>
+  description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Then we need to enable the auto-validate feature (as it's disabled by default) by simply setting <code>validate: true</code> in <code>buildSchema</code> options, e.g.:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  validate<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// Enable 'class-validator' integration</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>And that's it! 😉</p>
+<p>TypeGraphQL will automatically validate our inputs and arguments based on the definitions:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token keyword">of</span> <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">addRecipe</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span> recipeInput<span class="token operator">:</span> RecipeInput<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment">// 100% sure that the input is correct</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span>recipeInput<span class="token punctuation">.</span>title<span class="token punctuation">.</span>length <span class="token operator">&lt;=</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span>recipeInput<span class="token punctuation">.</span>description<span class="token punctuation">.</span>length <span class="token operator">>=</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span>recipeInput<span class="token punctuation">.</span>description<span class="token punctuation">.</span>length <span class="token operator">&lt;=</span> <span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Of course, <a href="https://github.com/typestack/class-validator#validation-decorators">there are many more decorators</a> we have access to, not just the simple <code>@Length</code> decorator used in the example above, so take a look at the <code>class-validator</code> documentation.</p>
+<p>This feature is enabled by default. However, we can disable it if we must:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  validate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// Disable automatic validation or pass the default config object</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>And we can still enable it per resolver's argument if we need to:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">addRecipe</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> validate<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> recipeInput<span class="token operator">:</span> RecipeInput<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The <code>ValidatorOptions</code> object used for setting features like <a href="https://github.com/typestack/class-validator#validation-groups">validation groups</a> can also be passed:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">addRecipe</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> validate<span class="token operator">:</span> <span class="token punctuation">{</span> groups<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"admin"</span><span class="token punctuation">]</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    recipeInput<span class="token operator">:</span> RecipeInput<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Note that by default, the <code>skipMissingProperties</code> setting of the <code>class-validator</code> is set to <code>true</code> because GraphQL will independently check whether the params/fields exist or not.
+Same goes to <code>forbidUnknownValues</code> setting which is set to <code>false</code> because the GraphQL runtime checks for additional data, not described in schema.</p>
+<p>GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the <code>@IsOptional</code>, <code>@Allow</code>, <code>@IsString</code> or the <code>@IsInt</code> decorators at all!</p>
+<p>However, when using nested input or arrays, we always have to use <a href="https://github.com/typestack/class-validator#validating-nested-objects"><code>@ValidateNested()</code> decorator</a> or <a href="https://github.com/typestack/class-validator#validating-arrays"><code>{ each: true }</code> option</a> to make nested validation work properly.</p>
+<h3><a class="anchor" aria-hidden="true" id="response-to-the-client"></a><a href="#response-to-the-client" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Response to the Client</h3>
+<p>When a client sends incorrect data to the server:</p>
+<pre><code class="hljs css language-graphql"><span class="token keyword">mutation</span> <span class="token definition-mutation function">ValidationMutation</span> <span class="token punctuation">{</span>
+  <span class="token property-query">addRecipe</span><span class="token punctuation">(</span>
+    <span class="token attr-name">input</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token comment"># Too long!</span>
+      <span class="token attr-name">title</span><span class="token punctuation">:</span> <span class="token string">"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token property">title</span>
+    <span class="token property">creationDate</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>the <a href="https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts"><code>ArgumentValidationError</code></a> will be thrown.</p>
+<p>By default, the <code>apollo-server</code> package from the <a href="/docs/2.0.0-beta.3/bootstrap.html">bootstrap guide</a> will format the error to match the <code>GraphQLFormattedError</code> interface. So when the <code>ArgumentValidationError</code> occurs, the client will receive this JSON with a nice <code>validationErrors</code> property inside of <code>extensions.exception</code>:</p>
+<pre><code class="hljs css language-json"><span class="token punctuation">{</span>
+  <span class="token property">"errors"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Argument Validation Error"</span><span class="token punctuation">,</span>
+      <span class="token property">"locations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token property">"line"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+          <span class="token property">"column"</span><span class="token operator">:</span> <span class="token number">3</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"path"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"addRecipe"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"extensions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"INTERNAL_SERVER_ERROR"</span><span class="token punctuation">,</span>
+        <span class="token property">"exception"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token property">"validationErrors"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+              <span class="token property">"target"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+              <span class="token property">"value"</span><span class="token operator">:</span> <span class="token string">"Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"</span><span class="token punctuation">,</span>
+              <span class="token property">"property"</span><span class="token operator">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span>
+              <span class="token property">"children"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+              <span class="token property">"constraints"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"maxLength"</span><span class="token operator">:</span> <span class="token string">"title must be shorter than or equal to 30 characters"</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token property">"stacktrace"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token string">"Error: Argument Validation Error"</span><span class="token punctuation">,</span>
+            <span class="token string">"    at Object.&lt;anonymous> (/type-graphql/src/resolvers/validate-arg.ts:29:11)"</span><span class="token punctuation">,</span>
+            <span class="token string">"    at Generator.throw (&lt;anonymous>)"</span><span class="token punctuation">,</span>
+            <span class="token string">"    at rejected (/type-graphql/node_modules/tslib/tslib.js:105:69)"</span><span class="token punctuation">,</span>
+            <span class="token string">"    at processTicksAndRejections (internal/process/next_tick.js:81:5)"</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Of course we can also create our own custom implementation of the <code>formatError</code> function provided in the <code>ApolloServer</code> config options which will transform the <code>GraphQLError</code> with a <code>ValidationError</code> array in the desired output format (e.g. <code>extensions.code = &quot;ARGUMENT_VALIDATION_ERROR&quot;</code>).</p>
+<h3><a class="anchor" aria-hidden="true" id="automatic-validation-example"></a><a href="#automatic-validation-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Validation Example</h3>
+<p>To see how this works, check out the <a href="https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.3/examples/automatic-validation">simple real life example</a>.</p>
+<h3><a class="anchor" aria-hidden="true" id="caveats"></a><a href="#caveats" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Caveats</h3>
+<p>Even if we don't use the validation feature (and we have provided <code>{ validate: false }</code> option to <code>buildSchema</code>), we still need to have <code>class-validator</code> installed as a dev dependency in order to compile our app without errors using <code>tsc</code>.</p>
+<p>An alternative solution that allows to completely get rid off big <code>class-validator</code> from our project's <code>node_modules</code> folder is to suppress the <code>error TS2307: Cannot find module 'class-validator'</code> TS error by providing <code>&quot;skipLibCheck&quot;: true</code> setting in <code>tsconfig.json</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="custom-validator"></a><a href="#custom-validator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom validator</h2>
+<p>We can also use other libraries than <code>class-validator</code> together with TypeGraphQL.</p>
+<p>To integrate it, all we need to do is to provide a custom function as <code>validate</code> option in <code>buildSchema</code>.
+It receives two parameters:</p>
+<ul>
+<li><code>argValue</code> which is the injected value of <code>@Arg()</code> or <code>@Args()</code></li>
+<li><code>argType</code> which is a runtime type information (e.g. <code>String</code> or <code>RecipeInput</code>).</li>
+</ul>
+<p>The <code>validateFn</code> option can be an async function and should return nothing (<code>void</code>) when validation passes or throw an error when validation fails.
+So be aware of this while trying to wrap another library in <code>validateFn</code> function for TypeGraphQL.</p>
+<p>Example using <a href="https://github.com/joiful-ts/joiful">decorators library for Joi validators (<code>joiful</code>)</a>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  <span class="token function-variable function">validate</span><span class="token operator">:</span> argValue <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// Call joiful validate</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> error <span class="token punctuation">}</span> <span class="token operator">=</span> joiful<span class="token punctuation">.</span><span class="token function">validate</span><span class="token punctuation">(</span>argValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Throw error on failed validation</span>
+      <span class="token keyword">throw</span> error<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>Be aware that when using custom validator, the error won't be wrapped with <code>ArgumentValidationError</code> like for the built-in <code>class-validator</code> validation.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="custom-validation-example"></a><a href="#custom-validation-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Validation Example</h3>
+<p>To see how this works, check out the <a href="https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.3/examples/custom-validation">simple custom validation integration example</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/2.0.0-beta.3/authorization.html"><span class="arrow-prev">← </span><span>Authorization</span></a><a class="docs-next button" href="/docs/2.0.0-beta.3/inheritance.html"><span>Inheritance</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#scalars">Scalars</a></li><li><a href="#class-validator"><code>class-validator</code></a><ul class="toc-headings"><li><a href="#how-to-use">How to use</a></li><li><a href="#response-to-the-client">Response to the Client</a></li><li><a href="#automatic-validation-example">Automatic Validation Example</a></li><li><a href="#caveats">Caveats</a></li></ul></li><li><a href="#custom-validator">Custom validator</a><ul class="toc-headings"><li><a href="#custom-validation-example">Custom Validation Example</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
+            const html = document.querySelector("html");
+
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>';
+
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
+                }
+              }
+
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
+
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
+
+            appendButtonToDOM();
+            setInitialColorMode();
+          </script><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2024 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

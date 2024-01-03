@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>ECMAScript Modules · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Since `v2.0.0` release, TypeGraphQL is compatible with ECMAScript modules."/><meta name="docsearch:version" content="2.0.0-beta.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="ECMAScript Modules · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="Since `v2.0.0` release, TypeGraphQL is compatible with ECMAScript modules."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>2.0.0-beta.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/2.0.0-beta.3/introduction.html" target="_self">Docs</a></li><li class=""><a href="/docs/2.0.0-beta.3/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/2.0.0-beta.3/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/MichalLytek/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Beginner guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Beginner guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/types-and-fields.html">Types and Fields</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/resolvers.html">Resolvers</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/bootstrap.html">Bootstrapping</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/2.0.0-beta.3/esm.html">ECMAScript Modules</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/interfaces.html">Interfaces</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/subscriptions.html">Subscriptions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/directives.html">Directives</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/extensions.html">Extensions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Features</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/authorization.html">Authorization</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/validation.html">Validation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/inheritance.html">Inheritance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/generic-types.html">Generic Types</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/middlewares.html">Middleware and guards</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/custom-decorators.html">Custom decorators</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/complexity.html">Query complexity</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/prisma.html">Prisma</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/nestjs.html">NestJS</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Others</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/emit-schema.html">Emitting the schema SDL</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/performance.html">Performance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.3/browser-usage.html">Browser usage</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/esm.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">ECMAScript Modules</h1></header><article><div><span><p>Since <code>v2.0.0</code> release, TypeGraphQL is compatible with ECMAScript modules.</p>
+<p>Thanks to this, we can <code>import</code> the <code>type-graphql</code> package in the ESM projects without any hassle.</p>
+<h2><a class="anchor" aria-hidden="true" id="typescript-configuration"></a><a href="#typescript-configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TypeScript configuration</h2>
+<p>It's important to properly configure the project, so that it uses ESM correctly:</p>
+<ul>
+<li>the <code>module</code> options should be set to <code>ES2020/ES2022/ESNext</code></li>
+<li>for the NodeJS apps, we should set <code>moduleResolution</code> to <code>&quot;node16&quot;</code></li>
+</ul>
+<p>All in all, the <code>tsconfig.json</code> file should looks like this:</p>
+<pre><code class="hljs css language-json title=&quot;tsconfig.json&quot;"><span class="token punctuation">{</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"es2021"</span><span class="token punctuation">,</span>
+    <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"es2020"</span><span class="token punctuation">,</span>
+    <span class="token property">"moduleResolution"</span><span class="token operator">:</span> <span class="token string">"node16"</span><span class="token punctuation">,</span>
+    <span class="token property">"experimentalDecorators"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"emitDecoratorMetadata"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="packagejson-configuration"></a><a href="#packagejson-configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Package.json configuration</h2>
+<p>It is also important to set <code>type</code> option to <code>&quot;module&quot;</code> in your <code>package.json</code> file:</p>
+<pre><code class="hljs css language-json title=&quot;package.json&quot;"><span class="token punctuation">{</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"module"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="imports"></a><a href="#imports" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Imports</h2>
+<p>Apart from using <code>import</code> syntax, your local imports have to use the <code>.js</code> suffix, e.g.:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> MyResolver <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./resolvers/MyResolver.js"</span><span class="token punctuation">;</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/2.0.0-beta.3/bootstrap.html"><span class="arrow-prev">← </span><span>Bootstrapping</span></a><a class="docs-next button" href="/docs/2.0.0-beta.3/scalars.html"><span>Scalars</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#typescript-configuration">TypeScript configuration</a></li><li><a href="#packagejson-configuration">Package.json configuration</a></li><li><a href="#imports">Imports</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
+            const html = document.querySelector("html");
+
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>';
+
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
+                }
+              }
+
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
+
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
+
+            appendButtonToDOM();
+            setInitialColorMode();
+          </script><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2024 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
