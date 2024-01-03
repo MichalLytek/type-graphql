@@ -1,0 +1,59 @@
+{
+  "version-2.0.0-beta.4-docs": {
+    "Introduction": [
+      "version-2.0.0-beta.4-introduction"
+    ],
+    "Beginner guides": [
+      "version-2.0.0-beta.4-installation",
+      "version-2.0.0-beta.4-getting-started",
+      "version-2.0.0-beta.4-types-and-fields",
+      "version-2.0.0-beta.4-resolvers",
+      "version-2.0.0-beta.4-bootstrap",
+      "version-2.0.0-beta.4-esm"
+    ],
+    "Migration guide": [
+      "version-2.0.0-beta.4-migration-guide"
+    ],
+    "Advanced guides": [
+      "version-2.0.0-beta.4-scalars",
+      "version-2.0.0-beta.4-enums",
+      "version-2.0.0-beta.4-unions",
+      "version-2.0.0-beta.4-interfaces",
+      "version-2.0.0-beta.4-subscriptions",
+      "version-2.0.0-beta.4-directives",
+      "version-2.0.0-beta.4-extensions"
+    ],
+    "Features": [
+      "version-2.0.0-beta.4-dependency-injection",
+      "version-2.0.0-beta.4-authorization",
+      "version-2.0.0-beta.4-validation",
+      "version-2.0.0-beta.4-inheritance",
+      "version-2.0.0-beta.4-generic-types",
+      "version-2.0.0-beta.4-middlewares",
+      "version-2.0.0-beta.4-custom-decorators",
+      "version-2.0.0-beta.4-complexity"
+    ],
+    "Integrations": [
+      "version-2.0.0-beta.4-prisma",
+      "version-2.0.0-beta.4-nestjs"
+    ],
+    "Others": [
+      "version-2.0.0-beta.4-emit-schema",
+      "version-2.0.0-beta.4-performance"
+    ],
+    "Recipes": [
+      "version-2.0.0-beta.4-browser-usage",
+      "version-2.0.0-beta.4-aws-lambda"
+    ]
+  },
+  "version-2.0.0-beta.4-examples": {
+    "Examples": [
+      "version-2.0.0-beta.4-examples"
+    ]
+  },
+  "version-2.0.0-beta.4-others": {
+    "Others": [
+      "version-2.0.0-beta.4-faq"
+    ]
+  }
+}
