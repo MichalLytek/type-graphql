@@ -10,7 +10,7 @@ on:
       - master
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
@@ -22,6 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -46,4 +47,4 @@ jobs:
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
           full_commit_message: |
-            Deploy website based on ${{ github.sha }}
+            Deploy website based on ${{ github.event.workflow_run.head_sha }}
