@@ -1,5 +1,6 @@
 /* eslint "@typescript-eslint/no-this-alias": ["error", { "allowedNames": ["self"] }] */
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
   type GraphQLSchema,
   type IntrospectionField,
@@ -28,8 +29,6 @@ import {
   Mutation,
   NoExplicitTypeError,
   ObjectType,
-  PubSub,
-  PubSubEngine,
   Query,
   Resolver,
   type ResolverInterface,
@@ -2179,6 +2178,8 @@ describe("Resolvers", () => {
     let childResolver: any;
     let overrideResolver: any;
 
+    const pubSub = createPubSub();
+
     beforeEach(() => {
       self = null;
     });
@@ -2222,8 +2223,8 @@ describe("Resolvers", () => {
           }
 
           @Mutation(() => Boolean, { name: `${name}Trigger` })
-          async baseTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
-            await pubSub.publish("baseTopic", null);
+          async baseTrigger(): Promise<boolean> {
+            pubSub.publish("baseTopic", null);
             return true;
           }
 
@@ -2263,8 +2264,8 @@ describe("Resolvers", () => {
         }
 
         @Mutation(() => Boolean)
-        async childTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
-          await pubSub.publish("childTopic", null);
+        async childTrigger(): Promise<boolean> {
+          pubSub.publish("childTopic", null);
           return true;
         }
       }
@@ -2288,6 +2289,7 @@ describe("Resolvers", () => {
 
       const schemaInfo = await getSchemaInfo({
         resolvers: [childResolver, overrideResolver],
+        pubSub,
       });
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;

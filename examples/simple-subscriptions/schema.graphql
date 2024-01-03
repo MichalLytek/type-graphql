@@ -10,8 +10,8 @@ scalar DateTimeISO
 
 type Mutation {
   pubSubMutation(message: String): Boolean!
-  pubSubMutationToDynamicTopic(message: String, topic: String!): Boolean!
-  publisherMutation(message: String): Boolean!
+  publishToDynamicTopic(message: String, topic: String!): Boolean!
+  publishWithDynamicTopicId(message: String, topicId: Int!): Boolean!
 }
 
 type Notification {
@@ -26,6 +26,8 @@ type Query {
 
 type Subscription {
   normalSubscription: Notification!
+  subscribeToTopicFromArg(topic: String!): Notification!
+  subscribeToTopicIdFromArg(topicId: Int!): Notification!
   subscriptionWithFilter: Notification!
-  subscriptionWithFilterToDynamicTopic(topic: String!): Notification!
+  subscriptionWithMultipleTopics: Notification!
 }

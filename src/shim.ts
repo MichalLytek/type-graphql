@@ -57,7 +57,6 @@ export const InputType: typeof src.InputType = dummyDecorator;
 export const InterfaceType: typeof src.InterfaceType = dummyDecorator;
 export const Mutation: typeof src.Mutation = dummyDecorator;
 export const ObjectType: typeof src.ObjectType = dummyDecorator;
-export const PubSub: typeof src.PubSub = dummyDecorator;
 export const Query: typeof src.Query = dummyDecorator;
 export const Resolver: typeof src.Resolver = dummyDecorator;
 export const Root: typeof src.Root = dummyDecorator;

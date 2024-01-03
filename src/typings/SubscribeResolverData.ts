@@ -1,8 +1,8 @@
 import { type GraphQLResolveInfo } from "graphql";
 import { type ArgsDictionary } from "./resolver-data";
 
-export interface ResolverFilterData<TPayload = any, TArgs = ArgsDictionary, TContext = {}> {
-  payload: TPayload;
+export interface SubscribeResolverData<TSource = any, TArgs = ArgsDictionary, TContext = {}> {
+  source: TSource;
   args: TArgs;
   context: TContext;
   info: GraphQLResolveInfo;

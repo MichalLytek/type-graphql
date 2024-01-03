@@ -1,8 +1,9 @@
-import { type ResolverFn } from "graphql-subscriptions";
 import {
   type ClassTypeResolver,
   type SubscriptionFilterFunc,
-  type SubscriptionTopicFunc,
+  type SubscriptionSubscribeFunc,
+  type SubscriptionTopicIdFunc,
+  type SubscriptionTopicsFunc,
   type TypeOptions,
   type TypeValueThunk,
 } from "@/decorators/types";
@@ -42,9 +43,10 @@ export type FieldResolverMetadata = {
 } & BaseResolverMetadata;
 
 export type SubscriptionResolverMetadata = {
-  topics: string | string[] | SubscriptionTopicFunc | undefined;
+  topics: string | string[] | SubscriptionTopicsFunc | undefined;
+  topicId: SubscriptionTopicIdFunc | undefined;
   filter: SubscriptionFilterFunc | undefined;
-  subscribe: ResolverFn | undefined;
+  subscribe: SubscriptionSubscribeFunc | undefined;
 } & ResolverMetadata;
 
 export interface ResolverClassMetadata {

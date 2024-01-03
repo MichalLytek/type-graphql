@@ -8,9 +8,15 @@
 
 - **Breaking Change**: expose shim as a package entry point `type-graphql/shim` (and `/node_modules/type-graphql/build/typings/shim.ts`)
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.8.1`
+- **Breaking Change**: use `@graphql-yoga` instead of `graphql-subscriptions` as the subscriptions engine
+- **Breaking Change**: require providing `PubSub` implementation into `buildSchema` option when using `@Subscription`
+- **Breaking Change**: remove `@PubSub` in favor of directly importing created `PubSub` implementation
+- **Breaking Change**: remove `Publisher` and `PubSubEngine` types
+- **Breaking Change**: rename interface `ResolverFilterData` into `SubscriptionHandlerData` and `ResolverTopicData` into `SubscribeResolverData`
 - support defining directives on `@Field` of `@Args`
 - support defining directives on inline `@Arg`
 - allow passing custom validation function as `validateFn` option of `@Arg` and `@Args` decorators
+- add support for dynamic topic id function in `@Subscription` decorator option
 
 ## v2.0.0-beta.3
 
