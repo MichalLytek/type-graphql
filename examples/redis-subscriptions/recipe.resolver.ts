@@ -3,20 +3,18 @@ import {
   Args,
   ID,
   Mutation,
-  PubSub,
-  Publisher,
   Query,
   Resolver,
-  type ResolverFilterData,
   Root,
   Subscription,
+  type SubscriptionHandlerData,
 } from "type-graphql";
 import { CommentInput } from "./comment.input";
 import { Comment, NewCommentPayload } from "./comment.type";
+import { Topic, pubSub } from "./pubsub";
 import { sampleRecipes } from "./recipe.data";
 import { NewCommentsArgs } from "./recipe.resolver.args";
 import { Recipe } from "./recipe.type";
-import { Topic } from "./topics";
 
 @Resolver()
 export class RecipeResolver {
@@ -28,10 +26,7 @@ export class RecipeResolver {
   }
 
   @Mutation(_returns => Boolean)
-  async addNewComment(
-    @Arg("comment") input: CommentInput,
-    @PubSub(Topic.NEW_COMMENT) notifyAboutNewComment: Publisher<NewCommentPayload>,
-  ): Promise<boolean> {
+  async addNewComment(@Arg("comment") input: CommentInput): Promise<boolean> {
     const recipe = this.recipes.find(r => r.id === input.recipeId);
     if (!recipe) {
       return false;
@@ -44,7 +39,7 @@ export class RecipeResolver {
     };
     recipe.comments.push(comment);
 
-    await notifyAboutNewComment({
+    pubSub.publish(Topic.NEW_COMMENT, {
       content: comment.content,
       nickname: comment.nickname,
       dateString: comment.date.toISOString(),
@@ -56,7 +51,7 @@ export class RecipeResolver {
 
   @Subscription(_returns => Comment, {
     topics: Topic.NEW_COMMENT,
-    filter: ({ payload, args }: ResolverFilterData<NewCommentPayload, NewCommentsArgs>) =>
+    filter: ({ payload, args }: SubscriptionHandlerData<NewCommentPayload, NewCommentsArgs>) =>
       payload.recipeId === args.recipeId,
   })
   newComments(@Root() newComment: NewCommentPayload, @Args() _args: NewCommentsArgs): Comment {

@@ -10,11 +10,11 @@ import {
   type SubscriptionHandlerData,
 } from "type-graphql";
 import { Notification, NotificationPayload } from "./notification.type";
-import { pubSub } from "./pubsub";
+import { Topic, pubSub } from "./pubsub";
 
 @Resolver()
-export class SampleResolver {
-  private id = 0;
+export class NotificationResolver {
+  private id: number = 0;
 
   @Query(_returns => Date)
   currentDate() {
@@ -25,17 +25,17 @@ export class SampleResolver {
   async pubSubMutation(@Arg("message", { nullable: true }) message?: string): Promise<boolean> {
     this.id += 1;
     const payload: NotificationPayload = { id: this.id, message };
-    pubSub.publish("NOTIFICATIONS", payload);
+    pubSub.publish(Topic.NOTIFICATIONS, payload);
     return true;
   }
 
-  @Subscription({ topics: "NOTIFICATIONS" })
+  @Subscription({ topics: Topic.NOTIFICATIONS })
   normalSubscription(@Root() { id, message }: NotificationPayload): Notification {
     return { id, message, date: new Date() };
   }
 
   @Subscription(_returns => Notification, {
-    topics: "NOTIFICATIONS",
+    topics: Topic.NOTIFICATIONS,
     filter: ({ payload }: SubscriptionHandlerData<NotificationPayload>) => payload.id % 2 === 0,
   })
   subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
@@ -43,10 +43,10 @@ export class SampleResolver {
     return newNotification;
   }
 
-  // multiple topics
+  // Multiple topics
 
   @Subscription(_returns => Notification, {
-    topics: ["NOTIFICATIONS", "NOTIFICATIONS_2"],
+    topics: [Topic.NOTIFICATIONS, "NOTIFICATIONS_2"],
     filter: ({ payload }: SubscriptionHandlerData<NotificationPayload>) => payload.id % 2 === 0,
   })
   subscriptionWithMultipleTopics(@Root() { id, message }: NotificationPayload) {
@@ -86,12 +86,12 @@ export class SampleResolver {
   ): Promise<boolean> {
     this.id += 1;
     const payload: NotificationPayload = { id: this.id, message };
-    pubSub.publish("DYNAMIC_ID_TOPIC", topicId, payload);
+    pubSub.publish(Topic.DYNAMIC_ID_TOPIC, topicId, payload);
     return true;
   }
 
   @Subscription({
-    topics: "DYNAMIC_ID_TOPIC",
+    topics: Topic.DYNAMIC_ID_TOPIC,
     topicId: ({ args }: SubscribeResolverData<any, { topicId: number }, any>) => args.topicId,
   })
   subscribeToTopicIdFromArg(
