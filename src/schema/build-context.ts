@@ -114,6 +114,7 @@ export abstract class BuildContext {
     this.validateFn = undefined;
     this.authChecker = undefined;
     this.authMode = "error";
+    this.pubSub = undefined;
     this.globalMiddlewares = [];
     this.container = new IOCContainer();
     this.nullableByDefault = false;

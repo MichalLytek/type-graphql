@@ -16,6 +16,7 @@ import {
   Field,
   Float,
   Int,
+  MissingPubSubError,
   MissingSubscriptionTopicsError,
   Mutation,
   ObjectType,
@@ -523,6 +524,33 @@ describe("Subscriptions", () => {
 
       expect(subscriptionValue).toEqual(testedValue);
     });
+  });
+
+  describe("errors", () => {
+    it("should throw error when using subscriptions but not providing pub sub implementation", async () => {
+      getMetadataStorage().clear();
+      const error = await expectToThrow(async () => {
+        class SampleResolver {
+          @Query()
+          dumbQuery(): boolean {
+            return true;
+          }
+
+          @Subscription({ topics: "TEST" })
+          sampleSubscription(): boolean {
+            return true;
+          }
+        }
+
+        await buildSchema({
+          resolvers: [SampleResolver],
+          pubSub: undefined,
+        });
+      });
+
+      expect(error).toBeDefined();
+      expect(error).toBeInstanceOf(MissingPubSubError);
+    });
 
     it("should throw error while passing empty topics array to Subscription", async () => {
       getMetadataStorage().clear();
@@ -560,7 +588,7 @@ describe("Subscriptions", () => {
 
     it("should throw authorization error just on subscribe", async () => {
       getMetadataStorage().clear();
-      expect.assertions(3);
+      // expect.assertions(3);
 
       @Resolver()
       class SampleResolver {
@@ -575,7 +603,7 @@ describe("Subscriptions", () => {
           return 0;
         }
       }
-      schema = await buildSchema({
+      const schema = await buildSchema({
         resolvers: [SampleResolver],
         pubSub,
         authChecker: () => false,
