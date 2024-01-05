@@ -2503,7 +2503,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @Resolver()
