@@ -1,8 +1,17 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
-
 <!-- Here goes all the unreleased changes descriptions -->
+
+## Unreleased
+
+### Fixes
+
+- allow overriding field resolver method with different `name` arguments (#1284)
+- allow object type's `name` argument string contain a double underscore (`__`) when using `buildTypeDefsAndResolvers()` (#1309)
+
+### Others
+
+- properly configure esm build pipeline to publish working esm version of the package
 
 ## v2.0.0-beta.4
 
