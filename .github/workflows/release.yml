@@ -10,20 +10,22 @@ on:
       - master
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
   release:
     name: Release package on NPM
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref_name, 'v')
+    if: github.event.workflow_run.conclusion == 'success' && startsWith(github.event.workflow_run.head_branch, 'refs/tags/v')
     permissions:
       contents: write
       id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Read package.json version
         uses: sergeysova/jq-action@v2
@@ -31,11 +33,32 @@ jobs:
         with:
           cmd: jq --raw-output .version package.json
 
+      - name: Read Git tag version
+        id: tag
+        env:
+          TYPE_GRAPHQL_REF: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          _ref="$TYPE_GRAPHQL_REF"
+          printf 'value=%s\n' "${_ref#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Check package.json == Git tag
+        env:
+          TYPE_GRAPHQL_VERSION_PACKAGE: ${{ steps.version.outputs.value }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.tag.outputs.value }}
+        run: |
+          _version="v$TYPE_GRAPHQL_VERSION_PACKAGE"
+          if [ ! "$_version" = "$TYPE_GRAPHQL_VERSION_TAG" ]; then
+            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "$_version" "$TYPE_GRAPHQL_VERSION_TAG"
+            exit 1
+          fi
+
       - name: Determine if version is prerelease
         id: prerelease
+        env:
+          TYPE_GRAPHQL_VERSION: ${{ steps.version.outputs.value }}
         run: |
           _prerelease=
-          if printf "%s\n" "${{ steps.version.outputs.value }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
+          if printf "%s\n" "$TYPE_GRAPHQL_VERSION" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
             _prerelease=false
           else
             _prerelease=true
@@ -61,7 +84,7 @@ jobs:
         run: |
           npm run prepublishOnly
         env:
-          TYPE_GRAPHQL_REF: ${{ github.ref_name }}
+          TYPE_GRAPHQL_REF: ${{ steps.tag.outputs.value }}
 
       - name: Build Changelog
         id: changelog
@@ -79,14 +102,15 @@ jobs:
           prerelease: ${{ steps.prerelease.outputs.value == 'true' }}
 
       - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TYPE_GRAPHQL_PRERELEASE: ${{ steps.prerelease.outputs.value }}
         run: |
           _tag=
-          if [ "${{ steps.prerelease.outputs.value }}" = "true" ]; then
+          if [ "$TYPE_GRAPHQL_PRERELEASE" = "true" ]; then
             _tag="next"
           else
             _tag="latest"
           fi
 
           npm publish --ignore-scripts --tag "$_tag"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

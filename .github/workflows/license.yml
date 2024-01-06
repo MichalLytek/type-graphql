@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: "0 0 1 1 *"
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   license:
     runs-on: ubuntu-latest
