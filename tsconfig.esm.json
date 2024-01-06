@@ -1,8 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "es2020",
+    "moduleResolution": "bundler",
     "outDir": "./build/esm"
   }
 }
