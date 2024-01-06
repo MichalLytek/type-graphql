@@ -26,6 +26,7 @@ import {
   Arg,
   Authorized,
   Field,
+  FieldResolver,
   InputType,
   InterfaceType,
   Mutation,
@@ -105,6 +106,15 @@ describe("typeDefs and resolvers", () => {
 
         @Field()
         sampleType3StringField!: string;
+      }
+
+      @ObjectType("SampleType__4")
+      class SampleType4 {
+        @Field()
+        sampleInterfaceStringField!: string;
+
+        @Field()
+        sampleType4StringField!: string;
       }
 
       @InputType()
@@ -241,8 +251,26 @@ describe("typeDefs and resolvers", () => {
       }
 
       pubSub = createPubSub();
+
+      @Service()
+      @Resolver(() => SampleType4)
+      class SampleObjectTypeWithDoubleUnderscoreInNameResolver {
+        @FieldResolver(() => String)
+        sampleResolvedField(): string {
+          return "sampleResolvedField";
+        }
+
+        @Query(() => SampleType4)
+        async sampleQueryOnObjectTypeWithDoubleUnderScore(): Promise<SampleType4> {
+          const type4 = new SampleType4();
+          type4.sampleInterfaceStringField = "sampleInterfaceStringField";
+          type4.sampleType4StringField = "sampleType4StringField";
+          return type4;
+        }
+      }
+
       ({ typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-        resolvers: [SampleResolver],
+        resolvers: [SampleResolver, SampleObjectTypeWithDoubleUnderscoreInNameResolver],
         authChecker: () => false,
         pubSub,
         container: Container,
@@ -286,6 +314,10 @@ describe("typeDefs and resolvers", () => {
         const sampleType2 = schemaIntrospection.types.find(
           it => it.name === "SampleType2",
         ) as IntrospectionObjectType;
+        const sampleType4 = schemaIntrospection.types.find(
+          it => it.name === "SampleType__4",
+        ) as IntrospectionObjectType;
+
         const sampleType1StringField = sampleType1.fields.find(
           it => it.name === "sampleType1StringField",
         )!;
@@ -299,6 +331,7 @@ describe("typeDefs and resolvers", () => {
         expect(sampleType1.interfaces).toHaveLength(1);
         expect(sampleType1.interfaces[0].name).toBe("SampleInterface");
         expect(sampleType2StringField.deprecationReason).toBe("sampleType2StringFieldDeprecation");
+        expect(sampleType4.fields).toHaveLength(3);
       });
 
       it("should generate input type", async () => {
@@ -356,7 +389,7 @@ describe("typeDefs and resolvers", () => {
           it => it.name === schemaIntrospection.queryType.name,
         ) as IntrospectionObjectType;
 
-        expect(queryType.fields).toHaveLength(8);
+        expect(queryType.fields).toHaveLength(9);
       });
 
       it("should generate mutations", async () => {
@@ -572,6 +605,26 @@ describe("typeDefs and resolvers", () => {
 
         expect(data!.sampleStringEnumQuery).toBe("OptionTwo");
         expect(enumValue).toBe("OptionTwoString");
+      });
+
+      it("should properly execute field resolver for object type with two underscores NOT in the beginning", async () => {
+        const document = gql`
+          query {
+            sampleQueryOnObjectTypeWithDoubleUnderScore {
+              sampleResolvedField
+              sampleInterfaceStringField
+              sampleType4StringField
+            }
+          }
+        `;
+
+        const { data } = await execute({ schema, document });
+
+        expect(data!.sampleQueryOnObjectTypeWithDoubleUnderScore).toEqual({
+          sampleResolvedField: "sampleResolvedField",
+          sampleInterfaceStringField: "sampleInterfaceStringField",
+          sampleType4StringField: "sampleType4StringField",
+        });
       });
 
       it("should properly run subscriptions", async () => {
