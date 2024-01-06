@@ -2479,5 +2479,70 @@ describe("Resolvers", () => {
 
       expect(self).toBeInstanceOf(childResolver);
     });
+
+    it("should allow duplicate fieldResolver methods with different schema names for inherited resolvers", async () => {
+      getMetadataStorage().clear();
+      const INHERITED_DYNAMIC_FIELD_NAME_1 = "dynamicallyNamedMethod1";
+      const INHERITED_DYNAMIC_FIELD_NAME_2 = "dynamicallyNamedMethod2";
+
+      const withDynamicallyNamedFieldResolver = (
+        classType: ClassType,
+        BaseResolverClass: ClassType,
+        name: string,
+      ) => {
+        @Resolver(() => classType)
+        class DynamicallyNamedFieldResolver extends BaseResolverClass {
+          @FieldResolver({ name })
+          dynamicallyNamedField(): boolean {
+            return true;
+          }
+        }
+        return DynamicallyNamedFieldResolver;
+      };
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField!: string;
+      }
+
+      @Resolver()
+      class SampleResolver {
+        @Query(() => SampleObject)
+        sampleObject(): SampleObject {
+          return { sampleField: "sampleText" };
+        }
+      }
+
+      const DynamicallyNamedFieldResolver1 = withDynamicallyNamedFieldResolver(
+        SampleObject,
+        SampleResolver,
+        INHERITED_DYNAMIC_FIELD_NAME_1,
+      );
+      const DynamicallyNamedFieldResolver2 = withDynamicallyNamedFieldResolver(
+        SampleObject,
+        DynamicallyNamedFieldResolver1,
+        INHERITED_DYNAMIC_FIELD_NAME_2,
+      );
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [DynamicallyNamedFieldResolver2],
+      });
+      schemaIntrospection = schemaInfo.schemaIntrospection;
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+
+      const dynamicField1 = sampleObjectType.fields.find(
+        field => field.name === INHERITED_DYNAMIC_FIELD_NAME_1,
+      )!;
+
+      const dynamicField2 = sampleObjectType.fields.find(
+        field => field.name === INHERITED_DYNAMIC_FIELD_NAME_2,
+      )!;
+
+      expect(dynamicField1).toBeDefined();
+      expect(dynamicField2).toBeDefined();
+    });
   });
 });
