@@ -330,8 +330,8 @@ export abstract class SchemaGenerator {
                   field.simple !== undefined
                     ? field.simple === true
                     : objectType.simpleResolvers !== undefined
-                    ? objectType.simpleResolvers === true
-                    : false;
+                      ? objectType.simpleResolvers === true
+                      : false;
                 // eslint-disable-next-line no-param-reassign
                 fieldsMap[field.schemaName] = {
                   type,
@@ -340,8 +340,8 @@ export abstract class SchemaGenerator {
                   resolve: fieldResolverMetadata
                     ? createAdvancedFieldResolver(fieldResolverMetadata)
                     : isSimpleResolver
-                    ? undefined
-                    : createBasicFieldResolver(field),
+                      ? undefined
+                      : createBasicFieldResolver(field),
                   description: field.description,
                   deprecationReason: field.deprecationReason,
                   astNode: getFieldDefinitionNode(field.name, type, field.directives),

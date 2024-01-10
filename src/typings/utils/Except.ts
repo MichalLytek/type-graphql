@@ -30,8 +30,8 @@ type Filtered = Filter<'bar', 'foo'>;
 type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
   ? never
   : KeyType extends ExcludeType
-  ? never
-  : KeyType;
+    ? never
+    : KeyType;
 
 interface ExceptOptions {
   /**

@@ -11,6 +11,7 @@
 
 ### Others
 
+- **Breaking Change**: update `graphql-scalars` peer dependency to `^1.22.4`
 - properly configure esm build pipeline to publish working esm version of the package
 
 ## v2.0.0-beta.4

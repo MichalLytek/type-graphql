@@ -4,7 +4,7 @@ import path from "node:path";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { MikroORM, ReflectMetadataProvider } from "@mikro-orm/core";
-import { type PostgreSqlDriver } from "@mikro-orm/postgresql";
+import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { buildSchema } from "type-graphql";
 import { type Context } from "./context.type";
 import { Rating, Recipe, User } from "./entities";
@@ -14,11 +14,11 @@ import { RatingResolver, RecipeResolver } from "./resolvers";
 async function bootstrap() {
   // Initialize MikroORM
   const orm = await MikroORM.init<PostgreSqlDriver>({
-    type: "postgresql",
+    driver: PostgreSqlDriver,
     clientUrl: process.env.DATABASE_URL,
     entities: [Rating, Recipe, User],
     metadataProvider: ReflectMetadataProvider,
-    cache: { enabled: false },
+    metadataCache: { enabled: false },
   });
   const generator = orm.getSchemaGenerator();
   await generator.dropSchema();
