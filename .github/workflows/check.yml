@@ -133,6 +133,8 @@ jobs:
           npm run build:benchmarks
 
       - name: Check
+        # only run on newest node version
+        if: matrix.node-version == '20.x'
         run: |
           npm run check
         env:
