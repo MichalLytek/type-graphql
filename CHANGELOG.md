@@ -1,8 +1,10 @@
 # Changelog and release notes
 
+<!-- ## Unreleased -->
+
 <!-- Here goes all the unreleased changes descriptions -->
 
-## Unreleased
+## v2.0.0-beta.6
 
 ### Fixes
 

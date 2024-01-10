@@ -1,6 +1,6 @@
 {
   "name": "type-graphql",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.6",
   "private": false,
   "description": "Create GraphQL schema and resolvers with TypeScript, using classes and decorators!",
   "keywords": [
