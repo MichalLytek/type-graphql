@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Bootstrapping · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="After creating our resolvers, type classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it with an HTTP server, WebSockets or even MQTT."/><meta name="docsearch:version" content="2.0.0-beta.4"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Bootstrapping · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="After creating our resolvers, type classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it with an HTTP server, WebSockets or even MQTT."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>2.0.0-beta.4</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/2.0.0-beta.4/introduction.html" target="_self">Docs</a></li><li class=""><a href="/docs/2.0.0-beta.4/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/2.0.0-beta.4/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/MichalLytek/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Beginner guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Beginner guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/types-and-fields.html">Types and Fields</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/resolvers.html">Resolvers</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/2.0.0-beta.4/bootstrap.html">Bootstrapping</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/esm.html">ECMAScript Modules</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Migration guide</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/migration-guide.html">v1.x -&gt; v2.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/interfaces.html">Interfaces</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/subscriptions.html">Subscriptions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/directives.html">Directives</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/extensions.html">Extensions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Features</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/authorization.html">Authorization</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/validation.html">Validation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/inheritance.html">Inheritance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/generic-types.html">Generic Types</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/middlewares.html">Middleware and guards</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/custom-decorators.html">Custom decorators</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/complexity.html">Query complexity</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/prisma.html">Prisma</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/nestjs.html">NestJS</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Others</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/emit-schema.html">Emitting the schema SDL</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/performance.html">Performance</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Recipes</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/browser-usage.html">Browser usage</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/aws-lambda.html">AWS Lambda integration</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/bootstrap.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Bootstrapping</h1></header><article><div><span><p>After creating our resolvers, type classes, and other business-related code, we need to make our app run. First we have to build the schema, then we can expose it with an HTTP server, WebSockets or even MQTT.</p>
+<h2><a class="anchor" aria-hidden="true" id="create-executable-schema"></a><a href="#create-executable-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create Executable Schema</h2>
+<p>To create an executable schema from type and resolver definitions, we need to use the <code>buildSchema</code> function.
+It takes a configuration object as a parameter and returns a promise of a <code>GraphQLSchema</code> object.</p>
+<p>In the configuration object we must provide a <code>resolvers</code> property, which is supposed to be an array of resolver classes:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> FirstResolver<span class="token punctuation">,</span> SecondResolver <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./resolvers"</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Be aware that only operations (queries, mutation, etc.) defined in the resolvers classes (and types directly connected to them) will be emitted in schema.</p>
+<p>So if we have defined some object types (that implements an interface type <a href="/docs/2.0.0-beta.4/interfaces.html#registering-in-schema">with disabled auto registering</a>) but are not directly used in other types definition (like a part of an union, a type of a field or a return type of an operation), we need to provide them manually in <code>orphanedTypes</code> options of <code>buildSchema</code>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> FirstResolver<span class="token punctuation">,</span> SecondResolver <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../app/src/resolvers"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> FirstObject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../app/src/types"</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment">// Provide all the types that are missing in schema</span>
+  orphanedTypes<span class="token operator">:</span> <span class="token punctuation">[</span>FirstObject<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>In case of defining the resolvers array somewhere else (not inline in the <code>buildSchema</code>), we need to use the <code>as const</code> syntax to inform the TS compiler and satisfy the <code>NonEmptyArray&lt;T&gt;</code> constraints:</p>
+<pre><code class="hljs css language-ts"><span class="token comment">// resolvers.ts</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> resolvers <span class="token operator">=</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span> <span class="token keyword">as</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+
+<span class="token comment">// schema.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> resolvers <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./resolvers"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span> resolvers <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>There are also other options related to advanced features like <a href="/docs/2.0.0-beta.4/authorization.html">authorization</a> or <a href="/docs/2.0.0-beta.4/validation.html">validation</a> - you can read about them in docs.</p>
+<p>To make <code>await</code> work, we need to declare it as an async function. Example of <code>main.ts</code> file:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> buildSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token comment">// ... Resolvers classes</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Actually run the async function</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="create-an-http-graphql-endpoint"></a><a href="#create-an-http-graphql-endpoint" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create an HTTP GraphQL endpoint</h2>
+<p>In most cases, the GraphQL app is served by an HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as <a href="https://github.com/dotansimha/graphql-yoga"><code>graphql-yoga</code></a> or <a href="https://github.com/apollographql/apollo-server"><code>@apollo/server</code></a>.</p>
+<p>Below is an example using <a href="https://github.com/apollographql/apollo-server"><code>@apollo/server</code></a>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@apollo/server"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> startStandaloneServer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@apollo/server/standalone"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span> <span class="token operator">||</span> <span class="token number">4000</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ... Build GraphQL schema</span>
+
+  <span class="token comment">// Create GraphQL server</span>
+  <span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloServer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> schema <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Start server</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> url <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">startStandaloneServer</span><span class="token punctuation">(</span>server<span class="token punctuation">,</span> <span class="token punctuation">{</span> listen<span class="token operator">:</span> <span class="token punctuation">{</span> port<span class="token operator">:</span> <span class="token number">4000</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">GraphQL server ready at </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Remember to install the <code>@apollo/server</code> package from npm - it's not bundled with TypeGraphQL.</p>
+<p>Of course you can use the <code>express-graphql</code> middleware, <code>graphql-yoga</code> or whatever you want 😉</p>
+<h2><a class="anchor" aria-hidden="true" id="create-typedefs-and-resolvers-map"></a><a href="#create-typedefs-and-resolvers-map" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create typeDefs and resolvers map</h2>
+<p>TypeGraphQL provides a second way to generate the GraphQL schema - the <code>buildTypeDefsAndResolvers</code> function.</p>
+<p>It accepts the same <code>BuildSchemaOptions</code> as the <code>buildSchema</code> function but instead of an executable <code>GraphQLSchema</code>, it creates a typeDefs and resolversMap pair that you can use e.g. with <a href="https://the-guild.dev/graphql/tools">@graphql-tools/*`</a>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> makeExecutableSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@graphql-tools/schema"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> typeDefs<span class="token punctuation">,</span> resolvers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildTypeDefsAndResolvers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token function">makeExecutableSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span> typeDefs<span class="token punctuation">,</span> resolvers <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Or even with other libraries that expect the schema info in that shape, like <a href="https://github.com/apollographql/apollo-link-state"><code>apollo-link-state</code></a>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> withClientState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"apollo-link-state"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> typeDefs<span class="token punctuation">,</span> resolvers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildTypeDefsAndResolvers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> stateLink <span class="token operator">=</span> <span class="token function">withClientState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// ... Other options like `cache`</span>
+  typeDefs<span class="token punctuation">,</span>
+  resolvers<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ... Rest of `ApolloClient` initialization code</span>
+</code></pre>
+<p>There's also a <code>sync</code> version of it - <code>buildTypeDefsAndResolversSync</code>:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">const</span> <span class="token punctuation">{</span> typeDefs<span class="token punctuation">,</span> resolvers <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">buildTypeDefsAndResolversSync</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>FirstResolver<span class="token punctuation">,</span> SecondResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>However, be aware that some of the TypeGraphQL features (i.a. <a href="/docs/2.0.0-beta.4/complexity.html">query complexity</a>) might not work with the <code>buildTypeDefsAndResolvers</code> approach because they use some low-level <code>graphql-js</code> features.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/2.0.0-beta.4/resolvers.html"><span class="arrow-prev">← </span><span>Resolvers</span></a><a class="docs-next button" href="/docs/2.0.0-beta.4/esm.html"><span>ECMAScript Modules</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#create-executable-schema">Create Executable Schema</a></li><li><a href="#create-an-http-graphql-endpoint">Create an HTTP GraphQL endpoint</a></li><li><a href="#create-typedefs-and-resolvers-map">Create typeDefs and resolvers map</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
+            const html = document.querySelector("html");
+
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>';
+
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
+                }
+              }
+
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
+
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
+
+            appendButtonToDOM();
+            setInitialColorMode();
+          </script><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2024 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

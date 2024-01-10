@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Migration Guide · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; This chapter contains migration guide, that will help you upgrade your codebase from using old Typegraphql `v1.x` into the newest `v2.0` release."/><meta name="docsearch:version" content="2.0.0-beta.4"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Migration Guide · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="&gt; This chapter contains migration guide, that will help you upgrade your codebase from using old Typegraphql `v1.x` into the newest `v2.0` release."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>2.0.0-beta.4</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/2.0.0-beta.4/introduction.html" target="_self">Docs</a></li><li class=""><a href="/docs/2.0.0-beta.4/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/2.0.0-beta.4/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/MichalLytek/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Migration guide</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Beginner guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/types-and-fields.html">Types and Fields</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/resolvers.html">Resolvers</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/bootstrap.html">Bootstrapping</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/esm.html">ECMAScript Modules</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Migration guide</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/2.0.0-beta.4/migration-guide.html">v1.x -&gt; v2.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/interfaces.html">Interfaces</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/subscriptions.html">Subscriptions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/directives.html">Directives</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/extensions.html">Extensions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Features</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/authorization.html">Authorization</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/validation.html">Validation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/inheritance.html">Inheritance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/generic-types.html">Generic Types</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/middlewares.html">Middleware and guards</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/custom-decorators.html">Custom decorators</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/complexity.html">Query complexity</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/prisma.html">Prisma</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/nestjs.html">NestJS</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Others</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/emit-schema.html">Emitting the schema SDL</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/performance.html">Performance</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Recipes</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/browser-usage.html">Browser usage</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.4/aws-lambda.html">AWS Lambda integration</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/migration-guide.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Migration Guide</h1></header><article><div><span><blockquote>
+<p>This chapter contains migration guide, that will help you upgrade your codebase from using old Typegraphql <code>v1.x</code> into the newest <code>v2.0</code> release.</p>
+<p>If you just started using TypeGraphQL and you have <code>v2.0</code> installed, you can skip this chapter and go straight into the &quot;Advanced guides&quot; section.</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="subscriptions"></a><a href="#subscriptions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Subscriptions</h2>
+<p>The new <code>v2.0</code> release contains a bunch of breaking changes related to the GraphQL subscriptions feature.</p>
+<p>In previous releases, this feature was build upon the <a href="https://github.com/apollographql/graphql-subscriptions"><code>graphql-subscriptions</code></a> package and it's <code>PubSub</code> system.
+However, it's become unmaintained in the last years and some alternatives has been developed in the meantime.</p>
+<p>So since <code>v2.0</code>, TypeGraphQL relies on the new <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions"><code>@graphql-yoga/subscriptions</code></a> package which is built on top of latest ECMAScript features. It also has own <code>PubSub</code> implementation which works in a similar fashion, but has a slightly different API.</p>
+<p>We did out best to hide under the hood all the differences between the APIs of those packages, but some breaking changes had to occurred in the TypeGraphQL API.</p>
+<h3><a class="anchor" aria-hidden="true" id="the-pubsub-option-of-buildschema"></a><a href="#the-pubsub-option-of-buildschema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The <code>pubSub</code> option of <code>buildSchema</code></h3>
+<p>It is now required to pass the <code>PubSub</code> instance as the config option of <code>buildSchema</code> function.
+Previously, you could omit it and rely on the default one created by TypeGraphQL.</p>
+<p>The reason for this change is that <code>@graphql-yoga/subscriptions</code> package allows to create a type-safe <code>PubSub</code> instance via the <a href="https://the-guild.dev/graphql/yoga-server/v2/features/subscriptions#topics">generic <code>createPubSub</code> function</a>, so you can add type info about the topics and params required while using <code>.publish()</code> method.</p>
+<p>Simple example of the new API:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> buildSchema <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"type-graphql"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createPubSub <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@graphql-yoga/subscriptions"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> pubSub <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createPubSub</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token punctuation">{</span>
+  <span class="token constant">NOTIFICATIONS</span><span class="token operator">:</span> <span class="token punctuation">[</span>NotificationPayload<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token constant">DYNAMIC_ID_TOPIC</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token builtin">number</span><span class="token punctuation">,</span> NotificationPayload<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolver<span class="token punctuation">,</span>
+  pubSub<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Be aware that you can use any <code>PubSub</code> system you want, not only the <code>graphql-yoga</code> one.
+The only requirement is to comply with the exported <code>PubSub</code> interface - having proper <code>.subscribe()</code> and <code>.publish()</code> methods.</p>
+<h3><a class="anchor" aria-hidden="true" id="no-pubsub-decorator"></a><a href="#no-pubsub-decorator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>No <code>@PubSub</code> decorator</h3>
+<p>The consequence of not having automatically created, default <code>PubSub</code> instance, is that you don't need access to the internally-created <code>PubSub</code> instance.</p>
+<p>Hence, the <code>@PubSub</code> decorator was removed - please use dependency injection system if you don't want to have a hardcoded import. The corresponding <code>Publisher</code> type was also removed as it was not needed anymore.</p>
+<h3><a class="anchor" aria-hidden="true" id="renamed-and-removed-types"></a><a href="#renamed-and-removed-types" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Renamed and removed types</h3>
+<p>There was some inconsistency in naming of the decorator option functions argument types, which was unified in the <code>v2.0</code> release.</p>
+<p>If you reference those types in your code (<code>filter</code> or <code>subscribe</code> decorator option functions), make sure you update your type annotation and imports to the new name.</p>
+<ul>
+<li><code>ResolverFilterData</code> -&gt; <code>SubscriptionHandlerData</code></li>
+<li><code>ResolverTopicData</code> -&gt; <code>SubscribeResolverData</code></li>
+</ul>
+<p>Also, apart from the <code>Publisher</code> type mentioned above, the <code>PubSubEngine</code> type has been removed and is no longer exported from the package.</p>
+<h3><a class="anchor" aria-hidden="true" id="topic-with-dynamic-id"></a><a href="#topic-with-dynamic-id" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Topic with Dynamic ID</h3>
+<p>As TypeGraphQL uses <code>@graphql-yoga/subscriptions</code> under the hood, it also aims to use its features. And one of the extension to the old <code>PubSub</code> system used in <code>v1.x</code> is ability to not only use dynamic topics but a topic with a dynamic id.</p>
+<p>You can read more about this new feature in <a href="/docs/2.0.0-beta.4/subscriptions.html#topic-with-dynamic-id">subscription docs</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/2.0.0-beta.4/esm.html"><span class="arrow-prev">← </span><span>ECMAScript Modules</span></a><a class="docs-next button" href="/docs/2.0.0-beta.4/scalars.html"><span>Scalars</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#subscriptions">Subscriptions</a><ul class="toc-headings"><li><a href="#the-pubsub-option-of-buildschema">The <code>pubSub</code> option of <code>buildSchema</code></a></li><li><a href="#no-pubsub-decorator">No <code>@PubSub</code> decorator</a></li><li><a href="#renamed-and-removed-types">Renamed and removed types</a></li><li><a href="#topic-with-dynamic-id">Topic with Dynamic ID</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
+            const html = document.querySelector("html");
+
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>';
+
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
+                }
+              }
+
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
+
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
+
+            appendButtonToDOM();
+            setInitialColorMode();
+          </script><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2024 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
