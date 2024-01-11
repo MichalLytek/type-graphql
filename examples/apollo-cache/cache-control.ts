@@ -3,12 +3,12 @@ import { Directive } from "type-graphql";
 import { type RequireAtLeastOne } from "./helpers/RequireAtLeastOne";
 
 export function CacheControl({ maxAge, scope }: RequireAtLeastOne<CacheHint>) {
-  if (!maxAge && !scope) {
+  if (maxAge === undefined && !scope) {
     throw new Error("Missing maxAge or scope param for @CacheControl");
   }
 
   let sdl = "@cacheControl(";
-  if (maxAge) {
+  if (maxAge !== undefined) {
     sdl += `maxAge: ${maxAge}`;
   }
   if (scope) {
