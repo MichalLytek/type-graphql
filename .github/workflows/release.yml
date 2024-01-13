@@ -31,7 +31,7 @@ jobs:
           TYPE_GRAPHQL_VERSION: ${{ github.event.workflow_run.head_branch }}
         run: |
           _prerelease=
-          if printf "%s\n" "$TYPE_GRAPHQL_VERSION" | grep -q -P '^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$'; then
+          if printf "%s\n" "$TYPE_GRAPHQL_VERSION" | grep -q -P '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'; then
             _prerelease=false
           else
             _prerelease=true
