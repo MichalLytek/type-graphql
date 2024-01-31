@@ -650,6 +650,113 @@
       "version-2.0.0-beta.3/version-2.0.0-beta.3-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-aws-lambda": {
+        "title": "AWS Lambda integration"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-directives": {
+        "title": "Directives"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-emit-schema": {
+        "title": "Emitting the schema SDL"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-esm": {
+        "title": "ECMAScript Modules"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-migration-guide": {
+        "title": "Migration Guide",
+        "sidebar_label": "v1.x -> v2.0"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
@@ -661,9 +768,9 @@
       "Blog": "Blog"
     },
     "categories": {
-      "Migration guide": "Migration guide",
       "Introduction": "Introduction",
       "Beginner guides": "Beginner guides",
+      "Migration guide": "Migration guide",
       "Advanced guides": "Advanced guides",
       "Features": "Features",
       "Integrations": "Integrations",
