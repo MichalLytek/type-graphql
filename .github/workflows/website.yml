@@ -6,8 +6,6 @@ on:
       - check
     types:
       - completed
-    branches:
-      - master
 
 concurrency:
   group: ${{ github.workflow }}
@@ -17,7 +15,7 @@ jobs:
   website:
     name: Publish website
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success' && github.ref_name == 'master' && (github.event.workflow_run.head_branch == 'master' || startsWith(github.event.workflow_run.head_branch, 'v'))
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +26,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: 20.x
 
       - name: Install Dependencies
         run: |
