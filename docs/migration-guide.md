@@ -7,6 +7,37 @@ sidebar_label: v1.x -> v2.0
 >
 > If you just started using TypeGraphQL and you have `v2.0` installed, you can skip this chapter and go straight into the "Advanced guides" section.
 
+## New `DateTimeISO` scalar name in schema
+
+One of the breaking change released in `v2.0` is using `Date` scalars from `graphql-scalars` package, instead of custom ones that were built-in in TypegraphQL.
+
+This means that the exported `GraphQLISODateTime` scalar is registered in schema under a changed name - `DateTimeISO`. If you don't plan to use other `DateTime` scalar in your project and you need to restore the existing scalar name for an easy upgrade to the latest TypeGraphQL version (without rewriting your GraphQL queries), here's a simple snippet for you to use.
+
+First, you need to create an alias for the `GraphQLDateTimeISO` scalar:
+
+```ts
+import { GraphQLDateTimeISO } from "graphql-scalars";
+import { GraphQLScalarType } from "graphql";
+
+const AliasedGraphQLDateTimeISO = new GraphQLScalarType({
+  ...GraphQLDateTimeISO.toConfig(),
+  name: "DateTime", // use old name
+});
+```
+
+And then register the scalars mapping in the schema you build, in order to overwrite the default date scalar:
+
+```ts
+import { buildSchema } from "type-graphql";
+
+const schema = await buildSchema({
+  resolvers,
+  scalarsMap: [{ type: Date, scalar: AliasedGraphQLDateTimeISO }],
+});
+```
+
+An alternative solution would be to just search for `DateTime` via CTRL+F in your codebase and replace with `DateTimeISO` in your queries, if you don't need the backward compatibility for existing released client apps.
+
 ## Subscriptions
 
 The new `v2.0` release contains a bunch of breaking changes related to the GraphQL subscriptions feature.
