@@ -197,7 +197,7 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 [![GitHub Sponsors](./images/github-sponsors.svg)](https://github.com/sponsors/TypeGraphQL)
 
-## Comunity
+## Community
 
 - Visit the [Official Website](https://typegraphql.com)
 - Chat on [Discord](https://discord.gg/cWnBAQcbg2)
