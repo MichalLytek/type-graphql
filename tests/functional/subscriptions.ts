@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createPubSub } from "@graphql-yoga/subscription";
+import { createPubSub, map, pipe } from "@graphql-yoga/subscription";
 import {
   type DocumentNode,
   type ExecutionResult,
@@ -210,6 +210,14 @@ describe("Subscriptions", () => {
         })
         customSubscribeSubscription(@Root() value: number): SampleObject {
           return { value };
+        }
+
+        @Subscription(_returns => SampleObject)
+        classMethodSubscription(@Arg("topic") topic: string) {
+          return pipe(
+            pubSub.subscribe(topic),
+            map(value => ({ value })),
+          );
         }
       }
 
@@ -524,6 +532,35 @@ describe("Subscriptions", () => {
 
       expect(subscriptionValue).toEqual(testedValue);
     });
+
+    it("should correctly subscribe with class method", async () => {
+      let subscriptionValue!: number;
+      const SAMPLE_TOPIC = "MY_DYNAMIC_TOPIC";
+      const classMethodSubscription = gql`
+        subscription classMethodSubscription($topic: String!) {
+          classMethodSubscription(topic: $topic) {
+            value
+          }
+        }
+      `;
+      const pubSubMutationDynamicTopic = gql`
+        mutation pubSubMutationDynamicTopic($value: Float!, $topic: String!) {
+          pubSubMutationDynamicTopic(value: $value, topic: $topic)
+        }
+      `;
+
+      await subscribeOnceAndMutate({
+        subscription: classMethodSubscription,
+        subscriptionVariables: { topic: SAMPLE_TOPIC },
+        mutation: pubSubMutationDynamicTopic,
+        mutationVariables: { value: 0.23, topic: SAMPLE_TOPIC },
+        onSubscribedData: data => {
+          subscriptionValue = data.classMethodSubscription.value;
+        },
+      });
+
+      expect(subscriptionValue).toEqual(0.23);
+    });
   });
 
   describe("errors", () => {
@@ -601,6 +638,42 @@ describe("Subscriptions", () => {
         @Subscription(_returns => Int, { topics: "SAMPLE_TOPIC" })
         authedSubscription(): number {
           return 0;
+        }
+      }
+      const schema = await buildSchema({
+        resolvers: [SampleResolver],
+        pubSub,
+        authChecker: () => false,
+      });
+      const document = gql`
+        subscription {
+          authedSubscription
+        }
+      `;
+
+      const subscribeResult = await subscribe({ schema, document });
+
+      expect(subscribeResult).toHaveProperty("errors");
+      const { errors } = subscribeResult as ExecutionResult;
+      expect(errors).toHaveLength(1);
+      expect(errors![0].message).toContain("Access denied!");
+    });
+
+    it("should throw authorization error on subscription using class method", async () => {
+      getMetadataStorage().clear();
+      // expect.assertions(3);
+
+      @Resolver()
+      class SampleResolver {
+        @Query()
+        sampleQuery(): number {
+          return 2137;
+        }
+
+        @Authorized("prevent")
+        @Subscription(_returns => Int)
+        authedSubscription() {
+          return pubSub.subscribe("SAMPLE_TOPIC");
         }
       }
       const schema = await buildSchema({

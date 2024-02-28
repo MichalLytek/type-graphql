@@ -24,13 +24,14 @@ interface SubscribeOptions {
 
 export type SubscriptionOptions = AdvancedOptions & MergeExclusive<PubSubOptions, SubscribeOptions>;
 
+export function Subscription(): MethodDecorator;
 export function Subscription(options: SubscriptionOptions): MethodDecorator;
 export function Subscription(
   returnTypeFunc: ReturnTypeFunc,
-  options: SubscriptionOptions,
+  options?: SubscriptionOptions,
 ): MethodDecorator;
 export function Subscription(
-  returnTypeFuncOrOptions: ReturnTypeFunc | SubscriptionOptions,
+  returnTypeFuncOrOptions?: ReturnTypeFunc | SubscriptionOptions,
   maybeOptions?: SubscriptionOptions,
 ): MethodDecorator {
   const params = getTypeDecoratorParams(returnTypeFuncOrOptions, maybeOptions);

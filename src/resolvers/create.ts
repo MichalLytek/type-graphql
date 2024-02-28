@@ -14,7 +14,7 @@ import { applyAuthChecker, applyMiddlewares, getParams } from "./helpers";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
-): GraphQLFieldResolver<any, any, any> {
+): GraphQLFieldResolver<any, any, any, any> {
   const {
     validate: globalValidate,
     validateFn,
@@ -32,43 +32,27 @@ export function createHandlerResolver(
       resolverMetadata.target,
       resolverData,
     );
-    if (isPromiseLike(targetInstanceOrPromise)) {
-      return targetInstanceOrPromise.then(targetInstance =>
-        applyMiddlewares(container, resolverData, middlewares, () => {
-          const params: Promise<any[]> | any[] = getParams(
-            resolverMetadata.params!,
-            resolverData,
-            globalValidate,
-            validateFn,
-          );
-          if (isPromiseLike(params)) {
-            return params.then(resolvedParams =>
-              // eslint-disable-next-line prefer-spread
-              targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
-            );
-          }
-          // eslint-disable-next-line prefer-spread
-          return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
-        }),
-      );
-    }
-    return applyMiddlewares(container, resolverData, middlewares, () => {
-      const params: Promise<any[]> | any[] = getParams(
-        resolverMetadata.params!,
-        resolverData,
-        globalValidate,
-        validateFn,
-      );
-      const targetInstance = targetInstanceOrPromise;
-      if (isPromiseLike(params)) {
-        return params.then(resolvedParams =>
-          // eslint-disable-next-line prefer-spread
-          targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
+    function applyMiddlewaresToTargetInstance(targetInstance: any) {
+      return applyMiddlewares(container, resolverData, middlewares, () => {
+        const params: Promise<any[]> | any[] = getParams(
+          resolverMetadata.params!,
+          resolverData,
+          globalValidate,
+          validateFn,
         );
-      }
-      // eslint-disable-next-line prefer-spread
-      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
-    });
+        if (isPromiseLike(params)) {
+          return params.then(resolvedParams =>
+            // eslint-disable-next-line prefer-spread
+            targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
+          );
+        }
+        // eslint-disable-next-line prefer-spread
+        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
+      });
+    }
+    return isPromiseLike(targetInstanceOrPromise)
+      ? targetInstanceOrPromise.then(applyMiddlewaresToTargetInstance)
+      : applyMiddlewaresToTargetInstance(targetInstanceOrPromise);
   };
 }
 

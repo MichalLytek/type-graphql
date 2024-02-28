@@ -651,9 +651,6 @@ export abstract class SchemaGenerator {
       return {};
     }
     const { pubSub, container } = BuildContext;
-    if (!pubSub) {
-      throw new MissingPubSubError();
-    }
     const basicFields = this.generateHandlerFields(subscriptionsHandlers);
     return subscriptionsHandlers.reduce<GraphQLFieldConfigMap<TSource, TContext>>(
       (fields, handler) => {
@@ -668,7 +665,11 @@ export abstract class SchemaGenerator {
             const subscribeResolverData: SubscribeResolverData = { source, args, context, info };
             return handler.subscribe!(subscribeResolverData);
           };
-        } else {
+        } else if (handler.topics) {
+          if (!pubSub) {
+            throw new MissingPubSubError();
+          }
+
           subscribeFn = (source, args, context, info) => {
             const subscribeResolverData: SubscribeResolverData = { source, args, context, info };
 
@@ -705,6 +706,10 @@ export abstract class SchemaGenerator {
               }),
             );
           };
+        } else {
+          fields[handler.schemaName].subscribe = createHandlerResolver(handler); // eslint-disable-line no-param-reassign
+          fields[handler.schemaName].resolve = root => root; // eslint-disable-line no-param-reassign
+          return fields;
         }
 
         // eslint-disable-next-line no-param-reassign
