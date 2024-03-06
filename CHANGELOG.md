@@ -1,8 +1,12 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 
 <!-- Here goes all the unreleased changes descriptions -->
+
+## Fixes
+
+- properly override fields of `@ArgsType` classes in deeply nested inheritance chain (#1644)
 
 ## v2.0.0-beta.6
 

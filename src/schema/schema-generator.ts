@@ -760,18 +760,23 @@ export abstract class SchemaGenerator {
               `is not a class decorated with '@ArgsType' decorator!`,
           );
         }
-        let superClass = Object.getPrototypeOf(argumentType.target);
-        while (superClass.prototype !== undefined) {
-          const superArgumentType = getMetadataStorage().argumentTypes.find(
-            // eslint-disable-next-line @typescript-eslint/no-loop-func
-            it => it.target === superClass,
-          );
-          if (superArgumentType) {
-            this.mapArgFields(superArgumentType, args);
-          }
-          superClass = Object.getPrototypeOf(superClass);
+
+        const inheritanceChainClasses: Function[] = [argumentType.target];
+        for (
+          let superClass = argumentType.target;
+          superClass.prototype !== undefined;
+          superClass = Object.getPrototypeOf(superClass)
+        ) {
+          inheritanceChainClasses.push(superClass);
         }
-        this.mapArgFields(argumentType, args);
+        for (const argsTypeClass of inheritanceChainClasses.reverse()) {
+          const inheritedArgumentType = getMetadataStorage().argumentTypes.find(
+            it => it.target === argsTypeClass,
+          );
+          if (inheritedArgumentType) {
+            this.mapArgFields(inheritedArgumentType, args);
+          }
+        }
       }
       return args;
     }, {});
