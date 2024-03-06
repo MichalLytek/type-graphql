@@ -485,6 +485,55 @@ describe("Interfaces and inheritance", () => {
     });
   });
 
+  describe("Schema > deeply nested inheritance chain", () => {
+    beforeEach(() => {
+      getMetadataStorage().clear();
+    });
+
+    it("should properly inherit overridden fields", async () => {
+      @ArgsType()
+      class BaseArgs {
+        @Field({ nullable: true })
+        baseField?: string;
+      }
+
+      @ArgsType()
+      class FirstLevelArgs extends BaseArgs {
+        @Field({ nullable: false })
+        override baseField!: string;
+      }
+
+      @ArgsType()
+      class SecondLevelArgs extends FirstLevelArgs {
+        @Field()
+        secondLevelField!: string;
+      }
+
+      @Resolver()
+      class TestResolver {
+        @Query(() => Boolean)
+        testQuery(@Args() _args: SecondLevelArgs): boolean {
+          return true;
+        }
+      }
+
+      const { queryType } = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      const testQuery = queryType.fields.find(field => field.name === "testQuery")!;
+      const baseField = testQuery.args.find(arg => arg.name === "baseField")!;
+      expect(baseField.type).toMatchObject({
+        kind: "NON_NULL",
+        ofType: {
+          kind: "SCALAR",
+          name: "String",
+          ofType: null,
+        },
+      });
+    });
+  });
+
   describe("Errors", () => {
     beforeEach(() => {
       getMetadataStorage().clear();
@@ -1351,7 +1400,6 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should by default automatically register all and only the object types that implements an interface type used as field type", async () => {
-      getMetadataStorage().clear();
       @InterfaceType()
       class IFooBar {
         @Field(() => String)
