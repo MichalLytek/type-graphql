@@ -588,23 +588,22 @@ export abstract class SchemaGenerator {
   }
 
   private static buildOtherTypes(orphanedTypes: Function[]): GraphQLNamedType[] {
-    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(
-      typeInfo =>
-        typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
-          const implementedInterfaceInfo = this.interfaceTypesInfo.find(
-            it => it.target === interfaceClass,
-          );
-          if (!implementedInterfaceInfo) {
-            return false;
-          }
-          if (implementedInterfaceInfo.metadata.autoRegisteringDisabled) {
-            return false;
-          }
-          if (!this.usedInterfaceTypes.has(interfaceClass)) {
-            return false;
-          }
-          return true;
-        }),
+    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(typeInfo =>
+      typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
+        const implementedInterfaceInfo = this.interfaceTypesInfo.find(
+          it => it.target === interfaceClass,
+        );
+        if (!implementedInterfaceInfo) {
+          return false;
+        }
+        if (implementedInterfaceInfo.metadata.autoRegisteringDisabled) {
+          return false;
+        }
+        if (!this.usedInterfaceTypes.has(interfaceClass)) {
+          return false;
+        }
+        return true;
+      }),
     );
     return [
       ...this.filterTypesInfoByOrphanedTypesAndExtractType(this.objectTypesInfo, orphanedTypes),

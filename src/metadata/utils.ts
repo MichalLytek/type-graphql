@@ -48,10 +48,9 @@ export function mapMiddlewareMetadataToArray(
 ): Array<Middleware<any>> {
   return metadata
     .map(m => m.middlewares)
-    .reduce<Array<Middleware<any>>>(
-      (middlewares, resultArray) => resultArray.concat(middlewares),
-      [],
-    );
+    .reduce<
+      Array<Middleware<any>>
+    >((middlewares, resultArray) => resultArray.concat(middlewares), []);
 }
 
 export function ensureReflectMetadataExists() {
