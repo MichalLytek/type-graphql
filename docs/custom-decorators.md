@@ -48,7 +48,7 @@ function CurrentUser() {
 }
 ```
 
-Or might be a more advanced one that performs some calculations and encapsulates some logic. Compared to middlewares, they allows for a more granular control on executing the code, like calculating fields map based on GraphQL info only when it's really needed (requested by using the `@Fields()` decorator):
+Or might be a more advanced one that performs some calculations and encapsulates some logic. Compared to middlewares, they allow for a more granular control on executing the code, like calculating fields map based on GraphQL info only when it's really needed (requested by using the `@Fields()` decorator):
 
 ```ts
 function Fields(level = 1): ParameterDecorator {
