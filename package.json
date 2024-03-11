@@ -139,7 +139,7 @@
     "@typescript-eslint/parser": "^6.18.1",
     "class-validator": "^0.14.0",
     "cspell": "^8.3.2",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
