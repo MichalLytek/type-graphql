@@ -54,11 +54,7 @@ export function mapMiddlewareMetadataToArray(
 }
 
 export function ensureReflectMetadataExists() {
-  if (
-    typeof Reflect !== "object" ||
-    typeof Reflect.decorate !== "function" ||
-    typeof Reflect.metadata !== "function"
-  ) {
+  if (typeof Reflect !== "object" || typeof Reflect.getMetadata !== "function") {
     throw new ReflectMetadataMissingError();
   }
 }

@@ -16,16 +16,20 @@ First, we have to install the main package, as well as [`graphql-js`](https://gi
 npm install graphql graphql-scalars type-graphql
 ```
 
-Also, the `reflect-metadata` shim is required to make the type reflection work:
+Also, the `Reflect.metadata()` shim is required to make the type reflection work:
 
 ```sh
 npm install reflect-metadata
+# or
+npm install core-js
 ```
 
 We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
 ```ts
 import "reflect-metadata";
+// or
+import "core-js/features/reflect";
 ```
 
 ## TypeScript configuration

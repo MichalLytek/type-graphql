@@ -6,6 +6,7 @@ import {
   type TypeValueThunk,
 } from "@/decorators/types";
 import { NoExplicitTypeError } from "@/errors";
+import { ensureReflectMetadataExists } from "@/metadata/utils";
 import { bannedTypes } from "./returnTypes";
 
 export type MetadataKey = "design:type" | "design:returntype" | "design:paramtypes";
@@ -46,6 +47,7 @@ export function findType({
 }: GetTypeParams): TypeInfo {
   const options: TypeOptions = { ...typeOptions };
   let metadataDesignType: Function | undefined;
+  ensureReflectMetadataExists();
   const reflectedType: Function[] | Function | undefined = Reflect.getMetadata(
     metadataKey,
     prototype,
