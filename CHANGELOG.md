@@ -4,6 +4,10 @@
 
 <!-- Here goes all the unreleased changes descriptions -->
 
+## Features
+
+- support other `Reflect` polyfills than `reflect-metadata` by checking only used `Reflect` API (#1102)
+
 ## Fixes
 
 - properly override fields of `@ArgsType` classes in deeply nested inheritance chain (#1644)

@@ -28,7 +28,6 @@ import {
 import { type InterfaceClassMetadata } from "./definitions/interface-class-metadata";
 import { type ObjectClassMetadata } from "./definitions/object-class-metadata";
 import {
-  ensureReflectMetadataExists,
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
   mapSuperResolverHandlers,
@@ -74,10 +73,6 @@ export class MetadataStorage {
   fields: FieldMetadata[] = [];
 
   params: ParamMetadata[] = [];
-
-  constructor() {
-    ensureReflectMetadataExists();
-  }
 
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
