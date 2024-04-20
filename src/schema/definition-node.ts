@@ -18,7 +18,9 @@ import { type DirectiveMetadata } from "@/metadata/definitions";
 import { type SetRequired } from "@/typings";
 
 export function getDirectiveNode(directive: DirectiveMetadata): ConstDirectiveNode {
-  const { nameOrDefinition, args } = directive;
+  // Inline and trim start
+  const nameOrDefinition = directive.nameOrDefinition.replaceAll("\n", " ").trimStart();
+  const { args } = directive;
 
   if (nameOrDefinition === "") {
     throw new InvalidDirectiveError(
