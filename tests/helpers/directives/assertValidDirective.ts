@@ -38,12 +38,17 @@ export function assertValidDirective(
       expect(directive.arguments).toBeFalsy();
     }
   } else {
+    expect(directive.arguments).toHaveLength(Object.keys(args.length).length);
     expect(directive.arguments).toEqual(
-      Object.keys(args).map(arg => ({
-        kind: "Argument",
-        name: { kind: "Name", value: arg },
-        value: parseValue(args[arg]),
-      })),
+      expect.arrayContaining(
+        Object.keys(args).map(arg =>
+          expect.objectContaining({
+            kind: "Argument",
+            name: expect.objectContaining({ kind: "Name", value: arg }),
+            value: expect.objectContaining(parseValue(args[arg], { noLocation: true })),
+          }),
+        ),
+      ),
     );
   }
 }

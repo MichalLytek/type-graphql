@@ -9,9 +9,11 @@ import {
   type GraphQLInputObjectTypeConfig,
   GraphQLInterfaceType,
   type GraphQLInterfaceTypeConfig,
+  GraphQLNonNull,
   GraphQLObjectType,
   type GraphQLObjectTypeConfig,
   type GraphQLSchema,
+  GraphQLString,
 } from "graphql";
 
 function mapConfig<
@@ -36,6 +38,19 @@ function mapConfig<
 
 export const testDirective = new GraphQLDirective({
   name: "test",
+  args: {
+    argNonNullDefault: {
+      type: new GraphQLNonNull(GraphQLString),
+      defaultValue: "argNonNullDefault",
+    },
+    argNullDefault: {
+      type: GraphQLString,
+      defaultValue: "argNullDefault",
+    },
+    argNull: {
+      type: GraphQLString,
+    },
+  },
   locations: [
     DirectiveLocation.OBJECT,
     DirectiveLocation.FIELD_DEFINITION,

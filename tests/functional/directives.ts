@@ -582,26 +582,38 @@ describe("Directives", () => {
     });
   });
 
-  describe("multiline and trim start", () => {
+  describe("multiline and leading white spaces", () => {
     let schema: GraphQLSchema;
     beforeAll(async () => {
       @Resolver()
       class SampleResolver {
-        @Directive(`\n@test`)
+        @Directive("\n@test")
         @Query()
         multiline(): boolean {
           return true;
         }
 
-        @Directive(` @test`)
+        @Directive(" @test")
         @Query()
-        trimStart(): boolean {
+        leadingWhiteSpaces(): boolean {
           return true;
         }
 
-        @Directive(`\n @test`)
+        @Directive("\n @test")
         @Query()
-        multilineAndTrimStart(): boolean {
+        multilineAndLeadingWhiteSpaces(): boolean {
+          return true;
+        }
+
+        @Directive(`
+          @test(
+            argNonNullDefault: "argNonNullDefault",
+            argNullDefault: "argNullDefault",
+            argNull: "argNull"
+          )
+        `)
+        @Query()
+        rawMultilineAndLeadingWhiteSpaces(): boolean {
           return true;
         }
       }
@@ -616,32 +628,50 @@ describe("Directives", () => {
 
     it("should properly emit directive in AST", () => {
       const multilineInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().multiline;
-      const trimStartInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().trimStart;
-      const multilineAndTrimStartInfo = schema
+      const leadingWhiteSpacesInfo = schema
         .getRootType(OperationTypeNode.QUERY)!
-        .getFields().multilineAndTrimStart;
+        .getFields().leadingWhiteSpaces;
+      const multilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().multilineAndLeadingWhiteSpaces;
+      const rawMultilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().rawMultilineAndLeadingWhiteSpaces;
 
       expect(() => {
         assertValidDirective(multilineInfo.astNode, "test");
-        assertValidDirective(trimStartInfo.astNode, "test");
-        assertValidDirective(multilineAndTrimStartInfo.astNode, "test");
+        assertValidDirective(leadingWhiteSpacesInfo.astNode, "test");
+        assertValidDirective(multilineAndLeadingWhiteSpacesInfo.astNode, "test");
+        assertValidDirective(rawMultilineAndLeadingWhiteSpacesInfo.astNode, "test", {
+          argNonNullDefault: `"argNonNullDefault"`,
+          argNullDefault: `"argNullDefault"`,
+          argNull: `"argNull"`,
+        });
       }).not.toThrow();
     });
 
     it("should properly apply directive mapper", async () => {
       const multilineInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().multiline;
-      const trimStartInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().trimStart;
-      const multilineAndTrimStartInfo = schema
+      const leadingWhiteSpacesInfo = schema
         .getRootType(OperationTypeNode.QUERY)!
-        .getFields().multilineAndTrimStart;
+        .getFields().leadingWhiteSpaces;
+      const multilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().multilineAndLeadingWhiteSpaces;
+      const rawMultilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().rawMultilineAndLeadingWhiteSpaces;
 
       expect(multilineInfo.extensions).toMatchObject({
         TypeGraphQL: { isMappedByDirective: true },
       });
-      expect(trimStartInfo.extensions).toMatchObject({
+      expect(leadingWhiteSpacesInfo.extensions).toMatchObject({
         TypeGraphQL: { isMappedByDirective: true },
       });
-      expect(multilineAndTrimStartInfo.extensions).toMatchObject({
+      expect(multilineAndLeadingWhiteSpacesInfo.extensions).toMatchObject({
+        TypeGraphQL: { isMappedByDirective: true },
+      });
+      expect(rawMultilineAndLeadingWhiteSpacesInfo.extensions).toMatchObject({
         TypeGraphQL: { isMappedByDirective: true },
       });
     });
