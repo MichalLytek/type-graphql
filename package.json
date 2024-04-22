@@ -135,7 +135,7 @@
     "@types/node": "^20.11.24",
     "@types/shelljs": "^0.8.15",
     "@types/yargs": "^17.0.32",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^6.18.1",
     "class-validator": "^0.14.0",
     "cspell": "^8.7.0",
