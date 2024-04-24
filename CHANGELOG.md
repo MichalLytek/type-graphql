@@ -1,8 +1,10 @@
 # Changelog and release notes
 
-## Unreleased
+<!-- ## Unreleased -->
 
 <!-- Here goes all the unreleased changes descriptions -->
+
+## v2.0.0-rc.1
 
 ## Features
 
