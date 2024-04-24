@@ -38,7 +38,7 @@ export function assertValidDirective(
       expect(directive.arguments).toBeFalsy();
     }
   } else {
-    expect(directive.arguments).toHaveLength(Object.keys(args.length).length);
+    expect(directive.arguments).toHaveLength(Object.keys(args).length);
     expect(directive.arguments).toEqual(
       expect.arrayContaining(
         Object.keys(args).map(arg =>
