@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Getting started · TypeGraphQL</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; Make sure you&#x27;ve completed all the steps described in the [installation instructions](/docs/2.0.0-beta.6/installation.html)."/><meta name="docsearch:version" content="2.0.0-beta.6"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Getting started · TypeGraphQL"/><meta property="og:type" content="website"/><meta property="og:url" content="https://typegraphql.com/index.html"/><meta property="og:description" content="&gt; Make sure you&#x27;ve completed all the steps described in the [installation instructions](/docs/2.0.0-beta.6/installation.html)."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://typegraphql.com/blog/atom.xml" title="TypeGraphQL Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://typegraphql.com/blog/feed.xml" title="TypeGraphQL Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-117093147-1', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="TypeGraphQL"/><h2 class="headerTitleWithLogo">TypeGraphQL</h2></a><a href="/versions.html"><h3>2.0.0-beta.6</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/2.0.0-beta.6/introduction.html" target="_self">Docs</a></li><li class=""><a href="/docs/2.0.0-beta.6/examples.html" target="_self">Examples</a></li><li class=""><a href="/docs/2.0.0-beta.6/faq.html" target="_self">FAQ</a></li><li class=""><a href="https://opencollective.com/typegraphql" target="_self">Donate</a></li><li class=""><a href="https://github.com/MichalLytek/type-graphql" target="_self">GitHub</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Beginner guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/introduction.html">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Beginner guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/installation.html">Installation</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/2.0.0-beta.6/getting-started.html">Getting started</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/types-and-fields.html">Types and Fields</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/resolvers.html">Resolvers</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/bootstrap.html">Bootstrapping</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/esm.html">ECMAScript Modules</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Migration guide</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/migration-guide.html">v1.x -&gt; v2.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/scalars.html">Scalars</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/enums.html">Enums</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/unions.html">Unions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/interfaces.html">Interfaces</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/subscriptions.html">Subscriptions</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/directives.html">Directives</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/extensions.html">Extensions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Features</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/dependency-injection.html">Dependency injection</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/authorization.html">Authorization</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/validation.html">Validation</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/inheritance.html">Inheritance</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/generic-types.html">Generic Types</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/middlewares.html">Middleware and guards</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/custom-decorators.html">Custom decorators</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/complexity.html">Query complexity</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/prisma.html">Prisma</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/nestjs.html">NestJS</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Others</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/emit-schema.html">Emitting the schema SDL</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/performance.html">Performance</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Recipes</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/browser-usage.html">Browser usage</a></li><li class="navListItem"><a class="navItem" href="/docs/2.0.0-beta.6/aws-lambda.html">AWS Lambda integration</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/getting-started.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Getting started</h1></header><article><div><span><blockquote>
+<p>Make sure you've completed all the steps described in the <a href="/docs/2.0.0-beta.6/installation.html">installation instructions</a>.</p>
+</blockquote>
+<p>To explore all of the powerful capabilities of TypeGraphQL, we will create a sample GraphQL API for cooking recipes.</p>
+<p>Let's start with the <code>Recipe</code> type, which is the foundation of our API.</p>
+<h2><a class="anchor" aria-hidden="true" id="types"></a><a href="#types" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types</h2>
+<p>Our goal is to get the equivalent of this type described in SDL:</p>
+<pre><code class="hljs css language-graphql"><span class="token keyword">type</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span>
+  <span class="token attr-name">title</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">description</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">creationDate</span><span class="token punctuation">:</span> <span class="token class-name">Date</span><span class="token operator">!</span>
+  <span class="token attr-name">ingredients</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">String</span><span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>So we create the <code>Recipe</code> class with all its properties and types:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  creationDate<span class="token operator">:</span> Date<span class="token punctuation">;</span>
+  ingredients<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Then we decorate the class and its properties with decorators:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">ObjectType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> <span class="token constant">ID</span><span class="token punctuation">)</span>
+  id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  creationDate<span class="token operator">:</span> Date<span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> <span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  ingredients<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The detailed rules of when to use <code>nullable</code>, <code>array</code> and others are described in the <a href="/docs/2.0.0-beta.6/types-and-fields.html">fields and types docs</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="resolvers"></a><a href="#resolvers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolvers</h2>
+<p>After that we want to create typical crud queries and mutations. To do so, we create the resolver (controller) class that will have injected the <code>RecipeService</code> in the constructor:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span>Recipe<span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RecipeResolver</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> recipeService<span class="token operator">:</span> RecipeService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">recipe</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> recipe <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>recipeService<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>recipe <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RecipeNotFoundError</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> recipe<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Query</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> <span class="token punctuation">[</span>Recipe<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token function">recipes</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Args</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> skip<span class="token punctuation">,</span> take <span class="token punctuation">}</span><span class="token operator">:</span> RecipesArgs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>recipeService<span class="token punctuation">.</span><span class="token function">findAll</span><span class="token punctuation">(</span><span class="token punctuation">{</span> skip<span class="token punctuation">,</span> take <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Recipe<span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">addRecipe</span><span class="token punctuation">(</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"newRecipeData"</span><span class="token punctuation">)</span> newRecipeData<span class="token operator">:</span> NewRecipeInput<span class="token punctuation">,</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Ctx</span></span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">)</span> user<span class="token operator">:</span> User<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Recipe<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>recipeService<span class="token punctuation">.</span><span class="token function">addNew</span><span class="token punctuation">(</span><span class="token punctuation">{</span> data<span class="token operator">:</span> newRecipeData<span class="token punctuation">,</span> user <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Mutation</span></span><span class="token punctuation">(</span>returns <span class="token operator">=></span> Boolean<span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Authorized</span></span><span class="token punctuation">(</span>Roles<span class="token punctuation">.</span>Admin<span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">removeRecipe</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Arg</span></span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> id<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>recipeService<span class="token punctuation">.</span><span class="token function">removeById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>We use the <code>@Authorized()</code> decorator to restrict access to authorized users only or the users that fulfil the roles requirements.
+The detailed rules for when and why we declare <code>returns =&gt; Recipe</code> functions and others are described in <a href="/docs/2.0.0-beta.6/resolvers.html">resolvers docs</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="inputs-and-arguments"></a><a href="#inputs-and-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inputs and Arguments</h2>
+<p>Ok, but what are <code>NewRecipeInput</code> and <code>RecipesArgs</code>? They are, of course, classes:</p>
+<pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">InputType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">NewRecipeInput</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">MaxLength</span></span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> nullable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Length</span></span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">)</span>
+  description<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> <span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">ArrayMaxSize</span></span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span>
+  ingredients<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">ArgsType</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RecipesArgs</span> <span class="token punctuation">{</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Min</span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+  skip<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Field</span></span><span class="token punctuation">(</span>type <span class="token operator">=></span> Int<span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Min</span></span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token decorator"><span class="token at operator">@</span><span class="token function">Max</span></span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+  take<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><code>@Length</code>, <code>@Min</code> and <code>@ArrayMaxSize</code> are decorators from <a href="https://github.com/typestack/class-validator"><code>class-validator</code></a> that automatically perform field validation in TypeGraphQL.</p>
+<h2><a class="anchor" aria-hidden="true" id="building-schema"></a><a href="#building-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Building schema</h2>
+<p>The last step that needs to be done is to actually build the schema from the TypeGraphQL definition. We use the <code>buildSchema</code> function for this:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">buildSchema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  resolvers<span class="token operator">:</span> <span class="token punctuation">[</span>RecipeResolver<span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ... Server</span>
+</code></pre>
+<p>Et voilà! Now we have fully functional GraphQL schema!
+If we print it, this is how it would look:</p>
+<pre><code class="hljs css language-graphql"><span class="token keyword">type</span> <span class="token class-name">Recipe</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span>
+  <span class="token attr-name">title</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">description</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">creationDate</span><span class="token punctuation">:</span> <span class="token class-name">Date</span><span class="token operator">!</span>
+  <span class="token attr-name">ingredients</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">String</span><span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">input</span> <span class="token atom-input class-name">NewRecipeInput</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">title</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token operator">!</span>
+  <span class="token attr-name">description</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">ingredients</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">String</span><span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">recipe</span><span class="token punctuation">(</span><span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">Recipe</span>
+  <span class="token attr-name">recipes</span><span class="token punctuation">(</span><span class="token attr-name">skip</span><span class="token punctuation">:</span> <span class="token scalar">Int</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token attr-name">take</span><span class="token punctuation">:</span> <span class="token scalar">Int</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">Recipe</span><span class="token operator">!</span><span class="token punctuation">]</span><span class="token operator">!</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">type</span> <span class="token class-name">Mutation</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">addRecipe</span><span class="token punctuation">(</span><span class="token attr-name">newRecipeData</span><span class="token punctuation">:</span> <span class="token atom-input class-name">NewRecipeInput</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">Recipe</span><span class="token operator">!</span>
+  <span class="token attr-name">removeRecipe</span><span class="token punctuation">(</span><span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token scalar">Boolean</span><span class="token operator">!</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="want-more"></a><a href="#want-more" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Want more?</h2>
+<p>That was only the tip of the iceberg - a very simple example with basic GraphQL types. Do you use interfaces, enums, unions and custom scalars? That's great because TypeGraphQL fully supports them too! There are also more advanced concepts like the authorization checker, inheritance support and field resolvers.</p>
+<p>A lot of these topics are covered in <a href="https://github.com/benawad">Ben Awad</a>'s <a href="https://www.youtube.com/playlist?list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs">TypeGraphQL video series</a> on YouTube.</p>
+<p>For more complicated cases, go to the <a href="/docs/2.0.0-beta.6/examples.html">Examples section</a> where you can discover e.g. how well TypeGraphQL integrates with TypeORM.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/2.0.0-beta.6/installation.html"><span class="arrow-prev">← </span><span>Installation</span></a><a class="docs-next button" href="/docs/2.0.0-beta.6/types-and-fields.html"><span>Types and Fields</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#types">Types</a></li><li><a href="#resolvers">Resolvers</a></li><li><a href="#inputs-and-arguments">Inputs and Arguments</a></li><li><a href="#building-schema">Building schema</a></li><li><a href="#want-more">Want more?</a></li></ul></nav></div><footer class="nav-footer" id="footer"><script>
+            const html = document.querySelector("html");
+
+            function appendButtonToDOM() {
+              const li = document.createElement("li");
+              li.classList.add("center-list-item");
+              li.innerHTML = '<div class="toggle"><span>🌙</span><input type="checkbox" id="toggle-switch" /><label for="toggle-switch"><span class="screen-reader-text">Toggle Color Scheme</span></label><span>☀️</span></div>';
+
+              const nav = document.querySelector(".nav-site");
+              nav.insertBefore(li, document.querySelector(".navSearchWrapper"));
+
+              const btn = document.querySelector("#toggle-switch");
+              btn.addEventListener("click", () => {
+                toggleColorMode();
+              });
+            }
+
+            function setInitialColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              let currentColorMode = localStorage.getItem("theme");
+
+              // button was never used
+              if (currentColorMode === null) {
+                // inspects OS preferred color scheme
+                if (
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                ) {
+                  currentColorMode = "dark";
+                } else {
+                  currentColorMode = "light";
+                }
+              }
+
+              if (currentColorMode === "dark") {
+                html.classList.add("theme-mode--dark");
+                btn.checked = false;
+              } else {
+                html.classList.add("theme-mode--light");
+                btn.checked = true;
+              }
+            }
+
+            function toggleColorMode() {
+              const btn = document.querySelector("#toggle-switch");
+              localStorage.setItem("theme", btn.checked ? "light" : "dark");
+              html.classList.toggle("theme-mode--dark");
+              html.classList.toggle("theme-mode--light");
+            }
+
+            appendButtonToDOM();
+            setInitialColorMode();
+          </script><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="TypeGraphQL" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction.html">Introduction</a><a href="/docs/getting-started.html">Getting Started</a><a href="/docs/scalars.html">Advanced Guides</a><a href="/docs/dependency-injection.html">Features</a><a href="/docs/emit-schema.html">Others</a></div><div><h5>Community</h5><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Enhancement+%3Anew%3A&quot;" target="_blank">Feature requests and proposals</a><a href="https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A&quot;Bug+%3Abug%3A&quot;" target="_blank">Issues</a><a href="https://twitter.com/typegraphql" target="_blank">Twitter</a><a href="https://opencollective.com/typegraphql" target="_blank">Open Collective</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/MichalLytek/type-graphql" target="_blank">GitHub</a><a class="github-button" href="https://github.com/MichalLytek/type-graphql" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2024 Michał Lytek</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '2cf66434100c0e30ca9ff499830e7b77',
+                indexName: 'typegraphql',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
