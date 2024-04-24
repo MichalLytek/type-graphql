@@ -11,6 +11,7 @@
 ## Fixes
 
 - properly override fields of `@ArgsType` classes in deeply nested inheritance chain (#1644)
+- allow for leading spaces and multiline directives definitions in `@Directive` decorator (#1423)
 
 ## v2.0.0-beta.6
 

@@ -582,6 +582,101 @@ describe("Directives", () => {
     });
   });
 
+  describe("multiline and leading white spaces", () => {
+    let schema: GraphQLSchema;
+    beforeAll(async () => {
+      @Resolver()
+      class SampleResolver {
+        @Directive("\n@test")
+        @Query()
+        multiline(): boolean {
+          return true;
+        }
+
+        @Directive(" @test")
+        @Query()
+        leadingWhiteSpaces(): boolean {
+          return true;
+        }
+
+        @Directive("\n @test")
+        @Query()
+        multilineAndLeadingWhiteSpaces(): boolean {
+          return true;
+        }
+
+        @Directive(`
+          @test(
+            argNonNullDefault: "argNonNullDefault",
+            argNullDefault: "argNullDefault",
+            argNull: "argNull"
+          )
+        `)
+        @Query()
+        rawMultilineAndLeadingWhiteSpaces(): boolean {
+          return true;
+        }
+      }
+
+      schema = await buildSchema({
+        resolvers: [SampleResolver],
+        directives: [testDirective],
+        validate: false,
+      });
+      schema = testDirectiveTransformer(schema);
+    });
+
+    it("should properly emit directive in AST", () => {
+      const multilineInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().multiline;
+      const leadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().leadingWhiteSpaces;
+      const multilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().multilineAndLeadingWhiteSpaces;
+      const rawMultilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().rawMultilineAndLeadingWhiteSpaces;
+
+      expect(() => {
+        assertValidDirective(multilineInfo.astNode, "test");
+        assertValidDirective(leadingWhiteSpacesInfo.astNode, "test");
+        assertValidDirective(multilineAndLeadingWhiteSpacesInfo.astNode, "test");
+        assertValidDirective(rawMultilineAndLeadingWhiteSpacesInfo.astNode, "test", {
+          argNonNullDefault: `"argNonNullDefault"`,
+          argNullDefault: `"argNullDefault"`,
+          argNull: `"argNull"`,
+        });
+      }).not.toThrow();
+    });
+
+    it("should properly apply directive mapper", async () => {
+      const multilineInfo = schema.getRootType(OperationTypeNode.QUERY)!.getFields().multiline;
+      const leadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().leadingWhiteSpaces;
+      const multilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().multilineAndLeadingWhiteSpaces;
+      const rawMultilineAndLeadingWhiteSpacesInfo = schema
+        .getRootType(OperationTypeNode.QUERY)!
+        .getFields().rawMultilineAndLeadingWhiteSpaces;
+
+      expect(multilineInfo.extensions).toMatchObject({
+        TypeGraphQL: { isMappedByDirective: true },
+      });
+      expect(leadingWhiteSpacesInfo.extensions).toMatchObject({
+        TypeGraphQL: { isMappedByDirective: true },
+      });
+      expect(multilineAndLeadingWhiteSpacesInfo.extensions).toMatchObject({
+        TypeGraphQL: { isMappedByDirective: true },
+      });
+      expect(rawMultilineAndLeadingWhiteSpacesInfo.extensions).toMatchObject({
+        TypeGraphQL: { isMappedByDirective: true },
+      });
+    });
+  });
+
   describe("errors", () => {
     beforeEach(async () => {
       getMetadataStorage().clear();
