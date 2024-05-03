@@ -47,6 +47,7 @@
   },
   "main": "./build/cjs/index.js",
   "module": "./build/esm/index.js",
+  "browser": "./build/cjs/shim.js",
   "types": "./build/typings/index.d.ts",
   "files": [
     "./build"
