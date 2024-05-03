@@ -14,7 +14,7 @@ First, we need to pass `complexity` as an option to the decorator on a field, qu
 
 Example of complexity
 
-```typescript
+```ts
 @ObjectType()
 class MyObject {
   @Field({ complexity: 2 })
@@ -31,54 +31,54 @@ Complexity can be passed as an option to any `@Field`, `@FieldResolver`, `@Mutat
 In the next step, we will integrate `graphql-query-complexity` with the server that expose our GraphQL schema over HTTP.
 You can use it with `express-graphql` like [in the lib examples](https://github.com/slicknode/graphql-query-complexity/blob/b6a000c0984f7391f3b4e886e3df6a7ed1093b07/README.md#usage-with-express-graphql), however we will use Apollo Server like in our other examples:
 
-```typescript
+```ts
 async function bootstrap() {
-  // ...build TypeGraphQL schema as always
+  // ... Build GraphQL schema
 
   // Create GraphQL server
   const server = new ApolloServer({
     schema,
-    // Create a plugin that will allow for query complexity calculation for every request
+    // Create a plugin to allow query complexity calculation for every request
     plugins: [
       {
-        requestDidStart: () => ({
-          didResolveOperation({ request, document }) {
+        requestDidStart: async () => ({
+          async didResolveOperation({ request, document }) {
             /**
-             * This provides GraphQL query analysis to be able to react on complex queries to your GraphQL server.
-             * This can be used to protect your GraphQL servers against resource exhaustion and DoS attacks.
-             * More documentation can be found at https://github.com/ivome/graphql-query-complexity.
+             * Provides GraphQL query analysis to be able to react on complex queries to the GraphQL server
+             * It can be used to protect the GraphQL server against resource exhaustion and DoS attacks
+             * More documentation can be found at https://github.com/ivome/graphql-query-complexity
              */
             const complexity = getComplexity({
-              // Our built schema
+              // GraphQL schema
               schema,
               // To calculate query complexity properly,
-              // we have to check only the requested operation
+              // check only the requested operation
               // not the whole document that may contains multiple operations
               operationName: request.operationName,
-              // The GraphQL query document
+              // GraphQL query document
               query: document,
-              // The variables for our GraphQL query
+              // GraphQL query variables
               variables: request.variables,
               // Add any number of estimators. The estimators are invoked in order, the first
-              // numeric value that is being returned by an estimator is used as the field complexity.
-              // If no estimator returns a value, an exception is raised.
+              // numeric value that is being returned by an estimator is used as the field complexity
+              // If no estimator returns a value, an exception is raised
               estimators: [
-                // Using fieldExtensionsEstimator is mandatory to make it work with type-graphql.
+                // Using fieldExtensionsEstimator is mandatory to make it work with type-graphql
                 fieldExtensionsEstimator(),
                 // Add more estimators here...
                 // This will assign each field a complexity of 1
-                // if no other estimator returned a value.
+                // if no other estimator returned a value
                 simpleEstimator({ defaultComplexity: 1 }),
               ],
             });
-            // Here we can react to the calculated complexity,
-            // like compare it with max and throw error when the threshold is reached.
-            if (complexity > 20) {
+
+            // React to the calculated complexity,
+            // like compare it with max and throw error when the threshold is reached
+            if (complexity > MAX_COMPLEXITY) {
               throw new Error(
-                `Sorry, too complicated query! ${complexity} is over 20 that is the max allowed complexity.`,
+                `Sorry, too complicated query! ${complexity} exceeded the maximum allowed complexity of ${MAX_COMPLEXITY}`,
               );
             }
-            // And here we can e.g. subtract the complexity point from hourly API calls limit.
             console.log("Used query complexity points:", complexity);
           },
         }),
@@ -86,7 +86,9 @@ async function bootstrap() {
     ],
   });
 
-  // ...start the server as always
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`GraphQL server ready at ${url}`);
 }
 ```
 

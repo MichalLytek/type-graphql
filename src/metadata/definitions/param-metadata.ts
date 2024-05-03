@@ -1,47 +1,56 @@
-import { TypeValueThunk, TypeOptions } from "../../decorators/types";
-import { ResolverData } from "../../interfaces";
-import { ValidateSettings } from "../../schema/build-context";
+import { type TypeOptions, type TypeValueThunk } from "@/decorators/types";
+import { type ValidateSettings } from "@/schema/build-context";
+import { type ResolverData, type ValidatorFn } from "@/typings";
 
 export interface BasicParamMetadata {
   target: Function;
   methodName: string;
   index: number;
 }
-export interface InfoParamMetadata extends BasicParamMetadata {
+
+export type InfoParamMetadata = {
   kind: "info";
-}
-export interface PubSubParamMetadata extends BasicParamMetadata {
+} & BasicParamMetadata;
+
+export type PubSubParamMetadata = {
   kind: "pubSub";
   triggerKey?: string;
-}
-export interface ContextParamMetadata extends BasicParamMetadata {
+} & BasicParamMetadata;
+
+export type ContextParamMetadata = {
   kind: "context";
   propertyName: string | undefined;
-}
-export interface RootParamMetadata extends BasicParamMetadata {
+} & BasicParamMetadata;
+
+export type RootParamMetadata = {
   kind: "root";
   propertyName: string | undefined;
   getType: TypeValueThunk | undefined;
-}
-export interface CommonArgMetadata extends BasicParamMetadata {
+} & BasicParamMetadata;
+
+export type CommonArgMetadata = {
   getType: TypeValueThunk;
   typeOptions: TypeOptions;
-  validate: ValidateSettings | undefined;
-}
-export interface ArgParamMetadata extends CommonArgMetadata {
+  validateSettings: ValidateSettings | undefined;
+  validateFn: ValidatorFn | undefined;
+} & BasicParamMetadata;
+
+export type ArgParamMetadata = {
   kind: "arg";
   name: string;
   description: string | undefined;
   deprecationReason: string | undefined;
-}
-export interface ArgsParamMetadata extends CommonArgMetadata {
+} & CommonArgMetadata;
+
+export type ArgsParamMetadata = {
   kind: "args";
-}
-export interface CustomParamMetadata extends BasicParamMetadata {
+} & CommonArgMetadata;
+
+export type CustomParamMetadata = {
   kind: "custom";
   resolver: (resolverData: ResolverData<any>) => any;
-}
-// prettier-ignore
+} & BasicParamMetadata;
+
 export type ParamMetadata =
   | InfoParamMetadata
   | PubSubParamMetadata
@@ -49,5 +58,4 @@ export type ParamMetadata =
   | RootParamMetadata
   | ArgParamMetadata
   | ArgsParamMetadata
-  | CustomParamMetadata
-;
+  | CustomParamMetadata;

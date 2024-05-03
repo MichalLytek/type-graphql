@@ -1,58 +1,41 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import { Container } from "typedi";
-import * as TypeORM from "typeorm";
-import * as TypeGraphQL from "../../src";
-
-import { RecipeResolver } from "./resolvers/recipe-resolver";
-import { Recipe } from "./entities/recipe";
-import { Rate } from "./entities/rate";
-import { User } from "./entities/user";
+import "dotenv/config";
+import path from "node:path";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { buildSchema } from "type-graphql";
+import { type Context } from "./context.type";
+import { dataSource } from "./datasource";
 import { seedDatabase } from "./helpers";
-import { Context } from "./resolvers/types/context";
-
-// register 3rd party IOC container
-TypeORM.useContainer(Container);
+import { RecipeResolver } from "./resolvers";
 
 async function bootstrap() {
-  try {
-    // create TypeORM connection
-    await TypeORM.createConnection({
-      type: "postgres",
-      database: "type-graphql-lazy",
-      username: "postgres", // fill this with your username
-      password: "qwerty", // and password
-      port: 5434, // and port
-      host: "localhost", // and host
-      entities: [Recipe, Rate, User],
-      synchronize: true,
-      logger: "advanced-console",
-      logging: "all",
-      dropSchema: true,
-      cache: true,
-    });
+  // Create TypeORM connection
+  await dataSource.initialize();
 
-    // seed database with some data
-    const { defaultUser } = await seedDatabase();
+  // Seed database with some data
+  const { defaultUser } = await seedDatabase();
 
-    // build TypeGraphQL executable schema
-    const schema = await TypeGraphQL.buildSchema({
-      resolvers: [RecipeResolver],
-      container: Container,
-    });
+  // Build TypeGraphQL executable schema
+  const schema = await buildSchema({
+    // Array of resolvers
+    resolvers: [RecipeResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+  });
 
-    // create mocked context
-    const context: Context = { user: defaultUser };
+  // Create mocked context
+  const context: Context = { user: defaultUser };
 
-    // Create GraphQL server
-    const server = new ApolloServer({ schema, context });
+  // Create GraphQL server
+  const server = new ApolloServer<Context>({ schema });
 
-    // Start the server
-    const { url } = await server.listen(4000);
-    console.log(`Server is running, GraphQL Playground available at ${url}`);
-  } catch (err) {
-    console.error(err);
-  }
+  // Start server
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+    context: async () => context,
+  });
+  console.log(`GraphQL server ready at ${url}`);
 }
 
-bootstrap();
+bootstrap().catch(console.error);

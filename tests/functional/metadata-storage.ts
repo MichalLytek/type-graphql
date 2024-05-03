@@ -1,17 +1,17 @@
 import "reflect-metadata";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
-  Resolver,
-  Query,
-  buildSchema,
-  Mutation,
-  Subscription,
-  FieldResolver,
-  ObjectType,
-  ClassType,
+  type ClassType,
   Field,
-} from "../../src";
+  FieldResolver,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Subscription,
+  buildSchema,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("MetadataStorage", () => {
   describe("resolvers inheritance", () => {
@@ -24,7 +24,7 @@ describe("MetadataStorage", () => {
       getMetadataStorage().clear();
 
       function createAbstractResolver(classType: ClassType) {
-        @Resolver(() => classType, { isAbstract: true })
+        @Resolver(() => classType)
         abstract class AbstractResolver {
           @Query({ name: INHERITED_QUERY_NAME })
           abstractQuery(): boolean {
@@ -52,10 +52,10 @@ describe("MetadataStorage", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: boolean;
+        sampleField!: boolean;
 
         @Field({ name: INHERITED_FIELD_RESOLVER_NAME })
-        abstractSampleField: boolean;
+        abstractSampleField!: boolean;
       }
 
       @Resolver(() => SampleObject)
@@ -81,7 +81,10 @@ describe("MetadataStorage", () => {
         }
       }
 
-      await buildSchema({ resolvers: [SubClassResolver] });
+      await buildSchema({
+        resolvers: [SubClassResolver],
+        pubSub: createPubSub(),
+      });
     });
 
     it("should not have duplicated query metadata for inherited resolvers", async () => {

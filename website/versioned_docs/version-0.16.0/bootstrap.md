@@ -26,10 +26,7 @@ So you can also provide an array of paths to resolver module files instead, whic
 
 ```typescript
 const schema = await buildSchema({
-  resolvers: [
-    __dirname + "/modules/**/*.resolver.ts",
-    __dirname + "/resolvers/**/*.ts",
-  ],
+  resolvers: [__dirname + "/modules/**/*.resolver.ts", __dirname + "/resolvers/**/*.ts"],
 });
 ```
 
@@ -53,7 +50,7 @@ bootstrap(); // actually run the async function
 
 ## Create HTTP GraphQL endpoint
 
-In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server).  Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
+In most cases, the GraphQL app is served by a HTTP server. After building the schema we can create the GraphQL endpoint with a variety of tools such as [`graphql-yoga`](https://github.com/prisma/graphql-yoga) or [`apollo-server`](https://github.com/apollographql/apollo-server). Here is an example using [`apollo-server`](https://github.com/apollographql/apollo-server):
 
 ```typescript
 import { ApolloServer } from "apollo-server";
@@ -64,7 +61,7 @@ async function bootstrap() {
   // ... Building schema here
 
   // Create GraphQL server
-  const server = new ApolloServer({ 
+  const server = new ApolloServer({
     schema,
     playground: true,
   });

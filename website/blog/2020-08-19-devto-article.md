@@ -25,25 +25,25 @@ This post is focused mostly on presenting new features and describing changes in
 
 One of the most important things which is also often neglected by developers - the performance. One of the key focus area for the 1.0 release was making it blazingly fast ⚡
 
-TypeGraphQL is basically an abstraction layer built on top of the reference GraphQL implementation for JavaScript - `graphql-js`. To measure the overhead of the abstraction, a few demo examples were made to compare it against the "bare metal" - using raw `graphql-js` library. 
+TypeGraphQL is basically an abstraction layer built on top of the reference GraphQL implementation for JavaScript - `graphql-js`. To measure the overhead of the abstraction, a few demo examples were made to compare it against the "bare metal" - using raw `graphql-js` library.
 
 It turned out that in the most demanding cases like returning an array of 25 000 nested objects, the old version `0.17` was even about 5 times slower!
 
-| library              | execution time |
-| -------------------- | :------------: |
-| TypeGraphQL `v0.17`  |   1253.28 ms   |
-| `graphql-js`         |    265.52 ms   |
+| library             | execution time |
+| ------------------- | :------------: |
+| TypeGraphQL `v0.17` |   1253.28 ms   |
+| `graphql-js`        |   265.52 ms    |
 
 After profiling the code and finding all the root causes (like always using async execution path), the overhead was reduced from 500% to **just 17%** in `v1.0.0`! By using [`simpleResolvers`](https://typegraphql.com/docs/performance.html#further-performance-tweaks) it can be reduced even further, up to 13%:
 
 |                          | execution time |
 | ------------------------ | :------------: |
-| `graphql-js`             |    265.52 ms   |
-| **TypeGraphQL `v1.0`**   |    310.36 ms   |
-| with "simpleResolvers"   |    299.61 ms   |
+| `graphql-js`             |   265.52 ms    |
+| **TypeGraphQL `v1.0`**   |   310.36 ms    |
+| with "simpleResolvers"   |   299.61 ms    |
 | with a global middleware |   1267.82 ms   |
 
-Such small overhead is much easier to accept than the initial 500%! 
+Such small overhead is much easier to accept than the initial 500%!
 More info about how to enable the performance optimizations in the more complex cases can be found [in the docs 📖](https://typegraphql.com/docs/performance.html).
 
 ## Schema isolation <a name="isolation"></a>
@@ -53,7 +53,7 @@ This is another feature that is not visible from the first sight but gives new p
 In 0.17.x and before, the schema was built from all the metadata collected by evaluating the TypeGraphQL decorators. The drawback of this approach was the schema leaks - every subsequent calls of `buildSchema` was returning the same schema which was combined from all the types and resolvers that could be find in the metadata storage.
 
 In TypeGraphQL 1.0 it's no longer true!
-The schemas are now isolated which means that the [`buildSchema` call takes the `resolvers` array from options](https://typegraphql.com/docs/bootstrap.html#create-executable-schema) and emit only the queries, mutation and types that are related to those resolvers. 
+The schemas are now isolated which means that the [`buildSchema` call takes the `resolvers` array from options](https://typegraphql.com/docs/bootstrap.html#create-executable-schema) and emit only the queries, mutation and types that are related to those resolvers.
 
 ```ts
 const firstSchema = await buildSchema({
@@ -75,7 +75,7 @@ GraphQL directives though the syntax might remind the TS decorators, as "a direc
 
 ```graphql
 type Query {
-  foobar: String! @auth(requires: USER) 
+  foobar: String! @auth(requires: USER)
 }
 ```
 
@@ -91,6 +91,7 @@ class FooBarResolver {
   }
 }
 ```
+
 However, on the other side we have the GraphQL extensions which are the JS way to achieve the same goal. It's the recommended way of putting the metadata about the types when applying some custom logic.
 
 To declare the extensions for type or selected field, we need to use `@Extensions` decorator, e.g.:
@@ -136,17 +137,20 @@ abstract class IPerson {
 
 ## More descriptive errors messages <a name="errors"></a>
 
-One of the most irritating issues for newcomers were the laconic error messages that haven't provided enough info to easily find the mistakes in the code. 
+One of the most irritating issues for newcomers were the laconic error messages that haven't provided enough info to easily find the mistakes in the code.
 
 Messages like _"Cannot determine GraphQL input type for users"_ or even the a generic _"Generating schema error"_ were clearly not helpful enough while searching for the place where the flaws were located.
 
 Now, when the error occurs, it is broadly explained, why it happened and what could we do to fix that, e.g.:
+
 ```text
 Unable to infer GraphQL type from TypeScript reflection system.
   You need to provide explicit type for argument named 'filter'
   of 'getUsers' of 'UserResolver' class.
 ```
+
 or:
+
 ```text
 Some errors occurred while generating GraphQL schema:
   Interface field 'IUser.accountBalance' expects type 'String!'
@@ -157,7 +161,7 @@ That should allow developers to safe tons of time and really speed up the develo
 
 ## Transforming nested inputs and arrays <a name="transforming"></a>
 
-In the previous releases, an instance of the input type class was created only on the first level of inputs nesting. 
+In the previous releases, an instance of the input type class was created only on the first level of inputs nesting.
 So, in cases like this:
 
 ```ts
@@ -179,7 +183,7 @@ class SampleResolver {
 }
 ```
 
-the `nestedField` property of `input` was just a plain `Object`, not an instance of the `SomeNestedInput` class. That behavior was producing some unwanted issues, including limited support for [inputs and args validation](https://typegraphql.com/docs/validation.html). 
+the `nestedField` property of `input` was just a plain `Object`, not an instance of the `SomeNestedInput` class. That behavior was producing some unwanted issues, including limited support for [inputs and args validation](https://typegraphql.com/docs/validation.html).
 
 Since 1.0 release, it's no longer an issue and all the nested args and inputs are properly transformed to the corresponding input type classes instances, even including deeply nested arrays 💪
 

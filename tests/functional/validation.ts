@@ -1,29 +1,28 @@
 import "reflect-metadata";
-import { MaxLength, Max, Min, ValidateNested } from "class-validator";
-import { GraphQLSchema, graphql } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Max, MaxLength, Min, ValidateNested } from "class-validator";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
-  InputType,
-  Field,
-  buildSchema,
   Arg,
-  ObjectType,
-  Resolver,
-  Mutation,
-  Query,
-  ArgumentValidationError,
   Args,
   ArgsType,
-} from "../../src";
-import { TypeValue } from "../../src/decorators/types";
+  ArgumentValidationError,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  type ResolverData,
+  buildSchema,
+  getMetadataStorage,
+} from "type-graphql";
+import { type TypeValue } from "@/decorators/types";
 
 describe("Validation", () => {
   describe("Functional", () => {
     let schema: GraphQLSchema;
     let argInput: any;
     let argsData: any;
-    let sampleResolver: any;
 
     beforeEach(() => {
       argInput = undefined;
@@ -43,21 +42,21 @@ describe("Validation", () => {
       class SampleInput {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
         optionalField?: number;
 
-        @Field(type => SampleInput, { nullable: true })
+        @Field(() => SampleInput, { nullable: true })
         @ValidateNested()
         nestedField?: SampleInput;
 
-        @Field(type => [SampleInput], { nullable: true })
+        @Field(() => [SampleInput], { nullable: true })
         @ValidateNested({ each: true })
         arrayField?: SampleInput[];
       }
@@ -66,18 +65,18 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        stringField: string;
+        stringField!: string;
 
         @Field()
         @Max(5)
-        numberField: number;
+        numberField!: number;
 
         @Field({ nullable: true })
         @Min(5)
         optionalField?: number;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -93,13 +92,21 @@ describe("Validation", () => {
 
         @Mutation()
         mutationWithInputsArray(
-          @Arg("inputs", type => [SampleInput]) inputs: SampleInput[],
+          @Arg("inputs", () => [SampleInput]) inputs: SampleInput[],
+        ): SampleObject {
+          argInput = inputs;
+          return {};
+        }
+
+        @Mutation()
+        mutationWithOptionalInputsArray(
+          @Arg("inputs", () => [SampleInput], { nullable: "items" })
+          inputs: Array<SampleInput | null>,
         ): SampleObject {
           argInput = inputs;
           return {};
         }
       }
-      sampleResolver = SampleResolver;
 
       schema = await buildSchema({
         resolvers: [SampleResolver],
@@ -116,7 +123,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, mutation);
+      await graphql({ schema, source: mutation });
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5 });
     });
@@ -131,7 +138,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, mutation);
+      await graphql({ schema, source: mutation });
 
       expect(argInput).toEqual({ stringField: "12345", numberField: 5, optionalField: 5 });
     });
@@ -146,14 +153,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("numberField");
     });
 
     it("should throw validation error when nested input field is incorrect", async () => {
@@ -170,14 +177,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("nestedField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("nestedField");
     });
 
     it("should throw validation error when nested array input field is incorrect", async () => {
@@ -194,14 +201,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("arrayField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("arrayField");
     });
 
     it("should throw validation error when one of input array is incorrect", async () => {
@@ -220,14 +227,59 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("numberField");
+    });
+
+    it("should not throw error when one of optional items in the input array is null", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalInputsArray(inputs: [
+          null,
+          {
+            stringField: "12345",
+            numberField: 5
+          },
+        ]) {
+          field
+        }
+      }`;
+
+      const result = await graphql({ schema, source: mutation });
+      expect(result.errors).toBeUndefined();
+      expect(result.data).toEqual({ mutationWithOptionalInputsArray: { field: null } });
+    });
+
+    it("should properly validate arg array when one of optional items in the input array is incorrect", async () => {
+      const mutation = `mutation {
+        mutationWithOptionalInputsArray(inputs: [
+          null,
+          {
+            stringField: "12345",
+            numberField: 5
+          },
+          {
+            stringField: "12345",
+            numberField: 15,
+          },
+        ]) {
+          field
+        }
+      }`;
+
+      const result = await graphql({ schema, source: mutation });
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+
+      const validationError = result.errors![0].originalError! as ArgumentValidationError;
+      expect(validationError).toBeInstanceOf(ArgumentValidationError);
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("numberField");
     });
 
     it("should throw validation error when optional input field is incorrect", async () => {
@@ -241,14 +293,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, mutation);
+      const result: any = await graphql({ schema, source: mutation });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("optionalField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("optionalField");
     });
 
     it("should pass input validation when arguments data without optional field is correct", async () => {
@@ -260,7 +312,7 @@ describe("Validation", () => {
         field
       }
     }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argsData).toEqual({ stringField: "12345", numberField: 5 });
     });
@@ -275,7 +327,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argsData).toEqual({ stringField: "12345", numberField: 5, optionalField: 5 });
     });
@@ -290,14 +342,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("numberField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("numberField");
     });
 
     it("should throw validation error when optional argument is incorrect", async () => {
@@ -311,14 +363,14 @@ describe("Validation", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("optionalField");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("optionalField");
     });
   });
 
@@ -328,7 +380,7 @@ describe("Validation", () => {
       localArgsData = undefined;
     });
 
-    it("should pass incorrect args when validation is turned off", async () => {
+    it("should pass incorrect args when validation is turned off by default", async () => {
       getMetadataStorage().clear();
 
       @ObjectType()
@@ -340,9 +392,47 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
+      class SampleResolver {
+        @Query()
+        sampleQuery(@Args() args: SampleArguments): SampleObject {
+          localArgsData = args;
+          return {};
+        }
+      }
+      const localSchema = await buildSchema({
+        resolvers: [SampleResolver],
+        // default - `validate: false,`
+      });
+
+      const query = `query {
+        sampleQuery(
+          field: "12345678",
+        ) {
+          field
+        }
+      }`;
+      await graphql({ schema: localSchema, source: query });
+      expect(localArgsData).toEqual({ field: "12345678" });
+    });
+
+    it("should pass incorrect args when validation is turned off explicitly", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field({ nullable: true })
+        field?: string;
+      }
+      @ArgsType()
+      class SampleArguments {
+        @Field()
+        @MaxLength(5)
+        field!: string;
+      }
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args() args: SampleArguments): SampleObject {
@@ -362,7 +452,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "12345678" });
     });
 
@@ -378,9 +468,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: false }) args: SampleArguments): SampleObject {
@@ -400,7 +490,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "12345678" });
     });
 
@@ -416,9 +506,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5)
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: true }) args: SampleArguments): SampleObject {
@@ -438,14 +528,14 @@ describe("Validation", () => {
           field
         }
       }`;
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("field");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("field");
     });
 
     it("should throw validation error for incorrect args when applied local validation settings", async () => {
@@ -460,9 +550,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -482,14 +572,14 @@ describe("Validation", () => {
           field
         }
       }`;
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
 
       const validationError = result.errors![0].originalError! as ArgumentValidationError;
       expect(validationError).toBeInstanceOf(ArgumentValidationError);
-      expect(validationError.validationErrors).toHaveLength(1);
-      expect(validationError.validationErrors[0].property).toEqual("field");
+      expect(validationError.extensions.validationErrors).toHaveLength(1);
+      expect(validationError.extensions.validationErrors[0].property).toEqual("field");
     });
 
     it("should pass validation of incorrect args when applied local validation settings", async () => {
@@ -504,9 +594,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["not-test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -526,7 +616,7 @@ describe("Validation", () => {
           field
         }
       }`;
-      await graphql(localSchema, query);
+      await graphql({ schema: localSchema, source: query });
       expect(localArgsData).toEqual({ field: "123456789" });
     });
 
@@ -542,9 +632,9 @@ describe("Validation", () => {
       class SampleArguments {
         @Field()
         @MaxLength(5, { groups: ["test"] })
-        field: string;
+        field!: string;
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         sampleQuery(@Args({ validate: { groups: ["test"] } }) args: SampleArguments): SampleObject {
@@ -564,11 +654,11 @@ describe("Validation", () => {
           field
         }
       }`;
-      const { errors } = await graphql(localSchema, query);
+      const { errors } = await graphql({ schema: localSchema, source: query });
       const error = errors![0].originalError! as ArgumentValidationError;
 
       expect(localArgsData).toBeUndefined();
-      expect(error.validationErrors[0].target).toBeUndefined();
+      expect(error.extensions.validationErrors[0].target).toBeUndefined();
     });
   });
 });
@@ -581,10 +671,12 @@ describe("Custom validation", () => {
     }
   `;
   let sampleArgsCls: Function;
+  let sampleInputCls: Function;
   let sampleResolverCls: Function;
 
-  let validateArgs: Array<object | undefined> = [];
+  let validateArgs: Array<any | undefined> = [];
   let validateTypes: TypeValue[] = [];
+  let validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
   beforeAll(async () => {
@@ -596,12 +688,38 @@ describe("Custom validation", () => {
       sampleField!: string;
     }
     sampleArgsCls = SampleArgs;
+    @InputType()
+    class SampleInput {
+      @Field()
+      sampleField!: string;
+    }
+    sampleInputCls = SampleInput;
     @Resolver()
     class SampleResolver {
-      @Query(returns => Boolean)
+      @Query(() => Boolean)
       sampleQuery(@Args() args: SampleArgs) {
         sampleQueryArgs.push(args);
         return true;
+      }
+
+      @Query(() => Boolean)
+      sampleArrayArgQuery(@Arg("arrayArg", () => [SampleInput]) arrayArg: SampleInput[]) {
+        sampleQueryArgs.push(arrayArg);
+        return true;
+      }
+
+      @Query()
+      sampleInlineArgValidateFnQuery(
+        @Arg("arg", {
+          validateFn: (arg, type, resolverData) => {
+            validateArgs.push(arg);
+            validateTypes.push(type);
+            validateResolverData.push(resolverData);
+          },
+        })
+        arg: SampleInput,
+      ): string {
+        return arg.sampleField;
       }
     }
     sampleResolverCls = SampleResolver;
@@ -610,47 +728,102 @@ describe("Custom validation", () => {
   beforeEach(() => {
     validateArgs = [];
     validateTypes = [];
+    validateResolverData = [];
     sampleQueryArgs = [];
   });
 
-  it("should call `validate` function provided in option with proper params", async () => {
+  it("should call `validateFn` function provided in option with proper params", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: (arg, type) => {
+      validateFn: (arg, type, resolverData) => {
+        validateArgs.push(arg);
+        validateTypes.push(type);
+        validateResolverData.push(resolverData);
+      },
+    });
+
+    await graphql({ schema, source: document, contextValue: { isContext: true } });
+
+    expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+    expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
+    expect(validateTypes).toEqual([sampleArgsCls]);
+    expect(validateResolverData).toEqual([
+      expect.objectContaining({
+        context: { isContext: true },
+      }),
+    ]);
+  });
+
+  it("should let `validateFn` function handle array args", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+      validateFn: (arg, type) => {
         validateArgs.push(arg);
         validateTypes.push(type);
       },
     });
 
-    await graphql(schema, document);
+    await graphql({
+      schema,
+      source: /* graphql */ `
+        query {
+          sampleArrayArgQuery(arrayArg: [{ sampleField: "sampleFieldValue" }])
+        }
+      `,
+    });
 
-    expect(validateArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
-    expect(validateArgs[0]).toBeInstanceOf(sampleArgsCls);
-    expect(validateTypes).toEqual([sampleArgsCls]);
+    expect(validateArgs).toEqual([[{ sampleField: "sampleFieldValue" }]]);
+    expect((validateArgs[0] as object[])[0]).toBeInstanceOf(sampleInputCls);
+    expect(validateTypes).toEqual([sampleInputCls]);
   });
 
   it("should inject validated arg as resolver param", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: () => {
+      validateFn: () => {
         // do nothing
       },
     });
 
-    await graphql(schema, document);
+    await graphql({ schema, source: document });
 
     expect(sampleQueryArgs).toEqual([{ sampleField: "sampleFieldValue" }]);
+  });
+
+  it("should call `validateFn` function provided inline in arg option with proper params", async () => {
+    schema = await buildSchema({
+      resolvers: [sampleResolverCls],
+    });
+
+    await graphql({
+      schema,
+      source: /* graphql */ `
+        query {
+          sampleInlineArgValidateFnQuery(arg: { sampleField: "sampleArgValue" })
+        }
+      `,
+      contextValue: { isContext: true },
+    });
+
+    expect(validateArgs).toEqual([{ sampleField: "sampleArgValue" }]);
+    expect(validateArgs[0]).toBeInstanceOf(sampleInputCls);
+    expect(validateTypes).toEqual([sampleInputCls]);
+    expect(validateResolverData).toEqual([
+      expect.objectContaining({
+        context: { isContext: true },
+      }),
+    ]);
   });
 
   it("should rethrow wrapped error when error thrown in `validate`", async () => {
     schema = await buildSchema({
       resolvers: [sampleResolverCls],
-      validate: () => {
+      validateFn: () => {
         throw new Error("Test validate error");
       },
     });
 
-    const result = await graphql(schema, document);
+    const result: any = await graphql({ schema, source: document });
 
     expect(result.errors).toHaveLength(1);
     expect(result.errors![0].message).toEqual("Test validate error");

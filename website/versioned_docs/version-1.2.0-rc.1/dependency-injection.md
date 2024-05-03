@@ -155,6 +155,6 @@ The only thing that's left is the container configuration - we need to check out
 
 ## Example
 
-You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-container).
+You can see how this fits together in the [simple example](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/examples/using-container).
 
-For a more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/MichalLytek/type-graphql/tree/master/examples/using-scoped-container).
+For a more advanced usage example with scoped containers, check out [advanced example with scoped containers](https://github.com/MichalLytek/type-graphql/tree/v1.2.0-rc.1/examples/using-scoped-container).

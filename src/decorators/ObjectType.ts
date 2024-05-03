@@ -1,9 +1,8 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions, AbstractClassOptions, ImplementsClassOptions } from "./types";
+import { getNameDecoratorParams } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type DescriptionOptions, type ImplementsClassOptions } from "./types";
 
 export type ObjectTypeOptions = DescriptionOptions &
-  AbstractClassOptions &
   ImplementsClassOptions & {
     /** Set to `true` to disable auth and all middlewares stack for all this Object Type fields resolvers */
     simpleResolvers?: boolean;
@@ -25,7 +24,6 @@ export function ObjectType(
       target,
       description: options.description,
       interfaceClasses,
-      isAbstract: options.isAbstract,
       simpleResolvers: options.simpleResolvers,
     });
   };

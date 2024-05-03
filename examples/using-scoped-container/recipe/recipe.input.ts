@@ -1,15 +1,14 @@
-import { InputType, Field } from "../../../src";
-
-import { Recipe } from "./recipe.type";
+import { Field, InputType } from "type-graphql";
+import { type Recipe } from "./recipe.type";
 
 @InputType()
 export class RecipeInput implements Partial<Recipe> {
-  @Field({ nullable: true })
-  description: string;
-
-  @Field(type => [String])
-  ingredients: string[];
-
   @Field()
-  title: string;
+  title!: string;
+
+  @Field({ nullable: true })
+  description!: string;
+
+  @Field(_type => [String])
+  ingredients!: string[];
 }

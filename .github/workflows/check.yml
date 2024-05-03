@@ -1,0 +1,148 @@
+name: check
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Ensure package version match
+    if: startsWith(github.ref_name, 'v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Git tag format
+        env:
+          TYPE_GRAPHQL_REF_NAME: ${{ github.ref_name }}
+        run: |
+          _tag="$TYPE_GRAPHQL_REF_NAME"
+          if ! printf "%s\n" "$_tag" | grep -q -P '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$'; then
+            printf '[ERROR]: Git tag (%s) wrong format\n' "$_tag"
+            exit 1
+          fi
+
+      - name: Read package.json version
+        uses: sergeysova/jq-action@v2
+        id: version_package
+        with:
+          cmd: jq --raw-output .version package.json
+
+      - name: Read GitHub version
+        uses: pozetroninc/github-action-get-latest-release@master
+        id: version_v_github
+        with:
+          owner: MichalLytek
+          repo: type-graphql
+          excludes: prerelease, draft
+
+      - name: Remove leading v* from GitHub version
+        id: version_github
+        env:
+          TYPE_GRAPHQL_VERSION: ${{ steps.version_v_github.outputs.release }}
+        run: |
+          _version="$TYPE_GRAPHQL_VERSION"
+          printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
+
+      - name: Read Git tag version
+        id: version_gittag
+        env:
+          TYPE_GRAPHQL_REF_NAME: ${{ github.ref_name }}
+        run: |
+          _version="$TYPE_GRAPHQL_REF_NAME"
+          printf 'value=%s\n' "${_version#?}" >> "$GITHUB_OUTPUT"
+
+      - name: Compare package.json with Git tag
+        uses: madhead/semver-utils@latest
+        id: comparison_package_gittag
+        with:
+          version: ${{ steps.version_package.outputs.value }}
+          compare-to: ${{ steps.version_gittag.outputs.value }}
+          lenient: false
+
+      - name: Compare Git tag with GitHub
+        uses: madhead/semver-utils@latest
+        id: comparison_gittag_github
+        with:
+          version: ${{ steps.version_gittag.outputs.value }}
+          compare-to: ${{ steps.version_github.outputs.value }}
+          lenient: false
+
+      - name: Check package.json == Git tag
+        env:
+          TYPE_GRAPHQL_COMPARISON: ${{ steps.comparison_package_gittag.outputs.comparison-result }}
+          TYPE_GRAPHQL_VERSION_PACKAGE: ${{ steps.version_package.outputs.value }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.version_gittag.outputs.value }}
+        run: |
+          if [ ! "$TYPE_GRAPHQL_COMPARISON" = "=" ]; then
+            printf '[ERROR]: package.json (%s) != Git tag (%s)\n' "$TYPE_GRAPHQL_VERSION_PACKAGE" "$TYPE_GRAPHQL_VERSION_TAG"
+            exit 1
+          fi
+
+      - name: Check Git tag > GitHub
+        env:
+          TYPE_GRAPHQL_COMPARISON: ${{ steps.comparison_gittag_github.outputs.comparison-result }}
+          TYPE_GRAPHQL_VERSION_TAG: ${{ steps.version_gittag.outputs.value }}
+          TYPE_GRAPHQL_VERSION_GITHUB: ${{ steps.version_github.outputs.value }}
+        run: |
+          if [ ! "$TYPE_GRAPHQL_COMPARISON" = ">" ]; then
+            printf '[ERROR]: Git tag (%s) !> GitHub (%s)\n' "$TYPE_GRAPHQL_VERSION_TAG" "$TYPE_GRAPHQL_VERSION_GITHUB"
+            exit 1
+          fi
+
+  check:
+    name: Build & Lint & Test
+    needs: version
+    if: always() && (needs.version.result == 'success' || needs.version.result == 'skipped')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Build
+        run: |
+          npm run build
+          npm run build:benchmarks
+
+      - name: Check
+        run: |
+          npm run check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        run: npm run test:ci
+        env:
+          CI: true
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v4
+        if: matrix.node-version == '20.x'

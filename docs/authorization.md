@@ -13,7 +13,7 @@ That's why authorization is a first-class feature in `TypeGraphQL`!
 First, we need to use the `@Authorized` decorator as a guard on a field, query or mutation.
 Example object type field guards:
 
-```typescript
+```ts
 @ObjectType()
 class MyObject {
   @Field()
@@ -40,7 +40,7 @@ Thus, authorized users (regardless of their roles) can only read the `publicFiel
 
 Sample query and mutation guards:
 
-```typescript
+```ts
 @Resolver()
 class MyResolver {
   @Query()
@@ -70,16 +70,16 @@ Authorized users (regardless of their roles) will be able to read data from the 
 
 Next, we need to create our auth checker function. Its implementation may depend on our business logic:
 
-```typescript
+```ts
 export const customAuthChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
-  // here we can read the user from context
-  // and check his permission in the db against the `roles` argument
-  // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
+  // Read user from context
+  // and check the user's permission against the `roles` argument
+  // that comes from the '@Authorized' decorator, eg. ["ADMIN", "MODERATOR"]
 
-  return true; // or false if access is denied
+  return true; // or 'false' if access is denied
 };
 ```
 
@@ -89,15 +89,17 @@ Auth checker can be also defined as a class - this way we can leverage the depen
 
 ```ts
 export class CustomAuthChecker implements AuthCheckerInterface<ContextType> {
-  // inject dependency
-  constructor(private readonly userRepository: Repository<User>) {}
+  constructor(
+    // Dependency injection
+    private readonly userRepository: Repository<User>,
+  ) {}
 
   check({ root, args, context, info }: ResolverData<ContextType>, roles: string[]) {
     const userId = getUserIdFromToken(context.token);
-    // use injected service
+    // Use injected service
     const user = this.userRepository.getById(userId);
 
-    // custom logic here, e.g.:
+    // Custom logic, e.g.:
     return user % 2 === 0;
   }
 }
@@ -105,12 +107,12 @@ export class CustomAuthChecker implements AuthCheckerInterface<ContextType> {
 
 The last step is to register the function or class while building the schema:
 
-```typescript
+```ts
 import { customAuthChecker } from "../auth/custom-auth-checker.ts";
 
 const schema = await buildSchema({
   resolvers: [MyResolver],
-  // here we register the auth checking function
+  // Register the auth checking function
   // or defining it inline
   authChecker: customAuthChecker,
 });
@@ -120,7 +122,7 @@ And it's done! 😉
 
 If we need silent auth guards and don't want to return authorization errors to users, we can set the `authMode` property of the `buildSchema` config object to `"null"`:
 
-```typescript
+```ts
 const schema = await buildSchema({
   resolvers: ["./**/*.resolver.ts"],
   authChecker: customAuthChecker,
@@ -133,46 +135,55 @@ It will then return `null` instead of throwing an authorization error.
 ## Recipes
 
 We can also use `TypeGraphQL` with JWT authentication.
-Here's an example using `apollo-server-express`:
+Here's an example using `@apollo/server`:
 
-```typescript
+```ts
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
-import { ApolloServer, gql } from "apollo-server-express";
-import * as jwt from "express-jwt";
+import jwt from "express-jwt";
+import bodyParser from "body-parser";
+import { schema } from "./graphql/schema";
+import { User } from "./User.type";
 
-import { schema } from "../example/above";
+// GraphQL path
+const GRAPHQL_PATH = "/graphql";
 
+// GraphQL context
+type Context = {
+  user?: User;
+};
+
+// Express
 const app = express();
-const path = "/graphql";
 
-// Create a GraphQL server
-const server = new ApolloServer({
-  schema,
-  context: ({ req }) => {
-    const context = {
-      req,
-      user: req.user, // `req.user` comes from `express-jwt`
-    };
-    return context;
-  },
-});
+// Apollo server
+const server = new ApolloServer<Context>({ schema });
+await server.start();
 
-// Mount a jwt or other authentication middleware that is run before the GraphQL execution
+// Mount a JWT or other authentication middleware that is run before the GraphQL execution
 app.use(
-  path,
+  GRAPHQL_PATH,
   jwt({
     secret: "TypeGraphQL",
     credentialsRequired: false,
   }),
 );
 
-// Apply the GraphQL server middleware
-server.applyMiddleware({ app, path });
-
-// Launch the express server
-app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
+// Apply GraphQL server middleware
+app.use(
+  GRAPHQL_PATH,
+  bodyParser.json(),
+  expressMiddleware(server, {
+    // Build context
+    // 'req.user' comes from 'express-jwt'
+    context: async ({ req }) => ({ user: req.user }),
+  }),
 );
+
+// Start server
+await new Promise<void>(resolve => app.listen({ port: 4000 }, resolve));
+console.log(`GraphQL server ready at http://localhost:4000/${GRAPHQL_PATH}`);
 ```
 
 Then we can use standard, token based authorization in the HTTP header like in classic REST APIs and take advantage of the `TypeGraphQL` authorization mechanism.

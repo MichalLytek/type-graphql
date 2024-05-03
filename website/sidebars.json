@@ -6,8 +6,10 @@
       "getting-started",
       "types-and-fields",
       "resolvers",
-      "bootstrap"
+      "bootstrap",
+      "esm"
     ],
+    "Migration guide": ["migration-guide"],
     "Advanced guides": [
       "scalars",
       "enums",
@@ -28,7 +30,8 @@
       "complexity"
     ],
     "Integrations": ["prisma", "nestjs"],
-    "Others": ["emit-schema", "performance", "browser-usage"]
+    "Others": ["emit-schema", "performance"],
+    "Recipes": ["browser-usage", "aws-lambda"]
   },
   "examples": {
     "Examples": ["examples"]

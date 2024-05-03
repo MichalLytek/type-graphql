@@ -1,21 +1,20 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
+  type IntrospectionInputObjectType,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
 } from "graphql";
-
 import {
-  ObjectType,
-  ArgsType,
-  InputType,
-  Resolver,
-  Field,
-  Query,
-  Mutation,
   Arg,
   Args,
-} from "../../src";
+  ArgsType,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Description", () => {
@@ -25,24 +24,25 @@ describe("Description", () => {
     let queryType: IntrospectionObjectType;
 
     beforeAll(async () => {
-      // create sample definitions
+      // Create sample definitions
 
       @ObjectType({ description: "sample object description" })
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample object field description" })
-        describedField: string;
+        describedField!: string;
 
         @Field({ description: "sample object getter field description" })
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get describedGetterField(): string {
           return "describedGetterField";
         }
 
         @Field({ description: "sample object method field description" })
         methodField(
-          @Arg("arg", { description: "sample object method arg description" }) arg: string,
+          @Arg("arg", { description: "sample object method arg description" }) _arg: string,
         ): string {
           return "methodField";
         }
@@ -51,22 +51,22 @@ describe("Description", () => {
       @InputType({ description: "sample input description" })
       class SampleInput {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample input field description" })
-        describedField: string;
+        describedField!: string;
       }
 
       @ArgsType()
       class SampleArguments {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field({ description: "sample argument field description" })
-        describedField: string;
+        describedField!: string;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         normalQuery(): string {
@@ -75,20 +75,20 @@ describe("Description", () => {
 
         @Query({ description: "sample query description" })
         describedQuery(
-          @Arg("normalArg") normalArg: string,
+          @Arg("normalArg") _normalArg: string,
           @Arg("describedArg", { description: "sample query arg description" })
-          describedArg: string,
+          _describedArg: string,
         ): string {
           return "describedQuery";
         }
 
         @Query()
-        argumentedQuery(@Args() args: SampleArguments): string {
+        argumentedQuery(@Args() _args: SampleArguments): string {
           return "argumentedQuery";
         }
 
         @Query()
-        inputQuery(@Arg("input") input: SampleInput): string {
+        inputQuery(@Arg("input") _input: SampleInput): string {
           return "inputQuery";
         }
 
@@ -99,25 +99,25 @@ describe("Description", () => {
 
         @Mutation({ description: "sample mutation description" })
         describedMutation(
-          @Arg("normalArg") normalArg: string,
+          @Arg("normalArg") _normalArg: string,
           @Arg("describedArg", { description: "sample mutation arg description" })
-          describedArg: string,
+          _describedArg: string,
         ): string {
           return "describedMutation";
         }
 
         @Mutation()
-        argumentedMutation(@Args() args: SampleArguments): string {
+        argumentedMutation(@Args() _args: SampleArguments): string {
           return "argumentedMutation";
         }
 
         @Mutation()
-        inputMutation(@Arg("input") input: SampleInput): string {
+        inputMutation(@Arg("input") _input: SampleInput): string {
           return "inputMutation";
         }
       }
 
-      // get builded schema info from retrospection
+      // Get builded schema info from retrospection
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
         orphanedTypes: [SampleObject],

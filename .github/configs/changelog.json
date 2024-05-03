@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "title": "## 🚀 Enhancements",
+      "labels": ["Enhancement 🆕"]
+    },
+    {
+      "title": "## 🐛 Fixes",
+      "labels": ["Bugfix 🐛 🔨"]
+    },
+    {
+      "title": "## 🧪 Tests",
+      "labels": ["Test 🧪"]
+    },
+    {
+      "title": "## 📦 Dependencies",
+      "labels": ["Dependencies 📦"]
+    },
+    {
+      "title": "## 📚 Documentation",
+      "labels": ["Documentation 📖"]
+    },
+    {
+      "title": "## 🏠 Internal",
+      "labels": ["Chore 🔨", "Internal 🏠"]
+    }
+  ]
+}

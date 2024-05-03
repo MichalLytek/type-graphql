@@ -1,7 +1,8 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { findType } from "../helpers/findType";
-import { TypeValueThunk } from "./types";
-import { SymbolKeysNotSupportedError } from "../errors";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { findType } from "@/helpers/findType";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type ParameterDecorator } from "@/typings";
+import { type TypeValueThunk } from "./types";
 
 export function Root(propertyName?: string): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {
@@ -19,7 +20,7 @@ export function Root(propertyName?: string): ParameterDecorator {
       });
       getType = typeInfo.getType;
     } catch {
-      // tslint:disable-next-line:no-empty
+      /* empty */
     }
 
     getMetadataStorage().collectHandlerParamMetadata({

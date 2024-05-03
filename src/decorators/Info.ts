@@ -1,5 +1,6 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { SymbolKeysNotSupportedError } from "../errors";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type ParameterDecorator } from "@/typings";
 
 export function Info(): ParameterDecorator {
   return (prototype, propertyKey, parameterIndex) => {

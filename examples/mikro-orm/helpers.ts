@@ -1,13 +1,10 @@
-import { EntityManager } from "@mikro-orm/core";
-
-import { Recipe } from "./entities/recipe";
-import { Rate } from "./entities/rate";
-import { User } from "./entities/user";
+import { type EntityManager } from "@mikro-orm/core";
+import { Rating, Recipe, User } from "./entities";
 
 export async function seedDatabase(em: EntityManager) {
   const defaultUser = em.create(User, {
-    email: "test@github.com",
-    nickname: "MichalLytek",
+    email: "admin@github.com",
+    nickname: "administrator",
     password: "s3cr3tp4ssw0rd",
   });
   em.persist(defaultUser);
@@ -18,11 +15,11 @@ export async function seedDatabase(em: EntityManager) {
     author: defaultUser,
   });
   recipe1.ratings.add(
-    em.create(Rate, { value: 2, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
-    em.create(Rate, { value: 5, user: defaultUser }),
-    em.create(Rate, { value: 3, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
+    em.create(Rating, { value: 2, user: defaultUser, recipe: recipe1 }),
+    em.create(Rating, { value: 4, user: defaultUser, recipe: recipe1 }),
+    em.create(Rating, { value: 5, user: defaultUser, recipe: recipe1 }),
+    em.create(Rating, { value: 3, user: defaultUser, recipe: recipe1 }),
+    em.create(Rating, { value: 4, user: defaultUser, recipe: recipe1 }),
   );
   em.persist(recipe1);
 
@@ -31,8 +28,8 @@ export async function seedDatabase(em: EntityManager) {
     author: defaultUser,
   });
   recipe2.ratings.add(
-    em.create(Rate, { value: 2, user: defaultUser }),
-    em.create(Rate, { value: 4, user: defaultUser }),
+    em.create(Rating, { value: 2, user: defaultUser, recipe: recipe2 }),
+    em.create(Rating, { value: 4, user: defaultUser, recipe: recipe2 }),
   );
   em.persist(recipe2);
 

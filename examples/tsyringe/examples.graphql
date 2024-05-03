@@ -1,0 +1,24 @@
+query GetRecipe1 {
+  recipe(recipeId: "1") {
+    title
+    description
+    ingredients
+    numberInCollection
+  }
+}
+
+query GetRecipes {
+  recipes {
+    title
+    description
+    ingredientsLength
+    numberInCollection
+  }
+}
+
+mutation AddRecipe {
+  addRecipe(recipe: { title: "New recipe", ingredients: ["One", "Two", "Three"] }) {
+    id
+    numberInCollection
+  }
+}

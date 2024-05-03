@@ -1,7 +1,7 @@
-import { InterfaceType, ID, Field } from "../../../src";
+import { Field, ID, InterfaceType } from "type-graphql";
 
 @InterfaceType()
 export abstract class IResource {
-  @Field(type => ID)
-  id: string;
+  @Field(_type => ID)
+  id!: string;
 }

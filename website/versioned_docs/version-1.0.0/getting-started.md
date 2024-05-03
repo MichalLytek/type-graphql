@@ -110,7 +110,7 @@ The detailed rules for when and why we declare `returns => Recipe` functions and
 
 ## Inputs and Arguments
 
-Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are of course classes:
+Ok, but what are `NewRecipeInput` and `RecipesArgs`? They are, of course, classes:
 
 ```typescript
 @InputType()

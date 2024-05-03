@@ -1,30 +1,28 @@
-import { Field, ID, ObjectType } from "../../../src";
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
-
-import { Rate } from "./rate";
+import { Field, ID, ObjectType } from "type-graphql";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Rating } from "./rating";
 import { User } from "./user";
-import { Lazy } from "../helpers";
 
 @Entity()
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field(_type => ID)
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Field()
   @Column()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   description?: string;
 
-  @Field(type => [Rate])
-  @OneToMany(type => Rate, rate => rate.recipe, { lazy: true, cascade: ["insert"] })
-  ratings: Lazy<Rate[]>;
+  @Field(_type => [Rating])
+  @OneToMany(_type => Rating, rating => rating.recipe, { lazy: true, cascade: ["insert"] })
+  ratings!: Rating[] | Promise<Rating[]>;
 
-  @Field(type => User)
-  @ManyToOne(type => User, { lazy: true })
-  author: Lazy<User>;
+  @Field(_type => User)
+  @ManyToOne(_type => User, { lazy: true })
+  author!: User | Promise<User>;
 }

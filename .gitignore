@@ -1,15 +1,26 @@
-# node modules
-node_modules
+# Node.js modules
+**/node_modules/
 
-# builded sources
-build
-dist
+# Builded sources
+**/build/
+**/dist/
 
-# coverage reports
-coverage
+# Coverage
+**/coverage/
 
 # IntelliJ stuffs
 .idea/
 
-# parcel cache
+# Parcel cache
 .cache
+.parcel-cache
+
+# Sponsorkit cache
+./images/.cache.json
+
+# Environments
+.env
+
+# Archives
+*.tar.gz
+*.tgz

@@ -1,17 +1,14 @@
-import { getRepository } from "typeorm";
-
-import { Recipe } from "./entities/recipe";
-import { Rate } from "./entities/rate";
-import { User } from "./entities/user";
+import { dataSource } from "./datasource";
+import { Rating, Recipe, User } from "./entities";
 
 export async function seedDatabase() {
-  const recipeRepository = getRepository(Recipe);
-  const ratingsRepository = getRepository(Rate);
-  const userRepository = getRepository(User);
+  const recipeRepository = dataSource.getRepository(Recipe);
+  const ratingRepository = dataSource.getRepository(Rating);
+  const userRepository = dataSource.getRepository(User);
 
   const defaultUser = userRepository.create({
-    email: "test@github.com",
-    nickname: "MichalLytek",
+    email: "admin@github.com",
+    nickname: "administrator",
     password: "s3cr3tp4ssw0rd",
   });
   await userRepository.save(defaultUser);
@@ -21,7 +18,7 @@ export async function seedDatabase() {
       title: "Recipe 1",
       description: "Desc 1",
       author: defaultUser,
-      ratings: ratingsRepository.create([
+      ratings: ratingRepository.create([
         { value: 2, user: defaultUser },
         { value: 4, user: defaultUser },
         { value: 5, user: defaultUser },
@@ -32,7 +29,7 @@ export async function seedDatabase() {
     {
       title: "Recipe 2",
       author: defaultUser,
-      ratings: ratingsRepository.create([
+      ratings: ratingRepository.create([
         { value: 2, user: defaultUser },
         { value: 4, user: defaultUser },
       ]),

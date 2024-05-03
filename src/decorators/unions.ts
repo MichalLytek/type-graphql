@@ -1,14 +1,13 @@
-import { ClassType } from "../interfaces";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { UnionFromClasses } from "../helpers/utils";
-import { ResolveTypeOptions } from "./types";
+import { type UnionFromClasses } from "@/helpers/utils";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type ClassType } from "@/typings";
+import { type ResolveTypeOptions } from "./types";
 
-export interface UnionTypeConfig<TClassTypes extends readonly ClassType[]>
-  extends ResolveTypeOptions<UnionFromClasses<TClassTypes>> {
+export type UnionTypeConfig<TClassTypes extends readonly ClassType[]> = {
   name: string;
   description?: string;
   types: () => TClassTypes;
-}
+} & ResolveTypeOptions<UnionFromClasses<TClassTypes>>;
 
 export function createUnionType<T extends readonly ClassType[]>(
   config: UnionTypeConfig<T>,

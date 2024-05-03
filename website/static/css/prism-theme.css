@@ -6,15 +6,20 @@ code {
   color: #dcdcaa;
 }
 
-.token.punctuation, .token.operator, .token.constant, .hljs.graphql {
+.token.punctuation,
+.token.operator,
+.token.constant,
+.hljs.graphql {
   color: #d4d4d4;
 }
 
-.token.keyword, .token.boolean {
+.token.keyword,
+.token.boolean {
   color: #569cd6;
 }
 
-.token.class-name, .token.builtin {
+.token.class-name,
+.token.builtin {
   color: #4ec9b0;
 }
 
@@ -34,7 +39,9 @@ code {
   color: #d16969;
 }
 
-.hljs, .token.attr-name, .token.property {
+.hljs,
+.token.attr-name,
+.token.property {
   color: #9cdcfe;
 }
 

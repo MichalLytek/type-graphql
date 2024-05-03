@@ -1,21 +1,21 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
-  Field,
-  ObjectType,
-  Ctx,
+  type AuthCheckerInterface,
+  AuthenticationError,
+  AuthorizationError,
   Authorized,
+  Ctx,
+  Field,
+  FieldResolver,
+  ObjectType,
   Query,
   Resolver,
+  type ResolverData,
   buildSchema,
-  FieldResolver,
-  UnauthorizedError,
-  ForbiddenError,
-  AuthCheckerInterface,
-  ResolverData,
-} from "../../src";
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
 
 describe("Authorization", () => {
   let schema: GraphQLSchema;
@@ -27,32 +27,32 @@ describe("Authorization", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field()
       @Authorized()
-      authedField: string;
+      authedField!: string;
 
       @Field({ nullable: true })
       @Authorized()
-      nullableAuthedField: string;
+      nullableAuthedField!: string;
 
       @Field()
       @Authorized("ADMIN")
-      adminField: string;
+      adminField!: string;
 
       @Field()
-      normalResolvedField: string;
+      normalResolvedField!: string;
 
       @Field()
-      authedResolvedField: string;
+      authedResolvedField!: string;
 
       @Field()
       @Authorized()
-      inlineAuthedResolvedField: string;
+      inlineAuthedResolvedField!: string;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {
@@ -74,9 +74,9 @@ describe("Authorization", () => {
         return ctx.user !== undefined;
       }
 
-      @Query(type => Boolean, { nullable: true })
+      @Query(() => Boolean, { nullable: true })
       @Authorized()
-      nullableAuthedQuery(@Ctx() ctx: any) {
+      nullableAuthedQuery() {
         return true;
       }
 
@@ -173,15 +173,14 @@ describe("Authorization", () => {
 
   describe("Errors", () => {
     it("should throw error when `@Authorized` is used and no `authChecker` provided", async () => {
-      expect.assertions(2);
-      try {
-        await buildSchema({
+      const error = await expectToThrow(() =>
+        buildSchema({
           resolvers: [sampleResolver],
-        });
-      } catch (err) {
-        expect(err).toBeDefined();
-        expect(err.message).toContain("authChecker");
-      }
+        }),
+      );
+
+      expect(error).toBeDefined();
+      expect(error.message).toContain("authChecker");
     });
 
     // TODO: check for wrong `@Authorized` usage
@@ -203,7 +202,7 @@ describe("Authorization", () => {
         normalQuery
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.normalQuery).toEqual(true);
     });
@@ -215,7 +214,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.normalObjectQuery.normalField).toEqual("normalField");
     });
@@ -227,7 +226,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.normalObjectQuery.normalResolvedField).toEqual("normalResolvedField");
     });
@@ -241,7 +240,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toBeDefined();
@@ -257,13 +256,13 @@ describe("Authorization", () => {
         nullableAuthedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data!.nullableAuthedQuery).toBeNull();
       expect(result.errors).toBeUndefined();
     });
 
-    it("should throw UnauthorizedError when guest accessing authed query", async () => {
+    it("should throw AuthenticationError when guest accessing authed query", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -272,16 +271,16 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.originalError).toBeInstanceOf(AuthenticationError);
       expect(error.path).toContain("authedQuery");
     });
 
-    it("should throw ForbiddenError when guest accessing query authed with roles", async () => {
+    it("should throw AuthorizationError when guest accessing query authed with roles", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -290,12 +289,12 @@ describe("Authorization", () => {
         adminQuery
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.originalError).toBeInstanceOf(AuthorizationError);
       expect(error.path).toContain("adminQuery");
     });
 
@@ -308,7 +307,7 @@ describe("Authorization", () => {
         authedQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
 
       expect(result.data!.authedQuery).toEqual(false);
     });
@@ -324,7 +323,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
     });
@@ -340,12 +339,12 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data!.normalObjectQuery.nullableAuthedField).toBeNull();
     });
 
-    it("should throw UnauthorizedError when guest accessing autherd object field", async () => {
+    it("should throw AuthenticationError when guest accessing authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -356,16 +355,16 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(UnauthorizedError);
+      expect(error.originalError).toBeInstanceOf(AuthenticationError);
       expect(error.path).toContain("authedField");
     });
 
-    it("should throw ForbiddenError when guest accessing object field authed with roles", async () => {
+    it("should throw AuthorizationError when guest accessing object field authed with roles", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
         authChecker: () => false,
@@ -376,12 +375,12 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
       const error = result.errors![0];
-      expect(error.originalError).toBeInstanceOf(ForbiddenError);
+      expect(error.originalError).toBeInstanceOf(AuthorizationError);
       expect(error.path).toContain("adminField");
     });
 
@@ -396,7 +395,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
 
       expect(result.data!.normalObjectQuery.authedField).toEqual("authedField");
     });
@@ -412,7 +411,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
     });
@@ -428,7 +427,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query);
+      const result: any = await graphql({ schema: localSchema, source: query });
 
       expect(result.data).toBeNull();
     });
@@ -444,7 +443,7 @@ describe("Authorization", () => {
         }
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
 
       expect(result.data!.normalObjectQuery.inlineAuthedResolvedField).toEqual(
         "inlineAuthedResolvedField",
@@ -455,7 +454,7 @@ describe("Authorization", () => {
       let authCheckerRoles: string[] | undefined;
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
-        authChecker: (resolverData, roles) => {
+        authChecker: (_, roles) => {
           authCheckerRoles = roles;
           return true;
         },
@@ -464,7 +463,7 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(localSchema, query, null, {});
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
@@ -483,12 +482,12 @@ describe("Authorization", () => {
         adminOrRegularQuery
       }`;
 
-      const result = await graphql(
-        localSchema,
-        query,
-        { field: "rootField" },
-        { field: "contextField" },
-      );
+      const result: any = await graphql({
+        schema: localSchema,
+        source: query,
+        rootValue: { field: "rootField" },
+        contextValue: { field: "contextField" },
+      });
 
       expect(result.data!.adminOrRegularQuery).toEqual(false);
       expect(authCheckerResolverData.root.field).toEqual("rootField");
@@ -520,16 +519,16 @@ describe("Authorization", () => {
         }
       `;
 
-      const result = await graphql(
-        localSchema,
-        query,
-        { field: "rootField" },
-        { field: "contextField" },
-      );
+      const result: any = await graphql({
+        schema: localSchema,
+        source: query,
+        rootValue: { field: "rootField" },
+        contextValue: { field: "contextField" },
+      });
 
       expect(result.data).toBeNull();
       expect(result.errors).toMatchInlineSnapshot(`
-        Array [
+        [
           [GraphQLError: Access denied! You don't have permission for this action!],
         ]
       `);
@@ -562,11 +561,13 @@ describe("Authorization", () => {
     });
 
     it("should not throw an error", async () => {
-      await buildSchema({
-        resolvers: [testResolver],
-        // dummy auth checker
-        authChecker: () => false,
-      });
+      await expect(
+        buildSchema({
+          resolvers: [testResolver],
+          // dummy auth checker
+          authChecker: () => false,
+        }),
+      ).resolves.not.toThrow();
     });
   });
 });

@@ -1,35 +1,35 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionInterfaceType,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionInputObjectType,
-  GraphQLSchema,
-  graphql,
+  type GraphQLSchema,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
-
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getInnerFieldType } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { GeneratingSchemaError } from "../../src/errors";
 import {
-  InterfaceType,
-  ObjectType,
+  Arg,
+  Args,
+  ArgsType,
   Field,
   ID,
-  Query,
-  ArgsType,
-  Args,
   InputType,
-  Arg,
-  Mutation,
-  buildSchema,
   Int,
+  InterfaceType,
+  Mutation,
+  ObjectType,
+  Query,
   Resolver,
-} from "../../src";
+  buildSchema,
+} from "type-graphql";
+import { GeneratingSchemaError } from "@/errors";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
+import { getInnerFieldType, getInnerInputFieldType } from "../helpers/getInnerFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Interfaces and inheritance", () => {
   describe("Schema", () => {
@@ -43,94 +43,129 @@ describe("Interfaces and inheritance", () => {
     let sampleImplementingObject1Type: IntrospectionObjectType;
     let sampleImplementingObject2Type: IntrospectionObjectType;
     let sampleExtendingObject2Type: IntrospectionObjectType;
+    let sampleSecondExtendedInputType: IntrospectionInputObjectType;
 
     beforeAll(async () => {
       getMetadataStorage().clear();
 
       @InterfaceType()
       abstract class SampleInterface1 {
-        @Field(type => ID)
-        id: string;
+        @Field(() => ID)
+        id!: string;
+
         @Field()
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
       }
       @InterfaceType()
       abstract class SampleInterface2 {
-        @Field(type => ID)
-        id: string;
+        @Field(() => ID)
+        id!: string;
+
         @Field()
-        interfaceStringField2: string;
+        interfaceStringField2!: string;
       }
       @InterfaceType()
       abstract class SampleInterfaceExtending1 extends SampleInterface1 {
         @Field()
-        ownStringField1: string;
+        ownStringField1!: string;
       }
       @InterfaceType({ implements: [SampleInterface1] })
       abstract class SampleInterfaceImplementing1 implements SampleInterface1 {
-        id: string;
-        interfaceStringField1: string;
+        id!: string;
+
+        interfaceStringField1!: string;
+
         @Field()
-        ownStringField1: string;
+        ownStringField1!: string;
       }
 
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject1 implements SampleInterface1 {
-        id: string;
-        interfaceStringField1: string;
+        id!: string;
+
+        interfaceStringField1!: string;
+
         @Field()
-        ownField1: number;
+        ownField1!: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleImplementingObject2 implements SampleInterface1 {
-        @Field(type => ID)
-        id: string;
+        @Field(() => ID)
+        id!: string;
+
         @Field()
-        interfaceStringField1: string;
+        interfaceStringField1!: string;
+
         @Field()
-        ownField2: number;
+        ownField2!: number;
       }
       @ObjectType({ implements: [SampleInterface1, SampleInterface2] })
       class SampleMultiImplementingObject implements SampleInterface1, SampleInterface2 {
-        id: string;
-        interfaceStringField1: string;
-        interfaceStringField2: string;
+        id!: string;
+
+        interfaceStringField1!: string;
+
+        interfaceStringField2!: string;
+
         @Field()
-        ownField3: number;
+        ownField3!: number;
       }
       @ObjectType({ implements: SampleInterface1 })
       class SampleExtendingImplementingObject
         extends SampleImplementingObject2
-        implements SampleInterface1 {
+        implements SampleInterface1
+      {
         @Field()
-        ownField4: number;
+        ownField4!: number;
       }
       @ObjectType()
       class SampleExtendingObject2 extends SampleImplementingObject2 {
         @Field()
-        ownExtendingField2: number;
+        ownExtendingField2!: number;
       }
 
       @ArgsType()
       class SampleBaseArgs {
         @Field()
-        baseArgField: string;
+        baseArgField!: string;
       }
       @ArgsType()
       class SampleExtendingArgs extends SampleBaseArgs {
         @Field()
-        extendingArgField: boolean;
+        extendingArgField!: boolean;
       }
 
       @InputType()
       class SampleBaseInput {
         @Field()
-        baseInputField: string;
+        baseInputField!: string;
       }
       @InputType()
       class SampleExtendingInput extends SampleBaseInput {
         @Field()
-        extendingInputField: boolean;
+        extendingInputField!: boolean;
+      }
+
+      // overwriting fields case
+      @InputType()
+      class SampleFirstBaseInput {
+        @Field()
+        baseField!: string;
+      }
+      @InputType()
+      class SampleFirstExtendedInput extends SampleFirstBaseInput {
+        @Field()
+        extendedField!: string;
+      }
+      @InputType()
+      class SampleSecondBaseInput {
+        @Field()
+        baseInputField!: SampleFirstBaseInput;
+      }
+      @InputType()
+      class SampleSecondExtendedInput extends SampleSecondBaseInput {
+        @Field()
+        override baseInputField!: SampleFirstExtendedInput;
       }
 
       class SampleResolver {
@@ -140,12 +175,12 @@ describe("Interfaces and inheritance", () => {
         }
 
         @Query()
-        queryWithArgs(@Args() args: SampleExtendingArgs): boolean {
+        queryWithArgs(@Args() _args: SampleExtendingArgs): boolean {
           return true;
         }
 
         @Mutation()
-        mutationWithInput(@Arg("input") input: SampleExtendingInput): boolean {
+        mutationWithInput(@Arg("input") _input: SampleExtendingInput): boolean {
           return true;
         }
       }
@@ -162,6 +197,7 @@ describe("Interfaces and inheritance", () => {
           SampleMultiImplementingObject,
           SampleExtendingImplementingObject,
           SampleExtendingObject2,
+          SampleSecondExtendedInput,
         ],
       });
       queryType = schemaInfo.queryType;
@@ -190,6 +226,9 @@ describe("Interfaces and inheritance", () => {
       sampleExtendingObject2Type = schemaIntrospection.types.find(
         type => type.name === "SampleExtendingObject2",
       ) as IntrospectionObjectType;
+      sampleSecondExtendedInputType = schemaIntrospection.types.find(
+        type => type.name === "SampleSecondExtendedInput",
+      ) as IntrospectionInputObjectType;
     });
 
     // helpers
@@ -203,14 +242,27 @@ describe("Interfaces and inheritance", () => {
 
     it("should generate interface type correctly", async () => {
       expect(sampleInterface1Type).toBeDefined();
+      expect(sampleInterface2Type).toBeDefined();
       expect(sampleInterface1Type.kind).toEqual(TypeKind.INTERFACE);
+      expect(sampleInterface2Type.kind).toEqual(TypeKind.INTERFACE);
       expect(sampleInterface1Type.fields).toHaveLength(2);
+      expect(sampleInterface2Type.fields).toHaveLength(2);
 
-      const idFieldType = getInnerFieldType(sampleInterface1Type, "id");
-      const interfaceStringField = getInnerFieldType(sampleInterface1Type, "interfaceStringField1");
+      const idFieldType1 = getInnerFieldType(sampleInterface1Type, "id");
+      const idFieldType2 = getInnerFieldType(sampleInterface1Type, "id");
+      const interfaceStringField1 = getInnerFieldType(
+        sampleInterface1Type,
+        "interfaceStringField1",
+      );
+      const interfaceStringField2 = getInnerFieldType(
+        sampleInterface2Type,
+        "interfaceStringField2",
+      );
 
-      expect(idFieldType.name).toEqual("ID");
-      expect(interfaceStringField.name).toEqual("String");
+      expect(idFieldType1.name).toEqual("ID");
+      expect(idFieldType2.name).toEqual("ID");
+      expect(interfaceStringField1.name).toEqual("String");
+      expect(interfaceStringField2.name).toEqual("String");
     });
 
     it("should generate type of interface extending other interface correctly", async () => {
@@ -327,7 +379,7 @@ describe("Interfaces and inheritance", () => {
       expect(implementedInterfaceInfo.kind).toEqual(TypeKind.INTERFACE);
     });
 
-    it("should generate object type implicitly implementing mutliple interfaces correctly", async () => {
+    it("should generate object type implicitly implementing multiple interfaces correctly", async () => {
       expect(sampleMultiImplementingObjectType).toBeDefined();
       expect(sampleMultiImplementingObjectType.fields).toHaveLength(4);
 
@@ -396,23 +448,32 @@ describe("Interfaces and inheritance", () => {
       expect(extendingInputFieldType.name).toEqual("Boolean");
     });
 
+    it("should properly overwrite input type field", () => {
+      const baseInputFieldType = getInnerInputFieldType(
+        sampleSecondExtendedInputType,
+        "baseInputField",
+      );
+
+      expect(baseInputFieldType.name).toEqual("SampleFirstExtendedInput");
+    });
+
     it("shouldn't throw error when extending wrong class type", async () => {
       getMetadataStorage().clear();
 
       @InputType()
       class SampleInput {
         @Field()
-        inputField: string;
+        inputField!: string;
       }
       @ArgsType()
       class SampleArgs extends SampleInput {
         @Field()
-        argField: string;
+        argField!: string;
       }
       @Resolver()
       class SampleResolver {
         @Query()
-        sampleQuery(@Args() args: SampleArgs): boolean {
+        sampleQuery(@Args() _args: SampleArgs): boolean {
           return true;
         }
       }
@@ -424,25 +485,74 @@ describe("Interfaces and inheritance", () => {
     });
   });
 
+  describe("Schema > deeply nested inheritance chain", () => {
+    beforeEach(() => {
+      getMetadataStorage().clear();
+    });
+
+    it("should properly inherit overridden fields", async () => {
+      @ArgsType()
+      class BaseArgs {
+        @Field({ nullable: true })
+        baseField?: string;
+      }
+
+      @ArgsType()
+      class FirstLevelArgs extends BaseArgs {
+        @Field({ nullable: false })
+        override baseField!: string;
+      }
+
+      @ArgsType()
+      class SecondLevelArgs extends FirstLevelArgs {
+        @Field()
+        secondLevelField!: string;
+      }
+
+      @Resolver()
+      class TestResolver {
+        @Query(() => Boolean)
+        testQuery(@Args() _args: SecondLevelArgs): boolean {
+          return true;
+        }
+      }
+
+      const { queryType } = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      const testQuery = queryType.fields.find(field => field.name === "testQuery")!;
+      const baseField = testQuery.args.find(arg => arg.name === "baseField")!;
+      expect(baseField.type).toMatchObject({
+        kind: "NON_NULL",
+        ofType: {
+          kind: "SCALAR",
+          name: "String",
+          ofType: null,
+        },
+      });
+    });
+  });
+
   describe("Errors", () => {
     beforeEach(() => {
       getMetadataStorage().clear();
     });
 
     it("should throw error when field type doesn't match with interface", async () => {
-      expect.assertions(3);
-      try {
+      const error = await expectToThrow(async () => {
         @InterfaceType()
         class IBase {
           @Field()
-          baseField: string;
+          baseField!: string;
         }
         @ObjectType({ implements: IBase })
         class ChildObject implements IBase {
-          @Field(type => Number, { nullable: true })
-          baseField: string;
+          @Field(() => Number, { nullable: true })
+          baseField!: string;
+
           @Field()
-          argField: string;
+          argField!: string;
         }
         class SampleResolver {
           @Query()
@@ -450,40 +560,40 @@ describe("Interfaces and inheritance", () => {
             return {} as ChildObject;
           }
         }
+
         await buildSchema({
           resolvers: [SampleResolver],
           validate: false,
         });
-      } catch (err) {
-        expect(err).toBeInstanceOf(GeneratingSchemaError);
-        const schemaError = err as GeneratingSchemaError;
-        expect(schemaError.message).toMatchInlineSnapshot(`
+      });
+
+      expect(error).toBeInstanceOf(GeneratingSchemaError);
+      expect(error.message).toMatchInlineSnapshot(`
           "Some errors occurred while generating GraphQL schema:
             Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.
           Please check the \`details\` property of the error to get more detailed info."
         `);
-        expect(JSON.stringify(schemaError.details, null, 2)).toMatchInlineSnapshot(`
+      expect(JSON.stringify((error as GeneratingSchemaError).details, null, 2))
+        .toMatchInlineSnapshot(`
           "[
             {
-              \\"message\\": \\"Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float.\\"
+              "message": "Interface field IBase.baseField expects type String! but ChildObject.baseField is type Float."
             }
           ]"
         `);
-      }
     });
 
     it("should throw error when not interface type is provided as `implements` option", async () => {
-      expect.assertions(2);
-      try {
+      const error = await expectToThrow(async () => {
         @ObjectType()
         class SampleNotInterface {
           @Field()
-          sampleField: string;
+          sampleField!: string;
         }
         @ObjectType({ implements: [SampleNotInterface] })
         class SampleImplementingObject implements SampleNotInterface {
           @Field()
-          sampleField: string;
+          sampleField!: string;
         }
         @Resolver()
         class SampleResolver {
@@ -492,16 +602,17 @@ describe("Interfaces and inheritance", () => {
             return {} as SampleImplementingObject;
           }
         }
+
         await buildSchema({
           resolvers: [SampleResolver],
           validate: false,
         });
-      } catch (err) {
-        expect(err).toBeInstanceOf(Error);
-        expect(err.message).toMatchInlineSnapshot(
-          `"Cannot find interface type metadata for class 'SampleNotInterface' provided in 'implements' option for 'SampleImplementingObject' object type class. Please make sure that class is annotated with an '@InterfaceType()' decorator."`,
-        );
-      }
+      });
+
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toMatchInlineSnapshot(
+        `"Cannot find interface type metadata for class 'SampleNotInterface' provided in 'implements' option for 'SampleImplementingObject' object type class. Please make sure that class is annotated with an '@InterfaceType()' decorator."`,
+      );
     });
   });
 
@@ -523,49 +634,54 @@ describe("Interfaces and inheritance", () => {
       @ArgsType()
       class BaseArgs {
         @Field()
-        baseArgField: string;
-        @Field(type => Int, { nullable: true })
+        baseArgField!: string;
+
+        @Field(() => Int, { nullable: true })
         optionalBaseArgField: number = 255;
       }
       @ArgsType()
       class ChildArgs extends BaseArgs {
         @Field()
-        childArgField: string;
+        childArgField!: string;
       }
 
       @InputType()
       class BaseInput {
         @Field()
-        baseInputField: string;
-        @Field(type => Int, { nullable: true })
+        baseInputField!: string;
+
+        @Field(() => Int, { nullable: true })
         optionalBaseInputField: number = 255;
       }
       @InputType()
       class ChildInput extends BaseInput {
         @Field()
-        childInputField: string;
+        childInputField!: string;
       }
 
       @InterfaceType()
       abstract class BaseInterface {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
 
         @Field({ name: "renamedInterfaceField", nullable: true })
         interfaceFieldToBeRenamed?: string;
       }
       @ObjectType({ implements: BaseInterface })
       class FirstImplementation implements BaseInterface {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         interfaceFieldToBeRenamed?: string;
+
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: BaseInterface })
       class SecondImplementation implements BaseInterface {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       @InterfaceType({
@@ -576,52 +692,58 @@ describe("Interfaces and inheritance", () => {
           if ("secondField" in value) {
             return "SecondInterfaceWithStringResolveTypeObject";
           }
-          return;
+          return undefined;
         },
       })
       abstract class InterfaceWithStringResolveType {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
       }
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class FirstInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: InterfaceWithStringResolveType })
       class SecondInterfaceWithStringResolveTypeObject implements InterfaceWithStringResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       @InterfaceType({
         resolveType: value => {
           if ("firstField" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return FirstInterfaceWithClassResolveTypeObject;
           }
           if ("secondField" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return SecondInterfaceWithClassResolveTypeObject;
           }
-          return;
+          return undefined;
         },
       })
       abstract class InterfaceWithClassResolveType {
         @Field()
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
       }
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class FirstInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         @Field()
-        firstField: string;
+        firstField!: string;
       }
       @ObjectType({ implements: InterfaceWithClassResolveType })
       class SecondInterfaceWithClassResolveTypeObject implements InterfaceWithClassResolveType {
-        baseInterfaceField: string;
+        baseInterfaceField!: string;
+
         @Field()
-        secondField: string;
+        secondField!: string;
       }
 
       class SampleBaseClass {
@@ -632,17 +754,39 @@ describe("Interfaces and inheritance", () => {
       @ObjectType()
       class SampleExtendingNormalClassObject extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @InputType()
       class SampleExtendingNormalClassInput extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ArgsType()
       class SampleExtendingNormalClassArgs extends SampleBaseClass {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+      }
+
+      // overwriting fields case
+      @InputType()
+      class SampleFirstBaseInput {
+        @Field()
+        baseField!: string;
+      }
+      @InputType()
+      class SampleFirstExtendedInput extends SampleFirstBaseInput {
+        @Field()
+        extendedField!: string;
+      }
+      @InputType()
+      class SampleSecondBaseInput {
+        @Field()
+        baseInputField!: SampleFirstBaseInput;
+      }
+      @InputType()
+      class SampleSecondExtendedInput extends SampleSecondBaseInput {
+        @Field()
+        override baseInputField!: SampleFirstExtendedInput;
       }
 
       @Resolver()
@@ -719,6 +863,12 @@ describe("Interfaces and inheritance", () => {
           obj.interfaceFieldToBeRenamed = "interfaceFieldToBeRenamed";
           return obj;
         }
+
+        @Mutation()
+        overwritingInputFieldMutation(@Arg("input") input: SampleSecondExtendedInput): boolean {
+          mutationInput = input;
+          return true;
+        }
       }
 
       schema = await buildSchema({
@@ -741,8 +891,8 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getFirstInterfaceImplementationObject;
+      const result: any = await graphql({ schema, source: query });
+      const data = result.data.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
     });
 
@@ -759,8 +909,8 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getFirstInterfaceImplementationObject;
+      const result: any = await graphql({ schema, source: query });
+      const data = result.data.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toEqual("firstField");
       expect(data.secondField).toBeUndefined();
@@ -779,8 +929,8 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getSecondInterfaceWithStringResolveTypeObject;
+      const result: any = await graphql({ schema, source: query });
+      const data = result.data.getSecondInterfaceWithStringResolveTypeObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toBeUndefined();
       expect(data.secondField).toEqual("secondField");
@@ -799,8 +949,8 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getSecondInterfaceWithClassResolveTypeObject;
+      const result: any = await graphql({ schema, source: query });
+      const data = result.data.getSecondInterfaceWithClassResolveTypeObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toBeUndefined();
       expect(data.secondField).toEqual("secondField");
@@ -820,10 +970,10 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.errors?.[0]?.message).toMatchInlineSnapshot(
-        `"Abstract type \\"InterfaceWithClassResolveType\\" must resolve to an Object type at runtime for field \\"Query.notMatchingValueForInterfaceWithClassResolveTypeObject\\". Either the \\"InterfaceWithClassResolveType\\" type should provide a \\"resolveType\\" function or each possible type should provide an \\"isTypeOf\\" function."`,
+        `"Abstract type "InterfaceWithClassResolveType" must resolve to an Object type at runtime for field "Query.notMatchingValueForInterfaceWithClassResolveTypeObject". Either the "InterfaceWithClassResolveType" type should provide a "resolveType" function or each possible type should provide an "isTypeOf" function."`,
       );
     });
 
@@ -834,7 +984,7 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data).toBeNull();
       expect(result.errors).toHaveLength(1);
@@ -856,8 +1006,8 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
-      const data = result.data!.getFirstInterfaceImplementationObject;
+      const result: any = await graphql({ schema, source: query });
+      const data = result.data.getFirstInterfaceImplementationObject;
       expect(data.baseInterfaceField).toEqual("baseInterfaceField");
       expect(data.firstField).toEqual("firstField");
     });
@@ -869,10 +1019,10 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      expect(data!.renamedFieldInterfaceQuery.renamedInterfaceField).toEqual(
+      expect((data as any).renamedFieldInterfaceQuery.renamedInterfaceField).toEqual(
         "interfaceFieldToBeRenamed",
       );
     });
@@ -885,7 +1035,7 @@ describe("Interfaces and inheritance", () => {
         )
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(queryArgs.baseArgField).toEqual("baseArgField");
       expect(queryArgs.childArgField).toEqual("childArgField");
@@ -900,7 +1050,7 @@ describe("Interfaces and inheritance", () => {
         })
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(mutationInput.baseInputField).toEqual("baseInputField");
       expect(mutationInput.childInputField).toEqual("childInputField");
@@ -915,14 +1065,35 @@ describe("Interfaces and inheritance", () => {
         )
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
-      expect(data!.baseClassQuery).toEqual("sampleStaticMethod");
+      expect((data as any).baseClassQuery).toEqual("sampleStaticMethod");
       expect(inputFieldValue).toEqual("sampleInputValue");
       expect(argsFieldValue).toEqual("sampleArgValue");
     });
 
     it("should allow to return plain object when return type is a class that implements an interface", async () => {
+      const query = `mutation {
+        overwritingInputFieldMutation(input: {
+          baseInputField: {
+            baseField: "baseField",
+            extendedField: "extendedField",
+          }
+        })
+      }`;
+
+      const { errors } = await graphql({ schema, source: query });
+
+      expect(errors).toBeUndefined();
+      expect(mutationInput).toEqual({
+        baseInputField: {
+          baseField: "baseField",
+          extendedField: "extendedField",
+        },
+      });
+    });
+
+    it("should correctly transform data of overwritten input field", async () => {
       const query = `query {
         secondImplementationPlainQuery {
           baseInterfaceField
@@ -930,11 +1101,13 @@ describe("Interfaces and inheritance", () => {
         }
       }`;
 
-      const { data, errors } = await graphql(schema, query);
+      const { data, errors } = await graphql({ schema, source: query });
 
       expect(errors).toBeUndefined();
-      expect(data!.secondImplementationPlainQuery.baseInterfaceField).toEqual("baseInterfaceField");
-      expect(data!.secondImplementationPlainQuery.secondField).toEqual("secondField");
+      expect((data as any).secondImplementationPlainQuery.baseInterfaceField).toEqual(
+        "baseInterfaceField",
+      );
+      expect((data as any).secondImplementationPlainQuery.secondField).toEqual("secondField");
     });
   });
 
@@ -947,21 +1120,21 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -994,8 +1167,8 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({
@@ -1020,26 +1193,26 @@ describe("Interfaces and inheritance", () => {
           if ("two" in value) {
             return "Two";
           }
-          throw new Error("Unkown resolveType error");
+          throw new Error("Unknown resolveType error");
         },
       })
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -1072,8 +1245,8 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({
@@ -1093,31 +1266,33 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({
         resolveType: value => {
           if ("one" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return One;
           }
           if ("two" in value) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             return Two;
           }
-          throw new Error("Unkown resolveType error");
+          throw new Error("Unknown resolveType error");
         },
       })
       class BaseInterface {
         @Field()
-        baseField: string;
+        baseField!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class One extends BaseInterface {
         @Field()
-        one: string;
+        one!: string;
       }
       @ObjectType({ implements: [BaseInterface] })
       class Two extends BaseInterface {
         @Field()
-        two: string;
+        two!: string;
       }
       @Resolver()
       class OneTwoResolver {
-        @Query(returns => BaseInterface)
+        @Query(() => BaseInterface)
         base(): BaseInterface {
           const one = new One();
           one.baseField = "baseField";
@@ -1150,8 +1325,8 @@ describe("Interfaces and inheritance", () => {
         orphanedTypes: [One, Two],
         validate: false,
       });
-      const firstResult = await graphql(firstSchema, query);
-      const secondResult = await graphql(secondSchema, query);
+      const firstResult = await graphql({ schema: firstSchema, source: query });
+      const secondResult = await graphql({ schema: secondSchema, source: query });
 
       expect(firstResult.errors).toBeUndefined();
       expect(firstResult.data!.base).toEqual({
@@ -1171,26 +1346,29 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType()
       abstract class SampleUnusedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUnusedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleUnusedObjectType implements SampleUnusedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        sampleUnusedInterfaceField: SampleUnusedInterface;
+        sampleUnusedInterfaceField!: SampleUnusedInterface;
       }
       @InterfaceType()
       abstract class SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
       class SampleObjectTypeImplementingUsedInterface implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        sampleAdditionalField: string;
+        sampleAdditionalField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -1222,24 +1400,25 @@ describe("Interfaces and inheritance", () => {
     });
 
     it("should by default automatically register all and only the object types that implements an interface type used as field type", async () => {
-      getMetadataStorage().clear();
       @InterfaceType()
       class IFooBar {
         @Field(() => String)
-        fooBarKind: string;
+        fooBarKind!: string;
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Foo extends IFooBar {
-        fooBarKind = "Foo";
+        override fooBarKind = "Foo";
       }
       @ObjectType({ implements: IFooBar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Bar extends IFooBar {
-        fooBarKind = "Bar";
+        override fooBarKind = "Bar";
       }
       @ObjectType()
       class FooBar {
         @Field(() => IFooBar)
-        iFooBarField: IFooBar;
+        iFooBarField!: IFooBar;
       }
       @Resolver()
       class TestResolver {
@@ -1276,21 +1455,24 @@ describe("Interfaces and inheritance", () => {
       @InterfaceType({ autoRegisterImplementations: false })
       abstract class SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
       class FirstSampleObject implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        sampleFirstAdditionalField: string;
+        sampleFirstAdditionalField!: string;
       }
       @ObjectType({ implements: SampleUsedInterface })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SecondSampleObject implements SampleUsedInterface {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        sampleSecondAdditionalField: string;
+        sampleSecondAdditionalField!: string;
       }
       @Resolver()
       class SampleResolver {

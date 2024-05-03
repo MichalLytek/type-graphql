@@ -1,14 +1,13 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../../build/package/dist";
-
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+import { Field, Int, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType()
 class SampleObject {
   @Field()
   stringField!: string;
 
-  @Field(type => Int)
+  @Field(() => Int)
   numberField!: number;
 
   @Field()
@@ -20,7 +19,7 @@ class SampleObject {
 
 @Resolver()
 class SampleResolver {
-  @Query(returns => [SampleObject])
+  @Query(() => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
     return Array.from(
       { length: ARRAY_ITEMS },

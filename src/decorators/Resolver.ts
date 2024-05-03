@@ -1,28 +1,13 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ClassTypeResolver, AbstractClassOptions } from "./types";
-import { ClassType } from "../interfaces";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type ClassType } from "@/typings";
+import { type ClassTypeResolver } from "./types";
 
 export function Resolver(): ClassDecorator;
-export function Resolver(options: AbstractClassOptions): ClassDecorator;
-export function Resolver(
-  typeFunc: ClassTypeResolver,
-  options?: AbstractClassOptions,
-): ClassDecorator;
-export function Resolver(objectType: ClassType, options?: AbstractClassOptions): ClassDecorator;
-export function Resolver(
-  objectTypeOrTypeFuncOrMaybeOptions?: Function | AbstractClassOptions,
-  maybeOptions?: AbstractClassOptions,
-): ClassDecorator {
-  const objectTypeOrTypeFunc: Function | undefined =
-    typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
-      ? objectTypeOrTypeFuncOrMaybeOptions
-      : undefined;
-  const options: AbstractClassOptions =
-    (typeof objectTypeOrTypeFuncOrMaybeOptions === "function"
-      ? maybeOptions
-      : objectTypeOrTypeFuncOrMaybeOptions) || {};
-
+export function Resolver(typeFunc: ClassTypeResolver): ClassDecorator;
+export function Resolver(objectType: ClassType): ClassDecorator;
+export function Resolver(objectTypeOrTypeFunc?: Function): ClassDecorator {
   return target => {
+    // eslint-disable-next-line no-nested-ternary
     const getObjectType = objectTypeOrTypeFunc
       ? objectTypeOrTypeFunc.prototype
         ? () => objectTypeOrTypeFunc as ClassType
@@ -35,7 +20,6 @@ export function Resolver(
     getMetadataStorage().collectResolverClassMetadata({
       target,
       getObjectType,
-      isAbstract: options.isAbstract || false,
     });
   };
 }

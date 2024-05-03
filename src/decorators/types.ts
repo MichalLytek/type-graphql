@@ -1,15 +1,16 @@
-import { GraphQLScalarType } from "graphql";
-
+import { type GraphQLScalarType } from "graphql";
+import { type ValidateSettings } from "@/schema/build-context";
 import {
-  ResolverFilterData,
-  ClassType,
-  ResolverTopicData,
-  Complexity,
-  TypeResolver,
-} from "../interfaces";
-import { ValidateSettings } from "../schema/build-context";
+  type ClassType,
+  type Complexity,
+  type MaybePromise,
+  type SubscribeResolverData,
+  type SubscriptionHandlerData,
+  type TypeResolver,
+  type ValidatorFn,
+} from "@/typings";
 
-export interface RecursiveArray<TValue> extends Array<RecursiveArray<TValue> | TValue> {}
+export type RecursiveArray<TValue> = Array<RecursiveArray<TValue> | TValue>;
 
 export type TypeValue = ClassType | GraphQLScalarType | Function | object | symbol;
 export type ReturnTypeFuncValue = TypeValue | RecursiveArray<TypeValue>;
@@ -20,12 +21,18 @@ export type ClassTypeResolver = (of?: void) => ClassType | Function;
 export type ReturnTypeFunc = (returns?: void) => ReturnTypeFuncValue;
 
 export type SubscriptionFilterFunc = (
-  resolverFilterData: ResolverFilterData<any, any, any>,
+  handlerData: SubscriptionHandlerData<any, any, any>,
 ) => boolean | Promise<boolean>;
 
-export type SubscriptionTopicFunc = (
-  resolverTopicData: ResolverTopicData<any, any, any>,
+export type SubscriptionTopicsFunc = (
+  resolverData: SubscribeResolverData<any, any, any>,
 ) => string | string[];
+
+export type SubscriptionSubscribeFunc = (
+  resolverData: SubscribeResolverData<any, any, any>,
+) => MaybePromise<AsyncIterable<any>>;
+
+export type SubscriptionTopicIdFunc = (resolverData: SubscribeResolverData<any, any, any>) => any;
 
 export interface DecoratorTypeOptions {
   nullable?: boolean | NullableListOptions;
@@ -46,15 +53,13 @@ export interface DeprecationOptions {
 }
 export interface ValidateOptions {
   validate?: ValidateSettings;
+  validateFn?: ValidatorFn;
 }
 export interface ComplexityOptions {
   complexity?: Complexity;
 }
 export interface SchemaNameOptions {
   name?: string;
-}
-export interface AbstractClassOptions {
-  isAbstract?: boolean;
 }
 export interface ImplementsClassOptions {
   implements?: Function | Function[];

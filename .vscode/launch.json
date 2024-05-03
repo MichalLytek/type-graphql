@@ -5,32 +5,48 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run example project",
       "type": "node",
       "request": "launch",
-      "name": "Launch example",
-      "runtimeArgs": ["-r", "ts-node/register/transpile-only"],
-      "args": ["${workspaceFolder}/examples/dev.js"],
-      "env": { "TS_NODE_PROJECT": "${workspaceFolder}/examples/tsconfig.json" },
-      "protocol": "inspector",
-      "sourceMaps": true,
-      "smartStep": true,
-      "internalConsoleOptions": "neverOpen",
-      "console": "integratedTerminal"
-    },
+      "cwd": "${workspaceFolder}/examples/${input:exampleProjectName}",
+      "args": ["./index.ts"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "inputs": [
     {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug current test",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["--watch", "--runInBand", "${fileBasenameNoExtension}"],
-      "sourceMaps": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "windows": {
-        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-      }
+      "id": "exampleProjectName",
+      "description": "Choose an example to run",
+      "type": "pickString",
+      // TODO: add new examples here
+      "options": [
+        "apollo-cache",
+        "apollo-federation",
+        "apollo-federation-2",
+        "authorization",
+        "automatic-validation",
+        "custom-validation",
+        "enums-and-unions",
+        "extensions",
+        "generic-types",
+        "graphql-scalars",
+        "interfaces-inheritance",
+        "middlewares-custom-decorators",
+        "mikro-orm",
+        "mixin-classes",
+        "query-complexity",
+        "redis-subscriptions",
+        "resolvers-inheritance",
+        "simple-subscriptions",
+        "simple-usage",
+        "tsyringe",
+        "typegoose",
+        "typeorm-basic-usage",
+        "typeorm-lazy-relations",
+        "using-container",
+        "using-scoped-container"
+      ]
     }
   ]
 }

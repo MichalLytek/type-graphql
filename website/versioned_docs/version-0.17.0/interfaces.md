@@ -49,4 +49,4 @@ Be aware that when your object type is implementing GraphQL interface type, **yo
 
 ## Examples
 
-More advanced usage example of interfaces (and types inheritance), e.g. with query returning interface type, you can see in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples/interfaces-inheritance).
+More advanced usage example of interfaces (and types inheritance), e.g. with query returning interface type, you can see in [this examples folder](https://github.com/MichalLytek/type-graphql/tree/v0.17.0/examples/interfaces-inheritance).

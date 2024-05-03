@@ -8,6 +8,9 @@
       "authorization": {
         "title": "Authorization"
       },
+      "aws-lambda": {
+        "title": "AWS Lambda integration"
+      },
       "bootstrap": {
         "title": "Bootstrapping"
       },
@@ -31,6 +34,9 @@
       },
       "enums": {
         "title": "Enums"
+      },
+      "esm": {
+        "title": "ECMAScript Modules"
       },
       "examples": {
         "title": "Examples",
@@ -64,6 +70,10 @@
       "middlewares": {
         "title": "Middleware and guards"
       },
+      "migration-guide": {
+        "title": "Migration Guide",
+        "sidebar_label": "v1.x -> v2.0"
+      },
       "nestjs": {
         "title": "NestJS Integration",
         "sidebar_label": "NestJS"
@@ -72,8 +82,8 @@
         "title": "Performance"
       },
       "prisma": {
-        "title": "Prisma 2 Integration",
-        "sidebar_label": "Prisma 2"
+        "title": "Prisma Integration",
+        "sidebar_label": "Prisma"
       },
       "README": {
         "title": "README"
@@ -425,8 +435,8 @@
         "title": "Performance"
       },
       "version-1.0.0/version-1.0.0-prisma": {
-        "title": "Prisma 2 Integration",
-        "sidebar_label": "Prisma 2"
+        "title": "Prisma Integration",
+        "sidebar_label": "Prisma"
       },
       "version-1.0.0/version-1.0.0-resolvers": {
         "title": "Resolvers"
@@ -453,10 +463,6 @@
       "version-1.1.0/version-1.1.0-examples": {
         "title": "Examples",
         "sidebar_label": "List of examples"
-      },
-      "version-1.1.0/version-1.1.0-prisma": {
-        "title": "Prisma 2 Integration",
-        "sidebar_label": "Prisma 2"
       },
       "version-1.1.0/version-1.1.0-validation": {
         "title": "Argument and Input validation",
@@ -552,6 +558,205 @@
       "version-1.2.0-rc.1/version-1.2.0-rc.1-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-bootstrap": {
+        "title": "Bootstrapping"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-directives": {
+        "title": "Directives"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-emit-schema": {
+        "title": "Emitting the schema SDL"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-enums": {
+        "title": "Enums"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-esm": {
+        "title": "ECMAScript Modules"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-faq": {
+        "title": "Frequently Asked Questions"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-getting-started": {
+        "title": "Getting started"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-installation": {
+        "title": "Installation"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-introduction": {
+        "title": "Introduction",
+        "sidebar_label": "What & Why"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-nestjs": {
+        "title": "NestJS Integration",
+        "sidebar_label": "NestJS"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-performance": {
+        "title": "Performance"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-prisma": {
+        "title": "Prisma Integration",
+        "sidebar_label": "Prisma"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-scalars": {
+        "title": "Scalars"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-types-and-fields": {
+        "title": "Types and Fields"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-beta.3/version-2.0.0-beta.3-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-aws-lambda": {
+        "title": "AWS Lambda integration"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-directives": {
+        "title": "Directives"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-emit-schema": {
+        "title": "Emitting the schema SDL"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-esm": {
+        "title": "ECMAScript Modules"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-migration-guide": {
+        "title": "Migration Guide",
+        "sidebar_label": "v1.x -> v2.0"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-beta.6/version-2.0.0-beta.6-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
@@ -565,10 +770,12 @@
     "categories": {
       "Introduction": "Introduction",
       "Beginner guides": "Beginner guides",
+      "Migration guide": "Migration guide",
       "Advanced guides": "Advanced guides",
       "Features": "Features",
       "Integrations": "Integrations",
       "Others": "Others",
+      "Recipes": "Recipes",
       "Examples": "Examples"
     }
   },

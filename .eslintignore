@@ -1,0 +1,9 @@
+**/build/
+**/dist/
+**/coverage/
+**/node_modules/
+jest.config.ts
+sponsorkit.config.ts
+
+# FIXME: Remove
+website/

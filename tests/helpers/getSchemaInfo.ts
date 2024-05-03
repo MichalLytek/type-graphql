@@ -1,22 +1,27 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import {
-  graphql,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   getIntrospectionQuery,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+  graphql,
 } from "graphql";
-
-import { buildSchema, BuildSchemaOptions } from "../../src";
+import { type BuildSchemaOptions, buildSchema } from "type-graphql";
 
 export async function getSchemaInfo(options: BuildSchemaOptions) {
-  // build schema from definitions
+  // Build schema from definitions
   const schema = await buildSchema({
     ...options,
     validate: false,
     skipCheck: true,
   });
 
-  // get builded schema info from retrospection
-  const result = await graphql(schema, getIntrospectionQuery());
+  // Get built schema info from retrospection
+  const result = await graphql({
+    schema,
+    source: getIntrospectionQuery({
+      inputValueDeprecation: true,
+    }),
+  });
   expect(result.errors).toBeUndefined();
 
   const schemaIntrospection = result.data!.__schema as IntrospectionSchema;

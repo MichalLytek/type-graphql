@@ -1,58 +1,48 @@
-// tslint:disable:member-ordering
+/* eslint "@typescript-eslint/no-this-alias": ["error", { "allowedNames": ["self"] }] */
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  IntrospectionListTypeRef,
-  IntrospectionField,
-  GraphQLSchema,
-  graphql,
+  type GraphQLSchema,
+  type IntrospectionField,
+  type IntrospectionInputObjectType,
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
-  parse,
-  TypeInfo,
-  ValidationContext,
-  visit,
-  visitWithTypeInfo,
-  IntrospectionInputObjectType,
-  GraphQLError,
+  graphql,
 } from "graphql";
-import * as path from "path";
-import { fieldExtensionsEstimator, simpleEstimator } from "graphql-query-complexity";
-import ComplexityVisitor from "graphql-query-complexity/dist/QueryComplexity";
-
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
   Arg,
-  InputType,
-  Root,
-  Ctx,
-  Mutation,
   Args,
   ArgsType,
-  Int,
-  buildSchema,
-  FieldResolver,
-  ResolverInterface,
-  Info,
-  buildSchemaSync,
-  Subscription,
-  PubSub,
-  PubSubEngine,
-  ClassType,
-  ConflictingDefaultValuesError,
-  WrongNullableListOptionError,
-  createParamDecorator,
   CannotDetermineGraphQLTypeError,
+  type ClassType,
+  ConflictingDefaultValuesError,
+  Ctx,
+  Field,
+  FieldResolver,
+  Info,
+  InputType,
+  Int,
+  Mutation,
   NoExplicitTypeError,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
+  ObjectType,
+  Query,
+  Resolver,
+  type ResolverInterface,
+  Root,
+  Subscription,
+  WrongNullableListOptionError,
+  buildSchema,
+  buildSchemaSync,
+  createParamDecorator,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getInnerTypeOfNonNullableType } from "../helpers/getInnerFieldType";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Resolvers", () => {
   describe("Schema", () => {
@@ -68,11 +58,14 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInput {
         @Field()
-        field: string;
+        field!: string;
+
         @Field({ defaultValue: "defaultStringFieldDefaultValue" })
-        defaultStringField: string;
+        defaultStringField!: string;
+
         @Field()
         implicitDefaultStringField: string = "implicitDefaultStringFieldDefaultValue";
+
         @Field()
         inheritDefaultField: string = "inheritDefaultFieldValue";
       }
@@ -80,23 +73,29 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInputChild extends SampleInput {
         @Field({ defaultValue: "defaultValueOverwritten" })
-        defaultStringField: string;
+        override defaultStringField!: string;
+
         @Field()
-        implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
+        override implicitDefaultStringField: string = "implicitDefaultValueOverwritten";
       }
 
       @ArgsType()
       class SampleArgs {
         @Field()
-        stringArg: string;
-        @Field(type => Int, { nullable: true })
-        numberArg: number;
+        stringArg!: string;
+
+        @Field(() => Int, { nullable: true })
+        numberArg!: number;
+
         @Field()
-        inputObjectArg: SampleInput;
+        inputObjectArg!: SampleInput;
+
         @Field({ defaultValue: "defaultStringArgDefaultValue" })
-        defaultStringArg: string;
+        defaultStringArg!: string;
+
         @Field()
         implicitDefaultStringArg: string = "implicitDefaultStringArgDefaultValue";
+
         @Field()
         inheritDefaultArg: string = "inheritDefaultArgValue";
       }
@@ -104,20 +103,22 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleArgsChild extends SampleArgs {
         @Field({ defaultValue: "defaultValueOverwritten" })
-        defaultStringArg: string;
+        override defaultStringArg!: string;
+
         @Field()
-        implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
+        override implicitDefaultStringArg: string = "implicitDefaultValueOverwritten";
       }
 
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
 
         @Field()
-        resolverFieldWithArgs: string;
+        resolverFieldWithArgs!: string;
 
         @Field()
+        // eslint-disable-next-line @typescript-eslint/class-literal-property-style
         get getterField(): string {
           return "getterField";
         }
@@ -127,25 +128,26 @@ describe("Resolvers", () => {
           return "simpleMethodField";
         }
 
-        @Field(type => String)
+        @Field(() => String)
         argMethodField(
-          @Arg("stringArg") stringArg: string,
-          @Arg("booleanArg") booleanArg: boolean,
-          @Arg("numberArg") numberArg: number,
-          @Arg("inputArg") inputArg: SampleInput,
-          @Arg("inputChildArg") inputChildArg: SampleInputChild,
-          @Arg("explicitNullableArg", type => String, { nullable: true })
-          explicitNullableArg: any,
-          @Arg("explicitArrayArg", type => [String]) explicitArrayArg: any,
+          @Arg("stringArg") _stringArg: string,
+          @Arg("booleanArg") _booleanArg: boolean,
+          @Arg("numberArg") _numberArg: number,
+          @Arg("inputArg") _inputArg: SampleInput,
+          @Arg("inputChildArg") _inputChildArg: SampleInputChild,
+          @Arg("explicitNullableArg", _type => String, { nullable: true })
+          _explicitNullableArg: any,
+          @Arg("explicitArrayArg", () => [String]) _explicitArrayArg: any,
           @Arg("defaultStringArg", { defaultValue: "defaultStringArgDefaultValue" })
-          defaultStringArg: string,
-          @Arg("nullableStringArg", { nullable: true }) nullableStringArg?: string,
+          _defaultStringArg: string,
+          @Arg("nullableStringArg", { nullable: true }) _nullableStringArg?: string,
         ): any {
           return "argMethodField";
         }
       }
 
       @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class LambdaResolver {
         @Query()
         lambdaQuery(): boolean {
@@ -154,6 +156,7 @@ describe("Resolvers", () => {
       }
 
       @Resolver(SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class ClassResolver {
         @Query()
         classQuery(): boolean {
@@ -161,7 +164,7 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         emptyQuery(): boolean {
@@ -173,32 +176,32 @@ describe("Resolvers", () => {
           return "implicitStringQuery";
         }
 
-        @Query(returns => String)
+        @Query(() => String)
         explicitStringQuery(): any {
           return "explicitStringQuery";
         }
 
-        @Query(returns => String, { nullable: true })
+        @Query(() => String, { nullable: true })
         nullableStringQuery(): string | null {
           return Math.random() > 0.5 ? "explicitStringQuery" : null;
         }
 
-        @Query(returnType => [String])
+        @Query(() => [String])
         explicitStringArrayQuery(): any {
           return [];
         }
 
-        @Query(returnType => [String], { nullable: "items" })
+        @Query(() => [String], { nullable: "items" })
         explicitNullableItemArrayQuery(): any {
           return [];
         }
 
-        @Query(returnType => [String], { nullable: "itemsAndList" })
+        @Query(() => [String], { nullable: "itemsAndList" })
         explicitNullableArrayWithNullableItemsQuery(): any {
           return [];
         }
 
-        @Query(returns => String)
+        @Query(() => String)
         async promiseStringQuery(): Promise<string> {
           return "promiseStringQuery";
         }
@@ -208,33 +211,33 @@ describe("Resolvers", () => {
           return {} as SampleObject;
         }
 
-        @Query(returns => SampleObject)
+        @Query(() => SampleObject)
         async asyncObjectQuery(): Promise<SampleObject> {
           return {} as SampleObject;
         }
 
         @Query()
-        rootCtxQuery(@Root() root: any, @Ctx() ctx: any): boolean {
+        rootCtxQuery(@Root() _root: any, @Ctx() _ctx: any): boolean {
           return true;
         }
 
-        @Query(returns => String)
-        argQuery(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean): any {
+        @Query(() => String)
+        argQuery(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean): any {
           return "argQuery";
         }
 
-        @Query(returns => String)
-        argsQuery(@Args() args: SampleArgs): any {
+        @Query(() => String)
+        argsQuery(@Args() _args: SampleArgs): any {
           return "argsQuery";
         }
 
-        @Query(returns => String)
-        argAndArgsQuery(@Arg("arg1") arg1: string, @Args() args: SampleArgs): any {
+        @Query(() => String)
+        argAndArgsQuery(@Arg("arg1") _arg1: string, @Args() _args: SampleArgs): any {
           return "argAndArgsQuery";
         }
 
-        @Query(returns => String)
-        argsInheritanceQuery(@Args() args: SampleArgsChild): any {
+        @Query(() => String)
+        argsInheritanceQuery(@Args() _args: SampleArgsChild): any {
           return "argsInheritanceQuery";
         }
 
@@ -244,16 +247,16 @@ describe("Resolvers", () => {
         }
 
         @FieldResolver()
-        resolverFieldWithArgs(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+        resolverFieldWithArgs(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean) {
           return "resolverFieldWithArgs";
         }
 
-        @FieldResolver(type => String, { nullable: true, description: "independent" })
-        independentFieldResolver(@Arg("arg1") arg1: string, @Arg("arg2") arg2: boolean) {
+        @FieldResolver(() => String, { nullable: true, description: "independent" })
+        independentFieldResolver(@Arg("arg1") _arg1: string, @Arg("arg2") _arg2: boolean) {
           return "resolverFieldWithArgs";
         }
 
-        @FieldResolver(type => String, { name: "overwrittenField", nullable: true })
+        @FieldResolver(() => String, { name: "overwrittenField", nullable: true })
         overwrittenFieldResolver() {
           return "overwrittenFieldResolver";
         }
@@ -302,7 +305,8 @@ describe("Resolvers", () => {
           field => field.name === "simpleMethodField",
         )!;
         const simpleMethodFieldType = simpleMethodField.type as IntrospectionNonNullTypeRef;
-        const simpleMethodFieldInnerType = simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
+        const simpleMethodFieldInnerType =
+          simpleMethodFieldType.ofType as IntrospectionNamedTypeRef;
 
         expect(simpleMethodField.name).toEqual("simpleMethodField");
         expect(simpleMethodField.args).toHaveLength(0);
@@ -372,8 +376,10 @@ describe("Resolvers", () => {
         const explicitArrayArg = argMethodField.args.find(arg => arg.name === "explicitArrayArg")!;
         const explicitArrayArgType = explicitArrayArg.type as IntrospectionNonNullTypeRef;
         const explicitArrayArgArrayType = explicitArrayArgType.ofType as IntrospectionListTypeRef;
-        const explicitArrayArgInnerType = explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
-        const explicitArrayArgArrayItemType = explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
+        const explicitArrayArgInnerType =
+          explicitArrayArgArrayType.ofType as IntrospectionNonNullTypeRef;
+        const explicitArrayArgArrayItemType =
+          explicitArrayArgInnerType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitArrayArg.name).toEqual("explicitArrayArg");
         expect(explicitArrayArgType.kind).toEqual(TypeKind.NON_NULL);
@@ -439,7 +445,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultStringFieldDefaultValue"');
         expect(defaultValueStringFieldType).toEqual({
@@ -457,7 +464,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultStringFieldDefaultValue"',
@@ -477,7 +485,8 @@ describe("Resolvers", () => {
         const defaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "defaultStringField",
         )!;
-        const defaultValueStringFieldType = defaultValueStringField.type as IntrospectionNamedTypeRef;
+        const defaultValueStringFieldType =
+          defaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(defaultValueStringField.defaultValue).toBe('"defaultValueOverwritten"');
         expect(defaultValueStringFieldType).toEqual({
@@ -495,7 +504,8 @@ describe("Resolvers", () => {
         const implicitDefaultValueStringField = sampleInputChildType.inputFields.find(
           arg => arg.name === "implicitDefaultStringField",
         )!;
-        const implicitDefaultValueStringFieldType = implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
+        const implicitDefaultValueStringFieldType =
+          implicitDefaultValueStringField.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultValueStringField.defaultValue).toBe(
           '"implicitDefaultValueOverwritten"',
@@ -583,7 +593,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual('"implicitDefaultValueOverwritten"');
@@ -621,7 +632,8 @@ describe("Resolvers", () => {
         const implicitDefaultStringArg = argsQuery.args.find(
           arg => arg.name === "implicitDefaultStringArg",
         )!;
-        const implicitDefaultStringArgType = implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
+        const implicitDefaultStringArgType =
+          implicitDefaultStringArg.type as IntrospectionNamedTypeRef;
 
         expect(implicitDefaultStringArg.name).toEqual("implicitDefaultStringArg");
         expect(implicitDefaultStringArg.defaultValue).toEqual(
@@ -691,7 +703,8 @@ describe("Resolvers", () => {
         const arg2Type = getInnerTypeOfNonNullableType(
           fieldResolverArgs.find(arg => arg.name === "arg2")!,
         );
-        const independentFieldResolverType = independentFieldResolver.type as IntrospectionNamedTypeRef;
+        const independentFieldResolverType =
+          independentFieldResolver.type as IntrospectionNamedTypeRef;
 
         expect(independentFieldResolver.description).toEqual("independent");
         expect(independentFieldResolverType.kind).toEqual("SCALAR");
@@ -734,7 +747,8 @@ describe("Resolvers", () => {
       it("should generate proper definition for mutation method", async () => {
         const emptyMutation = getMutation("emptyMutation");
         const emptyMutationReturnType = emptyMutation.type as IntrospectionNonNullTypeRef;
-        const emptyMutationInnerReturnType = emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
+        const emptyMutationInnerReturnType =
+          emptyMutationReturnType.ofType as IntrospectionNamedTypeRef;
 
         expect(emptyMutation.args).toHaveLength(0);
         expect(emptyMutation.name).toEqual("emptyMutation");
@@ -746,7 +760,8 @@ describe("Resolvers", () => {
       it("should generate implicit string return type for query method", async () => {
         const implicitStringQuery = getQuery("implicitStringQuery");
         const implicitStringQueryType = implicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const implicitStringQueryInnerType = implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitStringQueryInnerType =
+          implicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(implicitStringQueryInnerType.name).toEqual("String");
@@ -755,7 +770,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query when explicitly set", async () => {
         const explicitStringQuery = getQuery("explicitStringQuery");
         const explicitStringQueryType = explicitStringQuery.type as IntrospectionNonNullTypeRef;
-        const explicitStringQueryInnerType = explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const explicitStringQueryInnerType =
+          explicitStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(explicitStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(explicitStringQueryInnerType.name).toEqual("String");
@@ -797,7 +813,8 @@ describe("Resolvers", () => {
         const explicitNullableArrayWithNullableItemsQuery = getQuery(
           "explicitNullableArrayWithNullableItemsQuery",
         );
-        const listType = explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
+        const listType =
+          explicitNullableArrayWithNullableItemsQuery.type as IntrospectionListTypeRef;
         const itemType = listType.ofType as IntrospectionNamedTypeRef;
 
         expect(listType.kind).toEqual(TypeKind.LIST);
@@ -808,7 +825,8 @@ describe("Resolvers", () => {
       it("should generate string return type for query returning Promise", async () => {
         const promiseStringQuery = getQuery("promiseStringQuery");
         const promiseStringQueryType = promiseStringQuery.type as IntrospectionNonNullTypeRef;
-        const promiseStringQueryInnerType = promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
+        const promiseStringQueryInnerType =
+          promiseStringQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(promiseStringQueryInnerType.kind).toEqual(TypeKind.SCALAR);
         expect(promiseStringQueryInnerType.name).toEqual("String");
@@ -826,7 +844,8 @@ describe("Resolvers", () => {
       it("should generate object return type for query method", async () => {
         const implicitObjectQuery = getQuery("implicitObjectQuery");
         const implicitObjectQueryType = implicitObjectQuery.type as IntrospectionNonNullTypeRef;
-        const implicitObjectQueryInnerType = implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
+        const implicitObjectQueryInnerType =
+          implicitObjectQueryType.ofType as IntrospectionNamedTypeRef;
 
         expect(implicitObjectQueryInnerType.kind).toEqual(TypeKind.OBJECT);
         expect(implicitObjectQueryInnerType.name).toEqual("SampleObject");
@@ -866,268 +885,238 @@ describe("Resolvers", () => {
       });
 
       it("should throw error when arg type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(() => {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
-            @Query(returns => String)
-            sampleQuery(@Arg("arg") arg: any): string {
+            @Query(() => String)
+            sampleQuery(@Arg("arg") _arg: any): string {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for argument named 'arg' of 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for argument named 'arg' of 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when query return type not provided", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(() => {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
             sampleQuery() {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when provided query return type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(() => {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Query()
             sampleQuery(): any {
               return "sampleQuery";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleQuery' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when mutation return type not provided", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(() => {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
             sampleMutation() {
               return "sampleMutation";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error provided mutation return type is not correct", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(() => {
           @Resolver()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           class SampleResolverWithError {
             @Mutation()
             sampleMutation(): any {
               return "sampleMutation";
             }
           }
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'sampleMutation' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when creating field resolver in resolver with no object type info", async () => {
-        expect.assertions(2);
-
-        @ObjectType()
-        class SampleObjectWithError {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await expectToThrow(async () => {
           @Resolver()
           class SampleResolverWithError {
             @Query()
             sampleQuery(): string {
               return "sampleQuery";
             }
+
             @FieldResolver()
             sampleField() {
               return "sampleField";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"No provided object type in '@Resolver' decorator for class 'SampleResolverWithError!'"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toMatchInlineSnapshot(
+          `"No provided object type in '@Resolver' decorator for class 'SampleResolverWithError!'"`,
+        );
       });
 
       it("should throw error when creating independent field resolver with no type info", async () => {
-        expect.assertions(3);
-
-        @ObjectType()
-        class SampleObjectWithError {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
-          @Resolver(of => SampleObjectWithError)
+        const error = await expectToThrow(async () => {
+          @ObjectType()
+          class SampleObjectWithError {
+            @Field()
+            sampleField!: string;
+          }
+          @Resolver(() => SampleObjectWithError)
           class SampleResolverWithError {
             @Query()
             sampleQuery(): string {
               return "sampleQuery";
             }
+
             @FieldResolver()
             independentField() {
               return "independentField";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(NoExplicitTypeError);
-          const error = err as NoExplicitTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'independentField' of 'SampleResolverWithError' class."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NoExplicitTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Unable to infer GraphQL type from TypeScript reflection system. You need to provide explicit type for 'independentField' of 'SampleResolverWithError' class."`,
+        );
       });
 
       it("should throw error when using undecorated class as an explicit type", async () => {
-        expect.assertions(3);
-
-        class SampleUndecoratedObject {
-          sampleField: string;
-        }
-
-        try {
+        const error = await expectToThrow(async () => {
+          class SampleUndecoratedObject {
+            sampleField!: string;
+          }
           @Resolver()
           class SampleResolverWithError {
-            @Query(returns => SampleUndecoratedObject)
+            @Query(() => SampleUndecoratedObject)
             sampleQuery(): string {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
-          const error = err as CannotDetermineGraphQLTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper output value?"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Cannot determine GraphQL output type for 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper output value?"`,
+        );
       });
 
       it("should throw error when using object type class is used as explicit type in place of input type", async () => {
-        expect.assertions(3);
-
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await expectToThrow(async () => {
+          @ObjectType()
+          class SampleObject {
+            @Field()
+            sampleField!: string;
+          }
           @Resolver()
           class SampleResolverWithError {
             @Query()
-            sampleQuery(@Arg("input") input: SampleObject): string {
+            sampleQuery(@Arg("input") _input: SampleObject): string {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(CannotDetermineGraphQLTypeError);
-          const error = err as CannotDetermineGraphQLTypeError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper input value?"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(CannotDetermineGraphQLTypeError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Cannot determine GraphQL input type for argument named 'input' of 'sampleQuery' of 'SampleResolverWithError' class. Is the value, that is used as its TS type or explicit type, decorated with a proper decorator or is it a proper input value?"`,
+        );
       });
 
       it("should throw error when using object type class is used as explicit type in place of args type", async () => {
-        expect.assertions(2);
-
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
-
-        try {
+        const error = await expectToThrow(async () => {
+          @ObjectType()
+          class SampleObject {
+            @Field()
+            sampleField!: string;
+          }
           @Resolver()
           class SampleResolverWithError {
             @Query()
-            sampleQuery(@Args() args: SampleObject): string {
+            sampleQuery(@Args() _args: SampleObject): string {
               return "sampleQuery";
             }
           }
+
           await buildSchema({
             resolvers: [SampleResolverWithError],
           });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          const error = err as Error;
-          expect(error.message).toMatchInlineSnapshot(
-            `"The value used as a type of '@Args' for 'sampleQuery' of 'SampleResolverWithError' is not a class decorated with '@ArgsType' decorator!"`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toMatchInlineSnapshot(
+          `"The value used as a type of '@Args' for 'sampleQuery' of 'SampleResolverWithError' is not a class decorated with '@ArgsType' decorator!"`,
+        );
       });
 
       it("should throw error when declared default values are not equal", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(async () => {
           @InputType()
           class SampleInput {
             @Field({ defaultValue: "decoratorDefaultValue" })
@@ -1137,48 +1126,46 @@ describe("Resolvers", () => {
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }
+
           await buildSchema({ resolvers: [SampleResolver] });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(ConflictingDefaultValuesError);
-          const error = err as ConflictingDefaultValuesError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"The 'inputField' field of 'SampleInput' has conflicting default values. Default value from decorator ('decoratorDefaultValue') is not equal to the property initializer value ('initializerDefaultValue')."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(ConflictingDefaultValuesError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"The 'inputField' field of 'SampleInput' has conflicting default values. Default value from decorator ('decoratorDefaultValue') is not equal to the property initializer value ('initializerDefaultValue')."`,
+        );
       });
 
       it("should throw error when list nullable option is combined with non-list type", async () => {
-        expect.assertions(3);
-
-        try {
+        const error = await expectToThrow(async () => {
           @InputType()
           class SampleInput {
             @Field({ nullable: "items" })
-            inputField: string;
+            inputField!: string;
           }
 
           @Resolver()
           class SampleResolver {
             @Query()
-            sampleQuery(@Arg("input") input: SampleInput): string {
+            sampleQuery(@Arg("input") _input: SampleInput): string {
               return "sampleQuery";
             }
           }
+
           const resolvers = [SampleResolver] as const;
           await buildSchema({ resolvers });
-        } catch (err) {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toBeInstanceOf(WrongNullableListOptionError);
-          const error = err as WrongNullableListOptionError;
-          expect(error.message).toMatchInlineSnapshot(
-            `"Wrong nullable option set for SampleInput#inputField. You cannot combine non-list type with nullable 'items'."`,
-          );
-        }
+        });
+
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(WrongNullableListOptionError);
+        expect(error.message).toMatchInlineSnapshot(
+          `"Wrong nullable option set for SampleInput#inputField. You cannot combine non-list type with nullable 'items'."`,
+        );
       });
     });
   });
@@ -1194,37 +1181,16 @@ describe("Resolvers", () => {
     let querySecondCustom: any;
     let descriptorEvaluated: boolean;
     let sampleObjectConstructorCallCount: number;
-    let validationErrors: GraphQLError[];
 
     function DescriptorDecorator(): MethodDecorator {
-      return (obj, methodName, descriptor: any) => {
+      return (_, __, descriptor: any) => {
         const originalMethod: Function = descriptor.value;
-        descriptor.value = function () {
+        // eslint-disable-next-line no-param-reassign
+        descriptor.value = (...args: unknown[]) => {
           descriptorEvaluated = true;
-          return originalMethod.apply(this, arguments);
+          return originalMethod.apply(null, ...args);
         };
       };
-    }
-
-    // helpers
-    function generateAndVisitComplexMethod(maximumComplexity: number) {
-      const query = /* graphql */ `
-        query {
-          sampleQuery {
-            complexResolverMethod
-          }
-        }
-      `;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo, err =>
-        validationErrors.push(err),
-      );
-      const visitor = new ComplexityVisitor(context, {
-        maximumComplexity,
-        estimators: [fieldExtensionsEstimator(), simpleEstimator({ defaultComplexity: 1 })],
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
     }
 
     let mutationInputValue: any;
@@ -1237,7 +1203,6 @@ describe("Resolvers", () => {
       descriptorEvaluated = false;
       sampleObjectConstructorCallCount = 0;
       mutationInputValue = undefined;
-      validationErrors = [];
     });
 
     beforeAll(async () => {
@@ -1249,10 +1214,11 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleArgs {
         private readonly TRUE = true;
+
         instanceField = Math.random();
 
         @Field()
-        factor: number;
+        factor!: number;
 
         isTrue() {
           return this.TRUE;
@@ -1263,7 +1229,7 @@ describe("Resolvers", () => {
       @ArgsType()
       class SampleOptionalArgs {
         @Field()
-        stringField: string;
+        stringField!: string;
 
         @Field({ nullable: true })
         optionalField?: string;
@@ -1273,10 +1239,11 @@ describe("Resolvers", () => {
       @InputType()
       class SampleInput {
         private readonly TRUE = true;
+
         instanceField = Math.random();
 
         @Field()
-        factor: number;
+        factor!: number;
 
         isTrue() {
           return this.TRUE;
@@ -1289,15 +1256,15 @@ describe("Resolvers", () => {
         instanceField = Math.random();
 
         @Field()
-        nestedField: SampleInput;
+        nestedField!: SampleInput;
 
         @Field({ nullable: true })
         optionalNestedField?: SampleInput;
 
-        @Field(type => [SampleInput])
-        nestedArrayField: SampleInput[];
+        @Field(() => [SampleInput])
+        nestedArrayField!: SampleInput[];
 
-        @Field(type => [SampleInput], { nullable: "itemsAndList" })
+        @Field(() => [SampleInput], { nullable: "itemsAndList" })
         nestedOptionalArrayField?: Array<SampleInput | undefined>;
       }
       classes.SampleNestedInput = SampleNestedInput;
@@ -1306,45 +1273,53 @@ describe("Resolvers", () => {
       class SampleTripleNestedInput {
         instanceField = Math.random();
 
-        @Field(type => [[[SampleInput]]])
-        deeplyNestedInputArrayField: SampleInput[][][];
+        @Field(() => [[[SampleInput]]])
+        deeplyNestedInputArrayField!: SampleInput[][][];
       }
       classes.SampleTripleNestedInput = SampleTripleNestedInput;
 
       @ArgsType()
       class SampleNestedArgs {
         @Field()
-        factor: number;
+        factor!: number;
 
         @Field()
-        input: SampleInput;
+        input!: SampleInput;
       }
       classes.SampleNestedArgs = SampleNestedArgs;
 
       @ObjectType()
       class SampleObject {
         private readonly TRUE = true;
+
         isTrue() {
           return this.TRUE;
         }
+
         constructor() {
-          sampleObjectConstructorCallCount++;
+          sampleObjectConstructorCallCount += 1;
         }
 
         instanceValue = Math.random();
 
         @Field()
-        fieldResolverField: number;
+        fieldResolverField!: number;
+
         @Field()
-        fieldResolverGetter: number;
+        fieldResolverGetter!: number;
+
         @Field({ complexity: 5 })
-        fieldResolverMethod: number;
+        fieldResolverMethod!: number;
+
         @Field()
-        fieldResolverMethodWithArgs: number;
+        fieldResolverMethodWithArgs!: number;
+
         @Field()
-        fieldResolverWithRoot: number;
+        fieldResolverWithRoot!: number;
+
         @Field({ complexity: 10 })
-        complexResolverMethod: number;
+        complexResolverMethod!: number;
+
         @Field()
         get getterField(): number {
           return this.instanceValue;
@@ -1355,7 +1330,7 @@ describe("Resolvers", () => {
           return this.instanceValue;
         }
 
-        @Field(type => String)
+        @Field(() => String)
         async asyncMethodField() {
           return "asyncMethodField";
         }
@@ -1366,13 +1341,16 @@ describe("Resolvers", () => {
         }
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver implements ResolverInterface<SampleObject> {
         factor = 1;
+
         randomValueField = Math.random() * this.factor;
+
         get randomValueGetter() {
           return Math.random() * this.factor;
         }
+
         getRandomValue() {
           return Math.random() * this.factor;
         }
@@ -1430,9 +1408,9 @@ describe("Resolvers", () => {
         mutationWithArgs(@Args() args: SampleArgs): number {
           if (args.isTrue()) {
             return args.factor * args.instanceField;
-          } else {
-            return -1.0;
           }
+
+          return -1.0;
         }
 
         @Mutation()
@@ -1445,9 +1423,9 @@ describe("Resolvers", () => {
         mutationWithInput(@Arg("input") input: SampleInput): number {
           if (input.isTrue()) {
             return input.factor * input.instanceField;
-          } else {
-            return -1.0;
           }
+
+          return -1.0;
         }
 
         @Mutation()
@@ -1469,14 +1447,15 @@ describe("Resolvers", () => {
         }
 
         @Mutation()
-        mutationWithInputs(@Arg("inputs", type => [SampleInput]) inputs: SampleInput[]): number {
+        mutationWithInputs(@Arg("inputs", () => [SampleInput]) inputs: SampleInput[]): number {
+          // eslint-disable-next-line prefer-destructuring
           mutationInputValue = inputs[0];
           return inputs[0].factor;
         }
 
         @Mutation()
         mutationWithTripleArrayInputs(
-          @Arg("inputs", type => [[[SampleInput]]]) inputs: SampleInput[][][],
+          @Arg("inputs", () => [[[SampleInput]]]) inputs: SampleInput[][][],
         ): number {
           mutationInputValue = inputs;
           return inputs[0][0][0].factor;
@@ -1509,13 +1488,13 @@ describe("Resolvers", () => {
         fieldResolverWithRoot(@Root() root: SampleObject) {
           if (root.isTrue()) {
             return root.instanceValue;
-          } else {
-            return -1.0;
           }
+
+          return -1.0;
         }
 
         @FieldResolver()
-        fieldResolverMethodWithArgs(@Root() root: SampleObject, @Arg("arg") arg: number): number {
+        fieldResolverMethodWithArgs(@Root() _: SampleObject, @Arg("arg") arg: number): number {
           return arg;
         }
       }
@@ -1537,7 +1516,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const getterFieldResult = result.data!.sampleQuery.getterField;
       expect(getterFieldResult).toBeGreaterThanOrEqual(0);
@@ -1551,7 +1530,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const methodFieldResult = result.data!.sampleQuery.methodField;
       expect(methodFieldResult).toBeGreaterThanOrEqual(0);
@@ -1565,7 +1544,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const asyncMethodFieldResult = result.data!.sampleQuery.asyncMethodField;
       expect(asyncMethodFieldResult).toEqual("asyncMethodField");
@@ -1578,7 +1557,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const methodFieldWithArgResult = result.data!.sampleQuery.methodFieldWithArg;
       expect(methodFieldWithArgResult).toBeGreaterThanOrEqual(0);
@@ -1592,7 +1571,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverFieldResult = result.data!.sampleQuery.fieldResolverField;
       expect(fieldResolverFieldResult).toBeGreaterThanOrEqual(0);
@@ -1606,7 +1585,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverGetterResult = result.data!.sampleQuery.fieldResolverGetter;
       expect(fieldResolverGetterResult).toBeGreaterThanOrEqual(0);
@@ -1620,32 +1599,11 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const fieldResolverMethodResult = result.data!.sampleQuery.fieldResolverMethod;
       expect(fieldResolverMethodResult).toBeGreaterThanOrEqual(0);
       expect(fieldResolverMethodResult).toBeLessThanOrEqual(1);
-    });
-
-    it("should fail when a query exceeds the max allowed complexity", () => {
-      generateAndVisitComplexMethod(5);
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 5. Actual complexity is 11",
-      );
-    });
-
-    it("should succeed when a query does not exceed the max allowed complexity", () => {
-      generateAndVisitComplexMethod(12);
-      expect(validationErrors.length).toEqual(0);
-    });
-
-    it("Complexity of a field should be overridden by complexity of a field resolver", () => {
-      generateAndVisitComplexMethod(9);
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 9. Actual complexity is 11",
-      );
     });
 
     it("should return value from field resolver arg", async () => {
@@ -1656,7 +1614,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       const resultFieldData = result.data!.sampleQuery.fieldResolverMethodWithArgs;
       expect(resultFieldData).toEqual(value);
@@ -1669,8 +1627,8 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result1 = await graphql(schema, query);
-      const result2 = await graphql(schema, query);
+      const result1: any = await graphql({ schema, source: query });
+      const result2: any = await graphql({ schema, source: query });
 
       const getterFieldResult1 = result1.data!.sampleQuery.getterField;
       const getterFieldResult2 = result2.data!.sampleQuery.getterField;
@@ -1687,7 +1645,7 @@ describe("Resolvers", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
       const getterFieldValue = result.data!.sampleQuery.getterField;
       const methodFieldValue = result.data!.sampleQuery.getterField;
 
@@ -1702,8 +1660,8 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const result1 = await graphql(schema, query);
-      const result2 = await graphql(schema, query);
+      const result1: any = await graphql({ schema, source: query });
+      const result2: any = await graphql({ schema, source: query });
 
       const resolverFieldResult1 = result1.data!.sampleQuery.fieldResolverField;
       const resolverFieldResult2 = result2.data!.sampleQuery.fieldResolverField;
@@ -1715,7 +1673,7 @@ describe("Resolvers", () => {
         mutationWithArgs(factor: 10)
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithArgs;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1727,7 +1685,7 @@ describe("Resolvers", () => {
         mutationWithOptionalArgs(stringField: "stringField")
       }`;
 
-      const { errors } = await graphql(schema, mutation);
+      const { errors } = await graphql({ schema, source: mutation });
 
       expect(errors).toBeUndefined();
       expect(mutationInputValue).toBeInstanceOf(classes.SampleOptionalArgs);
@@ -1739,7 +1697,7 @@ describe("Resolvers", () => {
         mutationWithInput(input: { factor: 10 })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithInput;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1758,7 +1716,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithNestedInputs;
 
       expect(result).toBeGreaterThanOrEqual(0);
@@ -1783,7 +1741,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       expect(mutationResult.errors).toBeUndefined();
 
       const mutationWithNestedInputsData = mutationResult.data!.mutationWithNestedInputs;
@@ -1804,7 +1762,7 @@ describe("Resolvers", () => {
         mutationWithNestedArgsInput(factor: 20, input: { factor: 30 })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithNestedArgsInput;
 
       expect(result).toEqual(20);
@@ -1818,7 +1776,7 @@ describe("Resolvers", () => {
         mutationWithInputs(inputs: [{ factor: 30 }])
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithInputs;
 
       expect(result).toEqual(30);
@@ -1832,7 +1790,7 @@ describe("Resolvers", () => {
         mutationWithTripleArrayInputs(inputs: [[[{ factor: 30 }]]])
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       const result = mutationResult.data!.mutationWithTripleArrayInputs;
       const nestedInput = mutationInputValue[0][0][0];
 
@@ -1856,7 +1814,7 @@ describe("Resolvers", () => {
         })
       }`;
 
-      const mutationResult = await graphql(schema, mutation);
+      const mutationResult = await graphql({ schema, source: mutation });
       expect(mutationResult.errors).toBeUndefined();
 
       const result = mutationResult.data!.mutationWithTripleNestedInputs;
@@ -1880,7 +1838,7 @@ describe("Resolvers", () => {
         mutationWithOptionalArg
       }`;
 
-      const { data, errors } = await graphql(schema, mutation);
+      const { data, errors } = await graphql({ schema, source: mutation });
       expect(errors).toBeUndefined();
       expect(data!.mutationWithOptionalArg).toBeDefined();
       expect(mutationInputValue).toEqual("undefined");
@@ -1894,7 +1852,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const queryResult = await graphql(schema, query);
+      const queryResult: any = await graphql({ schema, source: query });
       const fieldResolverWithRootValue = queryResult.data!.sampleQuery.fieldResolverWithRoot;
       const getterFieldValue = queryResult.data!.sampleQuery.getterField;
 
@@ -1911,7 +1869,7 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const queryResult = await graphql(schema, query);
+      const queryResult: any = await graphql({ schema, source: query });
       const fieldResolverWithRootValue = queryResult.data!.notInstanceQuery.fieldResolverWithRoot;
       const getterFieldValue = queryResult.data!.notInstanceQuery.getterField;
 
@@ -1927,7 +1885,7 @@ describe("Resolvers", () => {
       const root = { isRoot: true };
       const context = { isContext: true };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryRoot).toEqual(root);
       expect(queryContext).toEqual(context);
@@ -1942,7 +1900,7 @@ describe("Resolvers", () => {
       const root = { rootField: 2 };
       const context = { contextField: "present" };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryRoot).toEqual(2);
       expect(queryContext).toEqual("present");
@@ -1957,7 +1915,7 @@ describe("Resolvers", () => {
       const root = { rootField: 2 };
       const context = { contextField: "present" };
 
-      await graphql(schema, query, root, context);
+      await graphql({ schema, source: query, rootValue: root, contextValue: context });
 
       expect(queryFirstCustom.root).toEqual(root);
       expect(queryFirstCustom.context).toEqual(context);
@@ -1972,7 +1930,7 @@ describe("Resolvers", () => {
         }
       `;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(descriptorEvaluated).toBe(true);
       expect(data!.queryWithCustomDescriptorDecorator).toBe(true);
@@ -1980,29 +1938,13 @@ describe("Resolvers", () => {
   });
 
   describe("buildSchema", () => {
-    it("should load resolvers from glob paths", async () => {
-      getMetadataStorage().clear();
-
-      const { queryType } = await getSchemaInfo({
-        resolvers: [path.resolve(__dirname, "../helpers/loading-from-directories/*.resolver.ts")],
-      });
-
-      const directoryQueryReturnType = getInnerTypeOfNonNullableType(
-        queryType.fields.find(field => field.name === "sampleQuery")!,
-      );
-
-      expect(queryType.fields).toHaveLength(1);
-      expect(directoryQueryReturnType.kind).toEqual(TypeKind.OBJECT);
-      expect(directoryQueryReturnType.name).toEqual("SampleObject");
-    });
-
     it("should emit only things from provided `resolvers` property", async () => {
       getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2014,9 +1956,10 @@ describe("Resolvers", () => {
       @ObjectType()
       class OmittedObject {
         @Field()
-        omittedField: string;
+        omittedField!: string;
       }
       @Resolver()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class OmittedResolver {
         @Query()
         omittedQuery(): OmittedObject {
@@ -2046,7 +1989,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleFieldSync: string;
+        sampleFieldSync!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2067,9 +2010,9 @@ describe("Resolvers", () => {
           }
         }
       `;
-      const { data } = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
-      expect(data!.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
+      expect(result.data.sampleQuerySync.sampleFieldSync).toEqual("sampleFieldSync");
     });
 
     it("should generate the schema when schema is incorrect but `skipCheck` is set to true", async () => {
@@ -2093,14 +2036,11 @@ describe("Resolvers", () => {
 
     it("should throw errors when no resolvers provided", async () => {
       getMetadataStorage().clear();
-      expect.assertions(2);
 
-      try {
-        await buildSchema({ resolvers: [] as any });
-      } catch (err) {
-        expect(err.message).toContain("Empty");
-        expect(err.message).toContain("resolvers");
-      }
+      const error = await expectToThrow(() => buildSchema({ resolvers: [] as any }));
+
+      expect(error.message).toContain("Empty");
+      expect(error.message).toContain("resolvers");
     });
   });
 
@@ -2111,9 +2051,10 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        resolvedField: string;
+        resolvedField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2122,7 +2063,8 @@ describe("Resolvers", () => {
           return { sampleField: "sampleField", resolvedField: "resolvedField" };
         }
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2142,7 +2084,7 @@ describe("Resolvers", () => {
         validate: false,
       });
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.errors).toBeUndefined();
       expect(result.data!.sampleQuery).toEqual({
@@ -2157,7 +2099,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2166,7 +2108,8 @@ describe("Resolvers", () => {
           return { sampleField: "sampleField" };
         }
       }
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObjectResolver {
         @FieldResolver()
         resolvedField(): string {
@@ -2177,7 +2120,7 @@ describe("Resolvers", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
       });
-      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const { schemaIntrospection } = schemaInfo;
       const sampleObjectType = schemaIntrospection.types.find(
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
@@ -2192,7 +2135,7 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
       @Resolver()
       class SampleResolver {
@@ -2202,7 +2145,7 @@ describe("Resolvers", () => {
         }
       }
       function createResolver() {
-        @Resolver(of => SampleObject)
+        @Resolver(() => SampleObject)
         class SampleObjectResolver {
           @FieldResolver()
           resolvedField(): string {
@@ -2216,7 +2159,7 @@ describe("Resolvers", () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver, ChildResolver],
       });
-      const schemaIntrospection = schemaInfo.schemaIntrospection;
+      const { schemaIntrospection } = schemaInfo;
       const sampleObjectType = schemaIntrospection.types.find(
         type => type.name === "SampleObject",
       ) as IntrospectionObjectType;
@@ -2231,15 +2174,14 @@ describe("Resolvers", () => {
     let queryType: IntrospectionObjectType;
     let mutationType: IntrospectionObjectType;
     let subscriptionType: IntrospectionObjectType;
-    let thisVar: any;
-    let baseResolver: any;
+    let self: any;
     let childResolver: any;
     let overrideResolver: any;
-    let validationErrors: GraphQLError[];
+
+    const pubSub = createPubSub();
 
     beforeEach(() => {
-      thisVar = null;
-      validationErrors = [];
+      self = null;
     });
 
     beforeAll(async () => {
@@ -2248,51 +2190,50 @@ describe("Resolvers", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       @ObjectType()
       class DummyObject {
         @Field()
-        normalField: string;
+        normalField!: string;
       }
 
       function createResolver(name: string, objectType: ClassType) {
-        @Resolver(of => objectType, { isAbstract: true })
+        @Resolver(() => objectType)
         class BaseResolver {
           protected name = "baseName";
 
           @Query({ name: `${name}Query` })
-          baseQuery(@Arg("arg") arg: boolean): boolean {
-            thisVar = this;
+          baseQuery(@Arg("arg") _arg: boolean): boolean {
+            self = this;
             return true;
           }
 
           @Mutation({ name: `${name}Mutation` })
-          baseMutation(@Arg("arg") arg: boolean): boolean {
-            thisVar = this;
+          baseMutation(@Arg("arg") _arg: boolean): boolean {
+            self = this;
             return true;
           }
 
           @Subscription({ topics: "baseTopic", name: `${name}Subscription` })
-          baseSubscription(@Arg("arg") arg: boolean): boolean {
-            thisVar = this;
+          baseSubscription(@Arg("arg") _arg: boolean): boolean {
+            self = this;
             return true;
           }
 
-          @Mutation(returns => Boolean, { name: `${name}Trigger` })
-          async baseTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
-            await pubSub.publish("baseTopic", null);
+          @Mutation(() => Boolean, { name: `${name}Trigger` })
+          async baseTrigger(): Promise<boolean> {
+            pubSub.publish("baseTopic", null);
             return true;
           }
 
           @FieldResolver()
           resolverField(): string {
-            thisVar = this;
+            self = this;
             return "resolverField";
           }
         }
-        baseResolver = BaseResolver;
 
         return BaseResolver;
       }
@@ -2301,7 +2242,7 @@ describe("Resolvers", () => {
       class ChildResolver extends createResolver("prefix", SampleObject) {
         @Query()
         childQuery(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
@@ -2312,19 +2253,19 @@ describe("Resolvers", () => {
 
         @Mutation()
         childMutation(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
         @Subscription({ topics: "childTopic", complexity: 4 })
         childSubscription(): boolean {
-          thisVar = this;
+          self = this;
           return true;
         }
 
-        @Mutation(returns => Boolean)
-        async childTrigger(@PubSub() pubSub: PubSubEngine): Promise<boolean> {
-          await pubSub.publish("childTopic", null);
+        @Mutation(() => Boolean)
+        async childTrigger(): Promise<boolean> {
+          pubSub.publish("childTopic", null);
           return true;
         }
       }
@@ -2333,14 +2274,14 @@ describe("Resolvers", () => {
       @Resolver()
       class OverrideResolver extends createResolver("overridden", DummyObject) {
         @Query()
-        overriddenQuery(@Arg("overriddenArg") arg: boolean): string {
-          thisVar = this;
+        overriddenQuery(@Arg("overriddenArg") _arg: boolean): string {
+          self = this;
           return "overriddenQuery";
         }
 
         @Mutation({ name: "overriddenMutation" })
-        overriddenMutationHandler(@Arg("overriddenArg") arg: boolean): string {
-          thisVar = this;
+        overriddenMutationHandler(@Arg("overriddenArg") _arg: boolean): string {
+          self = this;
           return "overriddenMutationHandler";
         }
       }
@@ -2348,6 +2289,7 @@ describe("Resolvers", () => {
 
       const schemaInfo = await getSchemaInfo({
         resolvers: [childResolver, overrideResolver],
+        pubSub,
       });
       schemaIntrospection = schemaInfo.schemaIntrospection;
       queryType = schemaInfo.queryType;
@@ -2391,25 +2333,6 @@ describe("Resolvers", () => {
       expect(subscriptionNames).toContain("overriddenSubscription");
       expect(prefixSubscription.args).toHaveLength(1);
     });
-    it("should fail when a subscription exceeds the max allowed complexity", () => {
-      const query = `subscription {
-        childSubscription
-      }`;
-      const ast = parse(query);
-      const typeInfo = new TypeInfo(schema);
-      const context = new ValidationContext(schema, ast, typeInfo, err =>
-        validationErrors.push(err),
-      );
-      const visitor = new ComplexityVisitor(context, {
-        maximumComplexity: 2,
-        estimators: [fieldExtensionsEstimator(), simpleEstimator({ defaultComplexity: 1 })],
-      });
-      visit(ast, visitWithTypeInfo(typeInfo, visitor));
-      expect(validationErrors.length).toEqual(1);
-      expect(validationErrors[0].message).toEqual(
-        "The query exceeds the maximum complexity of 2. Actual complexity is 4",
-      );
-    });
 
     it("should generate proper object fields in schema", async () => {
       const sampleObjectType = schemaIntrospection.types.find(
@@ -2427,7 +2350,6 @@ describe("Resolvers", () => {
       const overriddenQuery = queryType.fields.find(it => it.name === "overriddenQuery")!;
       const prefixMutation = mutationType.fields.find(it => it.name === "prefixMutation")!;
       const overriddenMutation = mutationType.fields.find(it => it.name === "overriddenMutation")!;
-      const t = getInnerTypeOfNonNullableType(prefixQuery);
 
       expect(prefixQuery.args).toHaveLength(1);
       expect(prefixQuery.args[0].name).toEqual("arg");
@@ -2464,10 +2386,10 @@ describe("Resolvers", () => {
         prefixQuery(arg: true)
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.prefixQuery).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from base resolver class", async () => {
@@ -2475,10 +2397,10 @@ describe("Resolvers", () => {
         prefixMutation(arg: true)
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.prefixMutation).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call query handler from child resolver class", async () => {
@@ -2486,10 +2408,10 @@ describe("Resolvers", () => {
         childQuery
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.childQuery).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call mutation handler from child resolver class", async () => {
@@ -2497,10 +2419,10 @@ describe("Resolvers", () => {
         childMutation
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.childMutation).toEqual(true);
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call field resolver handler from base resolver class", async () => {
@@ -2510,10 +2432,10 @@ describe("Resolvers", () => {
         }
       }`;
 
-      const { data } = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
-      expect(data!.objectQuery.resolverField).toEqual("resolverField");
-      expect(thisVar.constructor).toEqual(childResolver);
+      expect(result.data!.objectQuery.resolverField).toEqual("resolverField");
+      expect(self.constructor).toEqual(childResolver);
     });
 
     it("should correctly call overridden query handler from child resolver class", async () => {
@@ -2521,10 +2443,10 @@ describe("Resolvers", () => {
         overriddenQuery(overriddenArg: true)
       }`;
 
-      const { data } = await graphql(schema, query);
+      const { data } = await graphql({ schema, source: query });
 
       expect(data!.overriddenQuery).toEqual("overriddenQuery");
-      expect(thisVar.constructor).toEqual(overrideResolver);
+      expect(self.constructor).toEqual(overrideResolver);
     });
 
     it("should correctly call overridden mutation handler from child resolver class", async () => {
@@ -2532,10 +2454,10 @@ describe("Resolvers", () => {
         overriddenMutation(overriddenArg: true)
       }`;
 
-      const { data } = await graphql(schema, mutation);
+      const { data } = await graphql({ schema, source: mutation });
 
       expect(data!.overriddenMutation).toEqual("overriddenMutationHandler");
-      expect(thisVar.constructor).toEqual(overrideResolver);
+      expect(self.constructor).toEqual(overrideResolver);
     });
 
     it("should have access to inherited properties from base resolver class", async () => {
@@ -2543,9 +2465,9 @@ describe("Resolvers", () => {
         childQuery
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
-      expect(thisVar.name).toEqual("baseName");
+      expect(self.name).toEqual("baseName");
     });
 
     it("should get child class instance when calling base resolver handler", async () => {
@@ -2553,9 +2475,74 @@ describe("Resolvers", () => {
         prefixQuery(arg: true)
       }`;
 
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
-      expect(thisVar).toBeInstanceOf(childResolver);
+      expect(self).toBeInstanceOf(childResolver);
+    });
+
+    it("should allow duplicate fieldResolver methods with different schema names for inherited resolvers", async () => {
+      getMetadataStorage().clear();
+      const INHERITED_DYNAMIC_FIELD_NAME_1 = "dynamicallyNamedMethod1";
+      const INHERITED_DYNAMIC_FIELD_NAME_2 = "dynamicallyNamedMethod2";
+
+      const withDynamicallyNamedFieldResolver = (
+        classType: ClassType,
+        BaseResolverClass: ClassType,
+        name: string,
+      ) => {
+        @Resolver(() => classType)
+        class DynamicallyNamedFieldResolver extends BaseResolverClass {
+          @FieldResolver({ name })
+          dynamicallyNamedField(): boolean {
+            return true;
+          }
+        }
+        return DynamicallyNamedFieldResolver;
+      };
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField!: string;
+      }
+
+      @Resolver()
+      class SampleResolver {
+        @Query(() => SampleObject)
+        sampleObject(): SampleObject {
+          return { sampleField: "sampleText" };
+        }
+      }
+
+      const DynamicallyNamedFieldResolver1 = withDynamicallyNamedFieldResolver(
+        SampleObject,
+        SampleResolver,
+        INHERITED_DYNAMIC_FIELD_NAME_1,
+      );
+      const DynamicallyNamedFieldResolver2 = withDynamicallyNamedFieldResolver(
+        SampleObject,
+        DynamicallyNamedFieldResolver1,
+        INHERITED_DYNAMIC_FIELD_NAME_2,
+      );
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [DynamicallyNamedFieldResolver2],
+      });
+      schemaIntrospection = schemaInfo.schemaIntrospection;
+      const sampleObjectType = schemaIntrospection.types.find(
+        type => type.name === "SampleObject",
+      ) as IntrospectionObjectType;
+
+      const dynamicField1 = sampleObjectType.fields.find(
+        field => field.name === INHERITED_DYNAMIC_FIELD_NAME_1,
+      )!;
+
+      const dynamicField2 = sampleObjectType.fields.find(
+        field => field.name === INHERITED_DYNAMIC_FIELD_NAME_2,
+      )!;
+
+      expect(dynamicField1).toBeDefined();
+      expect(dynamicField2).toBeDefined();
     });
   });
 });

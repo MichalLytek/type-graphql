@@ -1,0 +1,44 @@
+name: sponsor
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  sponsor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Regenerate sponsors images
+        run: npm run gen:sponsorkit
+        env:
+          SPONSORKIT_GITHUB_TOKEN: ${{ secrets.SPONSORKIT_GITHUB_TOKEN }}
+          # SPONSORKIT_OPENCOLLECTIVE_KEY: ${{ secrets.SPONSORKIT_GITHUB_TOKEN_OPENCOLLECTIVE_TOKEN }}
+
+      - name: Commit updated images
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "img/github-sponsors.svg website/static/img/github-sponsors.svg"
+          message: "chore(sponsors): update sponsors image"
+          push: true
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

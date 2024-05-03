@@ -1,14 +1,22 @@
+import {
+  type GraphQLFieldConfig,
+  type GraphQLObjectTypeConfig,
+  type GraphQLResolveInfo,
+} from "graphql";
+import { type MiddlewareInterface, type NextFn, type ResolverData } from "type-graphql";
 import { Service } from "typedi";
-import { GraphQLResolveInfo, GraphQLFieldConfig, GraphQLObjectTypeConfig } from "graphql";
-import { MiddlewareInterface, NextFn, ResolverData } from "../../src";
-
+import { type Context } from "./context.type";
 import { extractFieldConfig, extractParentTypeConfig } from "./helpers/config.extractors";
-import { Context } from "./context.interface";
 import { Logger } from "./logger.service";
+
+interface LoggerConfig {
+  message?: string;
+  level?: number;
+}
 
 const extractLoggerExtensionsFromConfig = (
   config: GraphQLObjectTypeConfig<any, any> | GraphQLFieldConfig<any, any>,
-) => (config.extensions && config.extensions.log) || {};
+): LoggerConfig => (config.extensions && (config.extensions.log as LoggerConfig)) || {};
 
 const getLoggerExtensions = (info: GraphQLResolveInfo) => {
   const fieldConfig = extractFieldConfig(info);

@@ -12,13 +12,13 @@ Read more about the GraphQL Interface Type in the [official GraphQL docs](https:
 
 TypeScript has first class support for interfaces. Unfortunately, they only exist at compile-time, so we can't use them to build GraphQL schema at runtime by using decorators.
 
-Luckily, we can use an abstract class for this purpose. It behaves almost like an interface as it can't be "newed" but it can be implemented by another class. The only difference is that it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat the abstract class like an interface, we can safely use it.
+Luckily, we can use an abstract class for this purpose. It behaves almost like an interface as it can't be instantiated but it can be implemented by another class. The only difference is that it just won't prevent developers from implementing a method or initializing a field. So, as long as we treat the abstract class like an interface, we can safely use it.
 
 ## Defining interface type
 
 How do we create a GraphQL interface definition? We create an abstract class and decorate it with the `@InterfaceType()` decorator. The rest is exactly the same as with object types: we use the `@Field` decorator to declare the shape of the type:
 
-```typescript
+```ts
 @InterfaceType()
 abstract class IPerson {
   @Field(type => ID)
@@ -34,7 +34,7 @@ abstract class IPerson {
 
 We can then use this interface type class like an interface in the object type class definition:
 
-```typescript
+```ts
 @ObjectType({ implements: IPerson })
 class Person implements IPerson {
   id: string;
@@ -49,7 +49,7 @@ It is also allowed to omit the decorators since the GraphQL types will be copied
 
 We can also extend the base interface type abstract class as well because all the fields are inherited and emitted in schema:
 
-```typescript
+```ts
 @ObjectType({ implements: IPerson })
 class Person extends IPerson {
   @Field()
@@ -63,7 +63,7 @@ Since `graphql-js` version `15.0`, it's also possible for interface type to [imp
 
 To accomplish this, we can just use the same syntax that we utilize for object types - the `implements` decorator option:
 
-```typescript
+```ts
 @InterfaceType()
 class Node {
   @Field(type => ID)
@@ -80,10 +80,10 @@ class Person extends Node {
 }
 ```
 
-Also, when we implement the interface that already implements other interface, we need to put them all in `implements` array in `@ObjectType` decorator option, e.g.:
+Also, when we implement the interface that already implements other interface, there's no need to put them all in `implements` array in `@ObjectType` decorator option - only the closest one in the inheritance chain is required, e.g.:
 
-```typescript
-@ObjectType({ implements: [Person, Node] })
+```ts
+@ObjectType({ implements: [Person] })
 class Student extends Person {
   @Field()
   universityName: string;
@@ -115,7 +115,7 @@ type Student implements Node & Person {
 
 What's more, we can define resolvers for the interface fields, using the same syntax we would use when defining one for our object type:
 
-```typescript
+```ts
 @InterfaceType()
 abstract class IPerson {
   @Field()
@@ -143,7 +143,7 @@ interface IPerson {
 
 We can just use `@Arg` or `@Args` decorators as usual:
 
-```typescript
+```ts
 @InterfaceType()
 abstract class IPerson {
   @Field()
@@ -156,7 +156,7 @@ abstract class IPerson {
 Unfortunately, TypeScript doesn't allow using decorators on abstract methods.
 So if we don't want to provide implementation for that field resolver, only to enforce some signature (args and return type), we have to throw an error inside the body:
 
-```typescript
+```ts
 @InterfaceType()
 abstract class IPerson {
   @Field()
@@ -168,7 +168,7 @@ abstract class IPerson {
 
 And then we need to extend the interface class and override the method by providing its body - it is required for all object types that implements that interface type:
 
-```typescript
+```ts
 @ObjectType({ implements: IPerson })
 class Person extends IPerson {
   avatar(size: number): string {
@@ -179,7 +179,7 @@ class Person extends IPerson {
 
 In order to extend the signature by providing additional arguments (like `format`), we need to redeclare the whole field signature:
 
-```typescript
+```ts
 @ObjectType({ implements: IPerson })
 class Person implements IPerson {
   @Field()
@@ -191,7 +191,7 @@ class Person implements IPerson {
 
 Resolvers for interface type fields can be also defined on resolvers classes level, by using the `@FieldResolver` decorator:
 
-```typescript
+```ts
 @Resolver(of => IPerson)
 class IPersonResolver {
   @FieldResolver()
@@ -222,7 +222,7 @@ Then we need to add all the object types (that implement this interface type and
 ```ts
 const schema = await buildSchema({
   resolvers,
-  // here we provide such object types
+  // Provide orphaned object types
   orphanedTypes: [Person, Animal, Recipe],
 });
 ```
@@ -235,13 +235,13 @@ Be aware that when our object type is implementing a GraphQL interface type, **w
 
 We can also provide our own `resolveType` function implementation to the `@InterfaceType` options. This way we can return plain objects in resolvers and then determine the returned object type by checking the shape of the data object, the same ways [like in unions](./unions.md), e.g.:
 
-```typescript
+```ts
 @InterfaceType({
   resolveType: value => {
     if ("grades" in value) {
-      return "Student"; // schema name of the type as a string
+      return "Student"; // Schema name of type string
     }
-    return Person; // or the object type class
+    return Person; // Or object type class
   },
 })
 abstract class IPerson {

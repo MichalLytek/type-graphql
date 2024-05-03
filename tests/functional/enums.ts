@@ -1,21 +1,20 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionEnumType,
-  graphql,
-  GraphQLSchema,
+  type GraphQLSchema,
+  type IntrospectionEnumType,
+  type IntrospectionInputObjectType,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
-
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
+import { Arg, Field, InputType, Query, registerEnumType } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import {
   getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
 } from "../helpers/getInnerFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { Field, InputType, Query, Arg, registerEnumType } from "../../src";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Enums", () => {
   let schemaIntrospection: IntrospectionSchema;
@@ -54,39 +53,39 @@ describe("Enums", () => {
 
     @InputType()
     class NumberEnumInput {
-      @Field(type => NumberEnum)
-      numberEnumField: NumberEnum;
+      @Field(() => NumberEnum)
+      numberEnumField!: NumberEnum;
     }
 
     @InputType()
     class StringEnumInput {
-      @Field(type => StringEnum)
-      stringEnumField: StringEnum;
+      @Field(() => StringEnum)
+      stringEnumField!: StringEnum;
     }
 
     class SampleResolver {
-      @Query(returns => NumberEnum)
-      getNumberEnumValue(@Arg("input") input: NumberEnumInput): NumberEnum {
+      @Query(_returns => NumberEnum)
+      getNumberEnumValue(@Arg("input") _input: NumberEnumInput): NumberEnum {
         return NumberEnum.Two;
       }
 
-      @Query(returns => StringEnum)
-      getStringEnumValue(@Arg("input") input: StringEnumInput): StringEnum {
+      @Query(() => StringEnum)
+      getStringEnumValue(@Arg("input") _input: StringEnumInput): StringEnum {
         return StringEnum.Two;
       }
 
-      @Query(returns => AdvancedEnum)
+      @Query(() => AdvancedEnum)
       getAdvancedEnumValue(): AdvancedEnum {
         return AdvancedEnum.DescriptionProperty;
       }
 
       @Query()
-      isNumberEnumEqualOne(@Arg("enum", type => NumberEnum) numberEnum: NumberEnum): boolean {
+      isNumberEnumEqualOne(@Arg("enum", () => NumberEnum) numberEnum: NumberEnum): boolean {
         return numberEnum === NumberEnum.One;
       }
 
       @Query()
-      isStringEnumEqualOne(@Arg("enum", type => StringEnum) stringEnum: StringEnum): boolean {
+      isStringEnumEqualOne(@Arg("enum", () => StringEnum) stringEnum: StringEnum): boolean {
         return stringEnum === StringEnum.One;
       }
     }
@@ -209,7 +208,7 @@ describe("Enums", () => {
       const query = `query {
         getNumberEnumValue(input: { numberEnumField: One })
       }`;
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.getNumberEnumValue).toEqual("Two");
     });
@@ -218,7 +217,7 @@ describe("Enums", () => {
       const query = `query {
         getStringEnumValue(input: { stringEnumField: One })
       }`;
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.getStringEnumValue).toEqual("Two");
     });
@@ -231,8 +230,8 @@ describe("Enums", () => {
         isNumberEnumEqualOne(enum: Two)
       }`;
 
-      const result1 = await graphql(schema, query1);
-      const result2 = await graphql(schema, query2);
+      const result1 = await graphql({ schema, source: query1 });
+      const result2 = await graphql({ schema, source: query2 });
 
       expect(result1.data!.isNumberEnumEqualOne).toEqual(true);
       expect(result2.data!.isNumberEnumEqualOne).toEqual(false);
@@ -246,8 +245,8 @@ describe("Enums", () => {
         isStringEnumEqualOne(enum: Two)
       }`;
 
-      const result1 = await graphql(schema, query1);
-      const result2 = await graphql(schema, query2);
+      const result1 = await graphql({ schema, source: query1 });
+      const result2 = await graphql({ schema, source: query2 });
 
       expect(result1.data!.isStringEnumEqualOne).toEqual(true);
       expect(result2.data!.isStringEnumEqualOne).toEqual(false);

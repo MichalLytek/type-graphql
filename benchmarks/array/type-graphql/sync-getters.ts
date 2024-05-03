@@ -1,30 +1,33 @@
 import "reflect-metadata";
-import { buildSchema, Field, ObjectType, Resolver, Query, Int } from "../../../build/package/dist";
-
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+import { Field, Int, ObjectType, Query, Resolver, buildSchema } from "type-graphql";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 @ObjectType()
 class SampleObject {
   stringField!: string;
+
   @Field({ name: "stringField" })
   get getStringField(): string {
     return this.stringField;
   }
 
   numberField!: number;
-  @Field(type => Int, { name: "numberField" })
+
+  @Field(() => Int, { name: "numberField" })
   get getNumberField(): number {
     return this.numberField;
   }
 
   booleanField!: boolean;
+
   @Field({ name: "booleanField" })
   get getBooleanField(): boolean {
     return this.booleanField;
   }
 
   nestedField?: SampleObject;
-  @Field(type => SampleObject, { name: "nestedField", nullable: true })
+
+  @Field(() => SampleObject, { name: "nestedField", nullable: true })
   get getNestedField(): SampleObject | undefined {
     return this.nestedField;
   }
@@ -32,7 +35,7 @@ class SampleObject {
 
 @Resolver(SampleObject)
 class SampleResolver {
-  @Query(returns => [SampleObject])
+  @Query(() => [SampleObject])
   multipleNestedObjects(): SampleObject[] {
     return Array.from(
       { length: ARRAY_ITEMS },
@@ -46,7 +49,7 @@ class SampleResolver {
             booleanField: true,
             numberField: index,
           } as SampleObject,
-        } as SampleObject),
+        }) as SampleObject,
     );
   }
 }
