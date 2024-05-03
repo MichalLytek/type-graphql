@@ -77,7 +77,7 @@ They might be just a simple data extractor function, that makes our resolver mor
 
 ```ts
 function CurrentUser() {
-  return createParamDecorator<MyContextType>(({ context }) => context.currentUser);
+  return createParameterDecorator<MyContextType>(({ context }) => context.currentUser);
 }
 ```
 
@@ -85,7 +85,7 @@ Or might be a more advanced one that performs some calculations and encapsulates
 
 ```ts
 function Fields(level = 1): ParameterDecorator {
-  return createParamDecorator(async ({ info }) => {
+  return createParameterDecorator(async ({ info }) => {
     const fieldsMap: FieldsMap = {};
     // Calculate an object with info about requested fields
     // based on GraphQL 'info' parameter of the resolver and the level parameter
@@ -131,6 +131,50 @@ export class RecipeResolver {
       // use the fields map as a select projection to optimize db queries
       select: fields,
     });
+  }
+}
+```
+
+### Custom `@Arg` decorator
+
+In some cases we might want to create a custom decorator that will also register/expose an argument in the GraphQL schema.
+Calling both `Arg()` and `createParameterDecorator()` inside a custom decorator does not play well with the internals of TypeGraphQL.
+
+Hence, the `createParameterDecorator()` function supports second argument, `CustomParameterOptions` which allows to set decorator metadata for `@Arg` under the `arg` key:
+
+```ts
+function RandomId(argName = "id") {
+  return createParameterDecorator(
+    // here we do the logic of getting provided argument or generating a random one
+    ({ args }) => args[argName] ?? Math.round(Math.random() * MAX_ID_VALUE),
+    {
+      // here we provide the metadata to register the parameter as a GraphQL argument
+      arg: {
+        name: argName,
+        typeFunc: () => Int,
+        options: {
+          nullable: true,
+          description: "Accepts provided id or generates a random one.",
+        },
+      },
+    },
+  );
+}
+```
+
+The usage of that custom decorator is very similar to the previous one and `@Arg` decorator itself:
+
+```ts
+@Resolver()
+export class RecipeResolver {
+  constructor(private readonly recipesRepository: Repository<Recipe>) {}
+
+  @Query(returns => Recipe, { nullable: true })
+  async recipe(
+    // custom decorator that will expose an arg in the schema
+    @RandomId("id") id: number,
+  ) {
+    return await this.recipesRepository.findById(id);
   }
 }
 ```
