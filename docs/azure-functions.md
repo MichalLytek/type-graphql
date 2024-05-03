@@ -14,15 +14,15 @@ Below is how you can implement the azure function entry point (with explaination
 ```ts
 // index.ts
 
-import 'reflect-metadata';
-import path from 'path';
-import { ApolloServer } from '@apollo/server';
-import { startServerAndCreateHandler } from '@as-integrations/azure-functions';
-import { buildSchemaSync } from 'type-graphql';
-import { Container } from 'typedi';
-import { GraphQLFormattedError } from 'graphql';
-import { UserResolver } from 'YOUR_IMPORT_PATH'; // TypeGraphQL Resolver
-import { AccountResolver } from 'YOUR_IMPORT_PATH';  // TypeGraphQL Resolver
+import "reflect-metadata";
+import path from "path";
+import { ApolloServer } from "@apollo/server";
+import { startServerAndCreateHandler } from "@as-integrations/azure-functions";
+import { buildSchemaSync } from "type-graphql";
+import { Container } from "typedi";
+import { GraphQLFormattedError } from "graphql";
+import { UserResolver } from "YOUR_IMPORT_PATH"; // TypeGraphQL Resolver
+import { AccountResolver } from "YOUR_IMPORT_PATH"; // TypeGraphQL Resolver
 
 // Bundle resolvers to build the schema
 const schema = buildSchemaSync({
@@ -38,7 +38,7 @@ const schema = buildSchemaSync({
   // Only build the GraphQL schema locally
   // The resulting schema.graphql will be generated to the following path:
   // Path: /YOUR_PROJECT/src/schema.graphql
-  emitSchemaFile: process.env.NODE_ENV === 'local' ? path.resolve('./src/schema.graphql') : false,
+  emitSchemaFile: process.env.NODE_ENV === "local" ? path.resolve("./src/schema.graphql") : false,
   container: Container,
   validate: true,
 });
@@ -49,7 +49,7 @@ const server = new ApolloServer({
   schema,
 
   // only allow introspection in non-prod environments
-  introspection: process.env.NODE_ENV !== 'production',
+  introspection: process.env.NODE_ENV !== "production",
 
   // you can handle errors in your own styles
   formatError: (err: GraphQLFormattedError) => err,
@@ -60,6 +60,7 @@ export default startServerAndCreateHandler(server);
 ```
 
 Each Azure Function needs to have an equivalent configuration file called `function.json`, here's how you can configure it:
+
 ```json
 // funcion.json
 
@@ -84,6 +85,7 @@ Each Azure Function needs to have an equivalent configuration file called `funct
 ```
 
 For better maintainability of your codebase, we recommend separate your Azure Functions into its own folders, away from the actual GraphQL Resolvers. Here's an example:
+
 ```text
 /YOUR_PROJECT
   /handlers
