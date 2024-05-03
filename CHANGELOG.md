@@ -1,6 +1,10 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
+
+### Others
+
+- **Breaking Change**: update `graphql-scalars` peer dependency to `^1.23.0`
 
 <!-- Here goes all the unreleased changes descriptions -->
 
