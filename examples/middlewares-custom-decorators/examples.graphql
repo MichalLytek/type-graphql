@@ -20,3 +20,21 @@ query InterceptorsQuery {
     averageRating
   }
 }
+
+query RandomIdQuery {
+  recipe {
+    id
+    title
+    averageRating
+    description
+  }
+}
+
+query SelectedIdQuery {
+  recipe(id: 2) {
+    id
+    title
+    averageRating
+    description
+  }
+}

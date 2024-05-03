@@ -3,6 +3,9 @@ import { LogAccessMiddleware, NumberInterceptor } from "../middlewares";
 
 @ObjectType()
 export class Recipe {
+  @Field(_type => Int)
+  id!: number;
+
   @Field()
   title!: string;
 
