@@ -63,6 +63,18 @@ export function getParams(
           return resolverData.info;
 
         case "custom":
+          if (paramInfo.options.arg) {
+            const arg = paramInfo.options.arg!;
+            return validateArg(
+              convertArgToInstance(arg, resolverData.args),
+              arg.getType(),
+              resolverData,
+              globalValidate,
+              arg.validateSettings,
+              globalValidateFn,
+              arg.validateFn,
+            ).then(() => paramInfo.resolver(resolverData));
+          }
           return paramInfo.resolver(resolverData);
 
         // no default

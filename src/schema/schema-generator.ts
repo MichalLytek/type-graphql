@@ -724,14 +724,16 @@ export abstract class SchemaGenerator {
     params: ParamMetadata[],
   ): GraphQLFieldConfigArgumentMap {
     return params!.reduce<GraphQLFieldConfigArgumentMap>((args, param) => {
-      if (param.kind === "arg") {
+      if (param.kind === "arg" || (param.kind === "custom" && param.options?.arg)) {
+        const input = param.kind === "arg" ? param : param.options.arg!;
+
         const type = this.getGraphQLInputType(
           target,
           propertyName,
-          param.getType(),
-          param.typeOptions,
-          param.index,
-          param.name,
+          input.getType(),
+          input.typeOptions,
+          input.index,
+          input.name,
         );
         const argDirectives = getMetadataStorage()
           .argumentDirectives.filter(
@@ -742,12 +744,12 @@ export abstract class SchemaGenerator {
           )
           .map(it => it.directive);
         // eslint-disable-next-line no-param-reassign
-        args[param.name] = {
-          description: param.description,
+        args[input.name] = {
+          description: input.description,
           type,
-          defaultValue: param.typeOptions.defaultValue,
-          deprecationReason: param.deprecationReason,
-          astNode: getInputValueDefinitionNode(param.name, type, argDirectives),
+          defaultValue: input.typeOptions.defaultValue,
+          deprecationReason: input.deprecationReason,
+          astNode: getInputValueDefinitionNode(input.name, type, argDirectives),
         };
       } else if (param.kind === "args") {
         const argumentType = getMetadataStorage().argumentTypes.find(

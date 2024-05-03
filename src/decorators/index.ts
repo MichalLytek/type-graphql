@@ -3,7 +3,7 @@ export { Arg } from "./Arg";
 export { Args } from "./Args";
 export { ArgsType } from "./ArgsType";
 export { Authorized } from "./Authorized";
-export { createParamDecorator } from "./createParamDecorator";
+export { createParameterDecorator } from "./createParameterDecorator";
 export { createMethodMiddlewareDecorator } from "./createMethodMiddlewareDecorator";
 export { createResolverClassMiddlewareDecorator } from "./createResolverClassMiddlewareDecorator";
 export { Ctx } from "./Ctx";

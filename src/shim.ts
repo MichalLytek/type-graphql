@@ -44,7 +44,7 @@ export const Arg: typeof src.Arg = dummyDecorator;
 export const Args: typeof src.Args = dummyDecorator;
 export const ArgsType: typeof src.ArgsType = dummyDecorator;
 export const Authorized: typeof src.Authorized = dummyDecorator;
-export const createParamDecorator: typeof src.createParamDecorator = dummyFn as any;
+export const createParameterDecorator: typeof src.createParameterDecorator = dummyFn as any;
 export const createMethodMiddlewareDecorator: typeof src.createMethodMiddlewareDecorator =
   dummyFn as any;
 export const createResolverClassMiddlewareDecorator: typeof src.createResolverClassMiddlewareDecorator =
