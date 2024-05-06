@@ -128,7 +128,7 @@
     "@graphql-tools/schema": "^10.0.2",
     "@graphql-tools/utils": "^10.1.2",
     "@graphql-yoga/redis-event-target": "^3.0.0",
-    "@mikro-orm/core": "^6.0.2",
+    "@mikro-orm/core": "^6.2.5",
     "@mikro-orm/postgresql": "^6.2.1",
     "@typegoose/typegoose": "^12.2.0",
     "@types/jest": "^29.5.11",
