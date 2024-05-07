@@ -9,7 +9,7 @@ Integrating TypeGraphQL with Azure Functions involves the following key steps:
 1. Generate GraphQL schema based on your resolvers
 2. Notify Apollo Server about your schema
 
-Below is how you can implement the azure function entry point (with explainations in-line):
+Below is how you can implement the azure function entry point (with explanations in-line):
 
 ```ts
 // index.ts
@@ -55,7 +55,7 @@ const server = new ApolloServer({
   formatError: (err: GraphQLFormattedError) => err,
 });
 
-// Start the server(less handlder/function)
+// Start the server(less handler/function)
 export default startServerAndCreateHandler(server);
 ```
 
