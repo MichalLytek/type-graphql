@@ -57,6 +57,7 @@
     "realpath",
     "returntype",
     "shellcheck",
+    "sidesmedia",
     "sindresorhus",
     "sponsorkit",
     "supergraph",

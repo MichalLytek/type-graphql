@@ -757,6 +757,57 @@
       "version-2.0.0-beta.6/version-2.0.0-beta.6-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-installation": {
+        "title": "Installation"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-migration-guide": {
+        "title": "Migration Guide",
+        "sidebar_label": "v1.x -> v2.0"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-rc.1/version-2.0.0-rc.1-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
