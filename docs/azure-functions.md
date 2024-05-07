@@ -62,7 +62,7 @@ export default startServerAndCreateHandler(server);
 Each Azure Function needs to have an equivalent configuration file called `function.json`, here's how you can configure it:
 
 ```json
-// funcion.json
+// function.json
 
 {
   "bindings": [
