@@ -14,7 +14,7 @@ import {
   UseMiddleware,
   buildSchema,
 } from "type-graphql";
-import { createMethodDecorator } from "@/decorators/createMethodDecorator";
+import { createMethodMiddlewareDecorator } from "@/decorators";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Middlewares", () => {
@@ -114,7 +114,7 @@ describe("Middlewares", () => {
         return result;
       }
     }
-    const CustomMethodDecorator = createMethodDecorator(async (_, next) => {
+    const CustomMethodDecorator = createMethodMiddlewareDecorator(async (_, next) => {
       middlewareLogs.push("CustomMethodDecorator");
       return next();
     });

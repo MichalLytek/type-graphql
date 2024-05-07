@@ -8,11 +8,11 @@ Custom decorators are a great way to reduce the boilerplate and reuse some commo
 
 Using [middlewares](./middlewares.md) allows to reuse some code between resolvers. To further reduce the boilerplate and have a nicer API, we can create our own custom method decorators.
 
-They work in the same way as the [reusable middleware function](./middlewares.md#reusable-middleware), however, in this case we need to call `createMethodDecorator` helper function with our middleware logic and return its value:
+They work in the same way as the [reusable middleware function](./middlewares.md#reusable-middleware), however, in this case we need to call `createMethodMiddlewareDecorator` helper function with our middleware logic and return its value:
 
 ```ts
 export function ValidateArgs(schema: JoiSchema) {
-  return createMethodDecorator(async ({ args }, next) => {
+  return createMethodMiddlewareDecorator(async ({ args }, next) => {
     // Middleware code that uses custom decorator arguments
 
     // e.g. Validation logic based on schema using 'joi'
