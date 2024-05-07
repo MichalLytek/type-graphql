@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+## Features
+
+- support declaring middlewares on resolver class level (#620)
+- support declaring auth roles on resolver class level (#620)
+
 ### Others
 
 - **Breaking Change**: update `graphql-scalars` peer dependency to `^1.23.0`
+- **Breaking Change**: rename `createMethodDecorator` into `createMethodMiddlewareDecorator`
 
 <!-- Here goes all the unreleased changes descriptions -->
 
