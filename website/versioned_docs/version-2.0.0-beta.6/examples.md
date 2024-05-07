@@ -48,7 +48,6 @@ Each subdirectory contains a `examples.graphql` file with predefined GraphQL que
 - [Apollo Cache Control](https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.6/examples/apollo-cache)
 - [GraphQL Scalars](https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.6/examples/graphql-scalars)
 - [TSyringe](https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.6/examples/tsyringe)
-- [Azure Functions](https://github.com/MichalLytek/type-graphql/tree/v2.0.0-beta.6/examples/azure-functions)
 
 _\* Note that we need to provide the environment variable `DATABASE_URL` with connection parameters to your local database_ \
 _\*\* Note that we need to provide the environment variable `REDIS_URL` with connection parameters to your local Redis instance_
