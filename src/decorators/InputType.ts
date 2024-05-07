@@ -1,8 +1,8 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getNameDecoratorParams } from "../helpers/decorators";
-import { DescriptionOptions, AbstractClassOptions } from "./types";
+import { getNameDecoratorParams } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type DescriptionOptions } from "./types";
 
-export type InputTypeOptions = DescriptionOptions & AbstractClassOptions;
+export type InputTypeOptions = DescriptionOptions;
 
 export function InputType(): ClassDecorator;
 export function InputType(options: InputTypeOptions): ClassDecorator;
@@ -17,7 +17,6 @@ export function InputType(
       name: name || target.name,
       target,
       description: options.description,
-      isAbstract: options.isAbstract,
     });
   };
 }

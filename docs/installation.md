@@ -10,22 +10,26 @@ Before getting started with TypeGraphQL we need to install some additional depen
 
 ## Packages installation
 
-First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) and [`class-validator`](https://github.com/typestack/class-validator) which are peer dependencies of TypeGraphQL:
+First, we have to install the main package, as well as [`graphql-js`](https://github.com/graphql/graphql-js) and [`graphql-scalars`](https://github.com/urigo/graphql-scalars) which are peer dependencies of TypeGraphQL:
 
 ```sh
-npm i graphql class-validator type-graphql
+npm install graphql graphql-scalars type-graphql
 ```
 
-Also, the `reflect-metadata` shim is required to make the type reflection work:
+Also, the `Reflect.metadata()` shim is required to make the type reflection work:
 
 ```sh
-npm i reflect-metadata
+npm install reflect-metadata
+# or
+npm install core-js
 ```
 
 We must ensure that it is imported at the top of our entry file (before we use/import `type-graphql` or our resolvers):
 
-```typescript
+```ts
 import "reflect-metadata";
+// or
+import "core-js/features/reflect";
 ```
 
 ## TypeScript configuration
@@ -39,19 +43,11 @@ It's important to set these options in the `tsconfig.json` file of our project:
 }
 ```
 
-`TypeGraphQL` is designed to work with Node.js LTS (10.3+, 12+) and the latest stable releases. It uses features from ES2018 so we should set our `tsconfig.json` file appropriately:
+`TypeGraphQL` is designed to work with Node.js LTS and the latest stable releases. It uses features from ES2021 so we should set our `tsconfig.json` file appropriately:
 
 ```js
 {
-  "target": "es2018" // or newer if your node.js version supports this
-}
-```
-
-Due to using the `graphql-subscription` dependency that relies on an `AsyncIterator`, we may also have to provide the `esnext.asynciterable` to the `lib` option:
-
-```json
-{
-  "lib": ["es2018", "esnext.asynciterable"]
+  "target": "es2021" // Or newer if Node.js version supports it
 }
 ```
 
@@ -60,9 +56,8 @@ All in all, the minimal `tsconfig.json` file example looks like this:
 ```json
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2021",
     "module": "commonjs",
-    "lib": ["es2018", "esnext.asynciterable"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

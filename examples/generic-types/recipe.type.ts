@@ -1,13 +1,13 @@
-import { Field, ObjectType, Int } from "../../src";
+import { Field, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
-export default class Recipe {
+export class Recipe {
   @Field()
-  title: string;
+  title!: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [Int])
-  ratings: number[];
+  @Field(_type => [Int])
+  ratings!: number[];
 }

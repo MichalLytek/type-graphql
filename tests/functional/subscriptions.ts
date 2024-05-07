@@ -1,46 +1,42 @@
 import "reflect-metadata";
+import { createPubSub } from "@graphql-yoga/subscription";
 import {
-  GraphQLSchema,
-  IntrospectionObjectType,
-  IntrospectionSchema,
+  type DocumentNode,
+  type ExecutionResult,
+  type GraphQLSchema,
+  type IntrospectionObjectType,
   TypeKind,
-  graphql,
-  subscribe,
-  ExecutionResult,
   execute,
-  DocumentNode,
+  subscribe,
 } from "graphql";
 import gql from "graphql-tag";
-import { EventEmitter } from "events";
-import { PubSub as LocalPubSub } from "graphql-subscriptions";
-
 import {
-  Subscription,
-  Resolver,
-  Query,
   Arg,
-  ObjectType,
-  Field,
-  PubSub,
-  Mutation,
-  Root,
-  Publisher,
-  PubSubEngine,
-  Float,
-  buildSchema,
-  MissingSubscriptionTopicsError,
   Authorized,
+  Field,
+  Float,
   Int,
-} from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
+  MissingPubSubError,
+  MissingSubscriptionTopicsError,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Root,
+  Subscription,
+  buildSchema,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getInnerTypeOfNonNullableType, getItemTypeOfList } from "../helpers/getInnerFieldType";
-import sleep from "../helpers/sleep";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
+import { sleep } from "../helpers/sleep";
 
 describe("Subscriptions", () => {
+  const pubSub = createPubSub();
+
   describe("Schema", () => {
     let schema: GraphQLSchema;
-    let schemaIntrospection: IntrospectionSchema;
     let subscriptionType: IntrospectionObjectType;
 
     beforeAll(async () => {
@@ -49,7 +45,7 @@ describe("Subscriptions", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @Resolver()
@@ -58,6 +54,7 @@ describe("Subscriptions", () => {
         sampleQuery(): boolean {
           return true;
         }
+
         @Subscription({ topics: "STH" })
         sampleSubscription(): boolean {
           return true;
@@ -65,22 +62,22 @@ describe("Subscriptions", () => {
 
         @Subscription({ topics: "STH" })
         subscriptionWithArgs(
-          @Arg("stringArg") stringArg: string,
-          @Arg("booleanArg") booleanArg: boolean,
+          @Arg("stringArg") _stringArg: string,
+          @Arg("booleanArg") _booleanArg: boolean,
         ): boolean {
           return true;
         }
 
-        @Subscription(returns => [SampleObject], { topics: "STH" })
+        @Subscription(() => [SampleObject], { topics: "STH" })
         subscriptionWithExplicitType(): any {
           return true;
         }
       }
       const schemaInfo = await getSchemaInfo({
         resolvers: [SampleResolver],
+        pubSub,
       });
       schema = schemaInfo.schema;
-      schemaIntrospection = schemaInfo.schemaIntrospection;
       subscriptionType = schemaInfo.subscriptionType!;
     });
 
@@ -129,15 +126,14 @@ describe("Subscriptions", () => {
 
   describe("Functional", () => {
     let schema: GraphQLSchema;
-    const localPubSub: PubSubEngine = new LocalPubSub();
 
     beforeAll(async () => {
       getMetadataStorage().clear();
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Float)
-        value: number;
+        @Field(() => Float)
+        value!: number;
       }
 
       const SAMPLE_TOPIC = "SAMPLE";
@@ -150,50 +146,36 @@ describe("Subscriptions", () => {
           return true;
         }
 
-        @Mutation(returns => Boolean)
-        async pubSubMutation(
-          @Arg("value") value: number,
-          @PubSub() pubSub: PubSubEngine,
-        ): Promise<boolean> {
-          await pubSub.publish(SAMPLE_TOPIC, value);
+        @Mutation(() => Boolean)
+        async pubSubMutation(@Arg("value") value: number): Promise<boolean> {
+          pubSub.publish(SAMPLE_TOPIC, value);
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubMutationCustomSubscription(@Arg("value") value: number): Promise<boolean> {
-          await localPubSub.publish(CUSTOM_SUBSCRIBE_TOPIC, value);
+          pubSub.publish(CUSTOM_SUBSCRIBE_TOPIC, value);
           return true;
         }
 
-        @Mutation(returns => Boolean)
+        @Mutation(() => Boolean)
         async pubSubMutationDynamicTopic(
           @Arg("value") value: number,
           @Arg("topic") topic: string,
-          @PubSub() pubSub: PubSubEngine,
         ): Promise<boolean> {
-          await pubSub.publish(topic, value);
+          pubSub.publish(topic, value);
           return true;
         }
 
-        @Mutation(returns => Boolean)
-        async pubSubPublisherMutation(
-          @Arg("value") value: number,
-          @PubSub(SAMPLE_TOPIC) publish: Publisher<number>,
-        ): Promise<boolean> {
-          await publish(value);
+        @Mutation(() => Boolean)
+        async pubSubOtherMutation(@Arg("value") value: number): Promise<boolean> {
+          pubSub.publish(OTHER_TOPIC, value);
           return true;
         }
 
-        @Mutation(returns => Boolean)
-        async pubSubOtherMutation(
-          @Arg("value") value: number,
-          @PubSub() pubSub: PubSubEngine,
-        ): Promise<boolean> {
-          await pubSub.publish(OTHER_TOPIC, value);
-          return true;
-        }
-
-        @Subscription({ topics: SAMPLE_TOPIC })
+        @Subscription({
+          topics: SAMPLE_TOPIC,
+        })
         sampleTopicSubscription(@Root() value: number): SampleObject {
           return { value };
         }
@@ -206,17 +188,26 @@ describe("Subscriptions", () => {
           return { value };
         }
 
-        @Subscription({ topics: [SAMPLE_TOPIC, OTHER_TOPIC] })
+        @Subscription({
+          topics: [SAMPLE_TOPIC, OTHER_TOPIC],
+        })
         multipleTopicSubscription(@Root() value: number): SampleObject {
           return { value };
         }
 
-        @Subscription({ topics: ({ args }) => args.topic })
-        dynamicTopicSubscription(@Root() value: number, @Arg("topic") topic: string): SampleObject {
+        @Subscription({
+          topics: ({ args }) => args.topic,
+        })
+        dynamicTopicSubscription(
+          @Root() value: number,
+          @Arg("topic") _topic: string,
+        ): SampleObject {
           return { value };
         }
 
-        @Subscription({ subscribe: () => localPubSub.asyncIterator(CUSTOM_SUBSCRIBE_TOPIC) })
+        @Subscription({
+          subscribe: () => pubSub.subscribe(CUSTOM_SUBSCRIBE_TOPIC),
+        })
         customSubscribeSubscription(@Root() value: number): SampleObject {
           return { value };
         }
@@ -224,6 +215,7 @@ describe("Subscriptions", () => {
 
       schema = await buildSchema({
         resolvers: [SampleResolver],
+        pubSub,
       });
     });
 
@@ -238,17 +230,19 @@ describe("Subscriptions", () => {
       subscriptionVariables?: object;
       onSubscribedData: (data: any) => void;
     }) {
-      const results = (await subscribe(
+      const results = (await subscribe({
         schema,
-        options.subscription,
-        null,
-        null,
-        options.subscriptionVariables,
-      )) as AsyncIterableIterator<ExecutionResult>;
+        document: options.subscription,
+        variableValues: options.subscriptionVariables as any,
+      })) as AsyncIterableIterator<ExecutionResult>;
       const onDataPromise = results.next().then(async ({ value }) => {
         options.onSubscribedData(value.data);
       });
-      await execute(schema, options.mutation, null, null, options.mutationVariables);
+      await execute({
+        schema,
+        document: options.mutation,
+        variableValues: options.mutationVariables as any,
+      });
       await onDataPromise;
     }
 
@@ -331,7 +325,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscription.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscription.value;
         }
       })();
 
@@ -346,33 +340,6 @@ describe("Subscriptions", () => {
       await execute({ schema, document: mutation, variableValues: { value: 4.53 } });
       await sleep(0);
       expect(subscriptionValue).toEqual(4.53);
-    });
-
-    it("should successfully publish using Publisher injection", async () => {
-      let subscriptionValue: number;
-      const testedValue = Math.PI;
-      const subscription = gql`
-        subscription {
-          sampleTopicSubscription {
-            value
-          }
-        }
-      `;
-      const mutation = gql`
-        mutation {
-          pubSubPublisherMutation(value: ${testedValue})
-        }
-      `;
-
-      await subscribeOnceAndMutate({
-        subscription,
-        mutation,
-        onSubscribedData: data => {
-          subscriptionValue = data.sampleTopicSubscription.value;
-        },
-      });
-
-      expect(subscriptionValue!).toEqual(testedValue);
     });
 
     it("should doesn't trigger subscription when published to other topic", async () => {
@@ -402,7 +369,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscription.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscription.value;
         }
       })();
 
@@ -441,7 +408,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.sampleTopicSubscriptionWithFilter.value;
+          subscriptionValue = (result.data as any).sampleTopicSubscriptionWithFilter.value;
         }
       })();
 
@@ -485,7 +452,7 @@ describe("Subscriptions", () => {
       // run subscription in a separate async "thread"
       (async () => {
         for await (const result of subscription) {
-          subscriptionValue = result.data!.multipleTopicSubscription.value;
+          subscriptionValue = (result.data as any).multipleTopicSubscription.value;
         }
       })();
 
@@ -557,102 +524,49 @@ describe("Subscriptions", () => {
 
       expect(subscriptionValue).toEqual(testedValue);
     });
+  });
 
-    it("should inject the provided custom PubSub implementation", async () => {
-      let pubSub: any;
+  describe("errors", () => {
+    it("should throw error when using subscriptions but not providing pub sub implementation", async () => {
       getMetadataStorage().clear();
-
-      @ObjectType()
-      class SampleObject {
-        @Field()
-        sampleField: string;
-      }
-
-      class SampleResolver {
-        @Query()
-        dumbQuery(): boolean {
-          return true;
-        }
-
-        @Mutation()
-        pubSubMutation(@PubSub() pubSubArg: any): boolean {
-          pubSub = pubSubArg;
-          return true;
-        }
-      }
-      const customPubSub = { myField: true };
-      const mutation = `mutation {
-        pubSubMutation
-      }`;
-
-      const localSchema = await buildSchema({
-        resolvers: [SampleResolver],
-        pubSub: customPubSub as any,
-      });
-
-      await graphql(localSchema, mutation);
-
-      expect(pubSub).toEqual(customPubSub);
-      expect(pubSub.myField).toEqual(true);
-    });
-
-    it("should create PubSub instance with provided emitter options", async () => {
-      getMetadataStorage().clear();
-      @ObjectType()
-      class SampleObject {
-        @Field()
-        sampleField: string;
-      }
-      class SampleResolver {
-        @Query()
-        dumbQuery(): boolean {
-          return true;
-        }
-        @Mutation()
-        pubSubMutation(@PubSub() pubSubArg: PubSubEngine): boolean {
-          pubSubArg.publish("TEST", { test: true });
-          return true;
-        }
-      }
-
-      let emittedValue: any;
-      const customEmitter = new EventEmitter();
-      customEmitter.on("TEST", payload => (emittedValue = payload));
-      const mutation = `mutation {
-        pubSubMutation
-      }`;
-      const localSchema = await buildSchema({
-        resolvers: [SampleResolver],
-        pubSub: { eventEmitter: customEmitter },
-      });
-      await graphql(localSchema, mutation);
-
-      expect(emittedValue).toBeDefined();
-      expect(emittedValue.test).toEqual(true);
-    });
-
-    it("should throw error while passing empty topics array to Subscription", async () => {
-      getMetadataStorage().clear();
-      expect.assertions(5);
-      try {
-        @ObjectType()
-        class SampleObject {
-          @Field()
-          sampleField: string;
-        }
+      const error = await expectToThrow(async () => {
         class SampleResolver {
           @Query()
           dumbQuery(): boolean {
             return true;
           }
-          @Mutation(returns => Boolean)
-          async pubSubMutation(
-            @Arg("value") value: number,
-            @PubSub() pubSub: PubSubEngine,
-          ): Promise<boolean> {
-            await pubSub.publish("TEST", value);
+
+          @Subscription({ topics: "TEST" })
+          sampleSubscription(): boolean {
             return true;
           }
+        }
+
+        await buildSchema({
+          resolvers: [SampleResolver],
+          pubSub: undefined,
+        });
+      });
+
+      expect(error).toBeDefined();
+      expect(error).toBeInstanceOf(MissingPubSubError);
+    });
+
+    it("should throw error while passing empty topics array to Subscription", async () => {
+      getMetadataStorage().clear();
+      const error = await expectToThrow(async () => {
+        class SampleResolver {
+          @Query()
+          dumbQuery(): boolean {
+            return true;
+          }
+
+          @Mutation(() => Boolean)
+          async pubSubMutation(@Arg("value") value: number): Promise<boolean> {
+            pubSub.publish("TEST", value);
+            return true;
+          }
+
           @Subscription({ topics: [] })
           sampleSubscription(): boolean {
             return true;
@@ -661,19 +575,20 @@ describe("Subscriptions", () => {
 
         await buildSchema({
           resolvers: [SampleResolver],
+          pubSub,
         });
-      } catch (err) {
-        expect(err).toBeDefined();
-        expect(err).toBeInstanceOf(MissingSubscriptionTopicsError);
-        expect(err.message).toContain("SampleResolver");
-        expect(err.message).toContain("sampleSubscription");
-        expect(err.message).not.toContain("class SampleResolver");
-      }
+      });
+
+      expect(error).toBeDefined();
+      expect(error).toBeInstanceOf(MissingSubscriptionTopicsError);
+      expect(error.message).toContain("SampleResolver");
+      expect(error.message).toContain("sampleSubscription");
+      expect(error.message).not.toContain("class SampleResolver");
     });
 
     it("should throw authorization error just on subscribe", async () => {
       getMetadataStorage().clear();
-      expect.assertions(3);
+      // expect.assertions(3);
 
       @Resolver()
       class SampleResolver {
@@ -688,8 +603,9 @@ describe("Subscriptions", () => {
           return 0;
         }
       }
-      schema = await buildSchema({
+      const schema = await buildSchema({
         resolvers: [SampleResolver],
+        pubSub,
         authChecker: () => false,
       });
       const document = gql`
@@ -698,7 +614,7 @@ describe("Subscriptions", () => {
         }
       `;
 
-      const subscribeResult = await subscribe(schema, document);
+      const subscribeResult = await subscribe({ schema, document });
 
       expect(subscribeResult).toHaveProperty("errors");
       const { errors } = subscribeResult as ExecutionResult;

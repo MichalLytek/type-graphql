@@ -1,41 +1,39 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { type GraphQLSchema, graphql } from "graphql";
 import {
+  Arg,
   Field,
+  FieldResolver,
+  type MiddlewareFn,
+  type MiddlewareInterface,
+  type NextFn,
   ObjectType,
-  Ctx,
-  Authorized,
   Query,
   Resolver,
-  buildSchema,
-  FieldResolver,
-  UnauthorizedError,
-  ForbiddenError,
-  MiddlewareFn,
+  type ResolverData,
   UseMiddleware,
-  Arg,
-  MiddlewareInterface,
-  NextFn,
-  ResolverData,
-} from "../../src";
-import { createMethodDecorator } from "../../src/decorators/createMethodDecorator";
+  buildSchema,
+} from "type-graphql";
+import { createMethodDecorator } from "@/decorators/createMethodDecorator";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("Middlewares", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
   let middlewareLogs: string[] = [];
-  const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+  const sleep = (time: number) =>
+    new Promise(resolve => {
+      setTimeout(resolve, time);
+    });
 
-  const resolverMiddleware1: MiddlewareFn = async ({}, next) => {
+  const resolverMiddleware1: MiddlewareFn = async (_, next) => {
     middlewareLogs.push("resolver middleware1 before");
     const result = await next();
     middlewareLogs.push("resolver middleware1 after");
     return result;
   };
 
-  const resolverMiddleware2: MiddlewareFn = async ({}, next) => {
+  const resolverMiddleware2: MiddlewareFn = async (_, next) => {
     middlewareLogs.push("resolver middleware2 before");
     const result = await next();
     middlewareLogs.push("resolver middleware2 after");
@@ -49,72 +47,74 @@ describe("Middlewares", () => {
   beforeAll(async () => {
     getMetadataStorage().clear();
 
-    const middleware1: MiddlewareFn = async ({}, next) => {
+    const middleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware1 before");
       const result = await next();
       middlewareLogs.push("middleware1 after");
       return result;
     };
-    const middleware2: MiddlewareFn = async ({}, next) => {
+    const middleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware2 before");
       const result = await next();
       middlewareLogs.push("middleware2 after");
       return result;
     };
-    const middleware3: MiddlewareFn = async ({}, next) => {
+    const middleware3: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("middleware3 before");
       const result = await next();
       middlewareLogs.push("middleware3 after");
       return result;
     };
-    const interceptMiddleware: MiddlewareFn = async ({}, next) => {
+    const interceptMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
       return "interceptMiddleware";
     };
-    const returnUndefinedMiddleware: MiddlewareFn = async ({}, next) => {
+    const returnUndefinedMiddleware: MiddlewareFn = async (_, next) => {
       const result = await next();
       middlewareLogs.push(result);
     };
-    const errorCatchMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorCatchMiddleware: MiddlewareFn = async (_, next) => {
       try {
-        return await next();
+        const result = await next();
+        return result;
       } catch (err) {
-        middlewareLogs.push(err.message);
+        middlewareLogs.push((err as Error).message);
         return "errorCatchMiddleware";
       }
     };
-    const errorThrowAfterMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowAfterMiddleware: MiddlewareFn = async (_, next) => {
       await next();
       middlewareLogs.push("errorThrowAfterMiddleware");
       throw new Error("errorThrowAfterMiddleware");
     };
-    const errorThrowMiddleware: MiddlewareFn = async ({}, next) => {
+    const errorThrowMiddleware: MiddlewareFn = async _ => {
       middlewareLogs.push("errorThrowMiddleware");
       throw new Error("errorThrowMiddleware");
     };
-    const fieldResolverMiddleware: MiddlewareFn = async ({}, next) => {
+    const fieldResolverMiddleware: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("fieldResolverMiddlewareBefore");
       const result = await next();
       middlewareLogs.push("fieldResolverMiddlewareAfter");
       return result;
     };
-    const doubleNextMiddleware: MiddlewareFn = async ({}, next) => {
+    const doubleNextMiddleware: MiddlewareFn = async (_, next) => {
       const result1 = await next();
-      const result2 = await next();
+      await next();
       return result1;
     };
 
     class ClassMiddleware implements MiddlewareInterface {
       private logName = "ClassMiddleware";
-      async use(action: ResolverData, next: NextFn) {
+
+      async use(_: ResolverData, next: NextFn) {
         middlewareLogs.push(`${this.logName} before`);
         const result = await next();
         middlewareLogs.push(`${this.logName} after`);
         return result;
       }
     }
-    const CustomMethodDecorator = createMethodDecorator(async (resolverData, next) => {
+    const CustomMethodDecorator = createMethodDecorator(async (_, next) => {
       middlewareLogs.push("CustomMethodDecorator");
       return next();
     });
@@ -122,17 +122,17 @@ describe("Middlewares", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
       @Field()
-      resolverField: string;
+      resolverField!: string;
 
       @Field()
       @UseMiddleware(fieldResolverMiddleware)
-      middlewareField: string;
+      middlewareField!: string;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): boolean {
@@ -147,7 +147,7 @@ describe("Middlewares", () => {
         } as SampleObject;
       }
 
-      @Query(returns => String)
+      @Query(() => String)
       @UseMiddleware(middleware1, middleware2, middleware3)
       async middlewareOrderQuery() {
         middlewareLogs.push("middlewareOrderQuery");
@@ -158,7 +158,7 @@ describe("Middlewares", () => {
       @UseMiddleware(middleware1)
       @UseMiddleware(middleware2)
       @UseMiddleware(middleware3)
-      @Query(returns => String)
+      @Query(() => String)
       async multipleMiddlewareDecoratorsQuery() {
         middlewareLogs.push("multipleMiddlewareDecoratorsQuery");
         return "multipleMiddlewareDecoratorsQueryResult";
@@ -250,9 +250,9 @@ describe("Middlewares", () => {
       normalQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.normalQuery).toEqual(true);
+    expect((data as any).normalQuery).toEqual(true);
   });
 
   it("should correctly call middlewares in order", async () => {
@@ -260,9 +260,9 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
+    expect((data as any).middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
 
     expect(middlewareLogs).toHaveLength(7);
     expect(middlewareLogs[0]).toEqual("middleware1 before");
@@ -285,7 +285,7 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data } = await graphql({ schema: localSchema, source: query });
 
     expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
 
@@ -308,9 +308,9 @@ describe("Middlewares", () => {
       multipleMiddlewareDecoratorsQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.multipleMiddlewareDecoratorsQuery).toEqual(
+    expect((data as any).multipleMiddlewareDecoratorsQuery).toEqual(
       "multipleMiddlewareDecoratorsQueryResult",
     );
 
@@ -342,7 +342,7 @@ describe("Middlewares", () => {
       normalQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data } = await graphql({ schema: localSchema, source: query });
 
     expect(data!.normalQuery).toEqual(true);
 
@@ -359,9 +359,9 @@ describe("Middlewares", () => {
       middlewareInterceptQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareInterceptQuery).toEqual("interceptMiddleware");
+    expect((data as any).middlewareInterceptQuery).toEqual("interceptMiddleware");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("middlewareInterceptQuery");
     expect(middlewareLogs[1]).toEqual("middlewareInterceptQueryResult");
@@ -372,9 +372,11 @@ describe("Middlewares", () => {
       middlewareReturnUndefinedQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareReturnUndefinedQuery).toEqual("middlewareReturnUndefinedQueryResult");
+    expect((data as any).middlewareReturnUndefinedQuery).toEqual(
+      "middlewareReturnUndefinedQueryResult",
+    );
     expect(middlewareLogs).toHaveLength(4);
     expect(middlewareLogs[0]).toEqual("middlewareReturnUndefinedQuery");
     expect(middlewareLogs[1]).toEqual("middlewareReturnUndefinedQueryResult");
@@ -387,9 +389,9 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: true)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareErrorCatchQuery).toEqual("errorCatchMiddleware");
+    expect((data as any).middlewareErrorCatchQuery).toEqual("errorCatchMiddleware");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("middlewareErrorCatchQuery");
     expect(middlewareLogs[1]).toEqual("middlewareErrorCatchQueryError");
@@ -400,9 +402,9 @@ describe("Middlewares", () => {
       middlewareErrorCatchQuery(throwError: false)
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.middlewareErrorCatchQuery).toEqual("middlewareErrorCatchQueryResult");
+    expect((data as any).middlewareErrorCatchQuery).toEqual("middlewareErrorCatchQueryResult");
   });
 
   it("should propagate thrown error up to graphql handler", async () => {
@@ -410,7 +412,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorAfterQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowAfterMiddleware");
@@ -424,7 +426,7 @@ describe("Middlewares", () => {
       middlewareThrowErrorQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("errorThrowMiddleware");
@@ -439,9 +441,9 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.sampleObjectQuery.resolverField).toEqual("resolverField");
+    expect((data as any).sampleObjectQuery.resolverField).toEqual("resolverField");
     expect(middlewareLogs).toHaveLength(3);
     expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
     expect(middlewareLogs[1]).toEqual("resolverField");
@@ -453,9 +455,9 @@ describe("Middlewares", () => {
       classMiddlewareQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
+    expect((data as any).classMiddlewareQuery).toEqual("classMiddlewareQueryResult");
     expect(middlewareLogs).toHaveLength(3);
     expect(middlewareLogs[0]).toEqual("ClassMiddleware before");
     expect(middlewareLogs[1]).toEqual("classMiddlewareQuery");
@@ -467,9 +469,9 @@ describe("Middlewares", () => {
       customMethodDecoratorQuery
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
+    expect((data as any).customMethodDecoratorQuery).toEqual("customMethodDecoratorQuery");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("CustomMethodDecorator");
     expect(middlewareLogs[1]).toEqual("customMethodDecoratorQuery");
@@ -482,9 +484,9 @@ describe("Middlewares", () => {
       }
     }`;
 
-    const { data } = await graphql(schema, query);
+    const { data } = await graphql({ schema, source: query });
 
-    expect(data!.sampleObjectQuery.middlewareField).toEqual("middlewareField");
+    expect((data as any).sampleObjectQuery.middlewareField).toEqual("middlewareField");
     expect(middlewareLogs).toHaveLength(2);
     expect(middlewareLogs[0]).toEqual("fieldResolverMiddlewareBefore");
     expect(middlewareLogs[1]).toEqual("fieldResolverMiddlewareAfter");
@@ -495,20 +497,20 @@ describe("Middlewares", () => {
       doubleNextMiddlewareQuery
     }`;
 
-    const { errors } = await graphql(schema, query);
+    const { errors } = await graphql({ schema, source: query });
 
     expect(errors).toHaveLength(1);
     expect(errors![0].message).toEqual("next() called multiple times");
   });
 
   it("should correctly call middlewares in the order of global, resolver, field", async () => {
-    const globalMiddleware1: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware1 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware1 after");
       return result;
     };
-    const globalMiddleware2: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware2 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware2 after");
@@ -522,9 +524,9 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data } = await graphql({ schema: localSchema, source: query });
 
-    expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
+    expect((data as any).middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
     expect(middlewareLogs).toHaveLength(11);
     expect(middlewareLogs[0]).toEqual("globalMiddleware1 before");
     expect(middlewareLogs[1]).toEqual("globalMiddleware2 before");
@@ -541,13 +543,13 @@ describe("Middlewares", () => {
 
   it("should correctly call global middlewares before local ones", async () => {
     UseMiddleware(resolverMiddleware1, resolverMiddleware2)(sampleResolver);
-    const globalMiddleware1: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware1: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware1 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware1 after");
       return result;
     };
-    const globalMiddleware2: MiddlewareFn = async ({}, next) => {
+    const globalMiddleware2: MiddlewareFn = async (_, next) => {
       middlewareLogs.push("globalMiddleware2 before");
       const result = await next();
       middlewareLogs.push("globalMiddleware2 after");
@@ -563,7 +565,7 @@ describe("Middlewares", () => {
       middlewareOrderQuery
     }`;
 
-    const { data } = await graphql(localSchema, query);
+    const { data } = await graphql({ schema: localSchema, source: query });
 
     expect(data!.middlewareOrderQuery).toEqual("middlewareOrderQueryResult");
 

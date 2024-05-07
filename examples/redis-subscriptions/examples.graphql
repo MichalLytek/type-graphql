@@ -1,0 +1,27 @@
+query FirstRecipe {
+  recipe(id: "1") {
+    title
+    description
+    comments {
+      nickname
+      content
+      date
+    }
+  }
+}
+
+mutation AddCommentToRecipe1 {
+  addNewComment(comment: { recipeId: "1", nickname: "MichalLytek", content: "Nice one!" })
+}
+
+mutation AddCommentToRecipe2 {
+  addNewComment(comment: { recipeId: "2", nickname: "MichalLytek", content: "Nice two!" })
+}
+
+subscription NewCommentsForRecipe2 {
+  newComments(recipeId: "2") {
+    nickname
+    content
+    date
+  }
+}

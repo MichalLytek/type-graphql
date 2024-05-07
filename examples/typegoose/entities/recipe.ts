@@ -1,31 +1,30 @@
 import { prop as Property, getModelForClass } from "@typegoose/typegoose";
-import { ObjectId } from "mongodb";
-import { Field, ObjectType } from "../../../src";
-
-import { Rate } from "./rate";
+import { Types } from "mongoose";
+import { Field, ObjectType } from "type-graphql";
+import { Rating } from "./rating";
 import { User } from "./user";
 import { Ref } from "../types";
 
 @ObjectType()
 export class Recipe {
   @Field()
-  readonly _id: ObjectId;
+  readonly id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   @Property()
   description?: string;
 
-  @Field(type => [Rate])
-  @Property({ type: () => Rate, default: [] })
-  ratings: Rate[];
+  @Field(_type => [Rating])
+  @Property({ type: () => Rating, default: [] })
+  ratings!: Rating[];
 
-  @Field(type => User)
+  @Field(_type => User)
   @Property({ ref: User, required: true })
-  author: Ref<User>;
+  author!: Ref<User>;
 }
 
 export const RecipeModel = getModelForClass(Recipe);

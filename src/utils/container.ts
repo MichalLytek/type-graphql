@@ -1,6 +1,7 @@
-import { ResolverData } from "../interfaces";
+/* eslint-disable max-classes-per-file */
+import { type ResolverData } from "@/typings";
 
-export type SupportedType<T> = { new (...args: any[]): T } | Function;
+export type SupportedType<T> = (new (...args: any[]) => T) | Function;
 
 export interface ContainerType {
   get(someClass: any, resolverData: ResolverData<any>): any | Promise<any>;
@@ -31,7 +32,9 @@ class DefaultContainer {
 
 export class IOCContainer {
   private container: ContainerType | undefined;
+
   private containerGetter: ContainerGetter<any> | undefined;
+
   private defaultContainer = new DefaultContainer();
 
   constructor(iocContainerOrContainerGetter?: ContainerType | ContainerGetter<any>) {

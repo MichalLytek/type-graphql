@@ -1,14 +1,13 @@
 import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLNonNull,
   GraphQLBoolean,
   GraphQLInt,
   GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
 } from "graphql";
-
-import { runBenchmark, ARRAY_ITEMS } from "../run";
+import { ARRAY_ITEMS, runBenchmark } from "../run";
 
 const SampleObjectType: GraphQLObjectType = new GraphQLObjectType({
   name: "SampleObject",

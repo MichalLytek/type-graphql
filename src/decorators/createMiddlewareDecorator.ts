@@ -1,8 +1,8 @@
+import { type MiddlewareFn } from "@/typings";
+import { type MethodPropClassDecorator } from "./types";
 import { UseMiddleware } from "./UseMiddleware";
-import { MiddlewareFn } from "../interfaces/Middleware";
-import { MethodPropClassDecorator } from "./types";
 
-export function createMiddlewareDecorator<TContextType = {}>(
+export function createMiddlewareDecorator<TContextType extends object = object>(
   resolver: MiddlewareFn<TContextType>,
 ): MethodPropClassDecorator {
   return UseMiddleware(resolver);

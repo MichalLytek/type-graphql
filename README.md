@@ -1,26 +1,29 @@
-![logo](https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/logo.png)
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable-next-line MD041 -->
+![logo](./images/logo.png)
+<!-- prettier-ignore-end -->
 
 # TypeGraphQL
 
-[![npm version](https://badge.fury.io/js/type-graphql.svg)](https://badge.fury.io/js/type-graphql)
-[![Build Status](https://img.shields.io/github/checks-status/MichalLytek/type-graphql/master)](https://github.com/MichalLytek/type-graphql/actions/workflows/main.yml?query=branch%3Amaster)
+[![release](https://github.com/MichalLytek/type-graphql/actions/workflows/release.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/release.yml)
+[![website](https://github.com/MichalLytek/type-graphql/actions/workflows/website.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/website.yml)
+[![codeql](https://github.com/MichalLytek/type-graphql/actions/workflows/codeql.yml/badge.svg)](https://github.com/MichalLytek/type-graphql/actions/workflows/codeql.yml)
+[![discord](https://img.shields.io/discord/1195751245386875040?logo=discord&color=%237289da)](https://discord.gg/cWnBAQcbg2)
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
-![dependencies](https://img.shields.io/david/MichalLytek/type-graphql)
-[![open collective](https://opencollective.com/typegraphql/tiers/badge.svg)](<(https://opencollective.com/typegraphql)>)
-[![install size](https://packagephobia.now.sh/badge?p=type-graphql)](https://packagephobia.now.sh/result?p=type-graphql)
+[![npm](https://img.shields.io/npm/v/type-graphql?logo=npm&color=%23CC3534)](https://www.npmjs.com/package/type-graphql)
+[![open collective](https://opencollective.com/typegraphql/tiers/badge.svg)](https://opencollective.com/typegraphql)
 
-Create GraphQL schema and resolvers with TypeScript, using classes and decorators!
+Create [GraphQL](https://graphql.org) schema and resolvers with [TypeScript](https://www.typescriptlang.org), using classes and decorators!
 
-[**https://typegraphql.com/**](https://typegraphql.com/)
-<br>
-<br>
-[![](https://opencollective.com/typegraphql/donate/button.png?color=white)](https://opencollective.com/typegraphql)
+**<https://typegraphql.com>**
+
+[![donate](https://opencollective.com/typegraphql/donate/button.png?color=black)](https://opencollective.com/typegraphql)
 
 ## Introduction
 
 **TypeGraphQL** makes developing GraphQL APIs an enjoyable process, i.e. by defining the schema using only classes and a bit of decorator magic.
 
-So, to create types like object type or input type, we use a kind of DTO classes.
+So, to create types like object type or input type, we use a kind of DTO class.
 For example, to declare `Recipe` type we simply create a class and annotate it with decorators:
 
 ```ts
@@ -51,7 +54,7 @@ type Recipe {
 }
 ```
 
-Then we can create queries, mutations and field resolvers. For this purpose we use controller-like classes that are called "resolvers" by convention. We can also use awesome features like dependency injection and auth guards:
+Then we can create queries, mutations and field resolvers. For this purpose, we use controller-like classes that are called "resolvers" by convention. We can also use awesome features like dependency injection and auth guards:
 
 ```ts
 @Resolver(Recipe)
@@ -77,7 +80,7 @@ class RecipeResolver {
 }
 ```
 
-And in this simple way we get this part of the schema in SDL:
+And in this simple way, we get this part of the schema in SDL:
 
 ```graphql
 type Query {
@@ -91,11 +94,11 @@ type Mutation {
 
 ## Motivation
 
-We all know that GraphQL is great and solves many problems we have with REST APIs, like overfetching and underfetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of a pain. Why? Let's take a look at the steps we usually have to take.
+We all know that GraphQL is great and solves many problems we have with REST APIs, like Over-Fetching and Under-Fetching. But developing a GraphQL API in Node.js with TypeScript is sometimes a bit of a pain. Why? Let's take a look at the steps we usually have to take.
 
-First, we create all the GraphQL types in `schema.gql` using SDL. Then we create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represent our db entities. Then we start to write resolvers for our queries, mutations and fields, but this forces us to first create TS interfaces for all arguments, inputs, and even object types.
+First, we create all the GraphQL types in `schema.graphql` using SDL. Then we create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represent our DB entities. Then we start to write resolvers for our queries, mutations and fields, but this forces us to first create TS interfaces for all arguments, inputs, and even object types.
 
-Only then can we actually implement the resolvers using weird generic signatures and manually performing common tasks, like validation, authorization and loading dependencies:
+Only then can we implement the resolvers using weird generic signatures and manually performing common tasks, like validation, authorization and loading dependencies:
 
 ```ts
 export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> = async (
@@ -116,15 +119,15 @@ export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesA
 };
 ```
 
-The biggest problem is redundancy in our codebase, which makes it difficult to keep things in sync. To add a new field to our entity, we have to jump through all the files - modify an entity class, the schema, as well as the interface. The same goes for inputs or arguments. It's easy to forget to update one piece or make a mistake with a single type. Also, what if we've made a typo in field name? The rename feature (F2) won't work correctly.
+The biggest problem is redundancy in our codebase, which makes it difficult to keep things in sync. To add a new field to our entity, we have to jump through all the files - modify an entity class, the schema, as well as the interface. The same goes for inputs or arguments. It's easy to forget to update one piece or make a mistake with a single type. Also, what if we've made a typo in the field name? The rename feature (F2) won't work correctly.
 
-Tools like [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) or [graphqlgen](https://github.com/prisma/graphqlgen) only solve the first part - they generate the corresponding interfaces (and resolvers skeletons) for our GraphQL schema but they don't fix the schema <--> models redundancy and developer experience (F2 rename won't work, you have to remember about the codegen watch task in background, etc.), as well as common tasks like validation, authorization, etc.
+Tools like [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) or [graphqlgen](https://github.com/prisma/graphqlgen) only solve the first part - they generate the corresponding interfaces (and resolvers skeletons) for our GraphQL schema but they don't fix the schema <--> models redundancy and developer experience (F2 rename won't work, you have to remember about the codegen watch task in the background, etc.), as well as common tasks like validation, authorization, etc.
 
 **TypeGraphQL** comes to address these issues, based on experience from a few years of developing GraphQL APIs in TypeScript. The main idea is to have only one source of truth by defining the schema using classes and some help from decorators. Additional features like dependency injection, validation and auth guards help with common tasks that normally we would have to handle ourselves.
 
 ## Documentation
 
-The documentation, installation guide, detailed description of the API and all of its features is [available on the website](https://typegraphql.com/).
+The documentation, installation guide, and detailed description of the API and all of its features are [available on the website](https://typegraphql.com).
 
 ### Getting started
 
@@ -136,59 +139,70 @@ If you prefer video tutorials, you can watch [Ben Awad](https://github.com/benaw
 
 ### Examples
 
-You can also check the [examples folder](https://github.com/MichalLytek/type-graphql/tree/master/examples) in this repository for more examples of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
+You can also check the [examples folder](./examples) in this repository for more examples of usage: simple fields resolvers, DI Container support, TypeORM integration, automatic validation, etc.
 
-The [Tests folder](https://github.com/MichalLytek/type-graphql/tree/master/tests) might also give you some tips how to get various things done.
+The [Tests folder](./tests) might also give you some tips on how to get various things done.
+
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
 
 ## The future
 
-The currently released version is a stable 1.0.0 release. It is well tested (95% coverage, 428 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.
+The currently released version is a stable 1.0.0 release. It is well-tested (97% coverage, ~500 test cases) and has most of the planned features already implemented. Plenty of companies and independent developers are using it in production with success.
 
-However, there are also plans for a lot more features like better TypeORM, Prisma and dataloader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on project board](https://github.com/MichalLytek/type-graphql/projects/1).
+However, there are also plans for a lot more features like better TypeORM, Prisma and DataLoader integration, custom decorators and metadata annotations support - [the full list of ideas](https://github.com/MichalLytek/type-graphql/issues?q=is%3Aissue+is%3Aopen+label%3A"Enhancement+%3Anew%3A") is available on the GitHub repo. You can also keep track of [development's progress on the project board](https://github.com/MichalLytek/type-graphql/projects/1).
 
 If you have any interesting feature requests, feel free to open an issue on GitHub so we can discuss that!
 
 ## Support
 
-TypeGraphQL is an MIT-licensed open source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends.
+**TypeGraphQL** is an MIT-licensed open-source project. This framework is a result of the tremendous amount of work - sleepless nights, busy evenings and weekends.
 
-It doesn't have a large company that sits behind - its ongoing development is possible only thanks to the support by the community.
+It doesn't have a large company that sits behind it - its ongoing development is possible only thanks to the support of the community.
 
-[![](https://opencollective.com/typegraphql/donate/button.png?color=blue)](https://opencollective.com/typegraphql)
+[![donate](https://opencollective.com/typegraphql/donate/button.png?color=blue)](https://opencollective.com/typegraphql)
 
 ### Gold Sponsors 🏆
-
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/ecad_new.png" width="300">](https://www.ecadlabs.com/) |
-| :-------------------------------------------------------------------------------------------------------------------------------------: |
-|                                               [**ECAD Labs**](https://www.ecadlabs.com/)                                                |
 
 > Please ask your company to support this open source project by [becoming a gold sponsor](https://opencollective.com/typegraphql/contribute/gold-sponsors-8340) and getting a premium technical support from our core contributors.
 
 ### Silver Sponsors 🥈
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/gorrion.png" width="250">](https://gorrion.io/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lovd.png" width="150">](https://www.lovd.com/) |
-| :------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
-|                                        [**Gorrion Software House**](https://gorrion.io/)                                         |                                                [**Lovd**](https://www.lovd.com/)                                                |
+> Please ask your company to support this open source project by [becoming a silver sponsor](https://opencollective.com/typegraphql/contribute/silver-sponsors-14804).
 
 ### Bronze Sponsors 🥉
 
-| [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/live-graphics-system.png" width="60">](https://www.ligrsystems.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/lifex.png" width="65">](https://www.joinlifex.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/swiss-mentor.png" width="125">](https://www.swissmentor.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/admin-remix.png" width="90">](https://adminremix.com) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/flatirons.png" width="55">](https://flatironsdevelopment.com/) | [<img src="https://raw.githubusercontent.com/MichalLytek/type-graphql/master/img/instinctools.svg" width="110">](https://instinctools.com/manufacturing/) |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                               [**Live Graphic Systems**](https://www.ligrsystems.com/)                                                |                                             [**LifeX Aps**](https://www.joinlifex.com/)                                              |                                                [**SwissMentor**](https://www.swissmentor.com/)                                                 |                                                [**AdminRemix**](https://adminremix.com)                                                |                                         [**Flatirons Development**](https://flatironsdevelopment.com/)                                          |                                               [**\*instinctools**](https://instinctools.com/manufacturing/)                                               |
+<!-- markdownlint-disable MD033 -->
 
-[![Become a Sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
+| [<img src="./images/live-graphics-system.png" width="55" alt="live graphic systems" />](https://www.ligrsystems.com) | [<img src="./images/lifex.png" width="60" alt="lifeX aps" />](https://www.joinlifex.com) | [<img src="./images/instinctools.svg" width="100" alt="instinctools" />](https://instinctools.com/manufacturing) | [<img src="./images/vps-server.png" width="125" alt="vps server" />](https://www.vpsserver.com) |
+| :------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------: |
+|                               [**Live Graphic Systems**](https://www.ligrsystems.com)                                |                       [**LifeX Aps**](https://www.joinlifex.com/)                        |                            [**instinctools**](https://instinctools.com/manufacturing)                            |                           [**VPS Server**](https://www.vpsserver.com)                           |
+
+| [<img src="./images/nongamstopbets.png" width="50" alt="NonGamstopBets" />](https://www.nongamstopbets.com/casinos-not-on-gamstop/) | [<img src="./images/casinodeps.svg" width="80" alt="CasinoDeps.co.nz" />](https://casinodeps.co.nz/1-dollar-casinos/) | [<img src="./images/non-stop-casino.png" width="60" alt="Non Stop Casino" />](https://uk.nonstopcasino.org/non-gamstop-casinos/) | [<img src="./images/sidesmedia.png" width="60" alt="SidesMedia" />](https://sidesmedia.com/) |
+| :---------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: |
+|                            [**NonGamstopBets**](https://www.nongamstopbets.com/casinos-not-on-gamstop/)                             |                             [**CasinoDeps**](https://casinodeps.co.nz/1-dollar-casinos/)                              |                             [**Non Stop Casino**](https://uk.nonstopcasino.org/non-gamstop-casinos/)                             |                          [**SidesMedia**](https://sidesmedia.com/)                           |
+
+<!-- markdownlint-enable MD033 -->
+
+[![become a sponsor](https://opencollective.com/static/images/become_sponsor.svg)](https://opencollective.com/typegraphql)
 
 ### Members 💪
 
-[![](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
+[![Members](https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false)](https://opencollective.com/typegraphql#contributors)
 
-### Backers ☕
+### GitHub Sponsors
 
-[![](https://opencollective.com/typegraphql/tiers/backers.svg?avatarHeight=48&width=890&button=false)](https://opencollective.com/typegraphql#contributors)
+[![GitHub Sponsors](./images/github-sponsors.svg)](https://github.com/sponsors/TypeGraphQL)
+
+## Community
+
+- Visit the [Official Website](https://typegraphql.com)
+- Chat on [Discord](https://discord.gg/cWnBAQcbg2)
 
 ## Want to help?
 
-Want to file a bug, contribute some code, or improve documentation? Great! Please read our
-guidelines for [contributing][contributing] and then check out one of our [help wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).
-
-[contributing]: https://github.com/MichalLytek/type-graphql/blob/master/CONTRIBUTING.md
+Want to file a bug, contribute some code, or improve the documentation? Great! Please read our
+guidelines for [CONTRIBUTING](./CONTRIBUTING.md) and then check out one of our [help-wanted issues](https://github.com/MichalLytek/type-graphql/labels/Help%20Wanted%20%3Asos%3A).

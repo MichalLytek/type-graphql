@@ -1,97 +1,129 @@
+/* eslint-disable no-param-reassign */
+import { NoExplicitTypeError } from "@/errors";
+import { type SchemaGeneratorOptions } from "@/schema/schema-generator";
+import { type ClassType } from "@/typings";
 import {
-  ResolverMetadata,
-  ClassMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  FieldMetadata,
-  ParamMetadata,
-  FieldResolverMetadata,
-  AuthorizedMetadata,
-  BaseResolverMetadata,
-  EnumMetadata,
-  UnionMetadata,
-  UnionMetadataWithSymbol,
-  ResolverClassMetadata,
-  SubscriptionResolverMetadata,
-  MiddlewareMetadata,
-  ExtensionsMetadata,
-  AuthorizedClassMetadata,
-  ResolverMiddlewareMetadata,
+  type AuthorizedClassMetadata,
+  type AuthorizedMetadata,
+  type BaseResolverMetadata,
+  type ClassMetadata,
+  type EnumMetadata,
+  type ExtensionsClassMetadata,
+  type ExtensionsFieldMetadata,
+  type ExtensionsMetadata,
+  type FieldMetadata,
+  type FieldResolverMetadata,
+  type MiddlewareMetadata,
+  type ParamMetadata,
+  type ResolverClassMetadata,
+  type ResolverMetadata,
+  type ResolverMiddlewareMetadata,
+  type SubscriptionResolverMetadata,
+  type UnionMetadata,
+  type UnionMetadataWithSymbol,
 } from "./definitions";
-import { ClassType } from "../interfaces";
-import { NoExplicitTypeError } from "../errors";
 import {
-  mapSuperResolverHandlers,
+  type DirectiveArgumentMetadata,
+  type DirectiveClassMetadata,
+  type DirectiveFieldMetadata,
+} from "./definitions/directive-metadata";
+import { type InterfaceClassMetadata } from "./definitions/interface-class-metadata";
+import { type ObjectClassMetadata } from "./definitions/object-class-metadata";
+import {
   mapMiddlewareMetadataToArray,
   mapSuperFieldResolverHandlers,
-  ensureReflectMetadataExists,
+  mapSuperResolverHandlers,
 } from "./utils";
-import { ObjectClassMetadata } from "./definitions/object-class-metdata";
-import { InterfaceClassMetadata } from "./definitions/interface-class-metadata";
-import { DirectiveClassMetadata, DirectiveFieldMetadata } from "./definitions/directive-metadata";
-import { SchemaGeneratorOptions } from "../schema/schema-generator";
 
 export class MetadataStorage {
   queries: ResolverMetadata[] = [];
-  mutations: ResolverMetadata[] = [];
-  subscriptions: SubscriptionResolverMetadata[] = [];
-  fieldResolvers: FieldResolverMetadata[] = [];
-  objectTypes: ObjectClassMetadata[] = [];
-  inputTypes: ClassMetadata[] = [];
-  argumentTypes: ClassMetadata[] = [];
-  interfaceTypes: InterfaceClassMetadata[] = [];
-  authorizedFields: AuthorizedMetadata[] = [];
-  authorizedResolver: AuthorizedClassMetadata[] = [];
-  scopeFields: AuthorizedMetadata[] = [];
-  enums: EnumMetadata[] = [];
-  unions: UnionMetadataWithSymbol[] = [];
-  middlewares: MiddlewareMetadata[] = [];
-  resolverMiddlewares: ResolverMiddlewareMetadata[] = [];
-  classDirectives: DirectiveClassMetadata[] = [];
-  fieldDirectives: DirectiveFieldMetadata[] = [];
-  classExtensions: ExtensionsClassMetadata[] = [];
-  fieldExtensions: ExtensionsFieldMetadata[] = [];
-  resolverClasses: ResolverClassMetadata[] = [];
-  fields: FieldMetadata[] = [];
-  params: ParamMetadata[] = [];
 
-  constructor() {
-    ensureReflectMetadataExists();
-  }
+  mutations: ResolverMetadata[] = [];
+
+  subscriptions: SubscriptionResolverMetadata[] = [];
+
+  fieldResolvers: FieldResolverMetadata[] = [];
+
+  objectTypes: ObjectClassMetadata[] = [];
+
+  inputTypes: ClassMetadata[] = [];
+
+  argumentTypes: ClassMetadata[] = [];
+
+  interfaceTypes: InterfaceClassMetadata[] = [];
+
+  authorizedFields: AuthorizedMetadata[] = [];
+
+  authorizedResolver: AuthorizedClassMetadata[] = [];
+
+  enums: EnumMetadata[] = [];
+
+  unions: UnionMetadataWithSymbol[] = [];
+
+  middlewares: MiddlewareMetadata[] = [];
+
+  resolverMiddlewares: ResolverMiddlewareMetadata[] = [];
+
+  classDirectives: DirectiveClassMetadata[] = [];
+
+  fieldDirectives: DirectiveFieldMetadata[] = [];
+
+  argumentDirectives: DirectiveArgumentMetadata[] = [];
+
+  classExtensions: ExtensionsClassMetadata[] = [];
+
+  fieldExtensions: ExtensionsFieldMetadata[] = [];
+
+  resolverClasses: ResolverClassMetadata[] = [];
+
+  fields: FieldMetadata[] = [];
+
+  params: ParamMetadata[] = [];
 
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
   }
+
   collectMutationHandlerMetadata(definition: ResolverMetadata) {
     this.mutations.push(definition);
   }
+
   collectSubscriptionHandlerMetadata(definition: SubscriptionResolverMetadata) {
     this.subscriptions.push(definition);
   }
+
   collectFieldResolverMetadata(definition: FieldResolverMetadata) {
     this.fieldResolvers.push(definition);
   }
+
   collectObjectMetadata(definition: ObjectClassMetadata) {
     this.objectTypes.push(definition);
   }
+
   collectInputMetadata(definition: ClassMetadata) {
     this.inputTypes.push(definition);
   }
+
   collectArgsMetadata(definition: ClassMetadata) {
     this.argumentTypes.push(definition);
   }
+
   collectInterfaceMetadata(definition: InterfaceClassMetadata) {
     this.interfaceTypes.push(definition);
   }
+
   collectAuthorizedFieldMetadata(definition: AuthorizedMetadata) {
     this.authorizedFields.push(definition);
   }
+
   collectAuthorizedResolverMetadata(definition: AuthorizedClassMetadata) {
     this.authorizedResolver.push(definition);
   }
+
   collectEnumMetadata(definition: EnumMetadata) {
     this.enums.push(definition);
   }
+
   collectUnionMetadata(definition: UnionMetadata) {
     const unionSymbol = Symbol(definition.name);
     this.unions.push({
@@ -100,6 +132,7 @@ export class MetadataStorage {
     });
     return unionSymbol;
   }
+
   collectMiddlewareMetadata(definition: MiddlewareMetadata) {
     this.middlewares.push(definition);
   }
@@ -111,9 +144,11 @@ export class MetadataStorage {
   collectResolverClassMetadata(definition: ResolverClassMetadata) {
     this.resolverClasses.push(definition);
   }
+
   collectClassFieldMetadata(definition: FieldMetadata) {
     this.fields.push(definition);
   }
+
   collectHandlerParamMetadata(definition: ParamMetadata) {
     this.params.push(definition);
   }
@@ -121,13 +156,19 @@ export class MetadataStorage {
   collectDirectiveClassMetadata(definition: DirectiveClassMetadata) {
     this.classDirectives.push(definition);
   }
+
   collectDirectiveFieldMetadata(definition: DirectiveFieldMetadata) {
     this.fieldDirectives.push(definition);
+  }
+
+  collectDirectiveArgumentMetadata(definition: DirectiveArgumentMetadata) {
+    this.argumentDirectives.push(definition);
   }
 
   collectExtensionsClassMetadata(definition: ExtensionsClassMetadata) {
     this.classExtensions.push(definition);
   }
+
   collectExtensionsFieldMetadata(definition: ExtensionsFieldMetadata) {
     this.fieldExtensions.push(definition);
   }
@@ -135,6 +176,7 @@ export class MetadataStorage {
   build(options: SchemaGeneratorOptions) {
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
+    this.argumentDirectives.reverse();
     this.classExtensions.reverse();
     this.fieldExtensions.reverse();
 
@@ -169,6 +211,7 @@ export class MetadataStorage {
     this.resolverMiddlewares = [];
     this.classDirectives = [];
     this.fieldDirectives = [];
+    this.argumentDirectives = [];
     this.classExtensions = [];
     this.fieldExtensions = [];
 
@@ -270,12 +313,16 @@ export class MetadataStorage {
           );
         }
 
-        const typeField = typeMetadata.fields!.find(fieldDef => fieldDef.name === def.methodName)!;
+        const typeField = typeMetadata.fields!.find(
+          fieldDef => fieldDef.schemaName === def.schemaName,
+        )!;
         if (!typeField) {
           const shouldCollectFieldMetadata =
             !options.resolvers ||
             options.resolvers.some(
-              resolverCls => resolverCls === def.target || def.target.isPrototypeOf(resolverCls),
+              resolverCls =>
+                resolverCls === def.target ||
+                Object.prototype.isPrototypeOf.call(def.target, resolverCls),
             );
           if (!def.getType || !def.typeOptions) {
             throw new NoExplicitTypeError(def.target.name, def.methodName);
@@ -316,11 +363,11 @@ export class MetadataStorage {
 
   private buildExtendedResolversMetadata() {
     this.resolverClasses.forEach(def => {
-      const target = def.target;
-      let superResolver = Object.getPrototypeOf(target);
+      let superResolver = Object.getPrototypeOf(def.target);
 
       // copy and modify metadata of resolver from parent resolver class
       while (superResolver.prototype) {
+        // eslint-disable-next-line @typescript-eslint/no-loop-func
         const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
         if (superResolverMetadata) {
           this.queries = mapSuperResolverHandlers(this.queries, superResolver, def);
@@ -343,7 +390,7 @@ export class MetadataStorage {
         authField => authField.target === target && authField.fieldName === fieldName,
       ) ?? this.authorizedResolver.find(authScope => authScope.target === target);
     if (!authorizedField) {
-      return;
+      return undefined;
     }
     return authorizedField.roles;
   }
@@ -355,7 +402,7 @@ export class MetadataStorage {
     return storedExtensions
       .filter(
         entry =>
-          (entry.target === target || entry.target.isPrototypeOf(target)) &&
+          (entry.target === target || Object.prototype.isPrototypeOf.call(entry.target, target)) &&
           (!("fieldName" in entry) || entry.fieldName === fieldName),
       )
       .reduce((extensions, entry) => ({ ...extensions, ...entry.extensions }), {});

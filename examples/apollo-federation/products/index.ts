@@ -1,11 +1,12 @@
-import { ApolloServer } from "apollo-server";
-
-import ProductsResolver from "./resolver";
-import Product from "./product";
-import { resolveProductReference } from "./product-reference";
-import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { Product } from "./product";
+import { resolveProductReference } from "./product.reference";
+import { ProductsResolver } from "./resolver";
+import { buildFederatedSchema } from "../helpers";
 
 export async function listen(port: number): Promise<string> {
+  // Build TypeGraphQL executable schema
   const schema = await buildFederatedSchema(
     {
       resolvers: [ProductsResolver],
@@ -16,14 +17,11 @@ export async function listen(port: number): Promise<string> {
     },
   );
 
-  const server = new ApolloServer({
-    schema,
-    tracing: false,
-    playground: true,
-  });
+  // Create GraphQL server
+  const server = new ApolloServer({ schema });
 
-  const { url } = await server.listen({ port });
-
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port } });
   console.log(`Products service ready at ${url}`);
 
   return url;

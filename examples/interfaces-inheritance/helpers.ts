@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import crypto from "node:crypto";
 
 export function getId(): string {
   const randomNumber = Math.random();
@@ -9,6 +9,6 @@ export function getId(): string {
 
 export function calculateAge(birthday: Date) {
   const ageDiffMs = Date.now() - birthday.getTime();
-  const ageDate = new Date(ageDiffMs); // miliseconds from epoch
+  const ageDate = new Date(ageDiffMs); // Milliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }

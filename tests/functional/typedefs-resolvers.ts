@@ -1,51 +1,52 @@
+/* eslint "no-underscore-dangle": ["error", { "allow": ["__schema"] }] */
 import "reflect-metadata";
-import {
-  IntrospectionSchema,
-  graphql,
-  getIntrospectionQuery,
-  IntrospectionQuery,
-  IntrospectionInterfaceType,
-  TypeKind,
-  IntrospectionObjectType,
-  IntrospectionInputObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionEnumType,
-  IntrospectionUnionType,
-  IntrospectionScalarType,
-  execute,
-  GraphQLSchema,
-  subscribe,
-  ExecutionResult,
-} from "graphql";
-import { makeExecutableSchema } from "graphql-tools";
-import { PubSub } from "graphql-subscriptions";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { createPubSub } from "@graphql-yoga/subscription";
 import { MinLength } from "class-validator";
-import Container, { Service } from "typedi";
-import gql from "graphql-tag";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  Resolver,
+  type ExecutionResult,
+  type GraphQLSchema,
+  type IntrospectionEnumType,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionQuery,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
+  type IntrospectionUnionType,
+  TypeKind,
+  execute,
+  getIntrospectionQuery,
+  graphql,
+  subscribe,
+} from "graphql";
+import gql from "graphql-tag";
+import {
+  Arg,
+  Authorized,
+  Field,
+  FieldResolver,
+  InputType,
+  InterfaceType,
+  Mutation,
+  ObjectType,
+  type PubSub,
   Query,
+  Resolver,
+  type ResolverObject,
+  type ResolverOptions,
+  type ResolversMap,
+  Root,
+  Subscription,
+  UseMiddleware,
   buildTypeDefsAndResolvers,
   buildTypeDefsAndResolversSync,
-  InterfaceType,
-  ObjectType,
-  Field,
-  registerEnumType,
-  Subscription,
-  PubSubEngine,
-  Arg,
   createUnionType,
-  Mutation,
-  Root,
-  InputType,
-  Authorized,
-  UseMiddleware,
-  ResolversMap,
-  ResolverObject,
-  ResolverOptions,
-} from "../../src";
+  registerEnumType,
+} from "type-graphql";
+import Container, { Service } from "typedi";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("typeDefs and resolvers", () => {
   describe("buildTypeDefsAndResolvers", () => {
@@ -54,7 +55,7 @@ describe("typeDefs and resolvers", () => {
     let resolvers: ResolversMap;
     let schemaIntrospection: IntrospectionSchema;
     let schema: GraphQLSchema;
-    let pubSub: PubSubEngine;
+    let pubSub: PubSub;
     let inputValue: any;
     let enumValue: any;
     let middlewareLogs: string[];
@@ -77,38 +78,51 @@ describe("typeDefs and resolvers", () => {
       @InterfaceType()
       abstract class SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType1 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ description: "sampleType1StringFieldDescription" })
-        sampleType1StringField: string;
+        sampleType1StringField!: string;
       }
 
       @ObjectType({ implements: SampleInterface })
       class SampleType2 implements SampleInterface {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ deprecationReason: "sampleType2StringFieldDeprecation" })
-        sampleType2StringField: string;
+        sampleType2StringField!: string;
       }
 
       @ObjectType()
       class SampleType3 {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field()
-        sampleType3StringField: string;
+        sampleType3StringField!: string;
+      }
+
+      @ObjectType("SampleType__4")
+      class SampleType4 {
+        @Field()
+        sampleInterfaceStringField!: string;
+
+        @Field()
+        sampleType4StringField!: string;
       }
 
       @InputType()
       class SampleInput {
         @Field()
         @MinLength(10)
-        sampleInputStringField: string;
+        sampleInputStringField!: string;
+
         @Field()
         sampleInputDefaultStringField: string = "sampleInputDefaultStringField";
       }
@@ -141,7 +155,7 @@ describe("typeDefs and resolvers", () => {
           if ("sampleType3StringField" in value) {
             return "SampleType3";
           }
-          return;
+          return undefined;
         },
       });
 
@@ -195,7 +209,7 @@ describe("typeDefs and resolvers", () => {
           return type1;
         }
 
-        @Query(returns => SampleUnion)
+        @Query(() => SampleUnion)
         sampleUnionQuery(): typeof SampleUnion {
           const type3 = new SampleType3();
           type3.sampleInterfaceStringField = "sampleInterfaceStringField";
@@ -204,7 +218,7 @@ describe("typeDefs and resolvers", () => {
           return type3;
         }
 
-        @Query(returns => SampleResolveUnion)
+        @Query(() => SampleResolveUnion)
         sampleResolveUnionQuery(): typeof SampleResolveUnion {
           return {
             sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -212,17 +226,17 @@ describe("typeDefs and resolvers", () => {
           };
         }
 
-        @Query(returns => SampleNumberEnum)
+        @Query(() => SampleNumberEnum)
         sampleNumberEnumQuery(
-          @Arg("numberEnum", type => SampleNumberEnum) numberEnum: SampleNumberEnum,
+          @Arg("numberEnum", () => SampleNumberEnum) numberEnum: SampleNumberEnum,
         ): SampleNumberEnum {
           enumValue = numberEnum;
           return numberEnum;
         }
 
-        @Query(returns => SampleStringEnum)
+        @Query(() => SampleStringEnum)
         sampleStringEnumQuery(
-          @Arg("stringEnum", type => SampleStringEnum) stringEnum: SampleStringEnum,
+          @Arg("stringEnum", () => SampleStringEnum) stringEnum: SampleStringEnum,
         ): SampleStringEnum {
           enumValue = stringEnum;
           return stringEnum;
@@ -236,20 +250,39 @@ describe("typeDefs and resolvers", () => {
         }
       }
 
-      pubSub = new PubSub();
+      pubSub = createPubSub();
+
+      @Service()
+      @Resolver(() => SampleType4)
+      class SampleObjectTypeWithDoubleUnderscoreInNameResolver {
+        @FieldResolver(() => String)
+        sampleResolvedField(): string {
+          return "sampleResolvedField";
+        }
+
+        @Query(() => SampleType4)
+        async sampleQueryOnObjectTypeWithDoubleUnderScore(): Promise<SampleType4> {
+          const type4 = new SampleType4();
+          type4.sampleInterfaceStringField = "sampleInterfaceStringField";
+          type4.sampleType4StringField = "sampleType4StringField";
+          return type4;
+        }
+      }
+
       ({ typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-        resolvers: [SampleResolver],
+        resolvers: [SampleResolver, SampleObjectTypeWithDoubleUnderscoreInNameResolver],
         authChecker: () => false,
         pubSub,
         container: Container,
         orphanedTypes: [SampleType1],
+        validate: true,
       }));
       schema = makeExecutableSchema({
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
-      schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
+      const introspectionResult = await graphql({ schema, source: getIntrospectionQuery() });
+      schemaIntrospection = (introspectionResult.data as unknown as IntrospectionQuery).__schema;
     });
 
     it("should generate schema without errors", () => {
@@ -281,6 +314,10 @@ describe("typeDefs and resolvers", () => {
         const sampleType2 = schemaIntrospection.types.find(
           it => it.name === "SampleType2",
         ) as IntrospectionObjectType;
+        const sampleType4 = schemaIntrospection.types.find(
+          it => it.name === "SampleType__4",
+        ) as IntrospectionObjectType;
+
         const sampleType1StringField = sampleType1.fields.find(
           it => it.name === "sampleType1StringField",
         )!;
@@ -294,6 +331,7 @@ describe("typeDefs and resolvers", () => {
         expect(sampleType1.interfaces).toHaveLength(1);
         expect(sampleType1.interfaces[0].name).toBe("SampleInterface");
         expect(sampleType2StringField.deprecationReason).toBe("sampleType2StringFieldDeprecation");
+        expect(sampleType4.fields).toHaveLength(3);
       });
 
       it("should generate input type", async () => {
@@ -303,7 +341,8 @@ describe("typeDefs and resolvers", () => {
         const sampleInputDefaultStringField = sampleInput.inputFields.find(
           it => it.name === "sampleInputDefaultStringField",
         )!;
-        const sampleInputDefaultStringFieldType = sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
+        const sampleInputDefaultStringFieldType =
+          sampleInputDefaultStringField.type as IntrospectionNamedTypeRef;
 
         expect(sampleInput.kind).toBe(TypeKind.INPUT_OBJECT);
         expect(sampleInput.inputFields).toHaveLength(2);
@@ -350,7 +389,7 @@ describe("typeDefs and resolvers", () => {
           it => it.name === schemaIntrospection.queryType.name,
         ) as IntrospectionObjectType;
 
-        expect(queryType.fields).toHaveLength(8);
+        expect(queryType.fields).toHaveLength(9);
       });
 
       it("should generate mutations", async () => {
@@ -371,7 +410,7 @@ describe("typeDefs and resolvers", () => {
 
       it("should emit Date scalar", async () => {
         const dateScalar = schemaIntrospection.types.find(
-          it => it.name === "DateTime",
+          it => it.name === "DateTimeISO",
         ) as IntrospectionScalarType;
 
         expect(dateScalar.kind).toBe(TypeKind.SCALAR);
@@ -396,10 +435,10 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
-        const parsedDate = new Date(data!.sampleDateQuery);
+        const result: any = await execute({ schema, document });
+        const parsedDate = new Date(result.data.sampleDateQuery);
 
-        expect(typeof data!.sampleDateQuery).toBe("string");
+        expect(typeof result.data.sampleDateQuery).toBe("string");
         expect(parsedDate.getTime()).toEqual(timestamp);
       });
 
@@ -410,7 +449,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleServiceQuery).toEqual("SampleString");
       });
@@ -422,7 +461,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMiddlewareBooleanQuery).toEqual(true);
         expect(middlewareLogs).toHaveLength(1);
@@ -436,7 +475,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleBooleanMutation).toBe(true);
       });
@@ -448,7 +487,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleMutationWithInput).toBe(true);
         expect(inputValue.constructor.name).toBe("SampleInput");
@@ -463,7 +502,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Argument Validation Error");
@@ -476,7 +515,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { errors } = await execute(schema, document);
+        const { errors } = await execute({ schema, document });
 
         expect(errors).toHaveLength(1);
         expect(errors![0].message).toContain("Access denied");
@@ -494,7 +533,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleInterfaceQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -514,7 +553,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -534,7 +573,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleResolveUnionQuery).toEqual({
           sampleInterfaceStringField: "sampleInterfaceStringField",
@@ -549,7 +588,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleNumberEnumQuery).toBe("OptionOne");
         expect(enumValue).toBe(0);
@@ -562,10 +601,30 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data } = await execute(schema, document);
+        const { data } = await execute({ schema, document });
 
         expect(data!.sampleStringEnumQuery).toBe("OptionTwo");
         expect(enumValue).toBe("OptionTwoString");
+      });
+
+      it("should properly execute field resolver for object type with two underscores NOT in the beginning", async () => {
+        const document = gql`
+          query {
+            sampleQueryOnObjectTypeWithDoubleUnderScore {
+              sampleResolvedField
+              sampleInterfaceStringField
+              sampleType4StringField
+            }
+          }
+        `;
+
+        const { data } = await execute({ schema, document });
+
+        expect(data!.sampleQueryOnObjectTypeWithDoubleUnderScore).toEqual({
+          sampleResolvedField: "sampleResolvedField",
+          sampleInterfaceStringField: "sampleInterfaceStringField",
+          sampleType4StringField: "sampleType4StringField",
+        });
       });
 
       it("should properly run subscriptions", async () => {
@@ -576,7 +635,7 @@ describe("typeDefs and resolvers", () => {
         `;
         const payload = 5.4321;
 
-        const iterator = (await subscribe(schema, document)) as AsyncIterator<ExecutionResult>;
+        const iterator = (await subscribe({ schema, document })) as AsyncIterator<ExecutionResult>;
         const firstValuePromise = iterator.next();
         pubSub.publish("SAMPLE", payload);
         const data = await firstValuePromise;
@@ -615,9 +674,10 @@ describe("typeDefs and resolvers", () => {
       @ObjectType()
       class SampleType {
         @Field()
-        sampleInterfaceStringField: string;
+        sampleInterfaceStringField!: string;
+
         @Field({ description: "sampleTypeStringFieldDescription" })
-        sampleTypeStringField: string;
+        sampleTypeStringField!: string;
       }
 
       @Resolver()
@@ -637,8 +697,8 @@ describe("typeDefs and resolvers", () => {
         typeDefs,
         resolvers,
       });
-      const introspectionResult = await graphql(schema, getIntrospectionQuery());
-      schemaIntrospection = (introspectionResult.data as IntrospectionQuery).__schema;
+      const introspectionResult = await graphql({ schema, source: getIntrospectionQuery() });
+      schemaIntrospection = (introspectionResult.data as unknown as IntrospectionQuery).__schema;
     });
 
     it("should generate schema without errors", () => {
@@ -677,7 +737,7 @@ describe("typeDefs and resolvers", () => {
           }
         `;
 
-        const { data, errors } = await execute(schema, document);
+        const { data, errors } = await execute({ schema, document });
 
         expect(errors).toBeUndefined();
         expect(data!.sampleBooleanQuery).toBe(true);

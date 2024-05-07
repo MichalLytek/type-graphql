@@ -1,8 +1,13 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { ReturnTypeFunc, AdvancedOptions, TypeValueThunk, TypeOptions } from "./types";
-import { SymbolKeysNotSupportedError } from "../errors";
-import { getTypeDecoratorParams } from "../helpers/decorators";
-import { findType } from "../helpers/findType";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getTypeDecoratorParams } from "@/helpers/decorators";
+import { findType } from "@/helpers/findType";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import {
+  type AdvancedOptions,
+  type ReturnTypeFunc,
+  type TypeOptions,
+  type TypeValueThunk,
+} from "./types";
 
 export function FieldResolver(): MethodDecorator;
 export function FieldResolver(options: AdvancedOptions): MethodDecorator;
@@ -39,7 +44,7 @@ export function FieldResolver(
       typeOptions = typeInfo.typeOptions;
       getType = typeInfo.getType;
     } catch {
-      // tslint:disable-next-line:no-empty
+      /* empty */
     }
 
     getMetadataStorage().collectFieldResolverMetadata({

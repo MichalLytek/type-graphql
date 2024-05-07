@@ -1,16 +1,16 @@
-import { Field, ID, ObjectType } from "../../../src";
+import { Field, ID, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
-  id: string;
+  @Field(_type => ID)
+  id!: string;
 
   @Field()
-  title: string;
+  title!: string;
 
   @Field({ nullable: true })
   description?: string;
 
-  @Field(type => [String])
-  ingredients: string[];
+  @Field(_type => [String])
+  ingredients!: string[];
 }

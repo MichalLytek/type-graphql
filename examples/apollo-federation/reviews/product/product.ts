@@ -1,10 +1,10 @@
-import { ObjectType, Directive, Field } from "../../../../src";
+import { Directive, Field, ObjectType } from "type-graphql";
 
 @Directive("@extends")
 @Directive(`@key(fields: "upc")`)
 @ObjectType()
-export default class Product {
+export class Product {
   @Directive("@external")
   @Field()
-  upc: string;
+  upc!: string;
 }

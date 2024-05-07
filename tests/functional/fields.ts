@@ -1,23 +1,20 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
-  IntrospectionListTypeRef,
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
   TypeKind,
-  IntrospectionScalarType,
 } from "graphql";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Field, GraphQLISODateTime, ObjectType, Query, Resolver } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { expectToThrow } from "../helpers/expectToThrow";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { ObjectType, Field, Query, Resolver, GraphQLISODateTime } from "../../src";
-import { NullableListOptions } from "../../src/decorators/types";
 
 describe("Fields - schema", () => {
   let schemaIntrospection: IntrospectionSchema;
-  let queryType: IntrospectionObjectType;
-  let mutationType: IntrospectionObjectType;
   let sampleObjectType: IntrospectionObjectType;
 
   beforeAll(async () => {
@@ -26,61 +23,61 @@ describe("Fields - schema", () => {
     @ObjectType()
     class SampleNestedObject {
       @Field()
-      stringField: string;
+      stringField!: string;
     }
 
     @ObjectType()
     class SampleObject {
       @Field()
-      implicitStringField: string;
+      implicitStringField!: string;
 
-      @Field(type => String)
+      @Field(() => String)
       explicitStringField: any;
 
       @Field()
-      implicitObjectField: SampleNestedObject;
+      implicitObjectField!: SampleNestedObject;
 
-      @Field(type => String, { nullable: true })
+      @Field(() => String, { nullable: true })
       explicitNullableStringField: any;
 
       @Field({ nullable: true })
-      implicitNullableStringField: string;
+      implicitNullableStringField!: string;
 
-      @Field(type => [String])
-      explicitStringArrayField: string[];
+      @Field(() => [String])
+      explicitStringArrayField!: string[];
 
-      @Field(type => [String], { nullable: true })
-      nullableArrayFieldNew: string[] | null;
+      @Field(() => [String], { nullable: true })
+      nullableArrayFieldNew!: string[] | null;
 
-      @Field(type => [SampleNestedObject], { nullable: true })
-      nullableObjectArrayField: SampleNestedObject[] | null;
+      @Field(() => [SampleNestedObject], { nullable: true })
+      nullableObjectArrayField!: SampleNestedObject[] | null;
 
-      @Field(typoe => [String], { nullable: "itemsAndList" })
-      arrayWithNullableItemField: String[];
+      @Field(() => [String], { nullable: "itemsAndList" })
+      arrayWithNullableItemField!: string[];
 
-      @Field(typoe => [String], { nullable: "items" })
-      nonnullArrayWithNullableItemField: String[];
+      @Field(() => [String], { nullable: "items" })
+      nonNullArrayWithNullableItemField!: string[];
 
       @Field({ name: "overwrittenName", nullable: true })
-      overwrittenStringField: string;
+      overwrittenStringField!: string;
 
       @Field({ name: "complexField", complexity: 10 })
-      complexField: string;
+      complexField!: string;
 
-      @Field(type => [[String]], { nullable: true })
-      nullableNestedArrayField: string[][] | null;
+      @Field(() => [[String]], { nullable: true })
+      nullableNestedArrayField!: string[][] | null;
 
-      @Field(type => [[String]], { nullable: "items" })
-      nonNullNestedArrayWithNullableItemField: Array<Array<string | null> | null>;
+      @Field(() => [[String]], { nullable: "items" })
+      nonNullNestedArrayWithNullableItemField!: Array<Array<string | null> | null>;
 
-      @Field(type => [[String]], { nullable: "itemsAndList" })
-      nestedArrayWithNullableItemField: Array<Array<string | null> | null> | null;
+      @Field(() => [[String]], { nullable: "itemsAndList" })
+      nestedArrayWithNullableItemField!: Array<Array<string | null> | null> | null;
 
-      @Field(type => GraphQLISODateTime)
-      overwrittenArrayScalarField: string[];
+      @Field(() => GraphQLISODateTime)
+      overwrittenArrayScalarField!: string[];
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       sampleQuery(): SampleObject {
@@ -93,8 +90,6 @@ describe("Fields - schema", () => {
       resolvers: [SampleResolver],
     });
     schemaIntrospection = schemaInfo.schemaIntrospection;
-    queryType = schemaInfo.queryType;
-    mutationType = schemaInfo.mutationType!;
     sampleObjectType = schemaIntrospection.types.find(
       type => type.name === "SampleObject",
     ) as IntrospectionObjectType;
@@ -111,7 +106,7 @@ describe("Fields - schema", () => {
     expect(schemaIntrospection).toBeDefined();
   });
 
-  it("it should register complexity info for field", async () => {
+  it("should register complexity info for field", async () => {
     const metadataStorage = getMetadataStorage();
     const sampleObj = metadataStorage.objectTypes.find(it => it.name === "SampleObject")!;
     const complexField = sampleObj.fields!.find(it => it.name === "complexField")!;
@@ -119,73 +114,70 @@ describe("Fields - schema", () => {
   });
 
   it("should throw error when field type not provided", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await expectToThrow(() => {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
         invalidSampleField: any;
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleField");
   });
 
   it("should throw error when field type is array and no explicit type provided", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await expectToThrow(() => {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field()
-        invalidSampleArrayField: string[];
+        invalidSampleArrayField!: string[];
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleArrayField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleArrayField");
   });
 
   it("should throw error when cannot determine field type", async () => {
-    expect.assertions(3);
     getMetadataStorage().clear();
 
-    try {
+    const error = await expectToThrow(() => {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
-        invalidSampleNullableField: string | null;
+        invalidSampleNullableField!: string | null;
       }
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      const error: Error = err;
-      expect(error.message).toContain("provide explicit type");
-      expect(error.message).toContain("invalidSampleNullableField");
-    }
+    });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toContain("provide explicit type");
+    expect(error.message).toContain("invalidSampleNullableField");
   });
 
   it("should throw error when object type property key is symbol", async () => {
-    expect.assertions(1);
     getMetadataStorage().clear();
 
     const symbolKey = Symbol("symbolKey");
-    try {
+    const error = await expectToThrow(() => {
       @ObjectType()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class SampleObject {
         @Field({ nullable: true })
-        [symbolKey]: string | null;
+        [symbolKey]!: string | null;
       }
-    } catch (err) {
-      expect(err.message).toContain("Symbol keys are not supported yet!");
-    }
+    });
+
+    expect(error.message).toContain("Symbol keys are not supported yet!");
   });
 
   it("should generate non-nullable field type by default", async () => {
@@ -285,23 +277,23 @@ describe("Fields - schema", () => {
     expect(arrayItemFieldType.name).toEqual("SampleNestedObject");
   });
 
-  it("should generate nullable item array with nullalbe option 'itemAndList'", async () => {
+  it("should generate nullable item array with nullable option 'itemAndList'", async () => {
     const arrayWithNullableItemField = sampleObjectType.fields.find(
       field => field.name === "arrayWithNullableItemField",
     )!;
     const nullableArrayType = arrayWithNullableItemField.type as IntrospectionListTypeRef;
-    const nullableItemtype = nullableArrayType.ofType as IntrospectionNamedTypeRef;
+    const nullableItemType = nullableArrayType.ofType as IntrospectionNamedTypeRef;
 
     expect(nullableArrayType.kind).toEqual(TypeKind.LIST);
-    expect(nullableItemtype.kind).toEqual(TypeKind.SCALAR);
-    expect(nullableItemtype.name).toEqual("String");
+    expect(nullableItemType.kind).toEqual(TypeKind.SCALAR);
+    expect(nullableItemType.name).toEqual("String");
   });
 
-  it("should generate nullable element nonnull array with nullable option 'item'", async () => {
-    const nonnullArrayWithNullableItemField = sampleObjectType.fields.find(
-      field => field.name === "nonnullArrayWithNullableItemField",
+  it("should generate nullable element nonNull array with nullable option 'item'", async () => {
+    const nonNullArrayWithNullableItemField = sampleObjectType.fields.find(
+      field => field.name === "nonNullArrayWithNullableItemField",
     )!;
-    const nonNullArrayType = nonnullArrayWithNullableItemField.type as IntrospectionNonNullTypeRef;
+    const nonNullArrayType = nonNullArrayWithNullableItemField.type as IntrospectionNonNullTypeRef;
     const arrayType = nonNullArrayType.ofType as IntrospectionListTypeRef;
     const elementType = arrayType.ofType as IntrospectionNamedTypeRef;
 
@@ -332,8 +324,10 @@ describe("Fields - schema", () => {
     const arrayFieldType = nullableNestedArrayField.type as IntrospectionListTypeRef;
     const arrayItemNonNullFieldType = arrayFieldType.ofType as IntrospectionNonNullTypeRef;
     const arrayItemFieldType = arrayItemNonNullFieldType.ofType as IntrospectionListTypeRef;
-    const arrayItemScalarNonNullFieldType = arrayItemFieldType.ofType as IntrospectionNonNullTypeRef;
-    const arrayItemScalarFieldType = arrayItemScalarNonNullFieldType.ofType as IntrospectionNamedTypeRef;
+    const arrayItemScalarNonNullFieldType =
+      arrayItemFieldType.ofType as IntrospectionNonNullTypeRef;
+    const arrayItemScalarFieldType =
+      arrayItemScalarNonNullFieldType.ofType as IntrospectionNamedTypeRef;
 
     expect(arrayFieldType.kind).toEqual(TypeKind.LIST);
     expect(arrayItemNonNullFieldType.kind).toEqual(TypeKind.NON_NULL);
@@ -378,11 +372,13 @@ describe("Fields - schema", () => {
     const overwrittenArrayScalarField = sampleObjectType.fields.find(
       field => field.name === "overwrittenArrayScalarField",
     )!;
-    const overwrittenArrayScalarFieldType = overwrittenArrayScalarField.type as IntrospectionNonNullTypeRef;
-    const overwrittenArrayScalarFieldInnerType = overwrittenArrayScalarFieldType.ofType as IntrospectionScalarType;
+    const overwrittenArrayScalarFieldType =
+      overwrittenArrayScalarField.type as IntrospectionNonNullTypeRef;
+    const overwrittenArrayScalarFieldInnerType =
+      overwrittenArrayScalarFieldType.ofType as IntrospectionScalarType;
 
     expect(overwrittenArrayScalarFieldType.kind).toEqual(TypeKind.NON_NULL);
     expect(overwrittenArrayScalarFieldInnerType.kind).toEqual(TypeKind.SCALAR);
-    expect(overwrittenArrayScalarFieldInnerType.name).toEqual("DateTime");
+    expect(overwrittenArrayScalarFieldInnerType.name).toEqual("DateTimeISO");
   });
 });

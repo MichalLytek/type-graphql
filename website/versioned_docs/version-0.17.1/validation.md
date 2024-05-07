@@ -169,4 +169,4 @@ Of course we can also create our own custom implementation of the `formatError` 
 
 ## Example
 
-To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
+To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/v0.17.1/examples/automatic-validation).

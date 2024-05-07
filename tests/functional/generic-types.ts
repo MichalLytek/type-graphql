@@ -1,47 +1,46 @@
 import "reflect-metadata";
 import {
-  IntrospectionObjectType,
-  IntrospectionInterfaceType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionScalarType,
+  type GraphQLSchema,
+  type IntrospectionInputObjectType,
+  type IntrospectionInterfaceType,
+  type IntrospectionListTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionScalarType,
+  type IntrospectionSchema,
   TypeKind,
-  IntrospectionListTypeRef,
   graphql,
-  GraphQLSchema,
-  IntrospectionSchema,
-  IntrospectionInputObjectType,
 } from "graphql";
-
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
-  InterfaceType,
-  ClassType,
-  Int,
-  InputType,
   Arg,
-} from "../../src";
+  type ClassType,
+  Field,
+  InputType,
+  Int,
+  InterfaceType,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Generic types", () => {
   beforeEach(() => {
     getMetadataStorage().clear();
   });
 
-  it("shouldn't emit abstract object type", async () => {
-    @ObjectType({ isAbstract: true })
+  it("shouldn't emit unused abstract object type", async () => {
+    @ObjectType()
     abstract class BaseType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @ObjectType()
     class SampleType extends BaseType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -66,25 +65,26 @@ describe("Generic types", () => {
     expect(baseTypeInfo).toBeUndefined();
   });
 
-  it("shouldn't emit abstract interface type", async () => {
-    @InterfaceType({ isAbstract: true })
+  it("shouldn't emit unused abstract interface type", async () => {
+    @InterfaceType()
     abstract class BaseInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InterfaceType()
     abstract class SampleInterfaceType extends BaseInterfaceType {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @ObjectType({ implements: SampleInterfaceType })
     class SampleType implements SampleInterfaceType {
       @Field()
-      baseField: string;
+      baseField!: string;
+
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
@@ -111,23 +111,23 @@ describe("Generic types", () => {
     expect(baseInterfaceTypeInfo).toBeUndefined();
   });
 
-  it("shouldn't emit abstract input object type", async () => {
-    @InputType({ isAbstract: true })
+  it("shouldn't emit unused abstract input object type", async () => {
+    @InputType()
     abstract class BaseInput {
       @Field()
-      baseField: string;
+      baseField!: string;
     }
 
     @InputType()
     class SampleInput extends BaseInput {
       @Field()
-      sampleField: string;
+      sampleField!: string;
     }
 
     @Resolver()
     class SampleResolver {
       @Query()
-      sampleQuery(@Arg("input") input: SampleInput): boolean {
+      sampleQuery(@Arg("input") _input: SampleInput): boolean {
         return true;
       }
     }
@@ -151,14 +151,14 @@ describe("Generic types", () => {
     let dogsResponseMock: any;
 
     beforeEach(async () => {
-      function Connection<TItem>(TItemClass: ClassType<TItem>) {
-        @ObjectType(`${TItemClass.name}Connection`, { isAbstract: true })
+      function Connection<TItem extends object>(TItemClass: ClassType<TItem>) {
+        @ObjectType(`${TItemClass.name}Connection`)
         class ConnectionClass {
-          @Field(type => Int)
-          count: number;
+          @Field(() => Int)
+          count!: number;
 
-          @Field(type => [TItemClass])
-          items: TItem[];
+          @Field(() => [TItemClass])
+          items!: TItem[];
         }
         return ConnectionClass;
       }
@@ -166,16 +166,17 @@ describe("Generic types", () => {
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class Dog {
         @Field()
-        canBark: boolean;
+        canBark!: boolean;
       }
 
       const UserConnection = Connection(User);
+      // eslint-disable-next-line @typescript-eslint/no-redeclare
       type UserConnection = InstanceType<typeof UserConnection>;
       @ObjectType()
       class DogConnection extends Connection(Dog) {}
@@ -187,7 +188,7 @@ describe("Generic types", () => {
 
       @Resolver()
       class GenericConnectionResolver {
-        @Query(returns => UserConnection)
+        @Query(() => UserConnection)
         users(): UserConnection {
           return {
             count: 2,
@@ -195,7 +196,7 @@ describe("Generic types", () => {
           };
         }
 
-        @Query(returns => DogConnection)
+        @Query(() => DogConnection)
         dogs(): DogConnection {
           return dogsResponseMock;
         }
@@ -216,14 +217,18 @@ describe("Generic types", () => {
       const userConnectionCountField = userConnectionTypeInfo.fields.find(
         it => it.name === "count",
       )!;
-      const userConnectionCountFieldType = (userConnectionCountField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionScalarType;
+      const userConnectionCountFieldType = (
+        userConnectionCountField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionScalarType;
       const userConnectionItemsField = userConnectionTypeInfo.fields.find(
         it => it.name === "items",
       )!;
-      const userConnectionItemsFieldType = (((userConnectionItemsField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionListTypeRef).ofType as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const userConnectionItemsFieldType = (
+        (
+          (userConnectionItemsField.type as IntrospectionNonNullTypeRef)
+            .ofType as IntrospectionListTypeRef
+        ).ofType as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
 
       expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
       expect(userConnectionTypeInfo.fields).toHaveLength(2);
@@ -245,7 +250,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.dogs).toEqual(dogsResponseMock);
     });
@@ -258,14 +263,14 @@ describe("Generic types", () => {
     let friendshipEdgeResponse: any;
 
     beforeEach(async () => {
-      function Edge<TNodeClass>(NodeClass: ClassType<TNodeClass>) {
-        @ObjectType({ isAbstract: true })
+      function Edge<TNode extends object>(TNodeClass: ClassType<TNode>) {
+        @ObjectType()
         abstract class EdgeClass {
-          @Field(type => NodeClass)
-          node: TNodeClass;
+          @Field(() => TNodeClass)
+          node!: TNode;
 
           @Field()
-          cursor: string;
+          cursor!: string;
         }
         return EdgeClass;
       }
@@ -273,19 +278,19 @@ describe("Generic types", () => {
       @ObjectType()
       class Recipe {
         @Field()
-        title: string;
+        title!: string;
       }
 
       @ObjectType()
       class User {
         @Field()
-        name: string;
+        name!: string;
       }
 
       @ObjectType()
       class RecipeEdge extends Edge(Recipe) {
         @Field()
-        personalNotes: string;
+        personalNotes!: string;
       }
       recipeEdgeResponse = {
         cursor: "recipeCursor",
@@ -298,7 +303,7 @@ describe("Generic types", () => {
       @ObjectType()
       class FriendshipEdge extends Edge(User) {
         @Field()
-        friendedAt: Date;
+        friendedAt!: Date;
       }
       friendshipEdgeResponse = {
         cursor: "friendshipCursor",
@@ -339,19 +344,22 @@ describe("Generic types", () => {
       const recipeEdgePersonalNotesField = recipeEdgeTypeInfo.fields.find(
         it => it.name === "personalNotes",
       )!;
-      const recipeEdgePersonalNotesFieldType = (recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const recipeEdgePersonalNotesFieldType = (
+        recipeEdgePersonalNotesField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
       const friendshipEdgeTypeInfo = schemaObjectTypes.find(
         it => it.name === "FriendshipEdge",
       ) as IntrospectionObjectType;
       const friendshipEdgeNodeField = friendshipEdgeTypeInfo.fields.find(it => it.name === "node")!;
-      const friendshipEdgeNodeFieldType = (friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const friendshipEdgeNodeFieldType = (
+        friendshipEdgeNodeField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
       const friendshipEdgeFriendedAtField = friendshipEdgeTypeInfo.fields.find(
         it => it.name === "friendedAt",
       )!;
-      const friendshipEdgeFriendedAtFieldType = (friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef)
-        .ofType as IntrospectionObjectType;
+      const friendshipEdgeFriendedAtFieldType = (
+        friendshipEdgeFriendedAtField.type as IntrospectionNonNullTypeRef
+      ).ofType as IntrospectionObjectType;
 
       expect(schemaObjectTypes).toHaveLength(5); // Query, User, Dog, UserCon, DogCon
       expect(recipeEdgeTypeInfo.fields).toHaveLength(3);
@@ -363,7 +371,7 @@ describe("Generic types", () => {
       expect(friendshipEdgeNodeFieldType.kind).toBe(TypeKind.OBJECT);
       expect(friendshipEdgeNodeFieldType.name).toBe("User");
       expect(friendshipEdgeFriendedAtFieldType.kind).toBe(TypeKind.SCALAR);
-      expect(friendshipEdgeFriendedAtFieldType.name).toBe("DateTime");
+      expect(friendshipEdgeFriendedAtFieldType.name).toBe("DateTimeISO");
     });
 
     it("should return child classes data from queries", async () => {
@@ -386,7 +394,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, query);
+      const result: any = await graphql({ schema, source: query });
 
       expect(result.data!.recipeEdge).toEqual(recipeEdgeResponse);
       expect(result.data!.friendshipEdge).toEqual({
@@ -401,11 +409,11 @@ describe("Generic types", () => {
     let schemaIntrospection: IntrospectionSchema;
 
     beforeAll(async () => {
-      function Base<TType>(TTypeClass: ClassType<TType>) {
-        @ObjectType({ isAbstract: true })
+      function Base<TType extends object>(TTypeClass: ClassType<TType>) {
+        @ObjectType()
         class BaseClass {
-          @Field(type => TTypeClass)
-          baseField: TType;
+          @Field(() => TTypeClass)
+          baseField!: TType;
         }
         return BaseClass;
       }
@@ -413,21 +421,22 @@ describe("Generic types", () => {
       @ObjectType()
       class BaseSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
       }
 
       @ObjectType()
       class ChildSample {
         @Field()
-        sampleField: string;
+        sampleField!: string;
+
         @Field()
-        childField: string;
+        childField!: string;
       }
 
       @ObjectType()
       class Child extends Base(BaseSample) {
         @Field()
-        baseField: ChildSample; // overwriting field with a up compatible type
+        override baseField!: ChildSample; // Overwriting field with a up compatible type
       }
 
       @Resolver()
@@ -472,7 +481,7 @@ describe("Generic types", () => {
         }
       `;
 
-      const result = await graphql(schema, document);
+      const result: any = await graphql({ schema, source: document });
 
       expect(result.data!).toEqual({
         child: {

@@ -1,41 +1,37 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import Redis from "ioredis";
-import { RedisPubSub } from "graphql-redis-subscriptions";
-import { buildSchema } from "../../src";
-
+import "dotenv/config";
+import http from "node:http";
+import path from "node:path";
+import { createYoga } from "graphql-yoga";
+import { buildSchema } from "type-graphql";
+import { pubSub } from "./pubsub";
 import { RecipeResolver } from "./recipe.resolver";
 
-const REDIS_HOST = "192.168.99.100"; // replace with own IP
-const REDIS_PORT = 6379;
-
 async function bootstrap() {
-  // configure Redis connection options
-  const options: Redis.RedisOptions = {
-    host: REDIS_HOST,
-    port: REDIS_PORT,
-    retryStrategy: times => Math.max(times * 100, 3000),
-  };
-
-  // create Redis-based pub-sub
-  const pubSub = new RedisPubSub({
-    publisher: new Redis(options),
-    subscriber: new Redis(options),
-  });
-
-  // Build the TypeGraphQL schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
+    // Array of resolvers
     resolvers: [RecipeResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Publish/Subscribe
+    pubSub,
     validate: false,
-    pubSub, // provide redis-based instance of PubSub
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({ schema });
+  const yoga = createYoga({
+    schema,
+    graphqlEndpoint: "/graphql",
+  });
 
-  // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Create server
+  const httpServer = http.createServer(yoga);
+
+  // Start server
+  httpServer.listen(4000, () => {
+    console.log(`GraphQL server ready at http://localhost:4000/graphql`);
+  });
 }
 
-bootstrap();
+bootstrap().catch(console.error);

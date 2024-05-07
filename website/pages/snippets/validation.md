@@ -1,11 +1,13 @@
-```typescript
+<!-- markdownlint-disable MD041 -->
+
+```ts
 @InputType()
 export class RecipeInput {
   @Field()
   @MaxLength(30)
   title: string;
 
-  @Field({ nullable: true })     
+  @Field({ nullable: true })
   @Length(30, 255)
   description?: string;
 

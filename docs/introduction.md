@@ -10,7 +10,7 @@ We all love GraphQL! It's really great and solves many problems that we have wit
 **TypeGraphQL** is a library that makes this process enjoyable by defining the schema using only classes and a bit of decorator magic.
 Example object type:
 
-```typescript
+```ts
 @ObjectType()
 class Recipe {
   @Field()
@@ -33,13 +33,13 @@ Why? Let's take a look at the steps we usually have to take.
 
 First, we create all the schema types in SDL. We also create our data models using [ORM classes](https://github.com/typeorm/typeorm), which represent our database entities. Then we start to write resolvers for our queries, mutations and fields. This forces us, however, to begin with creating TypeScript interfaces for all arguments and inputs and/or object types. After that, we can actually implement the resolvers, using weird generic signatures, e.g.:
 
-```typescript
+```ts
 export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesArgs> = async (
   _,
   args,
   ctx,
 ) => {
-  // common tasks repeatable for almost every resolver
+  // Common tasks repeatable for almost every resolver
   const auth = Container.get(AuthService);
   if (!auth.check(ctx.user)) {
     throw new NotAuthorizedError();
@@ -47,7 +47,7 @@ export const getRecipesResolver: GraphQLFieldResolver<void, Context, GetRecipesA
   await joi.validate(getRecipesSchema, args);
   const repository = TypeORM.getRepository(Recipe);
 
-  // our business logic, e.g.:
+  // Business logic, e.g.:
   return repository.find({ skip: args.offset, take: args.limit });
 };
 ```

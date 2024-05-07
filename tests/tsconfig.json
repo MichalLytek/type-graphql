@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "noUnusedLocals": false,
+    "emitDecoratorMetadata": true
+  },
+  "include": [".", "../src"]
+}

@@ -1,22 +1,23 @@
 import {
-  FieldDefinitionNode,
-  InputObjectTypeDefinitionNode,
-  InputValueDefinitionNode,
-  InterfaceTypeDefinitionNode,
+  type FieldDefinitionNode,
+  type InputObjectTypeDefinitionNode,
+  type InputValueDefinitionNode,
+  type InterfaceTypeDefinitionNode,
+  type ObjectTypeDefinitionNode,
   parseValue,
 } from "graphql";
-
-import { Maybe } from "../../../src/interfaces/Maybe";
+import { type Maybe } from "@/typings";
 
 export function assertValidDirective(
   astNode: Maybe<
     | FieldDefinitionNode
+    | ObjectTypeDefinitionNode
     | InputObjectTypeDefinitionNode
     | InputValueDefinitionNode
     | InterfaceTypeDefinitionNode
   >,
   name: string,
-  args?: { [key: string]: string },
+  args?: Record<string, string>,
 ): void {
   if (!astNode) {
     throw new Error(`Directive with name ${name} does not exist`);
@@ -37,12 +38,17 @@ export function assertValidDirective(
       expect(directive.arguments).toBeFalsy();
     }
   } else {
+    expect(directive.arguments).toHaveLength(Object.keys(args).length);
     expect(directive.arguments).toEqual(
-      Object.keys(args).map(arg => ({
-        kind: "Argument",
-        name: { kind: "Name", value: arg },
-        value: parseValue(args[arg]),
-      })),
+      expect.arrayContaining(
+        Object.keys(args).map(arg =>
+          expect.objectContaining({
+            kind: "Argument",
+            name: expect.objectContaining({ kind: "Name", value: arg }),
+            value: expect.objectContaining(parseValue(args[arg], { noLocation: true })),
+          }),
+        ),
+      ),
     );
   }
 }

@@ -1,15 +1,14 @@
 import "reflect-metadata";
 import {
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNonNullTypeRef,
-  IntrospectionNamedTypeRef,
+  type IntrospectionListTypeRef,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
-  IntrospectionListTypeRef,
 } from "graphql";
-
-import { Field, ObjectType, Resolver, Query } from "../../src";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { Field, ObjectType, Query, Resolver } from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("buildSchema -> nullableByDefault", () => {
@@ -22,32 +21,32 @@ describe("buildSchema -> nullableByDefault", () => {
     @ObjectType()
     class SampleObject {
       @Field()
-      normalField: string;
+      normalField!: string;
 
-      @Field(type => [String])
-      normalArrayField: string[];
+      @Field(() => [String])
+      normalArrayField!: string[];
 
       @Field({ nullable: true })
-      nullableField: string;
+      nullableField!: string;
 
       @Field({ nullable: false })
-      nonNullableField: string;
+      nonNullableField!: string;
     }
     SampleObjectClass = SampleObject;
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       normalQuery(): string {
         return "normalQuery";
       }
 
-      @Query(returns => [String])
+      @Query(() => [String])
       normalArrayQuery(): string[] {
         return ["normalArrayQuery"];
       }
 
-      @Query(type => String, { nullable: true })
+      @Query(() => String, { nullable: true })
       nullableQuery() {
         return null;
       }
@@ -85,8 +84,10 @@ describe("buildSchema -> nullableByDefault", () => {
       const normalArrayField = sampleObjectType.fields.find(it => it.name === "normalArrayField");
       const normalArrayFieldType = normalArrayField!.type as IntrospectionNonNullTypeRef;
       const normalArrayFieldListType = normalArrayFieldType.ofType as IntrospectionListTypeRef;
-      const normalArrayFieldListElementType = normalArrayFieldListType.ofType as IntrospectionNonNullTypeRef;
-      const normalArrayFieldListElementInnerType = normalArrayFieldListElementType.ofType as IntrospectionNamedTypeRef;
+      const normalArrayFieldListElementType =
+        normalArrayFieldListType.ofType as IntrospectionNonNullTypeRef;
+      const normalArrayFieldListElementInnerType =
+        normalArrayFieldListElementType.ofType as IntrospectionNamedTypeRef;
       expect(normalArrayFieldType.kind).toBe(TypeKind.NON_NULL);
       expect(normalArrayFieldListType.kind).toBe(TypeKind.LIST);
       expect(normalArrayFieldListElementType.kind).toBe(TypeKind.NON_NULL);
@@ -104,8 +105,10 @@ describe("buildSchema -> nullableByDefault", () => {
       const normalArrayQuery = queryType.fields.find(it => it.name === "normalArrayQuery");
       const normalArrayQueryType = normalArrayQuery!.type as IntrospectionNonNullTypeRef;
       const normalArrayQueryListType = normalArrayQueryType.ofType as IntrospectionListTypeRef;
-      const normalArrayQueryListElementType = normalArrayQueryListType.ofType as IntrospectionNonNullTypeRef;
-      const normalArrayQueryListElementInnerType = normalArrayQueryListElementType.ofType as IntrospectionNamedTypeRef;
+      const normalArrayQueryListElementType =
+        normalArrayQueryListType.ofType as IntrospectionNonNullTypeRef;
+      const normalArrayQueryListElementInnerType =
+        normalArrayQueryListElementType.ofType as IntrospectionNamedTypeRef;
       expect(normalArrayQueryType.kind).toBe(TypeKind.NON_NULL);
       expect(normalArrayQueryListType.kind).toBe(TypeKind.LIST);
       expect(normalArrayQueryListElementType.kind).toBe(TypeKind.NON_NULL);
@@ -137,7 +140,8 @@ describe("buildSchema -> nullableByDefault", () => {
 
       const normalArrayField = sampleObjectType.fields.find(it => it.name === "normalArrayField");
       const normalArrayFieldType = normalArrayField!.type as IntrospectionListTypeRef;
-      const normalArrayFieldListElementInnerType = normalArrayFieldType.ofType as IntrospectionNamedTypeRef;
+      const normalArrayFieldListElementInnerType =
+        normalArrayFieldType.ofType as IntrospectionNamedTypeRef;
       expect(normalArrayFieldType.kind).toBe(TypeKind.LIST);
       expect(normalArrayFieldListElementInnerType.kind).toBe(TypeKind.SCALAR);
       expect(normalArrayFieldListElementInnerType.name).toBe("String");
@@ -150,7 +154,8 @@ describe("buildSchema -> nullableByDefault", () => {
 
       const normalArrayQuery = queryType.fields.find(it => it.name === "normalArrayQuery");
       const normalArrayQueryType = normalArrayQuery!.type as IntrospectionListTypeRef;
-      const normalArrayQueryListElementInnerType = normalArrayQueryType.ofType as IntrospectionNamedTypeRef;
+      const normalArrayQueryListElementInnerType =
+        normalArrayQueryType.ofType as IntrospectionNamedTypeRef;
       expect(normalArrayQueryType.kind).toBe(TypeKind.LIST);
       expect(normalArrayQueryListElementInnerType.kind).toBe(TypeKind.SCALAR);
       expect(normalArrayQueryListElementInnerType.name).toBe("String");

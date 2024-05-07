@@ -1,0 +1,48 @@
+name: website
+
+on:
+  workflow_run:
+    workflows:
+      - check
+    types:
+      - completed
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  website:
+    name: Publish website
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.ref_name == 'master' && (github.event.workflow_run.head_branch == 'master' || startsWith(github.event.workflow_run.head_branch, 'v'))
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm ci --prefix ./website
+
+      - name: Build
+        run: |
+          npm run build --prefix ./website
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/build/type-graphql
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          full_commit_message: |
+            Deploy website based on ${{ github.event.workflow_run.head_sha }}

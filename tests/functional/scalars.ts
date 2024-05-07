@@ -1,43 +1,38 @@
 import "reflect-metadata";
 import {
-  graphql,
-  IntrospectionSchema,
-  IntrospectionObjectType,
-  IntrospectionNamedTypeRef,
-  IntrospectionNonNullTypeRef,
-  GraphQLSchema,
+  type GraphQLSchema,
+  type IntrospectionNamedTypeRef,
+  type IntrospectionNonNullTypeRef,
+  type IntrospectionObjectType,
+  type IntrospectionSchema,
   TypeKind,
+  graphql,
 } from "graphql";
-
 import {
-  ObjectType,
-  InputType,
-  Resolver,
-  Field,
-  Query,
   Arg,
-  buildSchema,
-  ID,
+  Field,
   Float,
-  Int,
   GraphQLISODateTime,
   GraphQLTimestamp,
-} from "../../src";
-import { getSchemaInfo } from "../helpers/getSchemaInfo";
+  ID,
+  Int,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 import { CustomScalar, CustomType, ObjectScalar } from "../helpers/customScalar";
 import { getSampleObjectFieldType } from "../helpers/getSampleObjectFieldType";
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
+import { getSchemaInfo } from "../helpers/getSchemaInfo";
 
 describe("Scalars", () => {
   let schemaIntrospection: IntrospectionSchema;
   let sampleObject: IntrospectionObjectType;
   let schema: GraphQLSchema;
-
   let argScalar: string | undefined;
-  let argDate: Date | undefined;
+
   beforeEach(() => {
     argScalar = undefined;
-    argDate = undefined;
   });
 
   beforeAll(async () => {
@@ -45,78 +40,77 @@ describe("Scalars", () => {
 
     @ObjectType()
     class SampleObject {
-      @Field(type => ID)
+      @Field(() => ID)
       idField: any;
 
       @Field()
-      implicitFloatField: number;
+      implicitFloatField!: number;
 
-      @Field(type => Float)
+      @Field(() => Float)
       explicitFloatField: any;
 
-      @Field(type => Int)
+      @Field(() => Int)
       intField: any;
 
       @Field()
-      implicitStringField: string;
+      implicitStringField!: string;
 
-      @Field(type => String)
+      @Field(() => String)
       explicitStringField: any;
 
       @Field()
-      implicitBooleanField: boolean;
+      implicitBooleanField!: boolean;
 
-      @Field(type => Boolean)
+      @Field(() => Boolean)
       explicitBooleanField: any;
 
       @Field()
-      implicitDateField: Date;
+      implicitDateField!: Date;
 
-      @Field(type => Date)
+      @Field(() => Date)
       explicitDateField: any;
 
-      @Field(type => GraphQLISODateTime)
+      @Field(() => GraphQLISODateTime)
       ISODateField: any;
 
-      @Field(type => GraphQLTimestamp)
+      @Field(() => GraphQLTimestamp)
       timestampField: any;
 
-      @Field(type => CustomScalar)
+      @Field(() => CustomScalar)
       customScalarField: any;
     }
 
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       @Query()
       mainQuery(): SampleObject {
         return {} as any;
       }
 
-      @Query(returns => CustomScalar)
+      @Query(() => CustomScalar)
       returnScalar(): string {
         return "returnScalar";
       }
 
-      @Query(returns => Boolean)
-      argScalar(@Arg("scalar", type => CustomScalar) scalar: any): any {
+      @Query(() => Boolean)
+      argScalar(@Arg("scalar", () => CustomScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Boolean)
-      objectArgScalar(@Arg("scalar", type => ObjectScalar) scalar: any): any {
+      @Query(() => Boolean)
+      objectArgScalar(@Arg("scalar", () => ObjectScalar) scalar: any): any {
         argScalar = scalar;
         return true;
       }
 
-      @Query(returns => Date)
+      @Query(() => Date)
       returnDate(): any {
         return new Date();
       }
 
       @Query()
-      argDate(@Arg("date", type => Date) date: any): boolean {
-        argDate = date;
+      argDate(@Arg("date", () => Date) _date: any): boolean {
         return true;
       }
     }
@@ -187,21 +181,21 @@ describe("Scalars", () => {
       const explicitDateFieldType = getFieldType("explicitDateField");
 
       expect(explicitDateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(explicitDateFieldType.name).toEqual("DateTime");
+      expect(explicitDateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate Date scalar field type when prop type is Date", async () => {
       const implicitStringFieldType = getFieldType("implicitDateField");
 
       expect(implicitStringFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(implicitStringFieldType.name).toEqual("DateTime");
+      expect(implicitStringFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate ISODate scalar field type", async () => {
       const ISODateFieldType = getFieldType("ISODateField");
 
       expect(ISODateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(ISODateFieldType.name).toEqual("DateTime");
+      expect(ISODateFieldType.name).toEqual("DateTimeISO");
     });
 
     it("should generate Timestamp scalar field type", async () => {
@@ -224,8 +218,8 @@ describe("Scalars", () => {
       const query = `query {
         returnScalar
       }`;
-      const result = await graphql(schema, query);
-      const returnScalar = result.data!.returnScalar;
+      const result: any = await graphql({ schema, source: query });
+      const { returnScalar } = result.data!;
 
       expect(returnScalar).toEqual("TypeGraphQL serialize");
     });
@@ -234,7 +228,7 @@ describe("Scalars", () => {
       const query = `query {
         argScalar(scalar: "test")
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argScalar!).toEqual("TypeGraphQL parseLiteral");
     });
@@ -243,408 +237,9 @@ describe("Scalars", () => {
       const query = `query {
         objectArgScalar(scalar: "test")
       }`;
-      await graphql(schema, query);
+      await graphql({ schema, source: query });
 
       expect(argScalar!).toEqual({ value: "TypeGraphQL parseLiteral" });
-    });
-  });
-
-  describe("Bulit-in scalars", () => {
-    let sampleResolver: any;
-    let localArgDate: Date | undefined;
-
-    beforeAll(async () => {
-      getMetadataStorage().clear();
-
-      @InputType()
-      class DateInput {
-        @Field(type => Date)
-        date: any;
-
-        @Field(type => Date, { nullable: true })
-        nullableDate?: any;
-      }
-
-      @Resolver()
-      class SampleResolver {
-        @Query(returns => Date)
-        returnDate(): any {
-          return new Date();
-        }
-
-        @Query(returns => Date, { nullable: true })
-        nullableReturnDate(): Date | null {
-          return null;
-        }
-
-        @Query(returns => Date)
-        returnStringAsDate(): any {
-          return new Date().toISOString();
-        }
-
-        @Query()
-        argDate(@Arg("date", type => Date) date: any): boolean {
-          localArgDate = date;
-          return true;
-        }
-
-        @Query()
-        nullableArgDate(
-          @Arg("date", type => Date, { nullable: true })
-          date: any,
-        ): boolean {
-          localArgDate = date;
-          return true;
-        }
-
-        @Query()
-        inputDate(@Arg("input", type => DateInput) dateInput: any): boolean {
-          localArgDate = dateInput.date;
-          return true;
-        }
-      }
-
-      sampleResolver = SampleResolver;
-    });
-
-    beforeEach(() => {
-      argDate = undefined;
-    });
-
-    describe("GraphQLISODate", () => {
-      let localSchema: GraphQLSchema;
-
-      beforeAll(async () => {
-        localSchema = await buildSchema({
-          resolvers: [sampleResolver],
-          dateScalarMode: "isoDate",
-          validate: false,
-        });
-      });
-
-      it("should properly serialize date", async () => {
-        const query = `query {
-          returnDate
-        }`;
-        const beforeQuery = Date.now();
-        const result = await graphql(localSchema, query);
-        const afterQuery = Date.now();
-        const returnDate = Date.parse(result.data!.returnDate);
-
-        expect(returnDate).toBeLessThanOrEqual(afterQuery);
-        expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
-      });
-
-      it("should not fail while serializing null", async () => {
-        const query = `query {
-          nullableReturnDate
-        }`;
-
-        const result = await graphql(localSchema, query);
-
-        expect(result.errors).toBeUndefined();
-        expect(result.data!.nullableReturnDate).toBeNull();
-      });
-
-      it("should throw error when unable to serialize value as date", async () => {
-        const query = `query {
-          returnStringAsDate
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toContain(`Unable to serialize value`);
-        expect(errors![0].message).toContain(`it's not an instance of 'Date'`);
-      });
-
-      it("should properly parse date from arg", async () => {
-        const now = new Date();
-        const query = `query {
-          argDate(date: "${now.toISOString()}")
-        }`;
-        await graphql(localSchema, query);
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type as date arg", async () => {
-        const query = `query {
-          argDate(date: true)
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
-        );
-      });
-
-      it("should not fail while parsing null date arg", async () => {
-        const query = `query {
-          nullableArgDate(date: null)
-        }`;
-
-        await graphql(localSchema, query);
-
-        expect(localArgDate).toBeNull();
-      });
-
-      it("should properly parse date from input", async () => {
-        const now = new Date();
-        const query = `query {
-          inputDate(input: { date: "${now.toISOString()}" })
-        }`;
-        await graphql(localSchema, query);
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type as date input", async () => {
-        const query = `query {
-          inputDate(input: { date: true })
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"DateTime!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLISODateTime scalar supports only 'StringValue' ones"`,
-        );
-      });
-
-      it("should not fail while parsing null from date input", async () => {
-        const now = new Date();
-        const query = `query {
-          inputDate(input: { date: "${now.toISOString()}", nullableDate: null })
-        }`;
-
-        const result = await graphql(localSchema, query);
-
-        expect(result.errors).toBeUndefined();
-      });
-
-      it("should properly parse date from variable", async () => {
-        const now = new Date();
-        const query = `query DateQuery($date: DateTime!) {
-          inputDate(input: {date: $date})
-        }`;
-        await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: now.toISOString(),
-          },
-        });
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type for as date variable", async () => {
-        const query = `query DateQuery($date: DateTime!) {
-          inputDate(input: {date: $date})
-        }`;
-
-        const { errors } = await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: true,
-          },
-        });
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Variable \\"$date\\" got invalid value true; Expected type \\"DateTime\\". Unable to parse value 'true' as GraphQLISODateTime scalar supports only string values"`,
-        );
-      });
-
-      it("should not fail while parsing null from date variable", async () => {
-        const now = new Date();
-        const query = `query DateQuery($date: DateTime!, $nullableDate: DateTime) {
-          inputDate(input: {date: $date, nullableDate: $nullableDate})
-        }`;
-
-        const result = await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: now.toISOString(),
-            nullableDate: null,
-          },
-        });
-
-        expect(result.errors).toBeUndefined();
-      });
-    });
-
-    describe("GraphQLTimestamp", () => {
-      let localSchema: GraphQLSchema;
-
-      beforeAll(async () => {
-        localSchema = await buildSchema({
-          resolvers: [sampleResolver],
-          dateScalarMode: "timestamp",
-          validate: false,
-        });
-      });
-
-      it("should properly serialize date", async () => {
-        const query = `query {
-          returnDate
-        }`;
-        const beforeQuery = Date.now();
-        const result = await graphql(localSchema, query);
-        const afterQuery = Date.now();
-        const returnDate = result.data!.returnDate;
-
-        expect(returnDate).toBeLessThanOrEqual(afterQuery);
-        expect(returnDate).toBeGreaterThanOrEqual(beforeQuery);
-      });
-
-      it("should not fail while serializing null", async () => {
-        const query = `query {
-          nullableReturnDate
-        }`;
-
-        const result = await graphql(localSchema, query);
-
-        expect(result.errors).toBeUndefined();
-        expect(result.data!.nullableReturnDate).toBeNull();
-      });
-
-      it("should throw error when unable to serialize value as date", async () => {
-        const query = `query {
-          returnStringAsDate
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toContain(`Unable to serialize value`);
-        expect(errors![0].message).toContain(`it's not an instance of 'Date'`);
-      });
-
-      it("should properly parse date from arg", async () => {
-        const now = new Date();
-        const query = `query {
-          argDate(date: ${now.getTime()})
-        }`;
-        await graphql(localSchema, query);
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type as date arg", async () => {
-        const query = `query {
-          argDate(date: true)
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
-        );
-      });
-
-      it("should not fail while parsing null date arg", async () => {
-        const query = `query {
-          nullableArgDate(date: null)
-        }`;
-
-        await graphql(localSchema, query);
-
-        expect(localArgDate).toBeNull();
-      });
-
-      it("should properly parse date from input", async () => {
-        const now = new Date();
-        const query = `query {
-          inputDate(input: {date: ${now.getTime()}})
-        }`;
-        await graphql(localSchema, query);
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type as date input", async () => {
-        const query = `query {
-          inputDate(input: { date: true })
-        }`;
-
-        const { errors } = await graphql(localSchema, query);
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Expected value of type \\"Timestamp!\\", found true; Unable to parse literal value of kind 'BooleanValue' as GraphQLTimestamp scalar supports only 'IntValue' ones"`,
-        );
-      });
-
-      it("should not fail while parsing null from date input", async () => {
-        const now = new Date();
-        const query = `query {
-          inputDate(input: { date: ${now.getTime()}, nullableDate: null })
-        }`;
-
-        const result = await graphql(localSchema, query);
-
-        expect(result.errors).toBeUndefined();
-      });
-
-      it("should properly parse date from variable", async () => {
-        const now = new Date();
-        const query = `query DateQuery($date: Timestamp!) {
-          inputDate(input: {date: $date})
-        }`;
-        await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: now.getTime(),
-          },
-        });
-
-        expect(now.getTime()).toEqual(localArgDate!.getTime());
-      });
-
-      it("should fail while providing wrong value type for as date variable", async () => {
-        const query = `query DateQuery($date: Timestamp!) {
-          inputDate(input: {date: $date})
-        }`;
-
-        const { errors } = await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: true,
-          },
-        });
-
-        expect(errors).toHaveLength(1);
-        expect(errors![0].message).toMatchInlineSnapshot(
-          `"Variable \\"$date\\" got invalid value true; Expected type \\"Timestamp\\". Unable to parse value 'true' as GraphQLTimestamp scalar supports only number values"`,
-        );
-      });
-
-      it("should not fail while parsing null from date variable", async () => {
-        const now = new Date();
-        const query = `query DateQuery($date: Timestamp!, $nullableDate: Timestamp) {
-          inputDate(input: {date: $date, nullableDate: $nullableDate})
-        }`;
-
-        const result = await graphql({
-          schema: localSchema,
-          source: query,
-          variableValues: {
-            date: now.getTime(),
-            nullableDate: null,
-          },
-        });
-
-        expect(result.errors).toBeUndefined();
-      });
     });
   });
 
@@ -656,11 +251,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -677,24 +272,24 @@ describe("Scalars", () => {
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(dateFieldType.name).toEqual("DateTime");
+      expect(dateFieldType.name).toEqual("DateTimeISO");
     });
 
-    it("should generate date scalar field type when dateScalarMode is isoDate", async () => {
+    it("should generate DateTime scalar field type when scalarsMap is using GraphQLISODateTime", async () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [sampleResolver],
-        dateScalarMode: "isoDate",
+        scalarsMap: [{ type: Date, scalar: GraphQLISODateTime }],
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
       expect(dateFieldType.kind).toEqual(TypeKind.SCALAR);
-      expect(dateFieldType.name).toEqual("DateTime");
+      expect(dateFieldType.name).toEqual("DateTimeISO");
     });
 
-    it("should generate timestamp scalar field type when dateScalarMode is timestamp", async () => {
+    it("should generate Timestamp scalar field type when scalarsMap is using GraphQLTimestamp", async () => {
       const schemaInfo = await getSchemaInfo({
         resolvers: [sampleResolver],
-        dateScalarMode: "timestamp",
+        scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
       });
       const dateFieldType = getSampleObjectFieldType(schemaInfo.schemaIntrospection)("dateField");
 
@@ -708,10 +303,10 @@ describe("Scalars", () => {
       @ObjectType()
       class SampleObject {
         @Field()
-        customField: CustomType;
+        customField!: CustomType;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {
@@ -734,11 +329,11 @@ describe("Scalars", () => {
 
       @ObjectType()
       class SampleObject {
-        @Field(type => Date)
+        @Field(() => Date)
         dateField: any;
       }
 
-      @Resolver(of => SampleObject)
+      @Resolver(() => SampleObject)
       class SampleResolver {
         @Query()
         mainQuery(): SampleObject {

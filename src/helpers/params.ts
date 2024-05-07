@@ -1,7 +1,7 @@
+import { type ReturnTypeFunc, type TypeOptions, type ValidateOptions } from "@/decorators/types";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { type CommonArgMetadata } from "@/metadata/definitions";
 import { findType } from "./findType";
-import { ReturnTypeFunc, TypeOptions, ValidateOptions } from "../decorators/types";
-import { CommonArgMetadata } from "../metadata/definitions";
-import { SymbolKeysNotSupportedError } from "../errors";
 
 export interface ParamInfo {
   prototype: Object;
@@ -39,6 +39,7 @@ export function getParamInfo({
     index: parameterIndex,
     getType,
     typeOptions,
-    validate: options.validate,
+    validateSettings: options.validate,
+    validateFn: options.validateFn,
   };
 }

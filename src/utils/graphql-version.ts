@@ -1,22 +1,13 @@
+import * as graphql from "graphql";
 import semVer from "semver";
-
+// Avoid '@/' due to 'scripts/version.ts'
 import { UnmetGraphQLPeerDependencyError } from "../errors";
 
-export function getInstalledGraphQLVersion(): string {
-  const graphqlPackageJson = require("graphql/package.json");
-  return graphqlPackageJson.version;
-}
-
-export function getPeerDependencyGraphQLRequirement(): string {
-  const ownPackageJson = require("../../package.json");
-  return ownPackageJson.peerDependencies.graphql;
-}
+// This must be kept in sync with 'package.json'
+export const graphQLPeerDependencyVersion = "^16.8.1";
 
 export function ensureInstalledCorrectGraphQLPackage() {
-  const installedVersion = getInstalledGraphQLVersion();
-  const versionRequirement = getPeerDependencyGraphQLRequirement();
-
-  if (!semVer.satisfies(installedVersion, versionRequirement)) {
-    throw new UnmetGraphQLPeerDependencyError();
+  if (!semVer.satisfies(graphql.version, graphQLPeerDependencyVersion)) {
+    throw new UnmetGraphQLPeerDependencyError(graphql.version, graphQLPeerDependencyVersion);
   }
 }

@@ -1,8 +1,8 @@
-import { ClassMetadata } from "./class-metadata";
-import { TypeResolver } from "../../interfaces";
+import { type TypeResolver } from "@/typings";
+import { type ClassMetadata } from "./class-metadata";
 
-export interface InterfaceClassMetadata extends ClassMetadata {
+export type InterfaceClassMetadata = {
   resolveType?: TypeResolver<any, any>;
   autoRegisteringDisabled: boolean;
   interfaceClasses: Function[] | undefined;
-}
+} & ClassMetadata;

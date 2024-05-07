@@ -1,0 +1,19 @@
+query GetRecipes {
+  recipes {
+    title
+    description
+    ingredients
+    averageRating
+    ratings
+  }
+}
+
+mutation AddRecipe {
+  addRecipe(title: "Sample Recipe") {
+    averageRating
+  }
+}
+
+mutation DeleteRecipe {
+  deleteRecipe(title: "Recipe 1")
+}

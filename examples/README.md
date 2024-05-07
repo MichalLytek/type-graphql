@@ -1,8 +1,10 @@
 # Examples
 
-This folder consist of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
+This folder consists of simple examples showing how to use different `TypeGraphQL` features and how well it integrates with 3rd party libraries.
 
-All examples has a `examples.gql` file with sample queries/mutations/subscriptions that you can execute.
+To run an example, simply go to the subdirectory (e.g. `cd ./simple-usage`), and then start the server (`npx ts-node ./index.ts`).
+
+Each subdirectory contains a `examples.graphql` file with predefined GraphQL queries/mutations/subscriptions that you can use in Apollo Studio (<http://localhost:4000>) and play with them by modifying their shape and data.
 
 > **Note**: Be aware that the examples on master branch are designed to work with latest codebase that might not be released yet.
 > So if you are looking for examples that are compatible with the version you use, just browse the files by the git tag, e.g. [`tree/v0.16.0` for `0.16.0` release](https://github.com/MichalLytek/type-graphql/tree/v0.16.0/examples).
@@ -15,7 +17,7 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 
 - [Enums and unions](./enums-and-unions)
 - [Subscriptions (simple)](./simple-subscriptions)
-- [Subscriptions (using Redis)](./redis-subscriptions)
+- [Subscriptions (using Redis) \*\*](./redis-subscriptions)
 - [Interfaces](./interfaces-inheritance)
 - [Extensions (metadata)](./extensions)
 
@@ -37,11 +39,13 @@ All examples has a `examples.gql` file with sample queries/mutations/subscriptio
 
 - [TypeORM (manual, synchronous) \*](./typeorm-basic-usage)
 - [TypeORM (automatic, lazy relations) \*](./typeorm-lazy-relations)
-- [MikroORM](./mikro-orm)
-- [Typegoose](./typegoose)
-- [Apollo federation](./apollo-federation)
+- [MikroORM \*](./mikro-orm)
+- [Typegoose \*](./typegoose)
+- [Apollo Federation](./apollo-federation)
+- [Apollo Federation 2](./apollo-federation-2)
 - [Apollo Cache Control](./apollo-cache)
-- [Apollo Client state](./apollo-client)
-- [GraphQL Modules](./graphql-modules)
+- [GraphQL Scalars](./graphql-scalars)
+- [TSyringe](./tsyringe)
 
-_\* Note that you need to edit the TypeORM examples `index.ts` with credentials to your local database_
+_\* Note that we need to provide the environment variable `DATABASE_URL` with connection parameters to your local database_ \
+_\*\* Note that we need to provide the environment variable `REDIS_URL` with connection parameters to your local Redis instance_

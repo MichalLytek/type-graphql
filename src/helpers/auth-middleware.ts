@@ -1,7 +1,7 @@
-import { MiddlewareFn } from "../interfaces/Middleware";
-import { AuthChecker, AuthCheckerFn, AuthMode } from "../interfaces";
-import { UnauthorizedError, ForbiddenError } from "../errors";
-import { IOCContainer } from "../utils/container";
+import { AuthenticationError, AuthorizationError } from "@/errors";
+import { type AuthChecker, type AuthCheckerFn, type AuthMode } from "@/typings";
+import { type MiddlewareFn } from "@/typings/middleware";
+import { type IOCContainer } from "@/utils/container";
 
 export function AuthMiddleware(
   authChecker: AuthChecker<any, any>,
@@ -21,8 +21,9 @@ export function AuthMiddleware(
     if (!accessGranted) {
       if (authMode === "null") {
         return null;
-      } else if (authMode === "error") {
-        throw roles.length === 0 ? new UnauthorizedError() : new ForbiddenError();
+      }
+      if (authMode === "error") {
+        throw roles.length === 0 ? new AuthenticationError() : new AuthorizationError();
       }
     }
     return next();

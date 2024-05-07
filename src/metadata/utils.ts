@@ -1,31 +1,27 @@
+import { ReflectMetadataMissingError } from "@/errors";
+import { isThrowing } from "@/helpers/isThrowing";
+import { type Middleware } from "@/typings/middleware";
 import {
-  ResolverClassMetadata,
-  BaseResolverMetadata,
-  MiddlewareMetadata,
-  FieldResolverMetadata,
-  ExtensionsClassMetadata,
-  ExtensionsFieldMetadata,
-  ExtensionsMetadata,
-  ResolverMiddlewareMetadata,
+  type BaseResolverMetadata,
+  type FieldResolverMetadata,
+  type ResolverClassMetadata,
+  type ResolverMiddlewareMetadata,
 } from "./definitions";
-import { Middleware } from "../interfaces/Middleware";
-import { isThrowing } from "../helpers/isThrowing";
-import { ReflectMetadataMissingError } from "../errors";
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
   definitions: T[],
   superResolver: Function,
   resolverMetadata: ResolverClassMetadata,
 ): T[] {
-  return definitions.map(metadata => {
-    return metadata.target === superResolver
+  return definitions.map(metadata =>
+    metadata.target === superResolver
       ? {
           ...metadata,
           target: resolverMetadata.target,
           resolverClassMetadata: resolverMetadata,
         }
-      : metadata;
-  });
+      : metadata,
+  );
 }
 
 export function mapSuperFieldResolverHandlers(
@@ -35,16 +31,16 @@ export function mapSuperFieldResolverHandlers(
 ) {
   const superMetadata = mapSuperResolverHandlers(definitions, superResolver, resolverMetadata);
 
-  return superMetadata.map(metadata => {
-    return metadata.target === superResolver
+  return superMetadata.map(metadata =>
+    metadata.target === superResolver
       ? {
           ...metadata,
           getObjectType: isThrowing(metadata.getObjectType!)
             ? resolverMetadata.getObjectType
             : metadata.getObjectType,
         }
-      : metadata;
-  });
+      : metadata,
+  );
 }
 
 export function mapMiddlewareMetadataToArray(
@@ -52,18 +48,13 @@ export function mapMiddlewareMetadataToArray(
 ): Array<Middleware<any>> {
   return metadata
     .map(m => m.middlewares)
-    .reduce<Array<Middleware<any>>>(
-      (middlewares, resultArray) => resultArray.concat(middlewares),
-      [],
-    );
+    .reduce<
+      Array<Middleware<any>>
+    >((middlewares, resultArray) => resultArray.concat(middlewares), []);
 }
 
 export function ensureReflectMetadataExists() {
-  if (
-    typeof Reflect !== "object" ||
-    typeof Reflect.decorate !== "function" ||
-    typeof Reflect.metadata !== "function"
-  ) {
+  if (typeof Reflect !== "object" || typeof Reflect.getMetadata !== "function") {
     throw new ReflectMetadataMissingError();
   }
 }

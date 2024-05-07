@@ -247,12 +247,6 @@ const CollectiveSection = props => (
     <div id="sponsors" className="snippet-container">
       <div className="wrapper">
         <h3 className="title">Gold Sponsors 🏆</h3>
-        <div className="tiles">
-          <a href="https://www.ecadlabs.com/" target="_blank">
-            <img src={imgUrl("ecad_new.png")} style={{ width: 300 }} />
-            <span style={{ fontSize: 20 }}>ECAD Labs</span>
-          </a>
-        </div>
         <blockquote className="note">
           <span>Please ask your company to support this open source project by</span>{" "}
           <a href="https://opencollective.com/typegraphql/contribute/gold-sponsors-8340">
@@ -261,53 +255,55 @@ const CollectiveSection = props => (
           <span>and getting a premium technical support from our core contributors.</span>
         </blockquote>
         <h3 className="title">Silver Sponsors 🥈</h3>
-        <div className="tiles">
-          <a href="https://gorrion.io/" target="_blank">
-            <img src={imgUrl("gorrion.png")} style={{ width: 250, backgroundColor: "#f9f9f9" }} />
-            <span>Gorrion Software House</span>
+        <blockquote className="note">
+          <span>Please ask your company to support this open source project by</span>{" "}
+          <a href="https://opencollective.com/typegraphql/contribute/silver-sponsors-14804">
+            becoming a silver sponsor
           </a>
-          <a href="https://www.lovd.com/" target="_blank">
-            <img
-              src={imgUrl("lovd.png")}
-              style={{ width: 150, backgroundColor: "#f9f9f9", padding: "0 10px" }}
-            />
-            <span>Lovd</span>
-          </a>
-        </div>
+          .
+        </blockquote>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
           <a href="https://www.ligrsystems.com/" target="_blank">
-            <img src={imgUrl("live-graphics-system.png")} style={{ width: 60 }} />
+            <img src={imgUrl("live-graphics-system.png")} style={{ width: 55 }} />
             <span>Live Graphic Systems</span>
           </a>
           <a href="https://www.joinlifex.com/" target="_blank">
-            <img src={imgUrl("lifex.svg")} style={{ width: 65 }} />
+            <img src={imgUrl("lifex.svg")} style={{ width: 60 }} />
             <span>LifeX Aps</span>
           </a>
-          <a href="https://www.swissmentor.com/" target="_blank">
-            <img src={imgUrl("swiss-mentor.png")} style={{ width: 125 }} />
-            <span>SwissMentor</span>
-          </a>
-          <a href="https://www.adminremix.com/" target="_blank">
-            <img src={imgUrl("admin-remix.png")} style={{ width: 90 }} />
-            <span>Admin Remix</span>
-          </a>
-          <a href="https://flatironsdevelopment.com/" target="_blank">
-            <img src={imgUrl("flatirons.png")} style={{ width: 55 }} />
-            <span>Flatirons Development</span>
-          </a>
           <a href="https://instinctools.com/manufacturing/" target="_blank">
-            <img src={imgUrl("instinctools.svg")} style={{ width: 110 }} />
+            <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
+          </a>
+          <a href="https://www.vpsserver.com/" target="_blank">
+            <img src={imgUrl("vps-server.png")} style={{ width: 125 }} />
+            <span>VPS Server</span>
+          </a>
+          <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
+            <img src={imgUrl("nongamstopbets.png")} style={{ width: 50 }} />
+            <span>NonGamstopBets</span>
+          </a>
+          <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank">
+            <img src={imgUrl("casinodeps.svg")} style={{ width: 80 }} />
+            <span>CasinoDeps</span>
+          </a>
+          <a href="https://uk.nonstopcasino.org/non-gamstop-casinos/" target="_blank">
+            <img src={imgUrl("non-stop-casino.png")} style={{ width: 60 }} />
+            <span>Non Stop Casino</span>
+          </a>
+          <a href="https://sidesmedia.com/" target="_blank">
+            <img src={imgUrl("sidesmedia.png")} style={{ width: 60 }} />
+            <span>SidesMedia</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
-          <img src="https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=48&width=1024&button=false" />
+          <img src="https://opencollective.com/typegraphql/tiers/members.svg?avatarHeight=45&width=320&button=false" />
         </a>
-        <h3 className="title">Backers ☕</h3>
-        <a href="https://opencollective.com/typegraphql#contributors">
-          <img src="https://opencollective.com/typegraphql/tiers/backers.svg?avatarHeight=48&width=1024&button=false" />
+        <h3 className="title">GitHub Sponsors 🐙</h3>
+        <a href="https://github.com/sponsors/TypeGraphQL">
+          <img src={imgUrl("github-sponsors.svg")} />
         </a>
       </div>
     </div>

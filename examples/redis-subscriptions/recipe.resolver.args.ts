@@ -1,7 +1,7 @@
-import { ID, Field, ArgsType } from "../../src";
+import { ArgsType, Field, ID } from "type-graphql";
 
 @ArgsType()
 export class NewCommentsArgs {
-  @Field(type => ID)
-  recipeId: string;
+  @Field(_type => ID)
+  recipeId!: string;
 }

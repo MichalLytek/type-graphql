@@ -1,16 +1,17 @@
-import { Resolver, Query, Mutation, Arg } from "../../src";
-
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Service } from "typedi";
 import { LogMessage } from "./log-message.decorator";
+import { sampleRecipes } from "./recipe.data";
 import { Recipe } from "./recipe.type";
-import { sampleRecipes } from "./helpers/recipe";
 
+@Service()
 @Resolver()
-export class ExampleResolver {
+export class RecipeResolver {
   private recipesData: Recipe[] = sampleRecipes.slice();
 
-  @Query(returns => [Recipe])
+  @Query(_returns => [Recipe])
   async recipes(): Promise<Recipe[]> {
-    return await this.recipesData;
+    return this.recipesData;
   }
 
   @Mutation()

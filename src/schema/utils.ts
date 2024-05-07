@@ -1,10 +1,10 @@
 import {
-  GraphQLInputObjectType,
-  GraphQLInputFieldConfigMap,
-  GraphQLObjectType,
-  GraphQLInterfaceType,
-  GraphQLFieldConfigMap,
-  GraphQLFieldConfigArgumentMap,
+  type GraphQLFieldConfigArgumentMap,
+  type GraphQLFieldConfigMap,
+  type GraphQLInputFieldConfigMap,
+  type GraphQLInputObjectType,
+  type GraphQLInterfaceType,
+  type GraphQLObjectType,
 } from "graphql";
 
 export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
@@ -12,6 +12,7 @@ export function getFieldMetadataFromInputType(type: GraphQLInputObjectType) {
   const typeFields = Object.keys(fieldInfo).reduce<GraphQLInputFieldConfigMap>(
     (fieldsMap, fieldName) => {
       const superField = fieldInfo[fieldName];
+      // eslint-disable-next-line no-param-reassign
       fieldsMap[fieldName] = {
         type: superField.type,
         astNode: superField.astNode,
@@ -30,9 +31,11 @@ export function getFieldMetadataFromObjectType(type: GraphQLObjectType | GraphQL
   const typeFields = Object.keys(fieldInfo).reduce<GraphQLFieldConfigMap<any, any>>(
     (fieldsMap, fieldName) => {
       const superField = fieldInfo[fieldName];
+      // eslint-disable-next-line no-param-reassign
       fieldsMap[fieldName] = {
         type: superField.type,
         args: superField.args.reduce<GraphQLFieldConfigArgumentMap>((argMap, { name, ...arg }) => {
+          // eslint-disable-next-line no-param-reassign
           argMap[name] = arg;
           return argMap;
         }, {}),

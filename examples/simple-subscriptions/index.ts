@@ -1,27 +1,35 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "../../src";
-
-import { SampleResolver } from "./resolver";
+import http from "node:http";
+import path from "node:path";
+import { createYoga } from "graphql-yoga";
+import { buildSchema } from "type-graphql";
+import { NotificationResolver } from "./notification.resolver";
+import { pubSub } from "./pubsub";
 
 async function bootstrap() {
-  // Build the TypeGraphQL schema
+  // Build TypeGraphQL executable schema
   const schema = await buildSchema({
-    resolvers: [SampleResolver],
+    // Array of resolvers
+    resolvers: [NotificationResolver],
+    // Create 'schema.graphql' file with schema definition in current directory
+    emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    // Publish/Subscribe
+    pubSub,
   });
 
   // Create GraphQL server
-  const server = new ApolloServer({
+  const yoga = createYoga({
     schema,
-    playground: true,
-    // you can pass the endpoint path for subscriptions
-    // otherwise it will be the same as main graphql endpoint
-    // subscriptions: "/subscriptions",
+    graphqlEndpoint: "/graphql",
   });
 
-  // Start the server
-  const { url } = await server.listen(4000);
-  console.log(`Server is running, GraphQL Playground available at ${url}`);
+  // Create server
+  const httpServer = http.createServer(yoga);
+
+  // Start server
+  httpServer.listen(4000, () => {
+    console.log(`GraphQL server ready at http://localhost:4000/graphql`);
+  });
 }
 
-bootstrap();
+bootstrap().catch(console.error);

@@ -26,10 +26,6 @@ Otherwise, `graphql-js` will not be able to correctly detect the underlying Grap
 
 ## Bootstrapping
 
-### Should I use an array of manually imported resolver classes or a glob path string?
-
-Using a path to resolver module files compels us to structure our project folders or consistently name files with a prefix/suffix and when there are several resolver classes, this might be easier than having to remember to import and register every new class.
-
 ### How do I fix this error? `Cannot use GraphQLSchema "[object Object]" from another module or realm`
 
 This error occurs mostly when there are more than one version of the `graphql-js` module in the project.
@@ -88,8 +84,8 @@ data: [DataPoint]
 In GraphQL, input objects have a separate type in the system because object types can contain fields that express circular references or references to interfaces and unions, neither of which are appropriate for use as input arguments.
 However, if there are only simple fields in the class definition, reuse the code between the InputType and the ObjectType by decorating the ObjectType class with `@InputType`. Remember to set a new name of the type in the decorator parameter:
 
-```typescript
-@ObjectType() // name inferred to `Person`
+```ts
+@ObjectType() // Name inferred as 'Person' from class name
 @InputType("PersonInput")
 export class Person {}
 ```

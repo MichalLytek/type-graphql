@@ -5,21 +5,27 @@ sidebar_label: Validation
 
 ## Scalars
 
-The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](https://github.com/MichalLytek/type-graphql/blob/master/docs/scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
+The standard way to ensure that inputs and arguments are correct, such as an `email` field that really contains a proper e-mail address, is to use [custom scalars](./scalars.md) e.g. `GraphQLEmail` from [`graphql-custom-types`](https://github.com/stylesuxx/graphql-custom-types). However, creating scalars for all single cases of data types (credit card number, base64, IP, URL) might be cumbersome.
 
 That's why TypeGraphQL has built-in support for argument and input validation.
 By default, we can use the [`class-validator`](https://github.com/typestack/class-validator) library and easily declare the requirements for incoming data (e.g. a number is in the range 0-255 or a password that is longer than 8 characters) thanks to the awesomeness of decorators.
 
-We can also use other libraries or our own custom solution, as described in [custom validators](#custom-validators) section.
+We can also use other libraries or our own custom solution, as described in [custom validators](#custom-validator) section.
 
 ## `class-validator`
 
 ### How to use
 
-First we decorate the input/arguments class with the appropriate decorators from `class-validator`.
+First, we need to install the `class-validator` package:
+
+```sh
+npm install class-validator
+```
+
+Then we decorate the input/arguments class with the appropriate decorators from `class-validator`.
 So we take this:
 
-```typescript
+```ts
 @InputType()
 export class RecipeInput {
   @Field()
@@ -32,7 +38,7 @@ export class RecipeInput {
 
 ...and turn it into this:
 
-```typescript
+```ts
 import { MaxLength, Length } from "class-validator";
 
 @InputType()
@@ -47,16 +53,25 @@ export class RecipeInput {
 }
 ```
 
+Then we need to enable the auto-validate feature (as it's disabled by default) by simply setting `validate: true` in `buildSchema` options, e.g.:
+
+```ts
+const schema = await buildSchema({
+  resolvers: [RecipeResolver],
+  validate: true, // Enable 'class-validator' integration
+});
+```
+
 And that's it! 😉
 
 TypeGraphQL will automatically validate our inputs and arguments based on the definitions:
 
-```typescript
+```ts
 @Resolver(of => Recipe)
 export class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input") recipeInput: RecipeInput): Promise<Recipe> {
-    // you can be 100% sure that the input is correct
+    // 100% sure that the input is correct
     console.assert(recipeInput.title.length <= 30);
     console.assert(recipeInput.description.length >= 30);
     console.assert(recipeInput.description.length <= 255);
@@ -68,16 +83,16 @@ Of course, [there are many more decorators](https://github.com/typestack/class-v
 
 This feature is enabled by default. However, we can disable it if we must:
 
-```typescript
+```ts
 const schema = await buildSchema({
   resolvers: [RecipeResolver],
-  validate: false, // disable automatic validation or pass the default config object
+  validate: false, // Disable automatic validation or pass the default config object
 });
 ```
 
 And we can still enable it per resolver's argument if we need to:
 
-```typescript
+```ts
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(@Arg("input", { validate: true }) recipeInput: RecipeInput) {
@@ -88,7 +103,7 @@ class RecipeResolver {
 
 The `ValidatorOptions` object used for setting features like [validation groups](https://github.com/typestack/class-validator#validation-groups) can also be passed:
 
-```typescript
+```ts
 class RecipeResolver {
   @Mutation(returns => Recipe)
   async addRecipe(
@@ -101,6 +116,7 @@ class RecipeResolver {
 ```
 
 Note that by default, the `skipMissingProperties` setting of the `class-validator` is set to `true` because GraphQL will independently check whether the params/fields exist or not.
+Same goes to `forbidUnknownValues` setting which is set to `false` because the GraphQL runtime checks for additional data, not described in schema.
 
 GraphQL will also check whether the fields have correct types (String, Int, Float, Boolean, etc.) so we don't have to use the `@IsOptional`, `@Allow`, `@IsString` or the `@IsInt` decorators at all!
 
@@ -114,7 +130,7 @@ When a client sends incorrect data to the server:
 mutation ValidationMutation {
   addRecipe(
     input: {
-      # too long!
+      # Too long!
       title: "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet"
     }
   ) {
@@ -126,7 +142,7 @@ mutation ValidationMutation {
 
 the [`ArgumentValidationError`](https://github.com/MichalLytek/type-graphql/blob/master/src/errors/ArgumentValidationError.ts) will be thrown.
 
-By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
+By default, the `apollo-server` package from the [bootstrap guide](./bootstrap.md) will format the error to match the `GraphQLFormattedError` interface. So when the `ArgumentValidationError` occurs, the client will receive this JSON with a nice `validationErrors` property inside of `extensions.exception`:
 
 ```json
 {
@@ -158,9 +174,9 @@ By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md)
           ],
           "stacktrace": [
             "Error: Argument Validation Error",
-            "    at Object.<anonymous> (F:\\#Projekty\\type-graphql\\src\\resolvers\\validate-arg.ts:29:11)",
+            "    at Object.<anonymous> (/type-graphql/src/resolvers/validate-arg.ts:29:11)",
             "    at Generator.throw (<anonymous>)",
-            "    at rejected (F:\\#Projekty\\type-graphql\\node_modules\\tslib\\tslib.js:105:69)",
+            "    at rejected (/type-graphql/node_modules/tslib/tslib.js:105:69)",
             "    at processTicksAndRejections (internal/process/next_tick.js:81:5)"
           ]
         }
@@ -173,7 +189,7 @@ By default, the `apollo-server` package from the [bootstrap guide](bootstrap.md)
 
 Of course we can also create our own custom implementation of the `formatError` function provided in the `ApolloServer` config options which will transform the `GraphQLError` with a `ValidationError` array in the desired output format (e.g. `extensions.code = "ARGUMENT_VALIDATION_ERROR"`).
 
-### Example
+### Automatic Validation Example
 
 To see how this works, check out the [simple real life example](https://github.com/MichalLytek/type-graphql/tree/master/examples/automatic-validation).
 
@@ -187,33 +203,54 @@ An alternative solution that allows to completely get rid off big `class-validat
 
 We can also use other libraries than `class-validator` together with TypeGraphQL.
 
-To integrate it, all we need to do is to provide a custom function as `validate` option in `buildSchema`.
-It receives two parameters:
+To integrate it, all we need to do is to provide a custom function.
+It receives three parameters:
 
 - `argValue` which is the injected value of `@Arg()` or `@Args()`
-- `argType` which is a runtime type information (e.g. `String` or `RecipeInput`).
+- `argType` which is a runtime type information (e.g. `String` or `RecipeInput`)
+- `resolverData` which holds the resolver execution context, described as generic type `ResolverData<TContext>`
 
-The `validate` function can be async and should return nothing (`void`) when validation passes or throw an error when validation fails.
-So be aware of this while trying to wrap another library in `validate` function for TypeGraphQL.
+This function can be an async function and should return nothing (`void`) when validation passes, or throw an error when validation fails.
+So be aware of this while trying to wrap another library in `validateFn` function for TypeGraphQL.
 
+Then we provide this function as a `validateFn` option in `buildSchema`.
 Example using [decorators library for Joi validators (`joiful`)](https://github.com/joiful-ts/joiful):
 
 ```ts
 const schema = await buildSchema({
-  // ...other options
-  validate: argValue => {
-    // call joiful validate
+  // ...
+  validateFn: argValue => {
+    // Call joiful validate
     const { error } = joiful.validate(argValue);
     if (error) {
-      // throw error on failed validation
+      // Throw error on failed validation
       throw error;
     }
   },
 });
 ```
 
+The `validateFn` option is also supported as a `@Arg()` or `@Args()` decorator option, e.g.:
+
+```ts
+@Resolver()
+class SampleResolver {
+  @Query()
+  sampleQuery(
+    @Arg("sampleArg", {
+      validateFn: (argValue, argType) => {
+        // Do something here with arg value and type...
+      },
+    })
+    sampleArg: string,
+  ): string {
+    // ...
+  }
+}
+```
+
 > Be aware that when using custom validator, the error won't be wrapped with `ArgumentValidationError` like for the built-in `class-validator` validation.
 
-### Example
+### Custom Validation Example
 
 To see how this works, check out the [simple custom validation integration example](https://github.com/MichalLytek/type-graphql/tree/master/examples/custom-validation).

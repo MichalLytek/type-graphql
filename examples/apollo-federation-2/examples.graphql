@@ -1,0 +1,23 @@
+query {
+  topProducts {
+    __typename
+    name
+    price
+    shippingEstimate
+    inStock
+    reviews {
+      body
+      author {
+        name
+        birthDate
+        reviews {
+          product {
+            __typename
+            name
+          }
+          body
+        }
+      }
+    }
+  }
+}

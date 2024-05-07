@@ -1,8 +1,8 @@
-import { SymbolKeysNotSupportedError } from "../errors";
-import { Middleware } from "../interfaces/Middleware";
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodPropClassDecorator } from "./types";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getArrayFromOverloadedRest } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type Middleware } from "@/typings/middleware";
+import { type MethodPropClassDecorator } from "./types";
 
 export function UseMiddleware(middlewares: Array<Middleware<any>>): MethodPropClassDecorator;
 export function UseMiddleware(...middlewares: Array<Middleware<any>>): MethodPropClassDecorator;
@@ -14,7 +14,7 @@ export function UseMiddleware(
   return (
     target: Function | Object,
     propertyKey?: string | symbol,
-    descriptor?: TypedPropertyDescriptor<any>,
+    _descriptor?: TypedPropertyDescriptor<any>,
   ) => {
     if (propertyKey == null) {
       getMetadataStorage().collectResolverMiddlewareMetadata({

@@ -13,3 +13,10 @@ export interface DirectiveFieldMetadata {
   fieldName: string;
   directive: DirectiveMetadata;
 }
+
+export interface DirectiveArgumentMetadata {
+  target: Function;
+  fieldName: string;
+  parameterIndex: number;
+  directive: DirectiveMetadata;
+}

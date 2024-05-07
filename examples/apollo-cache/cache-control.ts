@@ -1,13 +1,14 @@
-import { CacheHint } from "apollo-cache-control";
-import { Directive } from "../../src";
+import { type CacheHint } from "@apollo/cache-control-types";
+import { Directive } from "type-graphql";
+import { type RequireAtLeastOne } from "./helpers/RequireAtLeastOne";
 
-export function CacheControl({ maxAge, scope }: CacheHint) {
-  if (!maxAge && !scope) {
+export function CacheControl({ maxAge, scope }: RequireAtLeastOne<CacheHint>) {
+  if (maxAge === undefined && scope === undefined) {
     throw new Error("Missing maxAge or scope param for @CacheControl");
   }
 
   let sdl = "@cacheControl(";
-  if (maxAge) {
+  if (maxAge !== undefined) {
     sdl += `maxAge: ${maxAge}`;
   }
   if (scope) {

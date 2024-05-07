@@ -1,18 +1,17 @@
 import "reflect-metadata";
 import { graphql } from "graphql";
-import { Container, Service } from "typedi";
-
-import { getMetadataStorage } from "../../src/metadata/getMetadataStorage";
 import {
-  ObjectType,
-  Field,
-  Resolver,
-  Query,
   Arg,
+  type ContainerType,
+  Field,
+  ObjectType,
+  Query,
+  Resolver,
+  type ResolverData,
   buildSchema,
-  ResolverData,
-  ContainerType,
-} from "../../src";
+} from "type-graphql";
+import { Container, Service } from "typedi";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
 
 describe("IOC container", () => {
   beforeEach(() => {
@@ -33,9 +32,10 @@ describe("IOC container", () => {
       field?: string;
     }
     @Service()
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       constructor(private service: SampleService) {}
+
       @Query()
       sampleQuery(): SampleObject {
         serviceValue = this.service.value;
@@ -54,7 +54,7 @@ describe("IOC container", () => {
         }
       }
     `;
-    await graphql(schema, query);
+    await graphql({ schema, source: query });
 
     expect(serviceValue).toEqual(initValue);
   });
@@ -66,9 +66,10 @@ describe("IOC container", () => {
       @Field({ nullable: true })
       field?: string;
     }
-    @Resolver(of => SampleObject)
+    @Resolver(() => SampleObject)
     class SampleResolver {
       value = Math.random();
+
       @Query()
       sampleQuery(): SampleObject {
         resolverValue = this.value;
@@ -86,10 +87,10 @@ describe("IOC container", () => {
         }
       }
     `;
-    await graphql(schema, query);
+    await graphql({ schema, source: query });
     const firstCallValue = resolverValue;
     resolverValue = undefined;
-    await graphql(schema, query);
+    await graphql({ schema, source: query });
     const secondCallValue = resolverValue;
 
     expect(firstCallValue).toBeDefined();
@@ -126,12 +127,12 @@ describe("IOC container", () => {
     `;
 
     const requestId = Math.random();
-    await graphql(schema, query, null, { requestId });
+    await graphql({ schema, source: query, contextValue: { requestId } });
     expect(contextRequestId).toEqual(requestId);
   });
 
   it("should properly get container from container getter function", async () => {
-    let called: boolean = false;
+    let called = false;
 
     @Resolver()
     class SampleResolver {
@@ -166,13 +167,13 @@ describe("IOC container", () => {
       container: mockedContainer,
     };
 
-    await graphql(schema, query, null, queryContext);
+    await graphql({ schema, source: query, contextValue: queryContext });
 
     expect(called).toEqual(true);
   });
 
   it("should properly get instance from an async container", async () => {
-    let called: boolean = false;
+    let called = false;
 
     @Service()
     @Resolver()
@@ -202,7 +203,7 @@ describe("IOC container", () => {
       }
     `;
 
-    const result = await graphql(schema, query);
+    const result: any = await graphql({ schema, source: query });
 
     expect(result.errors).toBeUndefined();
     expect(result.data!.sampleQuery).toEqual("sampleArgValue");

@@ -1,72 +1,64 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Arg,
-  PubSub,
-  Publisher,
-  Subscription,
-  Root,
-  ID,
-  ResolverFilterData,
   Args,
-} from "../../src";
-
-import { Recipe } from "./recipe.type";
+  ID,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+  Subscription,
+  type SubscriptionHandlerData,
+} from "type-graphql";
 import { CommentInput } from "./comment.input";
-import { Comment } from "./comment.type";
-import { NewCommentPayload } from "./newComment.interface";
-import { Topic } from "./topics";
-import { sampleRecipes } from "./recipe.samples";
+import { Comment, NewCommentPayload } from "./comment.type";
+import { Topic, pubSub } from "./pubsub";
+import { sampleRecipes } from "./recipe.data";
 import { NewCommentsArgs } from "./recipe.resolver.args";
+import { Recipe } from "./recipe.type";
 
 @Resolver()
 export class RecipeResolver {
   private readonly recipes: Recipe[] = sampleRecipes.slice();
 
-  @Query(returns => Recipe, { nullable: true })
-  async recipe(@Arg("id", type => ID) id: string) {
+  @Query(_returns => Recipe, { nullable: true })
+  async recipe(@Arg("id", _type => ID) id: string) {
     return this.recipes.find(recipe => recipe.id === id);
   }
 
-  @Mutation(returns => Boolean)
-  async addNewComment(
-    @Arg("comment") input: CommentInput,
-    @PubSub(Topic.NewComment) notifyAboutNewComment: Publisher<NewCommentPayload>,
-  ): Promise<boolean> {
+  @Mutation(_returns => Boolean)
+  async addNewComment(@Arg("comment") input: CommentInput): Promise<boolean> {
     const recipe = this.recipes.find(r => r.id === input.recipeId);
     if (!recipe) {
       return false;
     }
+
     const comment: Comment = {
       content: input.content,
       nickname: input.nickname,
       date: new Date(),
     };
     recipe.comments.push(comment);
-    await notifyAboutNewComment({
+
+    pubSub.publish(Topic.NEW_COMMENT, {
       content: comment.content,
       nickname: comment.nickname,
       dateString: comment.date.toISOString(),
       recipeId: input.recipeId,
     });
+
     return true;
   }
 
-  @Subscription(returns => Comment, {
-    topics: Topic.NewComment,
-    filter: ({ payload, args }: ResolverFilterData<NewCommentPayload, NewCommentsArgs>) => {
-      return payload.recipeId === args.recipeId;
-    },
+  @Subscription(_returns => Comment, {
+    topics: Topic.NEW_COMMENT,
+    filter: ({ payload, args }: SubscriptionHandlerData<NewCommentPayload, NewCommentsArgs>) =>
+      payload.recipeId === args.recipeId,
   })
-  newComments(
-    @Root() newComment: NewCommentPayload,
-    @Args() { recipeId }: NewCommentsArgs,
-  ): Comment {
+  newComments(@Root() newComment: NewCommentPayload, @Args() _args: NewCommentsArgs): Comment {
     return {
       content: newComment.content,
-      date: new Date(newComment.dateString), // limitation of Redis payload serialization
+      date: new Date(newComment.dateString), // Limitation of Redis payload serialization
       nickname: newComment.nickname,
-    };
+    } satisfies Comment;
   }
 }

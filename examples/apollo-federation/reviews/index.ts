@@ -1,26 +1,22 @@
-import { ApolloServer } from "apollo-server";
-
-import ReviewsResolver from "./review/resolver";
-import ProductReviewsResolver from "./product/resolver";
-import UserReviewsResolver from "./user/resolver";
-import Review from "./review/review";
-import User from "./user/user";
-import Product from "./product/product";
-import { buildFederatedSchema } from "../helpers/buildFederatedSchema";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { Product, ProductReviewsResolver } from "./product";
+import { Review, ReviewsResolver } from "./review";
+import { User, UserReviewsResolver } from "./user";
+import { buildFederatedSchema } from "../helpers";
 
 export async function listen(port: number): Promise<string> {
+  // Build TypeGraphQL executable schema
   const schema = await buildFederatedSchema({
     resolvers: [ReviewsResolver, ProductReviewsResolver, UserReviewsResolver],
     orphanedTypes: [User, Review, Product],
   });
 
-  const server = new ApolloServer({
-    schema,
-    tracing: false,
-    playground: true,
-  });
+  // Create GraphQL server
+  const server = new ApolloServer({ schema });
 
-  const { url } = await server.listen({ port });
+  // Start server
+  const { url } = await startStandaloneServer(server, { listen: { port } });
   console.log(`Reviews service ready at ${url}`);
 
   return url;

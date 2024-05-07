@@ -1,26 +1,25 @@
-import { GraphQLFieldResolver } from "graphql";
-
+import { type GraphQLFieldResolver } from "graphql";
+import { AuthMiddleware } from "@/helpers/auth-middleware";
+import { convertToType } from "@/helpers/types";
 import {
-  FieldResolverMetadata,
-  FieldMetadata,
-  BaseResolverMetadata,
-} from "../metadata/definitions";
-import { getParams, applyMiddlewares, applyAuthChecker } from "./helpers";
-import { convertToType } from "../helpers/types";
-import { BuildContext } from "../schema/build-context";
-import { ResolverData } from "../interfaces";
-import isPromiseLike from "../utils/isPromiseLike";
-import { AuthMiddleware } from "../helpers/auth-middleware";
-import { IOCContainer } from "../utils/container";
+  type BaseResolverMetadata,
+  type FieldMetadata,
+  type FieldResolverMetadata,
+} from "@/metadata/definitions";
+import { BuildContext } from "@/schema/build-context";
+import { type ResolverData } from "@/typings";
+import { type IOCContainer } from "@/utils/container";
+import { isPromiseLike } from "@/utils/isPromiseLike";
+import { applyAuthChecker, applyMiddlewares, getParams } from "./helpers";
 
 export function createHandlerResolver(
   resolverMetadata: BaseResolverMetadata,
 ): GraphQLFieldResolver<any, any, any> {
   const {
     validate: globalValidate,
+    validateFn,
     authChecker,
     authMode,
-    pubSub,
     globalMiddlewares,
     container,
   } = BuildContext;
@@ -40,15 +39,16 @@ export function createHandlerResolver(
             resolverMetadata.params!,
             resolverData,
             globalValidate,
-            pubSub,
+            validateFn,
           );
           if (isPromiseLike(params)) {
             return params.then(resolvedParams =>
+              // eslint-disable-next-line prefer-spread
               targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
             );
-          } else {
-            return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
           }
+          // eslint-disable-next-line prefer-spread
+          return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
         }),
       );
     }
@@ -57,16 +57,17 @@ export function createHandlerResolver(
         resolverMetadata.params!,
         resolverData,
         globalValidate,
-        pubSub,
+        validateFn,
       );
       const targetInstance = targetInstanceOrPromise;
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
+          // eslint-disable-next-line prefer-spread
           targetInstance[resolverMetadata.methodName].apply(targetInstance, resolvedParams),
         );
-      } else {
-        return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
       }
+      // eslint-disable-next-line prefer-spread
+      return targetInstance[resolverMetadata.methodName].apply(targetInstance, params);
     });
   };
 }
@@ -81,9 +82,9 @@ export function createAdvancedFieldResolver(
   const targetType = fieldResolverMetadata.getObjectType!();
   const {
     validate: globalValidate,
+    validateFn,
     authChecker,
     authMode,
-    pubSub,
     globalMiddlewares,
     container,
   } = BuildContext;
@@ -104,15 +105,14 @@ export function createAdvancedFieldResolver(
         fieldResolverMetadata.params!,
         resolverData,
         globalValidate,
-        pubSub,
+        validateFn,
       );
       if (isPromiseLike(params)) {
         return params.then(resolvedParams =>
           handlerOrGetterValue.apply(targetInstance, resolvedParams),
         );
-      } else {
-        return handlerOrGetterValue.apply(targetInstance, params);
       }
+      return handlerOrGetterValue.apply(targetInstance, params);
     });
   };
 }

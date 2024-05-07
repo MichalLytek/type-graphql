@@ -1,10 +1,10 @@
-import { Field, ObjectType, Int } from "../../src";
+import { Field, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Cook {
   @Field()
-  name: string;
+  name!: string;
 
-  @Field(type => Int)
-  yearsOfExperience: number;
+  @Field(_type => Int)
+  yearsOfExperience!: number;
 }

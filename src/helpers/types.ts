@@ -1,18 +1,29 @@
 import {
+  GraphQLBoolean,
+  GraphQLFloat,
+  GraphQLList,
+  GraphQLNonNull,
   GraphQLScalarType,
   GraphQLString,
-  GraphQLFloat,
-  GraphQLType,
-  GraphQLNonNull,
-  GraphQLList,
-  GraphQLBoolean,
+  type GraphQLType,
 } from "graphql";
+import { type TypeOptions } from "@/decorators/types";
+import { WrongNullableListOptionError } from "@/errors";
+import { GraphQLISODateTime } from "@/scalars";
+import { BuildContext } from "@/schema/build-context";
 
-import { TypeOptions } from "../decorators/types";
-import { GraphQLTimestamp } from "../scalars/timestamp";
-import { GraphQLISODateTime } from "../scalars/isodate";
-import { BuildContext } from "../schema/build-context";
-import { WrongNullableListOptionError } from "../errors";
+function wrapTypeInNestedList(
+  targetType: GraphQLType,
+  depth: number,
+  nullable: boolean,
+): GraphQLList<GraphQLType> {
+  const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
+
+  if (depth === 0) {
+    return targetType as GraphQLList<GraphQLType>;
+  }
+  return wrapTypeInNestedList(new GraphQLList(targetTypeNonNull), depth - 1, nullable);
+}
 
 export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   if (type instanceof GraphQLScalarType) {
@@ -31,7 +42,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
     case Number:
       return GraphQLFloat;
     case Date:
-      return BuildContext.dateScalarMode === "isoDate" ? GraphQLISODateTime : GraphQLTimestamp;
+      return GraphQLISODateTime;
     default:
       return undefined;
   }
@@ -99,23 +110,11 @@ export function convertToType(Target: any, data?: object): object | undefined {
 }
 
 export function getEnumValuesMap<T extends object>(enumObject: T) {
-  const enumKeys = Object.keys(enumObject).filter(key => isNaN(parseInt(key, 10)));
+  const enumKeys = Object.keys(enumObject).filter(key => Number.isNaN(parseInt(key, 10)));
   const enumMap = enumKeys.reduce<any>((map, key) => {
+    // eslint-disable-next-line no-param-reassign
     map[key] = enumObject[key as keyof T];
     return map;
   }, {});
   return enumMap;
-}
-
-function wrapTypeInNestedList(
-  targetType: GraphQLType,
-  depth: number,
-  nullable: boolean,
-): GraphQLList<GraphQLType> {
-  const targetTypeNonNull = nullable ? targetType : new GraphQLNonNull(targetType);
-
-  if (depth === 0) {
-    return targetType as GraphQLList<GraphQLType>;
-  }
-  return wrapTypeInNestedList(new GraphQLList(targetTypeNonNull), depth - 1, nullable);
 }

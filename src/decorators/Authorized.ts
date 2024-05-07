@@ -1,7 +1,7 @@
-import { getMetadataStorage } from "../metadata/getMetadataStorage";
-import { SymbolKeysNotSupportedError } from "../errors";
-import { getArrayFromOverloadedRest } from "../helpers/decorators";
-import { MethodPropClassDecorator } from "./types";
+import { SymbolKeysNotSupportedError } from "@/errors";
+import { getArrayFromOverloadedRest } from "@/helpers/decorators";
+import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { type MethodPropClassDecorator } from "./types";
 
 export function Authorized(): MethodPropClassDecorator;
 export function Authorized<RoleType = string>(roles: readonly RoleType[]): MethodPropClassDecorator;
@@ -16,7 +16,7 @@ export function Authorized<RoleType = string>(
   return (
     target: Function | Object,
     propertyKey?: string | symbol,
-    descriptor?: TypedPropertyDescriptor<any>,
+    _descriptor?: TypedPropertyDescriptor<any>,
   ) => {
     if (propertyKey == null) {
       getMetadataStorage().collectAuthorizedResolverMetadata({
