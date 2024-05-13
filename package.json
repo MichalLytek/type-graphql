@@ -133,7 +133,7 @@
     "@typegoose/typegoose": "^12.2.0",
     "@types/jest": "^29.5.11",
     "@types/lodash.merge": "^4.6.9",
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.12.11",
     "@types/shelljs": "^0.8.15",
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
