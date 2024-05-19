@@ -1,9 +1,12 @@
 import "reflect-metadata";
 import { createPubSub } from "@graphql-yoga/subscription";
 import {
+  Args,
+  ArgsType,
   type ClassType,
   Field,
   FieldResolver,
+  Int,
   Mutation,
   ObjectType,
   Query,
@@ -119,6 +122,57 @@ describe("MetadataStorage", () => {
         ),
       ).toHaveLength(1);
       expect(getMetadataStorage().fieldResolvers).toHaveLength(2);
+    });
+  });
+
+  describe("immutability of resolver creation", () => {
+    beforeAll(async () => {
+      getMetadataStorage().clear();
+    });
+
+    it("should handle arguments correctly on multiple buildSchema runs", async () => {
+      @ObjectType()
+      class TestResponse {
+        @Field({ nullable: false })
+        data!: string;
+      }
+
+      @ArgsType()
+      class TestArgs {
+        @Field(() => Int, { defaultValue: 0 })
+        testField!: number;
+      }
+
+      function makeResolverClass() {
+        @Resolver(() => TestResponse)
+        abstract class TestResolver {
+          @Query(() => TestResponse)
+          async exampleQuery(@Args() args: TestArgs): Promise<TestResponse> {
+            return {
+              data: `resolver ${args.testField}`,
+            };
+          }
+        }
+
+        return TestResolver;
+      }
+
+      @Resolver()
+      class TestResolver extends makeResolverClass() {}
+
+      await buildSchema({
+        resolvers: [TestResolver],
+      });
+
+      expect(getMetadataStorage().queries).toHaveLength(1);
+      expect(getMetadataStorage().queries[0].params).toHaveLength(1);
+
+      await buildSchema({
+        resolvers: [TestResolver],
+      });
+
+      expect(getMetadataStorage().queries).toHaveLength(1);
+      expect(getMetadataStorage().queries[0].params).toHaveLength(1);
     });
   });
 });

@@ -34,6 +34,8 @@ import {
 } from "./utils";
 
 export class MetadataStorage {
+  original: MetadataStorage | null = null;
+
   queries: ResolverMetadata[] = [];
 
   mutations: ResolverMetadata[] = [];
@@ -160,6 +162,12 @@ export class MetadataStorage {
   }
 
   build(options: SchemaGeneratorOptions) {
+    if (!this.original) {
+      this.original = Object.assign(new MetadataStorage(), this);
+    } else {
+      Object.assign(this, this.original);
+    }
+
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
     this.argumentDirectives.reverse();
@@ -181,6 +189,7 @@ export class MetadataStorage {
   }
 
   clear() {
+    this.original = null;
     this.queries = [];
     this.mutations = [];
     this.subscriptions = [];
