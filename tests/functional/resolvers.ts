@@ -2582,4 +2582,55 @@ describe("Resolvers", () => {
       expect(dynamicField2).toBeDefined();
     });
   });
+
+  describe("Shared generic resolver", () => {
+    beforeEach(async () => {
+      getMetadataStorage().clear();
+    });
+
+    it("should handle arguments correctly on multiple buildSchema runs", async () => {
+      @ObjectType()
+      class TestResponse {
+        @Field()
+        data!: string;
+      }
+
+      @ArgsType()
+      class TestArgs {
+        @Field(() => Int, { defaultValue: 0 })
+        testField!: number;
+      }
+
+      function makeResolverClass() {
+        @Resolver(() => TestResponse)
+        abstract class TestResolver {
+          @Query(() => TestResponse)
+          async exampleQuery(@Args() args: TestArgs): Promise<TestResponse> {
+            return {
+              data: `resolver ${args.testField}`,
+            };
+          }
+        }
+
+        return TestResolver;
+      }
+
+      @Resolver()
+      class TestResolver extends makeResolverClass() {}
+
+      const fistSchemaInfo = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      expect(fistSchemaInfo.queryType.fields).toHaveLength(1);
+      expect(fistSchemaInfo.queryType.fields[0].args).toHaveLength(1);
+
+      const secondSchemaInfo = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      expect(secondSchemaInfo.queryType.fields).toHaveLength(1);
+      expect(secondSchemaInfo.queryType.fields[0].args).toHaveLength(1);
+    });
+  });
 });

@@ -408,7 +408,7 @@ describe("Generic types", () => {
     let schema: GraphQLSchema;
     let schemaIntrospection: IntrospectionSchema;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       function Base<TType extends object>(TTypeClass: ClassType<TType>) {
         @ObjectType()
         class BaseClass {
