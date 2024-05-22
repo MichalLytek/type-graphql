@@ -80,6 +80,8 @@ export class MetadataStorage {
 
   params: ParamMetadata[] = [];
 
+  private hasAlreadyBeenBuilt = false;
+
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
   }
@@ -174,6 +176,12 @@ export class MetadataStorage {
   }
 
   build(options: SchemaGeneratorOptions) {
+    if (this.hasAlreadyBeenBuilt) {
+      return;
+    }
+
+    this.hasAlreadyBeenBuilt = true;
+
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
     this.argumentDirectives.reverse();
@@ -214,10 +222,11 @@ export class MetadataStorage {
     this.argumentDirectives = [];
     this.classExtensions = [];
     this.fieldExtensions = [];
-
     this.resolverClasses = [];
     this.fields = [];
     this.params = [];
+
+    this.hasAlreadyBeenBuilt = false;
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
