@@ -138,7 +138,7 @@ export class LogAccess implements MiddlewareInterface<TContext> {
 
 ### Attaching Middleware
 
-To attach middleware to a resolver, place the `@UseMiddleware()` decorator above the field or resolver declaration. It accepts an array of middleware that will be called in the provided order. We can also pass them without an array as it supports [rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters):
+To attach middleware to a resolver method, place the `@UseMiddleware()` decorator above the method declaration. It accepts an array of middleware that will be called in the provided order. We can also pass them without an array as it supports [rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters):
 
 ```ts
 @Resolver()
@@ -150,6 +150,26 @@ export class RecipeResolver {
   }
 }
 ```
+
+If we want to apply the middlewares to all the resolver's class methods, we can put the decorator on top of the class declaration:
+
+```ts
+@UseMiddleware(ResolveTime, LogAccess)
+@Resolver()
+export class RecipeResolver {
+  @Query()
+  randomValue(): number {
+    return Math.random();
+  }
+
+  @Query()
+  constantValue(): number {
+    return 21.37;
+  }
+}
+```
+
+> Be aware that resolver's class middlewares are executed first, before the method's ones.
 
 We can also attach the middleware to the `ObjectType` fields, the same way as with the [`@Authorized()` decorator](./authorization.md).
 
@@ -167,9 +187,9 @@ export class Recipe {
 
 ### Global Middleware
 
-However, for common middleware like measuring resolve time or catching errors, it might be annoying to place a `@UseMiddleware(ResolveTime)` decorator on every field/resolver.
+However, for common middlewares like measuring resolve time or catching errors, it might be annoying to place a `@UseMiddleware(ResolveTime)` decorator on every field, method or resolver class.
 
-Hence, in TypeGraphQL we can also register a global middleware that will be called for each query, mutation, subscription and field resolver. For this, we use the `globalMiddlewares` property of the `buildSchema` configuration object:
+Hence, in TypeGraphQL we can also register a global middleware that will be called for each query, mutation, subscription and a field. For this, we use the `globalMiddlewares` property of the `buildSchema` configuration object:
 
 ```ts
 const schema = await buildSchema({
