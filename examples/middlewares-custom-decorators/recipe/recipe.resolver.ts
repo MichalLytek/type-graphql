@@ -1,12 +1,14 @@
-import { Args, Query, Resolver } from "type-graphql";
+import { Args, Query, Resolver, UseMiddleware } from "type-graphql";
 import { Service } from "typedi";
 import { RecipesArgs } from "./recipe.args";
 import { recipes as recipesData } from "./recipe.data";
 import { Recipe } from "./recipe.type";
 import { CurrentUser, ValidateArgs } from "../decorators";
+import { ResolveTimeMiddleware } from "../middlewares";
 import { User } from "../user.type";
 
 @Service()
+@UseMiddleware(ResolveTimeMiddleware)
 @Resolver(_of => Recipe)
 export class RecipeResolver {
   private readonly items: Recipe[] = recipesData;

@@ -8,7 +8,7 @@ In express.js (and other Node.js frameworks) we use middleware for this, like `p
 
 That's why authorization is a first-class feature in `TypeGraphQL`!
 
-## How to use
+## Declaration
 
 First, we need to use the `@Authorized` decorator as a guard on a field, query or mutation.
 Example object type field guards:
@@ -68,7 +68,32 @@ class MyResolver {
 
 Authorized users (regardless of their roles) will be able to read data from the `publicQuery` and the `authedQuery` queries, but will receive an error when trying to perform the `adminMutation` when their roles don't include `ADMIN` or `MODERATOR`.
 
-Next, we need to create our auth checker function. Its implementation may depend on our business logic:
+However, declaring `@Authorized()` on all the resolver's class methods would be not only a tedious task but also an error-prone one, as it's easy to forget to put it on some newly added method, etc.
+Hence, TypeGraphQL support declaring `@Authorized()` or the resolver class level. This way you can declare it once per resolver's class but you can still overwrite the defaults and narrows the authorization rules:
+
+```ts
+@Authorized()
+@Resolver()
+class MyResolver {
+  // this will inherit the auth guard defined on the class level
+  @Query()
+  authedQuery(): string {
+    return "Authorized users only!";
+  }
+
+  // this one overwrites the resolver's one
+  // and registers roles required for this mutation
+  @Authorized("ADMIN", "MODERATOR")
+  @Mutation()
+  adminMutation(): string {
+    return "You are an admin/moderator, you can safely drop the database ;)";
+  }
+}
+```
+
+## Runtime checks
+
+Having all the metadata for authorization set, we need to create our auth checker function. Its implementation may depend on our business logic:
 
 ```ts
 export const customAuthChecker: AuthChecker<ContextType> = (

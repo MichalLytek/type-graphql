@@ -2,17 +2,17 @@
 title: Custom decorators
 ---
 
-Custom decorators are a great way to reduce the boilerplate and reuse some common logic between different resolvers. TypeGraphQL supports two kinds of custom decorators - method and parameter.
+Custom decorators are a great way to reduce the boilerplate and reuse some common logic between different resolvers. TypeGraphQL supports three kinds of custom decorators - method, resolver class and parameter.
 
 ## Method decorators
 
 Using [middlewares](./middlewares.md) allows to reuse some code between resolvers. To further reduce the boilerplate and have a nicer API, we can create our own custom method decorators.
 
-They work in the same way as the [reusable middleware function](./middlewares.md#reusable-middleware), however, in this case we need to call `createMethodDecorator` helper function with our middleware logic and return its value:
+They work in the same way as the [reusable middleware function](./middlewares.md#reusable-middleware), however, in this case we need to call `createMethodMiddlewareDecorator` helper function with our middleware logic and return its value:
 
 ```ts
 export function ValidateArgs(schema: JoiSchema) {
-  return createMethodDecorator(async ({ args }, next) => {
+  return createMethodMiddlewareDecorator(async ({ args }, next) => {
     // Middleware code that uses custom decorator arguments
 
     // e.g. Validation logic based on schema using 'joi'
@@ -35,6 +35,39 @@ export class RecipeResolver {
   }
 }
 ```
+
+## Resolver class decorators
+
+Similar to method decorators, we can create our own custom resolver class decorators.
+In this case we need to call `createResolverClassMiddlewareDecorator` helper function, just like we did for `createMethodMiddlewareDecorator`:
+
+```ts
+export function ValidateArgs(schema: JoiSchema) {
+  return createResolverClassMiddlewareDecorator(async ({ args }, next) => {
+    // Middleware code that uses custom decorator arguments
+
+    // e.g. Validation logic based on schema using 'joi'
+    await joiValidate(schema, args);
+    return next();
+  });
+}
+```
+
+The usage is then analogue - we just place it above the resolver class and pass the required arguments to it:
+
+```ts
+@ValidateArgs(MyArgsSchema) // Custom decorator
+@UseMiddleware(ResolveTime) // Explicit middleware
+@Resolver()
+export class RecipeResolver {
+  @Query()
+  randomValue(@Args() { scale }: MyArgs): number {
+    return Math.random() * scale;
+  }
+}
+```
+
+This way, we just need to put it once in the code and our custom decorator will be applied to all the resolver's queries or mutations. As simple as that!
 
 ## Parameter decorators
 

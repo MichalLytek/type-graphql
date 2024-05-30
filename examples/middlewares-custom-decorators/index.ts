@@ -5,7 +5,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
 import { type Context } from "./context.type";
-import { ErrorLoggerMiddleware, ResolveTimeMiddleware } from "./middlewares";
+import { ErrorLoggerMiddleware } from "./middlewares";
 import { RecipeResolver } from "./recipe";
 
 async function bootstrap() {
@@ -14,7 +14,7 @@ async function bootstrap() {
     // Array of resolvers
     resolvers: [RecipeResolver],
     // Array of global middlewares
-    globalMiddlewares: [ErrorLoggerMiddleware, ResolveTimeMiddleware],
+    globalMiddlewares: [ErrorLoggerMiddleware],
     // Create 'schema.graphql' file with schema definition in current directory
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
     // Registry 3rd party IOC container

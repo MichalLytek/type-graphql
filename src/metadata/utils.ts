@@ -4,8 +4,8 @@ import { type Middleware } from "@/typings/middleware";
 import {
   type BaseResolverMetadata,
   type FieldResolverMetadata,
-  type MiddlewareMetadata,
   type ResolverClassMetadata,
+  type ResolverMiddlewareMetadata,
 } from "./definitions";
 
 export function mapSuperResolverHandlers<T extends BaseResolverMetadata>(
@@ -44,7 +44,7 @@ export function mapSuperFieldResolverHandlers(
 }
 
 export function mapMiddlewareMetadataToArray(
-  metadata: MiddlewareMetadata[],
+  metadata: ResolverMiddlewareMetadata[],
 ): Array<Middleware<any>> {
   return metadata
     .map(m => m.middlewares)
