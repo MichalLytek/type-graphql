@@ -1,7 +1,13 @@
 import { Recipe } from "./recipe.type";
 
+let lastRecipeId = 0;
+
 function createRecipe(recipeData: Partial<Recipe>): Recipe {
-  return Object.assign(new Recipe(), recipeData);
+  return Object.assign(new Recipe(), {
+    // eslint-disable-next-line no-plusplus
+    id: lastRecipeId++,
+    ...recipeData,
+  });
 }
 
 export const recipes = [

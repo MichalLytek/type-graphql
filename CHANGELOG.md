@@ -2,18 +2,20 @@
 
 ## Unreleased
 
+<!-- Here goes all the unreleased changes descriptions -->
+
 ## Features
 
 - support declaring middlewares on resolver class level (#620)
 - support declaring auth roles on resolver class level (#620)
 - make possible creating custom decorators on resolver class level - `createResolverClassMiddlewareDecorator`
+- support registering custom arg decorator via `createParameterDecorator` and its second argument `CustomParameterOptions` - `arg` (#1325)
 
 ### Others
 
 - **Breaking Change**: update `graphql-scalars` peer dependency to `^1.23.0`
 - **Breaking Change**: rename `createMethodDecorator` into `createMethodMiddlewareDecorator`
-
-<!-- Here goes all the unreleased changes descriptions -->
+- **Breaking Change**: rename `createParamDecorator` to `createParameterDecorator`
 
 ## v2.0.0-rc.1
 

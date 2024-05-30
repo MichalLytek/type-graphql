@@ -46,9 +46,14 @@ export type ArgsParamMetadata = {
   kind: "args";
 } & CommonArgMetadata;
 
+export interface CustomParamOptions {
+  arg?: ArgParamMetadata;
+}
+
 export type CustomParamMetadata = {
   kind: "custom";
   resolver: (resolverData: ResolverData<any>) => any;
+  options: CustomParamOptions;
 } & BasicParamMetadata;
 
 export type ParamMetadata =
