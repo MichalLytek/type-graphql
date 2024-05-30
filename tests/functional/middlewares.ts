@@ -280,7 +280,9 @@ describe("Middlewares", () => {
       resolvers: [sampleResolver],
     });
 
+    // clear ResolverMiddlewareMetadata for other tests
     getMetadataStorage().resolverMiddlewares = [];
+
     const query = `query {
       middlewareOrderQuery
     }`;
@@ -560,7 +562,9 @@ describe("Middlewares", () => {
       globalMiddlewares: [globalMiddleware1, globalMiddleware2],
     });
 
+    // clear ResolverMiddlewareMetadata for other tests
     getMetadataStorage().resolverMiddlewares = [];
+
     const query = `query {
       middlewareOrderQuery
     }`;
