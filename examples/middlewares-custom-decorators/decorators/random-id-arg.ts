@@ -2,7 +2,7 @@ import { Int, createParameterDecorator } from "type-graphql";
 
 const MAX_ID_VALUE = 3; // Number.MAX_SAFE_INTEGER
 
-export function RandomId(argName = "id") {
+export function RandomIdArg(argName = "id") {
   return createParameterDecorator(
     ({ args }) => args[argName] ?? Math.round(Math.random() * MAX_ID_VALUE),
     {

@@ -143,7 +143,7 @@ Calling both `Arg()` and `createParameterDecorator()` inside a custom decorator 
 Hence, the `createParameterDecorator()` function supports second argument, `CustomParameterOptions` which allows to set decorator metadata for `@Arg` under the `arg` key:
 
 ```ts
-function RandomId(argName = "id") {
+function RandomIdArg(argName = "id") {
   return createParameterDecorator(
     // here we do the logic of getting provided argument or generating a random one
     ({ args }) => args[argName] ?? Math.round(Math.random() * MAX_ID_VALUE),
@@ -172,7 +172,7 @@ export class RecipeResolver {
   @Query(returns => Recipe, { nullable: true })
   async recipe(
     // custom decorator that will expose an arg in the schema
-    @RandomId("id") id: number,
+    @RandomIdArg("id") id: number,
   ) {
     return await this.recipesRepository.findById(id);
   }

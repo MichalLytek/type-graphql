@@ -4,7 +4,7 @@ import { RecipesArgs } from "./recipe.args";
 import { recipes as recipesData } from "./recipe.data";
 import { Recipe } from "./recipe.type";
 import { CurrentUser, ValidateArgs } from "../decorators";
-import { RandomId } from "../decorators/random-id";
+import { RandomIdArg } from "../decorators/random-id-arg";
 import { ResolveTimeMiddleware } from "../middlewares";
 import { User } from "../user.type";
 
@@ -15,7 +15,7 @@ export class RecipeResolver {
   private readonly items: Recipe[] = recipesData;
 
   @Query(_returns => Recipe, { nullable: true })
-  async recipe(@RandomId("id") id: number) {
+  async recipe(@RandomIdArg("id") id: number) {
     console.log(`Queried for recipe with id: ${id}`);
     return this.items.find(item => item.id === id);
   }
