@@ -11,6 +11,9 @@
       "aws-lambda": {
         "title": "AWS Lambda integration"
       },
+      "azure-functions": {
+        "title": "Azure Functions Integration"
+      },
       "bootstrap": {
         "title": "Bootstrapping"
       },

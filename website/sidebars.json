@@ -31,7 +31,7 @@
     ],
     "Integrations": ["prisma", "nestjs"],
     "Others": ["emit-schema", "performance"],
-    "Recipes": ["browser-usage", "aws-lambda"]
+    "Recipes": ["browser-usage", "aws-lambda", "azure-functions"]
   },
   "examples": {
     "Examples": ["examples"]
