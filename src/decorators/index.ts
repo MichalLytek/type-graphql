@@ -5,7 +5,7 @@ export { ArgsType } from "./ArgsType";
 export { Authorized } from "./Authorized";
 export { createParamDecorator } from "./createParamDecorator";
 export { createMethodMiddlewareDecorator } from "./createMethodMiddlewareDecorator";
-export { createClassMiddlewareDecorator } from "./createClassMiddlewareDecorator";
+export { createResolverClassMiddlewareDecorator } from "./createResolverClassMiddlewareDecorator";
 export { Ctx } from "./Ctx";
 export { Directive } from "./Directive";
 export { Extensions } from "./Extensions";

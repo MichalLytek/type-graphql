@@ -39,11 +39,11 @@ export class RecipeResolver {
 ## Resolver class decorators
 
 Similar to method decorators, we can create our own custom resolver class decorators.
-In this case we need to call `createClassMiddlewareDecorator` helper function, just like we did for `createMethodMiddlewareDecorator`:
+In this case we need to call `createResolverClassMiddlewareDecorator` helper function, just like we did for `createMethodMiddlewareDecorator`:
 
 ```ts
 export function ValidateArgs(schema: JoiSchema) {
-  return createClassMiddlewareDecorator(async ({ args }, next) => {
+  return createResolverClassMiddlewareDecorator(async ({ args }, next) => {
     // Middleware code that uses custom decorator arguments
 
     // e.g. Validation logic based on schema using 'joi'
