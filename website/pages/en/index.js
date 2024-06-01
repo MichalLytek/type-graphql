@@ -289,15 +289,15 @@ const CollectiveSection = props => (
             <span>CasinoDeps</span>
           </a>
           <a href="https://uk.nonstopcasino.org/non-gamstop-casinos/" target="_blank">
-            <img src={imgUrl("non-stop-casino.png")} style={{ width: 60 }} />
+            <img src={imgUrl("non-stop-casino.png")} style={{ width: 50 }} />
             <span>Non Stop Casino</span>
           </a>
           <a href="https://sidesmedia.com/" target="_blank">
-            <img src={imgUrl("sidesmedia.png")} style={{ width: 60 }} />
+            <img src={imgUrl("sidesmedia.png")} style={{ width: 50 }} />
             <span>SidesMedia</span>
           </a>
           <a href="https://insfollowpro.com/" target="_blank">
-            <img src={imgUrl("insfollowpro.png")} style={{ width: 60 }} />
+            <img src={imgUrl("insfollowpro.png")} style={{ width: 50 }} />
             <span>Insfollowpro</span>
           </a>
         </div>
