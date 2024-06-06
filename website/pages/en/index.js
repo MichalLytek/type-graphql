@@ -280,6 +280,8 @@ const CollectiveSection = props => (
             <img src={imgUrl("vps-server.png")} style={{ width: 125 }} />
             <span>VPS Server</span>
           </a>
+        </div>
+        <div className="tiles">
           <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
             <img src={imgUrl("nongamstopbets.png")} style={{ width: 50 }} />
             <span>NonGamstopBets</span>
@@ -299,6 +301,10 @@ const CollectiveSection = props => (
           <a href="https://insfollowpro.com/" target="_blank">
             <img src={imgUrl("insfollowpro.png")} style={{ width: 50 }} />
             <span>Insfollowpro</span>
+          </a>
+          <a href="https://www.socialfollowers.uk/buy-tiktok-followers/" target="_blank">
+            <img src={imgUrl("social_followers.png")} style={{ width: 60 }} />
+            <span>Social Followers</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
