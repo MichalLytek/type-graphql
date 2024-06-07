@@ -11,6 +11,10 @@
 - make possible creating custom decorators on resolver class level - `createResolverClassMiddlewareDecorator`
 - support registering custom arg decorator via `createParameterDecorator` and its second argument `CustomParameterOptions` - `arg` (#1325)
 
+## Fixes
+
+- properly build multiple schemas with generic resolvers, args and field resolvers (#1321)
+
 ### Others
 
 - **Breaking Change**: update `graphql-scalars` peer dependency to `^1.23.0`
