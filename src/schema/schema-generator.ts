@@ -40,6 +40,7 @@ import {
 import { type InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
 import { type ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { MetadataStorage } from "@/metadata/metadata-storage";
 import {
   createAdvancedFieldResolver,
   createBasicFieldResolver,
@@ -118,10 +119,15 @@ export abstract class SchemaGenerator {
 
   private static usedInterfaceTypes = new Set<Function>();
 
+  private static metadataStorage: MetadataStorage;
+
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
+    this.metadataStorage = Object.assign(new MetadataStorage(), getMetadataStorage());
+    this.metadataStorage.build(options);
+
     this.checkForErrors(options);
     BuildContext.create(options);
-    getMetadataStorage().build(options);
+
     this.buildTypesInfo(options.resolvers);
 
     const orphanedTypes = options.orphanedTypes ?? [];
@@ -152,7 +158,7 @@ export abstract class SchemaGenerator {
 
   private static checkForErrors(options: SchemaGeneratorOptions) {
     ensureInstalledCorrectGraphQLPackage();
-    if (getMetadataStorage().authorizedFields.length !== 0 && options.authChecker === undefined) {
+    if (this.metadataStorage.authorizedFields.length !== 0 && options.authChecker === undefined) {
       throw new Error(
         "You need to provide `authChecker` function for `@Authorized` decorator usage!",
       );
@@ -189,7 +195,7 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo(resolvers: Function[]) {
-    this.unionTypesInfo = getMetadataStorage().unions.map<UnionTypeInfo>(unionMetadata => {
+    this.unionTypesInfo = this.metadataStorage.unions.map<UnionTypeInfo>(unionMetadata => {
       // use closure to capture values from this selected schema build
       const unionObjectTypesInfo: ObjectTypeInfo[] = [];
       // called once after building all `objectTypesInfo`
@@ -232,7 +238,7 @@ export abstract class SchemaGenerator {
       };
     });
 
-    this.enumTypesInfo = getMetadataStorage().enums.map<EnumTypeInfo>(enumMetadata => {
+    this.enumTypesInfo = this.metadataStorage.enums.map<EnumTypeInfo>(enumMetadata => {
       const enumMap = getEnumValuesMap(enumMetadata.enumObj);
       return {
         enumObj: enumMetadata.enumObj,
@@ -253,7 +259,7 @@ export abstract class SchemaGenerator {
       };
     });
 
-    this.objectTypesInfo = getMetadataStorage().objectTypes.map<ObjectTypeInfo>(objectType => {
+    this.objectTypesInfo = this.metadataStorage.objectTypes.map<ObjectTypeInfo>(objectType => {
       const objectSuperClass = Object.getPrototypeOf(objectType.target);
       const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () => {
@@ -300,7 +306,7 @@ export abstract class SchemaGenerator {
             // support for implicitly implementing interfaces
             // get fields from interfaces definitions
             if (objectType.interfaceClasses) {
-              const implementedInterfaces = getMetadataStorage().interfaceTypes.filter(it =>
+              const implementedInterfaces = this.metadataStorage.interfaceTypes.filter(it =>
                 objectType.interfaceClasses!.includes(it.target),
               );
               implementedInterfaces.forEach(it => {
@@ -312,7 +318,7 @@ export abstract class SchemaGenerator {
 
             let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
               (fieldsMap, field) => {
-                const { fieldResolvers } = getMetadataStorage();
+                const { fieldResolvers } = this.metadataStorage;
                 const filteredFieldResolversMetadata = fieldResolvers.filter(
                   it => it.kind === "internal" || resolvers.includes(it.target),
                 );
@@ -369,7 +375,7 @@ export abstract class SchemaGenerator {
       };
     });
 
-    this.interfaceTypesInfo = getMetadataStorage().interfaceTypes.map<InterfaceTypeInfo>(
+    this.interfaceTypesInfo = this.metadataStorage.interfaceTypes.map<InterfaceTypeInfo>(
       interfaceType => {
         const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
         const hasExtended = interfaceSuperClass.prototype !== undefined;
@@ -381,8 +387,8 @@ export abstract class SchemaGenerator {
         };
 
         // fetch ahead the subset of object types that implements this interface
-        const implementingObjectTypesTargets = getMetadataStorage()
-          .objectTypes.filter(
+        const implementingObjectTypesTargets = this.metadataStorage.objectTypes
+          .filter(
             objectType =>
               objectType.interfaceClasses &&
               objectType.interfaceClasses.includes(interfaceType.target),
@@ -419,7 +425,7 @@ export abstract class SchemaGenerator {
               // support for implicitly implementing interfaces
               // get fields from interfaces definitions
               if (interfaceType.interfaceClasses) {
-                const implementedInterfacesMetadata = getMetadataStorage().interfaceTypes.filter(
+                const implementedInterfacesMetadata = this.metadataStorage.interfaceTypes.filter(
                   it => interfaceType.interfaceClasses!.includes(it.target),
                 );
                 implementedInterfacesMetadata.forEach(it => {
@@ -431,7 +437,7 @@ export abstract class SchemaGenerator {
 
               let fields = fieldsMetadata!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
-                  const fieldResolverMetadata = getMetadataStorage().fieldResolvers.find(
+                  const fieldResolverMetadata = this.metadataStorage.fieldResolvers.find(
                     resolver =>
                       resolver.getObjectType!() === field.target &&
                       resolver.methodName === field.name,
@@ -490,7 +496,7 @@ export abstract class SchemaGenerator {
       },
     );
 
-    this.inputTypesInfo = getMetadataStorage().inputTypes.map<InputObjectTypeInfo>(inputType => {
+    this.inputTypesInfo = this.metadataStorage.inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target);
       const getSuperClassType = () => {
         const superClassTypeInfo = this.inputTypesInfo.find(
@@ -549,7 +555,7 @@ export abstract class SchemaGenerator {
   }
 
   private static buildRootQueryType(resolvers: Function[]): GraphQLObjectType {
-    const queriesHandlers = this.filterHandlersByResolvers(getMetadataStorage().queries, resolvers);
+    const queriesHandlers = this.filterHandlersByResolvers(this.metadataStorage.queries, resolvers);
 
     return new GraphQLObjectType({
       name: "Query",
@@ -559,7 +565,7 @@ export abstract class SchemaGenerator {
 
   private static buildRootMutationType(resolvers: Function[]): GraphQLObjectType | undefined {
     const mutationsHandlers = this.filterHandlersByResolvers(
-      getMetadataStorage().mutations,
+      this.metadataStorage.mutations,
       resolvers,
     );
     if (mutationsHandlers.length === 0) {
@@ -574,7 +580,7 @@ export abstract class SchemaGenerator {
 
   private static buildRootSubscriptionType(resolvers: Function[]): GraphQLObjectType | undefined {
     const subscriptionsHandlers = this.filterHandlersByResolvers(
-      getMetadataStorage().subscriptions,
+      this.metadataStorage.subscriptions,
       resolvers,
     );
     if (subscriptionsHandlers.length === 0) {
@@ -735,8 +741,8 @@ export abstract class SchemaGenerator {
           input.index,
           input.name,
         );
-        const argDirectives = getMetadataStorage()
-          .argumentDirectives.filter(
+        const argDirectives = this.metadataStorage.argumentDirectives
+          .filter(
             it =>
               it.target === target &&
               it.fieldName === propertyName &&
@@ -752,7 +758,7 @@ export abstract class SchemaGenerator {
           astNode: getInputValueDefinitionNode(input.name, type, argDirectives),
         };
       } else if (param.kind === "args") {
-        const argumentType = getMetadataStorage().argumentTypes.find(
+        const argumentType = this.metadataStorage.argumentTypes.find(
           it => it.target === param.getType(),
         );
         if (!argumentType) {
@@ -771,7 +777,7 @@ export abstract class SchemaGenerator {
           inheritanceChainClasses.push(superClass);
         }
         for (const argsTypeClass of inheritanceChainClasses.reverse()) {
-          const inheritedArgumentType = getMetadataStorage().argumentTypes.find(
+          const inheritedArgumentType = this.metadataStorage.argumentTypes.find(
             it => it.target === argsTypeClass,
           );
           if (inheritedArgumentType) {
