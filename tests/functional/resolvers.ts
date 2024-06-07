@@ -2632,5 +2632,99 @@ describe("Resolvers", () => {
       expect(secondSchemaInfo.queryType.fields).toHaveLength(1);
       expect(secondSchemaInfo.queryType.fields[0].args).toHaveLength(1);
     });
+
+    it("should handle field resolvers correctly on multiple buildSchema runs", async () => {
+      @ObjectType()
+      class TestResponse {
+        @Field()
+        data!: string;
+      }
+
+      @ArgsType()
+      class TestArgs {
+        @Field(() => Int, { defaultValue: 0 })
+        testField!: number;
+      }
+
+      function makeResolverClass() {
+        @Resolver(() => TestResponse)
+        abstract class TestResolver {
+          @Query(() => TestResponse)
+          async exampleQuery(@Args() args: TestArgs): Promise<TestResponse> {
+            return {
+              data: `resolver ${args.testField}`,
+            };
+          }
+        }
+
+        return TestResolver;
+      }
+
+      @Resolver(() => TestResponse)
+      class TestResolver extends makeResolverClass() {
+        @FieldResolver(() => Boolean, { nullable: false })
+        public async exampleFieldResolver(): Promise<boolean> {
+          return true;
+        }
+      }
+
+      @ObjectType()
+      class OtherTestResponse {
+        @Field()
+        data!: string;
+      }
+
+      @ArgsType()
+      class OtherTestArgs {
+        @Field(() => Int, { defaultValue: 0 })
+        testField!: number;
+      }
+
+      function makeOtherResolverClass() {
+        @Resolver(() => OtherTestResponse)
+        abstract class OtherTestResolver {
+          @Query(() => OtherTestResponse)
+          async exampleQuery(@Args() args: OtherTestArgs): Promise<OtherTestResponse> {
+            return {
+              data: `resolver ${args.testField}`,
+            };
+          }
+        }
+
+        return OtherTestResolver;
+      }
+
+      @Resolver(() => OtherTestResponse)
+      class OtherTestResolver extends makeOtherResolverClass() {
+        @FieldResolver(() => Boolean, { nullable: false })
+        public async exampleFieldResolver(): Promise<boolean> {
+          return true;
+        }
+      }
+
+      const fistSchemaInfo = await getSchemaInfo({
+        resolvers: [TestResolver],
+      });
+
+      const hasFoundFieldResolverInSchema = fistSchemaInfo.schemaIntrospection.types.some(
+        type =>
+          type.kind === "OBJECT" &&
+          type.name === "TestResponse" &&
+          type.fields?.some(field => field.name === "exampleFieldResolver"),
+      );
+      expect(hasFoundFieldResolverInSchema).toBeTruthy();
+
+      const secondSchemaInfo = await getSchemaInfo({
+        resolvers: [OtherTestResolver],
+      });
+
+      const hasFoundFieldResolverInOtherSchema = secondSchemaInfo.schemaIntrospection.types.some(
+        type =>
+          type.kind === "OBJECT" &&
+          type.name === "OtherTestResponse" &&
+          type.fields?.some(field => field.name === "exampleFieldResolver"),
+      );
+      expect(hasFoundFieldResolverInOtherSchema).toBeTruthy();
+    });
   });
 });
