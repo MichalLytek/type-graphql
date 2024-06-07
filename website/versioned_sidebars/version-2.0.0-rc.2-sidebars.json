@@ -1,0 +1,60 @@
+{
+  "version-2.0.0-rc.2-docs": {
+    "Introduction": [
+      "version-2.0.0-rc.2-introduction"
+    ],
+    "Beginner guides": [
+      "version-2.0.0-rc.2-installation",
+      "version-2.0.0-rc.2-getting-started",
+      "version-2.0.0-rc.2-types-and-fields",
+      "version-2.0.0-rc.2-resolvers",
+      "version-2.0.0-rc.2-bootstrap",
+      "version-2.0.0-rc.2-esm"
+    ],
+    "Migration guide": [
+      "version-2.0.0-rc.2-migration-guide"
+    ],
+    "Advanced guides": [
+      "version-2.0.0-rc.2-scalars",
+      "version-2.0.0-rc.2-enums",
+      "version-2.0.0-rc.2-unions",
+      "version-2.0.0-rc.2-interfaces",
+      "version-2.0.0-rc.2-subscriptions",
+      "version-2.0.0-rc.2-directives",
+      "version-2.0.0-rc.2-extensions"
+    ],
+    "Features": [
+      "version-2.0.0-rc.2-dependency-injection",
+      "version-2.0.0-rc.2-authorization",
+      "version-2.0.0-rc.2-validation",
+      "version-2.0.0-rc.2-inheritance",
+      "version-2.0.0-rc.2-generic-types",
+      "version-2.0.0-rc.2-middlewares",
+      "version-2.0.0-rc.2-custom-decorators",
+      "version-2.0.0-rc.2-complexity"
+    ],
+    "Integrations": [
+      "version-2.0.0-rc.2-prisma",
+      "version-2.0.0-rc.2-nestjs"
+    ],
+    "Others": [
+      "version-2.0.0-rc.2-emit-schema",
+      "version-2.0.0-rc.2-performance"
+    ],
+    "Recipes": [
+      "version-2.0.0-rc.2-browser-usage",
+      "version-2.0.0-rc.2-aws-lambda",
+      "version-2.0.0-rc.2-azure-functions"
+    ]
+  },
+  "version-2.0.0-rc.2-examples": {
+    "Examples": [
+      "version-2.0.0-rc.2-examples"
+    ]
+  },
+  "version-2.0.0-rc.2-others": {
+    "Others": [
+      "version-2.0.0-rc.2-faq"
+    ]
+  }
+}

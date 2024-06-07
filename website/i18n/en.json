@@ -811,6 +811,56 @@
       "version-2.0.0-rc.1/version-2.0.0-rc.1-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-azure-functions": {
+        "title": "Azure Functions Integration"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-browser-usage": {
+        "title": "Browser usage"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
