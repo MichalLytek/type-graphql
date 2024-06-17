@@ -147,7 +147,7 @@ import { pubSub } from "./pubsub";
 class SampleResolver {
   // ...
   @Mutation(returns => Boolean)
-  async addNewComment(@Arg("comment") input: CommentInput, @PubSub() pubSub: PubSubEngine) {
+  async addNewComment(@Arg("comment") input: CommentInput) {
     const comment = this.commentsService.createNew(input);
     await this.commentsRepository.save(comment);
     // Trigger subscriptions topics
