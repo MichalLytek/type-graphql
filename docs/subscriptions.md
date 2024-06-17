@@ -4,7 +4,7 @@ title: Subscriptions
 
 GraphQL can be used to perform reads with queries and writes with mutations.
 However, oftentimes clients want to get updates pushed to them from the server when data they care about changes.
-To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the [`@graphql-yoga/subscriptions`](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions) package created by [`The Guild`](https://the-guild.dev/).
+To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the [`@graphql-yoga/subscription`](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions) package created by [`The Guild`](https://the-guild.dev/).
 
 ## Creating Subscriptions
 
@@ -72,7 +72,7 @@ class SampleResolver {
 }
 ```
 
-> Be aware that we can't mix the `subscribe` option with the `topics` and `filter` options. If the filtering is still needed, we can use the [`filter` and `map` helpers](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#filter-and-map-values) from the `@graphql-yoga/subscriptions` package.
+> Be aware that we can't mix the `subscribe` option with the `topics` and `filter` options. If the filtering is still needed, we can use the [`filter` and `map` helpers](https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#filter-and-map-values) from the `@graphql-yoga/subscription` package.
 
 Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the `@Root()` decorator. There, we can transform it to the returned shape.
 
@@ -116,10 +116,10 @@ class SampleResolver {
 }
 ```
 
-First, we need to create the `PubSub` instance. In most cases, we call `createPubSub()` function from `@graphql-yoga/subscriptions` package. Optionally, we can define the used topics and payload type using the type argument, e.g.:
+First, we need to create the `PubSub` instance. In most cases, we call `createPubSub()` function from `@graphql-yoga/subscription` package. Optionally, we can define the used topics and payload type using the type argument, e.g.:
 
 ```ts
-import { createPubSub } from "@graphql-yoga/subscriptions";
+import { createPubSub } from "@graphql-yoga/subscription";
 
 export const pubSub = createPubSub<{
   NOTIFICATIONS: [NotificationPayload];
@@ -162,7 +162,7 @@ And that's it! Now all subscriptions attached to the `NOTIFICATIONS` topic will 
 
 ## Topic with dynamic ID
 
-The idea of this feature is taken from the `@graphql-yoga/subscriptions` that is used under the hood.
+The idea of this feature is taken from the `@graphql-yoga/subscription` that is used under the hood.
 Basically, sometimes you only want to emit and listen for events for a specific entity (e.g. user or product). Dynamic topic ID lets you declare topics scoped to a special identifier, e.g.:
 
 ```ts
@@ -185,11 +185,11 @@ pubSub.publish("NOTIFICATIONS", userId, { id, message });
 ```
 
 > Be aware that this feature must be supported by the pubsub system of your choice.
-> If you decide to use something different than `createPubSub()` from `@graphql-yoga/subscriptions`, the second argument might be treated as a payload, not dynamic topic id.
+> If you decide to use something different than `createPubSub()` from `@graphql-yoga/subscription`, the second argument might be treated as a payload, not dynamic topic id.
 
 ## Using a custom PubSub system
 
-While TypeGraphQL uses the `@graphql-yoga/subscriptions` package under the hood to handle subscription, there's no requirement to use that implementation of `PubSub`.
+While TypeGraphQL uses the `@graphql-yoga/subscription` package under the hood to handle subscription, there's no requirement to use that implementation of `PubSub`.
 
 In fact, you can use any pubsub system you want, not only the `graphql-yoga` one.
 The only requirement is to comply with the exported `PubSub` interface - having proper `.subscribe()` and `.publish()` methods.
