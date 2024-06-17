@@ -169,7 +169,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-sh": "^0.14.0",
     "reflect-metadata": "^0.1.13",
-    "shellcheck": "^2.2.0",
+    "shellcheck": "^3.0.0",
     "shelljs": "^0.8.5",
     "shx": "^0.3.4",
     "sponsorkit": "^0.9.1",
