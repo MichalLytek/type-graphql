@@ -64,7 +64,7 @@
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/MichalLytek/type-graphql/edit/master/docs/subscriptions.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Subscriptions</h1></header><article><div><span><p>GraphQL can be used to perform reads with queries and writes with mutations.
 However, oftentimes clients want to get updates pushed to them from the server when data they care about changes.
-To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions"><code>@graphql-yoga/subscriptions</code></a> package created by <a href="https://the-guild.dev/"><code>The Guild</code></a>.</p>
+To support that, GraphQL has a third operation: subscription. TypeGraphQL of course has great support for subscription, using the <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions"><code>@graphql-yoga/subscription</code></a> package created by <a href="https://the-guild.dev/"><code>The Guild</code></a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="creating-subscriptions"></a><a href="#creating-subscriptions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating Subscriptions</h2>
 <p>Subscription resolvers are similar to <a href="/docs/next/resolvers.html">queries and mutation resolvers</a> but slightly more complicated.</p>
 <p>First we create a normal class method as always, but this time annotated with the <code>@Subscription()</code> decorator.</p>
@@ -117,7 +117,7 @@ This function should return a <code>boolean</code> or <code>Promise&lt;boolean&g
 <span class="token punctuation">}</span>
 </code></pre>
 <blockquote>
-<p>Be aware that we can't mix the <code>subscribe</code> option with the <code>topics</code> and <code>filter</code> options. If the filtering is still needed, we can use the <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#filter-and-map-values"><code>filter</code> and <code>map</code> helpers</a> from the <code>@graphql-yoga/subscriptions</code> package.</p>
+<p>Be aware that we can't mix the <code>subscribe</code> option with the <code>topics</code> and <code>filter</code> options. If the filtering is still needed, we can use the <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#filter-and-map-values"><code>filter</code> and <code>map</code> helpers</a> from the <code>@graphql-yoga/subscription</code> package.</p>
 </blockquote>
 <p>Now we can implement the subscription resolver. It will receive the payload from a triggered topic of the pubsub system using the <code>@Root()</code> decorator. There, we can transform it to the returned shape.</p>
 <pre><code class="hljs css language-ts"><span class="token keyword">class</span> <span class="token class-name">SampleResolver</span> <span class="token punctuation">{</span>
@@ -152,8 +152,8 @@ e.g. when we modify some resource that clients want to receive notifications abo
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>First, we need to create the <code>PubSub</code> instance. In most cases, we call <code>createPubSub()</code> function from <code>@graphql-yoga/subscriptions</code> package. Optionally, we can define the used topics and payload type using the type argument, e.g.:</p>
-<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> createPubSub <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@graphql-yoga/subscriptions"</span><span class="token punctuation">;</span>
+<p>First, we need to create the <code>PubSub</code> instance. In most cases, we call <code>createPubSub()</code> function from <code>@graphql-yoga/subscription</code> package. Optionally, we can define the used topics and payload type using the type argument, e.g.:</p>
+<pre><code class="hljs css language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> createPubSub <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@graphql-yoga/subscription"</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> pubSub <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createPubSub</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token punctuation">{</span>
   <span class="token constant">NOTIFICATIONS</span><span class="token operator">:</span> <span class="token punctuation">[</span>NotificationPayload<span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -187,7 +187,7 @@ e.g. when we modify some resource that clients want to receive notifications abo
 </code></pre>
 <p>And that's it! Now all subscriptions attached to the <code>NOTIFICATIONS</code> topic will be triggered when performing the <code>addNewComment</code> mutation.</p>
 <h2><a class="anchor" aria-hidden="true" id="topic-with-dynamic-id"></a><a href="#topic-with-dynamic-id" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Topic with dynamic ID</h2>
-<p>The idea of this feature is taken from the <code>@graphql-yoga/subscriptions</code> that is used under the hood.
+<p>The idea of this feature is taken from the <code>@graphql-yoga/subscription</code> that is used under the hood.
 Basically, sometimes you only want to emit and listen for events for a specific entity (e.g. user or product). Dynamic topic ID lets you declare topics scoped to a special identifier, e.g.:</p>
 <pre><code class="hljs css language-ts"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Resolver</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">class</span> <span class="token class-name">NotificationResolver</span> <span class="token punctuation">{</span>
@@ -205,10 +205,10 @@ Basically, sometimes you only want to emit and listen for events for a specific 
 </code></pre>
 <blockquote>
 <p>Be aware that this feature must be supported by the pubsub system of your choice.
-If you decide to use something different than <code>createPubSub()</code> from <code>@graphql-yoga/subscriptions</code>, the second argument might be treated as a payload, not dynamic topic id.</p>
+If you decide to use something different than <code>createPubSub()</code> from <code>@graphql-yoga/subscription</code>, the second argument might be treated as a payload, not dynamic topic id.</p>
 </blockquote>
 <h2><a class="anchor" aria-hidden="true" id="using-a-custom-pubsub-system"></a><a href="#using-a-custom-pubsub-system" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using a custom PubSub system</h2>
-<p>While TypeGraphQL uses the <code>@graphql-yoga/subscriptions</code> package under the hood to handle subscription, there's no requirement to use that implementation of <code>PubSub</code>.</p>
+<p>While TypeGraphQL uses the <code>@graphql-yoga/subscription</code> package under the hood to handle subscription, there's no requirement to use that implementation of <code>PubSub</code>.</p>
 <p>In fact, you can use any pubsub system you want, not only the <code>graphql-yoga</code> one.
 The only requirement is to comply with the exported <code>PubSub</code> interface - having proper <code>.subscribe()</code> and <code>.publish()</code> methods.</p>
 <p>This is especially helpful for production usage, where we can't rely on the in-memory event emitter, so that we <a href="https://the-guild.dev/graphql/yoga-server/docs/features/subscriptions#distributed-pubsub-for-production">use distributed pubsub</a>.</p>
