@@ -124,7 +124,7 @@
     "@cspell/dict-npm": "^5.0.14",
     "@cspell/dict-shell": "^1.0.6",
     "@cspell/dict-typescript": "^3.1.2",
-    "@cspell/eslint-plugin": "^8.3.2",
+    "@cspell/eslint-plugin": "^8.9.1",
     "@graphql-tools/schema": "^10.0.2",
     "@graphql-tools/utils": "^10.1.2",
     "@graphql-yoga/redis-event-target": "^3.0.0",
