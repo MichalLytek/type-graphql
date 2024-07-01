@@ -141,7 +141,7 @@
     "class-validator": "^0.14.0",
     "cspell": "^8.7.0",
     "dotenv": "^16.4.5",
-    "eslint": "^8.56.0",
+    "eslint": "^9.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.1.0",
