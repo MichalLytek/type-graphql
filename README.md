@@ -171,7 +171,11 @@ It doesn't have a large company that sits behind it - its ongoing development is
 
 ### Silver Sponsors 🥈
 
-> Please ask your company to support this open source project by [becoming a silver sponsor](https://opencollective.com/typegraphql/contribute/silver-sponsors-14804).
+<!-- markdownlint-disable MD033 -->
+
+| [<img src="./images/leofame.png" width="200" alt="Leofame" />](https://leofame.com/buy-instagram-followers) |
+| :---------------------------------------------------------------------------------------------------------: |
+|                         [**Leofame**](https://leofame.com/buy-instagram-followers)                          |
 
 ### Bronze Sponsors 🥉
 
