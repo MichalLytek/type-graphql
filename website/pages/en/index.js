@@ -305,6 +305,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("social_followers.png")} style={{ width: 60 }} />
             <span>Social Followers</span>
           </a>
+          <a href="https://onlinekasyno-polis.pl/" target="_blank">
+            <img src={imgUrl("polis.png")} style={{ width: 50 }} />
+            <span>Online Kasyno Polis</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
