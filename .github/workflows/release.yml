@@ -61,7 +61,7 @@ jobs:
 
       - name: Build Changelog
         id: changelog
-        uses: mikepenz/release-changelog-builder-action@v4
+        uses: mikepenz/release-changelog-builder-action@v5
         with:
           configuration: "./.github/configs/changelog.json"
           failOnError: true
