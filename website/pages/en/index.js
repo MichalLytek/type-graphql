@@ -313,6 +313,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("ig-comment.png")} style={{ width: 80 }} />
             <span>IG Comment</span>
           </a>
+          <a href="https://twicsy.com/buy-instagram-followers" target="_blank">
+            <img src={imgUrl("twicsy.svg")} style={{ width: 100 }} />
+            <span>Twicsy</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
