@@ -4,9 +4,10 @@
 
 <!-- Here goes all the unreleased changes descriptions -->
 
-### Features
+### Others
 
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.9.0`
+- **Breaking Change**: drop support for Node.js < 20.11.1
 
 ## v2.0.0-rc.2
 
