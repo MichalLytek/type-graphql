@@ -1,8 +1,12 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 
 <!-- Here goes all the unreleased changes descriptions -->
+
+### Features
+
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.9.0`
 
 ## v2.0.0-rc.2
 
