@@ -3,7 +3,7 @@
 **/coverage/
 **/node_modules/
 jest.config.ts
-sponsorkit.config.ts
+sponsorkit.config.mts
 
 # FIXME: Remove
 website/
