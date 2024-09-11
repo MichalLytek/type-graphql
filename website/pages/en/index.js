@@ -257,8 +257,15 @@ const CollectiveSection = props => (
         <h3 className="title">Silver Sponsors 🥈</h3>
         <div className="tiles">
           <a href="https://leofame.com/buy-instagram-followers" target="_blank">
-            <img src={imgUrl("leofame.png")} style={{ width: 200 }} />
+            <img src={imgUrl("leofame.png")} style={{ width: 250 }} />
             <span>Leofame</span>
+          </a>
+          <a
+            href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
+            target="_blank"
+          >
+            <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 150 }} />
+            <span>TikTok Expert</span>
           </a>
         </div>
         <h3 className="title">Bronze Sponsors 🥉</h3>
@@ -293,6 +300,12 @@ const CollectiveSection = props => (
             <img src={imgUrl("non-stop-casino.png")} style={{ width: 50 }} />
             <span>Non Stop Casino</span>
           </a>
+          <a href="https://onlinekasyno-polis.pl/" target="_blank">
+            <img src={imgUrl("polis.png")} style={{ width: 50 }} />
+            <span>Online Kasyno Polis</span>
+          </a>
+        </div>
+        <div className="tiles">
           <a href="https://sidesmedia.com/" target="_blank">
             <img src={imgUrl("sidesmedia.png")} style={{ width: 50 }} />
             <span>SidesMedia</span>
@@ -305,10 +318,6 @@ const CollectiveSection = props => (
             <img src={imgUrl("social_followers.png")} style={{ width: 60 }} />
             <span>Social Followers</span>
           </a>
-          <a href="https://onlinekasyno-polis.pl/" target="_blank">
-            <img src={imgUrl("polis.png")} style={{ width: 50 }} />
-            <span>Online Kasyno Polis</span>
-          </a>
           <a href="https://igcomment.com/buy-instagram-comments/" target="_blank">
             <img src={imgUrl("ig-comment.png")} style={{ width: 80 }} />
             <span>IG Comment</span>
@@ -316,6 +325,10 @@ const CollectiveSection = props => (
           <a href="https://twicsy.com/buy-instagram-followers" target="_blank">
             <img src={imgUrl("twicsy.svg")} style={{ width: 100 }} />
             <span>Twicsy</span>
+          </a>
+          <a href="https://buzzoid.com/" target="_blank">
+            <img src={imgUrl("buzzoid.svg")} style={{ width: 100 }} />
+            <span>Buzzoid</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
