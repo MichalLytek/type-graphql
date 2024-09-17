@@ -326,7 +326,7 @@ const CollectiveSection = props => (
             <img src={imgUrl("twicsy.svg")} style={{ width: 100 }} />
             <span>Twicsy</span>
           </a>
-          <a href="https://buzzoid.com/" target="_blank">
+          <a href="https://buzzoid.com/buy-instagram-followers/" target="_blank">
             <img src={imgUrl("buzzoid.svg")} style={{ width: 100 }} />
             <span>Buzzoid</span>
           </a>
