@@ -289,29 +289,29 @@ const CollectiveSection = props => (
         </div>
         <div className="tiles">
           <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
-            <img src={imgUrl("nongamstopbets.png")} style={{ width: 50 }} />
+            <img src={imgUrl("nongamstopbets.png")} style={{ width: 40 }} />
             <span>NonGamstopBets</span>
           </a>
           <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank">
-            <img src={imgUrl("casinodeps.svg")} style={{ width: 80 }} />
+            <img src={imgUrl("casinodeps.svg")} style={{ width: 60 }} />
             <span>CasinoDeps</span>
           </a>
           <a href="https://uk.nonstopcasino.org/non-gamstop-casinos/" target="_blank">
-            <img src={imgUrl("non-stop-casino.png")} style={{ width: 50 }} />
+            <img src={imgUrl("non-stop-casino.png")} style={{ width: 40 }} />
             <span>Non Stop Casino</span>
           </a>
           <a href="https://onlinekasyno-polis.pl/" target="_blank">
-            <img src={imgUrl("polis.png")} style={{ width: 50 }} />
+            <img src={imgUrl("polis.png")} style={{ width: 40 }} />
             <span>Online Kasyno Polis</span>
           </a>
         </div>
         <div className="tiles">
           <a href="https://sidesmedia.com/" target="_blank">
-            <img src={imgUrl("sidesmedia.png")} style={{ width: 50 }} />
+            <img src={imgUrl("sidesmedia.png")} style={{ width: 40 }} />
             <span>SidesMedia</span>
           </a>
           <a href="https://insfollowpro.com/" target="_blank">
-            <img src={imgUrl("insfollowpro.png")} style={{ width: 50 }} />
+            <img src={imgUrl("insfollowpro.png")} style={{ width: 40 }} />
             <span>Insfollowpro</span>
           </a>
           <a href="https://www.socialfollowers.uk/buy-tiktok-followers/" target="_blank">
@@ -327,8 +327,12 @@ const CollectiveSection = props => (
             <span>Twicsy</span>
           </a>
           <a href="https://buzzoid.com/buy-instagram-followers/" target="_blank">
-            <img src={imgUrl("buzzoid.svg")} style={{ width: 100 }} />
+            <img src={imgUrl("buzzoid.svg")} style={{ width: 90 }} />
             <span>Buzzoid</span>
+          </a>
+          <a href="https://www.socialmention.com/buy-youtube-likes/" target="_blank">
+            <img src={imgUrl("socialmention.webp")} style={{ width: 100 }} />
+            <span>Social Mention</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
