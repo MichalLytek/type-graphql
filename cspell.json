@@ -75,6 +75,7 @@
     "typegraphql",
     "typeof",
     "typeorm",
-    "underfetching"
+    "underfetching",
+    "wordhint"
   ]
 }
