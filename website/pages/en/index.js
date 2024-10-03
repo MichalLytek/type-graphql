@@ -296,10 +296,6 @@ const CollectiveSection = props => (
             <img src={imgUrl("non-stop-casino.png")} style={{ width: 40 }} />
             <span>Non Stop Casino</span>
           </a>
-          <a href="https://onlinekasyno-polis.pl/" target="_blank">
-            <img src={imgUrl("polis.png")} style={{ width: 40 }} />
-            <span>Online Kasyno Polis</span>
-          </a>
           <a href="https://www.wordhint.net/" target="_blank">
             <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
             <span>WordHint</span>
