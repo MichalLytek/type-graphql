@@ -32,6 +32,7 @@
     "codecov",
     "codegen",
     "codeql",
+    "Famety",
     "gamstop",
     "graming",
     "graphiql",
@@ -78,6 +79,7 @@
     "typeof",
     "typeorm",
     "underfetching",
+    "webp",
     "wordhint"
   ]
 }

@@ -282,6 +282,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
+          <a href="https://www.wordhint.net/" target="_blank">
+            <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
+            <span>WordHint</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
@@ -296,17 +300,17 @@ const CollectiveSection = props => (
             <img src={imgUrl("non-stop-casino.png")} style={{ width: 40 }} />
             <span>Non Stop Casino</span>
           </a>
-          <a href="https://www.wordhint.net/" target="_blank">
-            <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
-            <span>WordHint</span>
-          </a>
           <a href="https://graming.com/buy-tiktok-views/" target="_blank">
             <img src={imgUrl("graming.svg")} style={{ width: 90 }} />
             <span>Graming</span>
           </a>
           <a href="https://guidebook.betwinner.com/" target="_blank">
-            <img src={imgUrl("betwinner.svg")} style={{ width: 90 }} />
+            <img src={imgUrl("betwinner.svg")} style={{ width: 100 }} />
             <span>BetWinner</span>
+          </a>
+          <a href="https://www.famety.com/buy-instagram-likes" target="_blank">
+            <img src={imgUrl("famety.png")} style={{ width: 50 }} />
+            <span>Famety</span>
           </a>
         </div>
         <div className="tiles">
