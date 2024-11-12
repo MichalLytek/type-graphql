@@ -5,6 +5,10 @@
     "previous": "Previous",
     "tagline": "Modern framework for GraphQL API in Node.js",
     "docs": {
+      "adonisjs": {
+        "title": "AdonisJS Integration",
+        "sidebar_label": "AdonisJS"
+      },
       "authorization": {
         "title": "Authorization"
       },
@@ -811,6 +815,10 @@
       "version-2.0.0-rc.1/version-2.0.0-rc.1-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-rc.2/version-2.0.0-rc.2-adonisjs": {
+        "title": "AdonisJS Integration",
+        "sidebar_label": "AdonisJS"
       },
       "version-2.0.0-rc.2/version-2.0.0-rc.2-authorization": {
         "title": "Authorization"
