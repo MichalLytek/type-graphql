@@ -260,13 +260,6 @@ const CollectiveSection = props => (
             <img src={imgUrl("leofame.png")} style={{ width: 250 }} />
             <span>Leofame</span>
           </a>
-          <a
-            href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
-            target="_blank"
-          >
-            <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 150 }} />
-            <span>TikTok Expert</span>
-          </a>
         </div>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
@@ -337,6 +330,13 @@ const CollectiveSection = props => (
           <a href="https://www.socialmention.com/buy-youtube-likes/" target="_blank">
             <img src={imgUrl("socialmention.webp")} style={{ width: 100 }} />
             <span>Social Mention</span>
+          </a>
+          <a
+            href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
+            target="_blank"
+          >
+            <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
+            <span>TikTok Expert</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
