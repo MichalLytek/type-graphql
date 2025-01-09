@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         language:
-          - javascript
+          - javascript-typescript
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +37,11 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          config-file: ./.github/configs/codeql.yml
+          queries: security-and-quality
+          config: |
+            paths-ignore:
+              - "**/node_modules"
+              - "**/*.test.ts"
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
