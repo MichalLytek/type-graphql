@@ -302,8 +302,12 @@ const CollectiveSection = props => (
             <span>BetWinner</span>
           </a>
           <a href="https://www.famety.com/buy-instagram-likes" target="_blank">
-            <img src={imgUrl("famety.png")} style={{ width: 50 }} />
+            <img src={imgUrl("famety.png")} style={{ width: 40 }} />
             <span>Famety</span>
+          </a>
+          <a href="https://buzzvoice.com/" target="_blank">
+            <img src={imgUrl("logo-buzzv.png")} style={{ width: 70 }} />
+            <span>BuzzVoice</span>
           </a>
         </div>
         <div className="tiles">
@@ -337,6 +341,10 @@ const CollectiveSection = props => (
           >
             <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
             <span>TikTok Expert</span>
+          </a>
+          <a href="https://tokmax.com/" target="_blank">
+            <img src={imgUrl("tokmax.svg")} style={{ width: 70 }} />
+            <span>Tokmax</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
