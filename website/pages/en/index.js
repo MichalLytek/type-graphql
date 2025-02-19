@@ -279,6 +279,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
             <span>WordHint</span>
           </a>
+          <a href="https://strands-hint.net" target="_blank">
+            <img src={imgUrl("strands-hint-logo.svg")} style={{ width: 80 }} />
+            <span>Strands Hint</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
