@@ -354,6 +354,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("tokmax.svg")} style={{ width: 70 }} />
             <span>Tokmax</span>
           </a>
+          <a href="https://useviral.com/" target="_blank">
+            <img src={imgUrl("use-viral-logo.webp")} style={{ width: 90 }} />
+            <span>UseViral</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
