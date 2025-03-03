@@ -97,16 +97,13 @@ describe("Extensions", () => {
           return "SampleObjectInterfaceImplementation";
         },
       })
-      @Extensions({
-        meta: "interface_extension",
-      })
+      @Extensions({ meta: "interface_extension" })
       class SampleInterfaceType {
-        @Extensions({
-          meta: "interface_extension",
-        })
         @Field()
+        @Extensions({ meta: "interface_extension" })
         withInterfaceFieldExtension!: string;
       }
+
       @ObjectType({
         implements: [SampleInterfaceType],
       })
@@ -119,6 +116,11 @@ describe("Extensions", () => {
           return new SampleObjectType();
         }
 
+        @Query(() => ExtensionsOnClassObjectType)
+        extensionsOnClassObjectType(): ExtensionsOnClassObjectType {
+          return new ExtensionsOnClassObjectType();
+        }
+
         @Query(() => SampleObjectInterfaceImplementation)
         sampleObjectInterfaceImplementation(): SampleObjectInterfaceImplementation {
           return new SampleObjectInterfaceImplementation();
@@ -129,7 +131,7 @@ describe("Extensions", () => {
           return new SampleInterfaceType();
         }
 
-        @Query(() => ExtensionsOnClassObjectType)
+        @Query()
         @Extensions({ mandatory: true })
         queryWithExtensions(): string {
           return "queryWithExtensions";
