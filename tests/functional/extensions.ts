@@ -107,7 +107,17 @@ describe("Extensions", () => {
       @ObjectType({
         implements: [SampleInterfaceType],
       })
-      class SampleObjectInterfaceImplementation {}
+      class SampleObjectInterfaceImplementation extends SampleInterfaceType {}
+
+      @InterfaceType({
+        implements: [SampleInterfaceType],
+      })
+      class SampleInterfaceInterfaceImplementation extends SampleInterfaceType {}
+
+      @ObjectType({
+        implements: [SampleInterfaceInterfaceImplementation],
+      })
+      class SampleObjectInterfaceInterfaceImplementation extends SampleInterfaceInterfaceImplementation {}
 
       @Resolver()
       class SampleResolver {
@@ -124,6 +134,16 @@ describe("Extensions", () => {
         @Query(() => SampleObjectInterfaceImplementation)
         sampleObjectInterfaceImplementation(): SampleObjectInterfaceImplementation {
           return new SampleObjectInterfaceImplementation();
+        }
+
+        @Query(() => SampleInterfaceInterfaceImplementation)
+        SampleInterfaceInterfaceImplementation(): SampleInterfaceInterfaceImplementation {
+          return new SampleInterfaceInterfaceImplementation();
+        }
+
+        @Query(() => SampleObjectInterfaceInterfaceImplementation)
+        SampleObjectInterfaceInterfaceImplementation(): SampleObjectInterfaceInterfaceImplementation {
+          return new SampleObjectInterfaceInterfaceImplementation();
         }
 
         @Query(() => SampleInterfaceType)
@@ -298,8 +318,15 @@ describe("Extensions", () => {
       });
     });
 
-    describe("InterfaceObjectResolver", () => {
+    describe("Interface Fields", () => {
       it("should add extensions to interface types", async () => {
+        const fields = (schema.getType("SampleInterfaceType") as GraphQLObjectType).getFields();
+        expect(fields.withInterfaceFieldExtension.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
+
+      it("should add extensions to ObjectType which extends InterfaceType", async () => {
         const fields = (
           schema.getType("SampleObjectInterfaceImplementation") as GraphQLObjectType
         ).getFields();
@@ -307,11 +334,56 @@ describe("Extensions", () => {
           meta: "interface_extension",
         });
       });
+
+      it("should add extensions to Interface which extends InterfaceType", async () => {
+        const fields = (
+          schema.getType("SampleInterfaceInterfaceImplementation") as GraphQLObjectType
+        ).getFields();
+        expect(fields.withInterfaceFieldExtension.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
+
+      it("should add extensions to ObjectType which extends InterfaceType which extends InterfaceType", async () => {
+        const fields = (
+          schema.getType("SampleInterfaceInterfaceImplementation") as GraphQLObjectType
+        ).getFields();
+        expect(fields.withInterfaceFieldExtension.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
     });
 
-    describe("InterfaceClassResolver", () => {
+    describe("Interface Class", () => {
       it("should add extensions to interface types", async () => {
         const sampleInterface = schema.getType("SampleInterfaceType") as GraphQLInterfaceType;
+        expect(sampleInterface.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
+
+      it("should add extensions to ObjectType which extends InterfaceType", async () => {
+        const sampleInterface = schema.getType(
+          "SampleObjectInterfaceImplementation",
+        ) as GraphQLInterfaceType;
+        expect(sampleInterface.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
+
+      it("should add extensions to InterfaceType which extends InterfaceType", async () => {
+        const sampleInterface = schema.getType(
+          "SampleInterfaceInterfaceImplementation",
+        ) as GraphQLInterfaceType;
+        expect(sampleInterface.extensions).toEqual({
+          meta: "interface_extension",
+        });
+      });
+
+      it("should add extensions to ObjectType which extends InterfaceType which extends InterfaceType", async () => {
+        const sampleInterface = schema.getType(
+          "SampleObjectInterfaceInterfaceImplementation",
+        ) as GraphQLInterfaceType;
         expect(sampleInterface.extensions).toEqual({
           meta: "interface_extension",
         });
