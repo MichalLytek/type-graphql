@@ -256,105 +256,122 @@ const CollectiveSection = props => (
         </blockquote>
         <h3 className="title">Silver Sponsors 🥈</h3>
         <div className="tiles">
-          <a href="https://leofame.com/buy-instagram-followers" target="_blank">
+          <a href="https://leofame.com/buy-instagram-followers" target="_blank" rel="sponsored">
             <img src={imgUrl("leofame.png")} style={{ width: 250 }} />
             <span>Leofame</span>
           </a>
         </div>
         <h3 className="title">Bronze Sponsors 🥉</h3>
         <div className="tiles">
-          <a href="https://www.ligrsystems.com/" target="_blank">
+          <a href="https://www.ligrsystems.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("live-graphics-system.png")} style={{ width: 55 }} />
             <span>Live Graphic Systems</span>
           </a>
-          <a href="https://www.joinlifex.com/" target="_blank">
+          <a href="https://www.joinlifex.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("lifex.svg")} style={{ width: 60 }} />
             <span>LifeX Aps</span>
           </a>
-          <a href="https://instinctools.com/manufacturing/" target="_blank">
+          <a href="https://instinctools.com/manufacturing/" target="_blank" rel="sponsored">
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
-          <a href="https://www.wordhint.net/" target="_blank">
+          <a href="https://www.wordhint.net/" target="_blank" rel="sponsored">
             <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
             <span>WordHint</span>
           </a>
-          <a href="https://strands-hint.net" target="_blank">
+          <a href="https://strands-hint.net" target="_blank" rel="sponsored">
             <img src={imgUrl("strands-hint-logo.svg")} style={{ width: 80 }} />
             <span>Strands Hint</span>
           </a>
         </div>
         <div className="tiles">
-          <a href="https://www.nongamstopbets.com/casinos-not-on-gamstop/" target="_blank">
+          <a
+            href="https://www.nongamstopbets.com/casinos-not-on-gamstop/"
+            target="_blank"
+            rel="sponsored"
+          >
             <img src={imgUrl("nongamstopbets.png")} style={{ width: 40 }} />
             <span>NonGamstopBets</span>
           </a>
-          <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank">
+          <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank" rel="sponsored">
             <img src={imgUrl("casinodeps.svg")} style={{ width: 60 }} />
             <span>CasinoDeps</span>
           </a>
-          <a href="https://uk.nonstopcasino.org/non-gamstop-casinos/" target="_blank">
+          <a
+            href="https://uk.nonstopcasino.org/non-gamstop-casinos/"
+            target="_blank"
+            rel="sponsored"
+          >
             <img src={imgUrl("non-stop-casino.png")} style={{ width: 40 }} />
             <span>Non Stop Casino</span>
           </a>
-          <a href="https://graming.com/buy-tiktok-views/" target="_blank">
+          <a href="https://graming.com/buy-tiktok-views/" target="_blank" rel="sponsored">
             <img src={imgUrl("graming.svg")} style={{ width: 90 }} />
             <span>Graming</span>
           </a>
-          <a href="https://guidebook.betwinner.com/" target="_blank">
+          <a href="https://guidebook.betwinner.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("betwinner.svg")} style={{ width: 100 }} />
             <span>BetWinner</span>
           </a>
-          <a href="https://www.famety.com/buy-instagram-likes" target="_blank">
+          <a href="https://www.famety.com/buy-instagram-likes" target="_blank" rel="sponsored">
             <img src={imgUrl("famety.png")} style={{ width: 40 }} />
             <span>Famety</span>
           </a>
-          <a href="https://buzzvoice.com/" target="_blank">
+          <a href="https://buzzvoice.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("logo-buzzv.png")} style={{ width: 70 }} />
             <span>BuzzVoice</span>
           </a>
-          <a href="https://www.socialwick.com/" target="_blank">
+          <a href="https://www.socialwick.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("socialwick-logo.png")} style={{ width: 60 }} />
             <span>SocialWick</span>
           </a>
         </div>
         <div className="tiles">
-          <a href="https://sidesmedia.com/" target="_blank">
+          <a href="https://sidesmedia.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("sidesmedia.png")} style={{ width: 40 }} />
             <span>SidesMedia</span>
           </a>
-          <a href="https://www.socialfollowers.uk/buy-tiktok-followers/" target="_blank">
+          <a
+            href="https://www.socialfollowers.uk/buy-tiktok-followers/"
+            target="_blank"
+            rel="sponsored"
+          >
             <img src={imgUrl("social_followers.png")} style={{ width: 60 }} />
             <span>Social Followers</span>
           </a>
-          <a href="https://igcomment.com/buy-instagram-comments/" target="_blank">
+          <a href="https://igcomment.com/buy-instagram-comments/" target="_blank" rel="sponsored">
             <img src={imgUrl("ig-comment.png")} style={{ width: 80 }} />
             <span>IG Comment</span>
           </a>
-          <a href="https://twicsy.com/buy-instagram-followers" target="_blank">
+          <a href="https://twicsy.com/buy-instagram-followers" target="_blank" rel="sponsored">
             <img src={imgUrl("twicsy.svg")} style={{ width: 100 }} />
             <span>Twicsy</span>
           </a>
-          <a href="https://buzzoid.com/buy-instagram-followers/" target="_blank">
+          <a href="https://buzzoid.com/buy-instagram-followers/" target="_blank" rel="sponsored">
             <img src={imgUrl("buzzoid.svg")} style={{ width: 90 }} />
             <span>Buzzoid</span>
           </a>
-          <a href="https://www.socialmention.com/buy-youtube-likes/" target="_blank">
+          <a
+            href="https://www.socialmention.com/buy-youtube-likes/"
+            target="_blank"
+            rel="sponsored"
+          >
             <img src={imgUrl("socialmention.webp")} style={{ width: 100 }} />
             <span>Social Mention</span>
           </a>
           <a
             href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
             target="_blank"
+            rel="sponsored"
           >
             <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
             <span>TikTok Expert</span>
           </a>
-          <a href="https://tokmax.com/" target="_blank">
+          <a href="https://tokmax.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("tokmax.svg")} style={{ width: 70 }} />
             <span>Tokmax</span>
           </a>
-          <a href="https://useviral.com/" target="_blank">
+          <a href="https://useviral.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("use-viral-logo.webp")} style={{ width: 90 }} />
             <span>UseViral</span>
           </a>
