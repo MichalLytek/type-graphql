@@ -58,7 +58,7 @@ export class MetadataStorage {
 
   authorizedFields: AuthorizedMetadata[] = [];
 
-  authorizedFieldsByTargetAndFieldCache = new Map<any, AuthorizedMetadata>();
+  authorizedFieldsByTargetAndFieldCache = new Map<string, AuthorizedMetadata>();
 
   authorizedResolver: AuthorizedClassMetadata[] = [];
 
@@ -82,7 +82,7 @@ export class MetadataStorage {
 
   fieldDirectives: DirectiveFieldMetadata[] = [];
 
-  fieldDirectivesByTargetAndFieldCache = new Map<any, DirectiveFieldMetadata[]>();
+  fieldDirectivesByTargetAndFieldCache = new Map<string, DirectiveFieldMetadata[]>();
 
   argumentDirectives: DirectiveArgumentMetadata[] = [];
 
@@ -96,7 +96,7 @@ export class MetadataStorage {
 
   fields: FieldMetadata[] = [];
 
-  fieldsCache = new Map<any, FieldMetadata[]>();
+  fieldsCache = new Map<Function, FieldMetadata[]>();
 
   params: ParamMetadata[] = [];
 
