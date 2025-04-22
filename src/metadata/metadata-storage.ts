@@ -70,11 +70,11 @@ export class MetadataStorage {
 
   middlewares: MiddlewareMetadata[] = [];
 
-  middlewaresByTargetAndFieldCache = new Map<string, MiddlewareMetadata[]>();
+  middlewaresByTargetAndFieldCache = new Map<string, Set<MiddlewareMetadata>>();
 
   resolverMiddlewares: ResolverMiddlewareMetadata[] = [];
 
-  resolverMiddlewaresByTargetCache = new Map<Function, ResolverMiddlewareMetadata[]>();
+  resolverMiddlewaresByTargetCache = new Map<Function, Set<ResolverMiddlewareMetadata>>();
 
   classDirectives: DirectiveClassMetadata[] = [];
 
@@ -218,9 +218,12 @@ export class MetadataStorage {
       this.middlewares.forEach(middleware => {
         const key = `${middleware.target}-${middleware.fieldName}`;
         if (!this.middlewaresByTargetAndFieldCache.has(key)) {
-          this.middlewaresByTargetAndFieldCache.set(key, []);
+          this.middlewaresByTargetAndFieldCache.set(key, new Set());
         }
-        this.middlewaresByTargetAndFieldCache.get(key)?.push(middleware);
+
+        if (!this.middlewaresByTargetAndFieldCache.get(key)?.has(middleware)) {
+          this.middlewaresByTargetAndFieldCache.get(key)?.add(middleware);
+        }
       });
     }
 
@@ -228,9 +231,12 @@ export class MetadataStorage {
       this.resolverMiddlewares.forEach(middleware => {
         const key = middleware.target;
         if (!this.resolverMiddlewaresByTargetCache.has(key)) {
-          this.resolverMiddlewaresByTargetCache.set(key, []);
+          this.resolverMiddlewaresByTargetCache.set(key, new Set());
         }
-        this.resolverMiddlewaresByTargetCache.get(key)?.push(middleware);
+
+        if (!this.resolverMiddlewaresByTargetCache.get(key)?.has(middleware)) {
+          this.resolverMiddlewaresByTargetCache.get(key)?.add(middleware);
+        }
       });
     }
 
@@ -338,6 +344,19 @@ export class MetadataStorage {
     this.classExtensions = [];
     this.fieldExtensions = [];
 
+    // clear map caches
+    this.fieldsCache = new Map();
+    this.objectTypesCache = new Map();
+    this.interfaceTypesCache = new Map();
+    this.middlewaresByTargetAndFieldCache = new Map();
+    this.resolverMiddlewaresByTargetCache = new Map();
+    this.paramsCache = new Map();
+    this.fieldDirectivesByTargetAndFieldCache = new Map();
+    this.classDirectivesByTargetCache = new Map();
+    this.authorizedFieldsByTargetAndFieldCache = new Map();
+    this.authorizedResolverByTargetCache = new Map();
+    this.resolverClassesCache = new Map();
+
     this.resolverClasses = [];
     this.fields = [];
     this.params = [];
@@ -350,20 +369,20 @@ export class MetadataStorage {
         fields.forEach(field => {
           field.roles = this.findFieldRoles(field.target, field.name);
 
-          const paramKey = `${field.target.name}-${field.name}`;
+          const paramKey = `${field.target}-${field.name}`;
           field.params = this.paramsCache.get(paramKey) || [];
 
-          const middlewares1 = this.resolverMiddlewaresByTargetCache.get(field.target) || [];
-          const middlewaresKey = `${field.target.name}-${field.name}`;
-          const middlewares2 = this.middlewaresByTargetAndFieldCache.get(middlewaresKey) || [];
+          const resolverMiddlewares = this.resolverMiddlewaresByTargetCache.get(field.target) || [];
+          const middlewaresKey = `${field.target}-${field.name}`;
+          const fieldMiddlewares = this.middlewaresByTargetAndFieldCache.get(middlewaresKey) || [];
 
-          field.middlewares = mapMiddlewareMetadataToArray(middlewares1).concat(
-            mapMiddlewareMetadataToArray(middlewares2),
-          );
+          field.middlewares = [
+            ...mapMiddlewareMetadataToArray(Array.from(resolverMiddlewares)),
+            ...mapMiddlewareMetadataToArray(Array.from(fieldMiddlewares)),
+          ];
 
           const directives =
-            this.fieldDirectivesByTargetAndFieldCache.get(`${field.target.name}-${field.name}`) ||
-            [];
+            this.fieldDirectivesByTargetAndFieldCache.get(`${field.target}-${field.name}`) || [];
           field.directives = directives.map(it => it.directive);
 
           field.extensions = this.findExtensions(field.target, field.name);
@@ -386,13 +405,13 @@ export class MetadataStorage {
       def.params = this.paramsCache.get(`${def.target}-${def.methodName}`) || [];
       def.roles = this.findFieldRoles(def.target, def.methodName);
 
-      def.middlewares = mapMiddlewareMetadataToArray(
-        this.resolverMiddlewaresByTargetCache.get(def.target) || [],
-      ).concat(
-        mapMiddlewareMetadataToArray(
-          this.middlewaresByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || [],
-        ),
-      );
+      const resolverMiddlewares = this.resolverMiddlewaresByTargetCache.get(def.target) || [];
+      const fieldMiddlewares =
+        this.middlewaresByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || [];
+      def.middlewares = [
+        ...mapMiddlewareMetadataToArray(Array.from(resolverMiddlewares)),
+        ...mapMiddlewareMetadataToArray(Array.from(fieldMiddlewares)),
+      ];
 
       def.directives = (
         this.fieldDirectivesByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || []
