@@ -275,6 +275,7 @@ const CollectiveSection = props => (
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
+          {/* TODO: remove after April */}
           <a href="https://www.wordhint.net/" target="_blank" rel="sponsored">
             <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
             <span>WordHint</span>
@@ -285,30 +286,6 @@ const CollectiveSection = props => (
           </a>
         </div>
         <div className="tiles">
-          <a
-            href="https://www.nongamstopbets.com/casinos-not-on-gamstop/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("nongamstopbets.png")} style={{ width: 40 }} />
-            <span>NonGamstopBets</span>
-          </a>
-          <a href="https://casinodeps.co.nz/1-dollar-casinos/" target="_blank" rel="sponsored">
-            <img src={imgUrl("casinodeps.svg")} style={{ width: 60 }} />
-            <span>CasinoDeps</span>
-          </a>
-          <a
-            href="https://uk.nonstopcasino.org/non-gamstop-casinos/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("non-stop-casino.png")} style={{ width: 40 }} />
-            <span>Non Stop Casino</span>
-          </a>
-          <a href="https://graming.com/buy-tiktok-views/" target="_blank" rel="sponsored">
-            <img src={imgUrl("graming.svg")} style={{ width: 90 }} />
-            <span>Graming</span>
-          </a>
           <a href="https://guidebook.betwinner.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("betwinner.svg")} style={{ width: 100 }} />
             <span>BetWinner</span>
@@ -356,14 +333,6 @@ const CollectiveSection = props => (
             <span>Buzzoid</span>
           </a>
           <a
-            href="https://www.socialmention.com/buy-youtube-likes/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("socialmention.webp")} style={{ width: 100 }} />
-            <span>Social Mention</span>
-          </a>
-          <a
             href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
             target="_blank"
             rel="sponsored"
@@ -371,10 +340,7 @@ const CollectiveSection = props => (
             <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
             <span>TikTok Expert</span>
           </a>
-          <a href="https://tokmax.com/" target="_blank" rel="sponsored">
-            <img src={imgUrl("tokmax.svg")} style={{ width: 70 }} />
-            <span>Tokmax</span>
-          </a>
+          {/* TODO: remove after April */}
           <a href="https://useviral.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("use-viral-logo.webp")} style={{ width: 90 }} />
             <span>UseViral</span>
