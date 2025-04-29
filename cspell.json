@@ -48,6 +48,7 @@
     "isodate",
     "joiful",
     "Kasyno",
+    "kaszinomagyar",
     "Leofame",
     "lifex",
     "lovd",
@@ -58,6 +59,7 @@
     "nestjs",
     "netrc",
     "nongamstopbets",
+    "Nove",
     "opencollective",
     "overfetching",
     "paramtypes",
@@ -83,6 +85,8 @@
     "typeorm",
     "underfetching",
     "webp",
-    "wordhint"
+    "wordhint",
+    "Zahranicni",
+    "zahranicnicasino"
   ]
 }

@@ -284,6 +284,14 @@ const CollectiveSection = props => (
             <img src={imgUrl("strands-hint-logo.svg")} style={{ width: 80 }} />
             <span>Strands Hint</span>
           </a>
+          <a
+            href="https://play-fortune.pl/gry-online/jednoreki-bandyta/"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("play_fortune.png")} style={{ width: 80 }} />
+            <span>Play Fortune</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://guidebook.betwinner.com/" target="_blank" rel="sponsored">
@@ -299,12 +307,24 @@ const CollectiveSection = props => (
             <span>BuzzVoice</span>
           </a>
           <a href="https://www.socialwick.com/" target="_blank" rel="sponsored">
-            <img src={imgUrl("socialwick-logo.png")} style={{ width: 60 }} />
+            <img src={imgUrl("socialwick-logo.png")} style={{ width: 50 }} />
             <span>SocialWick</span>
           </a>
           <a href="https://www.c19.cl/" target="_blank" rel="sponsored">
             <img src={imgUrl("c19.png")} style={{ width: 50 }} />
             <span>C19</span>
+          </a>
+          <a href="https://novecasino.net/" target="_blank" rel="sponsored">
+            <img src={imgUrl("nove_casino.svg")} style={{ width: 70 }} />
+            <span>Nove Casino</span>
+          </a>
+          <a href="https://zahranicnicasino.net/" target="_blank" rel="sponsored">
+            <img src={imgUrl("zahranicnicasino.svg")} style={{ width: 90 }} />
+            <span>Zahranicni Casino</span>
+          </a>
+          <a href="https://kaszinomagyar.net/" target="_blank" rel="sponsored">
+            <img src={imgUrl("kaszinomagyar.svg")} style={{ width: 90 }} />
+            <span>Casino Magyar</span>
           </a>
         </div>
         <div className="tiles">
