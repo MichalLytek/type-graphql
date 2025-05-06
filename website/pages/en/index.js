@@ -292,6 +292,14 @@ const CollectiveSection = props => (
             <img src={imgUrl("play_fortune.png")} style={{ width: 80 }} />
             <span>Play Fortune</span>
           </a>
+          <a
+            href="https://www.fansoria.com/instagram-marketing/buy-instagram-followers/"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("fansoria.png")} style={{ width: 45 }} />
+            <span>Fansoria</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://guidebook.betwinner.com/" target="_blank" rel="sponsored">
