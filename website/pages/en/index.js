@@ -275,11 +275,6 @@ const CollectiveSection = props => (
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
           </a>
-          {/* TODO: remove after April */}
-          <a href="https://www.wordhint.net/" target="_blank" rel="sponsored">
-            <img src={imgUrl("wordhint.jpg")} style={{ width: 90 }} />
-            <span>WordHint</span>
-          </a>
           <a href="https://strands-hint.net" target="_blank" rel="sponsored">
             <img src={imgUrl("strands-hint-logo.svg")} style={{ width: 80 }} />
             <span>Strands Hint</span>
@@ -368,10 +363,9 @@ const CollectiveSection = props => (
             <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
             <span>TikTok Expert</span>
           </a>
-          {/* TODO: remove after April */}
-          <a href="https://useviral.com/" target="_blank" rel="sponsored">
-            <img src={imgUrl("use-viral-logo.webp")} style={{ width: 90 }} />
-            <span>UseViral</span>
+          <a href="https://views4you.com/" target="_blank" rel="sponsored">
+            <img src={imgUrl("v4u.png")} style={{ width: 90 }} />
+            <span>Views4You</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
