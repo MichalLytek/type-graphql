@@ -405,6 +405,7 @@ export abstract class SchemaGenerator {
             name: interfaceType.name,
             description: interfaceType.description,
             astNode: getInterfaceTypeDefinitionNode(interfaceType.name, interfaceType.directives),
+            extensions: interfaceType.extensions,
             interfaces: () => {
               let interfaces = (interfaceType.interfaceClasses || []).map<GraphQLInterfaceType>(
                 interfaceClass =>
