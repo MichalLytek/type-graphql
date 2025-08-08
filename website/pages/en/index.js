@@ -267,33 +267,13 @@ const CollectiveSection = props => (
             <img src={imgUrl("live-graphics-system.png")} style={{ width: 55 }} />
             <span>Live Graphic Systems</span>
           </a>
-          <a href="https://www.joinlifex.com/" target="_blank" rel="sponsored">
-            <img src={imgUrl("lifex.svg")} style={{ width: 60 }} />
-            <span>LifeX Aps</span>
+          <a href="https://github.com/joinlifex" target="_blank" rel="sponsored">
+            <img src={imgUrl("felix.png")} style={{ width: 60 }} />
+            <span>Felix Technologies</span>
           </a>
           <a href="https://instinctools.com/manufacturing/" target="_blank" rel="sponsored">
             <img src={imgUrl("instinctools.svg")} style={{ width: 100 }} />
             <span>*instinctools</span>
-          </a>
-          <a href="https://strands-hint.net" target="_blank" rel="sponsored">
-            <img src={imgUrl("strands-hint-logo.svg")} style={{ width: 80 }} />
-            <span>Strands Hint</span>
-          </a>
-          <a
-            href="https://play-fortune.pl/gry-online/jednoreki-bandyta/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("play_fortune.png")} style={{ width: 80 }} />
-            <span>Play Fortune</span>
-          </a>
-          <a
-            href="https://www.fansoria.com/instagram-marketing/buy-instagram-followers/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("fansoria.png")} style={{ width: 45 }} />
-            <span>Fansoria</span>
           </a>
         </div>
         <div className="tiles">
@@ -313,21 +293,25 @@ const CollectiveSection = props => (
             <img src={imgUrl("socialwick-logo.png")} style={{ width: 50 }} />
             <span>SocialWick</span>
           </a>
-          <a href="https://www.c19.cl/" target="_blank" rel="sponsored">
-            <img src={imgUrl("c19.png")} style={{ width: 50 }} />
-            <span>C19</span>
-          </a>
           <a href="https://novecasino.net/" target="_blank" rel="sponsored">
             <img src={imgUrl("nove_casino.svg")} style={{ width: 70 }} />
             <span>Nove Casino</span>
           </a>
-          <a href="https://zahranicnicasino.net/" target="_blank" rel="sponsored">
-            <img src={imgUrl("zahranicnicasino.svg")} style={{ width: 90 }} />
-            <span>Zahranicni Casino</span>
+          <a
+            href="https://play-fortune.pl/gry-online/jednoreki-bandyta/"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("play_fortune.png")} style={{ width: 80 }} />
+            <span>Play Fortune</span>
           </a>
-          <a href="https://kaszinomagyar.net/" target="_blank" rel="sponsored">
-            <img src={imgUrl("kaszinomagyar.svg")} style={{ width: 90 }} />
-            <span>Casino Magyar</span>
+          <a
+            href="https://www.reddit.com/r/GamingInsider/comments/1m1nt3p/best_gambling_site_need_online_casino/"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("best-casino.png")} style={{ width: 40 }} />
+            <span>Best Online Casino</span>
           </a>
         </div>
         <div className="tiles">
