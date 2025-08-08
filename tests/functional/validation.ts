@@ -679,8 +679,13 @@ describe("Custom validation", () => {
   let validateResolverData: ResolverData[] = [];
   let sampleQueryArgs: any[] = [];
 
-  beforeAll(async () => {
+  beforeEach(() => {
+    // Reset ALL shared state
     getMetadataStorage().clear();
+    validateArgs = [];
+    validateTypes = [];
+    validateResolverData = [];
+    sampleQueryArgs = [];
 
     @ArgsType()
     class SampleArgs {
@@ -723,13 +728,6 @@ describe("Custom validation", () => {
       }
     }
     sampleResolverCls = SampleResolver;
-  });
-
-  beforeEach(() => {
-    validateArgs = [];
-    validateTypes = [];
-    validateResolverData = [];
-    sampleQueryArgs = [];
   });
 
   it("should call `validateFn` function provided in option with proper params", async () => {
