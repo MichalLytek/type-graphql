@@ -313,6 +313,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("best-casino.png")} style={{ width: 40 }} />
             <span>Best Online Casino</span>
           </a>
+          <a href="https://wechoosethemoon.org/kasyna-online/" target="_blank" rel="sponsored">
+            <img src={imgUrl("moonkasyno.png")} style={{ width: 60 }} />
+            <span>MoonKasyno</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://sidesmedia.com/" target="_blank" rel="sponsored">
@@ -348,8 +352,12 @@ const CollectiveSection = props => (
             <span>TikTok Expert</span>
           </a>
           <a href="https://views4you.com/" target="_blank" rel="sponsored">
-            <img src={imgUrl("v4u.png")} style={{ width: 90 }} />
+            <img src={imgUrl("v4u.png")} style={{ width: 80 }} />
             <span>Views4You</span>
+          </a>
+          <a href="https://www.socialift.io/buy-youtube-views" target="_blank" rel="sponsored">
+            <img src={imgUrl("socialift.png")} style={{ width: 60 }} />
+            <span>Socialift</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
