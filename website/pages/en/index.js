@@ -317,6 +317,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("moonkasyno.png")} style={{ width: 60 }} />
             <span>MoonKasyno</span>
           </a>
+          <a href="https://www.casinobillions.com/pl/" target="_blank" rel="sponsored">
+            <img src={imgUrl("kasyno-online.png")} style={{ width: 50 }} />
+            <span>Kasyno Online</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://sidesmedia.com/" target="_blank" rel="sponsored">
@@ -358,6 +362,10 @@ const CollectiveSection = props => (
           <a href="https://www.socialift.io/buy-youtube-views" target="_blank" rel="sponsored">
             <img src={imgUrl("socialift.png")} style={{ width: 60 }} />
             <span>Socialift</span>
+          </a>
+          <a href="https://theytviews.com" target="_blank" rel="sponsored">
+            <img src={imgUrl("the-yt-views.png")} style={{ width: 50 }} />
+            <span>The Yt Views</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
