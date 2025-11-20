@@ -282,6 +282,8 @@ describe("Middlewares", () => {
 
     // clear ResolverMiddlewareMetadata for other tests
     getMetadataStorage().resolverMiddlewares = [];
+    getMetadataStorage().resolverMiddlewaresByTargetCache = new Map();
+    getMetadataStorage().middlewaresByTargetAndFieldCache = new Map();
 
     const query = `query {
       middlewareOrderQuery

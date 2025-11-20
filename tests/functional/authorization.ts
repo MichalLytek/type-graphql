@@ -21,7 +21,7 @@ describe("Authorization", () => {
   let schema: GraphQLSchema;
   let sampleResolver: any;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     getMetadataStorage().clear();
 
     @ObjectType()
@@ -608,7 +608,7 @@ describe("Authorization", () => {
   describe("with constant readonly array or roles", () => {
     let testResolver: Function;
 
-    beforeAll(() => {
+    beforeEach(() => {
       getMetadataStorage().clear();
 
       const CONSTANT_ROLES = ["a", "b", "c"] as const;
