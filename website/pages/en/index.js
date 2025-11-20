@@ -281,10 +281,6 @@ const CollectiveSection = props => (
             <img src={imgUrl("betwinner.svg")} style={{ width: 100 }} />
             <span>BetWinner</span>
           </a>
-          <a href="https://www.famety.com/buy-instagram-likes" target="_blank" rel="sponsored">
-            <img src={imgUrl("famety.png")} style={{ width: 40 }} />
-            <span>Famety</span>
-          </a>
           <a href="https://buzzvoice.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("logo-buzzv.png")} style={{ width: 70 }} />
             <span>BuzzVoice</span>
@@ -304,14 +300,6 @@ const CollectiveSection = props => (
           >
             <img src={imgUrl("play_fortune.png")} style={{ width: 80 }} />
             <span>Play Fortune</span>
-          </a>
-          <a
-            href="https://www.reddit.com/r/GamingInsider/comments/1m1nt3p/best_gambling_site_need_online_casino/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("best-casino.png")} style={{ width: 40 }} />
-            <span>Best Online Casino</span>
           </a>
           <a href="https://wechoosethemoon.org/kasyna-online/" target="_blank" rel="sponsored">
             <img src={imgUrl("moonkasyno.png")} style={{ width: 60 }} />
@@ -347,25 +335,17 @@ const CollectiveSection = props => (
             <img src={imgUrl("buzzoid.svg")} style={{ width: 90 }} />
             <span>Buzzoid</span>
           </a>
-          <a
-            href="https://www.reddit.com/r/TikTokExpert/comments/1f812o7/best_and_cheapest_site_to_buy_tiktok_followers/"
-            target="_blank"
-            rel="sponsored"
-          >
-            <img src={imgUrl("tiktok-expert.jpg")} style={{ width: 60 }} />
-            <span>TikTok Expert</span>
-          </a>
           <a href="https://views4you.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("v4u.png")} style={{ width: 80 }} />
             <span>Views4You</span>
           </a>
-          <a href="https://www.socialift.io/buy-youtube-views" target="_blank" rel="sponsored">
-            <img src={imgUrl("socialift.png")} style={{ width: 60 }} />
-            <span>Socialift</span>
-          </a>
-          <a href="https://theytviews.com" target="_blank" rel="sponsored">
-            <img src={imgUrl("the-yt-views.png")} style={{ width: 50 }} />
-            <span>The Yt Views</span>
+          <a
+            href="https://au.trustpilot.com/review/bestpayidpokies.net"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("payid_pookies.avif")} style={{ width: 50 }} />
+            <span>PayID Pokies</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
