@@ -106,7 +106,18 @@ export function convertToType(Target: any, data?: object): object | undefined {
     return data.map(item => convertToType(Target, item));
   }
 
-  return Object.assign(new Target(), data);
+  // Create instance by calling constructor to initialize instance fields
+  const instance = new (Target as any)();
+
+  // Remove undefined properties that weren't provided in the input data
+  // This prevents optional @Field() decorated properties from being enumerable
+  for (const key of Object.keys(instance)) {
+    if (instance[key] === undefined && !(key in data)) {
+      delete instance[key];
+    }
+  }
+
+  return Object.assign(instance, data);
 }
 
 export function getEnumValuesMap<T extends object>(enumObject: T) {
