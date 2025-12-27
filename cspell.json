@@ -15,6 +15,7 @@
     "**/node_modules/",
     "**/package.json",
     "./images/**/*.svg",
+    "./images/**/*.avif",
     // FIXME: Remove
     "website/",
     "examples"
@@ -65,6 +66,8 @@
     "opencollective",
     "overfetching",
     "paramtypes",
+    "payid",
+    "pookies",
     "postbuild",
     "realpath",
     "returntype",
