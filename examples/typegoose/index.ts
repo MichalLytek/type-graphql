@@ -16,7 +16,7 @@ async function bootstrap() {
   const mongoose = await connect(process.env.DATABASE_URL!);
 
   // Clean database
-  await mongoose.connection.db.dropDatabase();
+  await mongoose.connection.db?.dropDatabase();
   // Seed database with some data
   const { defaultUser } = await seedDatabase();
 

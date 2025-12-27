@@ -114,4 +114,4 @@ export class LoggerMiddleware implements MiddlewareInterface<Context> {
 
 ## Examples
 
-You can see more detailed examples of usage [here](https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions).
+You can see [more detailed examples of usage here](https://github.com/MichalLytek/type-graphql/tree/master/examples/extensions).

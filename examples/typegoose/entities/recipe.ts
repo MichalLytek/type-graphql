@@ -8,7 +8,7 @@ import { Ref } from "../types";
 @ObjectType()
 export class Recipe {
   @Field()
-  readonly id!: Types.ObjectId;
+  readonly _id!: Types.ObjectId;
 
   @Field()
   @Property({ required: true })

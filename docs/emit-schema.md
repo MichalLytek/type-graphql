@@ -33,7 +33,7 @@ hypotheticalFileWatcher.watch("./src/**/*.{resolver,type,input,arg}.ts", async (
 });
 ```
 
-### Emit schema with custom directives
+## Emit schema with custom directives
 
 Currently TypeGraphQL does not directly support emitting the schema with custom directives due to `printSchema` function limitations from `graphql-js`.
 

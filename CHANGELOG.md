@@ -6,8 +6,10 @@
 
 ### Others
 
-- **Breaking Change**: update `graphql-js` peer dependency to `^16.9.0`
+- **Breaking Change**: update `graphql-js` peer dependency to `^16.12.0`
 - **Breaking Change**: drop support for Node.js < 20.11.1
+- **Breaking Change**: update `graphql-scalars` peer dependency to `^1.25.0`
+- **Breaking Change**: update `class-validator` peer dependency to `>=0.14.3`
 
 ## v2.0.0-rc.2
 

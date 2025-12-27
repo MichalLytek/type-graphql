@@ -4,7 +4,7 @@ import semVer from "semver";
 import { UnmetGraphQLPeerDependencyError } from "../errors";
 
 // This must be kept in sync with 'package.json'
-export const graphQLPeerDependencyVersion = "^16.9.0";
+export const graphQLPeerDependencyVersion = "^16.12.0";
 
 export function ensureInstalledCorrectGraphQLPackage() {
   if (!semVer.satisfies(graphql.version, graphQLPeerDependencyVersion)) {
