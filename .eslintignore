@@ -2,7 +2,7 @@
 **/dist/
 **/coverage/
 **/node_modules/
-jest.config.ts
+jest.config.cts
 sponsorkit.config.mts
 
 # FIXME: Remove
