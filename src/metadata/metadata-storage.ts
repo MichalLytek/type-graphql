@@ -206,23 +206,23 @@ export class MetadataStorage {
 
     if (this.params?.length) {
       this.params.forEach(param => {
-        const key = `${param.target}-${param.methodName}`;
+        const key = `${param.target}#${param.methodName}`;
         if (!this.paramsCache.has(key)) {
           this.paramsCache.set(key, []);
         }
-        this.paramsCache.get(key)?.push(param);
+        this.paramsCache.get(key)!.push(param);
       });
     }
 
     if (this.middlewares?.length) {
       this.middlewares.forEach(middleware => {
-        const key = `${middleware.target}-${middleware.fieldName}`;
+        const key = `${middleware.target}#${middleware.fieldName}`;
         if (!this.middlewaresByTargetAndFieldCache.has(key)) {
           this.middlewaresByTargetAndFieldCache.set(key, new Set());
         }
 
-        if (!this.middlewaresByTargetAndFieldCache.get(key)?.has(middleware)) {
-          this.middlewaresByTargetAndFieldCache.get(key)?.add(middleware);
+        if (!this.middlewaresByTargetAndFieldCache.get(key)!.has(middleware)) {
+          this.middlewaresByTargetAndFieldCache.get(key)!.add(middleware);
         }
       });
     }
@@ -234,19 +234,19 @@ export class MetadataStorage {
           this.resolverMiddlewaresByTargetCache.set(key, new Set());
         }
 
-        if (!this.resolverMiddlewaresByTargetCache.get(key)?.has(middleware)) {
-          this.resolverMiddlewaresByTargetCache.get(key)?.add(middleware);
+        if (!this.resolverMiddlewaresByTargetCache.get(key)!.has(middleware)) {
+          this.resolverMiddlewaresByTargetCache.get(key)!.add(middleware);
         }
       });
     }
 
     if (this.fieldDirectives?.length) {
       this.fieldDirectives.forEach(directive => {
-        const key = `${directive.target}-${directive.fieldName}`;
+        const key = `${directive.target}#${directive.fieldName}`;
         if (!this.fieldDirectivesByTargetAndFieldCache.has(key)) {
           this.fieldDirectivesByTargetAndFieldCache.set(key, []);
         }
-        this.fieldDirectivesByTargetAndFieldCache.get(key)?.push(directive);
+        this.fieldDirectivesByTargetAndFieldCache.get(key)!.push(directive);
       });
     }
 
@@ -256,13 +256,13 @@ export class MetadataStorage {
         if (!this.classDirectivesByTargetCache.has(key)) {
           this.classDirectivesByTargetCache.set(key, []);
         }
-        this.classDirectivesByTargetCache.get(key)?.push(directive);
+        this.classDirectivesByTargetCache.get(key)!.push(directive);
       });
     }
 
     if (this.authorizedFields?.length) {
       this.authorizedFields.forEach(field => {
-        const key = `${field.target}-${field.fieldName}`;
+        const key = `${field.target}#${field.fieldName}`;
         if (!this.authorizedFieldsByTargetAndFieldCache.has(key)) {
           this.authorizedFieldsByTargetAndFieldCache.set(key, field);
         }
@@ -283,7 +283,7 @@ export class MetadataStorage {
         if (!this.fieldsCache.has(field.target)) {
           this.fieldsCache.set(field.target, []);
         }
-        this.fieldsCache.get(field.target)?.push(field);
+        this.fieldsCache.get(field.target)!.push(field);
       });
     }
 
@@ -368,30 +368,26 @@ export class MetadataStorage {
         const fields = this.fieldsCache.get(def.target) || [];
         fields.forEach(field => {
           field.roles = this.findFieldRoles(field.target, field.name);
-
-          const paramKey = `${field.target}-${field.name}`;
-          field.params = this.paramsCache.get(paramKey) || [];
-
-          const resolverMiddlewares = this.resolverMiddlewaresByTargetCache.get(field.target) || [];
-          const middlewaresKey = `${field.target}-${field.name}`;
-          const fieldMiddlewares = this.middlewaresByTargetAndFieldCache.get(middlewaresKey) || [];
-
+          field.params = this.paramsCache.get(`${field.target}#${field.name}`) || [];
           field.middlewares = [
-            ...mapMiddlewareMetadataToArray(Array.from(resolverMiddlewares)),
-            ...mapMiddlewareMetadataToArray(Array.from(fieldMiddlewares)),
+            ...mapMiddlewareMetadataToArray([
+              ...(this.resolverMiddlewaresByTargetCache.get(field.target) || []),
+            ]),
+            ...mapMiddlewareMetadataToArray([
+              ...(this.middlewaresByTargetAndFieldCache.get(`${field.target}#${field.name}`) || []),
+            ]),
           ];
-
-          const directives =
-            this.fieldDirectivesByTargetAndFieldCache.get(`${field.target}-${field.name}`) || [];
-          field.directives = directives.map(it => it.directive);
-
+          field.directives = (
+            this.fieldDirectivesByTargetAndFieldCache.get(`${field.target}#${field.name}`) || []
+          ).map(it => it.directive);
           field.extensions = this.findExtensions(field.target, field.name);
         });
         def.fields = fields;
       }
       if (!def.directives) {
-        const directives = this.classDirectivesByTargetCache.get(def.target) || [];
-        def.directives = directives.map(directive => directive.directive);
+        def.directives = (this.classDirectivesByTargetCache.get(def.target) || []).map(
+          it => it.directive,
+        );
       }
       if (!def.extensions) {
         def.extensions = this.findExtensions(def.target);
@@ -402,19 +398,19 @@ export class MetadataStorage {
   private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
       def.resolverClassMetadata = this.resolverClassesCache.get(def.target);
-      def.params = this.paramsCache.get(`${def.target}-${def.methodName}`) || [];
+      def.params = this.paramsCache.get(`${def.target}#${def.methodName}`) || [];
       def.roles = this.findFieldRoles(def.target, def.methodName);
-
-      const resolverMiddlewares = this.resolverMiddlewaresByTargetCache.get(def.target) || [];
-      const fieldMiddlewares =
-        this.middlewaresByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || [];
       def.middlewares = [
-        ...mapMiddlewareMetadataToArray(Array.from(resolverMiddlewares)),
-        ...mapMiddlewareMetadataToArray(Array.from(fieldMiddlewares)),
+        ...mapMiddlewareMetadataToArray([
+          ...(this.resolverMiddlewaresByTargetCache.get(def.target) || []),
+        ]),
+        ...mapMiddlewareMetadataToArray([
+          ...(this.middlewaresByTargetAndFieldCache.get(`${def.target}#${def.methodName}`) || []),
+        ]),
       ];
 
       def.directives = (
-        this.fieldDirectivesByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || []
+        this.fieldDirectivesByTargetAndFieldCache.get(`${def.target}#${def.methodName}`) || []
       ).map(it => it.directive);
       def.extensions = this.findExtensions(def.target, def.methodName);
     });
@@ -428,7 +424,7 @@ export class MetadataStorage {
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName);
       def.directives = (
-        this.fieldDirectivesByTargetAndFieldCache.get(`${def.target}-${def.methodName}`) || []
+        this.fieldDirectivesByTargetAndFieldCache.get(`${def.target}#${def.methodName}`) || []
       ).map(it => it.directive);
       def.extensions = this.findExtensions(def.target, def.methodName);
       def.getObjectType =
@@ -437,9 +433,6 @@ export class MetadataStorage {
           : () => def.target as ClassType;
       if (def.kind === "external") {
         const typeClass = this.resolverClassesCache.get(def.target)!.getObjectType!();
-        if (!typeClass) {
-          throw new Error(`Unable to find type class for external resolver ${def.target.name}`);
-        }
         const typeMetadata =
           this.objectTypesCache.get(typeClass) || this.interfaceTypesCache.get(typeClass);
         if (!typeMetadata) {
@@ -520,7 +513,7 @@ export class MetadataStorage {
 
   private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
     const authorizedField =
-      this.authorizedFieldsByTargetAndFieldCache.get(`${target}-${fieldName}`) ||
+      this.authorizedFieldsByTargetAndFieldCache.get(`${target}#${fieldName}`) ||
       this.authorizedResolverByTargetCache.get(target);
     if (!authorizedField) {
       return undefined;

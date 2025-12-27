@@ -132,6 +132,7 @@ export abstract class SchemaGenerator {
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
     this.metadataStorage = Object.assign(new MetadataStorage(), getMetadataStorage());
     this.metadataStorage.build(options);
+
     this.checkForErrors(options);
     BuildContext.create(options);
 
@@ -159,6 +160,7 @@ export abstract class SchemaGenerator {
         throw new GeneratingSchemaError(errors);
       }
     }
+
     return finalSchema;
   }
 
@@ -213,7 +215,7 @@ export abstract class SchemaGenerator {
         );
         return unionObjectTypesInfo.map(it => it.type);
       };
-      const unionType = {
+      const unionTypeInfo: UnionTypeInfo = {
         unionSymbol: unionMetadata.symbol,
         type: new GraphQLUnionType({
           name: unionMetadata.name,
@@ -241,9 +243,9 @@ export abstract class SchemaGenerator {
         }),
       };
 
-      this.unionTypesInfoMap.set(unionMetadata.symbol, unionType);
+      this.unionTypesInfoMap.set(unionMetadata.symbol, unionTypeInfo);
 
-      return unionType;
+      return unionTypeInfo;
     });
 
     this.enumTypesInfo = this.metadataStorage.enums.map<EnumTypeInfo>(enumMetadata => {
@@ -277,7 +279,7 @@ export abstract class SchemaGenerator {
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const interfaceClasses = objectType.interfaceClasses || [];
-      const objectTypeInfo = {
+      const objectTypeInfo: ObjectTypeInfo = {
         metadata: objectType,
         target: objectType.target,
         type: new GraphQLObjectType({
@@ -379,9 +381,12 @@ export abstract class SchemaGenerator {
           },
         }),
       };
+
       this.objectTypesInfoMap.set(objectType.target, objectTypeInfo);
+
       return objectTypeInfo;
     });
+
     this.interfaceTypesInfo = this.metadataStorage.interfaceTypes.map<InterfaceTypeInfo>(
       interfaceType => {
         const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
@@ -405,7 +410,7 @@ export abstract class SchemaGenerator {
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
 
-        const interfaceTypeInfo = {
+        const interfaceTypeInfo: InterfaceTypeInfo = {
           metadata: interfaceType,
           target: interfaceType.target,
           type: new GraphQLInterfaceType({
@@ -500,7 +505,9 @@ export abstract class SchemaGenerator {
                 },
           }),
         };
+
         this.interfaceTypesInfoMap.set(interfaceType.target, interfaceTypeInfo);
+
         return interfaceTypeInfo;
       },
     );
@@ -511,7 +518,7 @@ export abstract class SchemaGenerator {
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const inputInstance = new (inputType.target as any)();
-      const inputTypeInfo = {
+      const inputTypeInfo: InputObjectTypeInfo = {
         target: inputType.target,
         type: new GraphQLInputObjectType({
           name: inputType.name,
@@ -557,7 +564,9 @@ export abstract class SchemaGenerator {
           astNode: getInputObjectTypeDefinitionNode(inputType.name, inputType.directives),
         }),
       };
+
       this.inputTypesInfoMap.set(inputType.target, inputTypeInfo);
+
       return inputTypeInfo;
     });
   }
