@@ -168,7 +168,7 @@
     "pg": "^8.16.3",
     "prettier": "^3.7.4",
     "prettier-plugin-sh": "^0.18.0",
-    "reflect-metadata": "0.1.13",
+    "reflect-metadata": "0.2.2",
     "shellcheck": "^4.1.0",
     "shelljs": "^0.10.0",
     "shx": "^0.4.0",
