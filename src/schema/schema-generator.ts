@@ -109,13 +109,21 @@ export type SchemaGeneratorOptions = {
 export abstract class SchemaGenerator {
   private static objectTypesInfo: ObjectTypeInfo[] = [];
 
+  private static objectTypesInfoMap = new Map<Function, ObjectTypeInfo>();
+
   private static inputTypesInfo: InputObjectTypeInfo[] = [];
 
+  private static inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>();
+
   private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
+
+  private static interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>();
 
   private static enumTypesInfo: EnumTypeInfo[] = [];
 
   private static unionTypesInfo: UnionTypeInfo[] = [];
+
+  private static unionTypesInfoMap = new Map<symbol, UnionTypeInfo>();
 
   private static usedInterfaceTypes = new Set<Function>();
 
@@ -124,7 +132,6 @@ export abstract class SchemaGenerator {
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
     this.metadataStorage = Object.assign(new MetadataStorage(), getMetadataStorage());
     this.metadataStorage.build(options);
-
     this.checkForErrors(options);
     BuildContext.create(options);
 
@@ -152,7 +159,6 @@ export abstract class SchemaGenerator {
         throw new GeneratingSchemaError(errors);
       }
     }
-
     return finalSchema;
   }
 
@@ -203,13 +209,11 @@ export abstract class SchemaGenerator {
         unionObjectTypesInfo.push(
           ...unionMetadata
             .getClassTypes()
-            .map(
-              objectTypeCls => this.objectTypesInfo.find(type => type.target === objectTypeCls)!,
-            ),
+            .map(objectTypeCls => this.objectTypesInfoMap.get(objectTypeCls)!),
         );
         return unionObjectTypesInfo.map(it => it.type);
       };
-      return {
+      const unionType = {
         unionSymbol: unionMetadata.symbol,
         type: new GraphQLUnionType({
           name: unionMetadata.name,
@@ -236,6 +240,10 @@ export abstract class SchemaGenerator {
               },
         }),
       };
+
+      this.unionTypesInfoMap.set(unionMetadata.symbol, unionType);
+
+      return unionType;
     });
 
     this.enumTypesInfo = this.metadataStorage.enums.map<EnumTypeInfo>(enumMetadata => {
@@ -264,12 +272,12 @@ export abstract class SchemaGenerator {
       const hasExtended = objectSuperClass.prototype !== undefined;
       const getSuperClassType = () => {
         const superClassTypeInfo =
-          this.objectTypesInfo.find(type => type.target === objectSuperClass) ??
-          this.interfaceTypesInfo.find(type => type.target === objectSuperClass);
+          this.objectTypesInfoMap.get(objectSuperClass) ??
+          this.interfaceTypesInfoMap.get(objectSuperClass);
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const interfaceClasses = objectType.interfaceClasses || [];
-      return {
+      const objectTypeInfo = {
         metadata: objectType,
         target: objectType.target,
         type: new GraphQLObjectType({
@@ -279,9 +287,7 @@ export abstract class SchemaGenerator {
           extensions: objectType.extensions,
           interfaces: () => {
             let interfaces = interfaceClasses.map<GraphQLInterfaceType>(interfaceClass => {
-              const interfaceTypeInfo = this.interfaceTypesInfo.find(
-                info => info.target === interfaceClass,
-              );
+              const interfaceTypeInfo = this.interfaceTypesInfoMap.get(interfaceClass);
               if (!interfaceTypeInfo) {
                 throw new Error(
                   `Cannot find interface type metadata for class '${interfaceClass.name}' ` +
@@ -373,8 +379,9 @@ export abstract class SchemaGenerator {
           },
         }),
       };
+      this.objectTypesInfoMap.set(objectType.target, objectTypeInfo);
+      return objectTypeInfo;
     });
-
     this.interfaceTypesInfo = this.metadataStorage.interfaceTypes.map<InterfaceTypeInfo>(
       interfaceType => {
         const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
@@ -398,7 +405,7 @@ export abstract class SchemaGenerator {
           implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
 
-        return {
+        const interfaceTypeInfo = {
           metadata: interfaceType,
           target: interfaceType.target,
           type: new GraphQLInterfaceType({
@@ -408,8 +415,7 @@ export abstract class SchemaGenerator {
             extensions: interfaceType.extensions,
             interfaces: () => {
               let interfaces = (interfaceType.interfaceClasses || []).map<GraphQLInterfaceType>(
-                interfaceClass =>
-                  this.interfaceTypesInfo.find(info => info.target === interfaceClass)!.type,
+                interfaceClass => this.interfaceTypesInfoMap.get(interfaceClass)!.type,
               );
               // copy interfaces from super class
               if (hasExtended) {
@@ -494,19 +500,18 @@ export abstract class SchemaGenerator {
                 },
           }),
         };
+        this.interfaceTypesInfoMap.set(interfaceType.target, interfaceTypeInfo);
+        return interfaceTypeInfo;
       },
     );
-
     this.inputTypesInfo = this.metadataStorage.inputTypes.map<InputObjectTypeInfo>(inputType => {
       const objectSuperClass = Object.getPrototypeOf(inputType.target);
       const getSuperClassType = () => {
-        const superClassTypeInfo = this.inputTypesInfo.find(
-          type => type.target === objectSuperClass,
-        );
+        const superClassTypeInfo = this.inputTypesInfoMap.get(objectSuperClass);
         return superClassTypeInfo ? superClassTypeInfo.type : undefined;
       };
       const inputInstance = new (inputType.target as any)();
-      return {
+      const inputTypeInfo = {
         target: inputType.target,
         type: new GraphQLInputObjectType({
           name: inputType.name,
@@ -552,6 +557,8 @@ export abstract class SchemaGenerator {
           astNode: getInputObjectTypeDefinitionNode(inputType.name, inputType.directives),
         }),
       };
+      this.inputTypesInfoMap.set(inputType.target, inputTypeInfo);
+      return inputTypeInfo;
     });
   }
 
