@@ -4,6 +4,10 @@
 
 <!-- Here goes all the unreleased changes descriptions -->
 
+### Features
+
+- optimize performance of building metadata storage with HashMap caching for O(1) lookups (#1779)
+
 ### Fixes
 
 - prevent enumerable undefined properties in input types instances (#1789)
