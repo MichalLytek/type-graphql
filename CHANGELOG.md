@@ -4,6 +4,11 @@
 
 <!-- Here goes all the unreleased changes descriptions -->
 
+### Fixes
+
+- prevent enumerable undefined properties in input types instances (#1789)
+- add missing support for GraphQL extensions in interface types (#1776)
+
 ### Others
 
 - **Breaking Change**: update `graphql-js` peer dependency to `^16.12.0`
@@ -13,14 +18,14 @@
 
 ## v2.0.0-rc.2
 
-## Features
+### Features
 
 - support declaring middlewares on resolver class level (#620)
 - support declaring auth roles on resolver class level (#620)
 - make possible creating custom decorators on resolver class level - `createResolverClassMiddlewareDecorator`
 - support registering custom arg decorator via `createParameterDecorator` and its second argument `CustomParameterOptions` - `arg` (#1325)
 
-## Fixes
+### Fixes
 
 - properly build multiple schemas with generic resolvers, args and field resolvers (#1321)
 
@@ -32,11 +37,11 @@
 
 ## v2.0.0-rc.1
 
-## Features
+### Features
 
 - support other `Reflect` polyfills than `reflect-metadata` by checking only used `Reflect` API (#1102)
 
-## Fixes
+### Fixes
 
 - properly override fields of `@ArgsType` classes in deeply nested inheritance chain (#1644)
 - allow for leading spaces and multiline directives definitions in `@Directive` decorator (#1423)
