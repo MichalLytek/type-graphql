@@ -46,15 +46,23 @@ export class MetadataStorage {
 
   objectTypes: ObjectClassMetadata[] = [];
 
+  objectTypesCache = new Map<Function, ObjectClassMetadata>();
+
   inputTypes: ClassMetadata[] = [];
 
   argumentTypes: ClassMetadata[] = [];
 
   interfaceTypes: InterfaceClassMetadata[] = [];
 
+  interfaceTypesCache = new Map<Function, InterfaceClassMetadata>();
+
   authorizedFields: AuthorizedMetadata[] = [];
 
+  authorizedFieldsByTargetAndFieldCache = new Map<Function, Map<string, AuthorizedMetadata>>();
+
   authorizedResolver: AuthorizedClassMetadata[] = [];
+
+  authorizedResolverByTargetCache = new Map<Function, AuthorizedClassMetadata>();
 
   enums: EnumMetadata[] = [];
 
@@ -62,11 +70,19 @@ export class MetadataStorage {
 
   middlewares: MiddlewareMetadata[] = [];
 
+  middlewaresByTargetAndFieldCache = new Map<Function, Map<string, Set<MiddlewareMetadata>>>();
+
   resolverMiddlewares: ResolverMiddlewareMetadata[] = [];
+
+  resolverMiddlewaresByTargetCache = new Map<Function, Set<ResolverMiddlewareMetadata>>();
 
   classDirectives: DirectiveClassMetadata[] = [];
 
+  classDirectivesByTargetCache = new Map<Function, DirectiveClassMetadata[]>();
+
   fieldDirectives: DirectiveFieldMetadata[] = [];
+
+  fieldDirectivesByTargetAndFieldCache = new Map<Function, Map<string, DirectiveFieldMetadata[]>>();
 
   argumentDirectives: DirectiveArgumentMetadata[] = [];
 
@@ -76,9 +92,15 @@ export class MetadataStorage {
 
   resolverClasses: ResolverClassMetadata[] = [];
 
+  resolverClassesCache = new Map<Function, ResolverClassMetadata>();
+
   fields: FieldMetadata[] = [];
 
+  fieldsCache = new Map<Function, FieldMetadata[]>();
+
   params: ParamMetadata[] = [];
+
+  paramsCache = new Map<Function, Map<string, ParamMetadata[]>>();
 
   collectQueryHandlerMetadata(definition: ResolverMetadata) {
     this.queries.push(definition);
@@ -173,12 +195,147 @@ export class MetadataStorage {
     this.fieldExtensions.push(definition);
   }
 
+  initCache() {
+    if (this.resolverClasses?.length) {
+      this.resolverClasses.forEach(resolverClass => {
+        if (!this.resolverClassesCache.has(resolverClass.target)) {
+          this.resolverClassesCache.set(resolverClass.target, resolverClass);
+        }
+      });
+    }
+
+    if (this.params?.length) {
+      this.params.forEach(param => {
+        if (!this.paramsCache.has(param.target)) {
+          this.paramsCache.set(param.target, new Map());
+        }
+        if (!this.paramsCache.get(param.target)!.has(param.methodName)) {
+          this.paramsCache.get(param.target)!.set(param.methodName, []);
+        }
+        this.paramsCache.get(param.target)!.get(param.methodName)!.push(param);
+      });
+    }
+
+    if (this.middlewares?.length) {
+      this.middlewares.forEach(middleware => {
+        if (!this.middlewaresByTargetAndFieldCache.has(middleware.target)) {
+          this.middlewaresByTargetAndFieldCache.set(middleware.target, new Map());
+        }
+
+        if (
+          !this.middlewaresByTargetAndFieldCache.get(middleware.target)!.has(middleware.fieldName)
+        ) {
+          this.middlewaresByTargetAndFieldCache
+            .get(middleware.target)!
+            .set(middleware.fieldName, new Set());
+        }
+
+        if (
+          !this.middlewaresByTargetAndFieldCache
+            .get(middleware.target)!
+            .get(middleware.fieldName)!
+            .has(middleware)
+        ) {
+          this.middlewaresByTargetAndFieldCache
+            .get(middleware.target)!
+            .get(middleware.fieldName)!
+            .add(middleware);
+        }
+      });
+    }
+
+    if (this.resolverMiddlewares?.length) {
+      this.resolverMiddlewares.forEach(middleware => {
+        const key = middleware.target;
+        if (!this.resolverMiddlewaresByTargetCache.has(key)) {
+          this.resolverMiddlewaresByTargetCache.set(key, new Set());
+        }
+
+        if (!this.resolverMiddlewaresByTargetCache.get(key)!.has(middleware)) {
+          this.resolverMiddlewaresByTargetCache.get(key)!.add(middleware);
+        }
+      });
+    }
+
+    if (this.fieldDirectives?.length) {
+      this.fieldDirectives.forEach(directive => {
+        if (!this.fieldDirectivesByTargetAndFieldCache.has(directive.target)) {
+          this.fieldDirectivesByTargetAndFieldCache.set(directive.target, new Map());
+        }
+        if (
+          !this.fieldDirectivesByTargetAndFieldCache.get(directive.target)!.has(directive.fieldName)
+        ) {
+          this.fieldDirectivesByTargetAndFieldCache
+            .get(directive.target)!
+            .set(directive.fieldName, []);
+        }
+        this.fieldDirectivesByTargetAndFieldCache
+          .get(directive.target)!
+          .get(directive.fieldName)!
+          .push(directive);
+      });
+    }
+
+    if (this.classDirectives?.length) {
+      this.classDirectives.forEach(directive => {
+        const key = directive.target;
+        if (!this.classDirectivesByTargetCache.has(key)) {
+          this.classDirectivesByTargetCache.set(key, []);
+        }
+        this.classDirectivesByTargetCache.get(key)!.push(directive);
+      });
+    }
+
+    if (this.authorizedFields?.length) {
+      this.authorizedFields.forEach(field => {
+        if (!this.authorizedFieldsByTargetAndFieldCache.has(field.target)) {
+          this.authorizedFieldsByTargetAndFieldCache.set(field.target, new Map());
+        }
+        if (!this.authorizedFieldsByTargetAndFieldCache.get(field.target)!.has(field.fieldName)) {
+          this.authorizedFieldsByTargetAndFieldCache.get(field.target)!.set(field.fieldName, field);
+        }
+      });
+    }
+
+    if (this.authorizedResolver?.length) {
+      this.authorizedResolver.forEach(resolver => {
+        const key = resolver.target;
+        if (!this.authorizedResolverByTargetCache.has(key)) {
+          this.authorizedResolverByTargetCache.set(key, resolver);
+        }
+      });
+    }
+
+    if (this.fields?.length) {
+      this.fields.forEach(field => {
+        if (!this.fieldsCache.has(field.target)) {
+          this.fieldsCache.set(field.target, []);
+        }
+        this.fieldsCache.get(field.target)!.push(field);
+      });
+    }
+
+    if (this.objectTypes?.length) {
+      this.objectTypes.forEach(objType => {
+        this.objectTypesCache.set(objType.target, objType);
+      });
+    }
+
+    if (this.interfaceTypes?.length) {
+      this.interfaceTypes.forEach(interfaceType => {
+        this.interfaceTypesCache.set(interfaceType.target, interfaceType);
+      });
+    }
+  }
+
   build(options: SchemaGeneratorOptions) {
     this.classDirectives.reverse();
     this.fieldDirectives.reverse();
     this.argumentDirectives.reverse();
     this.classExtensions.reverse();
     this.fieldExtensions.reverse();
+
+    this.initCache();
 
     this.buildClassMetadata(this.objectTypes);
     this.buildClassMetadata(this.inputTypes);
@@ -215,6 +372,19 @@ export class MetadataStorage {
     this.classExtensions = [];
     this.fieldExtensions = [];
 
+    // clear map caches
+    this.fieldsCache = new Map();
+    this.objectTypesCache = new Map();
+    this.interfaceTypesCache = new Map();
+    this.middlewaresByTargetAndFieldCache = new Map();
+    this.resolverMiddlewaresByTargetCache = new Map();
+    this.paramsCache = new Map();
+    this.fieldDirectivesByTargetAndFieldCache = new Map();
+    this.classDirectivesByTargetCache = new Map();
+    this.authorizedFieldsByTargetAndFieldCache = new Map();
+    this.authorizedResolverByTargetCache = new Map();
+    this.resolverClassesCache = new Map();
+
     this.resolverClasses = [];
     this.fields = [];
     this.params = [];
@@ -223,34 +393,29 @@ export class MetadataStorage {
   private buildClassMetadata(definitions: ClassMetadata[]) {
     definitions.forEach(def => {
       if (!def.fields) {
-        const fields = this.fields.filter(field => field.target === def.target);
+        const fields = this.fieldsCache.get(def.target) || [];
         fields.forEach(field => {
           field.roles = this.findFieldRoles(field.target, field.name);
-          field.params = this.params.filter(
-            param => param.target === field.target && field.name === param.methodName,
-          );
+          field.params = this.paramsCache.get(field.target)?.get(field.name) || [];
           field.middlewares = [
-            ...mapMiddlewareMetadataToArray(
-              this.resolverMiddlewares.filter(middleware => middleware.target === field.target),
-            ),
-            ...mapMiddlewareMetadataToArray(
-              this.middlewares.filter(
-                middleware =>
-                  middleware.target === field.target && middleware.fieldName === field.name,
-              ),
-            ),
+            ...mapMiddlewareMetadataToArray([
+              ...(this.resolverMiddlewaresByTargetCache.get(field.target) || []),
+            ]),
+            ...mapMiddlewareMetadataToArray([
+              ...(this.middlewaresByTargetAndFieldCache.get(field.target)?.get(field.name) || []),
+            ]),
           ];
-          field.directives = this.fieldDirectives
-            .filter(it => it.target === field.target && it.fieldName === field.name)
-            .map(it => it.directive);
+          field.directives = (
+            this.fieldDirectivesByTargetAndFieldCache.get(field.target)?.get(field.name) || []
+          ).map(it => it.directive);
           field.extensions = this.findExtensions(field.target, field.name);
         });
         def.fields = fields;
       }
       if (!def.directives) {
-        def.directives = this.classDirectives
-          .filter(it => it.target === def.target)
-          .map(it => it.directive);
+        def.directives = (this.classDirectivesByTargetCache.get(def.target) || []).map(
+          it => it.directive,
+        );
       }
       if (!def.extensions) {
         def.extensions = this.findExtensions(def.target);
@@ -260,28 +425,21 @@ export class MetadataStorage {
 
   private buildResolversMetadata(definitions: BaseResolverMetadata[]) {
     definitions.forEach(def => {
-      const resolverClassMetadata = this.resolverClasses.find(
-        resolver => resolver.target === def.target,
-      )!;
-      def.resolverClassMetadata = resolverClassMetadata;
-      def.params = this.params.filter(
-        param => param.target === def.target && def.methodName === param.methodName,
-      );
+      def.resolverClassMetadata = this.resolverClassesCache.get(def.target);
+      def.params = this.paramsCache.get(def.target)?.get(def.methodName) || [];
       def.roles = this.findFieldRoles(def.target, def.methodName);
       def.middlewares = [
-        ...mapMiddlewareMetadataToArray(
-          this.resolverMiddlewares.filter(middleware => middleware.target === def.target),
-        ),
-        ...mapMiddlewareMetadataToArray(
-          this.middlewares.filter(
-            middleware =>
-              middleware.target === def.target && def.methodName === middleware.fieldName,
-          ),
-        ),
+        ...mapMiddlewareMetadataToArray([
+          ...(this.resolverMiddlewaresByTargetCache.get(def.target) || []),
+        ]),
+        ...mapMiddlewareMetadataToArray([
+          ...(this.middlewaresByTargetAndFieldCache.get(def.target)?.get(def.methodName) || []),
+        ]),
       ];
-      def.directives = this.fieldDirectives
-        .filter(it => it.target === def.target && it.fieldName === def.methodName)
-        .map(it => it.directive);
+
+      def.directives = (
+        this.fieldDirectivesByTargetAndFieldCache.get(def.target)?.get(def.methodName) || []
+      ).map(it => it.directive);
       def.extensions = this.findExtensions(def.target, def.methodName);
     });
   }
@@ -293,20 +451,18 @@ export class MetadataStorage {
     this.buildResolversMetadata(definitions);
     definitions.forEach(def => {
       def.roles = this.findFieldRoles(def.target, def.methodName);
-      def.directives = this.fieldDirectives
-        .filter(it => it.target === def.target && it.fieldName === def.methodName)
-        .map(it => it.directive);
+      def.directives = (
+        this.fieldDirectivesByTargetAndFieldCache.get(def.target)?.get(def.methodName) || []
+      ).map(it => it.directive);
       def.extensions = this.findExtensions(def.target, def.methodName);
       def.getObjectType =
         def.kind === "external"
-          ? this.resolverClasses.find(resolver => resolver.target === def.target)!.getObjectType
+          ? this.resolverClassesCache.get(def.target)!.getObjectType
           : () => def.target as ClassType;
       if (def.kind === "external") {
-        const typeClass = this.resolverClasses.find(resolver => resolver.target === def.target)!
-          .getObjectType!();
+        const typeClass = this.resolverClassesCache.get(def.target)!.getObjectType!();
         const typeMetadata =
-          this.objectTypes.find(objTypeDef => objTypeDef.target === typeClass) ||
-          this.interfaceTypes.find(interfaceTypeDef => interfaceTypeDef.target === typeClass);
+          this.objectTypesCache.get(typeClass) || this.interfaceTypesCache.get(typeClass);
         if (!typeMetadata) {
           throw new Error(
             `Unable to find type metadata for input type or object type named '${typeClass.name}'`,
@@ -367,8 +523,7 @@ export class MetadataStorage {
 
       // copy and modify metadata of resolver from parent resolver class
       while (superResolver.prototype) {
-        // eslint-disable-next-line @typescript-eslint/no-loop-func
-        const superResolverMetadata = this.resolverClasses.find(it => it.target === superResolver);
+        const superResolverMetadata = this.resolverClassesCache.get(superResolver);
         if (superResolverMetadata) {
           this.queries = mapSuperResolverHandlers(this.queries, superResolver, def);
           this.mutations = mapSuperResolverHandlers(this.mutations, superResolver, def);
@@ -386,9 +541,8 @@ export class MetadataStorage {
 
   private findFieldRoles(target: Function, fieldName: string): any[] | undefined {
     const authorizedField =
-      this.authorizedFields.find(
-        authField => authField.target === target && authField.fieldName === fieldName,
-      ) ?? this.authorizedResolver.find(authScope => authScope.target === target);
+      this.authorizedFieldsByTargetAndFieldCache.get(target)?.get(fieldName) ||
+      this.authorizedResolverByTargetCache.get(target);
     if (!authorizedField) {
       return undefined;
     }
