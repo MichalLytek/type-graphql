@@ -351,6 +351,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("payid_pookies.avif")} style={{ width: 50 }} />
             <span>PayID Pokies</span>
           </a>
+          <a href="https://global.fun88.com/" target="_blank" rel="sponsored">
+            <img src={imgUrl("fun88.png")} style={{ width: 40 }} />
+            <span>Fun88</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
