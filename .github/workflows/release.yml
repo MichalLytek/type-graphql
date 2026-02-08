@@ -7,6 +7,10 @@ on:
     types:
       - completed
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
