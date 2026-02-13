@@ -196,6 +196,8 @@ export class MetadataStorage {
   }
 
   initCache() {
+    this.clearMapCaches();
+
     if (this.resolverClasses?.length) {
       this.resolverClasses.forEach(resolverClass => {
         if (!this.resolverClassesCache.has(resolverClass.target)) {
@@ -371,8 +373,14 @@ export class MetadataStorage {
     this.argumentDirectives = [];
     this.classExtensions = [];
     this.fieldExtensions = [];
+    this.resolverClasses = [];
+    this.fields = [];
+    this.params = [];
 
-    // clear map caches
+    this.clearMapCaches();
+  }
+
+  private clearMapCaches() {
     this.fieldsCache = new Map();
     this.objectTypesCache = new Map();
     this.interfaceTypesCache = new Map();
@@ -384,10 +392,6 @@ export class MetadataStorage {
     this.authorizedFieldsByTargetAndFieldCache = new Map();
     this.authorizedResolverByTargetCache = new Map();
     this.resolverClassesCache = new Map();
-
-    this.resolverClasses = [];
-    this.fields = [];
-    this.params = [];
   }
 
   private buildClassMetadata(definitions: ClassMetadata[]) {
