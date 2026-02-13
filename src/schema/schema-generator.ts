@@ -150,6 +150,7 @@ export abstract class SchemaGenerator {
     this.objectTypesInfoMap = new Map<Function, ObjectTypeInfo>();
     this.inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>();
     this.interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>();
+    this.enumTypesInfoMap = new Map<object, EnumTypeInfo>();
     this.unionTypesInfoMap = new Map<symbol, UnionTypeInfo>();
 
     if (!options.skipCheck) {
