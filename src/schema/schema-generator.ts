@@ -151,8 +151,14 @@ export abstract class SchemaGenerator {
       types: this.buildOtherTypes(orphanedTypes),
     });
 
+    // cleanup after build to prevent memory leaks
+    // and to reset state for next possible builds
     BuildContext.reset();
     this.usedInterfaceTypes = new Set<Function>();
+    this.objectTypesInfoMap = new Map<Function, ObjectTypeInfo>();
+    this.inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>();
+    this.interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>();
+    this.unionTypesInfoMap = new Map<symbol, UnionTypeInfo>();
 
     if (!options.skipCheck) {
       const { errors } = graphqlSync({ schema: finalSchema, source: getIntrospectionQuery() });
