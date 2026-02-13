@@ -2203,6 +2203,43 @@ describe("Resolvers", () => {
 
       expect(sampleObjectType.fields).toHaveLength(2);
     });
+
+    it("should not duplicate resolver params when buildSchema is called twice", async () => {
+      getMetadataStorage().clear();
+
+      @Resolver()
+      class SampleResolver {
+        @Query(() => String)
+        greet(@Arg("name") name: string, @Ctx() ctx: { prefix: string }): string {
+          return `${ctx.prefix} ${name}`;
+        }
+      }
+
+      const context = { prefix: "hi" };
+      const query = /* graphql */ `
+        query {
+          greet(name: "world")
+        }
+      `;
+
+      const schema1 = await buildSchema({ resolvers: [SampleResolver], validate: false });
+      const result1 = await graphql({
+        schema: schema1,
+        source: query,
+        contextValue: context,
+      });
+      expect(result1.errors).toBeUndefined();
+      expect(result1.data).toEqual({ greet: "hi world" });
+
+      const schema2 = await buildSchema({ resolvers: [SampleResolver], validate: false });
+      const result2 = await graphql({
+        schema: schema2,
+        source: query,
+        contextValue: context,
+      });
+      expect(result2.errors).toBeUndefined();
+      expect(result2.data).toEqual({ greet: "hi world" });
+    });
   });
 
   describe("Inheritance", () => {
