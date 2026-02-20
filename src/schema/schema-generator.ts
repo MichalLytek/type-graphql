@@ -40,7 +40,7 @@ import {
 import { type InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
 import { type ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { MetadataStorage } from "@/metadata/metadata-storage";
+import { type MetadataStorage } from "@/metadata/metadata-storage";
 import {
   createAdvancedFieldResolver,
   createBasicFieldResolver,
@@ -122,7 +122,7 @@ export abstract class SchemaGenerator {
   private static metadataStorage: MetadataStorage;
 
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
-    this.metadataStorage = Object.assign(new MetadataStorage(), getMetadataStorage());
+    this.metadataStorage = getMetadataStorage().clone();
     this.metadataStorage.build(options);
 
     this.checkForErrors(options);

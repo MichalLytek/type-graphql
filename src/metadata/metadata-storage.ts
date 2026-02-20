@@ -380,6 +380,36 @@ export class MetadataStorage {
     this.clearMapCaches();
   }
 
+  clone() {
+    const cloned = new MetadataStorage();
+
+    // arrays are cloned to prevent mutation of original metadata storage when building schema
+    cloned.queries = [...this.queries];
+    cloned.mutations = [...this.mutations];
+    cloned.subscriptions = [...this.subscriptions];
+    cloned.fieldResolvers = [...this.fieldResolvers];
+    cloned.objectTypes = [...this.objectTypes];
+    cloned.inputTypes = [...this.inputTypes];
+    cloned.argumentTypes = [...this.argumentTypes];
+    cloned.interfaceTypes = [...this.interfaceTypes];
+    cloned.authorizedFields = [...this.authorizedFields];
+    cloned.authorizedResolver = [...this.authorizedResolver];
+    cloned.enums = [...this.enums];
+    cloned.unions = [...this.unions];
+    cloned.middlewares = [...this.middlewares];
+    cloned.resolverMiddlewares = [...this.resolverMiddlewares];
+    cloned.classDirectives = [...this.classDirectives];
+    cloned.fieldDirectives = [...this.fieldDirectives];
+    cloned.argumentDirectives = [...this.argumentDirectives];
+    cloned.classExtensions = [...this.classExtensions];
+    cloned.fieldExtensions = [...this.fieldExtensions];
+    cloned.resolverClasses = [...this.resolverClasses];
+    cloned.fields = [...this.fields];
+    cloned.params = [...this.params];
+
+    return cloned;
+  }
+
   private clearMapCaches() {
     this.fieldsCache = new Map();
     this.objectTypesCache = new Map();
