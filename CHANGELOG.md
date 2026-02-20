@@ -1,8 +1,12 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
 
 <!-- Here goes all the unreleased changes descriptions -->
+
+### Fixes
+
+- prevent duplicated params when building schema multiple times (#1803)
 
 ## v2.0.0-rc.3
 

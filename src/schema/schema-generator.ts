@@ -40,7 +40,7 @@ import {
 import { type InterfaceClassMetadata } from "@/metadata/definitions/interface-class-metadata";
 import { type ObjectClassMetadata } from "@/metadata/definitions/object-class-metadata";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
-import { MetadataStorage } from "@/metadata/metadata-storage";
+import { type MetadataStorage } from "@/metadata/metadata-storage";
 import {
   createAdvancedFieldResolver,
   createBasicFieldResolver,
@@ -107,21 +107,13 @@ export type SchemaGeneratorOptions = {
 } & BuildContextOptions;
 
 export abstract class SchemaGenerator {
-  private static objectTypesInfo: ObjectTypeInfo[] = [];
-
   private static objectTypesInfoMap = new Map<Function, ObjectTypeInfo>();
-
-  private static inputTypesInfo: InputObjectTypeInfo[] = [];
 
   private static inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>();
 
-  private static interfaceTypesInfo: InterfaceTypeInfo[] = [];
-
   private static interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>();
 
-  private static enumTypesInfo: EnumTypeInfo[] = [];
-
-  private static unionTypesInfo: UnionTypeInfo[] = [];
+  private static enumTypesInfoMap = new Map<object, EnumTypeInfo>();
 
   private static unionTypesInfoMap = new Map<symbol, UnionTypeInfo>();
 
@@ -130,7 +122,7 @@ export abstract class SchemaGenerator {
   private static metadataStorage: MetadataStorage;
 
   static generateFromMetadata(options: SchemaGeneratorOptions): GraphQLSchema {
-    this.metadataStorage = Object.assign(new MetadataStorage(), getMetadataStorage());
+    this.metadataStorage = getMetadataStorage().clone();
     this.metadataStorage.build(options);
 
     this.checkForErrors(options);
@@ -151,8 +143,15 @@ export abstract class SchemaGenerator {
       types: this.buildOtherTypes(orphanedTypes),
     });
 
+    // cleanup after build to prevent memory leaks
+    // and to reset state for next possible builds
     BuildContext.reset();
     this.usedInterfaceTypes = new Set<Function>();
+    this.objectTypesInfoMap = new Map<Function, ObjectTypeInfo>();
+    this.inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>();
+    this.interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>();
+    this.enumTypesInfoMap = new Map<object, EnumTypeInfo>();
+    this.unionTypesInfoMap = new Map<symbol, UnionTypeInfo>();
 
     if (!options.skipCheck) {
       const { errors } = graphqlSync({ schema: finalSchema, source: getIntrospectionQuery() });
@@ -203,198 +202,203 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo(resolvers: Function[]) {
-    this.unionTypesInfo = this.metadataStorage.unions.map<UnionTypeInfo>(unionMetadata => {
-      // use closure to capture values from this selected schema build
-      const unionObjectTypesInfo: ObjectTypeInfo[] = [];
-      // called once after building all `objectTypesInfo`
-      const typesThunk = () => {
-        unionObjectTypesInfo.push(
-          ...unionMetadata
-            .getClassTypes()
-            .map(objectTypeCls => this.objectTypesInfoMap.get(objectTypeCls)!),
-        );
-        return unionObjectTypesInfo.map(it => it.type);
-      };
-      const unionTypeInfo: UnionTypeInfo = {
-        unionSymbol: unionMetadata.symbol,
-        type: new GraphQLUnionType({
-          name: unionMetadata.name,
-          description: unionMetadata.description,
-          types: typesThunk,
-          resolveType: unionMetadata.resolveType
-            ? this.getResolveTypeFunction(
-                unionMetadata.resolveType,
-                // use closure captured `unionObjectTypesInfo`
-                unionObjectTypesInfo,
-              )
-            : instance => {
-                const instanceTarget = unionMetadata
-                  .getClassTypes()
-                  .find(ObjectClassType => instance instanceof ObjectClassType);
-                if (!instanceTarget) {
-                  throw new UnionResolveTypeError(unionMetadata);
-                }
-                // use closure captured `unionObjectTypesInfo`
-                const objectTypeInfo = unionObjectTypesInfo.find(
-                  type => type.target === instanceTarget,
-                );
-                return objectTypeInfo?.type.name;
-              },
-        }),
-      };
+    this.unionTypesInfoMap = new Map<symbol, UnionTypeInfo>(
+      this.metadataStorage.unions.map(unionMetadata => {
+        // use closure to capture values from this selected schema build
+        const unionObjectTypesInfo: ObjectTypeInfo[] = [];
+        // called once after building all `objectTypesInfo`
+        const typesThunk = () => {
+          unionObjectTypesInfo.push(
+            ...unionMetadata
+              .getClassTypes()
+              .map(objectTypeCls => this.objectTypesInfoMap.get(objectTypeCls)!),
+          );
+          return unionObjectTypesInfo.map(it => it.type);
+        };
+        const unionTypeInfo: UnionTypeInfo = {
+          unionSymbol: unionMetadata.symbol,
+          type: new GraphQLUnionType({
+            name: unionMetadata.name,
+            description: unionMetadata.description,
+            types: typesThunk,
+            resolveType: unionMetadata.resolveType
+              ? this.getResolveTypeFunction(
+                  unionMetadata.resolveType,
+                  // use closure captured `unionObjectTypesInfo`
+                  unionObjectTypesInfo,
+                )
+              : instance => {
+                  const instanceTarget = unionMetadata
+                    .getClassTypes()
+                    .find(ObjectClassType => instance instanceof ObjectClassType);
+                  if (!instanceTarget) {
+                    throw new UnionResolveTypeError(unionMetadata);
+                  }
+                  // use closure captured `unionObjectTypesInfo`
+                  const objectTypeInfo = unionObjectTypesInfo.find(
+                    type => type.target === instanceTarget,
+                  );
+                  return objectTypeInfo?.type.name;
+                },
+          }),
+        };
 
-      this.unionTypesInfoMap.set(unionMetadata.symbol, unionTypeInfo);
+        return [unionMetadata.symbol, unionTypeInfo];
+      }),
+    );
 
-      return unionTypeInfo;
-    });
-
-    this.enumTypesInfo = this.metadataStorage.enums.map<EnumTypeInfo>(enumMetadata => {
-      const enumMap = getEnumValuesMap(enumMetadata.enumObj);
-      return {
-        enumObj: enumMetadata.enumObj,
-        type: new GraphQLEnumType({
-          name: enumMetadata.name,
-          description: enumMetadata.description,
-          values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>((enumConfig, enumKey) => {
-            const valueConfig = enumMetadata.valuesConfig[enumKey] || {};
-            // eslint-disable-next-line no-param-reassign
-            enumConfig[enumKey] = {
-              value: enumMap[enumKey],
-              description: valueConfig.description,
-              deprecationReason: valueConfig.deprecationReason,
-            };
-            return enumConfig;
-          }, {}),
-        }),
-      };
-    });
-
-    this.objectTypesInfo = this.metadataStorage.objectTypes.map<ObjectTypeInfo>(objectType => {
-      const objectSuperClass = Object.getPrototypeOf(objectType.target);
-      const hasExtended = objectSuperClass.prototype !== undefined;
-      const getSuperClassType = () => {
-        const superClassTypeInfo =
-          this.objectTypesInfoMap.get(objectSuperClass) ??
-          this.interfaceTypesInfoMap.get(objectSuperClass);
-        return superClassTypeInfo ? superClassTypeInfo.type : undefined;
-      };
-      const interfaceClasses = objectType.interfaceClasses || [];
-      const objectTypeInfo: ObjectTypeInfo = {
-        metadata: objectType,
-        target: objectType.target,
-        type: new GraphQLObjectType({
-          name: objectType.name,
-          description: objectType.description,
-          astNode: getObjectTypeDefinitionNode(objectType.name, objectType.directives),
-          extensions: objectType.extensions,
-          interfaces: () => {
-            let interfaces = interfaceClasses.map<GraphQLInterfaceType>(interfaceClass => {
-              const interfaceTypeInfo = this.interfaceTypesInfoMap.get(interfaceClass);
-              if (!interfaceTypeInfo) {
-                throw new Error(
-                  `Cannot find interface type metadata for class '${interfaceClass.name}' ` +
-                    `provided in 'implements' option for '${objectType.target.name}' object type class. ` +
-                    `Please make sure that class is annotated with an '@InterfaceType()' decorator.`,
-                );
-              }
-              return interfaceTypeInfo.type;
-            });
-            // copy interfaces from super class
-            if (hasExtended) {
-              const superClass = getSuperClassType();
-              if (superClass) {
-                const superInterfaces = superClass.getInterfaces();
-                interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
-              }
-            }
-            return interfaces;
-          },
-          fields: () => {
-            const fieldsMetadata: FieldMetadata[] = [];
-            // support for implicitly implementing interfaces
-            // get fields from interfaces definitions
-            if (objectType.interfaceClasses) {
-              const implementedInterfaces = this.metadataStorage.interfaceTypes.filter(it =>
-                objectType.interfaceClasses!.includes(it.target),
-              );
-              implementedInterfaces.forEach(it => {
-                fieldsMetadata.push(...(it.fields || []));
-              });
-            }
-            // push own fields at the end to overwrite the one inherited from interface
-            fieldsMetadata.push(...objectType.fields!);
-
-            let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
-              (fieldsMap, field) => {
-                const { fieldResolvers } = this.metadataStorage;
-                const filteredFieldResolversMetadata = fieldResolvers.filter(
-                  it => it.kind === "internal" || resolvers.includes(it.target),
-                );
-                const fieldResolverMetadata = filteredFieldResolversMetadata.find(
-                  it => it.getObjectType!() === field.target && it.methodName === field.name,
-                );
-                const type = this.getGraphQLOutputType(
-                  field.target,
-                  field.name,
-                  field.getType(),
-                  field.typeOptions,
-                );
-                const isSimpleResolver =
-                  // eslint-disable-next-line no-nested-ternary
-                  field.simple !== undefined
-                    ? field.simple === true
-                    : objectType.simpleResolvers !== undefined
-                      ? objectType.simpleResolvers === true
-                      : false;
+    this.enumTypesInfoMap = new Map<object, EnumTypeInfo>(
+      this.metadataStorage.enums.map(enumMetadata => {
+        const enumMap = getEnumValuesMap(enumMetadata.enumObj);
+        const enumTypeInfo: EnumTypeInfo = {
+          enumObj: enumMetadata.enumObj,
+          type: new GraphQLEnumType({
+            name: enumMetadata.name,
+            description: enumMetadata.description,
+            values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>(
+              (enumConfig, enumKey) => {
+                const valueConfig = enumMetadata.valuesConfig[enumKey] || {};
                 // eslint-disable-next-line no-param-reassign
-                fieldsMap[field.schemaName] = {
-                  type,
-                  args: this.generateHandlerArgs(field.target, field.name, field.params!),
-                  // eslint-disable-next-line no-nested-ternary
-                  resolve: fieldResolverMetadata
-                    ? createAdvancedFieldResolver(fieldResolverMetadata)
-                    : isSimpleResolver
-                      ? undefined
-                      : createBasicFieldResolver(field),
-                  description: field.description,
-                  deprecationReason: field.deprecationReason,
-                  astNode: getFieldDefinitionNode(field.name, type, field.directives),
-                  extensions: {
-                    complexity: field.complexity,
-                    ...field.extensions,
-                    ...fieldResolverMetadata?.extensions,
-                  },
+                enumConfig[enumKey] = {
+                  value: enumMap[enumKey],
+                  description: valueConfig.description,
+                  deprecationReason: valueConfig.deprecationReason,
                 };
-                return fieldsMap;
+                return enumConfig;
               },
               {},
-            );
-            // support for extending classes - get field info from prototype
-            if (hasExtended) {
-              const superClass = getSuperClassType();
-              if (superClass) {
-                const superClassFields = getFieldMetadataFromObjectType(superClass);
-                fields = { ...superClassFields, ...fields };
+            ),
+          }),
+        };
+
+        return [enumMetadata.enumObj, enumTypeInfo];
+      }),
+    );
+
+    this.objectTypesInfoMap = new Map<Function, ObjectTypeInfo>(
+      this.metadataStorage.objectTypes.map(objectType => {
+        const objectSuperClass = Object.getPrototypeOf(objectType.target);
+        const hasExtended = objectSuperClass.prototype !== undefined;
+        const getSuperClassType = () => {
+          const superClassTypeInfo =
+            this.objectTypesInfoMap.get(objectSuperClass) ??
+            this.interfaceTypesInfoMap.get(objectSuperClass);
+          return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+        };
+        const interfaceClasses = objectType.interfaceClasses || [];
+        const objectTypeInfo: ObjectTypeInfo = {
+          metadata: objectType,
+          target: objectType.target,
+          type: new GraphQLObjectType({
+            name: objectType.name,
+            description: objectType.description,
+            astNode: getObjectTypeDefinitionNode(objectType.name, objectType.directives),
+            extensions: objectType.extensions,
+            interfaces: () => {
+              let interfaces = interfaceClasses.map<GraphQLInterfaceType>(interfaceClass => {
+                const interfaceTypeInfo = this.interfaceTypesInfoMap.get(interfaceClass);
+                if (!interfaceTypeInfo) {
+                  throw new Error(
+                    `Cannot find interface type metadata for class '${interfaceClass.name}' ` +
+                      `provided in 'implements' option for '${objectType.target.name}' object type class. ` +
+                      `Please make sure that class is annotated with an '@InterfaceType()' decorator.`,
+                  );
+                }
+                return interfaceTypeInfo.type;
+              });
+              // copy interfaces from super class
+              if (hasExtended) {
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superInterfaces = superClass.getInterfaces();
+                  interfaces = Array.from(new Set(interfaces.concat(superInterfaces)));
+                }
               }
-            }
-            return fields;
-          },
-        }),
-      };
+              return interfaces;
+            },
+            fields: () => {
+              const fieldsMetadata: FieldMetadata[] = [];
+              // support for implicitly implementing interfaces
+              // get fields from interfaces definitions
+              if (objectType.interfaceClasses) {
+                const implementedInterfaces = this.metadataStorage.interfaceTypes.filter(it =>
+                  objectType.interfaceClasses!.includes(it.target),
+                );
+                implementedInterfaces.forEach(it => {
+                  fieldsMetadata.push(...(it.fields || []));
+                });
+              }
+              // push own fields at the end to overwrite the one inherited from interface
+              fieldsMetadata.push(...objectType.fields!);
 
-      this.objectTypesInfoMap.set(objectType.target, objectTypeInfo);
+              let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
+                (fieldsMap, field) => {
+                  const { fieldResolvers } = this.metadataStorage;
+                  const filteredFieldResolversMetadata = fieldResolvers.filter(
+                    it => it.kind === "internal" || resolvers.includes(it.target),
+                  );
+                  const fieldResolverMetadata = filteredFieldResolversMetadata.find(
+                    it => it.getObjectType!() === field.target && it.methodName === field.name,
+                  );
+                  const type = this.getGraphQLOutputType(
+                    field.target,
+                    field.name,
+                    field.getType(),
+                    field.typeOptions,
+                  );
+                  const isSimpleResolver =
+                    // eslint-disable-next-line no-nested-ternary
+                    field.simple !== undefined
+                      ? field.simple === true
+                      : objectType.simpleResolvers !== undefined
+                        ? objectType.simpleResolvers === true
+                        : false;
+                  // eslint-disable-next-line no-param-reassign
+                  fieldsMap[field.schemaName] = {
+                    type,
+                    args: this.generateHandlerArgs(field.target, field.name, field.params!),
+                    // eslint-disable-next-line no-nested-ternary
+                    resolve: fieldResolverMetadata
+                      ? createAdvancedFieldResolver(fieldResolverMetadata)
+                      : isSimpleResolver
+                        ? undefined
+                        : createBasicFieldResolver(field),
+                    description: field.description,
+                    deprecationReason: field.deprecationReason,
+                    astNode: getFieldDefinitionNode(field.name, type, field.directives),
+                    extensions: {
+                      complexity: field.complexity,
+                      ...field.extensions,
+                      ...fieldResolverMetadata?.extensions,
+                    },
+                  };
+                  return fieldsMap;
+                },
+                {},
+              );
+              // support for extending classes - get field info from prototype
+              if (hasExtended) {
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superClassFields = getFieldMetadataFromObjectType(superClass);
+                  fields = { ...superClassFields, ...fields };
+                }
+              }
+              return fields;
+            },
+          }),
+        };
 
-      return objectTypeInfo;
-    });
+        return [objectType.target, objectTypeInfo];
+      }),
+    );
 
-    this.interfaceTypesInfo = this.metadataStorage.interfaceTypes.map<InterfaceTypeInfo>(
-      interfaceType => {
+    this.interfaceTypesInfoMap = new Map<Function, InterfaceTypeInfo>(
+      this.metadataStorage.interfaceTypes.map(interfaceType => {
         const interfaceSuperClass = Object.getPrototypeOf(interfaceType.target);
         const hasExtended = interfaceSuperClass.prototype !== undefined;
         const getSuperClassType = () => {
-          const superClassTypeInfo = this.interfaceTypesInfo.find(
-            type => type.target === interfaceSuperClass,
-          );
+          const superClassTypeInfo = this.interfaceTypesInfoMap.get(interfaceSuperClass);
           return superClassTypeInfo ? superClassTypeInfo.type : undefined;
         };
 
@@ -406,8 +410,8 @@ export abstract class SchemaGenerator {
               objectType.interfaceClasses.includes(interfaceType.target),
           )
           .map(objectType => objectType.target);
-        const implementingObjectTypesInfo = this.objectTypesInfo.filter(objectTypesInfo =>
-          implementingObjectTypesTargets.includes(objectTypesInfo.target),
+        const implementingObjectTypesInfo = [...this.objectTypesInfoMap.values()].filter(
+          objectTypesInfo => implementingObjectTypesTargets.includes(objectTypesInfo.target),
         );
 
         const interfaceTypeInfo: InterfaceTypeInfo = {
@@ -506,69 +510,68 @@ export abstract class SchemaGenerator {
           }),
         };
 
-        this.interfaceTypesInfoMap.set(interfaceType.target, interfaceTypeInfo);
-
-        return interfaceTypeInfo;
-      },
+        return [interfaceType.target, interfaceTypeInfo];
+      }),
     );
-    this.inputTypesInfo = this.metadataStorage.inputTypes.map<InputObjectTypeInfo>(inputType => {
-      const objectSuperClass = Object.getPrototypeOf(inputType.target);
-      const getSuperClassType = () => {
-        const superClassTypeInfo = this.inputTypesInfoMap.get(objectSuperClass);
-        return superClassTypeInfo ? superClassTypeInfo.type : undefined;
-      };
-      const inputInstance = new (inputType.target as any)();
-      const inputTypeInfo: InputObjectTypeInfo = {
-        target: inputType.target,
-        type: new GraphQLInputObjectType({
-          name: inputType.name,
-          description: inputType.description,
-          extensions: inputType.extensions,
-          fields: () => {
-            let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
-              (fieldsMap, field) => {
-                const defaultValue = this.getDefaultValue(
-                  inputInstance,
-                  field.typeOptions,
-                  field.name,
-                  inputType.name,
-                );
 
-                const type = this.getGraphQLInputType(field.target, field.name, field.getType(), {
-                  ...field.typeOptions,
-                  defaultValue,
-                });
-                // eslint-disable-next-line no-param-reassign
-                fieldsMap[field.name] = {
-                  description: field.description,
-                  type,
-                  defaultValue,
-                  astNode: getInputValueDefinitionNode(field.name, type, field.directives),
-                  extensions: field.extensions,
-                  deprecationReason: field.deprecationReason,
-                };
-                return fieldsMap;
-              },
-              {},
-            );
-            // support for extending classes - get field info from prototype
-            if (objectSuperClass.prototype !== undefined) {
-              const superClass = getSuperClassType();
-              if (superClass) {
-                const superClassFields = getFieldMetadataFromInputType(superClass);
-                fields = { ...superClassFields, ...fields };
+    this.inputTypesInfoMap = new Map<Function, InputObjectTypeInfo>(
+      this.metadataStorage.inputTypes.map(inputType => {
+        const objectSuperClass = Object.getPrototypeOf(inputType.target);
+        const getSuperClassType = () => {
+          const superClassTypeInfo = this.inputTypesInfoMap.get(objectSuperClass);
+          return superClassTypeInfo ? superClassTypeInfo.type : undefined;
+        };
+        const inputInstance = new (inputType.target as any)();
+        const inputTypeInfo: InputObjectTypeInfo = {
+          target: inputType.target,
+          type: new GraphQLInputObjectType({
+            name: inputType.name,
+            description: inputType.description,
+            extensions: inputType.extensions,
+            fields: () => {
+              let fields = inputType.fields!.reduce<GraphQLInputFieldConfigMap>(
+                (fieldsMap, field) => {
+                  const defaultValue = this.getDefaultValue(
+                    inputInstance,
+                    field.typeOptions,
+                    field.name,
+                    inputType.name,
+                  );
+
+                  const type = this.getGraphQLInputType(field.target, field.name, field.getType(), {
+                    ...field.typeOptions,
+                    defaultValue,
+                  });
+                  // eslint-disable-next-line no-param-reassign
+                  fieldsMap[field.name] = {
+                    description: field.description,
+                    type,
+                    defaultValue,
+                    astNode: getInputValueDefinitionNode(field.name, type, field.directives),
+                    extensions: field.extensions,
+                    deprecationReason: field.deprecationReason,
+                  };
+                  return fieldsMap;
+                },
+                {},
+              );
+              // support for extending classes - get field info from prototype
+              if (objectSuperClass.prototype !== undefined) {
+                const superClass = getSuperClassType();
+                if (superClass) {
+                  const superClassFields = getFieldMetadataFromInputType(superClass);
+                  fields = { ...superClassFields, ...fields };
+                }
               }
-            }
-            return fields;
-          },
-          astNode: getInputObjectTypeDefinitionNode(inputType.name, inputType.directives),
-        }),
-      };
+              return fields;
+            },
+            astNode: getInputObjectTypeDefinitionNode(inputType.name, inputType.directives),
+          }),
+        };
 
-      this.inputTypesInfoMap.set(inputType.target, inputTypeInfo);
-
-      return inputTypeInfo;
-    });
+        return [inputType.target, inputTypeInfo];
+      }),
+    );
   }
 
   private static buildRootQueryType(resolvers: Function[]): GraphQLObjectType {
@@ -611,11 +614,9 @@ export abstract class SchemaGenerator {
   }
 
   private static buildOtherTypes(orphanedTypes: Function[]): GraphQLNamedType[] {
-    const autoRegisteredObjectTypesInfo = this.objectTypesInfo.filter(typeInfo =>
+    const autoRegisteredObjectTypesInfo = [...this.objectTypesInfoMap.values()].filter(typeInfo =>
       typeInfo.metadata.interfaceClasses?.some(interfaceClass => {
-        const implementedInterfaceInfo = this.interfaceTypesInfo.find(
-          it => it.target === interfaceClass,
-        );
+        const implementedInterfaceInfo = this.interfaceTypesInfoMap.get(interfaceClass);
         if (!implementedInterfaceInfo) {
           return false;
         }
@@ -629,9 +630,18 @@ export abstract class SchemaGenerator {
       }),
     );
     return [
-      ...this.filterTypesInfoByOrphanedTypesAndExtractType(this.objectTypesInfo, orphanedTypes),
-      ...this.filterTypesInfoByOrphanedTypesAndExtractType(this.interfaceTypesInfo, orphanedTypes),
-      ...this.filterTypesInfoByOrphanedTypesAndExtractType(this.inputTypesInfo, orphanedTypes),
+      ...this.filterTypesInfoByOrphanedTypesAndExtractType(
+        [...this.objectTypesInfoMap.values()],
+        orphanedTypes,
+      ),
+      ...this.filterTypesInfoByOrphanedTypesAndExtractType(
+        [...this.interfaceTypesInfoMap.values()],
+        orphanedTypes,
+      ),
+      ...this.filterTypesInfoByOrphanedTypesAndExtractType(
+        [...this.inputTypesInfoMap.values()],
+        orphanedTypes,
+      ),
       ...autoRegisteredObjectTypesInfo.map(typeInfo => typeInfo.type),
     ];
   }
@@ -843,26 +853,26 @@ export abstract class SchemaGenerator {
     let gqlType: GraphQLOutputType | undefined;
     gqlType = convertTypeIfScalar(type);
     if (!gqlType) {
-      const objectType = this.objectTypesInfo.find(it => it.target === (type as Function));
+      const objectType = this.objectTypesInfoMap.get(type as Function);
       if (objectType) {
         gqlType = objectType.type;
       }
     }
     if (!gqlType) {
-      const interfaceType = this.interfaceTypesInfo.find(it => it.target === (type as Function));
+      const interfaceType = this.interfaceTypesInfoMap.get(type as Function);
       if (interfaceType) {
         this.usedInterfaceTypes.add(interfaceType.target);
         gqlType = interfaceType.type;
       }
     }
     if (!gqlType) {
-      const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
+      const enumType = this.enumTypesInfoMap.get(type as object);
       if (enumType) {
         gqlType = enumType.type;
       }
     }
     if (!gqlType) {
-      const unionType = this.unionTypesInfo.find(it => it.unionSymbol === (type as symbol));
+      const unionType = this.unionTypesInfoMap.get(type as symbol);
       if (unionType) {
         gqlType = unionType.type;
       }
@@ -886,13 +896,13 @@ export abstract class SchemaGenerator {
     let gqlType: GraphQLInputType | undefined;
     gqlType = convertTypeIfScalar(type);
     if (!gqlType) {
-      const inputType = this.inputTypesInfo.find(it => it.target === (type as Function));
+      const inputType = this.inputTypesInfoMap.get(type as Function);
       if (inputType) {
         gqlType = inputType.type;
       }
     }
     if (!gqlType) {
-      const enumType = this.enumTypesInfo.find(it => it.enumObj === (type as Function));
+      const enumType = this.enumTypesInfoMap.get(type as object);
       if (enumType) {
         gqlType = enumType.type;
       }
