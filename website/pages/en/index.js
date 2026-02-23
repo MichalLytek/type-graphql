@@ -313,6 +313,10 @@ const CollectiveSection = props => (
             <img src={imgUrl("kasyno-online.png")} style={{ width: 50 }} />
             <span>Kasyno Online</span>
           </a>
+          <a href="https://www.fbpostlikes.com/" target="_blank" rel="sponsored">
+            <img src={imgUrl("fbpostlikes.webp")} style={{ width: 90 }} />
+            <span>FBPostLikes</span>
+          </a>
         </div>
         <div className="tiles">
           <a href="https://sidesmedia.com/" target="_blank" rel="sponsored">
