@@ -911,6 +911,50 @@
       "version-2.0.0-rc.3/version-2.0.0-rc.3-validation": {
         "title": "Argument and Input validation",
         "sidebar_label": "Validation"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-authorization": {
+        "title": "Authorization"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-complexity": {
+        "title": "Query complexity"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-custom-decorators": {
+        "title": "Custom decorators"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-dependency-injection": {
+        "title": "Dependency injection"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-examples": {
+        "title": "Examples",
+        "sidebar_label": "List of examples"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-extensions": {
+        "title": "Extensions"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-generic-types": {
+        "title": "Generic Types"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-inheritance": {
+        "title": "Inheritance"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-interfaces": {
+        "title": "Interfaces"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-middlewares": {
+        "title": "Middleware and guards"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-resolvers": {
+        "title": "Resolvers"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-subscriptions": {
+        "title": "Subscriptions"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-unions": {
+        "title": "Unions"
+      },
+      "version-2.0.0-rc.4/version-2.0.0-rc.4-validation": {
+        "title": "Argument and Input validation",
+        "sidebar_label": "Validation"
       }
     },
     "links": {
