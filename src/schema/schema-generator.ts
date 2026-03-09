@@ -338,7 +338,8 @@ export abstract class SchemaGenerator {
                     it => it.kind === "internal" || resolvers.includes(it.target),
                   );
                   const fieldResolverMetadata = filteredFieldResolversMetadata.find(
-                    it => it.getObjectType!() === field.target && it.methodName === field.name,
+                    it =>
+                      it.getObjectType!() === field.target && it.schemaName === field.schemaName,
                   );
                   const type = this.getGraphQLOutputType(
                     field.target,
@@ -456,7 +457,7 @@ export abstract class SchemaGenerator {
                   const fieldResolverMetadata = this.metadataStorage.fieldResolvers.find(
                     resolver =>
                       resolver.getObjectType!() === field.target &&
-                      resolver.methodName === field.name,
+                      resolver.schemaName === field.schemaName,
                   );
                   const type = this.getGraphQLOutputType(
                     field.target,
