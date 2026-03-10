@@ -1,6 +1,10 @@
 # Changelog and release notes
 
-<!-- ## Unreleased -->
+## Unreleased
+
+### Fixes
+
+- support resolver inheritance with dynamic field resolvers name by matching field resolvers by schemaName instead of methodName (#1806)
 
 <!-- Here goes all the unreleased changes descriptions -->
 

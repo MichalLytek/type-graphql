@@ -2618,6 +2618,62 @@ describe("Resolvers", () => {
       expect(dynamicField1).toBeDefined();
       expect(dynamicField2).toBeDefined();
     });
+
+    it("should resolve independent factory-created field resolvers with different schema names correctly", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class FactoryUser {
+        @Field()
+        name!: string;
+      }
+
+      function createFieldResolver(fieldName: string, returnValue: string) {
+        @Resolver(() => FactoryUser)
+        class DynamicFieldResolver {
+          @FieldResolver(() => [String], { name: fieldName })
+          getItems(): string[] {
+            return [returnValue];
+          }
+        }
+        return DynamicFieldResolver;
+      }
+
+      const FollowersResolver = createFieldResolver("followers", "follower1");
+      const FollowingResolver = createFieldResolver("following", "following1");
+
+      @Resolver()
+      class FactoryUserResolver {
+        @Query(() => FactoryUser)
+        factoryUser(): FactoryUser {
+          return { name: "TestUser" } as FactoryUser;
+        }
+      }
+
+      const schemaInfo = await getSchemaInfo({
+        resolvers: [FactoryUserResolver, FollowersResolver, FollowingResolver],
+      });
+      const { schema: factorySchema, schemaIntrospection: factorySchemaIntrospection } = schemaInfo;
+
+      // Introspection check
+      const factoryUserType = factorySchemaIntrospection.types.find(
+        type => type.name === "FactoryUser",
+      ) as IntrospectionObjectType;
+      expect(factoryUserType.fields.find(f => f.name === "followers")).toBeDefined();
+      expect(factoryUserType.fields.find(f => f.name === "following")).toBeDefined();
+
+      // Runtime execution check
+      const query = `{ factoryUser { name followers following } }`;
+      const result = await graphql({ schema: factorySchema, source: query });
+      expect(result.errors).toBeUndefined();
+      expect(result.data).toEqual({
+        factoryUser: {
+          name: "TestUser",
+          followers: ["follower1"],
+          following: ["following1"],
+        },
+      });
+    });
   });
 
   describe("Shared generic resolver", () => {
