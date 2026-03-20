@@ -77,6 +77,7 @@ export interface EnumConfig<TEnum extends object> {
   name: string;
   description?: string;
   valuesConfig?: EnumValuesConfig<TEnum>;
+  directives?: string[];
 }
 export type EnumValuesConfig<TEnum extends object> = Partial<
   Record<keyof TEnum, DescriptionOptions & DeprecationOptions>
