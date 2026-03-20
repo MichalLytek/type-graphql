@@ -56,6 +56,7 @@ import {
 import { ensureInstalledCorrectGraphQLPackage } from "@/utils/graphql-version";
 import { BuildContext, type BuildContextOptions } from "./build-context";
 import {
+  getEnumTypeDefinitionNode,
   getFieldDefinitionNode,
   getInputObjectTypeDefinitionNode,
   getInputValueDefinitionNode,
@@ -255,6 +256,7 @@ export abstract class SchemaGenerator {
           type: new GraphQLEnumType({
             name: enumMetadata.name,
             description: enumMetadata.description,
+            astNode: getEnumTypeDefinitionNode(enumMetadata.name, enumMetadata.directives),
             values: Object.keys(enumMap).reduce<GraphQLEnumValueConfigMap>(
               (enumConfig, enumKey) => {
                 const valueConfig = enumMetadata.valuesConfig[enumKey] || {};

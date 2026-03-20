@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import {
+  type GraphQLEnumType,
   type GraphQLSchema,
   type IntrospectionEnumType,
   type IntrospectionInputObjectType,
@@ -10,6 +11,7 @@ import {
 } from "graphql";
 import { Arg, Field, InputType, Query, registerEnumType } from "type-graphql";
 import { getMetadataStorage } from "@/metadata/getMetadataStorage";
+import { assertValidDirective } from "../helpers/directives/assertValidDirective";
 import {
   getInnerInputFieldType,
   getInnerTypeOfNonNullableType,
@@ -51,6 +53,15 @@ describe("Enums", () => {
       },
     });
 
+    enum DirectiveEnum {
+      Active = "ACTIVE",
+      Inactive = "INACTIVE",
+    }
+    registerEnumType(DirectiveEnum, {
+      name: "DirectiveEnum",
+      directives: ["@test"],
+    });
+
     @InputType()
     class NumberEnumInput {
       @Field(() => NumberEnum)
@@ -87,6 +98,11 @@ describe("Enums", () => {
       @Query()
       isStringEnumEqualOne(@Arg("enum", () => StringEnum) stringEnum: StringEnum): boolean {
         return stringEnum === StringEnum.One;
+      }
+
+      @Query(() => DirectiveEnum)
+      getDirectiveEnumValue(): DirectiveEnum {
+        return DirectiveEnum.Active;
       }
     }
 
@@ -200,6 +216,84 @@ describe("Enums", () => {
       expect(advancedEnumType.enumValues[1].deprecationReason).toEqual(
         "Two field deprecation reason",
       );
+    });
+
+    it("should properly emit directive in AST when directives are provided", async () => {
+      const enumType = schema.getType("DirectiveEnum") as GraphQLEnumType;
+
+      expect(enumType).toBeDefined();
+      expect(enumType.astNode).toBeDefined();
+      assertValidDirective(enumType.astNode, "test");
+    });
+
+    it("should leave astNode undefined when no directives are provided", async () => {
+      const enumType = schema.getType("NumberEnum") as GraphQLEnumType;
+
+      expect(enumType).toBeDefined();
+      expect(enumType.astNode).toBeUndefined();
+    });
+
+    it("should properly emit directive with args in AST", async () => {
+      getMetadataStorage().clear();
+
+      enum ArgsDirectiveEnum {
+        On = "ON",
+        Off = "OFF",
+      }
+      registerEnumType(ArgsDirectiveEnum, {
+        name: "ArgsDirectiveEnum",
+        directives: ['@test(argNonNullDefault: "custom", argNull: "value")'],
+      });
+
+      class ArgsDirectiveEnumResolver {
+        @Query(() => ArgsDirectiveEnum)
+        getArgsDirectiveEnumValue(): ArgsDirectiveEnum {
+          return ArgsDirectiveEnum.On;
+        }
+      }
+
+      const { schema: argsSchema } = await getSchemaInfo({
+        resolvers: [ArgsDirectiveEnumResolver],
+      });
+
+      const enumType = argsSchema.getType("ArgsDirectiveEnum") as GraphQLEnumType;
+      expect(enumType.astNode).toBeDefined();
+      assertValidDirective(enumType.astNode, "test", {
+        argNonNullDefault: `"custom"`,
+        argNull: `"value"`,
+      });
+    });
+
+    it("should properly emit multiple directives in AST", async () => {
+      getMetadataStorage().clear();
+
+      enum MultiDirectiveEnum {
+        Yes = "YES",
+        No = "NO",
+      }
+      registerEnumType(MultiDirectiveEnum, {
+        name: "MultiDirectiveEnum",
+        directives: ["@test", '@deprecated(reason: "use something else")'],
+      });
+
+      class MultiDirectiveEnumResolver {
+        @Query(() => MultiDirectiveEnum)
+        getMultiDirectiveEnumValue(): MultiDirectiveEnum {
+          return MultiDirectiveEnum.Yes;
+        }
+      }
+
+      const { schema: multiSchema } = await getSchemaInfo({
+        resolvers: [MultiDirectiveEnumResolver],
+      });
+
+      const enumType = multiSchema.getType("MultiDirectiveEnum") as GraphQLEnumType;
+      expect(enumType.astNode).toBeDefined();
+      expect(enumType.astNode!.directives).toHaveLength(2);
+      assertValidDirective(enumType.astNode, "test");
+      assertValidDirective(enumType.astNode, "deprecated", {
+        reason: `"use something else"`,
+      });
     });
   });
 
