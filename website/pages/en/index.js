@@ -352,12 +352,16 @@ const CollectiveSection = props => (
             target="_blank"
             rel="sponsored"
           >
-            <img src={imgUrl("payid_pookies.avif")} style={{ width: 50 }} />
+            <img src={imgUrl("payid_pookies.avif")} style={{ width: 45 }} />
             <span>PayID Pokies</span>
           </a>
           <a href="https://global.fun88.com/" target="_blank" rel="sponsored">
             <img src={imgUrl("fun88.png")} style={{ width: 40 }} />
             <span>Fun88</span>
+          </a>
+          <a href="https://buy.fans/" target="_blank" rel="sponsored">
+            <img src={imgUrl("buyfans.png")} style={{ width: 45 }} />
+            <span>Buy.Fans</span>
           </a>
         </div>
         <h3 className="title">Members 💪</h3>
