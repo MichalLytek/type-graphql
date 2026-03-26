@@ -32,7 +32,7 @@ One of the biggest changes in 2.0 is the subscriptions system. The old [`graphql
 The new PubSub system is type-safe out of the box. You define your topic types once, and TypeScript makes sure you publish the right payload to the right topic:
 
 ```ts
-import { createPubSub } from "@graphql-yoga/subscriptions";
+import { createPubSub } from "@graphql-yoga/subscription";
 
 export const pubSub = createPubSub<{
   NOTIFICATIONS: [NotificationPayload];
