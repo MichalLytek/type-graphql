@@ -454,6 +454,8 @@ Make sure to update your peer dependencies to the required minimum versions:
 npm install graphql@^16.12.0 graphql-scalars@^1.25.0 type-graphql
 ```
 
+Note that `graphql` has been updated from `^15.x` to `^16.x`. GraphQL.js v16 has its own breaking changes — most notably, it drops support for `#` comment descriptions in SDL (which is why `commentDescriptions` was removed), and some error handling internals changed. If you're coming from `graphql@15`, review the [graphql-js v16 release notes](https://github.com/graphql/graphql-js/releases/tag/v16.0.0) as well.
+
 | Dependency        | Required version | Notes                                      |
 | ----------------- | ---------------- | ------------------------------------------ |
 | `graphql`         | `^16.12.0`       | Updated from `^15.x`                       |

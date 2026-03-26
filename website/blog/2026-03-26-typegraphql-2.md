@@ -18,6 +18,7 @@ Well, then, without further ado... let's take a look what TypeGraphQL 2.0 brings
 - [ESM support](#esm-support)
 - [Scalars from the ecosystem](#scalars-from-the-ecosystem)
 - [GraphQL-native error handling](#graphql-native-error-handling)
+- [Other improvements](#other-improvements)
 - [Performance and build improvements](#performance-and-build-improvements)
 - [Migration guide](#migration-guide)
 - [What's next?](#whats-next)
@@ -138,6 +139,19 @@ All TypeGraphQL error classes now properly extend `GraphQLError` from the `graph
 | `ArgumentValidationError` | `"BAD_USER_INPUT"`  | Input validation failed   |
 
 Error details like validation errors are now accessible through `error.extensions.validationErrors` instead of custom properties. This plays nicely with Apollo Server's `formatError`, GraphQL Yoga's `maskError`, and other server error handling mechanisms.
+
+## Other improvements
+
+Beyond the headline features, there's a bunch of smaller additions that are worth knowing about:
+
+- **Directives on interface types and their fields** (#744), with automatic inheritance to implementing object types
+- **Directives on `@Arg` and `@Args` fields** — you can now apply `@Directive()` on inline `@Arg` and on `@Field` within `@Args` classes
+- **Deprecating input fields and args** (#794) — `deprecationReason` now works on input fields, not just output fields
+- **`buildTypeDefsAndResolversSync`** (#803) — a sync version of `buildTypeDefsAndResolvers` for cases where you can't use async
+- **Readonly arrays for `@Authorized` roles** (#935) — `@Authorized(roles)` now accepts `readonly` arrays
+- **Disabling default value inference** (#793) — you can now opt out of TypeGraphQL inferring default values from class field initializers
+- **No more `implements` chain restriction** (#1425) — you no longer need to list every interface in the inheritance chain in `@ObjectType({ implements: [...] })`
+- **Alternative `Reflect` polyfills** (#1102) — TypeGraphQL now only checks for the specific `Reflect` API methods it uses, so polyfills other than `reflect-metadata` work too
 
 ## Performance and build improvements
 
