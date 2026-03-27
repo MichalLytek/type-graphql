@@ -155,11 +155,29 @@ Beyond the headline features, there's a bunch of smaller additions that are wort
 
 ## Performance and build improvements
 
-Some things worth mentioning under the hood:
+In the [1.0 release](./2020-08-19-devto-article.md), we cut the overhead of TypeGraphQL over raw `graphql-js` from 500% down to ~17%. For 2.0, the focus shifted to **schema building performance** — the time it takes to go from your decorated classes to a working `GraphQLSchema` object.
 
-- **HashMap-based metadata caching** for O(1) lookups during schema building, replacing O(n) scans. Makes a real difference if you build multiple schemas or have a large codebase.
-- **`buildSchemaSync` now validates** the generated schema via introspection — no more silently producing invalid schemas that blow up at query time.
-- **ES2021 build target** and **Node.js >= 20.11.1** required — we dropped older runtimes to keep things simple.
+### HashMap-based metadata caching
+
+The biggest change is the internal metadata storage rework (#1779). In 1.x, looking up metadata for a class (its fields, middlewares, auth config, directives, etc.) meant scanning flat arrays with `.find()` and `.filter()` — O(n) per lookup, repeated for every type and field during schema building.
+
+In 2.0, we introduced HashMap caches for 11 different metadata categories (object types, interface types, authorized fields, middlewares, directives, resolver classes, fields, params, and more). All lookups are now O(1) via `Map.get()`. For large schemas with hundreds of types, this makes a real difference in `buildSchema` time.
+
+### Validation is opt-in
+
+Making `class-validator` optional and defaulting `validate` to `false` means projects that don't use argument validation skip the entire validation middleware layer. No `class-validator` import, no validation function wrapping — the code path simply doesn't exist unless you opt in.
+
+### Removed glob path overhead
+
+Dropping glob-based resolver loading removed the dynamic `require` calls and file system scanning that happened at schema build time. Explicit imports are resolved statically by the bundler or runtime, which is both faster and more predictable.
+
+### Safe multi-schema builds
+
+Building multiple schemas from the same set of decorators (e.g. a public and admin schema) was fragile in 1.x — metadata could get duplicated or corrupted across builds. In 2.0, the schema generator works on a local clone of the metadata storage (#1698, #1803), so each `buildSchema` call starts clean. The HashMap caches are also rebuilt per-build to prevent stale lookups.
+
+### ES2021 build target and graphql-js v16
+
+The package now targets ES2021 (up from ES2018) and requires Node.js >= 20.11.1, which means native support for modern JS features without transpilation overhead. The jump to `graphql-js` v16 also brings its own internal performance improvements from the reference implementation.
 
 ## Migration guide
 
