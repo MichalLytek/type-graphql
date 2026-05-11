@@ -2845,6 +2845,12 @@ describe("Resolvers", () => {
           return { id: 1 };
         }
 
+        // Use DualClassInput as a mutation argument so the InputType is reachable in the schema
+        @Mutation(() => DualClass)
+        dualClassMutation(@Arg("input", () => DualClass) dualClassInput: DualClass): DualClass {
+          return dualClassInput;
+        }
+
         @FieldResolver(() => ComputedResult)
         computed(@Root() root: DualClass): ComputedResult {
           return { value: String(root.id) };
@@ -2852,7 +2858,21 @@ describe("Resolvers", () => {
       }
 
       // Building the schema should not throw CannotDetermineGraphQLTypeError
-      await expect(buildSchema({ resolvers: [DualClassResolver] })).resolves.toBeDefined();
+      const { schemaIntrospection } = await getSchemaInfo({ resolvers: [DualClassResolver] });
+
+      // The ObjectType should expose the computed field resolver
+      const dualObjectType = schemaIntrospection.types.find(
+        type => type.kind === "OBJECT" && type.name === "DualClass",
+      ) as IntrospectionObjectType | undefined;
+      expect(dualObjectType).toBeDefined();
+      expect(dualObjectType!.fields.some(f => f.name === "computed")).toBe(true);
+
+      // The InputType must NOT contain the computed field resolver
+      const dualInputType = schemaIntrospection.types.find(
+        type => type.kind === "INPUT_OBJECT" && type.name === "DualClassInput",
+      ) as IntrospectionInputObjectType | undefined;
+      expect(dualInputType).toBeDefined();
+      expect(dualInputType!.inputFields.some(f => f.name === "computed")).toBe(false);
     });
   });
 });
