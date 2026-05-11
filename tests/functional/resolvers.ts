@@ -2820,4 +2820,39 @@ describe("Resolvers", () => {
       expect(hasFoundFieldResolverInOtherSchema).toBeTruthy();
     });
   });
+
+  describe("Dual-type class (ObjectType + InputType) with FieldResolver", () => {
+    it("should not leak FieldResolver metadata into the InputType fields", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      @InputType("DualClassInput")
+      class DualClass {
+        @Field(() => Int)
+        id!: number;
+      }
+
+      @ObjectType()
+      class ComputedResult {
+        @Field()
+        value!: string;
+      }
+
+      @Resolver(() => DualClass)
+      class DualClassResolver {
+        @Query(() => DualClass)
+        dualClassQuery(): DualClass {
+          return { id: 1 };
+        }
+
+        @FieldResolver(() => ComputedResult)
+        computed(@Root() root: DualClass): ComputedResult {
+          return { value: String(root.id) };
+        }
+      }
+
+      // Building the schema should not throw CannotDetermineGraphQLTypeError
+      await expect(buildSchema({ resolvers: [DualClassResolver] })).resolves.toBeDefined();
+    });
+  });
 });
