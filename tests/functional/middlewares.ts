@@ -690,3 +690,125 @@ describe("Synchronous middleware dispatch", () => {
     expect(errors![0].message).toEqual("next() called multiple times");
   });
 });
+
+describe("Single function middleware dispatch", () => {
+  beforeEach(() => {
+    getMetadataStorage().clear();
+  });
+
+  it("should wrap the resolver with a single synchronous middleware", async () => {
+    const logs: string[] = [];
+    const wrap: MiddlewareFn = (_, next) => {
+      logs.push("before");
+      const result = next();
+      logs.push("after");
+      return result;
+    };
+
+    @Resolver()
+    class SyncWrapResolver {
+      @Query(() => String)
+      @UseMiddleware(wrap)
+      wrapQuery(): string {
+        logs.push("resolver");
+        return "resolverResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [SyncWrapResolver] });
+    const query = `query {
+      wrapQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).wrapQuery).toEqual("resolverResult");
+    expect(logs).toEqual(["before", "resolver", "after"]);
+  });
+
+  it("should wrap the resolver with a single asynchronous middleware", async () => {
+    const logs: string[] = [];
+    const wrap: MiddlewareFn = async (_, next) => {
+      logs.push("before");
+      const result = await next();
+      logs.push("after");
+      return result;
+    };
+
+    @Resolver()
+    class AsyncWrapResolver {
+      @Query(() => String)
+      @UseMiddleware(wrap)
+      wrapQuery(): string {
+        logs.push("resolver");
+        return "resolverResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [AsyncWrapResolver] });
+    const query = `query {
+      wrapQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).wrapQuery).toEqual("resolverResult");
+    expect(logs).toEqual(["before", "resolver", "after"]);
+  });
+
+  it("should use the resolver value when a single middleware returns undefined", async () => {
+    const logs: string[] = [];
+    const observe: MiddlewareFn = async (_, next) => {
+      const result = await next();
+      logs.push(`observed:${result}`);
+    };
+
+    @Resolver()
+    class FallThroughResolver {
+      @Query(() => String)
+      @UseMiddleware(observe)
+      fallThroughQuery(): string {
+        return "resolverResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [FallThroughResolver] });
+    const query = `query {
+      fallThroughQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).fallThroughQuery).toEqual("resolverResult");
+    expect(logs).toEqual(["observed:resolverResult"]);
+  });
+
+  it("should dispatch a single class middleware through the general path", async () => {
+    const logs: string[] = [];
+
+    class WrapClassMiddleware implements MiddlewareInterface {
+      async use(_: ResolverData, next: NextFn) {
+        logs.push("before");
+        const result = await next();
+        logs.push("after");
+        return result;
+      }
+    }
+
+    @Resolver()
+    class ClassResolver {
+      @Query(() => String)
+      @UseMiddleware(WrapClassMiddleware)
+      classQuery(): string {
+        logs.push("resolver");
+        return "resolverResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [ClassResolver] });
+    const query = `query {
+      classQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).classQuery).toEqual("resolverResult");
+    expect(logs).toEqual(["before", "resolver", "after"]);
+  });
+});
