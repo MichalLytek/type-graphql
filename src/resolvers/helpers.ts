@@ -2,7 +2,13 @@ import { AuthMiddleware } from "@/helpers/auth-middleware";
 import { convertToType } from "@/helpers/types";
 import { type ParamMetadata } from "@/metadata/definitions";
 import { type ValidateSettings } from "@/schema/build-context";
-import { type AuthChecker, type AuthMode, type ResolverData, type ValidatorFn } from "@/typings";
+import {
+  type AuthChecker,
+  type AuthMode,
+  type MaybePromise,
+  type ResolverData,
+  type ValidatorFn,
+} from "@/typings";
 import { type Middleware, type MiddlewareClass, type MiddlewareFn } from "@/typings/middleware";
 import { type IOCContainer } from "@/utils/container";
 import { isPromiseLike } from "@/utils/isPromiseLike";
@@ -104,38 +110,48 @@ export function applyMiddlewares(
   resolverData: ResolverData<any>,
   middlewares: Array<Middleware<any>>,
   resolverHandlerFunction: () => any,
-): Promise<any> {
+): MaybePromise<any> {
   if (middlewares.length === 0) {
     return resolverHandlerFunction();
   }
   let middlewaresIndex = -1;
-  async function dispatchHandler(currentIndex: number): Promise<void> {
+  // Synchronous-capable dispatch: only awaits when a middleware (or the
+  // container instance, or the resolver) actually returns a promise. A chain of
+  // synchronous middlewares — notably a synchronous `AuthMiddleware` — now costs
+  // zero promises instead of one per middleware. Behavior is preserved: same
+  // `result ?? nextResult` resolution and the same multiple-`next()` guard.
+  function dispatchHandler(currentIndex: number): any {
     if (currentIndex <= middlewaresIndex) {
       throw new Error("next() called multiple times");
     }
     middlewaresIndex = currentIndex;
-    let handlerFn: MiddlewareFn<any>;
     if (currentIndex === middlewares.length) {
-      handlerFn = resolverHandlerFunction;
-    } else {
-      const currentMiddleware = middlewares[currentIndex];
-      // Arrow function or class
-      if (currentMiddleware.prototype !== undefined) {
-        const middlewareClassInstance = await container.getInstance(
-          currentMiddleware as MiddlewareClass<any>,
-          resolverData,
-        );
-        handlerFn = middlewareClassInstance.use.bind(middlewareClassInstance);
-      } else {
-        handlerFn = currentMiddleware as MiddlewareFn<any>;
-      }
+      return resolverHandlerFunction();
     }
+
     let nextResult: any;
-    const result = await handlerFn(resolverData, async () => {
-      nextResult = await dispatchHandler(currentIndex + 1);
+    const next = () => {
+      nextResult = dispatchHandler(currentIndex + 1);
       return nextResult;
-    });
-    return result !== undefined ? result : nextResult;
+    };
+    const finalize = (result: any) => (result !== undefined ? result : nextResult);
+    const invoke = (handlerFn: MiddlewareFn<any>) => {
+      const result = handlerFn(resolverData, next);
+      return isPromiseLike(result) ? result.then(finalize) : finalize(result);
+    };
+
+    const currentMiddleware = middlewares[currentIndex];
+    // Arrow function or class
+    if (currentMiddleware.prototype !== undefined) {
+      const instanceOrPromise = container.getInstance(
+        currentMiddleware as MiddlewareClass<any>,
+        resolverData,
+      );
+      return isPromiseLike(instanceOrPromise)
+        ? instanceOrPromise.then(instance => invoke(instance.use.bind(instance)))
+        : invoke(instanceOrPromise.use.bind(instanceOrPromise));
+    }
+    return invoke(currentMiddleware as MiddlewareFn<any>);
   }
 
   return dispatchHandler(0);
