@@ -593,3 +593,100 @@ describe("Middlewares", () => {
     expect(middlewareLogs[14]).toEqual("globalMiddleware1 after");
   });
 });
+
+describe("Synchronous middleware dispatch", () => {
+  beforeEach(() => {
+    getMetadataStorage().clear();
+  });
+
+  it("should run a fully synchronous middleware chain in order", async () => {
+    const logs: string[] = [];
+    const syncMiddleware1: MiddlewareFn = (_, next) => {
+      logs.push("sync1 before");
+      const result = next();
+      logs.push("sync1 after");
+      return result;
+    };
+    const syncMiddleware2: MiddlewareFn = (_, next) => {
+      logs.push("sync2 before");
+      const result = next();
+      logs.push("sync2 after");
+      return result;
+    };
+
+    @Resolver()
+    class SyncResolver {
+      @Query(() => String)
+      @UseMiddleware(syncMiddleware1, syncMiddleware2)
+      syncQuery(): string {
+        logs.push("syncQuery");
+        return "syncResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [SyncResolver] });
+    const query = `query {
+      syncQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).syncQuery).toEqual("syncResult");
+    expect(logs).toEqual([
+      "sync1 before",
+      "sync2 before",
+      "syncQuery",
+      "sync2 after",
+      "sync1 after",
+    ]);
+  });
+
+  it("should let a synchronous middleware intercept the result without calling `next`", async () => {
+    const logs: string[] = [];
+    const interceptMiddleware: MiddlewareFn = () => "intercepted";
+
+    @Resolver()
+    class InterceptResolver {
+      @Query(() => String)
+      @UseMiddleware(interceptMiddleware)
+      interceptQuery(): string {
+        logs.push("interceptQuery");
+        return "originalResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [InterceptResolver] });
+    const query = `query {
+      interceptQuery
+    }`;
+
+    const { data } = await graphql({ schema: localSchema, source: query });
+
+    expect((data as any).interceptQuery).toEqual("intercepted");
+    expect(logs).toHaveLength(0);
+  });
+
+  it("should throw when a synchronous middleware calls `next` more than once", async () => {
+    const doubleNextMiddleware: MiddlewareFn = (_, next) => {
+      const result = next();
+      next();
+      return result;
+    };
+
+    @Resolver()
+    class DoubleNextResolver {
+      @Query(() => String)
+      @UseMiddleware(doubleNextMiddleware)
+      doubleNextQuery(): string {
+        return "doubleNextQueryResult";
+      }
+    }
+    const localSchema = await buildSchema({ resolvers: [DoubleNextResolver] });
+    const query = `query {
+      doubleNextQuery
+    }`;
+
+    const { errors } = await graphql({ schema: localSchema, source: query });
+
+    expect(errors).toHaveLength(1);
+    expect(errors![0].message).toEqual("next() called multiple times");
+  });
+});

@@ -331,6 +331,36 @@ describe("Authorization", () => {
       expect(result.data!.authedQuery).toEqual(false);
     });
 
+    it("should allow for access to authed query when async `authChecker` resolves true", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => Promise.resolve(true),
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
+
+      expect(result.data!.authedQuery).toEqual(false);
+    });
+
+    it("should restrict access to authed query when async `authChecker` resolves false", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => Promise.resolve(false),
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      expect(result.errors![0].originalError).toBeInstanceOf(AuthenticationError);
+    });
+
     it("should restrict access to authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
