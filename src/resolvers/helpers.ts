@@ -114,6 +114,26 @@ export function applyMiddlewares(
   if (middlewares.length === 0) {
     return resolverHandlerFunction();
   }
+  // Fast path for a single function middleware (the common `@Authorized`-only
+  // field): invoke it directly with a terminal `next`, skipping the dispatcher
+  // recursion and its per-field closures. Behavior matches the general path:
+  // same `result ?? nextResult` resolution and multiple-`next()` guard.
+  if (middlewares.length === 1 && middlewares[0].prototype === undefined) {
+    const middleware = middlewares[0] as MiddlewareFn<any>;
+    let nextResult: any;
+    let nextCalled = false;
+    const next = () => {
+      if (nextCalled) {
+        throw new Error("next() called multiple times");
+      }
+      nextCalled = true;
+      nextResult = resolverHandlerFunction();
+      return nextResult;
+    };
+    const finalize = (result: any) => (result !== undefined ? result : nextResult);
+    const result = middleware(resolverData, next);
+    return isPromiseLike(result) ? result.then(finalize) : finalize(result);
+  }
   let middlewaresIndex = -1;
   // Synchronous-capable dispatch: only awaits when a middleware (or the
   // container instance, or the resolver) actually returns a promise. A chain of
