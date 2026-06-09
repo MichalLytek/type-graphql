@@ -12,6 +12,10 @@ export default {
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/*.d.ts",
     "!<rootDir>/src/shim.ts",
+    // Type-only declaration modules: they emit no executable code (only the
+    // CommonJS `__esModule` marker) and are never loaded at runtime since every
+    // consumer imports their types, so they can't be covered by tests.
+    "!<rootDir>/src/typings/**/*.ts",
   ],
   moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths, {
     prefix: "<rootDir>",

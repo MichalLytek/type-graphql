@@ -1,5 +1,5 @@
-import { type ResolverData } from "./resolver-data";
-import { type MaybePromise } from "./utils";
+import type { ResolverData } from "./resolver-data";
+import type { MaybePromise } from "./utils";
 
 export type NextFn = () => Promise<any>;
 
