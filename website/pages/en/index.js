@@ -389,6 +389,18 @@ const CollectiveSection = props => (
             <img src={imgUrl("jbo-vietnam.png")} style={{ width: 80, height: 28 }} />
             <span>JBO Vietnam</span>
           </a>
+          <a
+            href="https://www.reddit.com/r/SmartBuying/comments/1tyj4cx/where_can_i_buy_linkedin_followers_likes_and/"
+            target="_blank"
+            rel="sponsored"
+          >
+            <img src={imgUrl("buy-linkedin-followers.png")} style={{ width: 45, height: 45 }} />
+            <span>Buy LinkedIn Followers</span>
+          </a>
+          <a href="https://www.liceodiazce.it/" target="_blank" rel="sponsored">
+            <img src={imgUrl("casino-non-aams.webp")} style={{ width: 68, height: 28 }} />
+            <span>casino non aams</span>
+          </a>
         </div>
         <h3 className="title">Members 💪</h3>
         <a href="https://opencollective.com/typegraphql#contributors">
