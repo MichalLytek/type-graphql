@@ -1,4 +1,5 @@
 import {
+  type EnumTypeDefinitionNode,
   type FieldDefinitionNode,
   type InputObjectTypeDefinitionNode,
   type InputValueDefinitionNode,
@@ -10,6 +11,7 @@ import { type Maybe } from "@/typings";
 
 export function assertValidDirective(
   astNode: Maybe<
+    | EnumTypeDefinitionNode
     | FieldDefinitionNode
     | ObjectTypeDefinitionNode
     | InputObjectTypeDefinitionNode
