@@ -444,7 +444,7 @@ export class MetadataStorage {
           ).map(it => it.directive);
           field.extensions = this.findExtensions(field.target, field.name);
         });
-        def.fields = fields;
+        def.fields = [...fields];
       }
       if (!def.directives) {
         def.directives = (this.classDirectivesByTargetCache.get(def.target) || []).map(
