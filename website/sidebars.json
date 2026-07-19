@@ -29,7 +29,7 @@
       "custom-decorators",
       "complexity"
     ],
-    "Integrations": ["prisma", "nestjs"],
+    "Integrations": ["prisma", "nestjs", "adonisjs"],
     "Others": ["emit-schema", "performance"],
     "Recipes": ["browser-usage", "aws-lambda", "azure-functions"]
   },
