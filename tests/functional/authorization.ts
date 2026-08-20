@@ -2,9 +2,11 @@ import "reflect-metadata";
 import { type GraphQLSchema, graphql } from "graphql";
 import {
   type AuthCheckerInterface,
+  type AuthMode,
   AuthenticationError,
   AuthorizationError,
   Authorized,
+  type ContainerType,
   Ctx,
   Field,
   FieldResolver,
@@ -331,6 +333,36 @@ describe("Authorization", () => {
       expect(result.data!.authedQuery).toEqual(false);
     });
 
+    it("should allow for access to authed query when async `authChecker` resolves true", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => Promise.resolve(true),
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
+
+      expect(result.data!.authedQuery).toEqual(false);
+    });
+
+    it("should restrict access to authed query when async `authChecker` resolves false", async () => {
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => Promise.resolve(false),
+      });
+      const query = `query {
+        authedQuery
+      }`;
+
+      const result: any = await graphql({ schema: localSchema, source: query, contextValue: {} });
+
+      expect(result.data).toBeNull();
+      expect(result.errors).toHaveLength(1);
+      expect(result.errors![0].originalError).toBeInstanceOf(AuthenticationError);
+    });
+
     it("should restrict access to authed object field", async () => {
       const localSchema = await buildSchema({
         resolvers: [sampleResolver],
@@ -602,6 +634,73 @@ describe("Authorization", () => {
       expect(authCheckerResolverData.args).toEqual({});
       expect(authCheckerResolverData.info).toBeDefined();
       expect(authCheckerRoles).toEqual(["ADMIN", "REGULAR"]);
+    });
+
+    it("should allow access when the class auth checker resolves `check` asynchronously", async () => {
+      class AsyncAuthChecker implements AuthCheckerInterface {
+        check(): Promise<boolean> {
+          return Promise.resolve(true);
+        }
+      }
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: AsyncAuthChecker,
+      });
+
+      const result: any = await graphql({
+        schema: localSchema,
+        source: `query { adminOrRegularQuery }`,
+        contextValue: {},
+      });
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
+    });
+
+    it("should allow access when the container resolves the auth checker instance asynchronously", async () => {
+      class SyncAuthChecker implements AuthCheckerInterface {
+        check(): boolean {
+          return true;
+        }
+      }
+      const asyncContainer: ContainerType = {
+        get(SomeClass: any) {
+          return Promise.resolve(new SomeClass());
+        },
+      };
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: SyncAuthChecker,
+        container: asyncContainer,
+      });
+
+      const result: any = await graphql({
+        schema: localSchema,
+        source: `query { adminOrRegularQuery }`,
+        contextValue: {},
+      });
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
+    });
+
+    it("should fall through to the resolver when access is denied under an unrecognized auth mode", async () => {
+      // `AuthMode` is "error" | "null"; this covers the defensive fall-through that
+      // preserves the original behavior for any other (type-impossible) value.
+      const localSchema = await buildSchema({
+        resolvers: [sampleResolver],
+        authChecker: () => false,
+        authMode: "silent" as AuthMode,
+      });
+
+      const result: any = await graphql({
+        schema: localSchema,
+        source: `query { adminOrRegularQuery }`,
+        contextValue: {},
+      });
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data!.adminOrRegularQuery).toEqual(false);
     });
   });
 
