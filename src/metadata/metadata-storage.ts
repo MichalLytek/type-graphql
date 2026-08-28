@@ -444,7 +444,11 @@ export class MetadataStorage {
           ).map(it => it.directive);
           field.extensions = this.findExtensions(field.target, field.name);
         });
-        def.fields = fields;
+        // Clone the array so that classes sharing the same `target` (e.g. a class
+        // decorated with both `@ObjectType()` and `@InputType()`) don't share the
+        // same fields array reference - mutating one definition's fields (e.g. via
+        // `@FieldResolver()` registration) must not leak into the other definition.
+        def.fields = [...fields];
       }
       if (!def.directives) {
         def.directives = (this.classDirectivesByTargetCache.get(def.target) || []).map(
