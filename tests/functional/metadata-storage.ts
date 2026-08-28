@@ -1,9 +1,11 @@
 import "reflect-metadata";
 import { createPubSub } from "@graphql-yoga/subscription";
 import {
+  Arg,
   type ClassType,
   Field,
   FieldResolver,
+  InputType,
   Mutation,
   ObjectType,
   Query,
@@ -119,6 +121,61 @@ describe("MetadataStorage", () => {
         ),
       ).toHaveLength(1);
       expect(getMetadataStorage().fieldResolvers).toHaveLength(2);
+    });
+  });
+
+  describe("dual object/input type classes", () => {
+    beforeAll(() => {
+      getMetadataStorage().clear();
+    });
+
+    it("should not leak field-resolver-added fields from the object type into the input type", async () => {
+      @ObjectType("DualClass")
+      @InputType("DualClassInput")
+      class DualClass {
+        @Field()
+        ownField!: string;
+      }
+
+      @ObjectType()
+      class ExtraField {
+        @Field()
+        value!: string;
+      }
+
+      @Resolver(() => DualClass)
+      class DualClassResolver {
+        @Query(() => DualClass)
+        dualClassQuery(): DualClass {
+          return { ownField: "sample" };
+        }
+
+        @Mutation(() => Boolean)
+        dualClassInputMutation(@Arg("input", () => DualClass) _input: DualClass): boolean {
+          return true;
+        }
+
+        @FieldResolver(() => ExtraField)
+        computedField(): ExtraField {
+          return { value: "computed" };
+        }
+      }
+
+      await expect(
+        buildSchema({
+          resolvers: [DualClassResolver],
+        }),
+      ).resolves.not.toThrow();
+
+      const objectTypeMetadata = getMetadataStorage().objectTypes.find(
+        objectType => objectType.name === "DualClass",
+      );
+      const inputTypeMetadata = getMetadataStorage().inputTypes.find(
+        inputType => inputType.name === "DualClassInput",
+      );
+
+      expect(objectTypeMetadata!.fields!.map(field => field.name)).toContain("computedField");
+      expect(inputTypeMetadata!.fields!.map(field => field.name)).not.toContain("computedField");
     });
   });
 });
