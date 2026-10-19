@@ -3,6 +3,7 @@ import {
   GraphQLFloat,
   GraphQLList,
   GraphQLNonNull,
+  type GraphQLNullableType,
   GraphQLScalarType,
   GraphQLString,
   type GraphQLType,
@@ -13,7 +14,7 @@ import { GraphQLISODateTime } from "@/scalars";
 import { BuildContext } from "@/schema/build-context";
 
 function wrapTypeInNestedList(
-  targetType: GraphQLType,
+  targetType: GraphQLNullableType,
   depth: number,
   nullable: boolean,
 ): GraphQLList<GraphQLType> {
@@ -48,7 +49,7 @@ export function convertTypeIfScalar(type: any): GraphQLScalarType | undefined {
   }
 }
 
-export function wrapWithTypeOptions<T extends GraphQLType>(
+export function wrapWithTypeOptions<T extends GraphQLNullableType>(
   target: Function,
   propertyName: string,
   type: T,
