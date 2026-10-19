@@ -98,8 +98,8 @@
   },
   "peerDependencies": {
     "class-validator": ">=0.14.3",
-    "graphql": "^16.12.0",
-    "graphql-scalars": "^1.25.0"
+    "graphql": "^16.12.0 || ^17.0.0",
+    "graphql-scalars": "^1.25.0 || ^2.0.0"
   },
   "peerDependenciesMeta": {
     "class-validator": {
@@ -110,7 +110,7 @@
     "@graphql-yoga/subscription": "^5.0.5",
     "@types/node": "*",
     "@types/semver": "^7.7.1",
-    "graphql-query-complexity": "^1.1.0",
+    "graphql-query-complexity": "^2.0.0",
     "semver": "^7.7.3",
     "tslib": "^2.8.1"
   },
