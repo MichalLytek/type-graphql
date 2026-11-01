@@ -2204,6 +2204,51 @@ describe("Resolvers", () => {
       expect(sampleObjectType.fields).toHaveLength(2);
     });
 
+    it("should not move handlers to a subclass that is not provided to `buildSchema`", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      class SampleObject {
+        @Field()
+        sampleField!: string;
+      }
+      @Resolver(() => SampleObject)
+      class SampleResolver {
+        @Query()
+        sampleQuery(): SampleObject {
+          return { sampleField: "sampleField" };
+        }
+
+        @FieldResolver()
+        resolvedField(): string {
+          return "resolvedField";
+        }
+      }
+      @Resolver(() => SampleObject)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      class ChildResolver extends SampleResolver {}
+      const query = /* graphql */ `
+        query {
+          sampleQuery {
+            sampleField
+            resolvedField
+          }
+        }
+      `;
+
+      const schema = await buildSchema({
+        resolvers: [SampleResolver],
+        validate: false,
+      });
+      const result: any = await graphql({ schema, source: query });
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data!.sampleQuery).toEqual({
+        sampleField: "sampleField",
+        resolvedField: "resolvedField",
+      });
+    });
+
     it("should not duplicate resolver params when buildSchema is called twice", async () => {
       getMetadataStorage().clear();
 
