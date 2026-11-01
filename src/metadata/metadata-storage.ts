@@ -350,7 +350,7 @@ export class MetadataStorage {
     this.buildResolversMetadata(this.mutations);
     this.buildResolversMetadata(this.subscriptions);
 
-    this.buildExtendedResolversMetadata();
+    this.buildExtendedResolversMetadata(options);
   }
 
   clear() {
@@ -551,8 +551,14 @@ export class MetadataStorage {
     });
   }
 
-  private buildExtendedResolversMetadata() {
+  private buildExtendedResolversMetadata(options: SchemaGeneratorOptions) {
+    const schemaResolvers = new Set(options.resolvers);
     this.resolverClasses.forEach(def => {
+      // skip subclasses that are not part of this schema,
+      // so they don't take the handlers of their parent resolver classes
+      if (!schemaResolvers.has(def.target)) {
+        return;
+      }
       let superResolver = Object.getPrototypeOf(def.target);
 
       // copy and modify metadata of resolver from parent resolver class

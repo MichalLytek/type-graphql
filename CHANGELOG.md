@@ -5,6 +5,7 @@
 ### Fixes
 
 - support resolver inheritance with dynamic field resolvers name by matching field resolvers by schemaName instead of methodName (#1806)
+- prevent resolver subclasses that are not provided to `buildSchema` from taking the handlers of their parent resolver classes (#1819)
 
 <!-- Here goes all the unreleased changes descriptions -->
 
