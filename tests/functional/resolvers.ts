@@ -2820,4 +2820,59 @@ describe("Resolvers", () => {
       expect(hasFoundFieldResolverInOtherSchema).toBeTruthy();
     });
   });
+
+  describe("Dual-type class (ObjectType + InputType) with FieldResolver", () => {
+    it("should not leak FieldResolver metadata into the InputType fields", async () => {
+      getMetadataStorage().clear();
+
+      @ObjectType()
+      @InputType("DualClassInput")
+      class DualClass {
+        @Field(() => Int)
+        id!: number;
+      }
+
+      @ObjectType()
+      class ComputedResult {
+        @Field()
+        value!: string;
+      }
+
+      @Resolver(() => DualClass)
+      class DualClassResolver {
+        @Query(() => DualClass)
+        dualClassQuery(): DualClass {
+          return { id: 1 };
+        }
+
+        // Use DualClassInput as a mutation argument so the InputType is reachable in the schema
+        @Mutation(() => DualClass)
+        dualClassMutation(@Arg("input", () => DualClass) dualClassInput: DualClass): DualClass {
+          return dualClassInput;
+        }
+
+        @FieldResolver(() => ComputedResult)
+        computed(@Root() root: DualClass): ComputedResult {
+          return { value: String(root.id) };
+        }
+      }
+
+      // Building the schema should not throw CannotDetermineGraphQLTypeError
+      const { schemaIntrospection } = await getSchemaInfo({ resolvers: [DualClassResolver] });
+
+      // The ObjectType should expose the computed field resolver
+      const dualObjectType = schemaIntrospection.types.find(
+        type => type.kind === "OBJECT" && type.name === "DualClass",
+      ) as IntrospectionObjectType | undefined;
+      expect(dualObjectType).toBeDefined();
+      expect(dualObjectType!.fields.some(f => f.name === "computed")).toBe(true);
+
+      // The InputType must NOT contain the computed field resolver
+      const dualInputType = schemaIntrospection.types.find(
+        type => type.kind === "INPUT_OBJECT" && type.name === "DualClassInput",
+      ) as IntrospectionInputObjectType | undefined;
+      expect(dualInputType).toBeDefined();
+      expect(dualInputType!.inputFields.some(f => f.name === "computed")).toBe(false);
+    });
+  });
 });

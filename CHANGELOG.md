@@ -5,6 +5,7 @@
 ### Fixes
 
 - support resolver inheritance with dynamic field resolvers name by matching field resolvers by schemaName instead of methodName (#1806)
+- prevent FieldResolver metadata from leaking into InputTypes when a class is decorated as both ObjectType and InputType (#1811)
 
 <!-- Here goes all the unreleased changes descriptions -->
 
