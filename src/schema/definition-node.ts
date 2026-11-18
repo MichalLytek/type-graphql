@@ -2,6 +2,7 @@ import {
   type ConstArgumentNode,
   type ConstDirectiveNode,
   type DocumentNode,
+  type EnumTypeDefinitionNode,
   type FieldDefinitionNode,
   type GraphQLInputType,
   type GraphQLOutputType,
@@ -176,6 +177,24 @@ export function getInterfaceTypeDefinitionNode(
     name: {
       kind: Kind.NAME,
       // FIXME: use proper AST representation
+      value: name,
+    },
+    directives: directiveMetadata.map(getDirectiveNode),
+  };
+}
+
+export function getEnumTypeDefinitionNode(
+  name: string,
+  directiveMetadata?: DirectiveMetadata[],
+): EnumTypeDefinitionNode | undefined {
+  if (!directiveMetadata || !directiveMetadata.length) {
+    return undefined;
+  }
+
+  return {
+    kind: Kind.ENUM_TYPE_DEFINITION,
+    name: {
+      kind: Kind.NAME,
       value: name,
     },
     directives: directiveMetadata.map(getDirectiveNode),

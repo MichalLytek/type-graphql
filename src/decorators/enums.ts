@@ -10,5 +10,6 @@ export function registerEnumType<TEnum extends object>(
     name: enumConfig.name,
     description: enumConfig.description,
     valuesConfig: enumConfig.valuesConfig || {},
+    directives: enumConfig.directives?.map(nameOrDefinition => ({ nameOrDefinition, args: {} })),
   });
 }
