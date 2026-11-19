@@ -33,6 +33,7 @@ import { convertTypeIfScalar, getEnumValuesMap, wrapWithTypeOptions } from "@/he
 import {
   type ClassMetadata,
   type FieldMetadata,
+  type FieldResolverMetadata,
   type ParamMetadata,
   type ResolverMetadata,
   type SubscriptionResolverMetadata,
@@ -202,6 +203,39 @@ export abstract class SchemaGenerator {
   }
 
   private static buildTypesInfo(resolvers: Function[]) {
+    // Perf: the field-resolver lookups in the object-type and interface-type
+    // `fields` thunks below used to re-filter/re-scan `metadataStorage.fieldResolvers`
+    // once per field per type — O(fields × fieldResolvers), i.e. quadratic in schema
+    // size. Prebuild `target -> (schemaName -> metadata)` indexes here (once) so each
+    // per-field lookup is O(1). `Array#find` returns the first match, so the index keeps
+    // the first-seen entry for a given (target, schemaName) to preserve semantics exactly.
+    const buildFieldResolverIndex = (list: FieldResolverMetadata[]) => {
+      const index = new Map<Function, Map<string, FieldResolverMetadata>>();
+      for (const fieldResolver of list) {
+        const objectTypeTarget = fieldResolver.getObjectType!();
+        let byName = index.get(objectTypeTarget);
+        if (!byName) {
+          byName = new Map<string, FieldResolverMetadata>();
+          index.set(objectTypeTarget, byName);
+        }
+        if (!byName.has(fieldResolver.schemaName)) {
+          byName.set(fieldResolver.schemaName, fieldResolver);
+        }
+      }
+      return index;
+    };
+    // Object types only consider internal field resolvers plus those on the selected
+    // resolver classes (matches the original `.filter(...)` predicate); interface types
+    // consider all field resolvers (matches the original unfiltered `.find(...)`).
+    const objectFieldResolverIndex = buildFieldResolverIndex(
+      this.metadataStorage.fieldResolvers.filter(
+        it => it.kind === "internal" || resolvers.includes(it.target),
+      ),
+    );
+    const interfaceFieldResolverIndex = buildFieldResolverIndex(
+      this.metadataStorage.fieldResolvers,
+    );
+
     this.unionTypesInfoMap = new Map<symbol, UnionTypeInfo>(
       this.metadataStorage.unions.map(unionMetadata => {
         // use closure to capture values from this selected schema build
@@ -333,14 +367,9 @@ export abstract class SchemaGenerator {
 
               let fields = fieldsMetadata.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
-                  const { fieldResolvers } = this.metadataStorage;
-                  const filteredFieldResolversMetadata = fieldResolvers.filter(
-                    it => it.kind === "internal" || resolvers.includes(it.target),
-                  );
-                  const fieldResolverMetadata = filteredFieldResolversMetadata.find(
-                    it =>
-                      it.getObjectType!() === field.target && it.schemaName === field.schemaName,
-                  );
+                  const fieldResolverMetadata = objectFieldResolverIndex
+                    .get(field.target)
+                    ?.get(field.schemaName);
                   const type = this.getGraphQLOutputType(
                     field.target,
                     field.name,
@@ -454,11 +483,9 @@ export abstract class SchemaGenerator {
 
               let fields = fieldsMetadata!.reduce<GraphQLFieldConfigMap<any, any>>(
                 (fieldsMap, field) => {
-                  const fieldResolverMetadata = this.metadataStorage.fieldResolvers.find(
-                    resolver =>
-                      resolver.getObjectType!() === field.target &&
-                      resolver.schemaName === field.schemaName,
-                  );
+                  const fieldResolverMetadata = interfaceFieldResolverIndex
+                    .get(field.target)
+                    ?.get(field.schemaName);
                   const type = this.getGraphQLOutputType(
                     field.target,
                     field.name,
