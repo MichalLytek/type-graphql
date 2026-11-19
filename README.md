@@ -12,6 +12,7 @@
 [![codecov](https://codecov.io/gh/MichalLytek/type-graphql/branch/master/graph/badge.svg)](https://codecov.io/gh/MichalLytek/type-graphql)
 [![npm](https://img.shields.io/npm/v/type-graphql?logo=npm&color=%23CC3534)](https://www.npmjs.com/package/type-graphql)
 [![open collective](https://opencollective.com/typegraphql/tiers/badge.svg)](https://opencollective.com/typegraphql)
+[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20TypeGraphQL%20Guru-006BFF)](https://gurubase.io/g/typegraphql)
 
 Create [GraphQL](https://graphql.org) schema and resolvers with [TypeScript](https://www.typescriptlang.org), using classes and decorators!
 
