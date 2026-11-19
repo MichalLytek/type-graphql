@@ -144,5 +144,5 @@ jobs:
           CI: true
 
       - name: Upload code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: matrix.node-version == '24.x'
