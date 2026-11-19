@@ -35,7 +35,8 @@
     ],
     "Integrations": [
       "version-2.0.0-rc.2-prisma",
-      "version-2.0.0-rc.2-nestjs"
+      "version-2.0.0-rc.2-nestjs",
+      "version-2.0.0-rc.2-adonisjs"
     ],
     "Others": [
       "version-2.0.0-rc.2-emit-schema",
